@@ -87,7 +87,7 @@ TypeScript 編譯器會捕捉到此類型的錯誤，而且許多此類錯誤也
 
 </docs-workflow>
 
-摘要：在本課中，您創建了一個介面，為您的應用程式建立新的資料類型。
+摘要：在本課中，您建立了一個介面，為您的應用程式建立新的資料類型。
 這個新的資料類型讓您可以指定 `HousingLocation` 資料是必要的。
 這個新的資料類型也讓您的 IDE 和 TypeScript 編譯器可以確保 `HousingLocation` 資料用於必要的地方。
 
@@ -97,4 +97,3 @@ TypeScript 編譯器會捕捉到此類型的錯誤，而且許多此類錯誤也
   <docs-pill href="cli/generate#interface-command" title="ng generate interface"/>
   <docs-pill href="cli/generate" title="ng generate"/>
 </docs-pill-row>
-

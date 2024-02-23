@@ -126,7 +126,7 @@ HELPFUL：這是一個最小的範例，但驗證架構的使用非常強大。
 
 若要將我們的建置器實作與其架構和名稱連結，您需要建立一個 *建置器定義* 檔案，您可以在 `package.json` 中指向該檔案。
 
-創建一個名為 `builders.json` 的檔案，看起來像這樣：
+建立一個名為 `builders.json` 的檔案，看起來像這樣：
 
 <docs-code header="builders.json" language="json">
 

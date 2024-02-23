@@ -118,7 +118,7 @@ typescript
 export class MyComponent {
   constructor(private myService: MyService) {}
 }
-在這個例子中，`MyComponent` 的構造函數接受一個 `MyService` 的參數。這意味著當 `MyComponent` 被創建時，Angular 會自動將一個 `MyService` 的實例注入到 `myService` 參數中。
+在這個例子中，`MyComponent` 的構造函數接受一個 `MyService` 的參數。這意味著當 `MyComponent` 被建立時，Angular 會自動將一個 `MyService` 的實例注入到 `myService` 參數中。
 
 ### 屬性注入
 

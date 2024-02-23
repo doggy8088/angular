@@ -29,7 +29,7 @@ export class UserService {
 現在您可以在應用程式的任何地方注入 `UserService`。
 
 服務本身是一個由 CLI 產生的類別，並以 `@Injectable()` 裝飾。
-預設情況下，此裝飾器具有 `providedIn` 屬性，可為服務創建提供者。
+預設情況下，此裝飾器具有 `providedIn` 屬性，可為服務建立提供者。
 在這種情況下，`providedIn: 'root'` 指定 Angular 應在根注入器中提供服務。
 
 ## 提供者範圍

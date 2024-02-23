@@ -207,7 +207,7 @@ Trusted Types 可能尚未在您的應用程式所鎖定的所有瀏覽器中提
 | `angular`               | 此政策用於 Angular 內部的安全性審核程式碼，並且在強制執行受信任類型時，Angular 需要此政策才能運作。Angular 消毒的任何內聯範本值或內容都視為此政策的安全。                                                                                                           |
 | `angular#unsafe-bypass` | 此政策用於使用 Angular 的 [DomSanitizer](api/platform-browser/DomSanitizer) 中任何會繞過安全性方法的應用程式，例如 `bypassSecurityTrustHtml`。任何使用這些方法的應用程式都必須啟用此政策。                                                                                             |
 | `angular#unsafe-jit`    | 此政策由 [即時 (JIT) 編譯器](api/core/Compiler) 使用。如果您的應用程式直接與 JIT 編譯器互動，或是使用 [動態平台瀏覽器](api/platform-browser-dynamic/platformBrowserDynamic) 在 JIT 模式下執行，則必須啟用此政策。                                                                       |
-| `angular#bundler`       | 創建延遲區塊檔案時，Angular CLI 捆綁器會使用此政策。                                                                                                                                                                                                                                           |
+| `angular#bundler`       | 建立延遲區塊檔案時，Angular CLI 捆綁器會使用此政策。                                                                                                                                                                                                                                           |
 
 你應該在以下位置設定 Trusted Types 的 HTTP 標頭：
 
@@ -325,4 +325,3 @@ Angular 的 `HttpClient` 函式庫辨識此慣例，並在進一步剖析之前�
 
 Angular 應用程式必須遵循與一般網路應用程式相同的安全性原則，並必須以這種方式進行稽核。
 在安全性檢閱中應該稽核的 Angular 特定 API，例如 [_bypassSecurityTrust_](#trusting-safe-values) 方法，在文件中標記為安全性敏感。
-

@@ -111,7 +111,7 @@ ng lint my-lib
 與函式庫一起封裝的示意圖可以例如提供 Angular CLI 資訊，以便產生元件，該元件組態並使用在該函式庫中定義的特定功能或功能組。
 其中一個範例是 [Angular Material 的導覽示意圖](https://material.angular.io/guide/schematics#navigation-schematic)，它會組態 CDK 的 [BreakpointObserver](https://material.angular.io/cdk/layout/overview#breakpointobserver)，並將其與 Material 的 [MatSideNav](https://material.angular.io/components/sidenav/overview) 和 [MatToolbar](https://material.angular.io/components/toolbar/overview) 元件一起使用。
 
-創建並包含以下類型的示意圖：
+建立並包含以下類型的示意圖：
 
 * 包含安裝示意圖，以便 `ng add` 能將你的函式庫新增到專案
 * 在函式庫中包含產生示意圖，以便 `ng generate` 能在專案中建立定義好的成品（元件、服務、測試）
