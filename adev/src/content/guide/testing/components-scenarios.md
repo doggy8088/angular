@@ -465,7 +465,7 @@ RxJS `last()` 算子會在完成之前發出可觀察的最後一個值，這將
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="spy-done-test"/>
 
-## 元件 marble 測試
+## 元件 Marble 測試
 
 之前的 `TwainComponent` 測試模擬了來自 `TwainService` 的非同步 observable 回應，使用 `asyncData` 和 `asyncError` 工具。
 
@@ -493,7 +493,7 @@ Marble 測試使用類似的 marble 語言來指定可觀察串流和測試中�
 沒有 `fakeAsync()`。
 Marble 測試使用測試排程器來模擬同步測試中時間的流逝。
 
-大理石測試的美感在於可觀察串流的可視化定義。
+Marble測試的美感在於可觀察串流的可視化定義。
 此測試定義一個等待三個 [frame](#marble-frame) \(`---`\) 的 [*cold* observable](#cold-observable)，發射一個值 \(`x`\)，並完成 \(`|`\)。
 在第二個參數中，您將值標記 \(`x`\) 映射到發射的值 \(`testQuote`\)。
 
@@ -508,9 +508,9 @@ Marble 測試使用測試排程器來模擬同步測試中時間的流逝。
 這步驟的用途與先前 `fakeAsync()` 和 `waitForAsync()` 範例中的 [tick()](api/core/testing/tick) 和 `whenStable()` 類似。
 測試的其餘部分與那些範例相同。
 
-### 大理石錯誤測試
+### Marble 錯誤測試
 
-以下為 `getQuote()` 錯誤測試的大理石測試版本。
+以下為 `getQuote()` 錯誤測試的Marble測試版本。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.marbles.spec.ts" visibleRegion="error-test"/>
 
@@ -523,9 +523,9 @@ Marble 測試使用測試排程器來模擬同步測試中時間的流逝。
 這是一個等待三個影格然後發出錯誤的 *冷* observable，雜湊符號 \(`#`\) 字元表示在第三個參數中指定的錯誤計時。
 第二個參數為 null，因為 observable 永遠不會發出值。
 
-### 了解大理石測試
+### 了解 Marble 測試
 
-*大理石框架* 是測試時間的虛擬單位。
+*Marble 框架* 是測試時間的虛擬單位。
 每個符號 \(`-`, `x`, `|`, `#`\) 標示一個框架的經過。
 
 *冷* observable 直到您訂閱它才產生值。
