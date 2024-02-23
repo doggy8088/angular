@@ -51,7 +51,7 @@ Angular 是個讓開發人員能建立快速、可靠應用程式的網頁框架
   </docs-card>
 </docs-card-container>
 
-## 自信發貨
+## 自信的發佈新版本
 
 <docs-card-container>
   <docs-card title="根據 Google 的龐大單一存放庫逐一驗證提交" href="https://cacm.acm.org/magazines/2016/7/204032-why-google-stores-billions-of-lines-of-code-in-a-single-repository/fulltext" link="瞭解 Google 的單一存放庫">
