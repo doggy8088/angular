@@ -81,7 +81,7 @@ Angular CLI 會檢查 library 的最新發布版本，如果最新版本比您�
 
 ## 將函式庫新增到執行時間全域範圍
 
-如果應用程式中未匯入舊版 JavaScript 程式庫，您可以將其新增至執行時期的全局範圍，並在腳本標籤中載入它。
+如果應用程式中未匯入舊版 JavaScript 程式庫，您可以將其新增至執行時期的全域範圍，並在腳本標籤中載入它。
 在 [`angular.json`][AioGuideWorkspaceConfig] 工作區建置設定檔中使用建置目標的 `scripts` 和 `styles` 選項，設定 Angular CLI 在建置時執行此動作。
 
 例如，要使用 [Bootstrap 4][GetbootstrapDocs40GettingStartedIntroduction] 函式庫
@@ -163,7 +163,7 @@ import * as &dollar; from 'jquery';
 請改為執行 `npm install @types/jquery` Angular CLI 命令，以下載函式庫的類型，然後依照函式庫安裝步驟進行。
 這讓您可以存取該函式庫公開的變數。
 
-### 定義執行時期全局函式庫的類型
+### 定義執行時期全域函式庫的類型
 
 如果您需要使用的全域函式庫沒有全域類型，您可以手動在 `src/typings.d.ts` 中將它們宣告為 `any`。
 

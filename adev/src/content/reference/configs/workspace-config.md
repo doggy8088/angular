@@ -423,7 +423,7 @@ HELPFUL：如果您需要單元測試，您也需要將任何樣式或腳本加�
 |:---              |:---                                                                                                                   |:---        |:---           |
 | `minify`         | 移除不必要的空白和註解、合併識別符號，並將值最小化，以壓縮 CSS 定義。                                            | `boolean`  | `true`        |
 | `inlineCritical` | 萃取和內嵌關鍵的 CSS 定義，以改善 [首次內容繪製](https://web.dev/first-contentful-paint)。                | `boolean`  | `true`        |
-| `removeSpecialComments` | 移除包含 `@license` 或 `@preserve` 或以 `//!` 或 `/*!` 開頭的全局 CSS 中的註解。                            | `boolean`  | `true`        |
+| `removeSpecialComments` | 移除包含 `@license` 或 `@preserve` 或以 `//!` 或 `/*!` 開頭的全域 CSS 中的註解。                            | `boolean`  | `true`        |
 
 #### 字體優化選項
 
