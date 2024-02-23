@@ -1,9 +1,9 @@
-# 反應式表單
+# 響應式表單
 
-反應式表單提供了一種模型驅動的方法來處理隨著時間而變化的表單輸入值。
+響應式表單提供了一種模型驅動的方法來處理隨著時間而變化的表單輸入值。
 本指南將向您展示如何建立和更新基本表單控制項，逐步使用群組中的多個控制項，驗證表單值，以及建立動態表單，您可以在其中在執行時新增或移除控制項。
 
-## 反應式表單概述
+## 響應式表單概述
 
 反應表單使用明確且不變的方法來管理表單在某個時間點的狀態。
 表單狀態的每個變更都會傳回新狀態，這會在變更之間維持模型的完整性。
@@ -22,8 +22,8 @@ Template-driven forms 讓直接存取修改範本中的資料，但相較於 rea
 
 使用表單控件有三個步驟。
 
-1. 在您的應用程式中註冊反應式表單模組。
-    此模組宣告您需要使用反應式表單的反應式表單指令。
+1. 在您的應用程式中註冊響應式表單模組。
+    此模組宣告您需要使用響應式表單的響應式表單指令。
 
 1. 產生新元件並實例化新的 `FormControl`。
 1. 在範本中註冊 `FormControl`。
@@ -36,7 +36,7 @@ Template-driven forms 讓直接存取修改範本中的資料，但相較於 rea
 <docs-workflow>
 
 <docs-step title="導入 ReactiveFormsModule">
-若要使用反應式表單控制項，請從 `@angular/forms` 套件導入 `ReactiveFormsModule`，並將它新增到 NgModule 的 `imports` 陣列。
+若要使用響應式表單控制項，請從 `@angular/forms` 套件導入 `ReactiveFormsModule`，並將它新增到 NgModule 的 `imports` 陣列。
 
 <docs-code header="src/app/app.module.ts (excerpt)" path="adev/src/content/examples/reactive-forms/src/app/app.module.ts" visibleRegion="imports" />
 </docs-step>
@@ -260,7 +260,7 @@ ng generate component ProfileEditor
 </docs-step>
 
 <docs-step title="注入 FormBuilder 服務">
-`FormBuilder` 服務是與反應式表單模組一起提供的可注入提供者。將此相依項新增至元件建構函式，以注入此相依項。
+`FormBuilder` 服務是與響應式表單模組一起提供的可注入提供者。將此相依項新增至元件建構函式，以注入此相依項。
 
 <docs-code header="src/app/profile-editor/profile-editor.component.ts (constructor)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.2.ts" visibleRegion="inject-form-builder"/>
 

@@ -57,7 +57,7 @@ html
 
 <docs-card-container>
   <docs-card title="提供 Angular 信號" href="https://github.com/angular/angular/discussions/49685">
-  此專案透過將信號作為反應式基元來重新構思 Angular 反應式模型。此專案完全實施後，Zone.js 將成為選用元件。最初的規劃產生了數百次的討論、與開發人員的對話、回饋意見、使用者體驗研究，以及一系列收到超過 1,000 則評論的 RFC。
+  此專案透過將信號作為響應式基元來重新構思 Angular 響應式模型。此專案完全實施後，Zone.js 將成為選用元件。最初的規劃產生了數百次的討論、與開發人員的對話、回饋意見、使用者體驗研究，以及一系列收到超過 1,000 則評論的 RFC。
 
 作為 v17 發行的一部分，我們已將 Angular Signals 函式庫從開發人員預覽版畢業。接下來，我們將繼續實施 RFC 的提案。第一步是引入基於信號的輸入和查詢。
   </docs-card>

@@ -9,7 +9,7 @@ Angular 應用程式至少需要一個作為根模組的模組。
 | `BrowserModule`       | `@angular/platform-browser` | 在瀏覽器中執行應用程式。                  |
 | `CommonModule`        | `@angular/common`           | 使用 `NgIf` 和 `NgFor`。                             |
 | `FormsModule`         | `@angular/forms`            | 建立範本驅動的表單\(`NgModel`\)。 |
-| `ReactiveFormsModule` | `@angular/forms`            | 建立反應式表單。                               |
+| `ReactiveFormsModule` | `@angular/forms`            | 建立響應式表單。                               |
 | `RouterModule`        | `@angular/router`           | 使用 `RouterLink`、`.forRoot()` 和 `.forChild()`。  |
 | `HttpClientModule`    | `@angular/common/http`      | 使用 HTTP 協定與伺服器通訊。  |
 

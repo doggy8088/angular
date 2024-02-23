@@ -1,7 +1,7 @@
 # 表單輸入驗證
 
 您可以透過驗證使用者輸入的準確性和完整性來改善整體資料品質。
-此頁面顯示如何驗證來自 UI 的使用者輸入，並在反應式和範本驅動的表單中顯示有用的驗證訊息。
+此頁面顯示如何驗證來自 UI 的使用者輸入，並在響應式和範本驅動的表單中顯示有用的驗證訊息。
 
 ## 在模板驅動的表單中驗證輸入
 
@@ -35,9 +35,9 @@ HELPFUL: 為了防止驗證器在使用者有機會編輯表單之前顯示錯�
 * 當使用者更改被監控欄位的值時，該控制項被標記為「已修改」
 * 當使用者使表單控制元件失去焦點時，該控制項被標記為「已觸發」
 
-## 在反應式表單中驗證輸入
+## 在響應式表單中驗證輸入
 
-在反應式表單中，真實來源是元件類別。
+在響應式表單中，真實來源是元件類別。
 您不是透過範本中的屬性來新增驗證器，而是將驗證器函式直接新增到元件類別中的表單控制模型。
 然後，每當控制項的值變更時，Angular 會呼叫這些函式。
 
@@ -60,7 +60,7 @@ HELPFUL: 為了防止驗證器在使用者有機會編輯表單之前顯示錯�
 與範本驅動表單中的屬性相同的內建驗證器，例如 `required` 和 `minlength`，都可做為 `Validators` 類別的函式加以使用。
 如需內建驗證器的完整清單，請參閱 [Validators](api/forms/Validators) API 參考。
 
-若要將演員表單更新為反應式表單，請使用一些內建驗證器 &mdash; 這次以函式形式，如下面的範例。
+若要將演員表單更新為響應式表單，請使用一些內建驗證器 &mdash; 這次以函式形式，如下面的範例。
 
 <docs-code header="reactive/actor-form-reactive.component.ts (validator functions)" path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.1.ts" visibleRegion="form-group"/>
 
@@ -70,7 +70,7 @@ HELPFUL: 為了防止驗證器在使用者有機會編輯表單之前顯示錯�
 請注意，您可以通過將函式作為陣列傳遞來支援多個驗證器。
 
 此範例也加入了幾個 getter 方法。
-在一個反應式表單中，您可以隨時透過其父群組的 `get` 方法存取任何表單控制項，但有時將 getter 定義為範本的簡寫會很有用。
+在一個響應式表單中，您可以隨時透過其父群組的 `get` 方法存取任何表單控制項，但有時將 getter 定義為範本的簡寫會很有用。
 
 如果您再看看 `name` 輸入的範本，它與範本驅動的範例相當類似。
 
@@ -101,9 +101,9 @@ HELPFUL: 為了防止驗證器在使用者有機會編輯表單之前顯示錯�
 自訂非同步驗證器類似於同步驗證器，但它們必須返回一個 Promise 或稍後發出 null 或驗證錯誤物件的可觀察物。
 如果使用可觀察物，則可觀察物必須完成，此時表單使用最後發出的值來進行驗證。
 
-### 在反應式表單中新增自訂驗證器
+### 在響應式表單中新增自訂驗證器
 
-在反應式表格中，直接將函式傳遞給 `FormControl` 來新增自訂驗證器。
+在響應式表格中，直接將函式傳遞給 `FormControl` 來新增自訂驗證器。
 
 <docs-code header="reactive/actor-form-reactive.component.ts (validator functions)" path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.1.ts" visibleRegion="custom-validator"/>
 
@@ -159,13 +159,13 @@ Angular 自動將多個控制項屬性鏡射到表單控制項元素上，作為
 
 以下交叉驗證範例顯示如何執行下列操作：
 
-* 驗證反應式或基於範本的表單輸入，判斷依據為兩個同層控制項的值，
+* 驗證響應式或基於範本的表單輸入，判斷依據為兩個同層控制項的值，
 * 使用者與表單互動後，若驗證失敗，則顯示描述性錯誤訊息。
 
 範例使用交叉驗證，以確保演員在填寫演員表格時，不會在自己的角色中重複使用同一個名字。
 驗證器會檢查演員姓名和角色不匹配來達成這個目的。
 
-### 在反應式表單中加入交叉驗證
+### 在響應式表單中加入交叉驗證
 
 表單的結構如下：
 
@@ -229,7 +229,7 @@ const actorForm = new FormGroup({
 
 <docs-code header="template/actor-form-template.component.html" path="adev/src/content/examples/form-validation/src/app/template/actor-form-template.component.html" visibleRegion="cross-validation-error-message"/>
 
-這在範本驅動和反應式表單中都是一樣的。
+這在範本驅動和響應式表單中都是一樣的。
 
 ## 建立非同步驗證函式
 
@@ -291,9 +291,9 @@ interface ActorsService {
 經過一段時間後，可觀察鏈完成並完成非同步驗證。
 將 `pending` 標記設為 `false`，並更新表單有效性。
 
-### 在反應式表單中新增非同步驗證器
+### 在響應式表單中新增非同步驗證器
 
-若要在反應式表單中使用非同步驗證器，首先將驗證器注入元件類別的建構函式。
+若要在響應式表單中使用非同步驗證器，首先將驗證器注入元件類別的建構函式。
 
 <docs-code path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.2.ts" visibleRegion="async-validator-inject"/>
 
@@ -332,7 +332,7 @@ interface ActorsService {
 <input [(ngModel)]="name" [ngModelOptions]="{updateOn: 'blur'}">
 </docs-code>
 
-對於反應式表單，在 `FormControl` 範例中設定屬性。
+對於響應式表單，在 `FormControl` 範例中設定屬性。
 
 <docs-code language="typescript">
 new FormControl('', {updateOn: 'blur'});

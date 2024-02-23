@@ -38,7 +38,6 @@ HELPFUL：有關必備版本以及 `Node.js` 和 `npm` 的安裝資訊，請參�
 | [`@angular/router`](api/router)                                           | 當瀏覽器網址變更時，路由器模組會在應用程式頁面之間導覽。如需更多資訊，請參閱 [路由和導覽](guide/routing)。                                                               |
 | [`@angular/cli`](https://github.com/angular/angular-cli)                  | 包含 Angular CLI 二進位檔，用於執行 `ng` 命令。                                                                                                                                          |
 | [`@angular-devkit/build-angular`](https://github.com/angular/angular-cli) | 包含用於捆綁、測試和提供 Angular 應用程式和程式庫的預設 CLI 建構器。                                                                                                          |
-| `rxjs`                                                                    | 使用 `Observables` 的反應式程式設計程式庫。                                                                                                                                          |
+| `rxjs`                                                                    | 使用 `Observables` 的響應式程式設計程式庫。                                                                                                                                          |
 | [`zone.js`](https://github.com/angular/zone.js)                           | Angular 仰賴 `zone.js` 在原生 JavaScript 作業引發事件時執行 Angular 的變更偵測程序。                                                                                                 |
 | [`typescript`](https://www.npmjs.com/package/typescript)                  | TypeScript 編譯器、語言伺服器和內建型別定義。                                                                                                                                    |
-

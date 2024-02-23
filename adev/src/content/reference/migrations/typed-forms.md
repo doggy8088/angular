@@ -1,12 +1,12 @@
 # 輸入表單遷移
 
-自 Angular 14 開始，預設嚴格類型化反應式表單。
+自 Angular 14 開始，預設嚴格類型化響應式表單。
 
 ## 輸入表單概述
 
 <docs-video src="https://www.youtube.com/embed/L-odCf4MfJc" title="Angular Typed Forms"/>
 
-使用 Angular 反應式表單，您可以明確指定 *表單模型*。以下是一個簡單的使用者登入表單範例：
+使用 Angular 響應式表單，您可以明確指定 *表單模型*。以下是一個簡單的使用者登入表單範例：
 
 ```ts
 const login = new FormGroup({
@@ -41,4 +41,3 @@ const login = new UntypedFormGroup({
 ```
 
 每個 `Untyped` 符號的語意與先前 Angular 版本中的語意完全相同，因此您的應用程式應該會繼續如常編譯。移除 `Untyped` 前綴後，您可以逐步啟用類型。
-

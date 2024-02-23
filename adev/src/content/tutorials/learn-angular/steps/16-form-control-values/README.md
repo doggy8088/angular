@@ -61,5 +61,4 @@ showFramework() {
 
 在範本中顯示輸入值並以程式方式存取它們，做得很好。
 
-時間繼續進入下一個使用 Angular 管理表單的方法：反應式表單。如果您想進一步了解範本驅動的表單，請參閱 [Angular 表單文件](guide/forms/reactive-forms)。
-
+時間繼續進入下一個使用 Angular 管理表單的方法：響應式表單。如果您想進一步了解範本驅動的表單，請參閱 [Angular 表單文件](guide/forms/reactive-forms)。

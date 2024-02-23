@@ -4,10 +4,10 @@
 
 以範本為基礎的表單使用 [雙向資料繫結](guide/templates/two-way-binding) 來更新元件中的資料模型，因為範本中的變更和反之亦然。
 
-<docs-callout helpful title="範本 vs. 反應式表單">
-Angular 支援兩種互動式表單的設計方法。範本驅動的表單讓您在 Angular 範本中使用特定於表單的指令。反應式表單提供以模型為主的表單建構方法。
+<docs-callout helpful title="範本 vs. 響應式表單">
+Angular 支援兩種互動式表單的設計方法。範本驅動的表單讓您在 Angular 範本中使用特定於表單的指令。響應式表單提供以模型為主的表單建構方法。
 
-模板驅動的表單非常適合小型或簡單的表單，而反應式表單更具可擴充性，適合複雜的表單。如需比較這兩種方法，請參閱 [選擇方法](guide/forms#choosing-an-approach)
+模板驅動的表單非常適合小型或簡單的表單，而響應式表單更具可擴充性，適合複雜的表單。如需比較這兩種方法，請參閱 [選擇方法](guide/forms#choosing-an-approach)
 </docs-callout>
 
 你可以使用 Angular 範本建立幾乎任何類型的表單，例如登入表單、連絡表單，以及幾乎任何業務表單。

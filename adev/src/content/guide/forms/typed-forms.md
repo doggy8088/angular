@@ -1,6 +1,6 @@
 # 型別表單
 
-自 Angular 14 開始，預設嚴格類型化反應式表單。
+自 Angular 14 開始，預設嚴格類型化響應式表單。
 
 作為本指南的背景知識，您應該已經熟悉 [Angular Reactive Forms](guide/forms/reactive-forms)。
 
@@ -8,7 +8,7 @@
 
 <docs-video src="https://www.youtube.com/embed/L-odCf4MfJc" alt="Typed Forms in Angular" />
 
-使用 Angular 反應式表單，您可以明確指定 *表單模型*。以下是一個簡單的使用者登入表單範例：
+使用 Angular 響應式表單，您可以明確指定 *表單模型*。以下是一個簡單的使用者登入表單範例：
 
 ```ts
 const login = new FormGroup({
@@ -182,4 +182,3 @@ const login = fb.nonNullable.group({
 在以上範例中，內部控制項皆為不可為空 (即會設定 `nonNullable`)。
 
 您也可以使用名稱 `NonNullableFormBuilder` 來注入它。
-
