@@ -363,7 +363,7 @@ HELPFUL：通常，您會在個別檔案中宣告元件及其範本。
 例如，邏輯樹狀結構將顯示 `<child-component>` 是 `<parent-component>` 的直接子項。
 
 在邏輯樹中，您會看到特殊屬性：`@Provide`、`@Inject` 和 `@ApplicationConfig`。
-這些都不是真正的屬性，但用來演示幕後發生的事情。
+這些都不是真正的屬性，但用來示範幕後發生的事情。
 
 | Angular service 屬性                                                                                          | 詳細資料 |
 |:---                                                                                                                |:---     |
