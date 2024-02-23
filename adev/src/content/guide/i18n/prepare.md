@@ -8,7 +8,7 @@
 
 ## 標記元件範本中的文字
 
-在組件範本中，i18n 元數據是 `i18n` 屬性的值。
+在元件範本中，i18n 元數據是 `i18n` 屬性的值。
 
 <docs-code language="html">
 &lt;element i18n="{i18n_metadata}"&gt;{string_to_translate}&lt;/element&gt;
@@ -41,7 +41,7 @@ HELPFUL：每個 HTML 元素都會建立一個新的 DOM 元素。
 
 ## 標記元素屬性以利翻譯
 
-在組件範本中，`i18n-{attribute_name}` 屬性的值是 i18n 元資料。
+在元件範本中，`i18n-{attribute_name}` 屬性的值是 i18n 元資料。
 
 <docs-code language="html">
 &lt;element i18n-{attribute_name}="{i18n_metadata}" {attribute_name}="{attribute_value}" /&gt;
@@ -205,7 +205,7 @@ ICU 表達式包含元件屬性、ICU 子句，以及用開大括弧 \(`{`\) 和
 
 </docs-code>
 
-組件屬性定義變數
+元件屬性定義變數
 ICU 子句定義條件文字的類型。
 
 | ICU 子句                                                              | 詳細資訊                                                           |

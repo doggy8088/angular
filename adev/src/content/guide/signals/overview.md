@@ -89,9 +89,9 @@ const conditionalCount = computed(() => {
 
 請注意，在推導過程中，依賴項可以被移除，也可以被添加。如果您稍後將 `showCount` 設回 `false`，那麼 `count` 將不再被視為 `conditionalCount` 的依賴項。
 
-## 在 `OnPush` 組件中讀取訊號
+## 在 `OnPush` 元件中讀取訊號
 
-當您在 `OnPush` 組件範本中讀取訊號時，Angular 會將訊號追蹤為該組件的相依性。當該訊號的值變更時，Angular 會自動[標記](api/core/ChangeDetectorRef#markforcheck)組件，以確保在下一次變更偵測執行時，會將其更新。請參閱[略過組件子樹](best-practices/skipping-subtrees)指南，以取得有關 `OnPush` 組件的更多資訊。
+當您在 `OnPush` 元件範本中讀取訊號時，Angular 會將訊號追蹤為該元件的相依性。當該訊號的值變更時，Angular 會自動[標記](api/core/ChangeDetectorRef#markforcheck)元件，以確保在下一次變更偵測執行時，會將其更新。請參閱[略過元件子樹](best-practices/skipping-subtrees)指南，以取得有關 `OnPush` 元件的更多資訊。
 
 ## 效果##
 
@@ -249,4 +249,3 @@ effect((onCleanup) => {
   });
 });
 ```
-

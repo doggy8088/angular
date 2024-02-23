@@ -67,20 +67,19 @@ export class AppModule {}
 根 NgModule 以 `import` 陳述句開始，用於導入 JavaScript 模組。
 然後以以下陣列設定 `@NgModule`：
 
-* `declarations`: 屬於 NgModule 的組件、指令和管道。
-  新的應用程式專案的根 NgModule 僅有一個組件，稱為 `AppComponent`。
+* `declarations`: 屬於 NgModule 的元件、指令和管道。
+  新的應用程式專案的根 NgModule 僅有一個元件，稱為 `AppComponent`。
 
 * `imports`: 其他您正在使用的 NgModule，以便您可以使用它們的可宣告項目。
   新產生的根 NgModule 匯入 [`BrowserModule`](api/platform-browser/BrowserModule "BrowserModule NgModule") 以便使用瀏覽器專屬服務，例如 [DOM](https://www.w3.org/TR/DOM-Level-2-Core/introduction.html "Definition of Document Object Model") 呈現、消毒和位置。
 
-* `providers`: 其他 NgModule 中的組件可以使用之服務的提供者。
+* `providers`: 其他 NgModule 中的元件可以使用之服務的提供者。
   新產生的根 NgModule 中沒有提供者。
 
-* `bootstrap`: Angular 建立並插入至 `index.html` 主機網頁的組件，因而引導應用程式。
-  此組件 `AppComponent` 出現在 `declarations` 和 `bootstrap` 陣列中。
+* `bootstrap`: Angular 建立並插入至 `index.html` 主機網頁的元件，因而引導應用程式。
+  此元件 `AppComponent` 出現在 `declarations` 和 `bootstrap` 陣列中。
 
 ## 後續步驟
 
 * 若要深入了解根 NgModule，請參閱 [以根 NgModule 啟動應用程式](/guide/ngmodules/bootstrapping "以根 NgModule 啟動應用程式")。
 * 若要了解常用 Angular NgModules 以及如何將它們匯入應用程式，請參閱 [常用模組](/guide/ngmodules/frequent "常用模組")。
-

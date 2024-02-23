@@ -19,7 +19,7 @@
 <docs-code header="app/about/about.component.spec.ts" path="adev/src/content/examples/testing/src/app/about/about.component.spec.ts" visibleRegion="tests"/>
 
 然而，測試單個用例不太可能探索指令功能的全部範圍。
-查找和測試使用該指令的所有組件既繁瑣，又脆弱，而且幾乎不可能提供全面的覆蓋範圍。
+查找和測試使用該指令的所有元件既繁瑣，又脆弱，而且幾乎不可能提供全面的覆蓋範圍。
 
 *僅限類別的測試* 可能很有用，但像此類型的屬性指令往往會操控 DOM。
 孤立的單元測試不接觸 DOM，因此不會讓人對指令的效能有信心。
@@ -50,4 +50,3 @@ HELPFUL: `<input>` 案例將 `HighlightDirective` 繫結到輸入框中顏色的
     預設顏色的測試使用第二個 `<h2>` 的注入器來取得其 `HighlightDirective` 執行個體及其 `defaultColor`。
 
 * `DebugElement.properties` 可存取由指令設定的人工自訂屬性
-

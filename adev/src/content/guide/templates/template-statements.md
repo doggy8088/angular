@@ -32,8 +32,8 @@ HELPFUL：回應事件是 Angular 單向資料流的一個面向。
 
 陳述有一個內容 &mdash;應用程序的特定部分，陳述屬於該部分。
 
-陳述句只能參照陳述句上下文中包含的內容，通常是組件實例。
-例如，下一個片段中的 `(click)="deleteHero()"` 的 `deleteHero()` 是該組件的方法。
+陳述句只能參照陳述句上下文中包含的內容，通常是元件實例。
+例如，下一個片段中的 `(click)="deleteHero()"` 的 `deleteHero()` 是該元件的方法。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/template-syntax/src/app/app.component.html" visibleRegion="context-component-statement"/>
 
@@ -67,4 +67,3 @@ HELPFUL：回應事件是 Angular 單向資料流的一個面向。
 |:---                                     |:---     |
 | 簡潔                                      | 使用方法呼叫或基本屬性指定來使範本陳述式保持在最小值。                                                                                                                                                                                                         |
 | 在上下文中工作                                | 範本陳述式的上下文可以是元件類別實例或範本。因此，範本陳述式無法參照全域命名空間中的任何內容，例如 `window` 或 `document`。例如，範本陳述式無法呼叫 `console.log()` 或 `Math.max()`。 |
-

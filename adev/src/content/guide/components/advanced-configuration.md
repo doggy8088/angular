@@ -12,9 +12,9 @@
 
 **`ChangeDetectionStrategy.OnPush`** 是一種可減少 Angular 需要執行的檢查數量的選用模式。在此模式中，框架僅在以下情況檢查元件的 DOM 是否需要更新：
 
-- 組件輸入已因範本中的繫結而變更，或
-- 此組件中的事件監聽器正在執行
-- 組件明確標記為檢查，透過 `ChangeDetectorRef.markForCheck` 或包裝它的某些內容，例如 `AsyncPipe`。
+- 元件輸入已因範本中的繫結而變更，或
+- 此元件中的事件監聽器正在執行
+- 元件明確標記為檢查，透過 `ChangeDetectorRef.markForCheck` 或包裝它的某些內容，例如 `AsyncPipe`。
 
 此外，當檢查 OnPush 元件時，Angular _也_ 會檢查其所有祖先元件，從應用程式樹向上遞迴。
 
@@ -38,4 +38,3 @@ export class ComponentWithCustomElements { }
 ```
 
 Angular 目前不支援其他任何架構。
-

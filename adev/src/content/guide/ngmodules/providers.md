@@ -122,8 +122,8 @@ html
 
 <!-- KW--在此處製作圖表 -->
 
-當您必須將服務實例限制在組件及其組件樹，即其子組件時，請使用組件註冊提供者。
-例如，正在編輯使用者的組件 `UserEditorComponent`，需要快取 `UserService` 的私有副本，應該使用 `UserEditorComponent` 註冊 `UserService`。
+當您必須將服務實例限制在元件及其元件樹，即其子元件時，請使用元件註冊提供者。
+例如，正在編輯使用者的元件 `UserEditorComponent`，需要快取 `UserService` 的私有副本，應該使用 `UserEditorComponent` 註冊 `UserService`。
 然後，`UserEditorComponent` 的每個新實例都會取得其自己的快取服務實例。
 
 ## 注入器層級與服務實例
@@ -147,4 +147,3 @@ Angular DI 具有 [階層式注入系統](/guide/di/hierarchical-dependency-inje
   <docs-pill href="/guide/di/dependency-injection-providers" title="相依性提供者"/>
   <docs-pill href="/guide/ngmodules/faq" title="NgModule 常見問題"/>
 </docs-pill-row>
-

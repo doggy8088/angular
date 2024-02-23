@@ -43,7 +43,7 @@ export class UserService {
 一般來說，您只需要 `providedIn` 來提供服務，而 `forRoot()`/`forChild()` 則用於路由。
 然而，了解 `forRoot()` 的運作方式以確保服務是單例，將會在更深層次上為您的開發提供資訊。
 
-如果模組同時定義了供應商和聲明 (組件、指令、管道)，則在多個功能模組中載入模組將會重複服務的註冊。
+如果模組同時定義了供應商和聲明 (元件、指令、管道)，則在多個功能模組中載入模組將會重複服務的註冊。
 這可能會導致多個服務實例，而服務將不再表現為單例。
 
 防止此問題的方法有很多：
@@ -182,4 +182,3 @@ import { GreetingModule } from './greeting/greeting.module';
   <docs-pill href="/guide/ngmodules/lazy-loading" title="延遲載入模組"/>
   <docs-pill href="/guide/ngmodules/faq" title="NgModule 常見問題"/>
 </docs-pill-row>
-

@@ -2,7 +2,7 @@
 
 提示：本指南假設您已經閱讀過 [精華指南](essentials)。如果您是 Angular 新手，請先閱讀該指南。
 
-組件可以選擇包含套用至該組件的 DOM 的 CSS 樣式：
+元件可以選擇包含套用至該元件的 DOM 的 CSS 樣式：
 
 <docs-code language="ts" highlight="[4]">
 @Component({
@@ -44,9 +44,9 @@ export class ProfilePhoto { }
 
 ### ViewEncapsulation.Emulated
 
-預設情況下，Angular 使用模擬封裝，以便組件的樣式僅套用至在該組件範本中定義的元素。在此模式中，框架會為每個組件實例產生一個唯一的 HTML 屬性，將該屬性新增至組件範本中的元素，並將該屬性插入至在您的組件樣式中定義的 CSS 選擇器。
+預設情況下，Angular 使用模擬封裝，以便元件的樣式僅套用至在該元件範本中定義的元素。在此模式中，框架會為每個元件實例產生一個唯一的 HTML 屬性，將該屬性新增至元件範本中的元素，並將該屬性插入至在您的元件樣式中定義的 CSS 選擇器。
 
-此模式可確保組件的樣式不會外洩並影響其他組件。然而，在組件外部定義的全局樣式仍可能影響具有仿冒封裝的組件內的元素。
+此模式可確保元件的樣式不會外洩並影響其他元件。然而，在元件外部定義的全局樣式仍可能影響具有仿冒封裝的元件內的元素。
 
 在模擬模式中，Angular 支援
 [`:host`](https://developer.mozilla.org/en-US/docs/Web/CSS/:host)
@@ -78,7 +78,6 @@ Angular 不支援在 style 元素內繫結。
 
 ## 參閱外部樣式檔案
 
-組件範本可以使用 [`<link>` 元素](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link) 來
+元件範本可以使用 [`<link>` 元素](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/link) 來
 參照 CSS 檔案。此外，您的 CSS 可以使用 [`@import` at 規則](https://developer.mozilla.org/en-US/docs/Web/CSS/@import) 來參照
 CSS 檔案。Angular 將這些參照視為 _外部_ 樣式。外部樣式不受模擬檢視封裝的影響。
-

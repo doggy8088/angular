@@ -6,7 +6,7 @@
 
 在範例應用程式中，`BannerComponent` 在 HTML 範本中呈現靜態標題文字。
 
-經過幾次變更後，`BannerComponent` 透過綁定組件的 `title` 屬性，呈現動態標題，如下所示。
+經過幾次變更後，`BannerComponent` 透過綁定元件的 `title` 屬性，呈現動態標題，如下所示。
 
 <docs-code header="app/banner/banner.component.ts" path="adev/src/content/examples/testing/src/app/banner/banner.component.ts" visibleRegion="component"/>
 
@@ -109,7 +109,7 @@ Angular 不知道您已設定輸入元素的 `value` 屬性。
 
 <docs-code header="app/banner/banner-external.component.ts (metadata)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.ts" visibleRegion="metadata"/>
 
-此語法告訴 Angular 編譯器在組件編譯期間讀取外部檔案。
+此語法告訴 Angular 編譯器在元件編譯期間讀取外部檔案。
 
 當您執行 CLI `ng test` 指令時，這不是問題，因為它會在執行測試前先編譯應用程式。
 
@@ -128,7 +128,7 @@ Please call "TestBed.compileComponents" before your test.
 
 若要修正此問題，請依照下列 [Calling compileComponents](#compile-components) 區段所說明的呼叫 `compileComponents()`。
 
-## 具有依賴項的組件
+## 具有依賴項的元件
 
 元件通常具有服務相依性。
 
@@ -150,7 +150,7 @@ Please call "TestBed.compileComponents" before your test.
 
 *component-under-test* 不需要注入真正的服務。
 事實上，如果它們是測試替身（例如存根、假貨、間諜或模擬）通常會更好。
-規範的目的是測試組件，而不是服務，而真正的服務可能會造成麻煩。
+規範的目的是測試元件，而不是服務，而真正的服務可能會造成麻煩。
 
 注入真正的 `UserService` 可能是一場惡夢。
 真正的服務可能會要求使用者提供登入憑證並嘗試連線到驗證伺服器。
@@ -452,7 +452,7 @@ HELPFUL: 為了讓 `<canvas>` 元素在您的應用程式中支援 Zone.js，您
 使用 `done()` 撰寫測試函數比 `waitForAsync()` 和 `fakeAsync()` 更為繁瑣，但當程式碼涉及 `intervalTimer()`（例如 `setInterval`）時，偶爾需要使用它。
 
 以下是兩個使用 `done()` 編寫的先前測試版本。
-第一個訂閱了組件的 `quote` 屬性公開給範本的 `Observable`。
+第一個訂閱了元件的 `quote` 屬性公開給範本的 `Observable`。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="quote-done-test"/>
 
@@ -538,7 +538,7 @@ Marble 測試使用測試排程器來模擬同步測試中時間的流逝。
 RxJS marble 測試是一個豐富的主題，超出了本指南的範圍。
 在網路上了解它，從 [官方文件](https://rxjs.dev/guide/testing/marble-testing) 開始。
 
-## 具有輸入和輸出功能的組件
+## 具有輸入和輸出功能的元件
 
 一個具有輸入和輸出的元件通常出現在主機元件的檢視範本中。
 主機使用屬性繫結來設定輸入屬性，並使用事件繫結來聆聽輸出屬性引發的事件。
@@ -763,9 +763,9 @@ HELPFUL: 在以下章節中，將討論 `createComponent()` 方法和 `page` 物
 
 ## 內嵌元件測試
 
-組件範本通常有巢狀組件，其範本可能包含更多組件。
+元件範本通常有巢狀元件，其範本可能包含更多元件。
 
-組件樹可以非常深，並且在大部分時間，巢狀組件在測試樹頂端的組件時不扮演任何角色。
+元件樹可以非常深，並且在大部分時間，巢狀元件在測試樹頂端的元件時不扮演任何角色。
 
 例如，`AppComponent` 顯示包含錨點及其 `RouterLink` 指令的導覽列。
 
@@ -786,9 +786,9 @@ HELPFUL: 在以下章節中，將討論 `createComponent()` 方法和 `page` 物
 本節介紹兩種用於最小化設定的技巧。
 單獨或結合使用，以專注於測試主要元件。
 
-### 忽略不需要的組件
+### 忽略不需要的元件
 
-在第一種技術中，您建立並宣告組件和指令的 stub 版本，它們在測試中所扮演的角色很小或根本沒有。
+在第一種技術中，您建立並宣告元件和指令的 stub 版本，它們在測試中所扮演的角色很小或根本沒有。
 
 <docs-code header="app/app.component.spec.ts (stub declaration)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="component-stubs"/>
 
@@ -824,7 +824,7 @@ HELPFUL: 在以下章節中，將討論 `createComponent()` 方法和 `page` 物
 
 `NO_ERRORS_SCHEMA` 的方式比較容易，但是不要過度使用。
 
-`NO_ERRORS_SCHEMA` 亦會阻止編譯器告知您無意中遺漏或拼寫錯誤的遺失組件和屬性。
+`NO_ERRORS_SCHEMA` 亦會阻止編譯器告知您無意中遺漏或拼寫錯誤的遺失元件和屬性。
 您可能會浪費數小時追查幻影錯誤，而編譯器會立即捕獲這些錯誤。
 
 * stub 元件* 方法還有另一個優點。
@@ -873,7 +873,7 @@ AppComponent 連結用以驗證如下：
 * 對標題文字的參照
 * 對名稱輸入框的參照，以檢查並設定它
 * 對兩個按鈕的參照，以便他們可以點擊
-* 偵測一些組件和路由器方法
+* 偵測一些元件和路由器方法
 
 即使像這個這樣的小表格也可能產生一系列扭曲的條件設置和 CSS 元素選擇。
 
@@ -911,7 +911,7 @@ Please call "TestBed.compileComponents" before your test.
 
 <docs-code header="app/banner/banner-external.component.ts (external template & css)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.ts"/>
 
-當 `TestBed` 嘗試建立組件時，測試失敗。
+當 `TestBed` 嘗試建立元件時，測試失敗。
 
 <docs-code avoid header="app/banner/banner-external.component.spec.ts (setup that fails)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.spec.ts" visibleRegion="setup-may-fail"/>
 
@@ -1040,16 +1040,16 @@ HELPFUL：請注意 `beforeEach()` 是非同步的，並呼叫 `TestBed.compileC
 
 事實上，如果您嘗試宣告它，Angular 會擲回錯誤，因為 `HeroDetailComponent` 同時在 `HeroModule` 和 `TestBed` 建立的 `DynamicTestModule` 中宣告。
 
-有用的：在模組內有許多相互依賴性且模組很小的時候，匯入組件的功能模組可能是配置測試的最佳方式，而功能模組往往很小。
+有用的：在模組內有許多相互依賴性且模組很小的時候，匯入元件的功能模組可能是配置測試的最佳方式，而功能模組往往很小。
 
-## 覆寫組件提供者
+## 覆寫元件提供者
 
 `HeroDetailComponent` 提供它自己的 `HeroDetailService`。
 
 <docs-code header="app/hero/hero-detail.component.ts (prototype)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.ts" visibleRegion="prototype"/>
 
-無法在 `TestBed.configureTestingModule` 的 `providers` 中存根組件的 `HeroDetailService`。
-這些是 *測試模組* 的提供者，而不是組件。
+無法在 `TestBed.configureTestingModule` 的 `providers` 中存根元件的 `HeroDetailService`。
+這些是 *測試模組* 的提供者，而不是元件。
 它們在 *固定裝置級別* 準備依賴項注入器。
 
 Angular 使用其 *自己的* 注入器來建立元件，它是固定裝置注入器的 *子代*。
@@ -1073,7 +1073,7 @@ HELPFUL: 如果 `HeroDetailService` 對遠端伺服器發出自己的 XHR 呼叫
 如果偽造 `HeroService` 很難怎麼辦？
 如果 `HeroDetailService` 提出自己的伺服器請求怎麼辦？
 
-`TestBed.overrideComponent` 方法可以將組件的 `providers` 替換成易於管理的 *測試替身*，如下面的設定變化所示：
+`TestBed.overrideComponent` 方法可以將元件的 `providers` 替換成易於管理的 *測試替身*，如下面的設定變化所示：
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (Override setup)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="setup-override"/>
 
@@ -1085,7 +1085,7 @@ HELPFUL: 如果 `HeroDetailService` 對遠端伺服器發出自己的 XHR 呼叫
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (overrideComponent)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="override-component-method"/>
 
-它需要兩個參數：要覆寫的組件類型 \(`HeroDetailComponent`\) 和一個覆寫的元數據物件。
+它需要兩個參數：要覆寫的元件類型 \(`HeroDetailComponent`\) 和一個覆寫的元數據物件。
 [覆寫元數據物件](guide/testing/utility-apis#metadata-override-object) 是以如下方式定義的通用物件：
 
 <docs-code language="javascript">

@@ -62,7 +62,7 @@
 
 <docs-code path="adev/src/content/examples/styleguide/src/01-01/app/heroes/hero.component.avoid.ts" language="typescript" header="app/heroes/hero.component.ts"/>
 
-將組件及其支援類別重新分佈到它們自己的專用檔案中是一種更好的做法。
+將元件及其支援類別重新分佈到它們自己的專用檔案中是一種更好的做法。
 
 <docs-code-multifile>
     <docs-code header="main.ts" path="adev/src/content/examples/styleguide/src/01-01/main.ts"/>
@@ -197,7 +197,7 @@
 **Do** 在引導邏輯中包含錯誤處理。
 
 **避免**在 `main.ts` 中放置應用程序邏輯。
-相反，考慮將其放入組件或服務中。
+相反，考慮將其放入元件或服務中。
 
 **為什麼**？ <br/>
 遵循應用程序啟動邏輯的一致慣例。
@@ -297,7 +297,7 @@ Angular HTML 解析器區分大小寫，並識別小寫的駝峰式大小寫。
 
 #### 樣式 02-10
 
-**做** 將測試規範檔案命名與其測試的組件相同。
+**做** 將測試規範檔案命名與其測試的元件相同。
 
 **做**以 `.spec` 為字尾來命名測試規範檔案。
 
@@ -309,7 +309,7 @@ Angular HTML 解析器區分大小寫，並識別小寫的駝峰式大小寫。
 
 | 測試類型  | 檔案名稱 |
 |:---        |:---        |
-| 組件       | heroes.component.spec.ts <br /> hero-list.component.spec.ts <br /> hero-detail.component.spec.ts |
+| 元件       | heroes.component.spec.ts <br /> hero-list.component.spec.ts <br /> hero-detail.component.spec.ts |
 | 服務       | logger.service.spec.ts <br /> hero.service.spec.ts <br /> filter-text.service.spec.ts            |
 | 管道       | ellipsis.pipe.spec.ts <br /> init-caps.pipe.spec.ts                                              |
 
@@ -534,9 +534,9 @@ project root
 **為什麼**？<br />
 資料夾讓識別和分離功能內容變得容易。
 
-## 組件
+## 元件
 
-### 組件作為元素
+### 元件作為元素
 
 #### Style 05-03
 
@@ -548,7 +548,7 @@ project root
 開發人員會將元件放置在頁面上，就像他們會放置原生 HTML 元素和網路元件一樣。
 
 **為什麼**？ <br />
-透過查看範本的 html，更容易辨識一個符號是組件。
+透過查看範本的 html，更容易辨識一個符號是元件。
 
 有用的提示：在某些情況下，您可以給元件一個屬性，例如當您想擴充內建元素時。
 例如，[Material Design](https://material.angular.io/components/button/overview) 使用此技術與 `<button mat-button>`。
@@ -573,10 +573,10 @@ project root
 
 **請**將樣式檔案命名為 `[component-name].component.css`，其中 [component-name] 是 component 名稱。
 
-**請**指定以 `./` 為前綴的 *組件相對* URL。
+**請**指定以 `./` 為前綴的 *元件相對* URL。
 
 **為什麼**？<br />
-大型內聯範本和樣式會掩蓋組件的目的和實作，降低可讀性和可維護性。
+大型內聯範本和樣式會掩蓋元件的目的和實作，降低可讀性和可維護性。
 
 **為什麼**？<br />
 在多數編輯器中，在開發內嵌範本和樣式時，無法使用語法提示和程式碼片段。
@@ -643,14 +643,14 @@ Angular TypeScript Language Service（即將推出）承諾克服此缺陷，供
     <docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-13/app/app.component.html"/>
 </docs-code-multifile>
 
-### 將複雜的組件邏輯委派給服務
+### 將複雜的元件邏輯委派給服務
 
 #### 風格 05-15
 
 **盡可能**只將元件中的邏輯限制在檢視所需的內容。
 所有其他邏輯都應該委派給服務。
 
-**務必** 將可重複使用的邏輯移至服務，並讓組件保持簡單，並專注於其預期目的。
+**務必** 將可重複使用的邏輯移至服務，並讓元件保持簡單，並專注於其預期目的。
 
 **為什麼**？<br />
 當邏輯放入服務中並公開為一個函數時，可以被多個元件重複使用。
@@ -696,7 +696,7 @@ Angular 允許使用 [替代語法](guide/templates/binding) `on-*`。
 
 #### 風格 05-17
 
-**請**將簡報邏輯放在組件類別中，而不是範本中。
+**請**將簡報邏輯放在元件類別中，而不是範本中。
 
 **為什麼**？<br />
 邏輯將包含在一個地方（元件類別）中，而不是分散在兩個地方。
@@ -886,4 +886,3 @@ Here are templates and/or snippets for some of the web development editors and I
 **Consider** using [snippets](https://github.com/orizens/sublime-angular2-snippets) for [Sublime Text](https://www.sublimetext.com) that follow these styles and guidelines.
 
 **Consider** using [snippets](https://github.com/mhartington/vim-angular2-snippets) for [Vim](https://www.vim.org) that follow these styles and guidelines.
-

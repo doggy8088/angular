@@ -1,8 +1,8 @@
-<docs-decorative-header title="組件" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
+<docs-decorative-header title="元件" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
 在 Angular 中建立應用程式的基本構件。
 </docs-decorative-header>
 
-組件提供結構，可將您的專案整理成易於理解的部分，並具有明確的責任，以便您的程式碼可維護且具可擴充性。
+元件提供結構，可將您的專案整理成易於理解的部分，並具有明確的責任，以便您的程式碼可維護且具可擴充性。
 
 以下是如何將 Todo 應用程式細分為元件樹的範例。
 
@@ -17,7 +17,7 @@ flowchart TD
     D[TodoListItem]
 ```
 
-在這個指南中，我們將了解如何在 Angular 中建立和使用組件。
+在這個指南中，我們將了解如何在 Angular 中建立和使用元件。
 
 ## 定義元件
 
@@ -28,7 +28,7 @@ flowchart TD
 3. 一個定義元件如何在 HTML 中使用的 [CSS 選擇器](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors)
 4. 一個 TypeScript 類別，具備管理狀態、處理使用者輸入或從伺服器擷取資料等行為。
 
-以下是一個 TodoListItem 組件的簡化範例。
+以下是一個 TodoListItem 元件的簡化範例。
 
 ```ts
 // todo-list-item.component.ts
@@ -48,7 +48,7 @@ export class TodoListItem {
 - `standalone: true` — 建議採用此方法來精簡元件的創作體驗
 - `styles` — 包含要套用至元件的任何 CSS 樣式的字串或字串陣列
 
-知道了這一點，以下是我們 `TodoListItem` 組件的更新版本。
+知道了這一點，以下是我們 `TodoListItem` 元件的更新版本。
 
 ```ts
 // todo-list-item.component.ts
@@ -74,7 +74,7 @@ export class TodoListItem {
 
 對於偏好於在個別檔案中管理其 HTML 和/或 CSS 的團隊，Angular 提供了兩個額外的屬性：`templateUrl` 和 `styleUrl`。
 
-使用先前的 `TodoListItem` 組件，替代方式如下：
+使用先前的 `TodoListItem` 元件，替代方式如下：
 
 ```ts
 // todo-list-item.component.ts
@@ -102,7 +102,7 @@ li {
 }
 ```
 
-## 使用組件
+## 使用元件
 
 html
 <template>
@@ -168,4 +168,3 @@ export class TodoList {}
 <docs-pill-row>
   <docs-pill title="管理動態資料" href="essentials/managing-dynamic-data" />
 </docs-pill-row>
-

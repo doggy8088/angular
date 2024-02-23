@@ -34,7 +34,7 @@ CLI 會自動附加 `Component`，因此如果您寫 `first-component`，您的�
 
 </docs-callout>
 
-### 匯入您的新組件
+### 匯入您的新元件
 
 如要使用您的新元件，請將其導入 `app.routes.ts` 檔案頂端，如下所示：
 
@@ -158,7 +158,7 @@ providers: [
 
 <docs-step title="在元件中新增 `Input`">
 
-將該組件更新為具有與參數名稱相符的 `Input`。
+將該元件更新為具有與參數名稱相符的 `Input`。
 
 ```ts
 @Input()
@@ -174,7 +174,7 @@ set id(heroId: string) {
 
 備註：您可以將所有路由資料與金鑰、值對繫結至元件輸入：靜態或已解析的路由資料、路徑參數、矩陣參數和查詢參數。
 
-如果要使用父組件路由資訊，您需要設定路由器 `paramsInheritanceStrategy` 選項：
+如果要使用父元件路由資訊，您需要設定路由器 `paramsInheritanceStrategy` 選項：
 `withRouterConfig({paramsInheritanceStrategy: 'always'})`
 
 </docs-step>
@@ -428,7 +428,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 ```
 
-在組件類別的建構函數中注入 `ActivatedRoute` 和 `Router`，讓此組件可以使用它們：
+在元件類別的建構函數中注入 `ActivatedRoute` 和 `Router`，讓此元件可以使用它們：
 
 ```ts
 hero$: Observable<Hero>;
@@ -505,7 +505,7 @@ export const yourGuardFunction: CanActivateFn = (
 
 連結參數陣列含有以下路由導航成分：
 
-- 路線到目的地組件的路徑
+- 路線到目的地元件的路徑
 - 路線 URL 中的必要和可選路線參數
 
 將 `RouterLink` 指令綁定至陣列，如下：
@@ -689,4 +689,3 @@ providers: [
 ```
 
 在使用 `RouterModule.forRoot` 時，這會在第二個參數中以 `useHash: true` 進行配置：`RouterModule.forRoot(routes, {useHash: true})`。
-

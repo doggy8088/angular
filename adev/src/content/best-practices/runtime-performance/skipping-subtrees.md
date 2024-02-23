@@ -1,4 +1,4 @@
-# 略過組件子樹
+# 略過元件子樹
 
 JavaScript 預設使用可從多個不同元件參照的可變資料結構。Angular 會在整個元件樹上執行變更偵測，以確保資料結構的最新狀態反映在 DOM 中。
 
@@ -49,8 +49,8 @@ export class AppComponent {
 
 OnPush 變更偵測指示 Angular **僅** 在以下情況下為元件子樹執行變更偵測：
 
-* 子樹的根組件會收到新輸入，作為範本綁定的結果。Angular 使用 `==` 比較輸入的當前值與過去值。
-* Angular 在子樹的根組件或其任何子項中處理事件 _(例如，使用事件綁定、輸出綁定或 `@HostListener` )_，無論它們是否使用 OnPush 變更偵測。
+* 子樹的根元件會收到新輸入，作為範本綁定的結果。Angular 使用 `==` 比較輸入的當前值與過去值。
+* Angular 在子樹的根元件或其任何子項中處理事件 _(例如，使用事件綁定、輸出綁定或 `@HostListener` )_，無論它們是否使用 OnPush 變更偵測。
 
 你可以使用 `@Component` 裝飾器將元件的變更偵測策略設定為 `OnPush`：
 
@@ -98,7 +98,7 @@ style search fill:#C1D5B0,color:#000
 
 如果 Angular 在採用 OnPush 策略的元件中處理事件，這個框架會在整個元件樹中執行變更偵測。Angular 會忽略未收到新輸入且位於處理事件的元件之外、其根節點採用 OnPush 的元件子樹。
 
-舉個例子，如果 Angular 在 `MainComponent` 中處理事件，框架將在整個組件樹中執行變更偵測。Angular 會忽略根為 `LoginComponent` 的子樹，因為它有 `OnPush`，而且事件發生在其範圍之外。
+舉個例子，如果 Angular 在 `MainComponent` 中處理事件，框架將在整個元件樹中執行變更偵測。Angular 會忽略根為 `LoginComponent` 的子樹，因為它有 `OnPush`，而且事件發生在其範圍之外。
 
 <img alt="從 OnPush 元件傳播變更偵測" src="assets/content/images/best-practices/runtime-performance/on-push-trigger.svg">
 
@@ -126,7 +126,7 @@ style details fill:#C1D5B0,color:#000
 
 ## 事件由具有 OnPush 的元件後代處理
 
-如果 Angular 在具有 OnPush 的組件中處理事件，框架將會在整個組件樹中執行變更偵測，包括組件的祖先。
+如果 Angular 在具有 OnPush 的元件中處理事件，框架將會在整個元件樹中執行變更偵測，包括元件的祖先。
 
 舉例來說，在下面的圖表中，Angular 處理 `LoginComponent` 中的事件，它使用了 OnPush。Angular 會在整個元件子樹中呼叫變更偵測，包括 `MainComponent`（`LoginComponent` 的父元件），即使 `MainComponent` 也有 `OnPush`。Angular 也會檢查 `MainComponent`，因為 `LoginComponent` 是其檢視的一部分。
 
@@ -184,4 +184,3 @@ style details fill:#C1D5B0,color:#000
 
 * **在 TypeScript 程式碼中修改輸入屬性。**當您使用 `@ViewChild` 或 `@ContentChild` 等 API 來取得 TypeScript 中元件的參考，並手動修改 `@Input` 屬性時，Angular 將不會自動為 OnPush 元件執行變更偵測。如果您需要 Angular 執行變更偵測，則可以在元件中注入 `ChangeDetectorRef` 並呼叫 `changeDetectorRef.markForCheck()`，以指示 Angular 排程變更偵測。
 * **修改物件參考。**如果輸入將可變動物件接收為值，而您修改物件但保留參考，Angular 將不會呼叫變更偵測。這是預期行為，因為輸入的先前值和目前值指向相同的參考。
-

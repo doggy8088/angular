@@ -2,7 +2,7 @@
 
 提示：本指南假設您已經閱讀過 [精華指南](essentials)。如果您是 Angular 新手，請先閱讀該指南。
 
-組件可以定義**查詢**，以查找子元素並從其注入器中讀取值。
+元件可以定義**查詢**，以查找子元素並從其注入器中讀取值。
 
 開發人員最常使用查詢來擷取子元件、指令、DOM 元素等之參考。
 
@@ -10,7 +10,7 @@
 
 ## 檢視查詢
 
-檢視查詢會從組件的 _檢視_ 中的元素擷取結果，也就是在組件本身的範本中定義的元素。您可以使用 `@ViewChild` 裝飾器查詢單一結果。
+檢視查詢會從元件的 _檢視_ 中的元素擷取結果，也就是在元件本身的範本中定義的元素。您可以使用 `@ViewChild` 裝飾器查詢單一結果。
 
 <docs-code language="ts" highlight="[14, 16, 17, 18]">
 @Component({
@@ -38,7 +38,7 @@ ngAfterViewInit() {
 
 如果查詢沒有找到結果，其值為 `undefined`。如果目標元素被 `NgIf` 隱藏，可能會發生這種情況。Angular 會在應用程式狀態變更時保持 `@ViewChild` 的結果為最新狀態。
 
-**在 `ngAfterViewInit` 生命周期方法中，檢視查詢結果可供使用。**在此之前，值為 `undefined`。有關組件生命週期的詳細資訊，請參閱 [生命週期](guide/components/lifecycle) 部分。
+**在 `ngAfterViewInit` 生命周期方法中，檢視查詢結果可供使用。**在此之前，值為 `undefined`。有關元件生命週期的詳細資訊，請參閱 [生命週期](guide/components/lifecycle) 部分。
 
 你可以使用 `@ViewChildren` 裝飾器查詢多個結果。
 
@@ -71,7 +71,7 @@ ngAfterViewInit() {
 
 `@ViewChildren` 建立一個包含查詢結果的 `QueryList` 物件。您可以透過 `changes` 屬性訂閱查詢結果的變更。
 
-**查詢絕不會穿透組件邊界。**檢視查詢只能從組件範本中擷取結果。
+**查詢絕不會穿透元件邊界。**檢視查詢只能從元件範本中擷取結果。
 
 ## 內容查詢
 
@@ -128,7 +128,7 @@ ngAfterContentInit() {
 
 預設情況下，內容查詢只會尋找元件的_直接_子項，而不會深入後代。
 
-**內容查詢結果在 `ngAfterContentInit` 生命週期方法中可供使用**。在此之前，該值為 `undefined`。有關組件生命週期的詳細資訊，請參閱 [生命週期](guide/components/lifecycle) 部分。
+**內容查詢結果在 `ngAfterContentInit` 生命週期方法中可供使用**。在此之前，該值為 `undefined`。有關元件生命週期的詳細資訊，請參閱 [生命週期](guide/components/lifecycle) 部分。
 
 你也可以使用 `@ContentChildren` 裝飾器查詢多個結果。
 
@@ -168,13 +168,13 @@ ngAfterContentInit() {
 
 `@ContentChildren` 建立一個包含查詢結果的 `QueryList` 物件。您可以透過 `changes` 屬性訂閱查詢結果的變更。
 
-**查詢絕不會透過組件邊界。**內容查詢只能從與組件相同的範本中擷取結果。
+**查詢絕不會透過元件邊界。**內容查詢只能從與元件相同的範本中擷取結果。
 
 ## 查詢定位器
 
 每個查詢裝飾器的第一個參數是其 **定位器**。
 
-大多數時間，您會想使用組件或指令作為您的定位器。
+大多數時間，您會想使用元件或指令作為您的定位器。
 
 您也可以指定一個字串定位器，對應至
 [範本參考變數](guide/templates/reference-variables)。
@@ -200,7 +200,7 @@ Angular 不支援 CSS 選擇器作為查詢定位器。
 
 提示：請參閱 [依存項注入](guide/di) 以了解提供者和 Angular 的注入樹的背景。
 
-對於進階情況，您可以使用任何 `ProviderToken` 作為定位器。這讓您可以根據組件和指令提供者來定位元素。
+對於進階情況，您可以使用任何 `ProviderToken` 作為定位器。這讓您可以根據元件和指令提供者來定位元素。
 
 ```ts
 const SUB_ITEM = new InjectionToken<string>('sub-item');
@@ -306,7 +306,6 @@ export class CustomExpando {
 
 始終維持多個元件之間共用狀態的單一真實來源。這可避免不同元件中的重複狀態不同步的場景。
 
-避免直接將狀態寫入子組件。此模式可能導致難以理解且容易發生 [ExpressionChangedAfterItHasBeenChecked](errors/NG0100) 錯誤的脆弱程式碼。
+避免直接將狀態寫入子元件。此模式可能導致難以理解且容易發生 [ExpressionChangedAfterItHasBeenChecked](errors/NG0100) 錯誤的脆弱程式碼。
 
-切勿直接將狀態寫入父級或祖先組件。這種模式可能導致難以理解且容易產生 [ExpressionChangedAfterItHasBeenChecked](errors/NG0100) 錯誤的脆弱程式碼。
-
+切勿直接將狀態寫入父級或祖先元件。這種模式可能導致難以理解且容易產生 [ExpressionChangedAfterItHasBeenChecked](errors/NG0100) 錯誤的脆弱程式碼。

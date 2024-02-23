@@ -152,7 +152,7 @@ HELPFUL: 當您撰寫 Angular 元件時，如果您根據 Angular 的[雙向繫�
 將元素新增或移除，方法是將 `NgIf` 指令套用到主機元素。
 
 當 `NgIf` 為 `false` 時，Angular 會從 DOM 中移除元素及其子元素。
-Angular 然後處置其組件，這會釋放記憶體和資源。
+Angular 然後處置其元件，這會釋放記憶體和資源。
 
 ### 在元件中匯入 `NgIf`
 
@@ -191,7 +191,7 @@ null
 
 使用 `NgFor` 指令來呈現項目清單。
 
-### 在組件中匯入 `NgFor`
+### 在元件中匯入 `NgFor`
 
 若要使用 `NgFor`，請將它加入元件的 `imports` 清單。
 

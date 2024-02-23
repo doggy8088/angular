@@ -231,7 +231,7 @@ TIP：使用 `async` 管道或 `toSignal` 運算來訂閱 `Observable` 可確保
 
 ## 最佳實務範例
 
-雖然 `HttpClient` 可以注入並直接從組件使用，但我們通常建議您建立可重複使用、可注入的服務，以隔離和封裝資料存取邏輯。例如，此 `UserService` 封裝了根據其 ID 要求使用者資料的邏輯：
+雖然 `HttpClient` 可以注入並直接從元件使用，但我們通常建議您建立可重複使用、可注入的服務，以隔離和封裝資料存取邏輯。例如，此 `UserService` 封裝了根據其 ID 要求使用者資料的邏輯：
 
 <docs-code language="ts">
 @Injectable({providedIn: 'root'})
@@ -266,4 +266,3 @@ ngOnInit(): void {
   }
 }
 </docs-code>
-

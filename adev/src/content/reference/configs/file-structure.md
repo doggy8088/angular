@@ -70,7 +70,7 @@ Angular 也支援有多個專案的工作區 ([multiple projects](#multiple-proj
 | `styles.css` | 套用到整個應用程式的全域 CSS 樣式。 |
 
 在 `src` 資料夾內，`app` 資料夾包含專案的邏輯和資料。
-Angular 組件、範本及樣式在此。
+Angular 元件、範本及樣式在此。
 
 | `src/app/` 檔案        | 目的                                                                                                                                                                                                                                                                            |
 |:---                     |:---                                                                                                                                                                                                                                                                                |
@@ -154,4 +154,3 @@ my-workspace/
 | `tsconfig.lib.json`      | 函式庫專屬的 [TypeScript 設定](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)，包含 [Angular 編譯器選項](reference/configs/angular-compiler-options)。 |
 | `tsconfig.lib.prod.json` | 函式庫專屬的 [TypeScript 設定](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)，用於以生產模式建立函式庫。                                                                                                                             |
 | `tsconfig.spec.json`     | 函式庫單元測試的 [TypeScript 設定](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)。                                                                                                                             |
-

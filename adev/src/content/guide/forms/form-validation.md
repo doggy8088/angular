@@ -293,7 +293,7 @@ interface ActorsService {
 
 ### 在反應式表單中新增非同步驗證器
 
-若要在反應式表單中使用非同步驗證器，首先將驗證器注入組件類別的建構函式。
+若要在反應式表單中使用非同步驗證器，首先將驗證器注入元件類別的建構函式。
 
 <docs-code path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.2.ts" visibleRegion="async-validator-inject"/>
 
@@ -343,4 +343,3 @@ new FormControl('', {updateOn: 'blur'});
 預設情況下，Angular 會在封閉的 `<form>` 上加入 `novalidate` 屬性來停用 [原生 HTML 表單驗證](https://developer.mozilla.org/docs/Web/Guide/HTML/Constraint_validation)，並使用指令將這些屬性與架構中的驗證函數進行比對。
 如果您想要在基於 Angular 的驗證中 **結合** 使用原生驗證，您可以使用 `ngNativeValidate` 指令重新啟用它。
 有關詳細資訊，請參閱 [API 文件](api/forms/NgForm#native-dom-validation-ui)。
-

@@ -6,13 +6,13 @@
 
 ## 什麼是狀態？
 
-Components 讓您可以將應用程序中離散部分的責任整齊地封裝起來。例如，`SignUpForm` 組件可能需要追蹤表單是否有效，然後才允許使用者執行特定動作。因此，組件需要追蹤的各種屬性通常稱為「狀態」。
+Components 讓您可以將應用程序中離散部分的責任整齊地封裝起來。例如，`SignUpForm` 元件可能需要追蹤表單是否有效，然後才允許使用者執行特定動作。因此，元件需要追蹤的各種屬性通常稱為「狀態」。
 
 ## 定義狀態
 
 如要定義狀態，請在元件內使用 [類別欄位語法](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Classes/Public_class_fields)。
 
-例如，使用 `TodoListItem` 組件，建立兩個您想要追蹤的屬性：
+例如，使用 `TodoListItem` 元件，建立兩個您想要追蹤的屬性：
 
 1. `taskTitle` — 任務的標題是什麼
 2. `isComplete` — 任務是否完成
@@ -54,4 +54,3 @@ export class TodoListItem {
 <docs-pill-row>
   <docs-pill title="呈現動態範本" href="essentials/rendering-dynamic-templates" />
 </docs-pill-row>
-

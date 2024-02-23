@@ -23,7 +23,7 @@ export class ProfilePhoto { }
 
 傳遞給 `@Component` 裝飾器的物件稱為元件的 **元資料**。這包括 `selector`、`template` 和本指南中描述的其他屬性。
 
-組件可以選擇性地包含套用到該組件 DOM 的 CSS 樣式清單：
+元件可以選擇性地包含套用到該元件 DOM 的 CSS 樣式清單：
 
 <docs-code language="ts" highlight="[4]">
 @Component({
@@ -49,11 +49,11 @@ export class ProfilePhoto { }
 
 這可以幫助將專案中的 _呈現_ 與 _行為_ 的問題分開。您可以為整個專案選擇一種方式，或決定為每個元件使用哪一種。
 
-`templateUrl` 與 `styleUrl` 都是相對於組件所在的目錄。
+`templateUrl` 與 `styleUrl` 都是相對於元件所在的目錄。
 
-## 使用組件
+## 使用元件
 
-每個組件都定義一個 [CSS 選擇器](https://developer.mozilla.org/zh-TW/docs/Learn/CSS/Building_blocks/Selectors)：
+每個元件都定義一個 [CSS 選擇器](https://developer.mozilla.org/zh-TW/docs/Learn/CSS/Building_blocks/Selectors)：
 
 <docs-code language="ts" highlight="[2]">
 @Component({
@@ -100,4 +100,3 @@ flowchart TD
 ```
 
 此樹狀結構對於了解其他幾個 Angular 概念很重要，包括 [相依性注入](guide/di) 和 [子查詢](guide/components/queries)。
-

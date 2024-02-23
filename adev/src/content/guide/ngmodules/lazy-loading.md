@@ -70,7 +70,7 @@ ng new customer-app --no-standalone --routing
 
 ### 使用路由建立功能模組
 
-接下來，您需要一個帶有要導向到的組件的功能模組。
+接下來，您需要一個帶有要導向到的元件的功能模組。
 要建立一個，請在命令列工具中輸入以下命令，其中 `customers` 是功能模組的名稱。
 載入 `customers` 功能模組的路徑也是 `customers`，因為它使用 `--route` 選項指定：
 
@@ -345,7 +345,7 @@ export const appConfig: ApplicationConfig = {
 };
 </docs-code>
 
-### 預先載入組件資料
+### 預先載入元件資料
 
 若要預載元件資料，請使用 `resolver`。
 Resolvers 透過在所有必要的資料都可供完整顯示頁面之前封鎖頁面載入來改善 UX。
@@ -453,4 +453,3 @@ ngOnInit() {
 * [功能模組類型](guide/ngmodules/module-types)
 * [Angular 中的路由級別程式碼拆分](https://web.dev/route-level-code-splitting-in-angular)
 * [Angular 中的路線預加載策略](https://web.dev/route-preloading-in-angular)
-

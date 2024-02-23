@@ -2,10 +2,10 @@
 
 提示：本指南假設您已經閱讀過 [精華指南](essentials)。如果您是 Angular 新手，請先閱讀該指南。
 
-Angular 組件是 TypeScript 類別，並參與標準 JavaScript 繼承
+Angular 元件是 TypeScript 類別，並參與標準 JavaScript 繼承
 語義。
 
-組件可以延伸任何基礎類別：
+元件可以延伸任何基礎類別：
 
 ```ts
 export class ListboxBase {

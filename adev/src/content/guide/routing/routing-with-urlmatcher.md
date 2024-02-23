@@ -20,7 +20,7 @@ Angular Router 支援強大的比對策略，你可以使用它來幫助使用�
 
     shell
     ng new angular-custom-route-match
-    
+
 
     當出現提示「您要新增 Angular 路由嗎？」時，選擇「Y」。
 
@@ -33,7 +33,7 @@ Angular Router 支援強大的比對策略，你可以使用它來幫助使用�
 
     shell
     ng generate component profile
-    
+
 
 1. 在您的程式碼編輯器中，找到檔案 `profile.component.html` 並將預留位置內容替換為下列 HTML。
 
@@ -73,7 +73,7 @@ HELPFUL: 自訂 URL 比對器如同任何其他路徑定義一樣。定義子路
 
 ## 閱讀路由參數
 
-使用自訂比對器後，您現在可以在 `profile` 組件中繫結路由參數。
+使用自訂比對器後，您現在可以在 `profile` 元件中繫結路由參數。
 
 在您的程式碼編輯器中，開啟您的 `profile.component.ts` 檔案並建立一個與 `username` 參數匹配的 `Input`。
 我們先前在 `provideRouter` 中加入了 `withComponentInputBinding` 功能。這允許 `Router` 將資訊直接繫結到路由元件。
@@ -111,4 +111,3 @@ HELPFUL: 自訂 URL 比對器如同任何其他路徑定義一樣。定義子路
 </docs-pill-row>
 
 HELPFUL: 此內容基於 [使用 Angular 路由進行自訂路由比對](https://medium.com/@brandontroberts/custom-route-matching-with-the-angular-router-fbdd48665483)，作者：[Brandon Roberts](https://twitter.com/brandontroberts)。
-

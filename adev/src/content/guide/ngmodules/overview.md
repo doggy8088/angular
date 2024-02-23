@@ -23,10 +23,10 @@ NgModules 將元件、指令和管線整合到功能緊密的區塊中，每個�
 
 NgModule 元數據執行下列動作：
 
-* 宣告哪些組件、指令和管道屬於這個模組
-* 使其中一些組件、指令和管道公開，以便其他模組的組件範本可以使用它們
-* 匯入其他具有組件、指令和管道的模組，以便當前模組中的組件需要它們
-* 提供其他應用程式組件可以使用之服務
+* 宣告哪些元件、指令和管道屬於這個模組
+* 使其中一些元件、指令和管道公開，以便其他模組的元件範本可以使用它們
+* 匯入其他具有元件、指令和管道的模組，以便當前模組中的元件需要它們
+* 提供其他應用程式元件可以使用之服務
 
 每個 Angular 應用程式至少有一個模組，即根模組。
 您會 [bootstrap](/guide/ngmodules/bootstrapping) 該模組來啟動應用程式。
@@ -55,7 +55,7 @@ export class AppModule {}
 </docs-code>
 
 最上面是匯入陳述式。
-下一個區段是您透過聲明哪些組件和指令屬於它 (`declarations`) 以及它使用哪些其他模組 (`imports`) 來配置 `@NgModule` 的位置。
+下一個區段是您透過聲明哪些元件和指令屬於它 (`declarations`) 以及它使用哪些其他模組 (`imports`) 來配置 `@NgModule` 的位置。
 如需有關 `@NgModule` 結構的更多資訊，務必閱讀 [Bootstrapping](/guide/ngmodules/bootstrapping)。
 
 ## 更多有關 NgModules
@@ -65,4 +65,3 @@ export class AppModule {}
   <docs-pill href="/guide/ngmodules/providers" title="提供者"/>
   <docs-pill href="/guide/ngmodules/module-types" title="NgModules 類型"/>
 </docs-pill-row>
-

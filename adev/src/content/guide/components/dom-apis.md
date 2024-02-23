@@ -68,7 +68,7 @@ new Vue({
   }
 })
 
-組件可以注入 `Renderer2` 的實例，以執行與其他 Angular 功能相關的某些 DOM 操作。
+元件可以注入 `Renderer2` 的實例，以執行與其他 Angular 功能相關的某些 DOM 操作。
 
 由元件的 `Renderer2` 建立的任何 DOM 元素都會參與該元件的 [樣式封裝](guide/components/styling#style-scoping)。
 
@@ -91,4 +91,3 @@ new Vue({
   [`IntersectionObserver`](https://developer.mozilla.org/zh-TW/docs/Web/API/Intersection_Observer_API)。
 
 避免插入、移除和修改 DOM 元素。特別是，**切勿直接設定元素的 `innerHTML` 屬性**，這會讓您的應用程式容易受到 [跨網站指令碼 (XSS) 攻擊](https://developer.mozilla.org/en-US/docs/Glossary/Cross-site_scripting) 的影響。Angular 的範本繫結，包括 `innerHTML` 的繫結，包含可幫助防止 XSS 攻擊的安全防護。詳情請參閱 [安全性指南](guide/security)。
-

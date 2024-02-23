@@ -156,7 +156,7 @@ ng generate component ProfileEditor
 
 <docs-code header="src/app/profile-editor/profile-editor.component.html (submit event)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.html" visibleRegion="ng-submit"/>
 
-`ProfileEditor` 組件中的 `onSubmit()` 方法擷取 `profileForm` 的目前值。使用 `EventEmitter` 來讓表單封裝，並在組件以外提供表單值。以下範例使用 `console.warn` 將訊息記錄到瀏覽器主控台。
+`ProfileEditor` 元件中的 `onSubmit()` 方法擷取 `profileForm` 的目前值。使用 `EventEmitter` 來讓表單封裝，並在元件以外提供表單值。以下範例使用 `console.warn` 將訊息記錄到瀏覽器主控台。
 
 <docs-code header="src/app/profile-editor/profile-editor.component.ts (submit method)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.ts" visibleRegion="on-submit"/>
 
@@ -420,4 +420,3 @@ For complete syntax details, see the API reference documentation for the [Forms 
 | `FormGroupDirective`   | Syncs an existing `FormGroup` instance to a DOM element.                                   |
 | `FormGroupName`        | Syncs a nested `FormGroup` instance to a DOM element.                                      |
 | `FormArrayName`        | Syncs a nested `FormArray` instance to a DOM element.                                      |
-

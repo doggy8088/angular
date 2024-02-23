@@ -57,13 +57,13 @@ IMPORTANT: 請避免使用元件選取器作為自訂元素標記名稱。
 自訂元素 _主持_ Angular 元件，在元件中定義的資料和邏輯與標準 DOM API 之間提供橋樑。
 元件屬性和邏輯直接映射到 HTML 屬性和瀏覽器的事件系統。
 
-* 創建 API 會剖析組件，尋找輸入屬性，並為自訂元素定義對應的屬性。
+* 創建 API 會剖析元件，尋找輸入屬性，並為自訂元素定義對應的屬性。
   它會轉換屬性名稱，以使其與不區分大小寫的自訂元素相容。
   產生的屬性名稱使用連字符分隔的小寫字母。
-  例如，對於具有 `@Input('myInputProp') inputProp` 的組件，對應的自訂元素會定義一個屬性 `my-input-prop`。
+  例如，對於具有 `@Input('myInputProp') inputProp` 的元件，對應的自訂元素會定義一個屬性 `my-input-prop`。
 
-* 組件輸出會以 HTML [自訂事件](https://developer.mozilla.org/docs/Web/API/CustomEvent) 形式發送，自訂事件名稱與輸出名稱相符。
-  例如，對於具有 `@Output() valueChanged = new EventEmitter()` 的組件，對應的自訂元素會發送名稱為「valueChanged」的事件，而發送的資料會儲存在事件的 `detail` 屬性中。
+* 元件輸出會以 HTML [自訂事件](https://developer.mozilla.org/docs/Web/API/CustomEvent) 形式發送，自訂事件名稱與輸出名稱相符。
+  例如，對於具有 `@Output() valueChanged = new EventEmitter()` 的元件，對應的自訂元素會發送名稱為「valueChanged」的事件，而發送的資料會儲存在事件的 `detail` 屬性中。
   如果您提供別名，則會使用該值；例如，`@Output('myClick') clicks = new EventEmitter<string>();` 會導致發送名稱為「myClick」的事件。
 
 如需瞭解詳情，請參閱 Web Component 文件，以取得 [建立自訂事件](https://developer.mozilla.org/docs/Web/Guide/Events/Creating_and_triggering_events#Creating_custom_events) 的資訊。
@@ -156,4 +156,3 @@ document.createElement('my-dialog')         //--&gt; NgElement &amp; WithPropert
 document.querySelector('my-other-element')  //--&gt; NgElement &amp; WithProperties&lt;{foo: 'bar'}&gt;      (custom element)
 
 </docs-code>
-

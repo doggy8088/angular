@@ -57,7 +57,7 @@ export class CustomCard {/* ... */}
 </custom-card>
 ```
 
-Angular 指稱以這種方式傳遞的任何子組件為該組件的 **內容**。這不同於組件的 **檢視**，後者是指組件範本中定義的元素。
+Angular 指稱以這種方式傳遞的任何子元件為該元件的 **內容**。這不同於元件的 **檢視**，後者是指元件範本中定義的元素。
 
 **`<ng-content>` 元素既不是元件也不是 DOM 元素**。相反，它是一個特殊預留位置，告訴 Angular 在哪裡呈現內容。Angular 的編譯器在建置時處理所有 `<ng-content>` 元素。您在執行階段無法插入、移除或修改 `<ng-content>`。您無法將 **<span style="text-decoration:underline;">指令</span>**、樣式或任意屬性新增至 `<ng-content>`。
 

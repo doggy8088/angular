@@ -172,7 +172,7 @@ export class EvenMoreCustomTooltip { }
 
 指定 `hostDirectives` 的元件或指令可以注入這些主機指令的執行個體，反之亦然。
 
-在將主機指令套用至組件時，組件和主機指令都能定義提供者。
+在將主機指令套用至元件時，元件和主機指令都能定義提供者。
 
 如果一個元件或指令具備 `hostDirectives`，且這些主機指令都提供相同的注入權杖，由具備 `hostDirectives` 的類別定義的提供者優先於由主機指令定義的提供者。
 

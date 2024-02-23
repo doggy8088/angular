@@ -34,8 +34,8 @@ export class SharedModule { }
 
 請注意以下事項：
 
-* 它匯入 `CommonModule` 因為模組的組件需要常見的指令
-* 它宣告並匯出工具管道、指令和組件類別
+* 它匯入 `CommonModule` 因為模組的元件需要常見的指令
+* 它宣告並匯出工具管道、指令和元件類別
 * 它重新匯出 `CommonModule` 和 `FormsModule`
 
 藉由重新導出 `CommonModule` 和 `FormsModule`，任何匯入此 `SharedModule` 的其他模組，都能存取 `CommonModule` 的指令，例如 `NgIf` 和 `NgFor`，並能以 `FormsModule` 中的指令 `[(ngModel)]` 繫結至元件屬性。
@@ -49,4 +49,3 @@ export class SharedModule { }
   <docs-pill href="/guide/ngmodules/providers" title="提供者"/>
   <docs-pill href="/guide/ngmodules/module-types" title="功能模組類型"/>
 </docs-pill-row>
-

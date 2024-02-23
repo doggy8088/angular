@@ -13,7 +13,7 @@ NgModules 協助將應用程式整理成具有凝聚力的功能區塊。
 
 ## 什麼是 `declarable`？
 
-宣告是類別類型&mdash;組件、指令和管道&mdash;，您可以將其新增至模組的 `declarations` 清單。
+宣告是類別類型&mdash;元件、指令和管道&mdash;，您可以將其新增至模組的 `declarations` 清單。
 它們是您可以新增至 `declarations` 的唯一類別。
 
 ## 我不應將哪些類別新增到 `declarations`？
@@ -57,7 +57,7 @@ HELPFUL：您可能在應用程式子模組中宣告「x」，但忘記匯出它
 
 只在根 `AppModule` 中匯入 [BrowserModule](#should-i-import-browsermodule-or-commonmodule?)。
 
-如果您的組件有 `[(ngModel)]` 雙向繫結表達式，則從 `@angular/forms` 匯入 `FormsModule`。
+如果您的元件有 `[(ngModel)]` 雙向繫結表達式，則從 `@angular/forms` 匯入 `FormsModule`。
 
 當您的元件使用其元件、指令和管道時，匯入 *shared* 和 *feature* 模組。
 
@@ -214,15 +214,15 @@ Angular 會給予 [延遲載入模組](#why-is-a-service-provided-in-a-lazy-load
 
 ### 替代方案：將範圍限制於一個元件及其子元件
 
-延續相同的範例，假設模組的組件確實需要私有的自訂 `HttpBackend`。
+延續相同的範例，假設模組的元件確實需要私有的自訂 `HttpBackend`。
 
 建立一個「頂層元件」，作為所有模組元件的根。
 將自訂的 `HttpBackend` 提供者新增到頂層元件的 `providers` 清單，而不是模組的 `providers`。
 請記住，Angular 會為每個元件實例建立一個子注入器，並將元件自己的提供者填入注入器中。
 
-當此組件的子項要求 `HttpBackend` 服務時，
+當此元件的子項要求 `HttpBackend` 服務時，
 Angular 提供本地的 `HttpBackend` 服務，而非在應用程式根注入器中提供的版本。
-然後，不論其他模組如何設定 `HttpBackend`，子組件都能提出已設定的 HTTP 要求。
+然後，不論其他模組如何設定 `HttpBackend`，子元件都能提出已設定的 HTTP 要求。
 
 請務必將需要存取此特殊設定 `HttpBackend` 的元件做為此元件的子項來建立。
 
@@ -245,7 +245,7 @@ Angular 提供本地的 `HttpBackend` 服務，而非在應用程式根注入器
 僅在服務必須對 `AppComponent` 樹之外的元件隱藏時，才在 `AppComponent` 提供者中註冊服務。
 這是一個少見的用例。
 
-更常規地，[優先在 NgModules 中註冊供應商](#should-i-add-other-providers-to-a-module-or-a-component?)，而不是在組件中註冊。
+更常規地，[優先在 NgModules 中註冊供應商](#should-i-add-other-providers-to-a-module-or-a-component?)，而不是在元件中註冊。
 
 ### 討論
 
@@ -316,7 +316,7 @@ Angular 將 `@NgModule.providers` 新增到應用程式根注入器，除非 NgM
 注入器可以在 *首次使用之前* 新增提供者。
 一旦注入器開始建立並傳送服務，其提供者清單就會凍結；不允許新增提供者。
 
-當應用程序啟動時，Angular 首先使用已熱切加載的 NgModules 的提供者來配置根注入器，*然後* 創建其第一個組件並注入任何提供的服務。
+當應用程序啟動時，Angular 首先使用已熱切加載的 NgModules 的提供者來配置根注入器，*然後* 創建其第一個元件並注入任何提供的服務。
 一旦應用程序開始，應用程序根注入器就會關閉新提供者。
 
 時間流逝，應用程式邏輯觸發 NgModule 的延遲載入。
@@ -385,8 +385,8 @@ export class GreetingModule {
 Angular 的 NgModule 是帶有 `@NgModule` 裝飾器的類別 &mdash;JavaScript 模組不必帶有 `@NgModule` 裝飾器。
 Angular 的 `NgModule` 具有 `imports` 和 `exports`，它們具有類似的用途。
 
-您可以*導入*其他 NgModules，以便在組件範本中使用其導出的類別。
-您可以*匯出*此 NgModule 的類別，以便可以導入並由*其他* NgModules 的組件使用。
+您可以*導入*其他 NgModules，以便在元件範本中使用其導出的類別。
+您可以*匯出*此 NgModule 的類別，以便可以導入並由*其他* NgModules 的元件使用。
 
 如需詳細資訊，請參閱 [JavaScript 模組與 NgModules](guide/ngmodules/vs-jsmodule)。
 
@@ -413,7 +413,7 @@ Angular 編譯器會將您編寫的應用程式程式碼轉換為效能極高的
 
 Angular 編譯器會讀取範本標記，將它與對應的元件類別程式碼結合，並發出 *元件工廠*。
 
-組件工廠會建立一個純粹的、100% JavaScript 表示形式的組件，該組件包含 `@Component` 元資料中描述的所有內容：
+元件工廠會建立一個純粹的、100% JavaScript 表示形式的元件，該元件包含 `@Component` 元資料中描述的所有內容：
 HTML、繫結指示、附加樣式。
 
 因為指令和管道出現在元件範本中，所以 Angular 編譯器也會將它們納入已編譯元件程式碼中。

@@ -51,7 +51,7 @@ Angular 會根據您宣告變數的位置，將範本變數指派一個值：
 如果沒有 `ngForm` 屬性值，`itemForm` 的參考值將會是 [HTMLFormElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement)，`<form>`。
 如果元素是 Angular 元件，沒有屬性值的參考將會自動參考元件實例。否則，沒有值的參考將會參考 DOM 元素，即使該元素套用了一個或多個指令。
 
-<!-- 談論表單元素到組件與指令的差別，思緒是怎麼跳躍的？為什麼組件指令的對話在這邊會是相關的？ -kw 我同意 -alex -->
+<!-- 談論表單元素到元件與指令的差別，思緒是怎麼跳躍的？為什麼元件指令的對話在這邊會是相關的？ -kw 我同意 -alex -->
 
 ## 範本變數範圍
 
@@ -113,4 +113,3 @@ _範本輸入變數_ 是在建立範本實例時設定值的變數。請參閱�
 <docs-pill-row>
   <docs-pill href="guide/directives/structural-directives" title="撰寫結構型指令"/>
 </docs-pill-row>
-

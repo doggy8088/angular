@@ -46,7 +46,7 @@ export const appConfig: ApplicationConfig = {
 `routes` 路線陣列說明如何導航。
 將其傳遞給 `ApplicationConfig` `providers` 中的 `provideRouter` 方法，以配置路由器。
 
-每個 `Route` 將 URL `路徑` 映射到一個組件。
+每個 `Route` 將 URL `路徑` 映射到一個元件。
 路徑中沒有前導斜線。
 路由器為你解析和構建最終 URL，這使你可以在應用程序視圖之間導航時使用相對路徑和絕對路徑。
 
@@ -194,4 +194,3 @@ RouterLinkActive 亦允許您輕鬆地將 `aria-current` 屬性套用至活動�
 | `RouterState` | 路由器的目前狀態，包括目前已啟用的路由樹，以及用於遍歷路由樹的便利方法。 |
 | 連結參數陣列 | 路由器解釋為路由指令的陣列。您可以將該陣列繫結到 `RouterLink` 或將陣列作為參數傳遞給 `Router.navigate` 方法。 |
 | 路由元件 | 具有 `RouterOutlet` 的 Angular 元件，根據路由導覽顯示檢視。 |
-

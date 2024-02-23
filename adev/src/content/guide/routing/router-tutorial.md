@@ -221,7 +221,7 @@ http://localhost:4200/heroes-list
     | `redirectTo` | 這個屬性指示 Angular 從空路徑重新導向到 `heroes-list` 路徑。                                                                                                                                                       |
     | `pathMatch`  | 這個屬性指示 Angular 要比對多少的網址。對於本教學課程，你應該將這個屬性設定為 `full`。當路徑為空字串時，建議使用此策略。有關此屬性的更多資訊，請參閱 [Route API 文件](api/router/Route)。 |
 
-現在當你開啟你的應用程序時，它會預設顯示 `heroes-list` 組件。
+現在當你開啟你的應用程序時，它會預設顯示 `heroes-list` 元件。
 
 ## 404 頁面新增
 
@@ -243,7 +243,7 @@ http://localhost:4200/heroes-list
 
     ts
     {path: '**', component: PageNotFoundComponent}
-    
+
 
     新的路由使用路徑 `**`。
     這個路徑就是 Angular 識別萬用字元路由的方式。
@@ -267,4 +267,3 @@ http://localhost:4200/heroes-list
   <docs-pill href="guide/routing/common-router-tasks" title="應用程式內路由與導覽"/>
   <docs-pill href="api/router/Router" title="路由器 API"/>
 </docs-pill-row>
-

@@ -14,8 +14,8 @@ Angular 是個讓開發人員能建立快速、可靠應用程式的網頁框架
 ## 賦予開發動力的功能
 
 <docs-card-container>
-  <docs-card title="使用見解組件模型和彈性依賴注入系統來讓您的程式庫保持井然有序" href="guide/components" link="開始使用組件">
-  Angular 組件讓您能夠輕鬆地將程式碼分割為封裝良好的部分。
+  <docs-card title="使用見解元件模型和彈性依賴注入系統來讓您的程式庫保持井然有序" href="guide/components" link="開始使用元件">
+  Angular 元件讓您能夠輕鬆地將程式碼分割為封裝良好的部分。
 
 多功能的依賴注入可協助您保持程式碼模組化、鬆散耦合且可測試。
   </docs-card>

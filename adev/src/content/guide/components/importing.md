@@ -1,4 +1,4 @@
-# 導入和使用組件
+# 導入和使用元件
 
 提示：本指南假設您已經閱讀過 [精華指南](essentials)。如果您是 Angular 新手，請先閱讀該指南。
 
@@ -31,4 +31,3 @@ Angular 團隊建議將獨立元件用於所有新開發。
 ## NgModules
 
 在獨立元件之前編寫的 Angular 程式碼會使用 `NgModule` 作為匯入和使用其他元件的機制。請參閱完整的 [`NgModule` 指南](guide/ngmodules) 以了解詳情。
-

@@ -13,9 +13,8 @@
 
 ## 下一步
 
-準備好開始了嗎？是時候來了解 Angular 中的組件了！
+準備好開始了嗎？是時候來了解 Angular 中的元件了！
 
 <docs-pill-row>
   <docs-pill title="使用元件組合" href="essentials/components" />
 </docs-pill-row>
-

@@ -1,6 +1,6 @@
 # 理解依賴注入
 
-依賴注入，或 DI，是 Angular 中的基本概念之一。DI 已連接到 Angular 框架中，並允許具有 Angular 裝飾器的類，例如組件、指令、管道和可注入項目，配置他們所需的依賴項。
+依賴注入，或 DI，是 Angular 中的基本概念之一。DI 已連接到 Angular 框架中，並允許具有 Angular 裝飾器的類，例如元件、指令、管道和可注入項目，配置他們所需的依賴項。
 
 DI 系統中有兩個主要角色：相依項消費者和相依項提供者。
 
@@ -43,7 +43,7 @@ class HeroService {}
 
 當您在根層級提供服務時，Angular 會建立一個 `HeroService` 的單一共用實例，並將其注入任何要求它的類別。
 
-### 在組件層級
+### 在元件層級
 
 您可以在 `@Component` 層級，透過使用 `@Component` 裝飾器的 `providers` 欄位，來提供服務。
 在這種情況下，`HeroService` 會提供給此元件的所有實例，以及範本中使用的其他元件和指令。
@@ -60,7 +60,7 @@ class HeroService {}
 class HeroListComponent {}
 </docs-code>
 
-當您在組件層級註冊供應商時，您會在每個新組件實例中取得服務的新實例。
+當您在元件層級註冊供應商時，您會在每個新元件實例中取得服務的新實例。
 
 註解：宣告像這樣的服務會導致 `HeroService` 一直包含在您的應用程式中，即使該服務未使用。
 
@@ -117,7 +117,7 @@ class HeroListComponent {
 
 當 Angular 發現某個元件依賴於某個服務時，它會先檢查注入器是否有該服務的任何現有實例。如果請求的服務實例尚未存在，則注入器會使用已註冊的提供者建立一個，並在將服務傳回 Angular 之前將其新增到注入器中。
 
-當所有請求的服務都已解析並回傳，Angular 可以使用那些服務作為參數，來呼叫組件的建構函數。
+當所有請求的服務都已解析並回傳，Angular 可以使用那些服務作為參數，來呼叫元件的建構函數。
 
 <!-- TODO(josephperrott): enable this mermaid chart -->
 
@@ -140,4 +140,3 @@ style componentConstructor text-align: left
 <docs-pill-row>
   <docs-pill href="/guide/di/creating-injectable-service" title="建立並注入服務"/>
 </docs-pill-row>
-

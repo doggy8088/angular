@@ -2,7 +2,7 @@
 使用 Angular 的範本語法來建立動態 HTML。
 </docs-decorative-header>
 
-您到目前為止所學的內容讓您可以將應用程式分解成 HTML 組件，但這會將您限制在靜態範本（即內容不會變更）。下一步是學習如何利用 Angular 的範本語法來建立動態 HTML。
+您到目前為止所學的內容讓您可以將應用程式分解成 HTML 元件，但這會將您限制在靜態範本（即內容不會變更）。下一步是學習如何利用 Angular 的範本語法來建立動態 HTML。
 
 ## 呈現動態資料
 
@@ -93,4 +93,3 @@ export class AppBanner {
 <docs-pill-row>
   <docs-pill title="條件和迴圈" href="essentials/conditionals-and-loops" />
 </docs-pill-row>
-

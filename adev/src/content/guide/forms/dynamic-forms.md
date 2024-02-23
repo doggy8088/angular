@@ -105,9 +105,9 @@
 
 ## 建立動態表單範本
 
-`DynamicFormComponent` 組件是表單的入口點和主要容器，該表單使用範本中的 `<app-dynamic-form>` 表示。
+`DynamicFormComponent` 元件是表單的入口點和主要容器，該表單使用範本中的 `<app-dynamic-form>` 表示。
 
-`DynamicFormComponent` 組件呈現一列問題，藉由將每個問題繫結到與 `DynamicFormQuestionComponent` 相符的 `<app-question>` 元素。
+`DynamicFormComponent` 元件呈現一列問題，藉由將每個問題繫結到與 `DynamicFormQuestionComponent` 相符的 `<app-question>` 元素。
 
 <docs-code-multifile>
     <docs-code header="dynamic-form.component.html" path="adev/src/content/examples/dynamic-form/src/app/dynamic-form.component.html"/>
@@ -120,7 +120,7 @@
 
 <docs-code header="app.component.ts" path="adev/src/content/examples/dynamic-form/src/app/app.component.ts"/>
 
-這種模型和數據的分離，讓您可以將組件重新用於任何類型的調查，只要它與 _question_ 物件模型相容即可。
+這種模型和數據的分離，讓您可以將元件重新用於任何類型的調查，只要它與 _question_ 物件模型相容即可。
 
 ### 確保資料有效
 
@@ -140,4 +140,3 @@
   <docs-pill title="驗證表單輸入" href="guide/forms/reactive-forms#validating-form-input" />
   <docs-pill title="表單驗證指南" href="guide/forms/form-validation" />
 </docs-pill-row>
-

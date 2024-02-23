@@ -2,8 +2,8 @@
 
 Angular 萃取器會為下列各個執行個體產生一個具翻譯單位的檔案。
 
-* 組件範本中的每個 `i18n` 屬性
-* 組件程式碼中的每個 [`$localize`][AioApiLocalizeInitLocalize] 標記訊息字串
+* 元件範本中的每個 `i18n` 屬性
+* 元件程式碼中的每個 [`$localize`][AioApiLocalizeInitLocalize] 標記訊息字串
 
 如 [含義如何控制文字擷取和合併][AioGuideI18nCommonPrepareHowMeaningsControlTextExtractionAndMerges] 中所述，Angular 會為每個翻譯單元指定一個唯一的 ID。
 

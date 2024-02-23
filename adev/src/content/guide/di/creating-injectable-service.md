@@ -4,8 +4,8 @@
 服務通常是具有狹隘、定義完善的目的的類別。
 元件是可使用 DI 的類別類型之一。
 
-Angular 將組件與服務區分開來，以提高模組化和可重複使用性。
-藉由將組件的檢視相關功能與其他類型的處理分開，您可以讓您的組件類別精簡且有效率。
+Angular 將元件與服務區分開來，以提高模組化和可重複使用性。
+藉由將元件的檢視相關功能與其他類型的處理分開，您可以讓您的元件類別精簡且有效率。
 
 理想情況下，元件的工作是啟用使用者體驗，僅此而已。
 元件應該提供資料繫結的屬性和方法，在檢視（由範本呈現）和應用程式邏輯（通常包含某些模型概念）之間進行協調。
@@ -96,7 +96,7 @@ export class HeroService {
 }
 </docs-code>
 
-為了清晰度和可維護性，建議您在獨立檔案中定義組件和服務。
+為了清晰度和可維護性，建議您在獨立檔案中定義元件和服務。
 
 ## 服務注入
 
@@ -226,4 +226,3 @@ getHeroes() {
   <docs-pill href="/guide/di/dependency-injection-providers" title="配置相依性"/>
   <docs-pill href="/guide/di/dependency-injection-providers#using-an-injectiontoken-object" title="`InjectionTokens`"/>
 </docs-pill-row>
-

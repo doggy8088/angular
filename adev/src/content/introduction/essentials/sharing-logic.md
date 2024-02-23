@@ -8,7 +8,7 @@
 
 服務是可以注入的重複使用程式碼片段
 
-類似定義組件，服務由以下部分組成：
+類似定義元件，服務由以下部分組成：
 
 - 一個 **TypeScript 裝飾器**，它通過 `@Injectable` 將類別宣告為 Angular 服務，並允許您定義應用程式的哪個部分可以通過 `providedIn` 屬性（通常為 `'root'`）存取服務，以允許在應用程式中的任何地方存取服務。
 - 一個 **TypeScript 類別**，它定義注入服務時可存取的所需程式碼
@@ -48,7 +48,7 @@ export class CalculatorService {
 1. 匯入服務
 2. 宣告一個服務被注入的類別欄位。將類別欄位指定給內建函數 `inject` 的呼叫結果，該函數會建立服務
 
-以下是在 `Receipt` 組件中可能看到的內容：
+以下是在 `Receipt` 元件中可能看到的內容：
 
 ```ts
 import { Component } from '@angular/core';
@@ -72,4 +72,3 @@ export class Receipt {
 <docs-pill-row>
   <docs-pill title="Essentials 後續步驟" href="essentials/next-steps" />
 </docs-pill-row>
-

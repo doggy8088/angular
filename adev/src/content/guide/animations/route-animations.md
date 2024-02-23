@@ -9,7 +9,7 @@ Routing 讓使用者可以在應用程式中的不同路由之間導航。
 
 Angular 路由器附帶高階動畫函式，讓你可以在路由變更時為檢視之間的轉換加上動畫效果。
 要在路由之間切換時產生動畫序列，你需要定義巢狀動畫序列。
-從主機檢視的頂層組件開始，並在主機嵌入式檢視的組件中巢狀動畫。
+從主機檢視的頂層元件開始，並在主機嵌入式檢視的元件中巢狀動畫。
 
 如需啟用路由轉場動畫，請執行以下動作：
 
@@ -142,4 +142,3 @@ HELPFUL: 轉換狀態必須與在路徑設定中定義的 `data` 屬性值相符
   <docs-pill href="guide/animations/complex-sequences" title="複雜動畫序列"/>
   <docs-pill href="guide/animations/reusable-animations" title="可重複使用的動畫"/>
 </docs-pill-row>
-

@@ -70,7 +70,7 @@ HELPFUL: 有關路由概述和詳細資訊，請參閱 [應用程式內導覽：
 在您的路由 NgModule 中，重新匯出 `RouterModule` 作為一種便利，以便伴隨的 NgModule 的元件可以存取路由指令，例如 `RouterLink` 和 `RouterOutlet`。
 
 不要在路由 NgModule 中使用聲明。
-組件、指令和管道是 companion 領域 NgModule 的責任，而不是路由 NgModule 的責任。
+元件、指令和管道是 companion 領域 NgModule 的責任，而不是路由 NgModule 的責任。
 
 ## 服務 NgModules
 
@@ -104,4 +104,3 @@ Angular 的 `HttpClientModule` 是服務 NgModule 的一個好例子。
 * 如要瞭解如何在應用程式啟動時急切載入 NgModules，或路由器非同步延遲載入 NgModules，請參閱 [延遲載入功能模組](/guide/ngmodules/lazy-loading)
 * 如要瞭解如何為您的應用程式提供服務或其他相依性，請參閱 [為 NgModule 提供相依性](/guide/ngmodules/providers "為 NgModule 提供相依性")
 * 如要瞭解如何在 NgModules 中使用建立單例服務，請參閱 [建立單例服務](/guide/ngmodules/singleton-services "建立單例服務")
-

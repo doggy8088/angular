@@ -38,7 +38,7 @@ HELPFUL: 有關聆聽事件的資訊，請參閱 [事件繫結](guide/templates/
 
 省略括號會呈現字串 `parentItem`，而不是 `parentItem` 的值。
 
-## 將元素屬性設定為組件屬性值
+## 將元素屬性設定為元件屬性值
 
 若要將 `<img>` 元素的 `src` 屬性繫結到元件的屬性，請將 `src` 置於方括號中，後接等號與屬性。
 
@@ -58,7 +58,7 @@ HELPFUL: 有關聆聽事件的資訊，請參閱 [事件繫結](guide/templates/
 
 <docs-code path="adev/src/content/examples/attribute-binding/src/app/app.component.html" visibleRegion="colSpan" header="src/app/app.component.html"/>
 
-若要停用按鈕，而組件的 `isUnchanged` 屬性為 `true`，請鍵入下列內容：
+若要停用按鈕，而元件的 `isUnchanged` 屬性為 `true`，請鍵入下列內容：
 
 <docs-code path="adev/src/content/examples/property-binding/src/app/app.component.html" visibleRegion="disabled-button" header="src/app/app.component.html"/>
 
@@ -93,4 +93,3 @@ HELPFUL: 有關聆聽事件的資訊，請參閱 [事件繫結](guide/templates/
   <docs-pill href="guide/templates/class-binding" title="類別和樣式綁定"/>
   <docs-pill href="guide/templates/attribute-binding" title="屬性綁定"/>
 </docs-pill-row>
-

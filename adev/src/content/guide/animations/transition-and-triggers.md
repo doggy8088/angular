@@ -105,7 +105,7 @@ HTML 範本包含以下程式碼。
 
 <docs-code header="src/app/insert-remove.component.html" path="adev/src/content/examples/animations/src/app/insert-remove.component.html" visibleRegion="insert-remove"/>
 
-在組件檔案中，`:enter` 轉場設定初始不透明度為 0。然後，當元素插入檢視時，對其進行動畫處理，將不透明度變更為 1。
+在元件檔案中，`:enter` 轉場設定初始不透明度為 0。然後，當元素插入檢視時，對其進行動畫處理，將不透明度變更為 1。
 
 <docs-code header="src/app/insert-remove.component.ts" path="adev/src/content/examples/animations/src/app/insert-remove.component.ts" visibleRegion="enter-leave-trigger"/>
 
@@ -300,4 +300,3 @@ Angular 中的 `keyframes()` 函數允許您在單一轉換中指定多種中間
   <docs-pill href="guide/animations/reusable-animations" title="可重複使用的動畫"/>
   <docs-pill href="guide/animations/route-animations" title="路徑過渡動畫"/>
 </docs-pill-row>
-

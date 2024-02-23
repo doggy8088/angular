@@ -37,7 +37,7 @@ set(key: string, value: string) {
 
 這個自訂提供者現在可在測試期間被模擬 `localStorage` API 覆寫，而不會與實際瀏覽器 API 互動。
 
-## 注入組件的 DOM 元素
+## 注入元件的 DOM 元素
 
 儘管開發人員努力避免，有些視覺效果和第三方工具需要直接存取 DOM。
 因此，您可能需要存取元件的 DOM 元素。
@@ -103,4 +103,3 @@ providers: [
   },
 ],
 </docs-code>
-

@@ -38,11 +38,11 @@ export class AppModule { }
 
 ## `declarations` 陣列
 
-該模組的 `declarations` 陣列告訴 Angular 哪些組件屬於該模組。
-當您建立更多組件時，將它們新增至 `declarations`。
+該模組的 `declarations` 陣列告訴 Angular 哪些元件屬於該模組。
+當您建立更多元件時，將它們新增至 `declarations`。
 
 `declarations` 陣列只接受可宣告項。
-可宣告項包括 [組件](/components)、[指令](/directives) 和 [管道](/guide/pipes)。
+可宣告項包括 [元件](/components)、[指令](/directives) 和 [管道](/guide/pipes)。
 模組的所有可宣告項都必須在 `declarations` 陣列中。
 可宣告項必須只屬於一個模組。
 如果在多個模組中宣告同一個類別，編譯器會傳回錯誤。
@@ -100,10 +100,10 @@ import { ItemDirective } from './item.directive';
   ],
 </docs-code>
 
-現在您可以在組件中使用 `ItemDirective`。
+現在您可以在元件中使用 `ItemDirective`。
 此範例使用 `AppModule`，但您會對功能模組執行相同的步驟。
 有關指令的詳細資訊，請參閱 [屬性指令](/guide/directives/attribute-directives) 和 [結構指令](/guide/directives/structural-directives)。
-您也會對 [管道](/guide/pipes) 和 [組件](/components) 使用相同的技巧。
+您也會對 [管道](/guide/pipes) 和 [元件](/components) 使用相同的技巧。
 
 記住，元件、指令和管道僅屬於一個模組。
 您只需在應用程式中宣告它們一次，因為您可以透過匯入必要的模組來共享它們。
@@ -142,11 +142,10 @@ import { ItemDirective } from './item.directive';
 插入引導元件通常會觸發元件建立的連鎖反應，建立該樹。
 即使您可以在主機網頁上放置多個元件樹，但大多數應用程式只有一個元件樹，並引導單一根元件。
 
-根組件通常稱為 `AppComponent`，並位於根模組的 `bootstrap` 陣列中。
+根元件通常稱為 `AppComponent`，並位於根模組的 `bootstrap` 陣列中。
 
 在您想根據 API 回應引導元件的情況下，或您想在與元件選擇器不符的其他 DOM 節點中掛載 `AppComponent`，請參閱 `ApplicationRef.bootstrap()` 文件。
 
 ## 更多關於 Angular 模組
 
 參閱 [常用模組](guide/ngmodules/frequent)以進一步了解您通常會在應用程式中看到的模組。
-

@@ -1,4 +1,4 @@
-# 使用程式碼呈現組件
+# 使用程式碼呈現元件
 
 提示：本指南假設您已經閱讀過 [精華指南](essentials)。如果您是 Angular 新手，請先閱讀該指南。
 
@@ -86,7 +86,7 @@ export class InnerItem {
 </outer-container>
 ```
 
-## 延遲加載組件
+## 延遲加載元件
 
 你可以使用上述兩種方法，`NgComponentOutlet` 和 `ViewContainerRef`，來
 呈現使用標準 JavaScript [動態導入](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/import) 的延遲載入元件。
@@ -117,4 +117,3 @@ export class AdminSettings {
 ```
 
 上面的範例在接收到按鈕點擊後，載入並顯示 `AdvancedSettings`。
-

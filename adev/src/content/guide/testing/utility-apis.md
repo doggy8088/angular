@@ -110,7 +110,7 @@ type MetadataOverride&lt;T&gt; = {
 
 #### `DebugElement`
 
-`DebugElement` 提供了組件的 DOM 表示形式的重要見解。
+`DebugElement` 提供了元件的 DOM 表示形式的重要見解。
 
 從測試根元件的 `DebugElement` 由 `fixture.debugElement` 傳回，您可以遍歷 \(並查詢\) 固定裝置的整個元素和元件子樹。
 
@@ -149,4 +149,3 @@ Angular `By` 類別有三個用於常見謂詞的靜態方法：
 | `By.directive(directive)` | 傳回 Angular 與指令類別的執行個體相符的元素 |
 
 <docs-code header="app/hero/hero-list.component.spec.ts" path="adev/src/content/examples/testing/src/app/hero/hero-list.component.spec.ts" visibleRegion="by"/>
-

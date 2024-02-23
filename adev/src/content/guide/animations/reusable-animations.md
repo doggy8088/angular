@@ -18,7 +18,7 @@ HELPFUL: `height`, `opacity`, `backgroundColor` 和 `time` 輸入在執行期間
 
 <docs-code header="src/app/animations.1.ts" path="adev/src/content/examples/animations/src/app/animations.1.ts" visibleRegion="trigger-const"/>
 
-從此處，您可以在您的組件類別中匯入可重複使用的動畫變數。
+從此處，您可以在您的元件類別中匯入可重複使用的動畫變數。
 例如，以下程式碼片段匯入 `transitionAnimation` 變數，並透過 `useAnimation()` 函式使用它。
 
 <docs-code header="src/app/open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.3.ts" visibleRegion="reusable"/>
@@ -33,4 +33,3 @@ HELPFUL: `height`, `opacity`, `backgroundColor` 和 `time` 輸入在執行期間
   <docs-pill href="guide/animations/complex-sequences" title="複雜的動畫順序"/>
   <docs-pill href="guide/animations/route-animations" title="路由轉場動畫"/>
 </docs-pill-row>
-

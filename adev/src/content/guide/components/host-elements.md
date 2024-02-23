@@ -1,4 +1,4 @@
-# 組件主機元素
+# 元件主機元素
 
 提示：本指南假設您已經閱讀過 [精華指南](essentials)。如果您是 Angular 新手，請先閱讀該指南。
 
@@ -31,7 +31,7 @@ export class ProfilePhoto {}
 <button>Upload a new profile photo</button>
 ```
 
-在上面的範例中，`<profile-photo>` 是 `ProfilePhoto` 組件的主機元素。
+在上面的範例中，`<profile-photo>` 是 `ProfilePhoto` 元件的主機元素。
 
 ## 綁定到主機元素
 
@@ -119,4 +119,3 @@ export class ProfilePhoto { /* ... */ }
 - 如果兩個值都是靜態的，則實例繫結獲勝。
 - 如果一個值是靜態的，另一個是動態的，則動態值獲勝。
 - 如果兩個值都是動態的，則元件的主機繫結獲勝。
-

@@ -147,7 +147,7 @@ HELPFUL：參閱 [解析規則](#解析規則) 部分，以了解 `EnvironmentIn
 當您在元件中提供服務時，該服務可透過該元件實例的 `ElementInjector` 使用。
 它也可能會在子元件/指令中顯示，具體取決於 [解析規則](#resolution-rules) 部分中描述的可見性規則。
 
-當組件實例被銷毀時，服務實例也是如此。
+當元件實例被銷毀時，服務實例也是如此。
 
 #### `@Directive()` 和 `@Component()`
 
@@ -172,7 +172,7 @@ HELPFUL：參閱 [解析規則](#解析規則) 部分，以了解 `EnvironmentIn
 如果 Angular 仍然找不到提供者，它會擲回一個錯誤。
 
 如果您為不同的 DI 代幣註冊了提供者，Angular 會使用它遇到的第一個來解析依賴項。
-例如，如果在需要服務的組件中本地註冊了提供者，
+例如，如果在需要服務的元件中本地註冊了提供者，
 Angular 就不會尋找同一服務的另一個提供者。
 
 有用的：對於基於 `NgModule` 的應用程式，如果在 `ElementInjector` 層級中找不到提供者，Angular 將會搜尋 `ModuleInjector` 層級。
@@ -317,7 +317,7 @@ export class HostComponent {
 
 了解 Angular 範本的底層邏輯結構會為您提供配置服務的基礎，進而控制其可見性。
 
-組件可用於範本中，如下列範例：
+元件可用於範本中，如下列範例：
 
 <docs-code language="html">
 <app-root>
@@ -684,7 +684,7 @@ export class AppComponent {}
 export class AppParentComponent {}
 
 `viewProviders` 欄位在概念上與 `providers` 相似，但有一個顯著的差異。
-在 `viewProviders` 中設定的提供者對於最終成為組件邏輯子項目的投影內容不可見。
+在 `viewProviders` 中設定的提供者對於最終成為元件邏輯子項目的投影內容不可見。
 
 要了解使用 `providers` 和 `viewProviders` 的差異，請在範例中新增另一個元件，並將其稱為 `InspectorComponent`。
 `InspectorComponent` 將會是 `ChildComponent` 的子元件。
@@ -1003,7 +1003,7 @@ constructor(
 它從 `VillainsService` 取得這些惡棍。
 
 如果您在根 `AppModule` 中提供 `VillainsService`，它將使 `VillainsService` 在應用程式中的任何地方都可見。
-如果您之後修改 `VillainsService`，您可能會損壞其他組件中的某些內容，這些組件開始依賴此服務而意外發生。
+如果您之後修改 `VillainsService`，您可能會損壞其他元件中的某些內容，這些元件開始依賴此服務而意外發生。
 
 相反，您應在 `VillainsListComponent` 的 `providers` 元數據中提供 `VillainsService`，如下所示：
 
@@ -1032,7 +1032,7 @@ export class VillainsListComponent {}
 若要開啟英雄報稅表，準備人員會點擊英雄姓名，這會開啟一個用於編輯該報稅表的元件。
 每個選取的英雄報稅表都會在自己的元件中開啟，而且可以同時開啟多個報稅表。
 
-每個稅務申報組件都具有下列特徵：
+每個稅務申報元件都具有下列特徵：
 
 * 具有其自己的報稅申報單編輯階段
 * 可以更改報稅申報單，而不會影響另一個元件的申報單
@@ -1150,15 +1150,15 @@ providers: [HeroTaxReturnService]
 
 提供服務的另一個原因是再次在另一個層級中提供服務，以在元件樹中更深處替代該服務的_更專業_實作。
 
-例如，考慮一個包括輪胎服務資訊，並依賴其他服務來提供更多汽車詳細資訊的 `Car` 組件。
+例如，考慮一個包括輪胎服務資訊，並依賴其他服務來提供更多汽車詳細資訊的 `Car` 元件。
 
 根部注入器，標記為 (A)，使用 _generic_ 提供者，以獲取關於 `CarService` 和 `EngineService` 的詳細資訊。
 
-1. `Car` 組件 (A)。組件 (A) 顯示汽車的輪胎服務數據，並指定一般服務以提供有關汽車的更多資訊。
+1. `Car` 元件 (A)。元件 (A) 顯示汽車的輪胎服務數據，並指定一般服務以提供有關汽車的更多資訊。
 
-2. 子組件 (B)。組件 (B) 定義其自己的 _專業_ 提供者，以支援 `CarService` 和 `EngineService`，這些提供者具有適合組件 (B) 中所發生事件的特殊功能。
+2. 子元件 (B)。元件 (B) 定義其自己的 _專業_ 提供者，以支援 `CarService` 和 `EngineService`，這些提供者具有適合元件 (B) 中所發生事件的特殊功能。
 
-3. 子組件 (C) 作為組件 (B) 的子項。組件 (C) 定義其自己的 _更專業_ 提供者，以支援 `CarService`。
+3. 子元件 (C) 作為元件 (B) 的子項。元件 (C) 定義其自己的 _更專業_ 提供者，以支援 `CarService`。
 
 <!-- TODO(josephperrott): enable this mermaid chart -->
 
@@ -1231,4 +1231,3 @@ style RootInjector fill:#BDD7EE,color:#000
 <docs-pill-row>
   <docs-pill href="/guide/di/dependency-injection-providers" title="DI 供應商"/>
 </docs-pill-row>
-
