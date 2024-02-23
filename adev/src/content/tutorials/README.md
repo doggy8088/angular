@@ -6,13 +6,13 @@
 
 ## 教學檔案
 
-教程內容由教程內容、源碼和組態組成。
+教學內容由教學內容、源碼和組態組成。
 
 ### 內容：`README.md`
 
-教程內容必須放在教學目錄中的 `README.md` 檔案中。
+教學內容必須放在教學目錄中的 `README.md` 檔案中。
 
-以 `learn-angular` 教程為例，請參閱：[ `src/content/tutorials/learn-angular/intro/README.md`](/src/content/tutorials/learn-angular/intro/README.md)
+以 `learn-angular` 教學為例，請參閱：[ `src/content/tutorials/learn-angular/intro/README.md`](/src/content/tutorials/learn-angular/intro/README.md)
 
 ### 組態：`config.json`
 
@@ -37,7 +37,7 @@
 
 ## 教學目錄結構
 
-教程由介紹和步驟組成。介紹和每個步驟都有自己的內容、配置和源程式碼。
+教學由介紹和步驟組成。介紹和每個步驟都有自己的內容、配置和源程式碼。
 
 以 `learn-angular` 教學課程為例：
 
@@ -51,7 +51,7 @@
 
 [`src/content/tutorials/learn-angular/steps`](/src/content/tutorials/learn-angular/steps) 是包含教學步驟的目錄。
 
-以下是 `learn-angular` 教程的一些範例：
+以下是 `learn-angular` 教學的一些範例：
 
 - [`learn-angular/steps/1-components-in-angular`](/src/content/tutorials/learn-angular/steps/1-components-in-angular)：路徑將會是 `/tutorials/learn-angular/components-in-angular`
 - [`learn-angular/steps/2-updating-the-component-class`](/src/content/tutorials/learn-angular/steps/2-updating-the-component-class)：路徑將會是 `/tutorials/learn-angular/updating-the-component-class`
@@ -62,7 +62,7 @@
 - 連字符是分隔符號 :)。
 - 從目錄名稱取出的路徑名稱定義步驟 URL。
 
-## 保留的教程目錄
+## 保留的教學目錄
 
 ### `common`
 
@@ -90,4 +90,3 @@
 首頁包含首頁遊樂場的原始程式碼。它不應包含任何內容。
 
 請參閱 [`src/content/tutorials/homepage`](/src/content/tutorials/homepage)
-
