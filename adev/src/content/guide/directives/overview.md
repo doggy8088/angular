@@ -66,7 +66,7 @@ HELPFUL: 若要新增或移除 _單一_ 類別，請使用 [類別繫結](guide/
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgClass-1"/>
 
-對於這個用例，Angular 會在初始化時套用類別，並且在變更時套用。
+對於這個使用案例，Angular 會在初始化時套用類別，並且在變更時套用。
 完整的範例最初會透過 `ngOnInit()` 呼叫 `setCurrentClasses()`，以及當相關屬性透過按鈕點擊而變更時。
 這些步驟對於實作 `ngClass` 來說不是必要的。
 
@@ -93,7 +93,7 @@ html
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgStyle-2"/>
 
-針對此用例，Angular 在初始化時套用樣式，並在變更時套用。
+針對此使用案例，Angular 在初始化時套用樣式，並在變更時套用。
 為執行此動作，完整範例會在 `ngOnInit()` 中以 `setCurrentStyles()` 進行初始呼叫，以及在依賴屬性因為按鈕點擊而變更時呼叫。
 不過，要單獨實作 `ngStyle` 時，不需要執行這些步驟。
 

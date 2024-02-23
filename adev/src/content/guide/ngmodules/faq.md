@@ -243,7 +243,7 @@ Angular 提供本地的 `HttpBackend` 服務，而非在應用程式根注入器
 延遲載入的模組及其元件可以注入 `AppModule` 服務；它們無法注入 `AppComponent` 服務。
 
 僅在服務必須對 `AppComponent` 樹之外的元件隱藏時，才在 `AppComponent` 提供者中註冊服務。
-這是一個少見的用例。
+這是一個少見的使用案例。
 
 更常規地，[優先在 NgModules 中註冊供應商](#should-i-add-other-providers-to-a-module-or-a-component?)，而不是在元件中註冊。
 

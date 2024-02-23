@@ -115,7 +115,7 @@ ng test --no-watch --no-progress --browsers=ChromeHeadless
 | [程式碼覆蓋率](guide/testing/code-coverage)                       | 您的測試覆蓋多少應用程式，以及如何指定必要的數量。 |
 | [測試服務](guide/testing/services)                         | 如何測試您的應用程式使用的服務。                                   |
 | [測試元件基礎知識](guide/testing/components-basics)    | 測試 Angular 元件的基礎知識。                                             |
-| [元件測試情境](guide/testing/components-scenarios)  | 各種元件測試情境和用例。                       |
+| [元件測試情境](guide/testing/components-scenarios)  | 各種元件測試情境和使用案例。                       |
 | [測試屬性指令](guide/testing/attribute-directives) | 如何測試您的屬性指令。                                            |
 | [測試管道](guide/testing/pipes)                               | 如何測試管道。                                                                |
 | [偵錯測試](guide/testing/debugging)                            | 常見的測試錯誤。                                                              |

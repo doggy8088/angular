@@ -18,7 +18,7 @@
 
 <docs-code header="app/about/about.component.spec.ts" path="adev/src/content/examples/testing/src/app/about/about.component.spec.ts" visibleRegion="tests"/>
 
-然而，測試單個用例不太可能探索指令功能的全部範圍。
+然而，測試單個使用案例不太可能探索指令功能的全部範圍。
 查找和測試使用該指令的所有元件既繁瑣，又脆弱，而且幾乎不可能提供全面的覆蓋範圍。
 
 *僅限類別的測試* 可能很有用，但像此類型的屬性指令往往會操控 DOM。

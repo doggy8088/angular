@@ -68,7 +68,7 @@ function trimString(value: string | undefined) {
 
 在上面的範例中，每當 `systemVolume` 的值變更時，Angular 會執行 `trimString` 並將 `label` 設為結果。
 
-輸入轉換最常見的用例是接受範本中更廣泛的值類型，通常包括 `null` 和 `undefined`。
+輸入轉換最常見的使用案例是接受範本中更廣泛的值類型，通常包括 `null` 和 `undefined`。
 
 **輸入轉換函式在建置時必須可以靜態分析。**您無法有條件地或作為表達式評估的結果來設定轉換函式。
 

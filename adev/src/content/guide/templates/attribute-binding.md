@@ -26,7 +26,7 @@ HELPFUL: 當表達式解析為 `null` 或 `undefined` 時，Angular 會完全移
 
 ## 繫結到 `colspan`
 
-屬性繫結的另一個常見用例是表格中的 `colspan` 屬性。繫結到 `colspan` 屬性可幫助您保持表格的動態編程。根據應用程式用來填入表格的資料量，列跨越的欄數可能會改變。
+屬性繫結的另一個常見使用案例是表格中的 `colspan` 屬性。繫結到 `colspan` 屬性可幫助您保持表格的動態編程。根據應用程式用來填入表格的資料量，列跨越的欄數可能會改變。
 
 若要將屬性繫結用於 `<td>` 屬性 `colspan`
 
@@ -51,4 +51,3 @@ HELPFUL: 有時候，屬性名稱和特徵之間存在差異。
 <docs-pill-row>
   <docs-pill href="guide/templates/class-binding" title="類別和樣式繫結"/>
 </docs-pill-row>
-

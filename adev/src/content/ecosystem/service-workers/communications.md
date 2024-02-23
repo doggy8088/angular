@@ -62,7 +62,7 @@
 
 不重新載入更新可能會造成應用程式殼層與其他頁面資源（例如可能會在版本之間變更檔名的延遲載入區塊）之間的版本不相符。
 
-只有在您確定它對您的特定用例安全時，才應使用 `activateUpdate()`。
+只有在您確定它對您的特定使用案例安全時，才應使用 `activateUpdate()`。
 </docs-callout>
 
 ### 處理無法復原的狀態
@@ -105,4 +105,3 @@
   <docs-pill href="ecosystem/service-workers/push-notifications" title="推播通知"/>
   <docs-pill href="ecosystem/service-workers/devops" title="Service Worker devops"/>
 </docs-pill-row>
-

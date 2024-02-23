@@ -307,7 +307,7 @@ html
 
 | 載入器類型 | 行為 |
 |:--- |:--- |
-| 通用載入器 | 通用載入器傳回的 URL 將永遠與 `src` 的值相符。換句話說，此載入器不套用任何轉換。將 Angular 用於提供圖片的網站是此載入器的主要預期用例。|
+| 通用載入器 | 通用載入器傳回的 URL 將永遠與 `src` 的值相符。換句話說，此載入器不套用任何轉換。將 Angular 用於提供圖片的網站是此載入器的主要預期使用案例。|
 | 第三方圖片服務的載入器 | 第三方圖片服務的載入器傳回的 URL 將遵循該特定圖片服務使用的 API 慣例。 |
 | 自訂載入器 | 自訂載入器的行為由其開發人員定義。如果你的圖片服務不受 `NgOptimizedImage` 預先配置的載入器支援，你應該使用自訂載入器。|
 
@@ -396,7 +396,7 @@ const myCustomLoader = (config: ImageLoaderConfig) => {
 
 ### NgOptimizedImage 是否支援 `background-image` css 屬性？
 
-NgOptimizedImage 不直接支援 `background-image` css 屬性，但它被設計成可以輕鬆支援將圖片作為另一個元素背景的用例。
+NgOptimizedImage 不直接支援 `background-image` css 屬性，但它被設計成可以輕鬆支援將圖片作為另一個元素背景的使用案例。
 
 以下是一份從 `background-image` 遷移到 `NgOptimizedImage` 的簡單分步流程。在這些步驟中，我們將把具有圖像背景的元素稱為「包含元素」：
 
@@ -414,7 +414,7 @@ NgOptimizedImage 不直接支援 `background-image` css 屬性，但它被設計
 
 ### 我可以在同一頁面中使用兩個不同的圖片網域嗎？
 
-[影像載入器](#configuring-an-image-loader-for-ngoptimizedimage) 提供者模式的設計儘可能簡單，適用於在元件中僅使用單一影像 CDN 的常見用例。但是，使用單一提供者來管理多個影像 CDN 仍然非常可行。
+[影像載入器](#configuring-an-image-loader-for-ngoptimizedimage) 提供者模式的設計儘可能簡單，適用於在元件中僅使用單一影像 CDN 的常見使用案例。但是，使用單一提供者來管理多個影像 CDN 仍然非常可行。
 
 為此，我們建議撰寫一個 [自訂圖像載入器](#custom-loaders)，該載入器使用 [`loaderParams` 屬性](#the-loaderparams-property) 來傳遞指定應使用哪個圖像 CDN 的旗標，然後根據該旗標呼叫適當的載入器。
 
