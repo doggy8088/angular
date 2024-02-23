@@ -161,7 +161,7 @@ Angular DevTools 根據相對於花費最多時間進行渲染的圖塊的時間
 
 此檢視強調所有經過變更偵測的元件，並以灰色顯示未經過變更偵測的元件，例如未重新呈現的 `OnPush` 元件。
 
-<img src="assets/content/images/guide/devtools/debugging-onpush.png" alt="屏幕截圖顯示『Profiler』標籤，顯示變更偵測週期的火焰圖視覺化。現在已勾選標記為『僅顯示變更偵測』的核取方塊。火焰圖看起來與之前非常相似，但是元件的顏色已從橘色變更為藍色。數個標記為 `[RouterOutlet]` 的磁磚不再以任何顏色突顯。">
+<img src="assets/content/images/guide/devtools/debugging-onpush.png" alt="螢幕截圖顯示『Profiler』標籤，顯示變更偵測週期的火焰圖視覺化。現在已勾選標記為『僅顯示變更偵測』的核取方塊。火焰圖看起來與之前非常相似，但是元件的顏色已從橘色變更為藍色。數個標記為 `[RouterOutlet]` 的磁磚不再以任何顏色突顯。">
 
 ### 匯入與匯出錄音
 
