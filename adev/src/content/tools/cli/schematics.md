@@ -8,7 +8,7 @@
 例如，您可以使用架構來產生常用的 UI 模式或特定元件，方法是使用預先定義的範本或版面配置。
 使用架構來強制執行架構規則和慣例，讓您的專案一致且可互通。
 
-## Angular CLI 的結構圖
+## Angular CLI 的 Schematics
 
 範例是 Angular 生態系統的一部分。
 Angular CLI 使用範例將轉換套用至網路應用程式專案。
@@ -130,4 +130,3 @@ ng update &commat;angular/material
 
 此命令會更新工作區 `package.json` 中的 `@angular/material` 及其依賴項 `@angular/cdk`。
 如果任一套件包含涵蓋從現有版本移轉至新版本之更新示意圖，此命令會在工作區上執行該示意圖。
-

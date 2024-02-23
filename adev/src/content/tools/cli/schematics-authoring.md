@@ -377,7 +377,7 @@ schematics blank --name=goodbye-world
 * 選擇性的 `aliases` 陣列指定一個或多個可被用來呼叫架構的字串。
     例如，Angular CLI「產生」指令的架構有一個別名「g」，讓您可以使用指令 `ng g`。
 
-### 指定的結構圖
+### 指定的 Schematics
 
 當您使用 Schematics CLI 建立一個空白的 schematics 專案時，新的空白 schematic 是該集合的第一個成員，並與該集合擁有相同的名稱。
 當您將一個新的命名 schematic 新增到這個集合時，它會自動新增到 `collection.json` schema 中。
@@ -399,4 +399,3 @@ schematics blank --name=goodbye-world
 原理圖有可能在 `index.ts` 檔案中提供所有邏輯，而不需要額外的範本。
 不過，您可以透過在 `files` 資料夾中提供元件和範本，像是在獨立的 Angular 專案中一樣，來建立 Angular 的動態原理圖。
 索引檔案中的邏輯會透過定義注入資料和修改變數的規則來配置這些範本。
-

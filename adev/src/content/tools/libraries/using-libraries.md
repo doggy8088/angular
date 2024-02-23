@@ -6,7 +6,7 @@
 
 ## 安裝函式庫
 
-程式庫以 [npm 套件][AioGuideNpmPackages] 發布，通常與將它們與 Angular CLI 整合的結構圖一同發布。
+程式庫以 [npm 套件][AioGuideNpmPackages] 發布，通常與將它們與 Angular CLI 整合的 Schematics 一同發布。
 若要將可重複使用的程式庫程式碼整合到應用程式中，您需要安裝套件並在您使用它的位置匯入提供的功能。
 對於大多數已發布的 Angular 程式庫，請使用 `ng add <lib_name>` Angular CLI 指令。
 
