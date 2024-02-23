@@ -18,7 +18,7 @@ export class CustomListbox extends ListboxBase {
 }
 ```
 
-## 擴展其他元件和指令
+## 擴充其他元件和指令
 
 當元件擴充另一個元件或指令時，它會繼承基本類別的裝飾器和基本類別的裝飾成員中定義的所有元數據。這包括選擇器、範本、樣式、主機繫結、輸入、輸出、生命週期方法以及任何其他設定。
 
@@ -99,4 +99,3 @@ export class CustomListbox extends ListboxBase {
   }
 }
 ```
-

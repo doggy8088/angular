@@ -48,7 +48,7 @@ Angular 支援結構性指令的簡寫語法，避免需要顯式地撰寫 `<ng-
 </ng-template>
 ```
 
-簡寫語法是透過一組慣例來擴展的。更詳盡的[語法](#structural-directive-syntax-reference)定義如下，但在上述範例中，此轉換可以說明如下：
+簡寫語法是透過一組慣例來擴充的。更詳盡的[語法](#structural-directive-syntax-reference)定義如下，但在上述範例中，此轉換可以說明如下：
 
 `*select` 運算式的第一部分是 `let data`，它宣告一個範本變數 `data`。由於沒有後續的指定，因此範本變數繫結到範本內容屬性 `$implicit`。
 
@@ -251,4 +251,3 @@ export class SelectDirective<T> {
   }
 }
 ```
-

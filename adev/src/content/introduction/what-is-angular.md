@@ -5,7 +5,7 @@
 Angular 是個讓開發人員能建立快速、可靠應用程式的網頁框架。
 </big>
 
-由 Google 專屬團隊維護，Angular 提供一套廣泛的工具、API 和函式庫，以簡化和精簡您的開發工作流程。Angular 為您提供一個穩固的平台，可讓您建立快速、可靠的應用程式，而且隨著團隊規模和程式碼庫大小的增加，應用程式也能夠擴展。
+由 Google 專屬團隊維護，Angular 提供一套廣泛的工具、API 和函式庫，以簡化和精簡您的開發工作流程。Angular 為您提供一個穩固的平台，可讓您建立快速、可靠的應用程式，而且隨著團隊規模和程式碼庫大小的增加，應用程式也能夠擴充。
 
 **想看一些程式碼嗎？**跳到我們的 [Essentials](essentials) 快速瀏覽一下
 在使用 Angular 時的情況，或者在 [Tutorial](tutorials/learn-angular) 中開始，如果您
@@ -79,7 +79,7 @@ Angular 可預測的基於時間的發佈時程讓您的組織確信該框架的
   Angular CLI 包含使用 Vite 和 ESBuild 的快速、現代化建置管道。開發人員回報，使用不到一分鐘的時間即可建置包含數十萬行程式碼的專案。
   </docs-card>
   <docs-card title="已在 Google 部分規模最大的網路應用程式中獲得驗證">
-  Google 的多款大型產品建立在 Angular 的架構上，並協助開發新功能，進一步提升 Angular 的可擴展性，包括 [Google Fonts](https://fonts.google.com/) 到 [Google Cloud](https://console.cloud.google.com)。
+  Google 的多款大型產品建立在 Angular 的架構上，並協助開發新功能，進一步提升 Angular 的可擴充性，包括 [Google Fonts](https://fonts.google.com/) 到 [Google Cloud](https://console.cloud.google.com)。
   </docs-card>
 </docs-card-container>
 
@@ -104,7 +104,7 @@ Angular 可預測的基於時間的發佈時程讓您的組織確信該框架的
   我們很感謝開放原始碼貢獻者，讓 Angular 成為更好的框架，造福所有人。我們鼓勵任何有興趣的人從修正文件中的錯字到新增主要功能，都可以在我們的 GitHub 上開始動手做。
   </docs-card>
   <docs-card title="社群合作夥伴關係" href="https://developers.google.com/community/experts/directory?specialization=angular" link="認識 Angular GDE">
-  我們的團隊與個人、教育工作者和企業合作，以確保我們持續支援開發人員。Angular Google Developer Experts (GDE) 代表世界各地的社群領導者，他們以 Angular 進行教育、組織和開發。企業合作夥伴關係有助於確保 Angular 能很好地擴展到科技產業的領導者。
+  我們的團隊與個人、教育工作者和企業合作，以確保我們持續支援開發人員。Angular Google Developer Experts (GDE) 代表世界各地的社群領導者，他們以 Angular 進行教育、組織和開發。企業合作夥伴關係有助於確保 Angular 能很好地擴充到科技產業的領導者。
   </docs-card>
   <docs-card title="與其他 Google 技術合作">
   Angular 與其他 Google 技術和團隊緊密合作，以改善網路。
@@ -124,4 +124,3 @@ Angular 可預測的基於時間的發佈時程讓您的組織確信該框架的
     <docs-pill href="api" title="參考我們的 API"/>
   </docs-pill-row>
 </docs-callout>
-

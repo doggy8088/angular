@@ -7,7 +7,7 @@
 <docs-callout helpful title="範本 vs. 反應式表單">
 Angular 支援兩種互動式表單的設計方法。範本驅動的表單讓您在 Angular 範本中使用特定於表單的指令。反應式表單提供以模型為主的表單建構方法。
 
-模板驅動的表單非常適合小型或簡單的表單，而反應式表單更具可擴展性，適合複雜的表單。如需比較這兩種方法，請參閱 [選擇方法](guide/forms#choosing-an-approach)
+模板驅動的表單非常適合小型或簡單的表單，而反應式表單更具可擴充性，適合複雜的表單。如需比較這兩種方法，請參閱 [選擇方法](guide/forms#choosing-an-approach)
 </docs-callout>
 
 你可以使用 Angular 範本建立幾乎任何類型的表單，例如登入表單、連絡表單，以及幾乎任何業務表單。
@@ -410,4 +410,3 @@ Here's the code for the final version of the application:
     <docs-code header="main.ts" path="adev/src/content/examples/forms/src/main.ts"/>
     <docs-code header="forms.css" path="adev/src/content/examples/forms/src/assets/forms.css"/>
 </docs-code-multifile>
-

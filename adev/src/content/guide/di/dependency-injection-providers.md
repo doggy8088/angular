@@ -17,8 +17,8 @@ providers: [Logger],
 然而，您可以設定 DI 以將 `Logger` 提供者代幣與不同的類別或任何其他值關聯。
 因此，當注入 `Logger` 時，將改用已設定的值。
 
-事實上，類別提供者語法是一種簡寫表達式，它會擴展到由 `Provider` 介面定義的提供者設定。
-Angular 在這種情況下將 `providers` 值擴展為完整的提供者物件，如下所示：
+事實上，類別提供者語法是一種簡寫表達式，它會擴充到由 `Provider` 介面定義的提供者設定。
+Angular 在這種情況下將 `providers` 值擴充為完整的提供者物件，如下所示：
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 [{ provide: Logger, useClass: Logger }]
@@ -201,4 +201,3 @@ export class AppComponent {
   constructor(private config: AppConfig) {}
 }
 </docs-code>
-

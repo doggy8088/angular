@@ -79,7 +79,7 @@ html
 ### 改進 Angular Material 和 CDK
 
 <docs-card-container>
-  <docs-card title="擴展 Angular Material 的自訂性" href="">
+  <docs-card title="擴充 Angular Material 的自訂性" href="">
   為了提供更佳的 Angular Material 元件自訂性，並啟用 Material 3 功能，我們將與 Google 的 Material Design 團隊合作，定義基於程式碼的佈景主題 API。
 
 截至 2023 年第 4 季，我們正在重新調整元件以使用新的 API，完成全面的代幣集，並根據新的代幣更新 Sass API。
@@ -276,4 +276,3 @@ In v17 we launched hydration outside developer preview and did a series of impro
   We are actively investing up to 50% of our engineering capacity on triaging issues and PRs until we have a clear understanding of broader community needs. After that, we will commit up to 20% of our engineering capacity to keep up with new submissions promptly.
   </docs-card>
 </docs-card-container>
-
