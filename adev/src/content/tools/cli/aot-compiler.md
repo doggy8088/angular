@@ -472,7 +472,7 @@ class MyComponent {
 
 ### 非空類型斷言運算子
 
-當使用 `*ngIf` 不方便，或元件中的某些約束可確保綁定運算式內插時運算式永遠非 `null` 時，使用非 `null` 類型斷言運算子來壓制 `Object is possibly 'undefined'` 錯誤。
+當使用 `*ngIf` 不方便，或元件中的某些約束可確保繫結運算式內插時運算式永遠非 `null` 時，使用非 `null` 類型斷言運算子來壓制 `Object is possibly 'undefined'` 錯誤。
 
 在以下範例中，`person` 和 `address` 屬性總是同時設定，暗示如果 `person` 為非 null，則 `address` 始終為非 null。
 沒有便捷的方法可以向 TypeScript 和範本編譯器描述這個約束，但範例中透過使用 `address!.street` 來抑制錯誤。

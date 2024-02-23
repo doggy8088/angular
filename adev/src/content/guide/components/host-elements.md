@@ -33,7 +33,7 @@ export class ProfilePhoto {}
 
 在上面的範例中，`<profile-photo>` 是 `ProfilePhoto` 元件的主機元素。
 
-## 綁定到主機元素
+## 繫結到主機元素
 
 元件可以將屬性、特徵和事件繫結至其主機元素。這與元件範本內元素的繫結行為相同，但改以在 `@Component` 裝飾器的 `host` 屬性中定義：
 
@@ -94,7 +94,7 @@ export class CustomSlider {
 **永遠優先使用 `host` 屬性，而非 `@HostBinding` 和 `@HostListener`。** 這些
 裝飾器僅存在於向後兼容性。
 
-## 綁定衝突
+## 繫結衝突
 
 當你在範本中使用元件時，你可以新增繫結至該元件實例的元素。
 該元件也可以為相同的屬性或特徵定義主機繫結。

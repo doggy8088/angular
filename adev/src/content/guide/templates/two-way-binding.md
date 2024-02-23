@@ -5,10 +5,10 @@
 
 雙向繫結結合了 [屬性繫結](guide/templates/property-binding) 與事件繫結：
 
-| 綁定                                   | 詳細資料 |
+| 繫結                                   | 詳細資料 |
 |:---                                        |:---     |
-| [屬性綁定](guide/templates/property-binding) | 設定特定元素屬性。    |
-| [事件綁定](guide/templates/event-binding)       | 監聽元素變更事件。 |
+| [屬性繫結](guide/templates/property-binding) | 設定特定元素屬性。    |
+| [事件繫結](guide/templates/event-binding)       | 監聽元素變更事件。 |
 
 ## 新增雙向資料繫結
 
@@ -62,4 +62,3 @@ Angular 的雙向繫結語法是方括號和圓括號的組合，`[()]`。
 如需有關如何使用表單中的雙向繫結的詳細資訊，請參閱 Angular [NgModel](guide/directives#ngModel)。
 
 </docs-callout>
-

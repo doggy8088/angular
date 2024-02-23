@@ -257,7 +257,7 @@ set disabled(value: boolean) {
 </docs-code>
 
 在此，元件的 `disabled` 輸入正在傳遞給範本中的 `<button>`。
-只要輸入綁定的是 `boolean` 值，以上所有內容都會如預期般運作。
+只要輸入繫結的是 `boolean` 值，以上所有內容都會如預期般運作。
 但是，假設消費者在範本中使用此輸入作為屬性：
 
 <docs-code language="html">

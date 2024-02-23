@@ -1,4 +1,4 @@
-# 屬性綁定
+# 屬性繫結
 
 在 Angular 中，屬性繫結可幫助您直接設定屬性的值。
 使用屬性繫結，您可以改善輔助功能、動態調整應用程式的樣式，並同時管理多個 CSS 類別或樣式。
@@ -37,7 +37,7 @@ HELPFUL: 當表達式解析為 `null` 或 `undefined` 時，Angular 會完全移
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/attribute-binding/src/app/app.component.html" visibleRegion="colspan"/>
 
-此綁定會使 `<tr>` 跨越兩列。
+此繫結會使 `<tr>` 跨越兩列。
 
 HELPFUL: 有時候，屬性名稱和特徵之間存在差異。
 

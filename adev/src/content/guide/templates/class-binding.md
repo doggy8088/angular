@@ -1,4 +1,4 @@
-# Class 和 style 綁定
+# Class 和 style 繫結
 
 使用類別和樣式繫結來新增和移除 CSS 類別名稱，從元素的 `class` 屬性中新增和移除，並動態設定樣式。
 
@@ -27,7 +27,7 @@ Angular 在繫結表達式 `onSale` 為真時加入類別，並在表達式為�
 IMPORTANT: 對於任何物件的表達式，例如 `object`、`Array`、`Map` 或 `Set`，物件的身份必須改變才能讓 Angular 更新類別清單。
 更新屬性而不改變物件的身份不會有任何效果。
 
-如果有多個綁定至相同類別名稱，Angular 使用樣式優先權來決定要使用哪一個綁定。
+如果有多個繫結至相同類別名稱，Angular 使用樣式優先權來決定要使用哪一個繫結。
 
 下表總結了類別繫結語法。
 
@@ -38,7 +38,7 @@ IMPORTANT: 對於任何物件的表達式，例如 `object`、`Array`、`Map` �
 | 多重類別繫結  | `[class]="classExpression"` | Record&lt;string, boolean &verbar; undefined &verbar; null&gt; | `{foo: true, bar: false}`            |
 | 多重類別繫結  | `[class]="classExpression"` | Array&lt;string&gt;                                            | `['foo', 'bar']`                     |
 
-## 綁定至單一樣式
+## 繫結至單一樣式
 
 若要建立單一樣式繫結，請使用前綴 `style`，後接一個句點和 CSS 樣式的名稱。
 
@@ -54,7 +54,7 @@ Angular 將屬性設定為繫結表達式的值，該值通常是字串。您也
 
     <docs-code language="html">&lt;nav [style.backgroundColor]="expression"&gt;&lt;/nav&gt;</docs-code>
 
-## 綁定到多種樣式
+## 繫結到多種樣式
 
 若要切換多種樣式，請繫結至 `[style]` 屬性，例如 `[style]="styleExpression"`。`styleExpression` 可以是下列其中之一：
 
@@ -70,7 +70,7 @@ Angular 將屬性設定為繫結表達式的值，該值通常是字串。您也
 
 <docs-code path="adev/src/content/examples/attribute-binding/src/app/single-and-multiple-style-binding.component.ts" header="nav-bar.component.ts"/>
 
-如果存在多個綁定到相同樣式屬性的情況，Angular 會使用樣式優先順序來決定要使用哪個綁定。
+如果存在多個繫結到相同樣式屬性的情況，Angular 會使用樣式優先順序來決定要使用哪個繫結。
 
 下表總結樣式繫結語法。
 
@@ -91,4 +91,3 @@ Angular 將屬性設定為繫結表達式的值，該值通常是字串。您也
   <docs-pill href="/guide/components/styling" title="元件造型"/>
   <docs-pill href="/guide/animations" title="Angular 動畫簡介"/>
 </docs-pill-row>
-

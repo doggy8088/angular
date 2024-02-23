@@ -6,7 +6,7 @@
 
 在範例應用程式中，`BannerComponent` 在 HTML 範本中呈現靜態標題文字。
 
-經過幾次變更後，`BannerComponent` 透過綁定元件的 `title` 屬性，呈現動態標題，如下所示。
+經過幾次變更後，`BannerComponent` 透過繫結元件的 `title` 屬性，呈現動態標題，如下所示。
 
 <docs-code header="app/banner/banner.component.ts" path="adev/src/content/examples/testing/src/app/banner/banner.component.ts" visibleRegion="component"/>
 
@@ -543,7 +543,7 @@ RxJS marble 測試是一個豐富的主題，超出了本指南的範圍。
 一個具有輸入和輸出的元件通常出現在主機元件的檢視範本中。
 主機使用屬性繫結來設定輸入屬性，並使用事件繫結來聆聽輸出屬性引發的事件。
 
-測試目標是驗證此類別綁定是否按預期運作。
+測試目標是驗證此類別繫結是否按預期運作。
 測試應該設定輸入值和偵聽輸出事件。
 
 `DashboardHeroComponent` 是此角色中的一個小範例。

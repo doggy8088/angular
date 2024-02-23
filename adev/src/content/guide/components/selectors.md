@@ -26,7 +26,7 @@ export class ProfilePhoto { }
 export class UserProfile { }
 </docs-code>
 
-**Angular 在編譯時靜態匹配選擇器。**在執行時變更 DOM，無論是透過 Angular 綁定或 DOM API，都不會影響所呈現的元件。
+**Angular 在編譯時靜態匹配選擇器。**在執行時變更 DOM，無論是透過 Angular 繫結或 DOM API，都不會影響所呈現的元件。
 
 **一個元素只能匹配一個元件選擇器。**如果多個元件選擇器匹配單個元素，Angular 會報告錯誤。
 

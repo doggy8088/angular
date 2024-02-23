@@ -4,7 +4,7 @@
 
 ## 了解資料流向
 
-屬性綁定將值單向傳遞，從元件的屬性傳入目標元素的屬性。
+屬性繫結將值單向傳遞，從元件的屬性傳入目標元素的屬性。
 
 若要讀取目標元素的屬性或呼叫其中一個方法，請參閱 [ViewChild](api/core/ViewChild) 和 [ContentChild](api/core/ContentChild) 的 API 參考。
 
@@ -87,9 +87,9 @@ HELPFUL: 有關聆聽事件的資訊，請參閱 [事件繫結](guide/templates/
 ## 接下來
 
 <docs-pill-row>
-  <docs-pill href="guide/templates/property-binding-best-practices" title="屬性綁定的最佳實務"/>
-  <docs-pill href="guide/templates/event-binding" title="事件綁定"/>
+  <docs-pill href="guide/templates/property-binding-best-practices" title="屬性繫結的最佳實務"/>
+  <docs-pill href="guide/templates/event-binding" title="事件繫結"/>
   <docs-pill href="guide/templates/interpolation" title="文字插值"/>
-  <docs-pill href="guide/templates/class-binding" title="類別和樣式綁定"/>
-  <docs-pill href="guide/templates/attribute-binding" title="屬性綁定"/>
+  <docs-pill href="guide/templates/class-binding" title="類別和樣式繫結"/>
+  <docs-pill href="guide/templates/attribute-binding" title="屬性繫結"/>
 </docs-pill-row>

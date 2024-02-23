@@ -9,7 +9,7 @@ html
 
 有用的：有關繫結至屬性的資訊，請參閱 [屬性繫結](guide/templates/property-binding)。
 
-若要綁定至事件，請使用 Angular 事件綁定語法。
+若要繫結至事件，請使用 Angular 事件繫結語法。
 此語法包含等號左方括弧中的目標事件名稱，以及右方引號中的範本語句。
 
 建立以下範例；目標事件名稱為 `click`，範本陳述式為 `onSave()`。
@@ -30,7 +30,7 @@ html
 
 <docs-code path="adev/src/content/examples/event-binding/src/app/app.component.html" visibleRegion="custom-directive" header="src/app/app.component.html"/>
 
-如果目標事件名稱 `myClick` 無法與 `ClickDirective` 的輸出屬性相符，Angular 將會改成綁定基礎 DOM 元素上的 `myClick` 事件。
+如果目標事件名稱 `myClick` 無法與 `ClickDirective` 的輸出屬性相符，Angular 將會改成繫結基礎 DOM 元素上的 `myClick` 事件。
 
 ## 鍵盤事件繫結
 
@@ -81,4 +81,3 @@ Angular 也支援 [passive event](https://developer.chrome.com/en/docs/lighthous
   <docs-pill href="guide/templates/interpolation" title="文字內插"/>
   <docs-pill href="guide/templates/two-way-binding" title="雙向繫結"/>
 </docs-pill-row>
-

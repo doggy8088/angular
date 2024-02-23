@@ -508,7 +508,7 @@ export const yourGuardFunction: CanActivateFn = (
 - 路線到目的地元件的路徑
 - 路線 URL 中的必要和可選路線參數
 
-將 `RouterLink` 指令綁定至陣列，如下：
+將 `RouterLink` 指令繫結至陣列，如下：
 
 ```html
 <a [routerLink]="['/heroes']">Heroes</a>

@@ -31,7 +31,7 @@ export class ProfilePhoto {
 
 `afterRender` 和 `afterNextRender` 必須在 _注入內容_ 中呼叫，通常是元件的建構函式。
 
-**盡可能避免直接操作 DOM。**請務必優先在元件範本中表達您的 DOM 結構，並使用綁定來更新該 DOM。
+**盡可能避免直接操作 DOM。**請務必優先在元件範本中表達您的 DOM 結構，並使用繫結來更新該 DOM。
 
 **回呼函式在伺服器端渲染或建構時間預先渲染期間從不執行。**
 
@@ -72,7 +72,7 @@ new Vue({
 
 由元件的 `Renderer2` 建立的任何 DOM 元素都會參與該元件的 [樣式封裝](guide/components/styling#style-scoping)。
 
-某些 `Renderer2` API 也與 Angular 動畫系統綁定。您可以使用 `setProperty` 方法更新合成動畫屬性，並使用 `listen` 方法新增合成動畫事件的事件監聽器。詳情請參閱 [動畫](guide/animations) 指南。
+某些 `Renderer2` API 也與 Angular 動畫系統繫結。您可以使用 `setProperty` 方法更新合成動畫屬性，並使用 `listen` 方法新增合成動畫事件的事件監聽器。詳情請參閱 [動畫](guide/animations) 指南。
 
 除了這兩個狹窄的使用案例外，使用 `Renderer2` 和原生 DOM API 之間沒有區別。`Renderer2` API 不支援伺服器端渲染或建置時間預渲染內容中的 DOM 處理。
 

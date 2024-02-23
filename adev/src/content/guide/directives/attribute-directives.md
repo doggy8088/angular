@@ -112,7 +112,7 @@ HELPFUL: 處理常式委派給輔助方法 `highlight()`，將顏色設定在主
 
     <img alt="根據使用者選擇的無線電按鈕，以動畫 GIF 呈現重新調整重點標示指令的變色效果" src="assets/content/images/guide/attribute-directives/highlight-directive-v2-anim.gif">
 
-## 綁定至第二個屬性
+## 繫結至第二個屬性
 
 本節引導您設定您的應用程式，以便開發人員可以設定預設顏色。
 

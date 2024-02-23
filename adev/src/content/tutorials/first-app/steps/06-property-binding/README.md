@@ -13,7 +13,7 @@
 
 在這個課程中，您將繼續將資料從父元件分享給子元件的程序，方法是使用屬性繫結在範本中將資料繫結到那些屬性。
 
-屬性綁定可讓您將變數連接至 Angular 範本中的 `Input`。然後，資料會動態綁定至 `Input`。
+屬性繫結可讓您將變數連接至 Angular 範本中的 `Input`。然後，資料會動態繫結至 `Input`。
 
 如需更深入的說明，請參閱 [屬性繫結](guide/templates/property-binding) 指南。
 
@@ -47,4 +47,3 @@
 <docs-pill-row>
   <docs-pill href="guide/templates/property-binding" title="屬性繫結"/>
 </docs-pill-row>
-

@@ -97,7 +97,7 @@ export const appConfig: ApplicationConfig = {
 
 ## 活動路由鏈接
 
-`RouterLinkActive` 指令根據目前的 `RouterState`，為活躍的 `RouterLink` 綁定切換 CSS 類別。
+`RouterLinkActive` 指令根據目前的 `RouterState`，為活躍的 `RouterLink` 繫結切換 CSS 類別。
 
 在每個錨點標記上，您會看到一個指向 `RouterLinkActive` 指令的 [屬性繫結](guide/templates/property-binding)，如下所示
 

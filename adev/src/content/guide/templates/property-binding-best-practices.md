@@ -6,7 +6,7 @@
 
 評估範本表達式不應該有可見的副作用。
 使用範本表達式的語法來幫助避免副作用。
-一般來說，正確的語法會阻止您在屬性綁定表達式中指派值給任何內容。
+一般來說，正確的語法會阻止您在屬性繫結表達式中指派值給任何內容。
 語法也會阻止您使用增量和遞減運算子。
 
 ### 產生副作用的一個範例
@@ -61,4 +61,3 @@ Angular 可能會或可能不會顯示已變更的值。
 <docs-code header="src/app.component.ts" path="adev/src/content/examples/property-binding/src/app/app.component.ts" visibleRegion="pass-object"/>
 
 透過在相同形狀中提供物件，當 Angular 評估表達式 `currentItems` 時，您可以滿足 `items` 的預期。
-

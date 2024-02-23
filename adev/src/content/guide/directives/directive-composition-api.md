@@ -50,7 +50,7 @@ export class AdminMenu { }
 export class AdminMenu { }
 ```
 
-透過明確指定輸入和輸出，使用者可使用 `hostDirective` 將元件綁定在範本中：
+透過明確指定輸入和輸出，使用者可使用 `hostDirective` 將元件繫結在範本中：
 
 ```html
 

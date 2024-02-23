@@ -82,7 +82,7 @@ Angular 會清除 HTML、樣式和 URL 的不受信任值。清除資源 URL 不
 
 Angular 辨識值為不安全並自動清除它，這會移除 `script` 元素，但保留安全的內容，例如 `<b>` 元素。
 
-<img alt="螢幕截圖顯示內插和綁定的 HTML 值" src="assets/content/images/guide/security/binding-inner-html.png#small">
+<img alt="螢幕截圖顯示內插和繫結的 HTML 值" src="assets/content/images/guide/security/binding-inner-html.png#small">
 
 ### 直接使用 DOM API 和明確的 sanitization 呼叫
 
