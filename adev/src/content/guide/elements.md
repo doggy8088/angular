@@ -59,7 +59,7 @@ IMPORTANT: 請避免使用元件選取器作為自訂元素標記名稱。
 
 * 建立 API 會剖析元件，尋找輸入屬性，並為自訂元素定義對應的屬性。
   它會轉換屬性名稱，以使其與不區分大小寫的自訂元素相容。
-  產生的屬性名稱使用連字符分隔的小寫字母。
+  產生的屬性名稱使用連接字元分隔的小寫字母。
   例如，對於具有 `@Input('myInputProp') inputProp` 的元件，對應的自訂元素會定義一個屬性 `my-input-prop`。
 
 * 元件輸出會以 HTML [自訂事件](https://developer.mozilla.org/docs/Web/API/CustomEvent) 形式發送，自訂事件名稱與輸出名稱相符。

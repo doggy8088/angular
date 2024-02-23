@@ -12,7 +12,7 @@ Angular 使用 Unicode *語言環境識別碼*（Unicode 語言環境 ID）來�
 </docs-callout>
 
 區域程式碼識別語言、國家和用於進一步變體或細分的選用程式碼。
-區域程式碼包括語言識別碼、連字符 (`-`) 字元和區域程式碼擴充。
+區域程式碼包括語言識別碼、連接字元 (`-`) 字元和區域程式碼擴充。
 
 <docs-code language="html">
 {language_id}-{locale_extension}
