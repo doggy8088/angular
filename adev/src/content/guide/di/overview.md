@@ -11,8 +11,8 @@
 ## 了解 Angular 相依性注入
 
 <docs-card-container>
-  <docs-card title="了解依賴注入" href="/guide/di/dependency-injection">
-    了解 Angular 中依賴注入的基本原則。
+  <docs-card title="了解相依性注入" href="/guide/di/dependency-injection">
+    了解 Angular 中相依性注入的基本原則。
   </docs-card>
   <docs-card title="建立並注入服務" href="/guide/di/creating-injectable-service">
     說明如何建立服務並將其注入其他服務和元件。
@@ -27,4 +27,3 @@
     階層式 DI 讓您僅在需要時才能在應用程式的不同部分之間共用依賴。這是一個進階主題。
   </docs-card>
 </docs-card-container>
-

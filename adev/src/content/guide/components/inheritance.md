@@ -62,7 +62,7 @@ export class CustomListbox extends ListboxBase {
 
 ### 轉發注入的相依性
 
-如果一個基類依賴於依賴注入，子類必須明確地將這些依賴傳遞給 `super`。
+如果一個基類依賴於相依性注入，子類必須明確地將這些依賴傳遞給 `super`。
 
 ```ts
 @Component({ ... })

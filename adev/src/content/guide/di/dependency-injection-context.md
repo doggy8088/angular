@@ -1,11 +1,11 @@
 # Injection context
 
-依賴注入 (DI) 系統在內部依賴於執行時間環境，在該環境中可取得目前的注入器。
+相依性注入 (DI) 系統在內部依賴於執行時間環境，在該環境中可取得目前的注入器。
 這表示注入器只有在程式碼在此環境中執行時才能運作。
 
 注入內容在下列情況下可用：
 
-* 建構函數（通過 `constructor`）建立一個由依賴注入系統實例化的類別，例如 `@Injectable` 或 `@Component`。
+* 建構函數（通過 `constructor`）建立一個由相依性注入系統實例化的類別，例如 `@Injectable` 或 `@Component`。
 * 在此類別的欄位初始化項中。
 * 在 `Provider` 或 `@Injectable` 的 `useFactory` 指定的工廠函數中。
 * 在 `InjectionToken` 指定的 `factory` 函數中。
@@ -71,4 +71,3 @@ Angular 提供 `assertInInjectionContext` 輔助函數，用以斷言目前的�
 ## 在背景之外使用 DI
 
 呼叫 [`inject`](api/core/inject) 或在注入內容外呼叫 `assertInInjectionContext` 會擲出 [錯誤 NG0203](/errors/NG0203)。
-

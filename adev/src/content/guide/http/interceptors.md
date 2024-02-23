@@ -83,7 +83,7 @@ const reqWithHeader = req.clone({
 
 CRITICAL: 請求或回應的主體**不**受到深度變異的保護。如果攔截器必須變異主體，請小心處理在同一個請求上執行多次。
 
-## 攔截器中的依賴注入
+## 攔截器中的相依性注入
 
 Interceptors 在註冊它們的注入器中以 _injection context_ 執行，並且可以使用 Angular 的 `inject` API 來擷取依賴項。
 
@@ -194,4 +194,3 @@ bootstrapApplication(AppComponent, {providers: [
 </docs-code>
 
 基於 DI 的攔截器會按其提供者註冊的順序執行。在具有廣泛且分層式 DI 配置的應用程式中，此順序可能很難預測。
-

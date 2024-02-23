@@ -1,6 +1,6 @@
 # Angular 服務
 
-以下教學課程說明如何建立 Angular 服務，並使用依賴注入將其納入您的應用程式。
+以下教學課程說明如何建立 Angular 服務，並使用相依性注入將其納入您的應用程式。
 
 <docs-video src="https://www.youtube.com/embed/-jRxG84AzCI?si=rieGfJawp9xJ00Sz"/>
 
@@ -12,7 +12,7 @@
 
 ## 服務的概念性預覽
 
-本教學介紹 Angular 服務和依賴注入。
+本教學介紹 Angular 服務和相依性注入。
 
 ### Angular 服務
 
@@ -21,9 +21,9 @@
 可注入且元件使用的服務會成為該元件的相依性。
 元件依賴於這些服務，沒有這些服務就無法運作。
 
-### 依賴注入
+### 相依性注入
 
-*依賴注入*是管理應用程式元件的依賴關係以及其他元件可以使用服務的機制。
+*相依性注入*是管理應用程式元件的依賴關係以及其他元件可以使用服務的機制。
 
 <docs-workflow>
 
@@ -104,8 +104,7 @@
 
 <docs-pill-row>
   <docs-pill href="guide/di/creating-injectable-service" title="建立可注入服務"/>
-  <docs-pill href="guide/di" title="Angular 中的依賴注入"/>
+  <docs-pill href="guide/di" title="Angular 中的相依性注入"/>
   <docs-pill href="cli/generate#service" title="ng generate service"/>
   <docs-pill href="cli/generate" title="ng generate"/>
 </docs-pill-row>
-

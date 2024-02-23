@@ -168,7 +168,7 @@ export class EvenMoreCustomTooltip { }
 8. `CustomTooltip` 套用主機繫結
 9. `EvenMoreCustomTooltip` 套用主機繫結
 
-### 依賴注入
+### 相依性注入
 
 指定 `hostDirectives` 的元件或指令可以注入這些主機指令的執行個體，反之亦然。
 

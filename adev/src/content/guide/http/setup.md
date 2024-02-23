@@ -2,7 +2,7 @@
 
 在您的應用程式中使用 `HttpClient` 之前，您必須使用 [相依性注入](guide/di) 來設定它。
 
-## 透過依賴注入提供 `HttpClient`
+## 透過相依性注入提供 `HttpClient`
 
 `HttpClient` 是使用 `provideHttpClient` 輔助函數提供的，大多數應用程式會將其包含在 `app.config.ts` 的應用程式 `providers` 中。
 
@@ -107,4 +107,3 @@ HELPFUL: 盡可能使用 [CORS](https://developer.mozilla.org/zh-TW/docs/Web/HTT
 
 對於多注入器配置，優先使用 `provideHttpClient`，因為它具有更穩定的行為。請參閱上面的 `withRequestsMadeViaParent` 功能。
 </docs-callout>
-

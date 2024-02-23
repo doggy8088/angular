@@ -1,6 +1,6 @@
 # 基於注入的依賴性注入
 
-建立可注入服務是 Angular 中依賴注入 (DI) 系統的第一部分。如何將服務注入元件？Angular 有個方便的功能稱為 `inject()`，可以在適當的語境中使用。
+建立可注入服務是 Angular 中相依性注入 (DI) 系統的第一部分。如何將服務注入元件？Angular 有個方便的功能稱為 `inject()`，可以在適當的語境中使用。
 
 註解：注入內容不在本教學的範圍內，但如果您想了解更多，可以在 [Angular 文件](guide/di/dependency-injection-context) 中找到更多資訊。
 
@@ -54,4 +54,3 @@ template: `<p>Car Listing: {{ display }}</p>`,
 </docs-workflow>
 
 你剛在元件中注入第一個服務 - 真是太棒了。在你完成 DI 這部分之前，你會學到一種注入資源到元件中的替代語法。
-

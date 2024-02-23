@@ -14,10 +14,10 @@ Angular 是個讓開發人員能建立快速、可靠應用程式的網頁框架
 ## 賦予開發動力的功能
 
 <docs-card-container>
-  <docs-card title="使用見解元件模型和彈性依賴注入系統來讓您的程式庫保持井然有序" href="guide/components" link="開始使用元件">
+  <docs-card title="使用見解元件模型和彈性相依性注入系統來讓您的程式庫保持井然有序" href="guide/components" link="開始使用元件">
   Angular 元件讓您能夠輕鬆地將程式碼分割為封裝良好的部分。
 
-多功能的依賴注入可協助您保持程式碼模組化、鬆散耦合且可測試。
+多功能的相依性注入可協助您保持程式碼模組化、鬆散耦合且可測試。
   </docs-card>
   <docs-card title="透過基於訊號的細粒度反應性取得快速的狀態更新" href="guide/signals" link="探索 Angular 訊號">
   我們細粒度的反應性模型結合編譯時期的最佳化，簡化開發，並協助預設建置更快的應用程式。
@@ -41,7 +41,7 @@ Angular 是個讓開發人員能建立快速、可靠應用程式的網頁框架
   Angular CLI 使用您需要在已部署的產品應用程式中成長的指令，在不到一分鐘的時間內讓您的專案開始執行。
   </docs-card>
   <docs-card title="使用 Angular DevTools 瀏覽器擴充功能，以視覺化方式除錯、分析和最佳化您的程式碼" href="tools/devtools" link="Angular DevTools">
-  Angular DevTools 與您的瀏覽器的開發人員工具並列。它有助於除錯和分析您的應用程式，包括元件樹狀檢視器、依賴注入樹狀檢視，以及自訂效能剖析火焰圖。
+  Angular DevTools 與您的瀏覽器的開發人員工具並列。它有助於除錯和分析您的應用程式，包括元件樹狀檢視器、相依性注入樹狀檢視，以及自訂效能剖析火焰圖。
   </docs-card>
   <docs-card title="使用 ng update 絕不錯過任何版本" href="cli/update" link="ng update">
   Angular CLI 的 `ng update` 執行自動化程式碼轉換，可自動處理例行中斷性變更，大幅簡化重大版本更新。與最新版本保持同步，讓您的應用程式儘可能快速且安全。

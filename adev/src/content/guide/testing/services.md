@@ -57,7 +57,7 @@ html
   </div>
 </div>
 
-您的應用程式仰賴 Angular [依賴注入 (DI)](guide/di) 來建立服務。
+您的應用程式仰賴 Angular [相依性注入 (DI)](guide/di) 來建立服務。
 當服務具有依賴服務時，DI 會尋找或建立該依賴服務。
 如果該依賴服務具有其自己的依賴項，DI 也會尋找或建立它們。
 
@@ -147,4 +147,3 @@ HELPFUL: 從 Angular 版本 9 開始，`TestBed.get()` 已棄用。
 `HttpClientTestingModule` 可以讓這些測試情境更易於管理。
 
 雖然這個指南附帶的 *程式碼範例* 示範了 `HttpClientTestingModule`，但此頁面會讓位於 [Http 指南](guide/http/testing) 中，詳細介紹使用 `HttpClientTestingModule` 進行測試的內容。
-
