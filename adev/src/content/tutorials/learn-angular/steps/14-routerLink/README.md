@@ -8,7 +8,7 @@
 
 <docs-workflow>
 
-<docs-step title="導入 `RouterLink` 指令">
+<docs-step title="匯入 `RouterLink` 指令">
 
 在 `app.component.ts` 中將 `RouterLink` 指令匯入新增到現有 `@angular/router` 匯入陳述式，並將其新增到元件裝飾器的 `imports` 陣列中。
 
@@ -52,4 +52,3 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 當您現在點擊導覽中的連結，您不應該會看到任何閃爍，而只有頁面本身的內容（即 `router-outlet`）被變更 🎉
 
 恭喜你學會使用 Angular 來學習路由。這只是 `Router` API 的皮毛，想了解更多，請查看 [Angular 路由文件](guide/routing)。
-

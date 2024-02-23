@@ -1026,12 +1026,12 @@ HELPFUL：請注意 `beforeEach()` 是非同步的，並呼叫 `TestBed.compileC
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (SharedModule setup)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="setup-shared-module"/>
 
-它更緊湊且更小，導入語句更少，此範例中未顯示。
+它更緊湊且更小，匯入語句更少，此範例中未顯示。
 
-### 導入功能模組
+### 匯入功能模組
 
 `HeroDetailComponent` 是 `HeroModule` [Feature Module](guide/ngmodules/feature-modules) 的一部分，它聚合了更多相互依賴的部分，包括 `SharedModule`。
-嘗試一個導入 `HeroModule` 的測試配置，如下所示：
+嘗試一個匯入 `HeroModule` 的測試配置，如下所示：
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (HeroModule setup)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="setup-hero-module"/>
 

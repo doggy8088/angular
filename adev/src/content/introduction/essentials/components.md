@@ -143,7 +143,7 @@ h1 {
 2. 將其加入元件的 `imports` 陣列中
 3. 在 `template` 中使用元件的選取器
 
-以下是一個 `TodoList` 元件導入先前 `TodoListItem` 元件的範例：
+以下是一個 `TodoList` 元件匯入先前 `TodoListItem` 元件的範例：
 
 ```ts
 // todo-list.component.ts

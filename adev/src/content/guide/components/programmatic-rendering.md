@@ -89,7 +89,7 @@ export class InnerItem {
 ## 延遲載入元件
 
 你可以使用上述兩種方法，`NgComponentOutlet` 和 `ViewContainerRef`，來
-呈現使用標準 JavaScript [動態導入](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/import) 的延遲載入元件。
+呈現使用標準 JavaScript [動態匯入](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/import) 的延遲載入元件。
 
 ```ts
 @Component({

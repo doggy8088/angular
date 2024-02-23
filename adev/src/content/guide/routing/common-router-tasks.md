@@ -36,7 +36,7 @@ CLI 會自動附加 `Component`，因此如果您寫 `first-component`，您的�
 
 ### 匯入您的新元件
 
-如要使用您的新元件，請將其導入 `app.routes.ts` 檔案頂端，如下所示：
+如要使用您的新元件，請將其匯入 `app.routes.ts` 檔案頂端，如下所示：
 
 <docs-code language="ts">
 

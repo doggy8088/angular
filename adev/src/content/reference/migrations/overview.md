@@ -20,6 +20,6 @@
 
 </docs-card>
     <docs-card title="控制流程語法" link="立即遷移" href="reference/migrations/control-flow">
-    控制流程語法在 Angular 17 版本中提供，可讓您使用更符合人體工學的語法，這種語法接近 javascript，有更好的類型檢查，並可延遲載入元件的一部分。它取代了導入 CommonModule 以使用 *ngFor、*ngIf 等功能的需求。
+    控制流程語法在 Angular 17 版本中提供，可讓您使用更符合人體工學的語法，這種語法接近 javascript，有更好的類型檢查，並可延遲載入元件的一部分。它取代了匯入 CommonModule 以使用 *ngFor、*ngIf 等功能的需求。
   </docs-card>
 </docs-card-container>

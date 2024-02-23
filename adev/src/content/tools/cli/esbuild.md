@@ -2,7 +2,7 @@
 
 在 v17 及更高版本中，新的建置系統提供了建置 Angular 應用程式的新方法。這個新的建置系統包含：
 
-- 使用 ESM 的現代輸出格式，具有動態導入表達式來支援延遲模組載入。
+- 使用 ESM 的現代輸出格式，具有動態匯入表達式來支援延遲模組載入。
 - 對於初始建構和增量重建，都有更快的建構時間效能。
 - 更新的 JavaScript 生態系統工具，例如 [esbuild](https://esbuild.github.io/) 和 [Vite](https://vitejs.dev/)。
 - 整合的 SSR 和預先渲染功能。
@@ -130,7 +130,7 @@ ng update @angular/cli --name use-application-builder
 * 將現有的 `browser` 或 `browser-esbuild` 目標轉換為 `application`
 * 移除任何之前的 SSR 建構器（因為 `application` 現在會執行此操作）。
 * 相應地更新配置。
-* 將 `tsconfig.server.json` 與 `tsconfig.app.json` 合併，並添加 TypeScript 選項 `"esModuleInterop": true` 以確保 `express` 導入與 [ESM 相容](#esm-default-imports-vs-namespace-imports)。
+* 將 `tsconfig.server.json` 與 `tsconfig.app.json` 合併，並添加 TypeScript 選項 `"esModuleInterop": true` 以確保 `express` 匯入與 [ESM 相容](#esm-default-imports-vs-namespace-imports)。
 * 更新應用程式伺服器程式碼以使用新的引導和輸出目錄結構。
 
 HELPFUL：請記得移除應用程式伺服器程式碼中的任何 CommonJS 假設，例如 `require`、`__filename`、`__dirname` 或 [CommonJS 模組範圍](https://nodejs.org/api/modules.html#the-module-scope) 中的其他結構。所有應用程式程式碼都應該與 ESM 相容。這不適用於第三方依賴項。

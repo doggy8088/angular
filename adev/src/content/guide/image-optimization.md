@@ -22,8 +22,8 @@
 ## 開始使用
 
 <docs-workflow>
-<docs-step title="導入 `NgOptimizedImage` 指令">
-從 `@angular/common` 導入 `NgOptimizedImage` 指令：
+<docs-step title="匯入 `NgOptimizedImage` 指令">
+從 `@angular/common` 匯入 `NgOptimizedImage` 指令：
 
 <docs-code language="typescript">
 

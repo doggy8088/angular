@@ -49,7 +49,7 @@ export class UserService {
 防止此問題的方法有很多：
 
 * 使用 [`providedIn` 語法](#using-providedin) 代替在模組中註冊服務。
-* 將服務分開到一次導入的獨立模組中。
+* 將服務分開到一次匯入的獨立模組中。
 * 在模組中定義 `forRoot()` 和 `forChild()` 方法。
 
 有關入門說明，請參閱 [Lazy Loading Feature Modules](guide/ngmodules/lazy-loading) 指南。
@@ -145,10 +145,10 @@ import { GreetingModule } from './greeting/greeting.module';
 
 請記住將 `GreetingModule` 匯入為 JavaScript 匯入，而且不要在多個 `@NgModule` `imports` 清單中增加 `forRoot` 的用法。
 
-## 防止重新導入 `GreetingModule`
+## 防止重新匯入 `GreetingModule`
 
-只有根 `AppModule` 應該導入 `GreetingModule`。
-如果延遲載入的模組也導入它，應用程式可能會產生服務的 [多個實例](guide/ngmodules/faq#why-is-it-bad-if-a-shared-module-provides-a-service-to-a-lazy-loaded-module?)。
+只有根 `AppModule` 應該匯入 `GreetingModule`。
+如果延遲載入的模組也匯入它，應用程式可能會產生服務的 [多個實例](guide/ngmodules/faq#why-is-it-bad-if-a-shared-module-provides-a-service-to-a-lazy-loaded-module?)。
 
 為避免延遲載入的模組重新匯入 `GreetingModule`，請新增以下 `GreetingModule` 建構函式。
 
@@ -172,7 +172,7 @@ import { GreetingModule } from './greeting/greeting.module';
 
 `Angular` 建立了一個延遲載入模組，這個模組有自己的注入器，是根注入器的子項。
 `@SkipSelf()` 會讓 `Angular` 在父注入器中尋找 `GreetingModule`，這次的父注入器是根注入器。
-當然，它會找到由根 `AppModule` 導入的實例。
+當然，它會找到由根 `AppModule` 匯入的實例。
 現在 `parentModule` 存在，建構函式就會擲出錯誤。
 
 ## 更多有關 NgModules

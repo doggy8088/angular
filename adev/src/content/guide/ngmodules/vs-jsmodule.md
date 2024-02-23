@@ -64,7 +64,7 @@ import { AppComponent } from './app.component';
 export class AppModule {}
 </docs-code>
 
-根 NgModule 以 `import` 陳述句開始，用於導入 JavaScript 模組。
+根 NgModule 以 `import` 陳述句開始，用於匯入 JavaScript 模組。
 然後以以下陣列設定 `@NgModule`：
 
 * `declarations`: 屬於 NgModule 的元件、指令和管道。

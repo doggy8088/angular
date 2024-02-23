@@ -97,7 +97,7 @@ ng lint my-lib
 
   * 服務應該宣告自己的提供者，而不是在 NgModule 或元件中宣告提供者。
         宣告提供者會讓該服務成為 *可樹狀搖動*。
-        這個做法可讓編譯器將服務留在套件之外，如果該服務從未注入到導入程式庫的應用程式中。
+        這個做法可讓編譯器將服務留在套件之外，如果該服務從未注入到匯入程式庫的應用程式中。
         如需更多相關資訊，請參閱 [可樹狀搖動的提供者](guide/di/lightweight-injection-tokens)。
 
   * 如果您註冊全域服務提供者或跨多個 NgModules 共用提供者，請使用 [RouterModule](api/router/RouterModule) 提供的 [`forRoot()` 和 `forChild()` 設計模式](guide/ngmodules/singleton-services)

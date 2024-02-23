@@ -39,7 +39,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 Reactive forms 使用 `FormControl` 類別來表示表單控制項（例如輸入）。Angular 提供 `FormGroup` 類別，用作表單控制項的分組，成為一個有用的物件，讓開發人員更方便處理大型表單。
 
-將 `FormControl` 和 `FormGroup` 新增至 `@angular/forms` 的導入，以便為每個表單建立 `FormGroup`，其中 `name` 和 `email` 屬性為 `FormControls`。
+將 `FormControl` 和 `FormGroup` 新增至 `@angular/forms` 的匯入，以便為每個表單建立 `FormGroup`，其中 `name` 和 `email` 屬性為 `FormControls`。
 
 ```ts
 import {ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';

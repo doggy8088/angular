@@ -93,7 +93,7 @@ export class CustomerDashboardModule { }
 
 `CustomerDashboardComponent` 現在位於頂部的 JavaScript 匯入清單中，並新增至 `declarations` 陣列，這讓 Angular 知道將此新元件與此功能模組關聯。
 
-## 導入功能模組
+## 匯入功能模組
 
 若要將功能模組納入您的應用程式，您必須讓根模組 `app.module.ts` 知道它。
 請注意 `customer-dashboard.module.ts` 底部的 `CustomerDashboardModule` 匯出。

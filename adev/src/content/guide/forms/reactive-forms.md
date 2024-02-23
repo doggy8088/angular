@@ -35,8 +35,8 @@ Template-driven forms 讓直接存取修改範本中的資料，但相較於 rea
 
 <docs-workflow>
 
-<docs-step title="導入 ReactiveFormsModule">
-若要使用響應式表單控制項，請從 `@angular/forms` 套件導入 `ReactiveFormsModule`，並將它新增到 NgModule 的 `imports` 陣列。
+<docs-step title="匯入 ReactiveFormsModule">
+若要使用響應式表單控制項，請從 `@angular/forms` 套件匯入 `ReactiveFormsModule`，並將它新增到 NgModule 的 `imports` 陣列。
 
 <docs-code header="src/app/app.module.ts (excerpt)" path="adev/src/content/examples/reactive-forms/src/app/app.module.ts" visibleRegion="imports" />
 </docs-step>
@@ -252,8 +252,8 @@ ng generate component ProfileEditor
 以下範例顯示如何重構 `ProfileEditor` 元件以使用表單建構器服務來建立表單控制項和表單群組實例。
 
 <docs-workflow>
-<docs-step title="導入 FormBuilder 類別">
-從 `@angular/forms` 套件導入 `FormBuilder` 類別。
+<docs-step title="匯入 FormBuilder 類別">
+從 `@angular/forms` 套件匯入 `FormBuilder` 類別。
 
 <docs-code header="src/app/profile-editor/profile-editor.component.ts (import)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.2.ts" visibleRegion="form-builder-imports"/>
 

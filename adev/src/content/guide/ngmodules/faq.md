@@ -69,8 +69,8 @@ HELPFUL：您可能在應用程式子模組中宣告「x」，但忘記匯出它
 `BrowserModule` 也會從 `@angular/common` 重新匯出 `CommonModule`，
 這表示 `AppModule` 中的元件也能存取每個應用程式都需要使用的 Angular 指令，例如 `NgIf` 和 `NgFor`。
 
-不要在任何其他模組中導入 `BrowserModule`。
-*功能模組* 和 *延遲載入模組* 應該改為導入 `CommonModule`。
+不要在任何其他模組中匯入 `BrowserModule`。
+*功能模組* 和 *延遲載入模組* 應該改為匯入 `CommonModule`。
 他們需要共用指令。
 他們不需要重新安裝全應用程式範圍的提供者。
 
@@ -85,7 +85,7 @@ HELPFUL：您可能在應用程式子模組中宣告「x」，但忘記匯出它
 當模組「B」匯入模組「A」、模組「C」匯入「B」，以及模組「D」匯入 `[C, B, A]` 時，則「D」會觸發「C」的評估，進而觸發「B」的評估，最後評估「A」。
 當 Angular 處理「D」中的「B」和「A」時，它們已經快取並準備就緒了。
 
-Angular 不喜歡具有循環參照的 NgModules，因此不要讓模組「A」導入模組「B」，而模組「B」又導入模組「A」。
+Angular 不喜歡具有循環參照的 NgModules，因此不要讓模組「A」匯入模組「B」，而模組「B」又匯入模組「A」。
 
 ## 我應該匯出什麼？
 
@@ -184,16 +184,16 @@ Angular 偏好從這些提供者建立的服務實例，而不是應用程式根
 *每個*注入此服務的類別都會取得由第二個提供者建立的執行個體。
 即使在第一個模組內宣告的類別也會取得由第二個提供者建立的執行個體。
 
-如果 NgModule A 為程式碼 'X' 提供服務，並導入一個同樣為程式碼 'X' 提供服務的 NgModule B，則 NgModule A 的服務定義會「勝出」。
+如果 NgModule A 為程式碼 'X' 提供服務，並匯入一個同樣為程式碼 'X' 提供服務的 NgModule B，則 NgModule A 的服務定義會「勝出」。
 
-由根 `AppModule` 提供的服務優先於由導入的 NgModules 提供的服務。
+由根 `AppModule` 提供的服務優先於由匯入的 NgModules 提供的服務。
 `AppModule` 永遠勝出。
 
 ## 如何將服務範圍限制在模組中？
 
 當一個模組在應用程式啟動時載入，它的 `@NgModule.providers` 有 *應用程式範圍*；也就是說，它們在整個應用程式中都可以注入。
 
-導入的提供者很容易被其他導入的 NgModule 中的提供者取代。
+匯入的提供者很容易被其他匯入的 NgModule 中的提供者取代。
 這種取代可能是出於設計。
 它可能不是故意的，並會產生不利後果。
 
@@ -327,7 +327,7 @@ Angular 必須將延遲載入模組的提供者新增到某個注入器。
 ## 如何判斷 NgModule 或服務先前是否已載入？
 
 某些 NgModules 及其服務應僅由根 `AppModule` 載入一次。
-透過延遲載入某個模組來第二次導入模組可能會 [產生錯誤行為](#why-is-it-bad-if-a-shared-module-provides-a-service-to-a-lazy-loaded-module?)，而這些行為可能難以偵測和診斷。
+透過延遲載入某個模組來第二次匯入模組可能會 [產生錯誤行為](#why-is-it-bad-if-a-shared-module-provides-a-service-to-a-lazy-loaded-module?)，而這些行為可能難以偵測和診斷。
 
 若要防止此問題，請撰寫一個嘗試從根應用程式注入器注入模組或服務的建構函式。
 如果注入成功，則已第二次載入類別。
@@ -362,7 +362,7 @@ export class GreetingModule {
 `SharedModule` 可以重新導出其他小工具模組，例如 `CommonModule`、`FormsModule` 和含有您最廣泛使用的 UI 控制項的 NgModules。
 
 出於先前 [解釋過的原因](#why-is-it-bad-if-a-shared-module-provides-a-service-to-a-lazy-loaded-module?)，`SharedModule` 不應具有 `providers`。
-其導入或重新導出的模組也不應具有 `providers`。
+其匯入或重新導出的模組也不應具有 `providers`。
 
 在您的 *特色* 模組中匯入 `SharedModule`。
 
@@ -385,8 +385,8 @@ export class GreetingModule {
 Angular 的 NgModule 是帶有 `@NgModule` 裝飾器的類別 &mdash;JavaScript 模組不必帶有 `@NgModule` 裝飾器。
 Angular 的 `NgModule` 具有 `imports` 和 `exports`，它們具有類似的用途。
 
-您可以*導入*其他 NgModules，以便在元件範本中使用其導出的類別。
-您可以*匯出*此 NgModule 的類別，以便可以導入並由*其他* NgModules 的元件使用。
+您可以*匯入*其他 NgModules，以便在元件範本中使用其導出的類別。
+您可以*匯出*此 NgModule 的類別，以便可以匯入並由*其他* NgModules 的元件使用。
 
 如需詳細資訊，請參閱 [JavaScript 模組與 NgModules](guide/ngmodules/vs-jsmodule)。
 

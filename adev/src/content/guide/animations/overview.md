@@ -28,7 +28,7 @@ W3C 在其 [CSS Transitions](https://www.w3.org/TR/css-transitions-1) 頁面上�
 
 <docs-workflow>
 <docs-step title="啟用動畫模組">
-從 `@angular/platform-browser/animations/async` 導入 `provideAnimationsAsync`，並將它新增至 `bootstrapApplication` 函式呼叫的提供者清單中。
+從 `@angular/platform-browser/animations/async` 匯入 `provideAnimationsAsync`，並將它新增至 `bootstrapApplication` 函式呼叫的提供者清單中。
 
 <docs-code header="Enabling Animations" language="ts" linenums>
 bootstrapApplication(AppComponent, {
@@ -42,7 +42,7 @@ bootstrapApplication(AppComponent, {
   如果您需要在應用程式載入時立即執行動畫，您將需要切換到即時載入的動畫模組。從 `@angular/platform-browser/animations` 匯入 `provideAnimations`，並在 `bootstrapApplication` 函式呼叫中使用 `provideAnimations` **取代** `provideAnimationsAsync`。
 </docs-callout>
 
-對於基於 `NgModule` 的應用程式，導入 `BrowserAnimationsModule`，它將動畫功能引入您的 Angular 根應用程式模組。
+對於基於 `NgModule` 的應用程式，匯入 `BrowserAnimationsModule`，它將動畫功能引入您的 Angular 根應用程式模組。
 
 <docs-code header="src/app/app.module.ts" path="adev/src/content/examples/animations/src/app/app.module.1.ts"/>
 </docs-step>

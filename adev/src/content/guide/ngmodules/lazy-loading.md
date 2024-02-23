@@ -95,8 +95,8 @@ const routes: Routes = [
 ];
 </docs-code>
 
-請注意延遲載入語法使用 `loadChildren` 後接一個使用瀏覽器內建 `import('...')` 語法進行動態導入的函式。
-導入路徑是相對於模組的相對路徑。
+請注意延遲載入語法使用 `loadChildren` 後接一個使用瀏覽器內建 `import('...')` 語法進行動態匯入的函式。
+匯入路徑是相對於模組的相對路徑。
 
 <docs-callout title="基於字串的延遲載入">
 
@@ -215,7 +215,7 @@ export class CustomersModule { }
 `CustomersRoutingModule` 列在 `@NgModule` `imports` 陣列中，讓 `CustomersModule` 可以存取自己的路由模組。
 `CustomersComponent` 位於 `declarations` 陣列中，這表示 `CustomersComponent` 屬於 `CustomersModule`。
 
-然後，`app-routing.module.ts` 使用 JavaScript 的動態導入匯入功能模組 `customers.module.ts`。
+然後，`app-routing.module.ts` 使用 JavaScript 的動態匯入匯入功能模組 `customers.module.ts`。
 
 特定於功能的路由定義檔案 `customers-routing.module.ts` 匯入它自己定義在 `customers.component.ts` 檔案中的功能元件，連同其他 JavaScript 匯入陳述。
 然後它將空路徑對應到 `CustomersComponent`。

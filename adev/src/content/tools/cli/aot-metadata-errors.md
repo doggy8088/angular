@@ -125,7 +125,7 @@ export class MyComponent {}
 
 </docs-code>
 
-如果你從其他模組導入 `someTemplate` 且忽略在那裡初始化它，你同樣會得到這個錯誤。
+如果你從其他模組匯入 `someTemplate` 且忽略在那裡初始化它，你同樣會得到這個錯誤。
 
 <docs-code language="typescript">
 
