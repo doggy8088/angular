@@ -2,7 +2,7 @@
 
 Angular 使用 Unicode *語言環境識別碼*（Unicode 語言環境 ID）來查找正確的語言環境資料，以便將文字字串國際化。
 
-<docs-callout title="Unicode 地區程式碼">
+<docs-callout title="Unicode 地區代碼">
 
 * 地區 ID 符合 [Unicode 通用地區資料儲存庫 (CLDR) 核心規格][UnicodeCldrDevelopmentCoreSpecification]。
     有關地區 ID 的更多資訊，請參閱 [Unicode 語言和地區識別碼][UnicodeCldrDevelopmentCoreSpecificationLocaleIDs]。
