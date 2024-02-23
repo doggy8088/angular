@@ -80,7 +80,7 @@ export class GreetingModule {
 任何功能模組也必須匯入 `RouterModule`，以便其元件可以將路由器指令置入其範本。
 
 如果 `RouterModule` 沒有 `forRoot()`，那麼每個功能模組都會實例化一個新的 `Router`，這會中斷應用程式，因為只能有一個 `Router`。
-通過使用 `forRoot()` 方法，根應用程式模組匯入 `RouterModule.forRoot(...)` 並獲取一個 `Router`，而所有功能模組匯入 `RouterModule.forChild(...)`，這不會實例化另一個 `Router`。
+透過使用 `forRoot()` 方法，根應用程式模組匯入 `RouterModule.forRoot(...)` 並獲取一個 `Router`，而所有功能模組匯入 `RouterModule.forChild(...)`，這不會實例化另一個 `Router`。
 
 有用：如果您有同時具有提供者和宣告的模組，您*可以*使用此技術將其分開，您可能會在舊版應用程式中看到此模式。
 但是，自 Angular 6.0 以來，提供服務的最佳做法是使用 `@Injectable()` `providedIn` 屬性。

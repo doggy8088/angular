@@ -192,7 +192,7 @@ export function serverFactory() {
 
 例如，收集器可以評估表達式 `1 + 2 + 3 + 4` 並將其替換為結果 `10`。
 此程序稱為 *摺疊*。
-可以通過這種方式簡化的表達式是 *可摺疊的*。
+可以透過這種方式簡化的表達式是 *可摺疊的*。
 
 收集器可以評估對模組內部 `const` 宣告和初始化 `var` 與 `let` 宣告的參照，有效地將它們從 `.metadata.json` 檔案中移除。
 
@@ -213,7 +213,7 @@ export class HeroComponent {
 </docs-code>
 
 編譯器無法參照 `template` 常數，因為它未匯出。
-然而，收集器可以通過內嵌其內容將 `template` 常數摺疊到元數據定義中。
+然而，收集器可以透過內嵌其內容將 `template` 常數摺疊到元數據定義中。
 效果與您寫入以下內容相同：
 
 <docs-code language="typescript">
@@ -230,7 +230,7 @@ export class HeroComponent {
 
 不再有對 `template` 的參照，因此，當編譯器稍後在 `.metadata.json` 中解釋 *收集器* 輸出時，沒有任何東西會造成困擾。
 
-您可以通過在另一個表達式中包含 `template` 常數，進一步採取此範例：
+您可以透過在另一個表達式中包含 `template` 常數，進一步採取此範例：
 
 <docs-code language="typescript">
 

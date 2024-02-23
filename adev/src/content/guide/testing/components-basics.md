@@ -146,7 +146,7 @@ IMPORTANT: 在呼叫 `createComponent` 後，請勿重新配置 `TestBed`。
 
 [ComponentFixture](api/core/testing/ComponentFixture) 是一個測試工具，用於與已建立的元件及其對應元素互動。
 
-通過 fixture 存取元件實體，並使用 Jasmine 期望確認它存在：
+透過 fixture 存取元件實體，並使用 Jasmine 期望確認它存在：
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="componentInstance"/>
 

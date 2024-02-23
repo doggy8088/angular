@@ -71,7 +71,7 @@ HELPFUL: 具有較可預測排序的功能性攔截器 (透過 `withInterceptors
 
 預設情況下，當您在給定的注入器中使用 `provideHttpClient` 配置 `HttpClient` 時，此配置將覆寫父注入器中可能存在的 `HttpClient` 的任何配置。
 
-當你加入 `withRequestsMadeViaParent()`，`HttpClient` 會被配置為將請求傳遞到父層注入器中的 `HttpClient` 實例，一旦它們通過此層級的任何已配置攔截器。如果你想在子層級注入器中 _新增_ 攔截器，同時仍透過父層級注入器的攔截器來傳送請求，這將會很有用。
+當你加入 `withRequestsMadeViaParent()`，`HttpClient` 會被配置為將請求傳遞到父層注入器中的 `HttpClient` 實例，一旦它們透過此層級的任何已配置攔截器。如果你想在子層級注入器中 _新增_ 攔截器，同時仍透過父層級注入器的攔截器來傳送請求，這將會很有用。
 
 CRITICAL：您必須在目前的注入器上方配置 `HttpClient` 的執行個體，否則此選項無效，而當您嘗試使用它時，您會收到執行時期錯誤。
 

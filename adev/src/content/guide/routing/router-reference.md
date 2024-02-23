@@ -132,7 +132,7 @@ RouterLinkActive 亦允許您輕鬆地將 `aria-current` 屬性套用至活動�
 
 ## 已啟用路由
 
-路由路徑和參數可通過注入的路由器服務 [ActivatedRoute](api/router/ActivatedRoute) 使用。
+路由路徑和參數可透過注入的路由器服務 [ActivatedRoute](api/router/ActivatedRoute) 使用。
 它有很多有用的資訊，包括：
 
 | 屬性        | 詳細資料 |

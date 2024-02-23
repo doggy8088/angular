@@ -213,7 +213,7 @@ HELPFUL: Jasmine 比對器的第二個參數（例如，`'預期名稱'`）是�
 
 <docs-code header="app/twain/twain.component.ts (template)" path="adev/src/content/examples/testing/src/app/twain/twain.component.ts" visibleRegion="template" />
 
-HELPFUL: 元件的 `quote` 屬性的值會通過 `AsyncPipe`。
+HELPFUL: 元件的 `quote` 屬性的值會透過 `AsyncPipe`。
 這表示屬性會傳回 `Promise` 或 `Observable`。
 
 在此範例中，`TwainComponent.getQuote()` 方法告訴您 `quote` 屬性會傳回一個 `Observable`。
@@ -1127,7 +1127,7 @@ providers?: any[];
 
 ### 覆寫測試
 
-現在，測試可以通過操作 spy-stub 的 `testHero` 直接控制元件的英雄，並確認已呼叫服務方法。
+現在，測試可以透過操作 spy-stub 的 `testHero` 直接控制元件的英雄，並確認已呼叫服務方法。
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (override tests)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="override-tests"/>
 

@@ -11,7 +11,7 @@
 1. 改善 [Angular 開發人員體驗](#improving-the-angular-developer-experience) 和
 2. 改善 [框架效能](#fast-by-default)。
 
-繼續閱讀以了解我們計劃如何通過具體的項目工作來實現這些目標。
+繼續閱讀以了解我們計劃如何透過具體的項目工作來實現這些目標。
 
 ## 探索現代 Angular
 

@@ -1,7 +1,7 @@
 # 找出你正在測試的程式碼量
 
 Angular CLI 可以執行單元測試和建立程式碼覆蓋率報告。
-程式碼覆蓋率報告會顯示您的程式碼庫中可能未通過單元測試適當測試的任何部分。
+程式碼覆蓋率報告會顯示您的程式碼庫中可能未透過單元測試適當測試的任何部分。
 
 要產生覆蓋率報告，請在專案的根目錄執行以下指令。
 
@@ -54,4 +54,3 @@ HELPFUL：閱讀 [測試指南](guide/testing#configuration)，以進一步了�
 `check` 屬性會導致工具在專案中執行單元測試時強制執行至少 80% 的程式碼覆蓋率。
 
 在 [karma 覆蓋率文件](https://github.com/karma-runner/karma-coverage/blob/master/docs/configuration.md) 中閱讀更多關於覆蓋率配置選項。
-

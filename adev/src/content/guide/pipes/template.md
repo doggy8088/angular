@@ -34,7 +34,7 @@ export class AppComponent {
 <p>The hero's birthday is in {{ birthday | date:'yyyy' }}</p>
 </docs-code>
 
-管道也可以接受多個參數。您可以通過冒號 (`:` ) 將這些參數分隔開來傳遞多個參數。
+管道也可以接受多個參數。您可以透過冒號 (`:` ) 將這些參數分隔開來傳遞多個參數。
 例如， `date` 管道接受第二個可選參數來控制時區。
 
 <docs-code header="app.component.html">
@@ -53,4 +53,3 @@ export class AppComponent {
 <p>The hero's birthday is {{ birthday | date }}</p>
 <p>The hero's birthday is in {{ birthday | date:'yyyy' | uppercase }}</p>
 </docs-code>
-

@@ -31,7 +31,7 @@ TOTAL: 3 SUCCESS
 
 </docs-code>
 
-日誌的最後一行顯示 Karma 跑了三個測試且全部通過。
+日誌的最後一行顯示 Karma 跑了三個測試且全部透過。
 
 測試輸出使用 [Karma Jasmine HTML Reporter](https://github.com/dfederm/karma-jasmine-html-reporter) 顯示在瀏覽器中。
 
@@ -120,4 +120,3 @@ ng test --no-watch --no-progress --browsers=ChromeHeadless
 | [測試管道](guide/testing/pipes)                               | 如何測試管道。                                                                |
 | [偵錯測試](guide/testing/debugging)                            | 常見的測試錯誤。                                                              |
 | [測試實用程式 API](guide/testing/utility-apis)                 | Angular 測試功能。                                                         |
-

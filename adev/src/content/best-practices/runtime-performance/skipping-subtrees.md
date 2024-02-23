@@ -153,7 +153,7 @@ style details fill:#C1D5B0,color:#000
 
 ## 具有 OnPush 的元件的新輸入
 
-當通過範本繫結設定輸入屬性時，Angular 會在具有 `OnPush` 的子元件中執行變更偵測。
+當透過範本繫結設定輸入屬性時，Angular 會在具有 `OnPush` 的子元件中執行變更偵測。
 
 例如，在下圖中，`AppComponent` 將一個新的輸入傳遞給具有 `OnPush` 的 `MainComponent`。Angular 將在 `MainComponent` 中執行變更偵測，但不會在也具有 `OnPush` 的 `LoginComponent` 中執行變更偵測，除非它也接收到新的輸入。
 

@@ -4,7 +4,7 @@ HttpClient` 有對應於用於發出要求的不同 HTTP 動詞的方法，用�
 
 備註：由 `HttpClient` 建立的 `Observable` 可以訂閱任意次數，並會為每個訂閱建立新的後端要求。
 
-通過傳遞給 request 方法的選項物件，可以調整請求的各種屬性和回傳的回應類型。
+透過傳遞給 request 方法的選項物件，可以調整請求的各種屬性和回傳的回應類型。
 
 ## 擷取 JSON 資料
 
@@ -108,7 +108,7 @@ http.get('/api/config', {
 
 使用 `headers` 選項指定應包含在請求中的請求標頭。
 
-通過物件文字傳遞是最簡單的設定要求標頭方式：
+透過物件文字傳遞是最簡單的設定要求標頭方式：
 
 <docs-code language="ts">
 http.get('/api/config', {

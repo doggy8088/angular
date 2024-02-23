@@ -132,7 +132,7 @@ providers: [
 Angular 為每個 DOM 元素隱式建立 `ElementInjector` 層級。
 
 在 `@Component()` 裝飾器中提供服務，使用其 `providers` 或 `viewProviders` 屬性配置 `ElementInjector`。
-例如，以下 `TestComponent` 通過提供服務配置 `ElementInjector`：
+例如，以下 `TestComponent` 透過提供服務配置 `ElementInjector`：
 
 <docs-code language="typescript" highlight="[3]">
 @Component({

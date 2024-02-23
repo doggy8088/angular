@@ -51,7 +51,7 @@ export class MyComponent {}
 
 編譯器會自動建立元件工廠，其中包括 `useValue` 提供者程式碼，在一個獨立的模組中。*該* 工廠模組無法回溯到 *這個* 來源模組來存取本地的（未匯出的）`foo` 變數。
 
-您可以通過初始化 `foo` 來修復此問題。
+您可以透過初始化 `foo` 來修復此問題。
 
 <docs-code language="typescript">
 let foo = 42; // initialized

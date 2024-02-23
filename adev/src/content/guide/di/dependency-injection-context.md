@@ -5,7 +5,7 @@
 
 注入內容在下列情況下可用：
 
-* 建構函式（通過 `constructor`）建立一個由相依性注入系統實例化的類別，例如 `@Injectable` 或 `@Component`。
+* 建構函式（透過 `constructor`）建立一個由相依性注入系統實例化的類別，例如 `@Injectable` 或 `@Component`。
 * 在此類別的欄位初始化項中。
 * 在 `Provider` 或 `@Injectable` 的 `useFactory` 指定的工廠函式中。
 * 在 `InjectionToken` 指定的 `factory` 函式中。

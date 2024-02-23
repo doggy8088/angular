@@ -69,7 +69,7 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 
 ## 修改請求
 
-`HttpRequest` 和 `HttpResponse` 實例的大多數方面都是 _不可變_ 的，攔截器無法直接修改它們。相反，攔截器通過使用 `.clone()` 操作來複製這些物件套用變異，並指定應在新實例中變異哪些屬性。這可能涉及對值本身執行不可變的更新（例如 `HttpHeaders` 或 `HttpParams`）。
+`HttpRequest` 和 `HttpResponse` 實例的大多數方面都是 _不可變_ 的，攔截器無法直接修改它們。相反，攔截器透過使用 `.clone()` 操作來複製這些物件套用變異，並指定應在新實例中變異哪些屬性。這可能涉及對值本身執行不可變的更新（例如 `HttpHeaders` 或 `HttpParams`）。
 
 例如，若要將標頭新增至要求：
 
@@ -154,7 +154,7 @@ Interceptors 可以從請求的 `HttpContext` 讀取這些值。
 
 大多數攔截器會在轉換請求或回應時簡單地呼叫 `next` 處理常式，但這並不是嚴格的要求。本節討論了攔截器可以整合更進階行為的幾種方式。
 
-Interceptors 不需要呼叫 `next`。他們也可以選擇通過其他機制來建構回應，例如從快取或通過備用機制發送請求。
+Interceptors 不需要呼叫 `next`。他們也可以選擇透過其他機制來建構回應，例如從快取或透過備用機制發送請求。
 
 可以使用 `HttpResponse` 建構函式建立回應：
 

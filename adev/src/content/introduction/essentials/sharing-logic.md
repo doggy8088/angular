@@ -10,7 +10,7 @@
 
 類似定義元件，服務由以下部分組成：
 
-- 一個 **TypeScript 裝飾器**，它通過 `@Injectable` 將類別宣告為 Angular 服務，並允許您定義應用程式的哪個部分可以通過 `providedIn` 屬性（通常為 `'root'`）存取服務，以允許在應用程式中的任何地方存取服務。
+- 一個 **TypeScript 裝飾器**，它透過 `@Injectable` 將類別宣告為 Angular 服務，並允許您定義應用程式的哪個部分可以透過 `providedIn` 屬性（通常為 `'root'`）存取服務，以允許在應用程式中的任何地方存取服務。
 - 一個 **TypeScript 類別**，它定義注入服務時可存取的所需程式碼
 
 以下是 `Calculator` 服務的範例。

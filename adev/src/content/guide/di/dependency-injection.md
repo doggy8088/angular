@@ -19,7 +19,7 @@ Angular 使用稱為 `Injector` 的抽象，來促進依賴項使用者和依賴
 class HeroService {}
 </docs-code>
 
-下一步是通過提供它來使其在 DI 中可用。
+下一步是透過提供它來使其在 DI 中可用。
 依賴關係可以在多個地方提供：
 
 * [**首選：在應用程式根級別使用 `providedIn`。**](#preferred-at-the-application-root-level-using-providedin)

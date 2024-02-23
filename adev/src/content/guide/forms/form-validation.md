@@ -10,7 +10,7 @@ Angular 使用指令將這些屬性與架構中的驗證器函式相符。
 
 每次表單控制項的值變更時，Angular 會執行驗證並產生驗證錯誤清單，清單會導致 `INVALID` 狀態，或產生 null，導致 VALID 狀態。
 
-然後，您可以通過將 `ngModel` 匯出到本地範本變數來檢查控制項的狀態。
+然後，您可以透過將 `ngModel` 匯出到本地範本變數來檢查控制項的狀態。
 以下範例將 `NgModel` 匯出到稱為 `name` 的變數：
 
 <docs-code header="template/actor-form-template.component.html (name)" path="adev/src/content/examples/form-validation/src/app/template/actor-form-template.component.html" visibleRegion="name-with-error-msg"/>
@@ -50,7 +50,7 @@ HELPFUL: 為了防止驗證器在使用者有機會編輯表單之前顯示錯�
 | 同步驗證器 | 同步函式，會取得控制項實例並立即傳回一組驗證錯誤或 `null`。在實例化 `FormControl` 時，將這些函式作為第二個參數傳入。 |
 | 非同步驗證器 | 非同步函式，會取得控制項實例並傳回 Promise 或 Observable，稍後會發出一組驗證錯誤或 `null`。在實例化 `FormControl` 時，將這些函式作為第三個參數傳入。 |
 
-基於效能原因，Angular 僅在所有同步驗證器通過時才執行非同步驗證器。
+基於效能原因，Angular 僅在所有同步驗證器透過時才執行非同步驗證器。
 每個驗證器都必須完成後，才會設定錯誤。
 
 ### 內建驗證函式
@@ -67,7 +67,7 @@ HELPFUL: 為了防止驗證器在使用者有機會編輯表單之前顯示錯�
 在此範例中，`name` 控制項設定了兩個內建驗證器 &mdash;`Validators.required` 和 `Validators.minLength(4)`&mdash; 和一個自訂驗證器 `forbiddenNameValidator`。
 
 所有這些驗證器都是同步的，因此它們作為第二個參數傳遞。
-請注意，您可以通過將函式作為陣列傳遞來支援多個驗證器。
+請注意，您可以透過將函式作為陣列傳遞來支援多個驗證器。
 
 此範例也加入了幾個 getter 方法。
 在一個響應式表單中，您可以隨時透過其父群組的 `get` 方法存取任何表單控制項，但有時將 getter 定義為範本的簡寫會很有用。

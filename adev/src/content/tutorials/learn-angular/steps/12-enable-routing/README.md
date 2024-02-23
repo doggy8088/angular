@@ -47,7 +47,7 @@ export const appConfig: ApplicationConfig = {
 
 最後，為了確保您的應用程式已準備好使用 Angular Router，您需要告訴應用程式您預期路由器會在哪裡顯示所需的內容。使用 `@angular/router` 中的 `RouterOutlet` 指令來完成此操作。
 
-通過添加 `<router-outlet />` 來更新 `AppComponent` 的範本`
+透過添加 `<router-outlet />` 來更新 `AppComponent` 的範本`
 
 <docs-code language="ts" highlight="[11]">
 import {RouterOutlet} from '@angular/router';

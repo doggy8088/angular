@@ -104,7 +104,7 @@ Reactive 表單需要較少的測試設定，測試不需要深入了解變更�
 1. 使用者在輸入元素中輸入值，在本例中為偏好的顏色 *藍色*。
 1. 表單輸入元素發出包含最新值的「輸入」事件。
 1. `ControlValueAccessor` 偵聽表單輸入元素上的事件，並立即將新值傳遞給 `FormControl` 實例。
-1. `FormControl` 實例通過 `valueChanges` observable 發出新值。
+1. `FormControl` 實例透過 `valueChanges` observable 發出新值。
 1. `valueChanges` observable 的任何訂閱者都會收到新值。
 
 <!-- TODO(josephperrott): enable this mermaid chart -->

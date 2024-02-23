@@ -15,7 +15,7 @@ export class ExpandablePanel {
 <expandable-panel (panelClosed)="savePanelState()" />
 ```
 
-你可以通過在 `EventEmitter` 上呼叫 `emit` 方法來發出事件：
+你可以透過在 `EventEmitter` 上呼叫 `emit` 方法來發出事件：
 
 <docs-code language="ts" highlight="">
   this.panelClosed.emit();

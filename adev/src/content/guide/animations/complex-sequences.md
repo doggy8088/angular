@@ -41,7 +41,7 @@ Angular 也讓您可以對協調的順序進行動畫處理，例如當整個網
 
 ## 使用 query() 和 stagger() 函式動畫多個元素
 
-在通過 `query()` 查詢子元素後，`stagger()` 函式可讓您定義每個查詢項目之間的定時間隔，並以延遲方式為元素添加動畫效果。
+在透過 `query()` 查詢子元素後，`stagger()` 函式可讓您定義每個查詢項目之間的定時間隔，並以延遲方式為元素添加動畫效果。
 
 以下範例示範如何使用 `query()` 和 `stagger()` 函式，以動畫方式加入清單 \(英雄\) 並逐一顯示，並以些微延遲，由上至下。
 
@@ -124,7 +124,7 @@ Angular 動畫基於元件 DOM 結構，並不直接考慮 [檢視封裝](/guide
 
 例如，如果在使用模擬檢視封裝的元件樹最上層套用 `query()` 函式（您會在動畫指南的其餘部分看到更多內容），此查詢就能識別（並因此動畫化）樹的任何深度上的 DOM 元素。
 
-另一方面，`ViewEncapsulation.ShadowDom` 通過將 DOM 元素「隱藏」在 [`ShadowRoot`](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot) 元素內來改變元件的 DOM 結構。此類 DOM 操作確實會阻止某些動畫實作正常運作，因為它依賴簡單的 DOM 結構，而且不會考慮 `ShadowRoot` 元素。因此，建議避免將動畫套用到使用 ShadowDom 視圖封裝(ViewEncapsulation)的元件的視圖。
+另一方面，`ViewEncapsulation.ShadowDom` 透過將 DOM 元素「隱藏」在 [`ShadowRoot`](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot) 元素內來改變元件的 DOM 結構。此類 DOM 操作確實會阻止某些動畫實作正常運作，因為它依賴簡單的 DOM 結構，而且不會考慮 `ShadowRoot` 元素。因此，建議避免將動畫套用到使用 ShadowDom 視圖封裝(ViewEncapsulation)的元件的視圖。
 
 ## 動畫序列摘要
 
