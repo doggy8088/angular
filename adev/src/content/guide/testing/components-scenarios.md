@@ -276,7 +276,7 @@ fakeAsync(() =&gt; { /*test body*/ })
 
 </docs-code>
 
-`fakeAsync()` 函數會在特殊的 `fakeAsync 測試區域` 中執行測試主體，進而讓線性編碼風格成為可能。
+`fakeAsync()` 函數會在特殊的 `fakeAsync 測試區域` 中執行測試主體，進而讓線性程式碼風格成為可能。
 測試主體看起來是同步的。
 沒有巢狀語法（例如 `Promise.then()`）會中斷控制流程。
 

@@ -11,7 +11,7 @@
 
 請勿在 `name` 中使用連字號。
 
-有關詳細資訊和更多範例，請參閱 [Pipe 名稱](/style-guide#pipe-names "Angular 編碼風格指南中的 Pipe 名稱")。
+有關詳細資訊和更多範例，請參閱 [Pipe 名稱](/style-guide#pipe-names "Angular 程式碼風格指南中的 Pipe 名稱")。
 
 在範本表達式中使用 `name`，就像使用內建管線一樣。
 
@@ -62,4 +62,3 @@ export class GreetPipe implements PipeTransform {
   <docs-code header="src/app/exponential-strength.pipe.ts" path="adev/src/content/examples/pipes/src/app/exponential-strength.pipe.ts"/>
   <docs-code header="src/app/power-booster.component.ts" path="adev/src/content/examples/pipes/src/app/power-booster.component.ts"/>
 </docs-code-multifile>
-
