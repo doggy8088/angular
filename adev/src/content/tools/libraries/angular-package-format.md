@@ -261,7 +261,7 @@ FESM 的簡寫，發音為 *phe-som*，後可接數字，例如 FESM2020。
 
 </docs-code>
 
-一旦索引文件（例如，`my-ui-lib.js`）由 ngc 生成，Rollup 等打包器和優化器即可用來產生扁平化的 ESM 文件。
+一旦索引文件（例如，`my-ui-lib.js`）由 ngc 自動建立，Rollup 等打包器和優化器即可用來產生扁平化的 ESM 文件。
 
 #### 有關 package.json 中預設值的注意事項
 

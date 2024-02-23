@@ -255,7 +255,7 @@ providers: [
 
 </docs-code>
 
-### 停用自動 srcset 生成
+### 停用自動 srcset 自動建立
 
 若要停用單一圖片的 srcset 產生，您可以在圖片上新增 `disableOptimizedSrcset` 屬性：
 
@@ -421,4 +421,3 @@ NgOptimizedImage 不直接支援 `background-image` css 屬性，但它被設計
 ### 是否可以為我喜好的 CDN 新增內建載入器？
 
 出於維護原因，我們目前不打算在 Angular 儲存庫中支援額外內建的載入器。相反的，我們鼓勵開發人員將任何額外的影像載入器發佈為第三方套件。
-

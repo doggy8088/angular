@@ -13,7 +13,7 @@
 應用程式中的每個 Angular 範本都是 HTML 的一部份，用於作為瀏覽器顯示頁面的其中一部分。
 Angular HTML 範本會在瀏覽器中呈現檢視或使用者介面，就像一般 HTML 一樣，但具有更多功能。
 
-當您使用 Angular CLI 生成 Angular 應用程式時，`app.component.html` 檔案是包含預留位置 HTML 的預設範本。
+當您使用 Angular CLI 自動建立 Angular 應用程式時，`app.component.html` 檔案是包含預留位置 HTML 的預設範本。
 
 範本語法指南說明如何藉由協調類別與範本之間的資料來控制 UX/UI。
 
@@ -47,4 +47,3 @@ Angular 會忽略 `<script>` 標籤，並在瀏覽器主控台輸出警告。
 | [輸入](guide/components/inputs)                                         | 使用輸入屬性接受資料                                           |
 | [輸出](guide/components/outputs)                                       | 使用輸出進行自訂事件                                             |
 | [範本中的 SVG](guide/templates/svg-in-templates)                      | 動態產生互動式圖形。                                           |
-
