@@ -1,275 +1,270 @@
-# Using Angular routes in a single-page application
+# 在單頁應用程式中使用 Angular 路由
 
-This tutorial describes how to build a single-page application, SPA that uses multiple Angular routes.
+本教學說明如何建置單頁應用程式，SPA 使用多個 Angular 路由。
 
-In a Single Page Application \(SPA\), all of your application's functions exist in a single HTML page.
-As users access your application's features, the browser needs to render only the parts that matter to the user, instead of loading a new page.
-This pattern can significantly improve your application's user experience.
+在單頁應用程式 (SPA) 中，應用程式的功能皆存在於單一 HTML 頁面中。
+當使用者存取應用程式的功能時，瀏覽器僅需呈現對使用者重要的部分，而不需載入新頁面。
+這種模式可以顯著改善應用程式的使用者體驗。
 
-To define how users navigate through your application, you use routes.
-Add routes to define how users navigate from one part of your application to another.
-You can also configure routes to guard against unexpected or unauthorized behavior.
+若要定義使用者如何在您的應用程式中導覽，請使用路由。
+新增路由以定義使用者如何從應用程式的一個部分導覽到另一個部分。
+您也可以設定路由以防範意外或未經授權的行為。
 
-## Objectives
+## 目標
 
-* Organize a sample application's features into modules.
-* Define how to navigate to a component.
-* Pass information to a component using a parameter.
-* Structure routes by nesting several routes.
-* Check whether users can access a route.
-* Control whether the application can discard unsaved changes.
-* Improve performance by pre-fetching route data and lazy loading feature modules.
-* Require specific criteria to load components.
+* 將範例應用程式的功能整理成模組。
+* 定義如何導覽至元件。
+* 使用參數將資訊傳遞至元件。
+* 透過巢狀多個路由來建構路由。
+* 檢查使用者是否可以存取路由。
+* 控制應用程式是否可以捨棄未儲存的變更。
+* 透過預先擷取路由資料和延遲載入功能模組來提升效能。
+* 要求特定條件來載入元件。
 
-## Create a sample application
+## 建立範例應用程式
 
-Using the Angular CLI, create a new application, *angular-router-sample*.
-This application will have two components: *crisis-list* and *heroes-list*.
+使用 Angular CLI，建立一個新的應用程式，*angular-router-sample*。
+此應用程式將有兩個元件：*crisis-list* 和 *heroes-list*。
 
-1. Create a new Angular project, *angular-router-sample*.
+1. 建立一個新的 Angular 專案，*angular-router-sample*。
 
     <docs-code language="shell">
     ng new angular-router-sample
     </docs-code>
 
-    When prompted with `Would you like to add Angular routing?`, select `N`.
+    當出現提示 `您要新增 Angular 路由嗎？`，選擇 `N`。
 
-    When prompted with `Which stylesheet format would you like to use?`, select `CSS`.
+    當出現提示 `您想要使用哪一種樣式表格式？`，選擇 `CSS`。
 
-    After a few moments, a new project, `angular-router-sample`, is ready.
+    幾分鐘後，新的專案 `angular-router-sample` 就準備好了。
 
-1. From your terminal, navigate to the `angular-router-sample` directory.
-1. Create a component, *crisis-list*.
+1. 從終端機移至 `angular-router-sample` 目錄。
+1. 建立一個元件，*crisis-list*。
 
     <docs-code language="shell">
     ng generate component crisis-list
     </docs-code>
 
-1. In your code editor, locate the file, `crisis-list.component.html` and replace the placeholder content with the following HTML.
+1. 在您的程式碼編輯器中，找到檔案 `crisis-list.component.html`，並將 placeholder 內容替換為以下 HTML。
 
     <docs-code header="src/app/crisis-list/crisis-list.component.html" path="adev/src/content/examples/router-tutorial/src/app/crisis-list/crisis-list.component.html"/>
 
-1. Create a second component, *heroes-list*.
+1. 建立第二個元件，*heroes-list*。
 
     <docs-code language="shell">
     ng generate component heroes-list
     </docs-code>
 
-1. In your code editor, locate the file, `heroes-list.component.html` and replace the placeholder content with the following HTML.
+1. 在您的程式碼編輯器中，找到檔案 `heroes-list.component.html`，並將 placeholder 內容替換為以下 HTML。
 
     <docs-code header="src/app/heroes-list/heroes-list.component.html" path="adev/src/content/examples/router-tutorial/src/app/heroes-list/heroes-list.component.html"/>
 
-1. In your code editor, open the file, `app.component.html` and replace its contents with the following HTML.
+1. 在您的程式碼編輯器中，開啟檔案 `app.component.html`，並將其內容替換為以下 HTML。
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="setup"/>
 
-1. Verify that your new application runs as expected by running the `ng serve` command.
+1. 執行 `ng serve` 指令，驗證您的新應用程式是否如預期般執行。
 
     <docs-code language="shell">
     ng serve
     </docs-code>
 
-1. Open a browser to `http://localhost:4200`.
+1. 在瀏覽器中開啟 `http://localhost:4200`。
 
-    You should see a single web page, consisting of a title and the HTML of your two components.
+    您應該會看到一個單一的網頁，包含一個標題和兩個元件的 HTML。
 
-## Define your routes
+## 定義您的路由
 
-In this section, you'll define two routes:
+在這個章節中，您將定義兩個路由：
 
-* The route `/crisis-center` opens the `crisis-center` component.
-* The route `/heroes-list` opens the `heroes-list` component.
+* 路由 `/crisis-center` 打開 `crisis-center` 元件。
+* 路由 `/heroes-list` 打開 `heroes-list` 元件。
 
-A route definition is a JavaScript object.
-Each route typically has two properties.
-The first property, `path`, is a string that specifies the URL path for the route.
-The second property, `component`, is a string that specifies what component your application should display for that path.
+路由定義是一個 JavaScript 物件。
+每個路由通常有兩個屬性。
+第一個屬性 `path` 是指定路由的 URL 路徑的字串。
+第二個屬性 `component` 是指定應用程式應為該路徑顯示哪個元件的字串。
 
-1. From your code editor, create and open the `app.routes.ts` file.
-1. Create and export a routes list for your application:
+1. 在你的程式碼編輯器中，建立並開啟 `app.routes.ts` 檔案。
+1. 為你的應用程式建立並匯出一個路由清單：
 
-    ```ts
+    ts
     import {Routes} from '@angular/router';
 
     export const routes = [];
-    ```
+    1. 為你的前兩個元件新增兩個路由：
 
-1. Add two routes for your first two components:
-
-    ```ts
+    ts
     {path: 'crisis-list', component: CrisisListComponent},
     {path: 'heroes-list', component: HeroesListComponent},
-    ```
 
-This routes list is an array of JavaScript objects, with each object defining the properties of a route.
+這個路由清單是一個 JavaScript 物件陣列，每個物件定義路由的屬性。
 
-## Import `provideRouter` from `@angular/router`
+## 從 `@angular/router` 匯入 `provideRouter`
 
-Routing lets you display specific views of your application depending on the URL path.
-To add this functionality to your sample application, you need to update the `app.config.ts` file to use the router providers function, `provideRouter`.
-You import this provider function from `@angular/router`.
+路由可讓您根據 URL 路徑顯示應用程式的特定檢視。
+若要將此功能新增至範例應用程式，您需要更新 `app.config.ts` 檔案以使用路由器提供者函數 `provideRouter`。
+您從 `@angular/router` 匯入此提供者函數。
 
-1. From your code editor, open the `app.config.ts` file.
-1. Add the following import statements:
+1. 從程式碼編輯器中，開啟 `app.config.ts` 檔案。
+1. 加入以下匯入陳述式：
 
-    ```ts
+    ts
     import { provideRouter } from '@angular/router';
     import { routes } from './app.routes';
-    ```
+    1. 更新 `appConfig` 中的提供者：
 
-1. Update the providers in the `appConfig`:
-
-    ```ts
+    ts
     providers: [provideRouter(routes)]
-    ```
 
-For `NgModule` based applications, put the `provideRouter` in the `providers` list of the `AppModule`, or whichever module is passed to `bootstrapModule` in the application.
+對於基於 `NgModule` 的應用程序，請將 `provideRouter` 放在 `AppModule` 的 `providers` 清單中，或放在應用程序中傳遞給 `bootstrapModule` 的任何模組中。
 
-## Update your component with `router-outlet`
+## 使用 `router-outlet` 更新元件
 
-At this point, you have defined two routes for your application.
-However, your application still has both the `crisis-list` and `heroes-list` components hard-coded in your `app.component.html` template.
-For your routes to work, you need to update your template to dynamically load a component based on the URL path.
+html
+<router-outlet></router-outlet>
 
-To implement this functionality, you add the `router-outlet` directive to your template file.
+在這個階段，您已經為應用程式定義了兩個路由。
+然而，您的應用程式仍然在 `app.component.html` 範本中硬編碼了 `crisis-list` 和 `heroes-list` 元件。
+若要讓您的路由運作，您需要更新範本以根據 URL 路徑動態載入元件。
 
-1. From your code editor, open the `app.component.html` file.
-1. Delete the following lines.
+若要實作這個功能，請將 `router-outlet` 指令新增至範本檔案。
+
+1. 在你的程式碼編輯器中，開啟 `app.component.html` 檔案。
+1. 刪除以下列。
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="components"/>
 
-1. Add the `router-outlet` directive.
+1. 加入 `router-outlet` 指令。
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="router-outlet"/>
 
-1. Add `RouterOutlet` to the imports of the `AppComponent` in `app.component.ts`
+1. 將 `RouterOutlet` 加入 `app.component.ts` 中 `AppComponent` 的 imports
 
-    ```ts
+    ts
     imports: [RouterOutlet],
-    ```
 
-View your updated application in your browser.
-You should see only the application title.
-To view the `crisis-list` component, add `crisis-list` to the end of the path in your browser's address bar.
-For example:
+檢視瀏覽器中已更新的應用程式。
+您應該只會看到應用程式標題。
+若要檢視 `crisis-list` 元件，請在瀏覽器網址列的路徑尾端加入 `crisis-list`。
+例如：
 
 <docs-code language="https">
 http://localhost:4200/crisis-list
 </docs-code>
 
-Notice that the `crisis-list` component displays.
-Angular is using the route you defined to dynamically load the component.
-You can load the `heroes-list` component the same way:
+請注意 `crisis-list` 元件已顯示。
+Angular 使用您定義的路由來動態載入元件。
+您可以以相同的方式載入 `heroes-list` 元件：
 
 <docs-code language="https">
 http://localhost:4200/heroes-list
 </docs-code>
 
-## Control navigation with UI elements
+## 使用 UI 元素控制導覽
 
-Currently, your application supports two routes.
-However, the only way to use those routes is for the user to manually type the path in the browser's address bar.
-In this section, you'll add two links that users can click to navigate between the `heroes-list` and `crisis-list` components.
-You'll also add some CSS styles.
-While these styles are not required, they make it easier to identify the link for the currently-displayed component.
-You'll add that functionality in the next section.
+目前，您的應用程式支援兩種路由。
+不過，使用這些路由的唯一方法是讓使用者手動在瀏覽器的網址列中輸入路徑。
+在本節中，您將新增兩個連結，使用者可以按一下這些連結，在 `heroes-list` 和 `crisis-list` 元件之間進行導覽。
+您還將新增一些 CSS 樣式。
+雖然不需要這些樣式，但它們可以讓您更容易辨識目前顯示元件的連結。
+您將在下一個部分中新增該功能。
 
-1. Open the `app.component.html` file and add the following HTML below the title.
+1. 開啟 `app.component.html` 檔案，並在標題下方加入以下 HTML。
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="nav"/>
 
-    This HTML uses an Angular directive, `routerLink`.
-    This directive connects the routes you defined to your template files.
+    這段 HTML 使用了 Angular 指令 `routerLink`。
+    此指令將您定義的路由連接到您的範本檔案。
 
-1. Add the `RouterLink` directive to the imports list of `AppComponent` in `app.component.ts`.
+1. 在 `app.component.ts` 中將 `RouterLink` 指令新增至 `AppComponent` 的匯入清單。
 
-1. Open the `app.component.css` file and add the following styles.
+1. 開啟 `app.component.css` 檔案，並加入以下樣式。
 
     <docs-code header="src/app/app.component.css" path="adev/src/content/examples/router-tutorial/src/app/app.component.css"/>
 
-If you view your application in the browser, you should see these two links.
-When you click on a link, the corresponding component appears.
+如果您在瀏覽器中檢視您的應用程式，您應該會看到這兩個連結。
+當您點擊連結時，相對應的元件會出現。
 
-## Identify the active route
+## 識別活躍的路由
 
-While users can navigate your application using the links you added in the previous section, they don't have a straightforward way to identify what the active route is.
-Add this functionality using Angular's `routerLinkActive` directive.
+雖然使用者可以使用您在上一節中新增的連結來導覽您的應用程式，但他們沒有直接的方式來識別目前的路徑是什麼。
+使用 Angular 的 `routerLinkActive` 指令來新增此功能。
 
-1. From your code editor, open the `app.component.html` file.
-1. Update the anchor tags to include the `routerLinkActive` directive.
+1. 從您的程式碼編輯器開啟 `app.component.html` 檔案。
+1. 更新錨點標籤以包含 `routerLinkActive` 指令。
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/router-tutorial/src/app/app.component.html" visibleRegion="routeractivelink"/>
-1. Add the `RouterLinkActive` directive to the `imports` list of `AppComponent` in `app.component.ts`.
+1. 將 `RouterLinkActive` 指令新增至 `app.component.ts` 中 `AppComponent` 的 `imports` 清單。
 
-View your application again.
-As you click one of the buttons, the style for that button updates automatically, identifying the active component to the user.
-By adding the `routerLinkActive` directive, you inform your application to apply a specific CSS class to the active route.
-In this tutorial, that CSS class is `activebutton`, but you could use any class that you want.
+再次檢視您的應用程式。
+當您按一下其中一個按鈕時，該按鈕的樣式會自動更新，以識別使用者的活動元件。
+藉由新增 `routerLinkActive` 指示，您告知應用程式將特定 CSS 類別套用至活動路由。
+在本教學課程中，該 CSS 類別為 `activebutton`，但您可以使用任何您想要的類別。
 
-Note that we are also specifying a value for the `routerLinkActive`'s `ariaCurrentWhenActive`. This makes sure that visually impaired users (which may not perceive the different styling being applied) can also identify the active button. For more information see the Accessibility Best Practices [Active links identification section](/best-practices/a11y#active-links-identification).
+請注意，我們也為 `routerLinkActive` 的 `ariaCurrentWhenActive` 指定一個值。這可確保視障用戶（可能無法察覺所套用的不同樣式）也能識別活動按鈕。有關更多資訊，請參閱無障礙最佳實務 [活動連結識別部分](/best-practices/a11y#active-links-identification)。
 
-## Adding a redirect
+## 添加重新導向
 
-In this step of the tutorial, you add a route that redirects the user to display the `/heroes-list` component.
+在本教學課程的這個步驟中，您新增一個路由，將使用者重新導向以顯示 `/heroes-list` 元件。
 
-1. From your code editor, open the `app.routes.ts` file.
-1. Update the `routes` section as follows.
+1. 從你的程式編輯器中，開啟 `app.routes.ts` 檔案。
+1. 更新 `routes` 區段如下。
 
-    ```ts
+    ts
     {path: '', redirectTo: '/heroes-list', pathMatch: 'full'},
-    ```
+    請注意，這個新路由使用空字串作為路徑。
+    此外，它以兩個新的取代 `component` 屬性：
 
-    Notice that this new route uses an empty string as its path.
-    In addition, it replaces the `component` property with two new ones:
-
-    | Properties   | Details |
+    | 屬性   | 詳細資料 |
     |:---        |:---    |
-    | `redirectTo` | This property instructs Angular to redirect from an empty path to the `heroes-list` path.                                                                                                                                                       |
-    | `pathMatch`  | This property instructs Angular on how much of the URL to match. For this tutorial, you should set this property to `full`. This strategy is recommended when you have an empty string for a path. For more information about this property, see the [Route API documentation](api/router/Route). |
+    | `redirectTo` | 這個屬性指示 Angular 從空路徑重新導向到 `heroes-list` 路徑。                                                                                                                                                       |
+    | `pathMatch`  | 這個屬性指示 Angular 要比對多少的網址。對於本教學課程，你應該將這個屬性設定為 `full`。當路徑為空字串時，建議使用此策略。有關此屬性的更多資訊，請參閱 [Route API 文件](api/router/Route)。 |
 
-Now when you open your application, it displays the `heroes-list` component by default.
+現在當你開啟你的應用程序時，它會預設顯示 `heroes-list` 組件。
 
-## Adding a 404 page
+## 404 頁面新增
 
-It is possible for a user to try to access a route that you have not defined.
-To account for this behavior, the best practice is to display a 404 page.
-In this section, you'll create a 404 page and update your route configuration to show that page for any unspecified routes.
+使用者可能會嘗試存取您未定義的路由。
+為了考量這種行為，最佳作法是顯示 404 頁面。
+在本節中，您將建立 404 頁面並更新路由設定，以顯示任何未指定路由的頁面。
 
-1. From the terminal, create a new component, `PageNotFound`.
+1. 在終端機中，建立一個新的元件，`PageNotFound`。
 
     <docs-code language="shell">
     ng generate component page-not-found
     </docs-code>
 
-1. From your code editor, open the `page-not-found.component.html` file and replace its contents with the following HTML.
+1. 從你的程式碼編輯器中，開啟 `page-not-found.component.html` 檔案並將其內容替換為以下 HTML。
 
     <docs-code header="src/app/page-not-found/page-not-found.component.html" path="adev/src/content/examples/router-tutorial/src/app/page-not-found/page-not-found.component.html"/>
 
-1. Open the `app.routes.ts` file and add the following route to the routes list:
+1. 開啟 `app.routes.ts` 檔案並將以下路由新增到路由清單：
 
-    ```ts
+    ts
     {path: '**', component: PageNotFoundComponent}
-    ```
+    
 
-    The new route uses a path, `**`.
-    This path is how Angular identifies a wildcard route.
-    Any route that does not match an existing route in your configuration will use this route.
+    新的路由使用路徑 `**`。
+    這個路徑就是 Angular 識別萬用字元路由的方式。
+    任何與你的組態中現有路由不匹配的路由都會使用這個路由。
 
-IMPORTANT: Notice that the wildcard route is placed at the end of the array.
-The order of your routes is important, as Angular applies routes in order and uses the first match it finds.
+重要：請注意萬用字元路由放在陣列的最後。
+您的路由順序很重要，因為 Angular 會依序套用路由，並使用找到的第一個匹配項。
 
-Try navigating to a non-existing route on your application, such as `http://localhost:4200/powers`.
-This route doesn't match anything defined in your `app.routes.ts` file.
-However, because you defined a wildcard route, the application automatically displays your `PageNotFound` component.
+請嘗試在應用程式中導航至不存在的路由，例如 `http://localhost:4200/powers`。
+此路由與 `app.routes.ts` 檔案中定義的任何內容都不相符。
+然而，因為您定義了一個萬用字元路由，所以應用程式會自動顯示您的 `PageNotFound` 元件。
 
-## Next steps
+## 後續步驟
 
-At this point, you have a basic application that uses Angular's routing feature to change what components the user can see based on the URL address.
-You have extended these features to include a redirect, as well as a wildcard route to display a custom 404 page.
+現在，您有一個基本應用程式，它使用 Angular 的路由功能來變更使用者可以根據 URL 位址看到的元件。
+您已擴充這些功能以包含重新導向，以及萬用字元路由來顯示自訂 404 頁面。
 
-For more information about routing, see the following topics:
+有關路由的更多資訊，請參閱下列主題：
 
 <docs-pill-row>
-  <docs-pill href="guide/routing/common-router-tasks" title="In-app Routing and Navigation"/>
-  <docs-pill href="api/router/Router" title="Router API"/>
+  <docs-pill href="guide/routing/common-router-tasks" title="應用程式內路由與導覽"/>
+  <docs-pill href="api/router/Router" title="路由器 API"/>
 </docs-pill-row>
+

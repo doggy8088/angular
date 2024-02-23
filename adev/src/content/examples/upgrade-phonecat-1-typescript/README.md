@@ -1,45 +1,40 @@
-# This is the Angular Phonecat application adjusted to fit our boilerplate project
+# 這是 Angular Phonecat 應用程式，已調整以符合我們的樣板專案
 
 structure.
 
-The following changes from vanilla Phonecat are applied:
+下列變更套用自 vanilla Phonecat：
 
-* The TypeScript config file shown in the guide is `tsconfig.ajs.json` instead
-  of the default, because we don't want to enable `noImplicitAny` for migration.
-* Karma config for unit tests is in karma.conf.ajs.js because the boilerplate
-  Karma config is not compatible with the way AngularJS tests need to be run.
-  The shell script run-unit-tests.sh can be used to run the unit tests.
-* Instead of using Bower, AngularJS and its dependencies are fetched from a CDN
-  in index.html and karma.conf.ajs.js.
-* E2E tests have been moved to the parent directory, where `gulp run-e2e-tests` can
-  discover and run them along with all the other examples.
-* Most of the phone JSON and image data removed in the interest of keeping
-  repo weight down. Keeping enough to retain testability of the app.
+* 指南中顯示的 TypeScript 設定檔是 `tsconfig.ajs.json`，而不是預設值，因為我們不希望為遷移啟用 `noImplicitAny`。
+* 單元測試的 Karma 設定檔位於 karma.conf.ajs.js 中，因為樣板 Karma 設定檔與 AngularJS 測試需要執行的程式碼不相容。可以使用 shell 腳本 run-unit-tests.sh 來執行單元測試。
+* AngularJS 和其相依性不是使用 Bower，而是從 index.html 和 karma.conf.ajs.js 中的 CDN 取得。
+* E2E 測試已移至父目錄，在該目錄中，`gulp run-e2e-tests` 可以連同所有其他範例一起找到並執行這些測試。
+* 大部分的手機 JSON 和影像資料已移除，以降低存放庫的負擔。保留足夠資料以維持應用程式的可測試性。
 
-## Running the app
+## 執行應用程式
 
-Start like any example
+開始像任何範例一樣
 
 ```shell
 npm run start
 ```
 
-You'll find the app under the /app path:
+您可以在 /app 路徑下找到該應用程式：
 
 ```http
 http://localhost:3002/app/index.html
 ```
 
-## Running unit tests
+## 執行單元測試
 
 ```shell
 ./run-unit-tests.sh
 ```
 
-## Running E2E tests
+## 執行 E2E 測試
 
-Like for any example \(at the project root\):
+如同任何範例（在專案根目錄）：
 
 ```shell
 gulp run-e2e-tests --filter=phonecat-1
 ```
+

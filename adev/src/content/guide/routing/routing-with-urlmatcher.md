@@ -1,116 +1,114 @@
-# Creating custom route matches
+# 建立自訂路由匹配
 
-The Angular Router supports a powerful matching strategy that you can use to help users navigate your application.
-This matching strategy supports static routes, variable routes with parameters, wildcard routes, and so on.
-Also, build your own custom pattern matching for situations in which the URLs are more complicated.
+Angular Router 支援強大的比對策略，你可以使用它來幫助使用者導覽你的應用程式。
+此比對策略支援靜態路由、帶有參數的變數路由、萬用字元路由等等。
+此外，為 URL 比較複雜的情況建構你自己的自訂模式比對。
 
-In this tutorial, you'll build a custom route matcher using Angular's `UrlMatcher`.
-This matcher looks for a Twitter handle in the URL.
+在本教學中，你將使用 Angular 的 `UrlMatcher` 建立自訂路由比對器。
+這個比對器會在 URL 中尋找 Twitter 句柄。
 
-## Objectives
+## 目標
 
-Implement Angular's `UrlMatcher` to create a custom route matcher.
+實作 Angular 的 `UrlMatcher` 以建立自訂路由比對器。
 
-## Create a sample application
+## 建立範例應用程式
 
-Using the Angular CLI, create a new application, *angular-custom-route-match*.
-In addition to the default Angular application framework, you will also create a *profile* component.
+使用 Angular CLI，建立一個新應用程式 *angular-custom-route-match*。
+除了預設的 Angular 應用程式架構之外，您還將建立一個 *profile* 元件。
 
-1. Create a new Angular project, *angular-custom-route-match*.
+1. 建立一個新的 Angular 專案，*angular-custom-route-match*。
 
-    ```shell
+    shell
     ng new angular-custom-route-match
-    ```
+    
 
-    When prompted with `Would you like to add Angular routing?`, select `Y`.
+    當出現提示「您要新增 Angular 路由嗎？」時，選擇「Y」。
 
-    When prompted with `Which stylesheet format would you like to use?`, select `CSS`.
+    當出現提示「您想使用哪種樣式表格式？」時，選擇「CSS」。
 
-    After a few moments, a new project, `angular-custom-route-match`, is ready.
+    幾分鐘後，一個新的專案「angular-custom-route-match」即已準備就緒。
 
-1. From your terminal, navigate to the `angular-custom-route-match` directory.
-1. Create a component, *profile*.
+1. 從您的終端機，導覽至 `angular-custom-route-match` 目錄。
+1. 建立一個元件，*profile*。
 
-    ```shell
+    shell
     ng generate component profile
-    ```
+    
 
-1. In your code editor, locate the file, `profile.component.html` and replace the placeholder content with the following HTML.
+1. 在您的程式碼編輯器中，找到檔案 `profile.component.html` 並將預留位置內容替換為下列 HTML。
 
     <docs-code header="src/app/profile/profile.component.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/profile/profile.component.html"/>
 
-1. In your code editor, locate the file, `app.component.html` and replace the placeholder content with the following HTML.
+1. 在您的程式碼編輯器中，找到檔案 `app.component.html` 並將預留位置內容替換為下列 HTML。
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/routing-with-urlmatcher/src/app/app.component.html"/>
 
-## Configure your routes for your application
+## 為您的應用程式設定您的路由
 
-With your application framework in place, you next need to add routing capabilities to the `app.config.ts` file.
-As a part of this process, you will create a custom URL matcher that looks for a Twitter handle in the URL.
-This handle is identified by a preceding `@` symbol.
+在應用程式架構就緒後，您接下來需要將路由功能新增至 `app.config.ts` 檔案。
+在此過程中，您將建立一個自定義 URL 比對器，用於在 URL 中尋找 Twitter 句柄。
+此句柄以 `@` 符號為前導。
 
-1. In your code editor, open your `app.config.ts` file.
-1. Add an `import` statement for Angular's `provideRouter` and `withComponentInputBinding` as well as the application routes.
+1. 在你的程式碼編輯器中，開啟你的 `app.config.ts` 檔案。
+1. 加入 Angular 的 `provideRouter` 和 `withComponentInputBinding` 的 `import` 陳述，以及應用程式路由。
 
-    ```ts
+    ts
     import {provideRouter, withComponentInputBinding} from '@angular/router';
 
     import {routes} from './app.routes';
-    ```
+    1. 在 providers 陣列中，加入 `provideRouter(routes, withComponentInputBinding())` 陳述。
 
-1. In the providers array, add a `provideRouter(routes, withComponentInputBinding())` statement.
-
-1. Define the custom route matcher by adding the following code to the application routes.
+1. 定義自訂路徑比對器，將以下程式碼加入應用程式路線。
 
     <docs-code header="src/app/app.routes.ts" path="adev/src/content/examples/routing-with-urlmatcher/src/app/app.routes.ts" visibleRegion="matcher"/>
 
-This custom matcher is a function that performs the following tasks:
+此自訂比對器是一個執行下列任務的函式：
 
-* The matcher verifies that the array contains only one segment
-* The matcher employs a regular expression to ensure that the format of the username is a match
-* If there is a match, the function returns the entire URL, defining a `username` route parameter as a substring of the path
-* If there isn't a match, the function returns null and the router continues to look for other routes that match the URL
+* 匹配器驗證陣列僅包含一個區段
+* 匹配器使用正規表達式來確保使用者名稱的格式符合匹配
+* 如果有匹配，函數會傳回完整的 URL，定義 `username` 路由參數作為路徑的子字串
+* 如果沒有匹配，函數會傳回 null，路由器會繼續尋找與 URL 匹配的其他路由
 
-HELPFUL: A custom URL matcher behaves like any other route definition. Define child routes or lazy loaded routes as you would with any other route.
+HELPFUL: 自訂 URL 比對器如同任何其他路徑定義一樣。定義子路徑或延遲載入路徑時，可如同對待任何其他路徑一樣。
 
-## Reading the route parameters
+## 閱讀路由參數
 
-With the custom matcher in place, you can now bind the route parameter in the `profile` component.
+使用自訂比對器後，您現在可以在 `profile` 組件中繫結路由參數。
 
-In your code editor, open your `profile.component.ts` file and create an `Input` matching the `username` parameter.
-We added the `withComponentInputBinding` feature earlier
-in `provideRouter`. This allows the `Router` to bind information directly to the route components.
+在您的程式碼編輯器中，開啟您的 `profile.component.ts` 檔案並建立一個與 `username` 參數匹配的 `Input`。
+我們先前在 `provideRouter` 中加入了 `withComponentInputBinding` 功能。這允許 `Router` 將資訊直接繫結到路由元件。
 
 ```ts
 @Input() username!: string;
 ```
 
-## Test your custom URL matcher
+## 測試您的自訂 URL 比對器
 
-With your code in place, you can now test your custom URL matcher.
+當程式碼就緒之後，您現在可以測試自訂網址比對器。
 
-1. From a terminal window, run the `ng serve` command.
+1. 從終端機視窗，執行 `ng serve` 指令。
 
     <docs-code language="shell">
     ng serve
     </docs-code>
 
-1. Open a browser to `http://localhost:4200`.
+1. 開啟瀏覽器至 `http://localhost:4200`。
 
-    You should see a single web page, consisting of a sentence that reads `Navigate to my profile`.
+    您應該會看到一個單一的網頁，其中包含一句句子寫著 `Navigate to my profile`。
 
-1. Click the **my profile** hyperlink.
+1. 點擊 **my profile** 超連結。
 
-    A new sentence, reading `Hello, Angular!` appears on the page.
+    一個新的句子 `Hello, Angular!` 會顯示在頁面上。
 
-## Next steps
+## 後續步驟
 
-Pattern matching with the Angular Router provides you with a lot of flexibility when you have dynamic URLs in your application.
-To learn more about the Angular Router, see the following topics:
+當應用程式中具有動態網址時，使用 Angular Router 進行模式比對可為您提供極大的彈性。
+如需進一步了解 Angular Router，請參閱下列主題：
 
 <docs-pill-row>
-  <docs-pill href="guide/routing/common-router-tasks" title="In-app Routing and Navigation"/>
-  <docs-pill href="api/router/Router" title="Router API"/>
+  <docs-pill href="guide/routing/common-router-tasks" title="應用程式內路由與導覽"/>
+  <docs-pill href="api/router/Router" title="路由器 API"/>
 </docs-pill-row>
 
-HELPFUL: This content is based on [Custom Route Matching with the Angular Router](https://medium.com/@brandontroberts/custom-route-matching-with-the-angular-router-fbdd48665483), by [Brandon Roberts](https://twitter.com/brandontroberts).
+HELPFUL: 此內容基於 [使用 Angular 路由進行自訂路由比對](https://medium.com/@brandontroberts/custom-route-matching-with-the-angular-router-fbdd48665483)，作者：[Brandon Roberts](https://twitter.com/brandontroberts)。
+

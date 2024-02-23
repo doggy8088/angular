@@ -1,156 +1,150 @@
-# Merge translations into the application
+# 將翻譯合併到應用程式
 
-To merge the completed translations into your project, complete the following actions
+要將已完成的翻譯合併至您的專案，請完成下列動作
 
-1. Use the [Angular CLI][AioCliMain] to build a copy of the distributable files of your project
-1. Use the `"localize"` option to replace all of the i18n messages with the valid translations and build a localized variant application.
-    A variant application is a complete a copy of the distributable files of your application translated for a single locale.
+1. 使用 [Angular CLI][AioCliMain] 建立專案可發佈檔案的副本
+1. 使用 `"localize"` 選項取代所有 i18n 訊息為有效翻譯，並建立已在地化變體應用程式。
+變體應用程式是完整翻譯成單一地區語言的應用程式可發佈檔案副本。
 
-After you merge the translations, serve each distributable copy of the application using server-side language detection or different subdirectories.
+在您合併翻譯後，使用伺服器端語言偵測或不同子目錄來提供每個可發佈的應用程式複本。
 
-HELPFUL: For more information about how to serve each distributable copy of the application, see [deploying multiple locales](guide/i18n/deploy).
+HELPFUL: 有關如何提供應用程式的每個可散發副本的詳細資訊，請參閱 [部署多個語言環境](guide/i18n/deploy)。
 
-For a compile-time translation of the application, the build process uses ahead-of-time (AOT) compilation to produce a small, fast, ready-to-run application.
+對於應用程式的編譯時間翻譯，建置過程使用即時 (AOT) 編譯來產生小型、快速且可立即執行的應用程式。
 
-HELPFUL: For a detailed explanation of the build process, see [Building and serving Angular apps][AioGuideBuild].
-The build process works for translation files in the `.xlf` format or in another format that Angular understands, such as `.xtb`.
-For more information about translation file formats used by Angular, see [Change the source language file format][AioGuideI18nCommonTranslationFilesChangeTheSourceLanguageFileFormat]
+HELPFUL: 有關建置流程的詳細說明，請參閱 [建置和服務 Angular 應用程式][AioGuideBuild]。
+建置流程適用於 `.xlf` 格式或 Angular 能理解的其他格式（例如 `.xtb`）的翻譯檔案。
+有關 Angular 使用的翻譯檔案格式的更多資訊，請參閱 [變更原始語言檔案格式][AioGuideI18nCommonTranslationFilesChangeTheSourceLanguageFileFormat]
 
-To build a separate distributable copy of the application for each locale, [define the locales in the build configuration][AioGuideI18nCommonMergeDefineLocalesInTheBuildConfiguration] in the [`angular.json`][AioGuideWorkspaceConfig] workspace build configuration file of your project.
+若要為每個地區建置一個獨立的可發行應用程式複本，請在專案的 [`angular.json`][AioGuideWorkspaceConfig] 工作區建置設定檔中，[在建置設定中定義地區][AioGuideI18nCommonMergeDefineLocalesInTheBuildConfiguration]。
 
-This method shortens the build process by removing the requirement to perform a full application build for each locale.
+這種方法會移除針對每個語言環境執行完整應用程式建置的要求，從而縮短建置流程。
 
-To [generate application variants for each locale][AioGuideI18nCommonMergeGenerateApplicationVariantsForEachLocale], use the `"localize"` option in the [`angular.json`][AioGuideWorkspaceConfig] workspace build configuration file.
-Also, to [build from the command line][AioGuideI18nCommonMergeBuildFromTheCommandLine], use the [`build`][AioCliBuild] [Angular CLI][AioCliMain] command with the `--localize` option.
+若要[為每個地區產生應用程式變體][AioGuideI18nCommonMergeGenerateApplicationVariantsForEachLocale]，請在 [`angular.json`][AioGuideWorkspaceConfig] 工作區建置設定檔中使用 `"localize"` 選項。
 
-HELPFUL: Optionally, [apply specific build options for just one locale][AioGuideI18nCommonMergeApplySpecificBuildOptionsForJustOneLocale] for a custom locale configuration.
+此外，若要[從指令列建置][AioGuideI18nCommonMergeBuildFromTheCommandLine]，請使用 [`build`][AioCliBuild] [Angular CLI][AioCliMain] 指令和 `--localize` 選項。
 
-## Define locales in the build configuration
+HELPFUL: 選擇性地，[只針對單一地區套用特定建置選項][AioGuideI18nCommonMergeApplySpecificBuildOptionsForJustOneLocale]，以自訂地區設定。
 
-Use the `i18n` project option in the [`angular.json`][AioGuideWorkspaceConfig] workspace build configuration file of your project to define locales for a project.
+## 在建構設定中定義當地語系
 
-The following sub-options identify the source language and tell the compiler where to find supported translations for the project.
+在專案的 [`angular.json`][AioGuideWorkspaceConfig] 工作空間建置設定檔中使用 `i18n` 專案選項來定義專案的區域設定。
 
-| Suboption      | Details |
+以下子選項識別原始語言並告訴編譯器在哪裡可以找到專案支援的翻譯。
+
+| 子選項      | 詳細資料 |
 |:---            |:--- |
-| `sourceLocale` | The locale you use within the application source code \(`en-US` by default\) |
-| `locales`      | A map of locale identifiers to translation files                             |
+| `sourceLocale` | 應用程式原始碼內使用的語言環境 \(`en-US` 為預設值\) |
+| `locales`      | 語言環境識別碼與翻譯檔案的對應                                |
 
-### `angular.json` for `en-US` and `fr` example
+### 適用於 `en-US` 和 `fr` 的範例 `angular.json`
 
-For example, the following excerpt of an [`angular.json`][AioGuideWorkspaceConfig] workspace build configuration file sets the source locale to `en-US` and provides the path to the French \(`fr`\) locale translation file.
+例如，以下 [`angular.json`][AioGuideWorkspaceConfig] 工作區建置設定檔的摘錄將原始語言環境設定為 `en-US`，並提供法文 \(`fr`\) 語言環境翻譯檔案的路徑。
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="locale-config"/>
 
-## Generate application variants for each locale
+## 為每個語言產生應用程式變體
 
-To use your locale definition in the build configuration, use the `"localize"` option in the [`angular.json`][AioGuideWorkspaceConfig] workspace build configuration file to tell the CLI which locales to generate for the build configuration.
+若要使用建置設定中的地區定義，請在 [`angular.json`][AioGuideWorkspaceConfig] 工作區建置設定檔中使用 `"localize"` 選項，以告知 CLI 針對建置設定產生哪些地區。
 
-* Set `"localize"` to `true` for all the locales previously defined in the build configuration.
-* Set `"localize"` to an array of a subset of the previously defined locale identifiers to build only those locale versions.
-* Set `"localize"` to `false` to disable localization and not generate any locale-specific versions.
+* 將 `"localize"` 設為 `true`，以針對建置設定中先前定義的所有語言設定。
+* 將 `"localize"` 設為先前定義的語言識別碼子集的陣列，以僅建置那些語言版本。
+* 將 `"localize"` 設為 `false`，以停用在地化且不產生任何語言特定的版本。
 
-HELPFUL: Ahead-of-time (AOT) compilation is required to localize component templates.
+HELPFUL: 必須先進行即時 (AOT) 編譯，才能在地化元件範本。
 
-If you changed this setting, set `"aot"` to `true` in order to use AOT.
+如果您變更此設定，請將 `"aot"` 設為 `true` 以使用 AOT。
 
-HELPFUL: Due to the deployment complexities of i18n and the need to minimize rebuild time, the development server only supports localizing a single locale at a time.
-If you set the `"localize"` option to `true`, define more than one locale, and use `ng serve`; then an error occurs.
-If you want to develop against a specific locale, set the `"localize"` option to a specific locale.
-For example, for French \(`fr`\), specify `"localize": ["fr"]`.
+HELPFUL: 由於 i18n 的部署複雜性以及最小化重新建置時間的需求，開發伺服器一次只支援在地化單一地區設定。
+如果您將 `"localize"` 選項設定為 `true`，定義多個地區設定，然後使用 `ng serve`；則會發生錯誤。
+如果您想要針對特定地區設定進行開發，請將 `"localize"` 選項設定為特定地區設定。
+例如，針對法文 \(`fr`\)，請指定 `"localize": ["fr"]`。
 
-The CLI loads and registers the locale data, places each generated version in a locale-specific directory to keep it separate from other locale versions, and puts the directories within the configured `outputPath` for the project.
-For each application variant the `lang` attribute of the `html` element is set to the locale.
-The CLI also adjusts the HTML base HREF for each version of the application by adding the locale to the configured `baseHref`.
+CLI 會載入並註冊地區資料，將每個產生的版本置於特定地區的目錄中，以將其與其他地區的版本分開，並將目錄置於專案的已設定 `outputPath` 中。
+針對每個應用程式變體，`html` 元素的 `lang` 屬性會設定為地區。
+CLI 也會透過將地區新增到已設定的 `baseHref` 中，調整應用程式每個版本的 HTML 基本 HREF。
 
-Set the `"localize"` property as a shared configuration to effectively inherit for all the configurations.
-Also, set the property to override other configurations.
+將 `"localize"` 屬性設定為共享配置，以有效繼承所有配置。
+另外，設定該屬性可覆寫其他配置。
 
-### `angular.json` include all locales from build example
+### `angular.json` 包含來自建置範例的所有區域設置
 
-The following example displays the `"localize"` option set to `true` in the [`angular.json`][AioGuideWorkspaceConfig] workspace build configuration file, so that all locales defined in the build configuration are built.
+以下範例顯示在 [`angular.json`][AioGuideWorkspaceConfig] 工作區建置設定檔中，將 `"localize"` 選項設定為 `true`，以便建置建置設定中定義的所有地區設定。
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="build-localize-true"/>
 
-## Build from the command line
+## 從命令列建立
 
-Also, use the `--localize` option with the [`ng build`][AioCliBuild] command and your existing `production` configuration.
-The CLI builds all locales defined in the build configuration.
-If you set the locales in build configuration, it is similar to when you set the `"localize"` option to `true`.
+html
+<p>For Node.js, you can use the following command:</p>
+<pre>npm install -g create-react-app</pre>
+<p>Then, you can create a new project by running the following command:</p>
+<pre>create-react-app my-app</pre>
+<p>This will create a new directory called my-app containing all the files necessary for a React project.</p>
 
-HELPFUL: For more information about how to set the locales, see [Generate application variants for each locale][AioGuideI18nCommonMergeGenerateApplicationVariantsForEachLocale].
+另外，請在 [`ng build`][AioCliBuild] 指令和現有的 `production` 組態中使用 `--localize` 選項。
+CLI 會建置在建置組態中定義的所有語言環境。
+如果您在建置組態中設定語言環境，則類似於將 `"localize"` 選項設為 `true` 時。
+
+HELPFUL：有關如何設定地區的更多資訊，請參閱 [為每個地區產生應用程式變體][AioGuideI18nCommonMergeGenerateApplicationVariantsForEachLocale]。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="build-localize"/>
 
-## Apply specific build options for just one locale
+## 只針對一個地區套用特定建置選項
 
-To apply specific build options to only one locale, specify a single locale to create a custom locale-specific configuration.
+若要僅將特定建置選項套用至單一地區設定，請指定單一地區設定以建立自訂的地區設定專用組態。
 
-IMPORTANT: Use the [Angular CLI][AioCliMain] development server \(`ng serve`\) with only a single locale.
+重要：僅使用單一語言環境使用 [Angular CLI][AioCliMain] 開發伺服器（`ng serve`）。
 
-### build for French example
+### 建立法語範例
 
-The following example displays a custom locale-specific configuration using a single locale.
+以下範例顯示使用單一語言環境的客製化語言環境特定組態。
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="build-single-locale"/>
 
-Pass this configuration to the `ng serve` or `ng build` commands.
-The following code example displays how to serve the French language file.
+將此組態傳遞給 `ng serve` 或 `ng build` 命令。
+以下程式碼範例顯示如何提供法文語言檔案。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="serve-french"/>
 
-For production builds, use configuration composition to run both configurations.
+對於生產構建，使用設定組合來執行兩個設定。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="build-production-french"/>
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="build-production-french" />
 
-## Report missing translations
+## 回報遺失的翻譯
 
-When a translation is missing, the build succeeds but generates a warning such as `Missing translation for message "{translation_text}"`.
-To configure the level of warning that is generated by the Angular compiler, specify one of the following levels.
+當翻譯遺失時，建置會成功但會產生警告，例如 `訊息 "{translation_text}" 的翻譯遺失`。
+若要設定 Angular 編譯器產生的警告層級，請指定下列層級之一。
 
-| Warning level | Details                                              | Output |
+| 警告層級 | 詳細資料                                             | 輸出 |
 |:---           |:---                                                  |:---    |
-| `error`       | Throw an error and the build fails                   | n/a                                                    |
-| `ignore`      | Do nothing                                           | n/a                                                    |
-| `warning`     | Displays the default warning in the console or shell | `Missing translation for message "{translation_text}"` |
+| `error`       | 引發錯誤，且建置失敗                                | n/a                                                    |
+| `ignore`      | 不執行任何動作                                       | n/a                                                    |
+| `warning`     | 在主控台或外殼中顯示預設警告                        | `找不到訊息 "{translation_text}" 的翻譯` |
 
-Specify the warning level in the `options` section for the `build` target of your [`angular.json`][AioGuideWorkspaceConfig] workspace build configuration file.
+在 [`angular.json`][AioGuideWorkspaceConfig] 工作區建置組態檔案中，為 `build` 目標的 `options` 區段指定警告層級。
 
-### `angular.json` `error` warning example
+### `angular.json` `error` 警告範例
 
-The following example displays how to set the warning level to `error`.
+以下範例顯示如何將警告層級設定為 `error`。
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="missing-translation-error" />
 
-HELPFUL: When you compile your Angular project into an Angular application, the instances of the `i18n` attribute are replaced with instances of the [`$localize`][AioApiLocalizeInitLocalize] tagged message string.
-This means that your Angular application is translated after compilation.
-This also means that you can create localized versions of your Angular application without re-compiling your entire Angular project for each locale.
+HELPFUL：當您將 Angular 專案編譯成 Angular 應用程式時，`i18n` 屬性的執行個體會以 [`$localize`][AioApiLocalizeInitLocalize] 標記訊息字串的執行個體取代。
+這表示您的 Angular 應用程式會在編譯後翻譯。
+這也表示您可以建立 Angular 應用程式的在地化版本，而無需針對每個語言環境重新編譯整個 Angular 專案。
 
-When you translate your Angular application, the *translation transformation* replaces and reorders the parts \(static strings and expressions\) of the template literal string with strings from a collection of translations.
-For more information, see [`$localize`][AioApiLocalizeInitLocalize].
+當您翻譯您的 Angular 應用程式時，*翻譯轉換* 會以一組翻譯中的字串取代並重新排列範本文字字串的部分\(靜態字串與表達式\)。
+如需更多資訊，請參閱 [`$localize`][AioApiLocalizeInitLocalize]。
 
-TLDR: Compile once, then translate for each locale.
+TLDR：編譯一次，然後為每個語言環境翻譯。
 
-## What's next
+## 接下來
 
 <docs-pill-row>
-  <docs-pill href="guide/i18n/deploy" title="Deploy multiple locales"/>
+  <docs-pill href="guide/i18n/deploy" title="部署多種語言環境"/>
 </docs-pill-row>
 
-[AioApiLocalizeInitLocalize]: api/localize/init/$localize "$localize | init - localize - API | Angular"
-
-[AioCliMain]: cli "CLI Overview and Command Reference | Angular"
-[AioCliBuild]: cli/build "ng build | CLI | Angular"
-
-[AioGuideBuild]: tools/cli/build "Building and serving Angular apps | Angular"
-
-[AioGuideI18nCommonMergeApplySpecificBuildOptionsForJustOneLocale]: guide/i18n/merge#apply-specific-build-options-for-just-one-locale "Apply specific build options for just one locale - Merge translations into the application | Angular"
-[AioGuideI18nCommonMergeBuildFromTheCommandLine]: guide/i18n/merge#build-from-the-command-line "Build from the command line - Merge translations into the application | Angular"
-[AioGuideI18nCommonMergeDefineLocalesInTheBuildConfiguration]: guide/i18n/merge#define-locales-in-the-build-configuration "Define locales in the build configuration - Merge translations into the application | Angular"
-[AioGuideI18nCommonMergeGenerateApplicationVariantsForEachLocale]: guide/i18n/merge#generate-application-variants-for-each-locale "Generate application variants for each locale - Merge translations into the application | Angular"
-
-[AioGuideI18nCommonTranslationFilesChangeTheSourceLanguageFileFormat]: guide/i18n/translation-files#change-the-source-language-file-format "Change the source language file format - Work with translation files | Angular"
-
-[AioGuideWorkspaceConfig]: reference/configs/workspace-config "Angular workspace configuration | Angular"
+{{ 無法處理文件最後的 LinkReferenceDefinitionGroup 部分，需手動更新！ }}

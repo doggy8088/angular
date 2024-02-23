@@ -1,26 +1,26 @@
-# Formatting data with pipes
+# 使用管線格式化資料
 
-You can take your use of pipes even further by configuring them. Pipes can be configured by passing options to them.
+您可以通過配置來進一步使用管道。通過將選項傳遞給管道，可以配置管道。
 
-In this activity you will work with some pipes and pipe parameters.
+在這個活動中，您將使用一些管道和管道參數。
 
 <hr>
 
-To pass parameters to a pipe, use the `:` syntax followed by the parameter value. Here's an example:
+若要將參數傳遞至管線，請使用 `:` 語法，後接參數值。以下是一個範例：
 
 ```ts
 template: `{{ date | date:'medium' }}`;
 ```
 
-The output is `Jun 15, 2015, 9:43:11 PM`.
+輸出為「2015 年 6 月 15 日下午 9:43:11」。
 
-Time to customize some pipe output:
+時間自訂管線輸出：
 
 <docs-workflow>
 
-<docs-step title="Format a number with `DecimalPipe`">
+<docs-step title="使用 `DecimalPipe` 格式化數字">
 
-In `app.component.ts`, update the template to include parameter for the `decimal` pipe.
+在 `app.component.ts` 中，更新範本以包含 `decimal` 管道的參數。
 
 <docs-code language="ts" highlight="[3]">
 template: `
@@ -29,13 +29,13 @@ template: `
 `
 </docs-code>
 
-Note: What's that format? The parameter for the `DecimalPipe` is called `digitsInfo`, this parameter uses the format: `{minIntegerDigits}.{minFractionDigits}-{maxFractionDigits}`
+備註：格式是什麼？`DecimalPipe` 的參數稱為 `digitsInfo`，此參數使用格式：`{minIntegerDigits}.{minFractionDigits}-{maxFractionDigits}``
 
 </docs-step>
 
-<docs-step title="Format a date with `DatePipe`">
+<docs-step title="使用 `DatePipe` 格式化日期">
 
-Now, update the template to use the `date` pipe.
+現在，更新範本以使用 `date` 管道。
 
 <docs-code language="ts" highlight="[3]">
 template: `
@@ -44,13 +44,13 @@ template: `
 `
 </docs-code>
 
-For extra fun, try some different parameters for `date`. More information can be found in the [Angular docs](/guide/pipes).
+要增添樂趣，請嘗試 `date` 的不同參數。更多資訊請參閱 [Angular 文件](/guide/pipes)。
 
 </docs-step>
 
-<docs-step title="Format a currency with `CurrencyPipe`">
+<docs-step title="使用 `CurrencyPipe` 格式化貨幣">
 
-For your last task, update the template to use the `currency` pipe.
+對於您的最後一個任務，請更新範本以使用 `currency` 管道。
 
 <docs-code language="ts" highlight="[3]">
 template: `
@@ -59,14 +59,15 @@ template: `
 `
 </docs-code>
 
-You can also try different parameters for `currency`. More information can be found in the [Angular docs](/guide/pipes).
+您也可以嘗試不同的參數來使用 `currency`。更多資訊請參閱 [Angular 文件](/guide/pipes)。
 
 </docs-step>
 
 </docs-workflow>
 
-Great work with pipes. You've made some great progress so far.
+使用管道進行了很棒的工作。到目前為止，你已經取得了一些很大的進展。
 
-There are even more built-in pipes that you can use in your applications. You can find the list in the [Angular documentation](/guide/pipes).
+您的應用程式中還可以使用的內建管線更多。您可以在 [Angular 文件](/guide/pipes) 中找到清單。
 
-In the case that the built-in pipes don't cover your needs, you can also create a custom pipe. Check out the next lesson to find out more.
+倘若內建管道無法滿足你的需求，你也可以創建自訂管道。查看下一個課程以了解更多。
+

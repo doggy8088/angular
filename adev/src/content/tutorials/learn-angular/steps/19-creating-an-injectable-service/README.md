@@ -1,16 +1,16 @@
-# Creating an injectable service
+# 建立可注入服務
 
-Dependency injection (DI) in Angular is one of the framework's most powerful features. Consider dependency injection to be the ability for Angular to _provide_ resources you need for your application at runtime. A dependency could be a service or some other resources.
+Angular 中的依賴注入 (DI) 是該框架最強大的功能之一。考慮依賴注入為 Angular 在執行期間為您的應用程式提供您需要的資源的能力。依賴關係可以是服務或其他一些資源。
 
-You can learn more about [dependency injection in the Angular docs](guide/di). For now, you will get practice creating `injectable` resources.
+您可以在 [Angular 文件中深入了解依賴注入](guide/di)。現在，您將練習建立 `injectable` 資源。
 
-In this activity you'll learn how to create an injectable service.
+在這個活動中，您將學習如何建立可注入服務。
 
 <hr>
 
-One way to use a service is to act as a way to interact with data and APIs. To make a service reusable you should keep the logic in the service and share it throughout the application when it is needed.
+一種使用服務的方式是作為與資料和 API 互動的一種方法。為了讓服務可重複使用，您應該將邏輯保留在服務中，並在需要時在整個應用程式中分享它。
 
-To make a service eligible to be injected by the DI system use the `@Injectable` decorator. For example:
+要讓服務符合 DI 系統的注入資格，請使用 `@Injectable` 裝飾器。例如：
 
 <docs-code language="ts" highlight="[1, 2, 3]">
 @Injectable({
@@ -21,25 +21,26 @@ class UserService {
 }
 </docs-code>
 
-The `@Injectable` decorator notifies the DI system that the `UserService` is available to be requested in a class. `providedIn` sets the scope in which this resource is available. For now, it is good enough to understand that `providedIn: 'root'` means that the `UserService` is available to the entire application.
+`@Injectable` 裝飾器會通知 DI 系統 `UserService` 可以被要求在一個類別中。`providedIn` 設定這個資源可用的範圍。現在，只要理解 `providedIn: 'root'` 表示 `UserService` 可用於整個應用程式就夠了。
 
-Alright, you try:
+好的，你試試看：
 
 <docs-workflow>
 
-<docs-step title="Add the `@Injectable` decorator">
-Update the code in `car.service.ts` by adding the `@Injectable` decorator.
+<docs-step title="加入 `@Injectable` 裝飾器">
+透過加入 `@Injectable` 裝飾器來更新 `car.service.ts` 中的程式碼。
 </docs-step>
 
-<docs-step title="Configure the decorator">
-The values in the object passed to the decorator are considered to be the configuration for the decorator.
+<docs-step title="設定裝飾器">
+傳遞給裝飾器的物件中的值被視為裝飾器的設定。
 <br>
-Update the `@Injectable` decorator in `car.service.ts` to include the configuration for `providedIn: 'root'`.
+更新 `car.service.ts` 中的 `@Injectable` 裝飾器，以包含 `providedIn: 'root'` 的設定。
 
-Tip: Use the above example to find the correct syntax.
+提示：使用以上範例來找到正確語法。
 
 </docs-step>
 
 </docs-workflow>
 
-Well, done 👍 that service is now `injectable` and can participate in the fun. Now that the service is `injectable`, let's try injecting it into a component 👉
+做得好 👍 該服務現在可 `注入` 並參與其中。現在服務可 `注入`，讓我們嘗試將它注入元件 👉
+

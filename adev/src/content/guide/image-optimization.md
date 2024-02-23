@@ -1,29 +1,29 @@
-# Getting started with NgOptimizedImage
+# 開始使用 NgOptimizedImage
 
-The `NgOptimizedImage` directive makes it easy to adopt performance best practices for loading images.
+`NgOptimizedImage` 指令讓採用最佳效能做法來載入圖片變得容易。
 
-The directive ensures that the loading of the [Largest Contentful Paint (LCP)](http://web.dev/lcp) image is prioritized by:
+該指令可確保以下項目優先載入 [最大內容繪製 (LCP)](http://web.dev/lcp) 影像：
 
-* Automatically setting the `fetchpriority` attribute on the `<img>` tag
-* Lazy loading other images by default
-* Asserting that there is a corresponding preconnect link tag in the document head
-* Automatically generating a `srcset` attribute
-* Generating a [preload hint](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload) if app is using SSR
+* 自動在 `<img>` 標籤上設定 `fetchpriority` 屬性
+* 預設延遲載入其他圖像
+* 斷言文件開頭有一個對應的 preconnect 連結標籤
+* 自動產生 `srcset` 屬性
+* 如果應用程式使用 SSR，則產生 [預載提示](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload)
 
-In addition to optimizing the loading of the LCP image, `NgOptimizedImage` enforces a number of image best practices, such as:
+除了最佳化 LCP 影像的載入外，`NgOptimizedImage` 亦強制執行多項影像最佳實務，例如：
 
-* Using [image CDN URLs to apply image optimizations](https://web.dev/image-cdns/#how-image-cdns-use-urls-to-indicate-optimization-options)
-* Preventing layout shift by requiring `width` and `height`
-* Warning if `width` or `height` have been set incorrectly
-* Warning if the image will be visually distorted when rendered
+* 使用 [圖像 CDN URL 套用圖像最佳化](https://web.dev/image-cdns/#how-image-cdns-use-urls-to-indicate-optimization-options)
+* 要求 `width` 和 `height` 以防止佈局位移
+* 如果 `width` 或 `height` 設置不正確，則發出警告
+* 如果渲染時圖像在視覺上會失真，則發出警告
 
-**Note: Although the `NgOptimizedImage` directive was made a stable feature in Angular version 15, it has been backported and is available as a stable feature in versions 13.4.0 and 14.3.0 as well.**
+**注意：雖然 `NgOptimizedImage` 指令在 Angular 版本 15 中成為穩定功能，但它已反向移植，並在版本 13.4.0 和 14.3.0 中作為穩定功能提供。**
 
-## Getting Started
+## 開始使用
 
 <docs-workflow>
-<docs-step title="Import `NgOptimizedImage` directive">
-Import `NgOptimizedImage` directive from `@angular/common`:
+<docs-step title="導入 `NgOptimizedImage` 指令">
+從 `@angular/common` 導入 `NgOptimizedImage` 指令：
 
 <docs-code language="typescript">
 
@@ -31,7 +31,7 @@ import { NgOptimizedImage } from '@angular/common'
 
 </docs-code>
 
-and include it into the `imports` array of a standalone component or an NgModule:
+並將其包含在獨立元件或 NgModule 的 `imports` 陣列中：
 
 <docs-code language="typescript">
 
@@ -56,10 +56,10 @@ To activate the `NgOptimizedImage` directive, replace your image's `src` attribu
 
 </docs-code>
 
-If you're using a [built-in third-party loader](#built-in-loaders), make sure to omit the base URL path from `src`, as that will be prepended automatically by the loader.
+若您使用的是 [內建第三方載入器](#built-in-loaders)，請務必從 `src` 中省略基本網址路徑，因為載入器會自動在前面加上此路徑。
 </docs-step>
-<docs-step title="Mark images as `priority`">
-Always mark the [LCP image](https://web.dev/lcp/#what-elements-are-considered) on your page as `priority` to prioritize its loading.
+<docs-step title="將圖片標記為 `priority`">
+務必將頁面上的 [LCP 圖片](https://web.dev/lcp/#what-elements-are-considered) 標記為 `priority`，以優先載入該圖片。
 
 <docs-code language="typescript">
 
@@ -67,16 +67,16 @@ Always mark the [LCP image](https://web.dev/lcp/#what-elements-are-considered) o
 
 </docs-code>
 
-Marking an image as `priority` applies the following optimizations:
+將影像標記為 `priority` 會套用下列最佳化：
 
-* Sets `fetchpriority=high` (read more about priority hints [here](https://web.dev/priority-hints))
-* Sets `loading=eager` (read more about native lazy loading [here](https://web.dev/browser-level-image-lazy-loading))
-* Automatically generates a [preload link element](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload) if [rendering on the server](/guide/ssr).
+* 設定 `fetchpriority=high`（[在此處](https://web.dev/priority-hints)進一步瞭解優先提示）
+* 設定 `loading=eager`（[在此處](https://web.dev/browser-level-image-lazy-loading)進一步瞭解原生延遲載入）
+* 如果 [在伺服器上進行呈現](/guide/ssr)，會自動產生 [預載連結元素](https://developer.mozilla.org/en-US/docs/Web/HTML/Link_types/preload)。
 
-Angular displays a warning during development if the LCP element is an image that does not have the `priority` attribute. A page’s LCP element can vary based on a number of factors - such as the dimensions of a user's screen, so a page may have multiple images that should be marked `priority`. See [CSS for Web Vitals](https://web.dev/css-web-vitals/#images-and-largest-contentful-paint-lcp) for more details.
+在開發期間，如果 LCP 元素是沒有 `priority` 屬性的影像，Angular 會顯示警告。頁面的 LCP 元素會根據多項因素而有所不同，例如使用者的螢幕尺寸，因此頁面可能有多個影像應該標記為 `priority`。請參閱 [CSS for Web Vitals](https://web.dev/css-web-vitals/#images-and-largest-contentful-paint-lcp) 以進一步了解詳細資訊。
 </docs-step>
-<docs-step title="Include Width and Height">
-In order to prevent [image-related layout shifts](https://web.dev/css-web-vitals/#images-and-layout-shifts), NgOptimizedImage requires that you specify a height and width for your image, as follows:
+<docs-step title="包含寬度和高度">
+為了防止 [與影像相關的配置轉移](https://web.dev/css-web-vitals/#images-and-layout-shifts)，NgOptimizedImage 要求您為影像指定高度和寬度，如下所示：
 
 <docs-code language="typescript">
 
@@ -84,19 +84,24 @@ In order to prevent [image-related layout shifts](https://web.dev/css-web-vitals
 
 </docs-code>
 
-For **responsive images** (images which you've styled to grow and shrink relative to the viewport), the `width` and `height` attributes should be the intrinsic size of the image file. For responsive images it's also important to [set a value for `sizes`.](#responsive-images)
+對於**回應式圖像**（您已設定其樣式，可以相對於視窗大小放大或縮小），`width` 和 `height` 屬性應為圖像檔案的內在大小。對於回應式圖像，設定 `sizes` 的值也很重要。(#responsive-images)
 
-For **fixed size images**, the `width` and `height` attributes should reflect the desired rendered size of the image. The aspect ratio of these attributes should always match the intrinsic aspect ratio of the image.
+對於**固定大小的圖片**，`width` 和 `height` 屬性應反映圖片的所需呈現大小。這些屬性的長寬比應始終與圖片的固有長寬比相符。
 
-Note: If you don't know the size of your images, consider using "fill mode" to inherit the size of the parent container, as described below.
+備註：如果您不知道圖片大小，請考慮使用「填滿模式」來繼承父容器的大小，如以下所述。
 </docs-step>
 </docs-workflow>
 
-## Using `fill` mode
+## 使用 `fill` 模式
 
-In cases where you want to have an image fill a containing element, you can use the `fill` attribute. This is often useful when you want to achieve a "background image" behavior. It can also be helpful when you don't know the exact width and height of your image, but you do have a parent container with a known size that you'd like to fit your image into (see "object-fit" below).
+html
+<p>
+  fill 模式會在容器內填滿內容，如果內容的寬度或高度比容器大，則內容會被裁切。
+</p>
 
-When you add the `fill` attribute to your image, you do not need and should not include a `width` and `height`, as in this example:
+在您想讓圖片填滿容器元素的情況下，您可以使用 `fill` 屬性。當您希望達成「背景圖片」行為時，這通常很有用。當您不知道圖片的精確寬度和高度，但您有一個已知大小的父容器，您希望將圖片放入其中時，這也可能很有用（請參閱下方的「object-fit」）。
+
+當您將 `fill` 屬性新增到您的圖片時，您不需要也不應該包含 `width` 和 `height`，如下例所示：
 
 <docs-code language="typescript">
 
@@ -104,19 +109,21 @@ When you add the `fill` attribute to your image, you do not need and should not 
 
 </docs-code>
 
-You can use the [object-fit](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit) CSS property to change how the image will fill its container. If you style your image with `object-fit: "contain"`, the image will maintain its aspect ratio and be "letterboxed" to fit the element. If you set `object-fit: "cover"`, the element will retain its aspect ratio, fully fill the element, and some content may be "cropped" off.
+您可以使用 [object-fit](https://developer.mozilla.org/zh-TW/docs/Web/CSS/object-fit) CSS 屬性來變更影像將如何填滿其容器。如果您使用 `object-fit: "contain"` 來設定影像樣式，則該影像將維持其縱橫比，並以「信箱模式」來符合元素。如果您設定 `object-fit: "cover"`，則該元素將保留其縱橫比、完全填滿元素，且部分內容可能會被「裁切」掉。
 
-See visual examples of the above at the [MDN object-fit documentation.](https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit)
+有關上述內容的視覺範例，請參閱 [MDN object-fit 文件。](https://developer.mozilla.org/zh-TW/docs/Web/CSS/object-fit)
 
-You can also style your image with the [object-position property](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position) to adjust its position within its containing element.
+你也可以使用 [object-position property](https://developer.mozilla.org/en-US/docs/Web/CSS/object-position) 調整圖片在它所包含的元素中的位置，來為你的圖片添加樣式。
 
-IMPORTANT: For the "fill" image to render properly, its parent element **must** be styled with `position: "relative"`, `position: "fixed"`, or `position: "absolute"`.
+重要：要正確地呈現「填滿」圖片，其父元素**必須**套用樣式 `position: "relative"`, `position: "fixed"`, 或 `position: "absolute"`。
 
-## Using placeholders
+## 使用 placeholder
 
-### Automatic placeholders
+<input type="text" placeholder="請輸入您的姓名">
 
-NgOptimizedImage can display an automatic low-resolution placeholder for your image if you're using a CDN or image host that provides automatic image resizing. Take advantage of this feature by adding the `placeholder` attribute to your image:
+### 自動預留位置
+
+如果使用提供自動圖片調整大小的 CDN 或圖片主機，`NgOptimizedImage` 可以為您的圖片顯示自動的低解析度預留位置。透過將 `placeholder` 屬性新增到圖片，來利用此功能：
 
 <code-example format="typescript" language="typescript">
 
@@ -124,9 +131,9 @@ NgOptimizedImage can display an automatic low-resolution placeholder for your im
 
 </code-example>
 
-Adding this attribute automatically requests a second, smaller version of the image using your specified image loader. This small image will be applied as a `background-image` style with a CSS blur while your image loads. If no image loader is provided, no placeholder image can be generated and an error will be thrown.
+加入這個屬性會自動使用您指定的圖片載入器請求第二個較小的圖片版本。這張小圖片會以 CSS 模糊的形式套用為 `background-image` 風格，同時載入您的圖片。如果沒有提供圖片載入器，就無法產生佔位圖片，並且會擲回錯誤。
 
-The default size for generated placeholders is 30px wide. You can change this size by specifying a pixel value in the `IMAGE_CONFIG` provider, as seen below:
+預設產生的預留位置大小為寬 30 像素。您可以透過在 `IMAGE_CONFIG` 提供者中指定像素值來變更此大小，如下所示：
 
 <code-example format="typescript" language="typescript">
 providers: [
@@ -139,11 +146,11 @@ providers: [
 ],
 </code-example>
 
-If you want sharp edges around your blurred placeholder, you can wrap your image in a containing `<div>` with the `overflow: hidden` style. As long as the `<div>` is the same size as the image (such as by using the `width: fit-content` style), the "fuzzy edges" of the placeholder will be hidden.
+如果你想讓模糊預留位置邊緣銳利，你可以將圖片包覆在一個包含的 `<div>` 中，並套用 `overflow: hidden` 樣式。只要 `<div>` 與圖片大小相同（例如使用 `width: fit-content` 樣式），預留位置的「模糊邊緣」就會被隱藏。
 
-### Data URL placeholders
+### 數據 URL 預留位置
 
-You can also specify a placeholder using a base64 [data URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs) without an image loader. The data url format is `data:image/[imagetype];[data]`, where `[imagetype]` is the image format, just as `png`, and `[data]` is a base64 encoding of the image. That encoding can be done using the command line or in JavaScript. For specific commands, see [the MDN documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs#encoding_data_into_base64_format). An example of a data URL placeholder with truncated data is shown below:
+您也可以使用 base64 [資料 URL](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs)指定一個預留位置，而不需要影像載入器。資料網址格式為 `data:image/[imagetype];[data]`，其中 `[imagetype]` 是影像格式，例如 `png`，而 `[data]` 是影像的 base64 編碼。該編碼可以使用命令列或 JavaScript 執行。有關特定命令，請參閱 [MDN 文件](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URLs#encoding_data_into_base64_format)。以下顯示一個資料 URL 預留位置的範例，其中包含截斷的資料：
 
 <code-example format="typescript" language="typescript">
 
@@ -151,11 +158,11 @@ You can also specify a placeholder using a base64 [data URL](https://developer.m
 
 </code-example>
 
-However, large data URLs  increase the size of your Angular bundles and slow down page load. If you cannot use an image loader, the Angular team recommends keeping base64 placeholder images smaller than 4KB and using them exclusively on critical images. In addition to decreasing placeholder dimensions, consider changing image formats or parameters used when saving images. At very low resolutions, these parameters can have a large effect on file size.
+然而，大型資料 URL 會增加 Angular 捆綁程式的大小並降低頁面載入速度。如果您無法使用影像載入器，Angular 團隊建議將 base64 預留位置影像保持在 4KB 以下，並僅將它們用於重要影像。除了減少預留位置尺寸，請考慮在儲存影像時變更影像格式或參數。在非常低的解析度下，這些參數可能會對檔案大小產生很大的影響。
 
-### Non-blurred placeholders
+### 非模糊的預留位置
 
-By default, NgOptimizedImage applies a CSS blur effect to image placeholders. To render a placeholder without blur, provide a `placeholderConfig` argument with an object that includes the `blur` property, set to false. For example:
+預設情況下，NgOptimizedImage 會對圖片預留位置套用 CSS 模糊效果。若要呈現沒有模糊效果的預留位置，請提供一個包含 `blur` 屬性的物件作為 `placeholderConfig` 參數，並將其設定為 false。例如：
 
 <code-example format="typescript" language="typescript">
 
@@ -163,21 +170,21 @@ By default, NgOptimizedImage applies a CSS blur effect to image placeholders. To
 
 </code-example>
 
-## Adjusting image styling
+## 調整圖片樣式
 
-Depending on the image's styling, adding `width` and `height` attributes may cause the image to render differently. `NgOptimizedImage` warns you if your image styling renders the image at a distorted aspect ratio.
+根據圖片的樣式，添加 `width` 和 `height` 屬性可能導致圖片呈現方式不同。如果您的圖片樣式以失真的長寬比呈現圖片，`NgOptimizedImage` 會警告您。
 
-You can typically fix this by adding `height: auto` or `width: auto` to your image styles. For more information, see the [web.dev article on the `<img>` tag](https://web.dev/patterns/web-vitals-patterns/images/img-tag).
+您通常可以透過將 `height: auto` 或 `width: auto` 新增至您的圖片樣式來修復此問題。如需更多資訊，請參閱 [web.dev 文章](https://web.dev/patterns/web-vitals-patterns/images/img-tag)中關於 `<img>` 標籤的內容。
 
-If the `width` and `height` attribute on the image are preventing you from sizing the image the way you want with CSS, consider using `fill` mode instead, and styling the image's parent element.
+如果圖像上的 `width` 和 `height` 屬性妨礙您使用 CSS 調整圖像大小，請考慮改用 `fill` 模式，並調整圖像父元素的樣式。
 
-## Performance Features
+## 效能特點
 
-NgOptimizedImage includes a number of features designed to improve loading performance in your app. These features are described in this section.
+NgOptimizedImage 包含許多旨在改善應用程式載入效能的功能。本節將說明這些功能。
 
-### Add resource hints
+### 加入資源提示
 
-You can add a [`preconnect` resource hint](https://web.dev/preconnect-and-dns-prefetch) for your image origin to ensure that the LCP image loads as quickly as possible. Always put resource hints in the `<head>` of the document.
+您可以為圖片來源新增 [`preconnect` 資源提示](https://web.dev/preconnect-and-dns-prefetch)，以確保 LCP 圖片能盡快載入。資源提示務必放在文件 `<head>` 中。
 
 <docs-code language="html">
 
@@ -185,9 +192,9 @@ You can add a [`preconnect` resource hint](https://web.dev/preconnect-and-dns-pr
 
 </docs-code>
 
-By default, if you use a loader for a third-party image service, the `NgOptimizedImage` directive will warn during development if it detects that there is no `preconnect` resource hint for the origin that serves the LCP image.
+預設情況下，如果您使用協力廠商圖像服務的載入器，則當 `NgOptimizedImage` 指令偵測到服務 LCP 影像的來源沒有 `preconnect` 資源提示時，會在開發期間發出警告。
 
-To disable these warnings, inject the `PRECONNECT_CHECK_BLOCKLIST` token:
+若要停用這些警告，注入 `PRECONNECT_CHECK_BLOCKLIST` 令牌：
 
 <docs-code language="typescript">
 
@@ -197,29 +204,29 @@ providers: [
 
 </docs-code>
 
-### Request images at the correct size with automatic `srcset`
+### 使用自動 `srcset` 以正確尺寸要求影像
 
-Defining a [`srcset` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/srcset) ensures that the browser requests an image at the right size for your user's viewport, so it doesn't waste time downloading an image that's too large. `NgOptimizedImage` generates an appropriate `srcset` for the image, based on the presence and value of the [`sizes` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes) on the image tag.
+定義 [`srcset` 屬性](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/srcset) 可確保瀏覽器會根據使用者的視窗要求正確尺寸的圖片，因此不會浪費時間下載尺寸過大的圖片。`NgOptimizedImage` 會根據圖片標籤上 [`sizes` 屬性](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes) 的存在與值，為圖片產生適當的 `srcset`。
 
-#### Fixed-size images
+#### 固定大小的圖片
 
-If your image should be "fixed" in size  (i.e. the same size across devices, except for [pixel density](https://web.dev/codelab-density-descriptors/)), there is no need to set a `sizes` attribute. A `srcset` can be generated automatically from the image's width and height attributes with no further input required.
+如果您的圖像大小應為「固定」(亦即在不同裝置上具有相同大小，像素密度除外 (https://web.dev/codelab-density-descriptors/))，則不需要設定 `sizes` 屬性。可以從圖像的寬度和高度屬性自動產生 `srcset`，無需進一步輸入。
 
-Example srcset generated: `<img ... srcset="image-400w.jpg 1x, image-800w.jpg 2x">`
+範例 srcset 產生：`<img ... srcset="image-400w.jpg 1x, image-800w.jpg 2x">`
 
-#### Responsive images
+#### 響應式圖片
 
-If your image should be responsive (i.e. grow and shrink according to viewport size), then you will need to define a [`sizes` attribute](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes) to generate the `srcset`.
+如果您的圖像應具有響應性（即根據視窗大小縮放），那麼您將需要定義[`sizes` 屬性](https://developer.mozilla.org/zh-TW/docs/Web/API/HTMLImageElement/sizes)來產生 `srcset`。
 
-If you haven't used `sizes` before, a good place to start is to set it based on viewport width. For example, if your CSS causes the image to fill 100% of viewport width, set `sizes` to `100vw` and the browser will select the image in the `srcset` that is closest to the viewport width (after accounting for pixel density). If your image is only likely to take up half the screen (ex: in a sidebar), set `sizes` to `50vw` to ensure the browser selects a smaller image. And so on.
+如果您之前沒有使用過 `sizes`，一個好的開始做法是根據視窗寬度設置。例如，如果您的 CSS 導致圖像填滿視窗寬度的 100%，請將 `sizes` 設置為 `100vw`，瀏覽器會在 `srcset` 中選擇最接近視窗寬度的圖像（在考量像素密度之後）。如果您的圖像可能只佔螢幕的一半（例如：在側邊欄中），請將 `sizes` 設置為 `50vw`，以確保瀏覽器選擇較小的圖像。以此類推。
 
-If you find that the above does not cover your desired image behavior, see the documentation on [advanced sizes values](#advanced-sizes-values).
+如果您發現以上內容未涵蓋您想要的圖片行為，請參閱 [進階大小值](#進階大小值) 文件。
 
-By default, the responsive breakpoints are:
+預設情況下，響應式中斷點為：
 
 `[16, 32, 48, 64, 96, 128, 256, 384, 640, 750, 828, 1080, 1200, 1920, 2048, 3840]`
 
-If you would like to customize these breakpoints, you can do so using the `IMAGE_CONFIG` provider:
+如果您想自訂這些斷點，您可以使用 `IMAGE_CONFIG` 提供者來執行此操作：
 
 <docs-code language="typescript">
 providers: [
@@ -232,7 +239,7 @@ providers: [
 ],
 </docs-code>
 
-If you would like to manually define a `srcset` attribute, you can provide your own using the `ngSrcset` attribute:
+如果您想手動定義一個 `srcset` 屬性，您可以使用 `ngSrcset` 屬性提供您自己的屬性：
 
 <docs-code language="html">
 
@@ -240,7 +247,7 @@ If you would like to manually define a `srcset` attribute, you can provide your 
 
 </docs-code>
 
-If the `ngSrcset` attribute is present, `NgOptimizedImage` generates and sets the `srcset` based on the sizes included. Do not include image file names in `ngSrcset` - the directive infers this information from `ngSrc`. The directive supports both width descriptors (e.g. `100w`) and density descriptors (e.g. `1x`).
+如果存在 `ngSrcset` 屬性，`NgOptimizedImage` 會根據所包含的尺寸來產生並設定 `srcset`。請勿在 `ngSrcset` 中包含影像檔案名稱 - 指令會從 `ngSrc` 推斷此資訊。此指令同時支援寬度描述符 (例如 `100w`) 和密度描述符 (例如 `1x`)。
 
 <docs-code language="html">
 
@@ -248,9 +255,9 @@ If the `ngSrcset` attribute is present, `NgOptimizedImage` generates and sets th
 
 </docs-code>
 
-### Disabling automatic srcset generation
+### 停用自動 srcset 生成
 
-To disable srcset generation for a single image, you can add the `disableOptimizedSrcset` attribute on the image:
+若要停用單一圖片的 srcset 產生，您可以在圖片上新增 `disableOptimizedSrcset` 屬性：
 
 <docs-code language="html">
 
@@ -258,9 +265,9 @@ To disable srcset generation for a single image, you can add the `disableOptimiz
 
 </docs-code>
 
-### Disabling image lazy loading
+### 停用圖片延遲載入
 
-By default, `NgOptimizedImage` sets `loading=lazy` for all images that are not marked `priority`. You can disable this behavior for non-priority images by setting the `loading` attribute. This attribute accepts values: `eager`, `auto`, and `lazy`. [See the documentation for the standard image `loading` attribute for details](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/loading#value).
+預設情況下，`NgOptimizedImage` 會為所有未標記為 `priority` 的圖片設定 `loading=lazy`。您可以透過設定 `loading` 屬性來停用非優先圖片的此行為。此屬性接受的值為：`eager`、`auto` 和 `lazy`。[請參閱標準圖片 `loading` 屬性的文件，以取得詳細資訊](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/loading#value)。
 
 <docs-code language="html">
 
@@ -268,9 +275,9 @@ By default, `NgOptimizedImage` sets `loading=lazy` for all images that are not m
 
 </docs-code>
 
-### Advanced 'sizes' values
+### 進階的 'sizes' 值
 
-You may want to have images displayed at varying widths on differently-sized screens. A common example of this pattern is a grid- or column-based layout that renders a single column on mobile devices, and two columns on larger devices. You can capture this behavior in the `sizes` attribute, using a "media query" syntax, such as the following:
+你可能希望在不同大小的螢幕上以不同寬度顯示圖像。這種模式的常見範例是基於網格或欄位的版面配置，在行動裝置上呈現單欄，在較大的裝置上則呈現兩欄。你可以使用「媒體查詢」語法在 `sizes` 屬性中擷取此行為，如下所示：
 
 <docs-code language="html">
 
@@ -278,37 +285,47 @@ You may want to have images displayed at varying widths on differently-sized scr
 
 </docs-code>
 
-The `sizes` attribute in the above example says "I expect this image to be 100 percent of the screen width on devices under 768px wide. Otherwise, I expect it to be 50 percent of the screen width.
+在上面的範例中，`sizes` 屬性表示「我希望這張圖片在螢幕寬度小於 768px 的裝置上為螢幕寬度的 100%。否則，我希望它為螢幕寬度的 50%。
 
-For additional information about the `sizes` attribute, see [web.dev](https://web.dev/learn/design/responsive-images/#sizes) or [mdn](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes).
+有關 `sizes` 屬性的更多資訊，請參閱 [web.dev](https://web.dev/learn/design/responsive-images/#sizes) 或 [mdn](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes)。
 
-## Configuring an image loader for `NgOptimizedImage`
+## 為 `NgOptimizedImage` 配置影像載入器
 
-A "loader" is a function that generates an [image transformation URL](https://web.dev/image-cdns/#how-image-cdns-use-urls-to-indicate-optimization-options) for a given image file. When appropriate, `NgOptimizedImage` sets the size, format, and image quality transformations for an image.
+html
+<script type="module">
+  import {NgOptimizedImage} from '@angular/common';
+  import {defineCustomElements} from '@angular/elements';
 
-`NgOptimizedImage` provides both a generic loader that applies no transformations, as well as loaders for various third-party image services. It also supports writing your own custom loader.
+  defineCustomElements(window, [
+    NgOptimizedImage,
+  ]);
+</script>
 
-| Loader type| Behavior |
+「載入器」是一個函式，可為特定影像檔案產生 [影像轉換網址](https://web.dev/image-cdns/#how-image-cdns-use-urls-to-indicate-optimization-options)。當適當時，`NgOptimizedImage` 會設定影像的尺寸、格式和影像品質轉換。
+
+`NgOptimizedImage` 提供了一個套用沒有轉換的通用載入器，以及各種第三方圖像服務的載入器。它還支援撰寫您自己的客製化載入器。
+
+| 載入器類型 | 行為 |
 |:--- |:--- |
-| Generic loader | The URL returned by the generic loader will always match the value of `src`. In other words, this loader applies no transformations. Sites that use Angular to serve images are the primary intended use case for this loader.|
-| Loaders for third-party image services | The URL returned by the loaders for third-party image services will follow API conventions used by that particular image service. |
-| Custom loaders | A custom loader's behavior is defined by its developer. You should use a custom loader if your image service isn't supported by the loaders that come preconfigured with `NgOptimizedImage`.|
+| 通用載入器 | 通用載入器傳回的 URL 將永遠與 `src` 的值相符。換句話說，此載入器不套用任何轉換。將 Angular 用於提供圖片的網站是此載入器的主要預期用例。|
+| 第三方圖片服務的載入器 | 第三方圖片服務的載入器傳回的 URL 將遵循該特定圖片服務使用的 API 慣例。 |
+| 自訂載入器 | 自訂載入器的行為由其開發人員定義。如果你的圖片服務不受 `NgOptimizedImage` 預先配置的載入器支援，你應該使用自訂載入器。|
 
-Based on the image services commonly used with Angular applications, `NgOptimizedImage` provides loaders preconfigured to work with the following image services:
+`NgOptimizedImage` 基於與 Angular 應用程式常用的圖片服務，提供預先配置的載入器，以便搭配下列圖片服務使用：
 
-| Image Service | Angular API | Documentation |
+| 影像服務 | Angular API | 文件 |
 |:--- |:--- |:--- |
-| Cloudflare Image Resizing | `provideCloudflareLoader` | [Documentation](https://developers.cloudflare.com/images/image-resizing/) |
-| Cloudinary | `provideCloudinaryLoader` | [Documentation](https://cloudinary.com/documentation/resizing_and_cropping) |
-| ImageKit | `provideImageKitLoader` | [Documentation](https://docs.imagekit.io/) |
-| Imgix | `provideImgixLoader` | [Documentation](https://docs.imgix.com/) |
-| Netlify | `provideNetlifyLoader` | [Documentation](https://docs.netlify.com/image-cdn/overview/) |
+| Cloudflare 影像調整大小 | `provideCloudflareLoader` | [文件](https://developers.cloudflare.com/images/image-resizing/) |
+| Cloudinary | `provideCloudinaryLoader` | [文件](https://cloudinary.com/documentation/resizing_and_cropping) |
+| ImageKit | `provideImageKitLoader` | [文件](https://docs.imagekit.io/) |
+| Imgix | `provideImgixLoader` | [文件](https://docs.imgix.com/) |
+| Netlify | `provideNetlifyLoader` | [文件](https://docs.netlify.com/image-cdn/overview/) |
 
-To use the **generic loader** no additional code changes are necessary. This is the default behavior.
+要使用 **通用加載器** 無需額外的程式碼更改。這是預設行為。
 
-### Built-in Loaders
+### 內建載入器
 
-To use an existing loader for a **third-party image service**, add the provider factory for your chosen service to the `providers` array. In the example below, the Imgix loader is used:
+要為**第三方圖像服務**使用現有載入器，請將您選擇的服務的提供者工廠新增至 `providers` 陣列。在以下範例中，使用 Imgix 載入器：
 
 <docs-code language="typescript">
 providers: [
@@ -316,17 +333,17 @@ providers: [
 ],
 </docs-code>
 
-The base URL for your image assets should be passed to the provider factory as an argument. For most sites, this base URL should match one of the following patterns:
+應該將圖像資產的基本 URL 作為參數傳遞給提供者工廠。對於大多數網站，此基本 URL 應符合下列模式之一：
 
 * <https://yoursite.yourcdn.com>
 * <https://subdomain.yoursite.com>
 * <https://subdomain.yourcdn.com/yoursite>
 
-You can learn more about the base URL structure in the docs of a corresponding CDN provider.
+您可以在對應的 CDN 提供商的文件中瞭解更多關於基本 URL 結構的資訊。
 
-### Custom Loaders
+### 自訂載入器
 
-To use a **custom loader**, provide your loader function as a value for the `IMAGE_LOADER` DI token. In the example below, the custom loader function returns a URL starting with `https://example.com` that includes `src` and `width` as URL parameters.
+若要使用**自訂載入器**，請將載入器函數提供為 `IMAGE_LOADER` DI 程式碼的數值。在以下範例中，自訂載入器函數傳回以 `https://example.com` 開頭的 URL，其中包含 `src` 和 `width` 作為 URL 參數。
 
 <docs-code language="typescript">
 providers: [
@@ -339,19 +356,19 @@ providers: [
 ],
 </docs-code>
 
-A loader function for the `NgOptimizedImage` directive takes an object with the `ImageLoaderConfig` type (from `@angular/common`) as its argument and returns the absolute URL of the image asset. The `ImageLoaderConfig` object contains the `src` property, and optional `width` and `loaderParams` properties.
+`NgOptimizedImage` 指令的載入器函數需要一個物件，其型別為 `ImageLoaderConfig`（來自 `@angular/common`），作為其引數，並傳回影像資源的絕對 URL。`ImageLoaderConfig` 物件包含 `src` 屬性，以及選用的 `width` 和 `loaderParams` 屬性。
 
-Note: even though the `width` property may not always be present, a custom loader must use it to support requesting images at various widths in order for `ngSrcset` to work properly.
+注意：即使可能並不總是存在 `width` 屬性，自訂載入器必須使用它來支援以各種寬度要求影像，才能讓 `ngSrcset` 正常運作。
 
-### The `loaderParams` Property
+### `loaderParams` 屬性
 
-There is an additional attribute supported by the `NgOptimizedImage` directive, called `loaderParams`, which is specifically designed to support the use of custom loaders. The `loaderParams` attribute take an object with any properties as a value, and does not do anything on its own. The data in `loaderParams` is added to the `ImageLoaderConfig` object passed to your custom loader, and can be used to control the behavior of the loader.
+`NgOptimizedImage` 指令支援一個額外的屬性，稱為 `loaderParams`，專門設計來支援使用自訂載入器。`loaderParams` 屬性取得一個物件，其任何屬性皆為值，且本身不執行任何動作。`loaderParams` 中的資料會新增到傳遞給自訂載入器的 `ImageLoaderConfig` 物件，且可拿來控制載入器的行為。
 
-A common use for `loaderParams` is controlling advanced image CDN features.
+`loaderParams` 的常見用途是控制進階的圖片 CDN 功能。
 
-### Example custom loader
+### 範例自訂載入器
 
-The following shows an example of a custom loader function. This example function concatenates `src` and `width`, and uses `loaderParams` to control a custom CDN feature for rounded corners:
+以下顯示自訂載入器函數的範例。此範例函數會連結 `src` 和 `width`，並使用 `loaderParams` 來控制圓角的客製 CDN 功能：
 
 <docs-code language="typescript">
 const myCustomLoader = (config: ImageLoaderConfig) => {
@@ -367,7 +384,7 @@ const myCustomLoader = (config: ImageLoaderConfig) => {
 };
 </docs-code>
 
-Note that in the above example, we've invented the 'roundedCorners' property name to control a feature of our custom loader. We could then use this feature when creating an image, as follows:
+請注意，在上面的範例中，我們發明了「roundedCorners」屬性名稱，以控制我們的自訂載入器的功能。然後，我們可以在建立影像時使用此功能，如下所示：
 
 <docs-code language="html">
 
@@ -375,32 +392,33 @@ Note that in the above example, we've invented the 'roundedCorners' property nam
 
 </docs-code>
 
-## Frequently Asked Questions
+## 常見問題
 
-### Does NgOptimizedImage support the `background-image` css property?
+### NgOptimizedImage 是否支援 `background-image` css 屬性？
 
-The NgOptimizedImage does not directly support the `background-image` css property, but it is designed to easily accommodate the use case of having an image as the background of another element.
+NgOptimizedImage 不直接支援 `background-image` css 屬性，但它被設計成可以輕鬆支援將圖片作為另一個元素背景的用例。
 
-Here's a simple step-by-step process for migrating from `background-image` to `NgOptimizedImage`. For these steps, we'll refer to the element that has an image background as the "containing element":
+以下是一份從 `background-image` 遷移到 `NgOptimizedImage` 的簡單分步流程。在這些步驟中，我們將把具有圖像背景的元素稱為「包含元素」：
 
-1) Remove the `background-image` style from the containing element.
-2) Ensure that the containing element has `position: "relative"`, `position: "fixed"`, or `position: "absolute"`.
-3) Create a new image element as a child of the containing element, using `ngSrc` to enable the `NgOptimizedImage` directive.
-4) Give that element the `fill` attribute. Do not include a `height` and `width`.
-5) If you believe this image might be your [LCP element](https://web.dev/lcp/), add the `priority` attribute to the image element.
+1) 從包含元素中移除 `background-image` 樣式。
+2) 確保包含元素具有 `position: "relative"`, `position: "fixed"`, 或 `position: "absolute"`。
+3) 建立一個新的影像元素作為包含元素的子元素，使用 `ngSrc` 以啟用 `NgOptimizedImage` 指令。
+4) 給予該元素 `fill` 屬性。請勿包含 `height` 和 `width`。
+5) 如果您認為此影像可能是您的 [LCP 元素](https://web.dev/lcp/)，請將 `priority` 屬性新增至影像元素。
 
-You can adjust how the background image fills the container as described in the [Using fill mode](#using-fill-mode) section.
+您可以調整背景圖片填滿容器的方式，如 [使用填滿模式](#using-fill-mode) 區段所述。
 
-### Why can't I use `src` with `NgOptimizedImage`?
+### 為什麼我無法在 `NgOptimizedImage` 中使用 `src`？
 
-The `ngSrc` attribute was chosen as the trigger for NgOptimizedImage due to technical considerations around how images are loaded by the browser. NgOptimizedImage makes programmatic changes to the `loading` attribute -- if the browser sees the `src` attribute before those changes are made, it will begin eagerly downloading the image file, and the loading changes will be ignored.
+由於關於瀏覽器如何載入影像的技術考量，選擇 `ngSrc` 屬性作為 NgOptimizedImage 的觸發器。NgOptimizedImage 對 `loading` 屬性進行程式化變更 -- 如果瀏覽器在這些變更完成之前看到 `src` 屬性，它將開始急切下載影像檔案，而載入變更將被忽略。
 
-### Can I use two different image domains in the same page?
+### 我可以在同一頁面中使用兩個不同的圖片網域嗎？
 
-The [image loaders](#configuring-an-image-loader-for-ngoptimizedimage) provider pattern is designed to be as simple as possible for the common use case of having only a single image CDN used within a component. However, it's still very possible to manage multiple image CDNs using a single provider.
+[影像載入器](#configuring-an-image-loader-for-ngoptimizedimage) 提供者模式的設計儘可能簡單，適用於在元件中僅使用單一影像 CDN 的常見用例。但是，使用單一提供者來管理多個影像 CDN 仍然非常可行。
 
-To do this, we recommend writing a [custom image loader](#custom-loaders) which uses the [`loaderParams` property](#the-loaderparams-property) to pass a flag that specifies which image CDN should be used, and then invokes the appropriate loader based on that flag.
+為此，我們建議撰寫一個 [自訂圖像載入器](#custom-loaders)，該載入器使用 [`loaderParams` 屬性](#the-loaderparams-property) 來傳遞指定應使用哪個圖像 CDN 的旗標，然後根據該旗標呼叫適當的載入器。
 
-### Can you add a new built-in loader for my preferred CDN?
+### 是否可以為我喜好的 CDN 新增內建載入器？
 
-For maintenance reasons, we don't currently plan to support additional built-in loaders in the Angular repository. Instead, we encourage developers to publish any additional image loaders as third-party packages.
+出於維護原因，我們目前不打算在 Angular 儲存庫中支援額外內建的載入器。相反的，我們鼓勵開發人員將任何額外的影像載入器發佈為第三方套件。
+

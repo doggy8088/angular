@@ -1,7 +1,7 @@
-# Change detection with pipes
+# 使用 pipe 進行變更偵測
 
-Pipes are often used with data-bound values that might change based on user actions.
-If the data is a primitive input value, such as `String` or `Number`, or an object reference as input, such as `Date` or `Array`, Angular executes the pipe whenever it detects a change for the value.
+管道經常與可能會根據使用者動作而改變的資料繫結值一起使用。
+如果資料是原始輸入值，例如 `字串` 或 `數字`，或是物件參考作為輸入，例如 `日期` 或 `陣列`，Angular 會在偵測到該值的變更時執行管道。
 
 <docs-code-multifile path="adev/src/content/examples/pipes/src/app/power-booster.component.ts">
   <docs-code header="src/app/exponential-strength.pipe.ts" path="adev/src/content/examples/pipes/src/app/exponential-strength.pipe.ts"
@@ -9,106 +9,107 @@ If the data is a primitive input value, such as `String` or `Number`, or an obje
   <docs-code header="src/app/power-booster.component.ts" path="adev/src/content/examples/pipes/src/app/power-booster.component.ts"/>
 </docs-code-multifile>
 
-The `exponentialStrength` pipe executes every time the user changes the value or the exponent. See the highlighted line above.
+`exponentialStrength` 管道在用戶更改值或指數時每次執行。請參閱上面突出的行。
 
-Angular detects each change and immediately runs the pipe.
-This is fine for primitive input values.
-However, if you change something *inside* a composite object (such as the month of a date, an element of an array, or an object property), you need to understand how change detection works, and how to use an `impure` pipe.
+Angular 會偵測每個變更，並立即執行管道。
+對於基本輸入值來說，這是沒問題的。
+然而，如果你變更複合物件 *內部* 的內容（例如日期的月份、陣列的元素或物件屬性），你需要了解變更偵測的運作方式，以及如何使用「不純」管道。
 
-## How change detection works
+## 變更偵測如何運作
 
-Angular looks for changes to data-bound values in a change detection process that runs after every DOM event: every keystroke, mouse move, timer tick, and server response.
-The following example, which doesn't use a pipe, demonstrates how Angular uses its default change detection strategy to monitor and update its display of every hero in the `heroes` array.
-The example tabs show the following:
+Angular 在每次 DOM 事件後運行的變更偵測程序中尋找資料繫結值的變更：每個鍵擊、滑鼠移動、計時器滴答聲和伺服器回應。
+以下範例未採用管道，示範 Angular 如何使用其預設的變更偵測策略來監控並更新 `heroes` 陣列中每個英雄的顯示方式。
+範例索引標籤顯示下列內容：
 
-| Files                               | Details |
+| 檔案                               | 詳細 |
 |:---                                 |:---     |
-| `flying-heroes.component.html (v1)` | The `*ngFor` repeater displays the hero names.                     |
-| `flying-heroes.component.ts (v1)`   | Provides heroes, adds heroes into the array, and resets the array. |
+| `flying-heroes.component.html (v1)` | `*ngFor` 重複器顯示英雄名稱。                     |
+| `flying-heroes.component.ts (v1)`   | 提供英雄、將英雄新增到陣列中，並重設陣列。 |
 
 <docs-code-multifile>
     <docs-code header="src/app/flying-heroes.component.html (v1)" path="adev/src/content/examples/pipes/src/app/flying-heroes.component.html" visibleRegion="template-1"/>
     <docs-code header="src/app/flying-heroes.component.ts (v1)" path="adev/src/content/examples/pipes/src/app/flying-heroes.component.ts" visibleRegion="v1"/>
 </docs-code-multifile>
 
-Angular updates the display every time the user adds a hero.
-If the user clicks the **Reset** button, Angular replaces `heroes` with a new array of the original heroes and updates the display.
-If you add the ability to remove or change a hero, Angular would detect those changes and update the display as well.
+Angular 會在使用者新增英雄時更新顯示。
+如果使用者點擊 **重置** 按鈕，Angular 會將 `heroes` 替換為一個包含原始英雄的新陣列，並更新顯示。
+如果您新增移除或變更英雄的功能，Angular 也會偵測這些變更並更新顯示。
 
-However, executing a pipe to update the display with every change would slow down your application's performance.
-So Angular uses a faster change-detection algorithm for executing a pipe, as described in the next section.
+然而，執行一個管線來更新顯示，每次變更都會減慢應用程式的效能。
+因此，Angular 使用更快的變更偵測演算法來執行管線，如下一節所述。
 
-## Detecting pure changes to primitives and object references
+## 偵測原始資料和物件參考的純粹變更
 
-By default, pipes are defined as *pure* so that Angular executes the pipe only when it detects a *pure change* to the input value or parameters.
-A pure change is either a change to a primitive input value \(such as `String`, `Number`, `Boolean`, or `Symbol`\), or a changed object reference \(such as `Date`, `Array`, `Function`, or `Object`\).
+預設情況下，管道定義為「純粹」，以便 Angular 僅在偵測到輸入值或參數的「純粹變更」時才執行管道。
+純粹變更不是變更基本輸入值（例如 `String`、`Number`、`Boolean` 或 `Symbol`），就是變更物件參考（例如 `Date`、`Array`、`Function` 或 `Object`）。
 
-A pure pipe must use a pure function, which is one that processes inputs and returns values without side effects.
-In other words, given the same input, a pure function should always return the same output.
+純函數必須使用純函數，它是一個處理輸入並傳回值而沒有副作用的函數。
+換句話說，給定相同的輸入，純函數應該總是傳回相同的輸出。
 
-With a pure pipe, Angular ignores changes within objects and arrays because checking a primitive value or object reference is much faster than performing a deep check for differences within objects.
-Angular can quickly determine if it can skip executing the pipe and updating the view.
+使用純粹的管線時，Angular 會忽略物件和陣列內的變更，因為檢查基本值或物件參考的速度比對物件內部的差異執行深入檢查快很多。
+Angular 可以快速地判斷是否可以略過執行管線和更新檢視。
 
-However, a pure pipe with an array as input might not work the way you want.
-To demonstrate this issue, change the previous example to filter the list of heroes to just those heroes who can fly.
+然而，具有陣列作為輸入的純粹管線可能無法以您想要的方式運作。
+為了說明此問題，請將先前的範例變更為僅過濾可以飛行的英雄清單。
 
-For this, consider we use the `FlyingHeroesPipe` in the `*ngFor` repeater as shown in the following code.
-The tabs for the example show the following:
+為此，考慮我們在 `*ngFor` 重複器中使用 `FlyingHeroesPipe`，如下面的程式碼所示。
+範例的標籤顯示下列內容：
 
-| Files                          | Details |
+| 檔案                          | 詳細資料 |
 |:---                            |:---     |
-| flying-heroes.component.html   | Template with the new pipe used. |
-| flying-heroes.pipe.ts          | File with custom pipe that filters flying heroes. |
+| flying-heroes.component.html   | 使用新管道的範本。 |
+| flying-heroes.pipe.ts          | 具有自訂管道的檔案，可過濾飛行英雄。 |
 
 <docs-code-multifile path="adev/src/content/examples/pipes/src/app/flying-heroes.component.ts_FlyingHeroesComponent" preview>
     <docs-code header="src/app/flying-heroes.component.html" path="adev/src/content/examples/pipes/src/app/flying-heroes.component.html" visibleRegion="template-flying-heroes"/>
     <docs-code header="src/app/flying-heroes.pipe.ts" path="adev/src/content/examples/pipes/src/app/flying-heroes.pipe.ts" visibleRegion="pure"/>
 </docs-code-multifile>
 
-The application now shows unexpected behavior: When the user adds flying heroes, none of them appear under "Heroes who fly."
-This happens because the code that adds a hero does so by pushing it onto the `heroes` array that is used as input for the `flyingHeroes` pipe.
+應用程序現在顯示出意外的行為：當使用者新增會飛的英雄時，沒有任何英雄會出現在「會飛的英雄」底下。
+這發生是因為新增英雄的程式碼會將其推入用作 `flyingHeroes` 管道輸入的 `heroes` 陣列。
 
 <docs-code header="src/app/flying-heroes.component.ts" path="adev/src/content/examples/pipes/src/app/flying-heroes.component.ts" visibleRegion="push"/>
 
-The change detector ignores changes within elements of an array, so the pipe doesn't run.
-The reason Angular ignores the changed array element is that the *reference* to the array hasn't changed.
-Because the array is the same, Angular does not update the display.
+變更偵測器忽略陣列元素內的變更，因此管線不會執行。
+Angular 忽略已變更的陣列元素的原因是陣列的 *參考* 沒有變更。
+由於陣列相同，Angular 沒有更新顯示。
 
-One way to get the behavior you want is to change the object reference itself.
-Replace the array with a new array containing the newly changed elements, and then input the new array to the pipe.
-In the preceding example, create an array with the new hero appended, and assign that to `heroes`.
-Angular detects the change in the array reference and executes the pipe.
+要取得您想要的效果，其中一種方法是變更物件參考本身。
+將陣列替換為包含新變更元素的新陣列，然後將新陣列輸入至管線。
+在前述範例中，建立一個陣列，並將新的英雄附加在陣列尾端，然後將該陣列指定給 `heroes`。
+Angular 會偵測陣列參考的變更，然後執行管線。
 
-To summarize, if you mutate the input array, the pure pipe doesn't execute.
-If you *replace* the input array, the pipe executes and the display is updated.
-As an alternative, use an *impure* pipe to detect changes within composite objects such as arrays, as described in the next section.
+總之，如果您變異輸入陣列，純粹的管道不執行。
+如果您*取代*輸入陣列，管道執行且顯示已更新。
+或者，使用*不純*管道來偵測複合物件（例如陣列）內的變更，如下一節所述。
 
-## Detecting impure changes within composite objects
+## 偵測複合物件內部不純的變更
 
-To execute a custom pipe after a change *within* a composite object, such as a change to an element of an array, you need to define your pipe as `impure` to detect impure changes.
-Angular executes an impure pipe every time it detects a change (e.g. every keystroke or mouse event).
+若要執行複合物件 *內部* 變更之後的客製化管道（例如陣列元素的變更），您需要將管道定義為 `impure` 以偵測不純變更。
+Angular 在每次偵測到變更時（例如每次擊鍵或滑鼠事件）執行不純管道。
 
-IMPORTANT: While an impure pipe can be useful, be careful using one.
-A long-running impure pipe could dramatically slow down your application.
+重要：雖然不純的管線可能很有用，但使用時請小心。
+長期運行的非純管線可能會顯著降低應用程式的速度。
 
-Make a pipe impure by setting its `pure` flag to `false`:
+設定 `pure` 旗標為 `false` 使管線不純：
 
 <docs-code header="src/app/flying-heroes.pipe.ts" path="adev/src/content/examples/pipes/src/app/flying-heroes.pipe.ts"
            visibleRegion="pipe-decorator" highlight="[19]"/>
 
-The following code shows the complete implementation of `FlyingHeroesImpurePipe`, which extends `FlyingHeroesPipe` to inherit its characteristics.
-The example shows that you don't have to change anything else&mdash;the only difference is setting the `pure` flag as `false` in the pipe metadata.
+以下程式碼顯示 `FlyingHeroesImpurePipe` 的完整實作，它擴充 `FlyingHeroesPipe` 以繼承其特性。
+範例顯示您不必變更其他任何項目，唯一的差異是將管道中的 `pure` 標記設定為 `false`。
 
 <docs-code-multifile>
     <docs-code header="src/app/flying-heroes.pipe.ts (FlyingHeroesImpurePipe)" path="adev/src/content/examples/pipes/src/app/flying-heroes.pipe.ts" visibleRegion="impure"/>
     <docs-code header="src/app/flying-heroes.pipe.ts (FlyingHeroesPipe)" path="adev/src/content/examples/pipes/src/app/flying-heroes.pipe.ts" visibleRegion="pure"/>
 </docs-code-multifile>
 
-`FlyingHeroesImpurePipe` is a reasonable candidate for an impure pipe because the `transform` function is trivial and fast:
+`FlyingHeroesImpurePipe` 是個不純管道的合理候選，因為 `transform` 函數簡單且快速：
 
 <docs-code header="src/app/flying-heroes.pipe.ts (filter)" path="adev/src/content/examples/pipes/src/app/flying-heroes.pipe.ts" visibleRegion="filter"/>
 
-You can derive a `FlyingHeroesImpureComponent` from `FlyingHeroesComponent`.
-As shown in the following code, only the pipe in the template changes.
+您可以從 `FlyingHeroesComponent` 衍生一個 `FlyingHeroesImpureComponent`。
+如以下程式碼所示，只有範本中的管線會改變。
 
 <docs-code header="src/app/flying-heroes-impure.component.html (excerpt)" path="adev/src/content/examples/pipes/src/app/flying-heroes-impure.component.html" visibleRegion="template-flying-heroes"/>
+

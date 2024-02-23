@@ -1,33 +1,33 @@
-# Component testing scenarios
+# 元件測試情境
 
-This guide explores common component testing use cases.
+本指南探討常見的元件測試用例。
 
-## Component binding
+## 元件繫結
 
-In the example application, the `BannerComponent` presents static title text in the HTML template.
+在範例應用程式中，`BannerComponent` 在 HTML 範本中呈現靜態標題文字。
 
-After a few changes, the `BannerComponent` presents a dynamic title by binding to the component's `title` property like this.
+經過幾次變更後，`BannerComponent` 透過綁定組件的 `title` 屬性，呈現動態標題，如下所示。
 
 <docs-code header="app/banner/banner.component.ts" path="adev/src/content/examples/testing/src/app/banner/banner.component.ts" visibleRegion="component"/>
 
-As minimal as this is, you decide to add a test to confirm that component actually displays the right content where you think it should.
+儘管這很小，您決定新增一個測試，以確認元件實際上在您認為應該出現的地方顯示正確的內容。
 
-### Query for the `<h1>`
+### 查詢 `<h1>`
 
-You'll write a sequence of tests that inspect the value of the `<h1>` element that wraps the *title* property interpolation binding.
+您將撰寫一系列測試，用來檢查包含 *標題* 屬性插補繫結的 `<h1>` 元素的值。
 
-You update the `beforeEach` to find that element with a standard HTML `querySelector` and assign it to the `h1` variable.
+您更新 `beforeEach` 以使用標準 HTML `querySelector` 尋找該元素，並將其指派給 `h1` 變數。
 
 <docs-code header="app/banner/banner.component.spec.ts (setup)" path="adev/src/content/examples/testing/src/app/banner/banner.component.spec.ts" visibleRegion="setup"/>
 
-### `createComponent()` does not bind data
+### `createComponent()` 不會繫結資料
 
-For your first test you'd like to see that the screen displays the default `title`.
-Your instinct is to write a test that immediately inspects the `<h1>` like this:
+對於您的第一次測試，您希望看到螢幕顯示預設的 `title`。
+您的直覺是寫一個立即檢查 `<h1>` 的測試，像這樣：
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner.component.spec.ts" visibleRegion="expect-h1-default-v1"/>
 
-*That test fails* with the message:
+*該測試失敗* 訊息為：
 
 <docs-code language="javascript">
 
@@ -35,86 +35,86 @@ expected '' to contain 'Test Tour of Heroes'.
 
 </docs-code>
 
-Binding happens when Angular performs **change detection**.
+Binding 會在 Angular 執行 **變更偵測** 時發生。
 
-In production, change detection kicks in automatically when Angular creates a component or the user enters a keystroke or an asynchronous activity \(for example, AJAX\) completes.
+在生產環境中，當 Angular 建立元件或使用者輸入鍵擊或非同步活動（例如 AJAX）完成時，變更偵測會自動啟動。
 
-The `TestBed.createComponent` does *not* trigger change detection; a fact confirmed in the revised test:
+`TestBed.createComponent` *不* 會觸發變更偵測；在已修訂的測試中確認了這個事實：
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner.component.spec.ts" visibleRegion="test-w-o-detect-changes"/>
 
 ### `detectChanges()`
 
-You must tell the `TestBed` to perform data binding by calling `fixture.detectChanges()`.
-Only then does the `<h1>` have the expected title.
+你必須呼叫 `fixture.detectChanges()` 來告訴 `TestBed` 執行資料繫結。
+只有這樣 `<h1>` 才會有預期的標題。
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner.component.spec.ts" visibleRegion="expect-h1-default"/>
 
-Delayed change detection is intentional and useful.
-It gives the tester an opportunity to inspect and change the state of the component *before Angular initiates data binding and calls [lifecycle hooks](guide/components/lifecycle)*.
+延遲變更偵測是有意且有用的。
+它給予測試人員一個機會來檢查和變更元件的狀態，*在 Angular 發起資料繫結和呼叫 [生命週期掛鉤](guide/components/lifecycle)* 之前。
 
-Here's another test that changes the component's `title` property *before* calling `fixture.detectChanges()`.
+以下是如何在呼叫 `fixture.detectChanges()` *之前* 變更元件的 `title` 屬性的另一個測試。
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner.component.spec.ts" visibleRegion="after-change"/>
 
-### Automatic change detection
+### 自動變更偵測
 
-The `BannerComponent` tests frequently call `detectChanges`.
-Some testers prefer that the Angular test environment run change detection automatically.
+`BannerComponent` 測試經常呼叫 `detectChanges`。
+有些測試人員偏好 Angular 測試環境自動執行變更偵測。
 
-That's possible by configuring the `TestBed` with the `ComponentFixtureAutoDetect` provider.
-First import it from the testing utility library:
+那可透過使用 `ComponentFixtureAutoDetect` 提供者來設定 `TestBed` 來實現。
+首先從測試實用程式庫匯入：
 
 <docs-code header="app/banner/banner.component.detect-changes.spec.ts (import)" path="adev/src/content/examples/testing/src/app/banner/banner.component.detect-changes.spec.ts" visibleRegion="import-ComponentFixtureAutoDetect"/>
 
-Then add it to the `providers` array of the testing module configuration:
+然後將它加入測試模組組態的 `providers` 陣列中：
 
 <docs-code header="app/banner/banner.component.detect-changes.spec.ts (AutoDetect)" path="adev/src/content/examples/testing/src/app/banner/banner.component.detect-changes.spec.ts" visibleRegion="auto-detect"/>
 
-Here are three tests that illustrate how automatic change detection works.
+以下三個測試說明自動變更偵測如何運作。
 
 <docs-code header="app/banner/banner.component.detect-changes.spec.ts (AutoDetect Tests)" path="adev/src/content/examples/testing/src/app/banner/banner.component.detect-changes.spec.ts" visibleRegion="auto-detect-tests"/>
 
-The first test shows the benefit of automatic change detection.
+第一個測試顯示自動變更偵測的好處。
 
-The second and third test reveal an important limitation.
-The Angular testing environment does *not* know that the test changed the component's `title`.
-The `ComponentFixtureAutoDetect` service responds to *asynchronous activities* such as promise resolution, timers, and DOM events.
-But a direct, synchronous update of the component property is invisible.
-The test must call `fixture.detectChanges()` manually to trigger another cycle of change detection.
+第二和第三個測試揭露了一個重要的限制。
+Angular 測試環境不知道測試已更改元件的 `title`。
+`ComponentFixtureAutoDetect` 服務會回應 *非同步活動*，例如承諾解決方案、計時器和 DOM 事件。
+但元件屬性的直接同步更新是不可見的。
+測試必須手動呼叫 `fixture.detectChanges()` 以觸發另一個變更偵測週期。
 
-HELPFUL: Rather than wonder when the test fixture will or won't perform change detection, the samples in this guide *always call* `detectChanges()` *explicitly*.
-There is no harm in calling `detectChanges()` more often than is strictly necessary.
+HELPFUL: 與其想知道測試固定裝置何時會或不會執行變更偵測，本指南中的範例 *總是會* *明確地* 呼叫 `detectChanges()`。
+呼叫 `detectChanges()` 的次數比絕對必要的次數多並不會造成任何危害。
 
-### Change an input value with `dispatchEvent()`
+### 用 `dispatchEvent()` 改變輸入值
 
-To simulate user input, find the input element and set its `value` property.
+若要模擬使用者輸入，請尋找 input 元素並設定其 `value` 屬性。
 
-You will call `fixture.detectChanges()` to trigger Angular's change detection.
-But there is an essential, intermediate step.
+您將呼叫 `fixture.detectChanges()` 來觸發 Angular 的變更偵測。
+但有一個必要的中間步驟。
 
-Angular doesn't know that you set the input element's `value` property.
-It won't read that property until you raise the element's `input` event by calling `dispatchEvent()`.
-*Then* you call `detectChanges()`.
+Angular 不知道您已設定輸入元素的 `value` 屬性。
+除非您透過呼叫 `dispatchEvent()` 觸發元素的 `input` 事件，否則它不會讀取該屬性。
+*然後* 您呼叫 `detectChanges()`。
 
-The following example demonstrates the proper sequence.
+以下範例說明正確的順序。
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (pipe test)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="title-case-pipe"/>
 
-## Component with external files
+## 外部檔案的元件
 
-The preceding `BannerComponent` is defined with an *inline template* and *inline css*, specified in the `@Component.template` and `@Component.styles` properties respectively.
+前述的 `BannerComponent` 使用 *inline 範本* 和 *inline css* 定義，分別在 `@Component.template` 和 `@Component.styles` 屬性中指定。
 
-Many components specify *external templates* and *external css* with the `@Component.templateUrl` and `@Component.styleUrls` properties respectively, as the following variant of `BannerComponent` does.
+許多元件會以 `@Component.templateUrl` 和 `@Component.styleUrls` 屬性分別指定 *外部範本* 和 *外部 css*，就像下列 `BannerComponent` 的變體。
 
 <docs-code header="app/banner/banner-external.component.ts (metadata)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.ts" visibleRegion="metadata"/>
 
-This syntax tells the Angular compiler to read the external files during component compilation.
+此語法告訴 Angular 編譯器在組件編譯期間讀取外部檔案。
 
-That's not a problem when you run the CLI `ng test` command because it *compiles the application before running the tests*.
+當您執行 CLI `ng test` 指令時，這不是問題，因為它會在執行測試前先編譯應用程式。
 
-However, if you run the tests in a **non-CLI environment**, tests of this component might fail.
-For example, if you run the `BannerComponent` tests in a web coding environment such as [plunker](https://plnkr.co), you'll see a message like this one:
+然而，如果您在 **非 CLI 環境** 中執行測試，這個元件的測試可能會失敗。
+例如，如果您在像是 [plunker](https://plnkr.co) 的網路編碼環境中執行 `BannerComponent` 測試，您會看到類似這樣的訊息：
 
 <docs-code hideCopy language="shell">
 
@@ -124,151 +124,151 @@ Please call "TestBed.compileComponents" before your test.
 
 </docs-code>
 
-You get this test failure message when the runtime environment compiles the source code *during the tests themselves*.
+當執行時間環境在 *測試期間* 編譯原始碼時，您會收到此測試失敗訊息。
 
-To correct the problem, call `compileComponents()` as explained in the following [Calling compileComponents](#compile-components) section.
+若要修正此問題，請依照下列 [Calling compileComponents](#compile-components) 區段所說明的呼叫 `compileComponents()`。
 
-## Component with a dependency
+## 具有依賴項的組件
 
-Components often have service dependencies.
+元件通常具有服務相依性。
 
-The `WelcomeComponent` displays a welcome message to the logged-in user.
-It knows who the user is based on a property of the injected `UserService`:
+`WelcomeComponent` 向已登入使用者顯示歡迎訊息。
+它根據注入的 `UserService` 的屬性得知使用者是誰：
 
 <docs-code header="app/welcome/welcome.component.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.ts"/>
 
-The `WelcomeComponent` has decision logic that interacts with the service, logic that makes this component worth testing.
-Here's the testing module configuration for the spec file:
+`WelcomeComponent` 具有與服務互動的決策邏輯，此邏輯使此元件值得測試。
+以下是規範檔案的測試模組組態：
 
 <docs-code header="app/welcome/welcome.component.spec.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="config-test-module"/>
 
-This time, in addition to declaring the *component-under-test*,
-the configuration adds a `UserService` provider to the `providers` list.
-But not the real `UserService`.
+這次，除了宣告 *component-under-test* 之外，
+設定檔在 `providers` 清單中加入一個 `UserService` 提供者。
+但不是真正的 `UserService`。
 
-### Provide service test doubles
+### 提供服務測試替身
 
-A *component-under-test* doesn't have to be injected with real services.
-In fact, it is usually better if they are test doubles such as, stubs, fakes, spies, or mocks.
-The purpose of the spec is to test the component, not the service, and real services can be trouble.
+*component-under-test* 不需要注入真正的服務。
+事實上，如果它們是測試替身（例如存根、假貨、間諜或模擬）通常會更好。
+規範的目的是測試組件，而不是服務，而真正的服務可能會造成麻煩。
 
-Injecting the real `UserService` could be a nightmare.
-The real service might ask the user for login credentials and attempt to reach an authentication server.
-These behaviors can be hard to intercept.
-It is far easier and safer to create and register a test double in place of the real `UserService`.
+注入真正的 `UserService` 可能是一場惡夢。
+真正的服務可能會要求使用者提供登入憑證並嘗試連線到驗證伺服器。
+這些行為可能很難攔截。
+在真正的 `UserService` 中建立並註冊測試替身要容易且安全得多。
 
-This particular test suite supplies a minimal mock of the `UserService` that satisfies the needs of the `WelcomeComponent` and its tests:
+這個特定測試套件提供 `UserService` 的最小模擬，以滿足 `WelcomeComponent` 及其測試的需求：
 
 <docs-code header="app/welcome/welcome.component.spec.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="user-service-stub"/>
 
-### Get injected services
+### 取得注入服務
 
-The tests need access to the stub `UserService` injected into the `WelcomeComponent`.
+測試需要存取注入到 `WelcomeComponent` 的 stub `UserService`。
 
-Angular has a hierarchical injection system.
-There can be injectors at multiple levels, from the root injector created by the `TestBed` down through the component tree.
+Angular 具有階層式注入系統。
+可以有多個層級的注入器，從 `TestBed` 建立的根注入器，一直到元件樹。
 
-The safest way to get the injected service, the way that ***always works***,
-is to **get it from the injector of the *component-under-test***.
-The component injector is a property of the fixture's `DebugElement`.
+取得注入服務最安全的方法，始終有效的方式，
+是從**受測元件的注入器**取得。
+元件注入器是固定裝置的 `DebugElement` 的屬性。
 
 <docs-code header="WelcomeComponent's injector" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="injected-service"/>
 
 ### `TestBed.inject()`
 
-You *might* also be able to get the service from the root injector using `TestBed.inject()`.
-This is easier to remember and less verbose.
-But it only works when Angular injects the component with the service instance in the test's root injector.
+您也可以使用 `TestBed.inject()` 從根注入器取得服務。
+這比較容易記住且較不冗長。
+但這僅適用於 Angular 在測試的根注入器中以服務實例注入元件時。
 
-In this test suite, the *only* provider of `UserService` is the root testing module, so it is safe to call `TestBed.inject()` as follows:
+在此測試套件中，`UserService` 的 *唯一* 提供者是根測試模組，因此可以安全地呼叫 `TestBed.inject()` 如下：
 
 <docs-code header="TestBed injector" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="inject-from-testbed" />
 
-HELPFUL: For a use case in which `TestBed.inject()` does not work, see the [*Override component providers*](#component-override) section that explains when and why you must get the service from the component's injector instead.
+HELPFUL：如需瞭解 `TestBed.inject()` 無法使用的案例，請參閱 [*覆寫元件提供者*](#component-override) 部分，其中說明何時以及為何您必須從元件的注入器取得服務。
 
-### Final setup and tests
+### 最後的設定與測試
 
-Here's the complete `beforeEach()`, using `TestBed.inject()`:
+以下是完整的 `beforeEach()`，使用 `TestBed.inject()`：
 
 <docs-code header="app/welcome/welcome.component.spec.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="setup"/>
 
-And here are some tests:
+以下是部分測試：
 
 <docs-code header="app/welcome/welcome.component.spec.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="tests"/>
 
-The first is a sanity test; it confirms that the stubbed `UserService` is called and working.
+第一個是健全性測試；它確認存根的 `UserService` 已呼叫並正常運作。
 
-HELPFUL: The second parameter to the Jasmine matcher \(for example, `'expected name'`\) is an optional failure label.
-If the expectation fails, Jasmine appends this label to the expectation failure message.
-In a spec with multiple expectations, it can help clarify what went wrong and which expectation failed.
+HELPFUL: Jasmine 比對器的第二個參數（例如，`'預期名稱'`）是選擇性失敗標籤。
+如果預期失敗，Jasmine 會將此標籤附加到預期失敗訊息。
+在具有多個預期的規格中，它可以幫助釐清錯誤所在和預期失敗的位置。
 
-The remaining tests confirm the logic of the component when the service returns different values.
-The second test validates the effect of changing the user name.
-The third test checks that the component displays the proper message when there is no logged-in user.
+其餘的測試確認服務回傳不同值時元件的邏輯。
+第二個測試驗證變更使用者名稱的效果。
+第三個測試檢查當沒有登入使用者時，元件顯示正確的訊息。
 
-## Component with async service
+## 元件搭配非同步服務
 
-In this sample, the `AboutComponent` template hosts a `TwainComponent`.
-The `TwainComponent` displays Mark Twain quotes.
+在此範例中，`AboutComponent` 範本會主機一個 `TwainComponent`。
+`TwainComponent` 會顯示馬克吐溫的名言。
 
 <docs-code header="app/twain/twain.component.ts (template)" path="adev/src/content/examples/testing/src/app/twain/twain.component.ts" visibleRegion="template" />
 
-HELPFUL: The value of the component's `quote` property passes through an `AsyncPipe`.
-That means the property returns either a `Promise` or an `Observable`.
+HELPFUL: 元件的 `quote` 屬性的值會通過 `AsyncPipe`。
+這表示屬性會傳回 `Promise` 或 `Observable`。
 
-In this example, the `TwainComponent.getQuote()` method tells you that the `quote` property returns an `Observable`.
+在此範例中，`TwainComponent.getQuote()` 方法告訴您 `quote` 屬性會傳回一個 `Observable`。
 
 <docs-code header="app/twain/twain.component.ts (getQuote)" path="adev/src/content/examples/testing/src/app/twain/twain.component.ts" visibleRegion="get-quote"/>
 
-The `TwainComponent` gets quotes from an injected `TwainService`.
-The component starts the returned `Observable` with a placeholder value \(`'...'`\), before the service can return its first quote.
+`TwainComponent` 從注入的 `TwainService` 取得名言。
+元件以預留位置值 \(`'...'`\) 啟動回傳的 `Observable`，服務才能回傳第一個名言。
 
-The `catchError` intercepts service errors, prepares an error message, and returns the placeholder value on the success channel.
-It must wait a tick to set the `errorMessage` in order to avoid updating that message twice in the same change detection cycle.
+`catchError` 會攔截服務錯誤，準備錯誤訊息，並在成功頻道上傳回 placeholder 值。
+它必須等待一個 tick，才能設定 `errorMessage`，以避免在同一個變更偵測週期中更新該訊息兩次。
 
-These are all features you'll want to test.
+以下這些都是您會想測試的功能。
 
-### Testing with a spy
+### 使用間諜測試
 
-When testing a component, only the service's public API should matter.
-In general, tests themselves should not make calls to remote servers.
-They should emulate such calls.
-The setup in this `app/twain/twain.component.spec.ts` shows one way to do that:
+在測試元件時，只應在意服務的公開 API。
+一般而言，測試本身不應呼叫遠端伺服器。
+它們應模擬此類呼叫。
+這個 `app/twain/twain.component.spec.ts` 中的設定顯示一種方法：
 
 <docs-code header="app/twain/twain.component.spec.ts (setup)" path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="setup"/>
 
-Focus on the spy.
+專注於間諜。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="spy"/>
 
-The spy is designed such that any call to `getQuote` receives an observable with a test quote.
-Unlike the real `getQuote()` method, this spy bypasses the server and returns a synchronous observable whose value is available immediately.
+間諜設計成任何呼叫 `getQuote` 都會收到一個帶有測試報價的可觀察對象。
+與真正的 `getQuote()` 方法不同，此間諜繞過伺服器並回傳一個同步的可觀察對象，其值可立即使用。
 
-You can write many useful tests with this spy, even though its `Observable` is synchronous.
+即使其 `Observable` 是同步的，您也可以使用此間諜撰寫許多有用的測試。
 
-### Synchronous tests
+### 同步測試
 
-A key advantage of a synchronous `Observable` is that you can often turn asynchronous processes into synchronous tests.
+同步 `Observable` 的一個主要優勢是您可以經常將非同步程序轉換為同步測試。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="sync-test"/>
 
-Because the spy result returns synchronously, the `getQuote()` method updates the message on screen immediately *after* the first change detection cycle during which Angular calls `ngOnInit`.
+由於間諜結果同步傳回，`getQuote()` 方法在 Angular 呼叫 `ngOnInit` 時，於第一個變更偵測週期 *之後* 立即更新畫面上的訊息。
 
-You're not so lucky when testing the error path.
-Although the service spy will return an error synchronously, the component method calls `setTimeout()`.
-The test must wait at least one full turn of the JavaScript engine before the value becomes available.
-The test must become *asynchronous*.
+當測試錯誤路徑時，您就不會這麼幸運了。
+儘管服務間諜會同步傳回錯誤，但元件方法呼叫 `setTimeout()`。
+測試必須至少等待 JavaScript 引擎完整執行一次，值才會可用。
+測試必須成為 *非同步的*。
 
-### Async test with `fakeAsync()`
+### 使用 `fakeAsync()` 進行非同步測試
 
-To use `fakeAsync()` functionality, you must import `zone.js/testing` in your test setup file.
-If you created your project with the Angular CLI, `zone-testing` is already imported in `src/test.ts`.
+若要使用 `fakeAsync()` 功能，您必須在測試設定檔案中匯入 `zone.js/testing`。
+如果您使用 Angular CLI 建立專案，則已在 `src/test.ts` 中匯入 `zone-testing`。
 
-The following test confirms the expected behavior when the service returns an `ErrorObservable`.
+下列測試確認當服務傳回 `ErrorObservable` 時的預期行為。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="error-test"/>
 
-HELPFUL: The `it()` function receives an argument of the following form.
+HELPFUL: `it()` 函數接收以下形式的參數。
 
 <docs-code language="javascript">
 
@@ -276,55 +276,55 @@ fakeAsync(() =&gt; { /*test body*/ })
 
 </docs-code>
 
-The `fakeAsync()` function enables a linear coding style by running the test body in a special `fakeAsync test zone`.
-The test body appears to be synchronous.
-There is no nested syntax \(like a `Promise.then()`\) to disrupt the flow of control.
+`fakeAsync()` 函數會在特殊的 `fakeAsync 測試區域` 中執行測試主體，進而讓線性編碼風格成為可能。
+測試主體看起來是同步的。
+沒有巢狀語法（例如 `Promise.then()`）會中斷控制流程。
 
-HELPFUL: Limitation: The `fakeAsync()` function won't work if the test body makes an `XMLHttpRequest` \(XHR\) call.
-XHR calls within a test are rare, but if you need to call XHR, see the [`waitForAsync()`](#waitForAsync) section.
+HELPFUL: 限制：如果測試主體呼叫 `XMLHttpRequest` \(XHR\) 的話，`fakeAsync()` 函數將無法運作。
+測試中的 XHR 呼叫很少見，但如果您需要呼叫 XHR，請參閱 [`waitForAsync()`](#waitForAsync) 部分。
 
-### The `tick()` function
+### `tick()` 函數
 
-You do have to call [tick()](api/core/testing/tick) to advance the virtual clock.
+您必須呼叫 [tick()](api/core/testing/tick) 以推進虛擬時鐘。
 
-Calling [tick()](api/core/testing/tick) simulates the passage of time until all pending asynchronous activities finish.
-In this case, it waits for the error handler's `setTimeout()`.
+呼叫 [tick()](api/core/testing/tick) 模擬時間經過，直到所有待處理的非同步活動結束。
+在這個案例中，它會等待錯誤處理程序的 `setTimeout()`。
 
-The [tick()](api/core/testing/tick) function accepts `millis` and `tickOptions` as parameters. The `millis` parameter specifies how much the virtual clock advances and defaults to `0` if not provided.
-For example, if you have a `setTimeout(fn, 100)` in a `fakeAsync()` test, you need to use `tick(100)` to trigger the fn callback.
-The optional `tickOptions` parameter has a property named `processNewMacroTasksSynchronously`. The `processNewMacroTasksSynchronously` property represents whether to invoke new generated macro tasks when ticking and defaults to `true`.
+`[tick()]` (api/core/testing/tick) 函數接受 `millis` 和 `tickOptions` 作為參數。`millis` 參數指定虛擬時鐘前進的量，如果未提供，則預設為 `0`。
+例如，如果在 `fakeAsync()` 測試中有 `setTimeout(fn, 100)`，則需要使用 `tick(100)` 來觸發 fn 回呼。
+可選的 `tickOptions` 參數有一個名為 `processNewMacroTasksSynchronously` 的屬性。`processNewMacroTasksSynchronously` 屬性表示在計時時是否呼叫新產生的巨集任務，預設為 `true`。
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/async-helper.spec.ts" visibleRegion="fake-async-test-tick"/>
 
-The [tick()](api/core/testing/tick) function is one of the Angular testing utilities that you import with `TestBed`.
-It's a companion to `fakeAsync()` and you can only call it within a `fakeAsync()` body.
+[tick()](api/core/testing/tick) 函數是您使用 `TestBed` 匯入的 Angular 測試工具之一。
+它是 `fakeAsync()` 的搭檔，您只能在 `fakeAsync()` 主體中呼叫它。
 
 ### tickOptions
 
-In this example, you have a new macro task, the nested `setTimeout` function. By default, when the `tick` is setTimeout, `outside` and `nested` will both be triggered.
+在此範例中，您有一個新的巨集任務，即巢狀 `setTimeout` 函數。預設情況下，當 `tick` 為 setTimeout 時，`outside` 和 `nested` 都會觸發。
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/async-helper.spec.ts" visibleRegion="fake-async-test-tick-new-macro-task-sync"/>
 
-In some case, you don't want to trigger the new macro task when ticking. You can use `tick(millis, {processNewMacroTasksSynchronously: false})` to not invoke a new macro task.
+在某些情況下，您不希望在滴答時觸發新的巨集任務。您可以使用 `tick(millis, {processNewMacroTasksSynchronously: false})` 不呼叫新的巨集任務。
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/async-helper.spec.ts" visibleRegion="fake-async-test-tick-new-macro-task-async"/>
 
-### Comparing dates inside fakeAsync()
+### 在 fakeAsync() 內比較日期
 
-`fakeAsync()` simulates passage of time, which lets you calculate the difference between dates inside `fakeAsync()`.
+`fakeAsync()` 模擬時間流逝，讓你計算 `fakeAsync()` 內部日期之間的差異。
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/async-helper.spec.ts" visibleRegion="fake-async-test-date"/>
 
-### jasmine.clock with fakeAsync()
+### jasmine.clock 與 fakeAsync()
 
-Jasmine also provides a `clock` feature to mock dates.
-Angular automatically runs tests that are run after `jasmine.clock().install()` is called inside a `fakeAsync()` method until `jasmine.clock().uninstall()` is called.
-`fakeAsync()` is not needed and throws an error if nested.
+Jasmine 也提供了一個 `clock` 功能來模擬日期。
+Angular 自動執行在 `fakeAsync()` 方法內呼叫 `jasmine.clock().install()` 之後執行的測試，直到呼叫 `jasmine.clock().uninstall()` 為止。
+如果巢狀使用，則不需要 `fakeAsync()`，且會擲回錯誤。
 
-By default, this feature is disabled.
-To enable it, set a global flag before importing `zone-testing`.
+預設情況下，此功能已被停用。
+若要啟用此功能，請在匯入 `zone-testing` 之前設定一個全域旗標。
 
-If you use the Angular CLI, configure this flag in `src/test.ts`.
+如果您使用 Angular CLI，請在 `src/test.ts` 中設定此標誌。
 
 <docs-code language="typescript">
 
@@ -335,15 +335,15 @@ import 'zone.js/testing';
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/async-helper.spec.ts" visibleRegion="fake-async-test-clock"/>
 
-### Using the RxJS scheduler inside fakeAsync()
+### 在 fakeAsync() 內使用 RxJS 排程器
 
-You can also use RxJS scheduler in `fakeAsync()` just like using `setTimeout()` or `setInterval()`, but you need to import `zone.js/plugins/zone-patch-rxjs-fake-async` to patch RxJS scheduler.
+你也可以在 `fakeAsync()` 中使用 RxJS 排程器，就像使用 `setTimeout()` 或 `setInterval()` 一樣，但你必須匯入 `zone.js/plugins/zone-patch-rxjs-fake-async` 來修補 RxJS 排程器。
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/async-helper.spec.ts" visibleRegion="fake-async-test-rxjs"/>
 
-### Support more macroTasks
+### 支援更多 macroTasks
 
-By default, `fakeAsync()` supports the following macro tasks.
+預設情況下，`fakeAsync()` 支援下列巨集任務。
 
 * `setTimeout`
 * `setInterval`
@@ -351,552 +351,553 @@ By default, `fakeAsync()` supports the following macro tasks.
 * `webkitRequestAnimationFrame`
 * `mozRequestAnimationFrame`
 
-If you run other macro tasks such as `HTMLCanvasElement.toBlob()`, an *"Unknown macroTask scheduled in fake async test"* error is thrown.
+如果執行其他巨集任務，例如 `HTMLCanvasElement.toBlob()`，將會引發「*在偽非同步測試中安排的未知巨集任務*」錯誤。
 
 <docs-code-multifile>
     <docs-code header="src/app/shared/canvas.component.spec.ts (failing)" path="adev/src/content/examples/testing/src/app/shared/canvas.component.spec.ts" visibleRegion="without-toBlob-macrotask"/>
     <docs-code header="src/app/shared/canvas.component.ts" path="adev/src/content/examples/testing/src/app/shared/canvas.component.ts" visibleRegion="main"/>
 </docs-code-multifile>
 
-If you want to support such a case, you need to define the macro task you want to support in `beforeEach()`.
-For example:
+如果您想要支援這種情況，您需要在 `beforeEach()` 中定義您想要支援的巨集任務。
+例如：
 
 <docs-code header="src/app/shared/canvas.component.spec.ts (excerpt)" path="adev/src/content/examples/testing/src/app/shared/canvas.component.spec.ts" visibleRegion="enable-toBlob-macrotask"/>
 
-HELPFUL: In order to make the `<canvas>` element Zone.js-aware in your app, you need to import the `zone-patch-canvas` patch \(either in `polyfills.ts` or in the specific file that uses `<canvas>`\):
+HELPFUL: 為了讓 `<canvas>` 元素在您的應用程式中支援 Zone.js，您需要匯入 `zone-patch-canvas` 修補程式（在 `polyfills.ts` 或使用 `<canvas>` 的特定檔案中）：
 
 <docs-code header="src/polyfills.ts or src/app/shared/canvas.component.ts" path="adev/src/content/examples/testing/src/app/shared/canvas.component.ts" visibleRegion="import-canvas-patch"/>
 
-### Async observables
+### 非同步 observables
 
-You might be satisfied with the test coverage of these tests.
+您可能會滿意這些測試的測試覆蓋率。
 
-However, you might be troubled by the fact that the real service doesn't quite behave this way.
-The real service sends requests to a remote server.
-A server takes time to respond and the response certainly won't be available immediately as in the previous two tests.
+然而，您可能會為實際服務無法以這種方式運行感到困擾。
+實際服務會將請求發送到遠端伺服器。
+伺服器需要時間來回應，而且回應肯定不會像前兩個測試那樣立即可用。
 
-Your tests will reflect the real world more faithfully if you return an *asynchronous* observable from the `getQuote()` spy like this.
+如果像這樣從 `getQuote()` 間諜函數回傳一個非同步可觀察物件，您的測試將更忠實地反映真實世界。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="async-setup"/>
 
-### Async observable helpers
+### 非同步 observable 輔助程式
 
-The async observable was produced by an `asyncData` helper.
-The `asyncData` helper is a utility function that you'll have to write yourself, or copy this one from the sample code.
+非同步 observable 是由 `asyncData` 輔助程式產生的。
+`asyncData` 輔助程式是一個公用函數，您必須自行撰寫，或是從範例程式碼複製這個。
 
 <docs-code header="testing/async-observable-helpers.ts" path="adev/src/content/examples/testing/src/testing/async-observable-helpers.ts" visibleRegion="async-data"/>
 
-This helper's observable emits the `data` value in the next turn of the JavaScript engine.
+此輔助工具的可觀察目標會在 JavaScript 引擎的下一輪發出 `data` 值。
 
-The [RxJS `defer()` operator](http://reactivex.io/documentation/operators/defer.html) returns an observable.
-It takes a factory function that returns either a promise or an observable.
-When something subscribes to *defer*'s observable, it adds the subscriber to a new observable created with that factory.
+[RxJS `defer()` 運算子](http://reactivex.io/documentation/operators/defer.html) 傳回一個可觀察物。
+它採用一個工廠函數，該函數傳回一個承諾或一個可觀察物。
+當某些東西訂閱 *defer* 的可觀察物時，它會將訂閱者新增到使用該工廠建立的新可觀察物。
 
-The `defer()` operator transforms the `Promise.resolve()` into a new observable that, like `HttpClient`, emits once and completes.
-Subscribers are unsubscribed after they receive the data value.
+`defer()` 運算子將 `Promise.resolve()` 轉換為一個新的可觀察對象，像 `HttpClient` 一樣發射一次並完成。
+訂閱者在收到資料值後會取消訂閱。
 
-There's a similar helper for producing an async error.
+有一個產生非同步錯誤的類似輔助程式。
 
 <docs-code path="adev/src/content/examples/testing/src/testing/async-observable-helpers.ts" visibleRegion="async-error"/>
 
-### More async tests
+### 更多非同步測試
 
-Now that the `getQuote()` spy is returning async observables, most of your tests will have to be async as well.
+現在 `getQuote()` 間諜會傳回非同步可觀察資料，因此您的大部分測試也必須是非同步的。
 
-Here's a `fakeAsync()` test that demonstrates the data flow you'd expect in the real world.
+以下是一個 `fakeAsync()` 測試，展示了您在真實世界中預期的數據流程。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="fake-async-test"/>
 
-Notice that the quote element displays the placeholder value \(`'...'`\) after `ngOnInit()`.
-The first quote hasn't arrived yet.
+注意，引用元素在 `ngOnInit()` 之後顯示預留位置值 \(`'...'`\)。
+第一句引文尚未到達。
 
-To flush the first quote from the observable, you call [tick()](api/core/testing/tick).
-Then call `detectChanges()` to tell Angular to update the screen.
+若要從可觀察物件清除第一個引號，請呼叫 [tick()](api/core/testing/tick)。
+然後呼叫 `detectChanges()` 以告訴 Angular 更新畫面。
 
-Then you can assert that the quote element displays the expected text.
+然後你可以斷言引號元素顯示預期的文字。
 
-### Async test with `waitForAsync()`
+### 使用 `waitForAsync()` 進行非同步測試`
 
-To use `waitForAsync()` functionality, you must import `zone.js/testing` in your test setup file.
-If you created your project with the Angular CLI, `zone-testing` is already imported in `src/test.ts`.
+若要使用 `waitForAsync()` 功能，必須在測試設定檔案中匯入 `zone.js/testing`。
+如果您使用 Angular CLI 建立專案，`zone-testing` 已經在 `src/test.ts` 中匯入。
 
-Here's the previous `fakeAsync()` test, re-written with the `waitForAsync()` utility.
+以下是上一個 `fakeAsync()` 測試，使用 `waitForAsync()` 工具重新撰寫。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="waitForAsync-test"/>
 
-The `waitForAsync()` utility hides some asynchronous boilerplate by arranging for the tester's code to run in a special *async test zone*.
-You don't need to pass Jasmine's `done()` into the test and call `done()` because it is `undefined` in promise or observable callbacks.
+`waitForAsync()` 實用工具隱藏了一些非同步樣板，方法是安排測試人員的程式碼在一個特殊的 *非同步測試區域* 中執行。
+您不需要將 Jasmine 的 `done()` 傳遞到測試中，並且呼叫 `done()`，因為它在 promise 或可觀察的回呼中是 `undefined`。
 
-But the test's asynchronous nature is revealed by the call to `fixture.whenStable()`, which breaks the linear flow of control.
+但測試的非同步性質可由呼叫 `fixture.whenStable()` 揭露，這會中斷控制的線性流程。
 
-When using an `intervalTimer()` such as `setInterval()` in `waitForAsync()`, remember to cancel the timer with `clearInterval()` after the test, otherwise the `waitForAsync()` never ends.
+在 `waitForAsync()` 中使用 `intervalTimer()`（例如 `setInterval()`）時，請記得在測試後使用 `clearInterval()` 取消計時器，否則 `waitForAsync()` 永遠不會結束。
 
 ### `whenStable`
 
-The test must wait for the `getQuote()` observable to emit the next quote.
-Instead of calling [tick()](api/core/testing/tick), it calls `fixture.whenStable()`.
+測試必須等候 `getQuote()` 可觀察項目發出下一個報價。
+它不呼叫 [tick()](api/core/testing/tick)，而是呼叫 `fixture.whenStable()`。
 
-The `fixture.whenStable()` returns a promise that resolves when the JavaScript engine's task queue becomes empty.
-In this example, the task queue becomes empty when the observable emits the first quote.
+`fixture.whenStable()` 會傳回一個在 JavaScript 引擎的任務佇列變為空時解析的 Promise。
+在此範例中，當可觀察物件發出第一個報價時，任務佇列就會變為空。
 
-The test resumes within the promise callback, which calls `detectChanges()` to update the quote element with the expected text.
+測試在承諾的回呼中繼續執行，該回呼呼叫 `detectChanges()` 以使用預期的文字更新引號元素。
 
 ### Jasmine `done()`
 
-While the `waitForAsync()` and `fakeAsync()` functions greatly simplify Angular asynchronous testing, you can still fall back to the traditional technique and pass `it` a function that takes a [`done` callback](https://jasmine.github.io/2.0/introduction.html#section-Asynchronous_Support).
+儘管 `waitForAsync()` 和 `fakeAsync()` 函式極大地簡化了 Angular 非同步測試，您仍可退而求其次，使用傳統技術，並將 `it` 傳遞給一個函式，該函式接受 [`done` 回呼](https://jasmine.github.io/2.0/introduction.html#section-Asynchronous_Support)。
 
-You can't call `done()` in `waitForAsync()` or `fakeAsync()` functions, because the `done parameter` is `undefined`.
+在 `waitForAsync()` 或 `fakeAsync()` 函數中無法呼叫 `done()`，因為 `done 參數` 是 `未定義` 的。
 
-Now you are responsible for chaining promises, handling errors, and calling `done()` at the appropriate moments.
+現在您有責任鏈接承諾、處理錯誤，並在適當的時刻調用 `done()`。
 
-Writing test functions with `done()`, is more cumbersome than `waitForAsync()`and `fakeAsync()`, but it is occasionally necessary when code involves the `intervalTimer()` like `setInterval`.
+使用 `done()` 撰寫測試函數比 `waitForAsync()` 和 `fakeAsync()` 更為繁瑣，但當程式碼涉及 `intervalTimer()`（例如 `setInterval`）時，偶爾需要使用它。
 
-Here are two more versions of the previous test, written with `done()`.
-The first one subscribes to the `Observable` exposed to the template by the component's `quote` property.
+以下是兩個使用 `done()` 編寫的先前測試版本。
+第一個訂閱了組件的 `quote` 屬性公開給範本的 `Observable`。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="quote-done-test"/>
 
-The RxJS `last()` operator emits the observable's last value before completing, which will be the test quote.
-The `subscribe` callback calls `detectChanges()` to update the quote element with the test quote, in the same manner as the earlier tests.
+RxJS `last()` 算子會在完成之前發出可觀察的最後一個值，這將是測試引號。
+`subscribe` 回呼呼叫 `detectChanges()` 以使用測試引號更新引號元素，方式與較早的測試相同。
 
-In some tests, you're more interested in how an injected service method was called and what values it returned, than what appears on screen.
+在某些測試中，您更感興趣的是注入的服務方法是如何被呼叫的，以及它回傳的數值，而不是出現在螢幕上的內容。
 
-A service spy, such as the `qetQuote()` spy of the fake `TwainService`, can give you that information and make assertions about the state of the view.
+服務間諜，像是假 `TwainService` 的 `qetQuote()` 間諜，可以給你這些資訊，並對檢視的狀態做出斷言。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="spy-done-test"/>
 
-## Component marble tests
+## 元件 marble 測試
 
-The previous `TwainComponent` tests simulated an asynchronous observable response from the `TwainService` with the `asyncData` and `asyncError` utilities.
+之前的 `TwainComponent` 測試模擬了來自 `TwainService` 的非同步 observable 回應，使用 `asyncData` 和 `asyncError` 工具。
 
-These are short, simple functions that you can write yourself.
-Unfortunately, they're too simple for many common scenarios.
-An observable often emits multiple times, perhaps after a significant delay.
-A component might coordinate multiple observables with overlapping sequences of values and errors.
+這些是可以自行撰寫的簡單函數。
+很遺憾，它們對於許多常見的情況來說過於簡單。
+可觀察物通常會發出多次，可能經過一段時間的延遲。
+元件可能會協調多個可觀察物，這些可觀察物具有重疊的數值和錯誤序列。
 
-**RxJS marble testing** is a great way to test observable scenarios, both simple and complex.
-You've likely seen the [marble diagrams](https://rxmarbles.com) that illustrate how observables work.
-Marble testing uses a similar marble language to specify the observable streams and expectations in your tests.
+**RxJS marble testing** 是一種測試可觀察情境（簡單和複雜的）的絕佳方式。
+您可能已經看過說明可觀察值如何運作的 [marble diagrams](https://rxmarbles.com)。
+Marble 測試使用類似的 marble 語言來指定可觀察串流和測試中的預期值。
 
-The following examples revisit two of the `TwainComponent` tests with marble testing.
+以下範例透過 marble 測試重新檢視 `TwainComponent` 測試中的兩個。
 
-Start by installing the `jasmine-marbles` npm package.
-Then import the symbols you need.
+首先安裝 `jasmine-marbles` npm 套件。
+然後匯入您需要的符號。
 
 <docs-code header="app/twain/twain.component.marbles.spec.ts (import marbles)" path="adev/src/content/examples/testing/src/app/twain/twain.component.marbles.spec.ts" visibleRegion="import-marbles"/>
 
-Here's the complete test for getting a quote:
+以下是取得報價的完整測試：
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.marbles.spec.ts" visibleRegion="get-quote-test"/>
 
-Notice that the Jasmine test is synchronous.
-There's no `fakeAsync()`.
-Marble testing uses a test scheduler to simulate the passage of time in a synchronous test.
+注意 Jasmine 測試是同步的。
+沒有 `fakeAsync()`。
+Marble 測試使用測試排程器來模擬同步測試中時間的流逝。
 
-The beauty of marble testing is in the visual definition of the observable streams.
-This test defines a [*cold* observable](#cold-observable) that waits three [frames](#marble-frame) \(`---`\), emits a value \(`x`\), and completes \(`|`\).
-In the second argument you map the value marker \(`x`\) to the emitted value \(`testQuote`\).
+大理石測試的美感在於可觀察串流的可視化定義。
+此測試定義一個等待三個 [frame](#marble-frame) \(`---`\) 的 [*cold* observable](#cold-observable)，發射一個值 \(`x`\)，並完成 \(`|`\)。
+在第二個參數中，您將值標記 \(`x`\) 映射到發射的值 \(`testQuote`\)。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.marbles.spec.ts" visibleRegion="test-quote-marbles"/>
 
-The marble library constructs the corresponding observable, which the test sets as the `getQuote` spy's return value.
+`marble` 函式庫建構對應的可觀察對象，測試將其設定為 `getQuote` 間諜的回傳值。
 
-When you're ready to activate the marble observables, you tell the `TestScheduler` to *flush* its queue of prepared tasks like this.
+當您準備好要啟動 marble 可觀察項目時，您可以告訴 `TestScheduler` 將其準備好的工作佇列像這樣 *flush* 掉。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.marbles.spec.ts" visibleRegion="test-scheduler-flush"/>
 
-This step serves a purpose analogous to [tick()](api/core/testing/tick) and `whenStable()` in the earlier `fakeAsync()` and `waitForAsync()` examples.
-The balance of the test is the same as those examples.
+這步驟的用途與先前 `fakeAsync()` 和 `waitForAsync()` 範例中的 [tick()](api/core/testing/tick) 和 `whenStable()` 類似。
+測試的其餘部分與那些範例相同。
 
-### Marble error testing
+### 大理石錯誤測試
 
-Here's the marble testing version of the `getQuote()` error test.
+以下為 `getQuote()` 錯誤測試的大理石測試版本。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.marbles.spec.ts" visibleRegion="error-test"/>
 
-It's still an async test, calling `fakeAsync()` and [tick()](api/core/testing/tick), because the component itself calls `setTimeout()` when processing errors.
+這仍然是一個非同步測試，呼叫 `fakeAsync()` 和 [tick()](api/core/testing/tick)，因為元件本身在處理錯誤時會呼叫 `setTimeout()`。
 
-Look at the marble observable definition.
+請查看 marble observable 定義。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.marbles.spec.ts" visibleRegion="error-marbles"/>
 
-This is a *cold* observable that waits three frames and then emits an error, the hash \(`#`\) character indicates the timing of the error that is specified in the third argument.
-The second argument is null because the observable never emits a value.
+這是一個等待三個影格然後發出錯誤的 *冷* observable，雜湊符號 \(`#`\) 字元表示在第三個參數中指定的錯誤計時。
+第二個參數為 null，因為 observable 永遠不會發出值。
 
-### Learn about marble testing
+### 了解大理石測試
 
-A *marble frame* is a virtual unit of testing time.
-Each symbol \(`-`, `x`, `|`, `#`\) marks the passing of one frame.
+*大理石框架* 是測試時間的虛擬單位。
+每個符號 \(`-`, `x`, `|`, `#`\) 標示一個框架的經過。
 
-A *cold* observable doesn't produce values until you subscribe to it.
-Most of your application observables are cold.
-All [*HttpClient*](guide/http) methods return cold observables.
+*冷* observable 直到您訂閱它才產生值。
+您的應用程序 observable 大多是冷的。
+所有 [*HttpClient*](guide/http) 方法都會傳回冷的 observable。
 
-A *hot* observable is already producing values *before* you subscribe to it.
-The [`Router.events`](api/router/Router#events) observable, which reports router activity, is a *hot* observable.
+*熱門* 可觀察物件在您訂閱之前已經產生值。
+報告路由器活動的 [`Router.events`](api/router/Router#events) 可觀察物件是一個 *熱門* 可觀察物件。
 
-RxJS marble testing is a rich subject, beyond the scope of this guide.
-Learn about it on the web, starting with the [official documentation](https://rxjs.dev/guide/testing/marble-testing).
+RxJS marble 測試是一個豐富的主題，超出了本指南的範圍。
+在網路上了解它，從 [官方文件](https://rxjs.dev/guide/testing/marble-testing) 開始。
 
-## Component with inputs and outputs
+## 具有輸入和輸出功能的組件
 
-A component with inputs and outputs typically appears inside the view template of a host component.
-The host uses a property binding to set the input property and an event binding to listen to events raised by the output property.
+一個具有輸入和輸出的元件通常出現在主機元件的檢視範本中。
+主機使用屬性繫結來設定輸入屬性，並使用事件繫結來聆聽輸出屬性引發的事件。
 
-The testing goal is to verify that such bindings work as expected.
-The tests should set input values and listen for output events.
+測試目標是驗證此類別綁定是否按預期運作。
+測試應該設定輸入值和偵聽輸出事件。
 
-The `DashboardHeroComponent` is a tiny example of a component in this role.
-It displays an individual hero provided by the `DashboardComponent`.
-Clicking that hero tells the `DashboardComponent` that the user has selected the hero.
+`DashboardHeroComponent` 是此角色中的一個小範例。
+它顯示由 `DashboardComponent` 提供的個別英雄。
+點擊該英雄會告訴 `DashboardComponent` 使用者已選擇該英雄。
 
-The `DashboardHeroComponent` is embedded in the `DashboardComponent` template like this:
+`DashboardHeroComponent` 嵌入在 `DashboardComponent` 範本中，如下所示：
 
 <docs-code header="app/dashboard/dashboard.component.html (excerpt)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.html" visibleRegion="dashboard-hero"/>
 
-The `DashboardHeroComponent` appears in an `*ngFor` repeater, which sets each component's `hero` input property to the looping value and listens for the component's `selected` event.
+`DashboardHeroComponent` 出現在 `*ngFor` 重複器中，它會將每個元件的 `hero` 輸入屬性設定為循環值，並監聽元件的 `selected` 事件。
 
-Here's the component's full definition:
+以下是元件的完整定義：
 
 <docs-code header="app/dashboard/dashboard-hero.component.ts (component)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.ts" visibleRegion="component"/>
 
-While testing a component this simple has little intrinsic value, it's worth knowing how.
-Use one of these approaches:
+當測試元件如此簡單幾乎沒有內在價值時，知道如何執行測試是有價值的。
+使用以下其中一種方法：
 
-* Test it as used by `DashboardComponent`
-* Test it as a stand-alone component
-* Test it as used by a substitute for `DashboardComponent`
+* 測試它如同 `DashboardComponent` 使用
+* 測試它如同獨立元件
+* 測試它如同 `DashboardComponent` 的替代品使用
 
-A quick look at the `DashboardComponent` constructor discourages the first approach:
+快速瀏覽 `DashboardComponent` 建構函數會阻止第一種方法：
 
 <docs-code header="app/dashboard/dashboard.component.ts (constructor)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.ts" visibleRegion="ctor"/>
 
-The `DashboardComponent` depends on the Angular router and the `HeroService`.
-You'd probably have to replace them both with test doubles, which is a lot of work.
-The router seems particularly challenging.
+`DashboardComponent` 依賴 Angular 路由器和 `HeroService`。
+您可能必須將它們兩個都替換為測試替身，這是一項繁重的工作。
+路由器似乎特別具有挑戰性。
 
-HELPFUL: The [following discussion](#routing-component) covers testing components that require the router.
+HELPFUL: [以下討論](#routing-component)涵蓋了測試需要路由器的元件。
 
-The immediate goal is to test the `DashboardHeroComponent`, not the `DashboardComponent`, so, try the second and third options.
+最直接的目標是測試 `DashboardHeroComponent`，而不是 `DashboardComponent`，所以，請嘗試第二和第三個選項。
 
-### Test `DashboardHeroComponent` stand-alone
+### 測試 `DashboardHeroComponent` 獨立
 
-Here's the meat of the spec file setup.
+以下是規格檔案設定的重點。
 
 <docs-code header="app/dashboard/dashboard-hero.component.spec.ts (setup)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="setup"/>
 
-Notice how the setup code assigns a test hero \(`expectedHero`\) to the component's `hero` property, emulating the way the `DashboardComponent` would set it using the property binding in its repeater.
+注意設定程式碼將測試英雄 \(`expectedHero`\) 指定給元件的 `hero` 屬性，模擬 `DashboardComponent` 使用其重複器中的屬性繫結設定它的方式。
 
-The following test verifies that the hero name is propagated to the template using a binding.
+以下測試驗證英雄名稱透過繫結傳播到範本。
 
 <docs-code path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="name-test"/>
 
-Because the [template](#dashboard-hero-component) passes the hero name through the Angular `UpperCasePipe`, the test must match the element value with the upper-cased name.
+由於 [範本](#dashboard-hero-component) 會透過 Angular `UpperCasePipe` 傳遞英雄名稱，測試必須以大寫的名稱比對元素值。
 
-HELPFUL: This small test demonstrates how Angular tests can verify a component's visual representation &mdash;something not possible with [component class tests](guide/testing/components-basics#component-class-testing)&mdash; at low cost and without resorting to much slower and more complicated end-to-end tests.
+HELPFUL: 這項小型測試展示 Angular 測試如何驗證元件的視覺呈現，這在 [元件類別測試](guide/testing/components-basics#component-class-testing)中無法做到，成本低且無需訴諸速度慢且複雜的端到端測試。
 
-### Clicking
+### 點擊
 
-Clicking the hero should raise a `selected` event that the host component \(`DashboardComponent` presumably\) can hear:
+點擊英雄應該會引發 `selected` 事件，主機元件（假設為 `DashboardComponent`）可以聽到：
 
 <docs-code path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="click-test"/>
 
-The component's `selected` property returns an `EventEmitter`, which looks like an RxJS synchronous `Observable` to consumers.
-The test subscribes to it *explicitly* just as the host component does *implicitly*.
+該元件的 `selected` 屬性傳回一個 `EventEmitter`，它看起來像是給消費者使用的 RxJS 同步 `Observable`。
+測試明確地訂閱它，就像主機元件隱式地訂閱一樣。
 
-If the component behaves as expected, clicking the hero's element should tell the component's `selected` property to emit the `hero` object.
+如果元件行為符合預期，點擊英雄元素應該會告知元件的 `selected` 屬性來發出 `hero` 物件。
 
-The test detects that event through its subscription to `selected`.
+該測試透過其對 `selected` 的訂閱來偵測該事件。
 
 ### `triggerEventHandler`
 
-The `heroDe` in the previous test is a `DebugElement` that represents the hero `<div>`.
+前一個測試中的 `heroDe` 是代表英雄 `<div>` 的 `DebugElement`。
 
-It has Angular properties and methods that abstract interaction with the native element.
-This test calls the `DebugElement.triggerEventHandler` with the "click" event name.
-The "click" event binding responds by calling `DashboardHeroComponent.click()`.
+它具有 Angular 屬性及方法，可抽象與原生元素的互動。
+此測試使用「click」事件名稱呼叫 `DebugElement.triggerEventHandler`。
+「click」事件繫結會透過呼叫 `DashboardHeroComponent.click()` 來回應。
 
-The Angular `DebugElement.triggerEventHandler` can raise *any data-bound event* by its *event name*.
-The second parameter is the event object passed to the handler.
+Angular `DebugElement.triggerEventHandler` 可以藉由 *事件名稱* 觸發 *任何資料繫結事件*。
+第二個參數是傳遞給處理常式的事件物件。
 
-The test triggered a "click" event.
+測試觸發了一個「點擊」事件。
 
 <docs-code path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="trigger-event-handler"/>
 
-In this case, the test correctly assumes that the runtime event handler, the component's `click()` method, doesn't care about the event object.
+這種情況下，測試正確地假設執行階段事件處理器，即元件的 `click()` 方法，不關心事件物件。
 
-HELPFUL: Other handlers are less forgiving.
-For example, the `RouterLink` directive expects an object with a `button` property that identifies which mouse button, if any, was pressed during the click.
-The `RouterLink` directive throws an error if the event object is missing.
+HELPFUL: 其他處理程序比較不寬容。
+例如，`RouterLink` 指令期望一個具有 `button` 屬性的物件，用於識別在點擊期間按下哪個滑鼠按鈕（如果有）。
+如果事件物件遺失，`RouterLink` 指令會擲回錯誤。
 
-### Click the element
+### 點擊元素
 
-The following test alternative calls the native element's own `click()` method, which is perfectly fine for *this component*.
+以下測試替代方案會呼叫原生元素自身的 `click()` 方法，這對 *此元件* 來說完全沒問題。
 
 <docs-code path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="click-test-2"/>
 
-### `click()` helper
+### `click()` 輔助函數
 
-Clicking a button, an anchor, or an arbitrary HTML element is a common test task.
+點擊按鈕、錨點或任意 HTML 元素是常見的測試任務。
 
-Make that consistent and straightforward by encapsulating the *click-triggering* process in a helper such as the following `click()` function:
+藉由將 *click-triggering* 程序封裝在以下 `click()` 函數等輔助函數中，使之具有一致性且簡單明瞭：
 
 <docs-code header="testing/index.ts (click helper)" path="adev/src/content/examples/testing/src/testing/index.ts" visibleRegion="click-event"/>
 
-The first parameter is the *element-to-click*.
-If you want, pass a custom event object as the second parameter.
-The default is a partial [left-button mouse event object](https://developer.mozilla.org/docs/Web/API/MouseEvent/button) accepted by many handlers including the `RouterLink` directive.
+第一個參數是 *要點擊的元素*。
+如果您願意，可以將自訂的事件物件當成第二個參數傳遞。
+預設值是部分 [左鍵滑鼠事件物件](https://developer.mozilla.org/docs/Web/API/MouseEvent/button)，許多處理程式都接受它，包括 `RouterLink` 指令。
 
-IMPORTANT: The `click()` helper function is **not** one of the Angular testing utilities.
-It's a function defined in *this guide's sample code*.
-All of the sample tests use it.
-If you like it, add it to your own collection of helpers.
+重要：`click()` 輔助函數 **並非** Angular 測試實用工具之一。
+這是由 *本指南的範例程式碼* 定義的函數。
+所有範例測試都會使用它。
+如果您喜歡它，請將它新增到您自己的輔助函數集合中。
 
-Here's the previous test, rewritten using the click helper.
+以下為使用點擊輔助工具，重寫的前一個測試。
 
 <docs-code header="app/dashboard/dashboard-hero.component.spec.ts (test with click helper)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="click-test-3"/>
 
-## Component inside a test host
+## 測試主機內的元件
 
-The previous tests played the role of the host `DashboardComponent` themselves.
-But does the `DashboardHeroComponent` work correctly when properly data-bound to a host component?
+之前的測試扮演了主機 `DashboardComponent` 本身。
+但當正確地將資料繫結到主機元件時，`DashboardHeroComponent` 是否能正常運作？
 
-You could test with the actual `DashboardComponent`.
-But doing so could require a lot of setup, especially when its template features an `*ngFor` repeater, other components, layout HTML, additional bindings, a constructor that injects multiple services, and it starts interacting with those services right away.
+你可以使用實際的 `DashboardComponent` 進行測試。
+但這樣可能需要大量的設定，尤其是當範本具有 `*ngFor` 重複器、其他元件、配置 HTML、其他繫結、注入多個服務的建構函式，而且它會立即開始與這些服務互動時。
 
-Imagine the effort to disable these distractions, just to prove a point that can be made satisfactorily with a *test host* like this one:
+想像一下停用這些幹擾的努力，只是為了證明一個可以用像這樣的 *測試主機* 令人滿意地完成的觀點：
 
 <docs-code header="app/dashboard/dashboard-hero.component.spec.ts (test host)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="test-host"/>
 
-This test host binds to `DashboardHeroComponent` as the `DashboardComponent` would but without the noise of the `Router`, the `HeroService`, or the `*ngFor` repeater.
+此測試主機繫結到 `DashboardHeroComponent` 作為 `DashboardComponent`，但沒有 `Router`、`HeroService` 或 `*ngFor` 重複器的雜訊。
 
-The test host sets the component's `hero` input property with its test hero.
-It binds the component's `selected` event with its `onSelected` handler, which records the emitted hero in its `selectedHero` property.
+測試主機使用其測試英雄設定元件的 `hero` 輸入屬性。
+它將元件的 `selected` 事件繫結至其 `onSelected` 處理常式，該常式會在其 `selectedHero` 屬性中記錄發出的英雄。
 
-Later, the tests will be able to check `selectedHero` to verify that the `DashboardHeroComponent.selected` event emitted the expected hero.
+稍後，測試將能夠檢查 `selectedHero` 以驗證 `DashboardHeroComponent.selected` 事件發出預期的英雄。
 
-The setup for the `test-host` tests is similar to the setup for the stand-alone tests:
+`test-host` 測試的設定類似於獨立測試的設定：
 
 <docs-code header="app/dashboard/dashboard-hero.component.spec.ts (test host setup)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="test-host-setup"/>
 
-This testing module configuration shows three important differences:
+此測試模組設定顯示三個重要的差異：
 
-* It *declares* both the `DashboardHeroComponent` and the `TestHostComponent`
-* It *creates* the `TestHostComponent` instead of the `DashboardHeroComponent`
-* The `TestHostComponent` sets the `DashboardHeroComponent.hero` with a binding
+* 它 *宣告* `DashboardHeroComponent` 和 `TestHostComponent`
+* 它 *建立* `TestHostComponent` 而不是 `DashboardHeroComponent`
+* `TestHostComponent` 使用繫結來設定 `DashboardHeroComponent.hero`
 
-The `createComponent` returns a `fixture` that holds an instance of `TestHostComponent` instead of an instance of `DashboardHeroComponent`.
+`createComponent` 傳回一個包含 `TestHostComponent` 實體（而非 `DashboardHeroComponent` 實體）的 `fixture`。
 
-Creating the `TestHostComponent` has the side effect of creating a `DashboardHeroComponent` because the latter appears within the template of the former.
-The query for the hero element \(`heroEl`\) still finds it in the test DOM, albeit at greater depth in the element tree than before.
+建立 `TestHostComponent` 有建立 `DashboardHeroComponent` 的副作用，因為後者出現在前者的範本中。
 
-The tests themselves are almost identical to the stand-alone version:
+英雄元素的查詢 \(`heroEl`\) 仍然在測試 DOM 中找到它，儘管在元素樹中的深度比以前更大。
+
+測試本身幾乎和單獨版本相同：
 
 <docs-code header="app/dashboard/dashboard-hero.component.spec.ts (test-host)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="test-host-tests"/>
 
-Only the selected event test differs.
-It confirms that the selected `DashboardHeroComponent` hero really does find its way up through the event binding to the host component.
+只有選取的事件測試不同。
+它確認選取的 `DashboardHeroComponent` 英雄確實能透過事件繫結找到其途徑至主機元件。
 
-## Routing component
+## 路由元件
 
-A *routing component* is a component that tells the `Router` to navigate to another component.
-The `DashboardComponent` is a *routing component* because the user can navigate to the `HeroDetailComponent` by clicking on one of the *hero buttons* on the dashboard.
+一個 *路由元件* 是告訴 `Router` 導航至另一個元件的元件。
+`DashboardComponent` 是 *路由元件*，因為使用者可透過點擊資訊面板上的一個 *英雄按鈕* 來導航至 `HeroDetailComponent`。
 
-Routing is pretty complicated.
-Testing the `DashboardComponent` seemed daunting in part because it involves the `Router`, which it injects together with the `HeroService`.
+路由相當複雜。
+測試 `DashboardComponent` 看起來令人生畏，部分原因是它涉及到 `Router`，它與 `HeroService` 一起注入。
 
 <docs-code header="app/dashboard/dashboard.component.ts (constructor)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.ts" visibleRegion="ctor"/>
 
 <docs-code header="app/dashboard/dashboard.component.ts (goToDetail)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.ts" visibleRegion="goto-detail" />
 
-Angular provides test helpers to reduce boilerplate and more effectively test code which depends on the Router and HttpClient.
+Angular 提供測試助手，以減少樣板程式碼，並更有效地測試依賴於路由器和 HttpClient 的程式碼。
 
 <docs-code header="app/dashboard/dashboard.component.spec.ts" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.spec.ts" visibleRegion="router-harness"/>
 
-The following test clicks the displayed hero and confirms that we navigate to the expected URL.
+以下測試點擊顯示的英雄並確認我們導航到預期的 URL。
 
 <docs-code header="app/dashboard/dashboard.component.spec.ts (navigate test)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.spec.ts" visibleRegion="navigate-test"/>
 
-## Routed components
+## 路由元件
 
-A *routed component* is the destination of a `Router` navigation.
-It can be trickier to test, especially when the route to the component *includes parameters*.
-The `HeroDetailComponent` is a *routed component* that is the destination of such a route.
+一個 *導向元件* 是 `路由器` 導航的目的地。
+測試起來可能比較棘手，尤其當元件的路線 *包含參數* 時。
+`HeroDetailComponent` 是 *導向元件*，是此類路線的目的地。
 
-When a user clicks a *Dashboard* hero, the `DashboardComponent` tells the `Router` to navigate to `heroes/:id`.
-The `:id` is a route parameter whose value is the `id` of the hero to edit.
+當使用者點擊 *Dashboard* 英雄時，`DashboardComponent` 會告訴 `Router` 導航到 `heroes/:id`。
+`:id` 是路由參數，其值是編輯英雄的 `id`。
 
-The `Router` matches that URL to a route to the `HeroDetailComponent`.
-It creates an `ActivatedRoute` object with the routing information and injects it into a new instance of the `HeroDetailComponent`.
+`Router` 將該 URL 比對到 `HeroDetailComponent` 的路由。
+它會建立一個包含路由資訊的 `ActivatedRoute` 物件，並將它注入 `HeroDetailComponent` 的新執行個體。
 
-Here's the `HeroDetailComponent` constructor:
+以下是 `HeroDetailComponent` 建構函數：
 
 <docs-code header="app/hero/hero-detail.component.ts (constructor)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.ts" visibleRegion="ctor"/>
 
-The `HeroDetail` component needs the `id` parameter so it can fetch the corresponding hero using the `HeroDetailService`.
-The component has to get the `id` from the `ActivatedRoute.paramMap` property which is an `Observable`.
+`HeroDetail` 元件需要 `id` 參數，以便使用 `HeroDetailService` 擷取對應英雄。
+元件必須從 `ActivatedRoute.paramMap` 屬性取得 `id`，該屬性是 `Observable`。
 
-It can't just reference the `id` property of the `ActivatedRoute.paramMap`.
-The component has to *subscribe* to the `ActivatedRoute.paramMap` observable and be prepared for the `id` to change during its lifetime.
+它無法只參考 `ActivatedRoute.paramMap` 的 `id` 屬性。
+該元件必須 *訂閱* `ActivatedRoute.paramMap` 可觀察項目並在生命週期中隨時準備好讓 `id` 變更。
 
 <docs-code header="app/hero/hero-detail.component.ts (ngOnInit)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.ts" visibleRegion="ng-on-init"/>
 
-Tests can explore how the `HeroDetailComponent` responds to different `id` parameter values by navigating to different routes.
+測試可以透過導覽至不同路由，探索 `HeroDetailComponent` 如何回應不同的 `id` 參數值。
 
-### Testing with the `RouterTestingHarness`
+### 使用 `RouterTestingHarness` 進行測試`
 
-Here's a test demonstrating the component's behavior when the observed `id` refers to an existing hero:
+以下是展示當觀察的 `id` 參照現有英雄時，元件行為的測試：
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (existing id)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="route-good-id"/>
 
-HELPFUL: In the following section, the `createComponent()` method and `page` object are discussed.
-Rely on your intuition for now.
+HELPFUL: 在以下章節中，將討論 `createComponent()` 方法和 `page` 物件。
+現在請依賴您的直覺。
 
-When the `id` cannot be found, the component should re-route to the `HeroListComponent`.
+當找不到 `id` 時，元件應重新導向到 `HeroListComponent`。
 
-The test suite setup provided the same router harness [described above](#routing-component).
+測試套件設定提供了相同的路由器套件 [如上所述](#routing-component)。
 
-This test expects the component to try to navigate to the `HeroListComponent`.
+此測試希望元件嘗試導覽至 `HeroListComponent`。
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (bad id)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="route-bad-id"/>
 
-## Nested component tests
+## 內嵌元件測試
 
-Component templates often have nested components, whose templates might contain more components.
+組件範本通常有巢狀組件，其範本可能包含更多組件。
 
-The component tree can be very deep and, most of the time, the nested components play no role in testing the component at the top of the tree.
+組件樹可以非常深，並且在大部分時間，巢狀組件在測試樹頂端的組件時不扮演任何角色。
 
-The `AppComponent`, for example, displays a navigation bar with anchors and their `RouterLink` directives.
+例如，`AppComponent` 顯示包含錨點及其 `RouterLink` 指令的導覽列。
 
 <docs-code header="app/app.component.html" path="adev/src/content/examples/testing/src/app/app.component.html"/>
 
-To validate the links, you don't need the `Router` to navigate and you don't need the `<router-outlet>` to mark where the `Router` inserts *routed components*.
+若要驗證連結，您不需要 `Router` 來導航，也不需要 `<router-outlet>` 來標記 `Router` 插入 *已路由的元件* 的位置。
 
-The `BannerComponent` and `WelcomeComponent` \(indicated by `<app-banner>` and `<app-welcome>`\) are also irrelevant.
+`BannerComponent` 和 `WelcomeComponent`（由 `<app-banner>` 和 `<app-welcome>` 指示）也無關。
 
-Yet any test that creates the `AppComponent` in the DOM also creates instances of these three components and, if you let that happen, you'll have to configure the `TestBed` to create them.
+然而，在 DOM 中建立 `AppComponent` 的任何測試也會建立這三個元件的執行個體，而且如果您允許發生這種情況，您必須設定 `TestBed` 來建立它們。
 
-If you neglect to declare them, the Angular compiler won't recognize the `<app-banner>`, `<app-welcome>`, and `<router-outlet>` tags in the `AppComponent` template and will throw an error.
+如果您忽略宣告它們，Angular 編譯器將無法辨識 `AppComponent` 範本中的 `<app-banner>`, `<app-welcome>`, 和 `<router-outlet>` 標籤，並且會擲回錯誤。
 
-If you declare the real components, you'll also have to declare *their* nested components and provide for *all* services injected in *any* component in the tree.
+如果您宣告真實元件，您也必須宣告 *它們* 的嵌套元件，並提供 *任何* 樹中元件中注入的 *所有* 服務。
 
-That's too much effort just to answer a few simple questions about links.
+這只是為了回答有關鏈接的幾個簡單問題而付出了太多努力。
 
-This section describes two techniques for minimizing the setup.
-Use them, alone or in combination, to stay focused on testing the primary component.
+本節介紹兩種用於最小化設定的技巧。
+單獨或結合使用，以專注於測試主要元件。
 
-### Stubbing unneeded components
+### 忽略不需要的組件
 
-In the first technique, you create and declare stub versions of the components and directive that play little or no role in the tests.
+在第一種技術中，您建立並宣告組件和指令的 stub 版本，它們在測試中所扮演的角色很小或根本沒有。
 
 <docs-code header="app/app.component.spec.ts (stub declaration)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="component-stubs"/>
 
-The stub selectors match the selectors for the corresponding real components.
-But their templates and classes are empty.
+存根選擇器與對應真實元件的選擇器相符。
+但其範本和類別是空的。
 
-Then declare them in the `TestBed` configuration next to the components, directives, and pipes that need to be real.
+然後在 `TestBed` 組態中，將它們宣告在需要真實的元件、指令和管線旁邊。
 
 <docs-code header="app/app.component.spec.ts (TestBed stubs)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="testbed-stubs"/>
 
-The `AppComponent` is the test subject, so of course you declare the real version.
+`AppComponent` 是測試主體，所以當然要宣告真實的版本。
 
-The rest are stubs.
+其餘是存根。
 
 ### `NO_ERRORS_SCHEMA`
 
-In the second approach, add `NO_ERRORS_SCHEMA` to the `TestBed.schemas` metadata.
+第二種方法，在 `TestBed.schemas` 元數據中加入 `NO_ERRORS_SCHEMA`。
 
 <docs-code header="app/app.component.spec.ts (NO_ERRORS_SCHEMA)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="no-errors-schema"/>
 
-The `NO_ERRORS_SCHEMA` tells the Angular compiler to ignore unrecognized elements and attributes.
+`NO_ERRORS_SCHEMA` 告知 Angular 編譯器忽略不識別的元素和屬性。
 
-The compiler recognizes the `<app-root>` element and the `routerLink` attribute because you declared a corresponding `AppComponent` and `RouterLink` in the `TestBed` configuration.
+編譯器識別 `<app-root>` 元素和 `routerLink` 屬性，因為您在 `TestBed` 組態中宣告了對應的 `AppComponent` 和 `RouterLink`。
 
-But the compiler won't throw an error when it encounters `<app-banner>`, `<app-welcome>`, or `<router-outlet>`.
-It simply renders them as empty tags and the browser ignores them.
+但編譯器在遇到 `<app-banner>`、`<app-welcome>` 或 `<router-outlet>` 時，並不會擲出錯誤。
+它只是將它們呈現為空標籤，而瀏覽器會忽略它們。
 
-You no longer need the stub components.
+您不再需要 stub 元件。
 
-### Use both techniques together
+### 同時使用兩種技巧
 
-These are techniques for *Shallow Component Testing*, so-named because they reduce the visual surface of the component to just those elements in the component's template that matter for tests.
+這些是 *淺層元件測試* 的技術，之所以如此命名，是因為它們把元件的可視介面減少到元件範本中對測試很重要的元素。
 
-The `NO_ERRORS_SCHEMA` approach is the easier of the two but don't overuse it.
+`NO_ERRORS_SCHEMA` 的方式比較容易，但是不要過度使用。
 
-The `NO_ERRORS_SCHEMA` also prevents the compiler from telling you about the missing components and attributes that you omitted inadvertently or misspelled.
-You could waste hours chasing phantom bugs that the compiler would have caught in an instant.
+`NO_ERRORS_SCHEMA` 亦會阻止編譯器告知您無意中遺漏或拼寫錯誤的遺失組件和屬性。
+您可能會浪費數小時追查幻影錯誤，而編譯器會立即捕獲這些錯誤。
 
-The *stub component* approach has another advantage.
-While the stubs in *this* example were empty, you could give them stripped-down templates and classes if your tests need to interact with them in some way.
+* stub 元件* 方法還有另一個優點。
+雖然 *此* 範例中的存根是空的，但如果您的測試需要與它們互動，您可以為它們提供精簡的範本和類別。
 
-In practice you will combine the two techniques in the same setup, as seen in this example.
+實際上，您會將兩種技術結合在相同的設定中，如同在這個範例中看到的一樣。
 
 <docs-code header="app/app.component.spec.ts (mixed setup)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="mixed-setup"/>
 
-The Angular compiler creates the `BannerStubComponent` for the `<app-banner>` element and applies the `RouterLink` to the anchors with the `routerLink` attribute, but it ignores the `<app-welcome>` and `<router-outlet>` tags.
+Angular 編譯器為 `<app-banner>` 元素建立 `BannerStubComponent` 並將 `RouterLink` 套用到具有 `routerLink` 屬性的錨點，但它忽略了 `<app-welcome>` 和 `<router-outlet>` 標籤。
 
-### `By.directive` and injected directives
+### `By.directive` 和內建指令
 
-A little more setup triggers the initial data binding and gets references to the navigation links:
+再進一步的設定會觸發初始資料繫結，並取得導覽連結的參照：
 
 <docs-code header="app/app.component.spec.ts (test setup)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="test-setup"/>
 
-Three points of special interest:
+三個特別感興趣的點：
 
-* Locate the anchor elements with an attached directive using `By.directive`
-* The query returns `DebugElement` wrappers around the matching elements
-* Each `DebugElement` exposes a dependency injector with the specific instance of the directive attached to that element
+* 使用 `By.directive` 找出具有附加指令的錨點元素
+* 查詢會傳回與符合元素相關的 `DebugElement` 包裝器
+* 每個 `DebugElement` 都會公開一個相依性注入器，其中包含附加到該元素的特定指令實例
 
-The `AppComponent` links to validate are as follows:
+AppComponent 連結用以驗證如下：
 
 <docs-code header="app/app.component.html (navigation links)" path="adev/src/content/examples/testing/src/app/app.component.html" visibleRegion="links"/>
 
-Here are some tests that confirm those links are wired to the `routerLink` directives as expected:
+以下是一些測試，確認那些連結已如預期般連接到 `routerLink` 指令：
 
 <docs-code header="app/app.component.spec.ts (selected tests)" path="adev/src/content/examples/testing/src/app/app.component.spec.ts" visibleRegion="tests"/>
 
-## Use a `page` object
+## 使用 `page` 物件
 
-The `HeroDetailComponent` is a simple view with a title, two hero fields, and two buttons.
+`HeroDetailComponent` 是一個簡單的檢視，包含標題、兩個英雄欄位和兩個按鈕。
 
 <img alt="HeroDetailComponent in action" src="assets/content/images/guide/testing/hero-detail.component.png">
 
-But there's plenty of template complexity even in this simple form.
+但即使在這種簡單形式中，也有很多範本複雜性。
 
 <docs-code
   path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.html" header="app/hero/hero-detail.component.html"/>
 
-Tests that exercise the component need &hellip;
+測試元件所需的運算符 &hellip;
 
-* To wait until a hero arrives before elements appear in the DOM
-* A reference to the title text
-* A reference to the name input box to inspect and set it
-* References to the two buttons so they can click them
-* Spies for some of the component and router methods
+* 在英雄出現之前等待元素出現在 DOM 中
+* 對標題文字的參照
+* 對名稱輸入框的參照，以檢查並設定它
+* 對兩個按鈕的參照，以便他們可以點擊
+* 偵測一些組件和路由器方法
 
-Even a small form such as this one can produce a mess of tortured conditional setup and CSS element selection.
+即使像這個這樣的小表格也可能產生一系列扭曲的條件設置和 CSS 元素選擇。
 
-Tame the complexity with a `Page` class that handles access to component properties and encapsulates the logic that sets them.
+使用可處理對元件屬性的存取並封裝設定邏輯的 `Page` 類別來控制複雜性。
 
-Here is such a `Page` class for the `hero-detail.component.spec.ts`
+以下是在 `hero-detail.component.spec.ts` 中的 `Page` 類別
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (Page)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="page"/>
 
-Now the important hooks for component manipulation and inspection are neatly organized and accessible from an instance of `Page`.
+現在，用於元件操作和檢查的重要掛鉤已井然有序地整理並可從 `Page` 的實例存取。
 
-A `createComponent` method creates a `page` object and fills in the blanks once the `hero` arrives.
+`createComponent` 方法建立一個 `page` 物件，並在 `hero` 到達時填入空格。
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (createComponent)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="create-component"/>
 
-Here are a few more `HeroDetailComponent` tests to reinforce the point.
+以下是幾個加強觀點的 `HeroDetailComponent` 測試。
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (selected tests)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="selected-tests"/>
 
-## Calling `compileComponents()`
+## 呼叫 `compileComponents()`
 
-HELPFUL: Ignore this section if you *only* run tests with the CLI `ng test` command because the CLI compiles the application before running the tests.
+HELPFUL：如果您*僅*使用 CLI `ng test` 命令執行測試，請忽略此區段，因為 CLI 會在執行測試前編譯應用程式。
 
-If you run tests in a **non-CLI environment**, the tests might fail with a message like this one:
+如果您在 **非 CLI 環境** 中執行測試，測試可能會失敗，並顯示類似這樣的訊息：
 
 <docs-code hideCopy language="shell">
 
@@ -906,29 +907,29 @@ Please call "TestBed.compileComponents" before your test.
 
 </docs-code>
 
-The root of the problem is at least one of the components involved in the test specifies an external template or CSS file as the following version of the `BannerComponent` does.
+問題的根源是至少一個參與測試的元件指定了一個外部範本或 CSS 檔案，如同以下版本的 `BannerComponent` 所做的一樣。
 
 <docs-code header="app/banner/banner-external.component.ts (external template & css)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.ts"/>
 
-The test fails when the `TestBed` tries to create the component.
+當 `TestBed` 嘗試建立組件時，測試失敗。
 
 <docs-code avoid header="app/banner/banner-external.component.spec.ts (setup that fails)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.spec.ts" visibleRegion="setup-may-fail"/>
 
-Recall that the application hasn't been compiled.
-So when you call `createComponent()`, the `TestBed` compiles implicitly.
+請記得，應用程式尚未編譯。
+因此，當您呼叫 `createComponent()` 時，`TestBed` 會隱式編譯。
 
-That's not a problem when the source code is in memory.
-But the `BannerComponent` requires external files that the compiler must read from the file system, an inherently *asynchronous* operation.
+當源程式碼在記憶體中時，這不是問題。
+但 `BannerComponent` 需要編譯器必須從檔案系統讀取的外部檔案，這是一個固有的*異步*操作。
 
-If the `TestBed` were allowed to continue, the tests would run and fail mysteriously before the compiler could finish.
+如果允許 `TestBed` 繼續進行，測試將會在編譯器完成之前運行並神秘地失敗。
 
-The preemptive error message tells you to compile explicitly with `compileComponents()`.
+先發制人的錯誤訊息告訴您使用 `compileComponents()` 明確編譯。
 
-### `compileComponents()` is async
+### `compileComponents()` 是非同步的
 
-You must call `compileComponents()` within an asynchronous test function.
+您必須在非同步測試函數中呼叫 `compileComponents()`。
 
-CRITICAL: If you neglect to make the test function async (for example, forget to use `waitForAsync()` as described), you'll see this error message
+CRITICAL: 如果你忽略讓測試函數變成非同步（例如，忘記使用 `waitForAsync()` 如說明所示），你將看到此錯誤訊息
 
 <docs-code hideCopy language="shell">
 
@@ -936,156 +937,156 @@ Error: ViewDestroyedError: Attempt to use a destroyed view
 
 </docs-code>
 
-A typical approach is to divide the setup logic into two separate `beforeEach()` functions:
+一個典型的方法是將設定邏輯分為兩個獨立的 `beforeEach()` 函數：
 
-| Functions                   | Details                      |
+| 函數                   | 詳細資料                      |
 | :-------------------------- | :--------------------------- |
-| Asynchronous `beforeEach()` | Compiles the components      |
-| Synchronous `beforeEach()`  | Performs the remaining setup |
+| 非同步 `beforeEach()` | 編譯元件      |
+| 同步 `beforeEach()`  | 執行其餘的設定 |
 
-### The async `beforeEach`
+### 非同步 `beforeEach`
 
-Write the first async `beforeEach` like this.
+以這種方式撰寫第一個非同步 `beforeEach`。
 
 <docs-code header="app/banner/banner-external.component.spec.ts (async beforeEach)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.spec.ts" visibleRegion="async-before-each"/>
 
-The `TestBed.configureTestingModule()` method returns the `TestBed` class so you can chain calls to other `TestBed` static methods such as `compileComponents()`.
+`TestBed.configureTestingModule()` 方法會傳回 `TestBed` 類別，因此您可以將呼叫串連至其他 `TestBed` 靜態方法，例如 `compileComponents()`.
 
-In this example, the `BannerComponent` is the only component to compile.
-Other examples configure the testing module with multiple components and might import application modules that hold yet more components.
-Any of them could require external files.
+在此範例中，`BannerComponent` 是唯一要編譯的元件。
+其他範例會使用多個元件來設定測試模組，並且可能會匯入應用程式模組，其中含有更多元件。
+其中任何一個都可能需要外部檔案。
 
-The `TestBed.compileComponents` method asynchronously compiles all components configured in the testing module.
+`TestBed.compileComponents` 方法會非同步編譯在測試模組中配置的所有元件。
 
-IMPORTANT: Do not re-configure the `TestBed` after calling `compileComponents()`.
+重要：在呼叫 `compileComponents()` 後，請勿重新設定 `TestBed`。
 
-Calling `compileComponents()` closes the current `TestBed` instance to further configuration.
-You cannot call any more `TestBed` configuration methods, not `configureTestingModule()` nor any of the `override...` methods.
-The `TestBed` throws an error if you try.
+呼叫 `compileComponents()` 會將目前的 `TestBed` 實例關閉以供進一步設定。
+您無法呼叫任何其他 `TestBed` 設定方法，不包括 `configureTestingModule()` 或任何 `override...` 方法。
+如果您嘗試，`TestBed` 會擲回錯誤。
 
-Make `compileComponents()` the last step before calling `TestBed.createComponent()`.
+將 `compileComponents()` 設為在呼叫 `TestBed.createComponent()` 前的最後一個步驟。
 
-### The synchronous `beforeEach`
+### 同步 `beforeEach`
 
-The second, synchronous `beforeEach()` contains the remaining setup steps, which include creating the component and querying for elements to inspect.
+第二個同步 `beforeEach()` 包含其餘的設定步驟，其中包括建立元件和查詢要檢查的元素。
 
 <docs-code header="app/banner/banner-external.component.spec.ts (synchronous beforeEach)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.spec.ts" visibleRegion="sync-before-each"/>
 
-Count on the test runner to wait for the first asynchronous `beforeEach` to finish before calling the second.
+相信測試執行器會等待第一個非同步的 `beforeEach` 完成後再呼叫第二個。
 
-### Consolidated setup
+### 整合設定
 
-You can consolidate the two `beforeEach()` functions into a single, async `beforeEach()`.
+你可以將兩個 `beforeEach()` 函數合併成單一的非同步 `beforeEach()`。
 
-The `compileComponents()` method returns a promise so you can perform the synchronous setup tasks *after* compilation by moving the synchronous code after the `await` keyword, where the promise has been resolved.
+`compileComponents()` 方法會傳回一個 Promise，以便您可以在編譯 *之後* 執行同步設定工作，方法是在 `await` 關鍵字之後移動同步程式碼，Promise 已解析。
 
 <docs-code header="app/banner/banner-external.component.spec.ts (one beforeEach)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.spec.ts" visibleRegion="one-before-each"/>
 
-### `compileComponents()` is harmless
+### `compileComponents()` 是無害的
 
-There's no harm in calling `compileComponents()` when it's not required.
+在不需要時呼叫 `compileComponents()` 沒有害處。
 
-The component test file generated by the CLI calls `compileComponents()` even though it is never required when running `ng test`.
+即使在執行 `ng test` 時從未需要，CLI 所產生的元件測試檔案仍會呼叫 `compileComponents()`。
 
-The tests in this guide only call `compileComponents` when necessary.
+本指南中的測試只在必要時呼叫 `compileComponents`。
 
-## Setup with module imports
+## 以模組匯入設定
 
-Earlier component tests configured the testing module with a few `declarations` like this:
+之前的元件測試使用幾個 `declarations` 來組態測試模組，如下所示：
 
 <docs-code header="app/dashboard/dashboard-hero.component.spec.ts (configure TestBed)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="config-testbed"/>
 
-The `DashboardComponent` is simple.
-It needs no help.
-But more complex components often depend on other components, directives, pipes, and providers and these must be added to the testing module too.
+DashboardComponent 很簡單。
+它不需要任何幫助。
+但更複雜的元件通常依賴於其他元件、指令、管道和提供者，這些也必須新增到測試模組中。
 
-Fortunately, the `TestBed.configureTestingModule` parameter parallels the metadata passed to the `@NgModule` decorator which means you can also specify `providers` and `imports`.
+幸運的是，`TestBed.configureTestingModule` 參數與傳遞給 `@NgModule` 裝飾器的元數據是平行的，這表示您也可以指定 `providers` 和 `imports`。
 
-The `HeroDetailComponent` requires a lot of help despite its small size and simple construction.
-In addition to the support it receives from the default testing module `CommonModule`, it needs:
+儘管 `HeroDetailComponent` 體積小而且結構簡單，但仍需要許多協助。
+除了它從預設測試模組 `CommonModule` 收到的支援之外，它還需要：
 
-* `NgModel` and friends in the `FormsModule` to enable two-way data binding
-* The `TitleCasePipe` from the `shared` folder
-* The Router services
-* The Hero data access services
+* `NgModel` 及 `FormsModule` 中的相關函數，以啟用雙向資料繫結
+* `shared` 資料夾中的 `TitleCasePipe`
+* 路由器服務
+* 英雄資料存取服務
 
-One approach is to configure the testing module from the individual pieces as in this example:
+一種做法是透過個別片段配置測試模組，如下例所示：
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (FormsModule setup)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="setup-forms-module"/>
 
-HELPFUL: Notice that the `beforeEach()` is asynchronous and calls `TestBed.compileComponents` because the `HeroDetailComponent` has an external template and css file.
+HELPFUL：請注意 `beforeEach()` 是非同步的，並呼叫 `TestBed.compileComponents`，因為 `HeroDetailComponent` 具有外部範本和 css 檔案。
 
-As explained in [Calling `compileComponents()`](#compile-components), these tests could be run in a non-CLI environment where Angular would have to compile them in the browser.
+如 [Calling `compileComponents()`](#compile-components) 中所述，這些測試可在非 CLI 環境中執行，Angular 必須在瀏覽器中編譯它們。
 
-### Import a shared module
+### 匯入共用模組
 
-Because many application components need the `FormsModule` and the `TitleCasePipe`, the developer created a `SharedModule` to combine these and other frequently requested parts.
+由於許多應用程式元件需要 `FormsModule` 和 `TitleCasePipe`，因此開發人員建立一個 `SharedModule` 以結合這些和其他經常要求的部分。
 
-The test configuration can use the `SharedModule` too as seen in this alternative setup:
+測試組態也可以使用 `SharedModule`，如在此替代設定中所示：
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (SharedModule setup)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="setup-shared-module"/>
 
-It's a bit tighter and smaller, with fewer import statements, which are not shown in this example.
+它更緊湊且更小，導入語句更少，此範例中未顯示。
 
-### Import a feature module
+### 導入功能模組
 
-The `HeroDetailComponent` is part of the `HeroModule` [Feature Module](guide/ngmodules/feature-modules) that aggregates more of the interdependent pieces including the `SharedModule`.
-Try a test configuration that imports the `HeroModule` like this one:
+`HeroDetailComponent` 是 `HeroModule` [Feature Module](guide/ngmodules/feature-modules) 的一部分，它聚合了更多相互依賴的部分，包括 `SharedModule`。
+嘗試一個導入 `HeroModule` 的測試配置，如下所示：
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (HeroModule setup)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="setup-hero-module"/>
 
-Only the *test doubles* in the `providers` remain.
-Even the `HeroDetailComponent` declaration is gone.
+只有在 `providers` 中的 *測試替身*。
+即使 `HeroDetailComponent` 宣告也不見了。
 
-In fact, if you try to declare it, Angular will throw an error because `HeroDetailComponent` is declared in both the `HeroModule` and the `DynamicTestModule` created by the `TestBed`.
+事實上，如果您嘗試宣告它，Angular 會擲回錯誤，因為 `HeroDetailComponent` 同時在 `HeroModule` 和 `TestBed` 建立的 `DynamicTestModule` 中宣告。
 
-HELPFUL: Importing the component's feature module can be the best way to configure tests when there are many mutual dependencies within the module and the module is small, as feature modules tend to be.
+有用的：在模組內有許多相互依賴性且模組很小的時候，匯入組件的功能模組可能是配置測試的最佳方式，而功能模組往往很小。
 
-## Override component providers
+## 覆寫組件提供者
 
-The `HeroDetailComponent` provides its own `HeroDetailService`.
+`HeroDetailComponent` 提供它自己的 `HeroDetailService`。
 
 <docs-code header="app/hero/hero-detail.component.ts (prototype)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.ts" visibleRegion="prototype"/>
 
-It's not possible to stub the component's `HeroDetailService` in the `providers` of the `TestBed.configureTestingModule`.
-Those are providers for the *testing module*, not the component.
-They prepare the dependency injector at the *fixture level*.
+無法在 `TestBed.configureTestingModule` 的 `providers` 中存根組件的 `HeroDetailService`。
+這些是 *測試模組* 的提供者，而不是組件。
+它們在 *固定裝置級別* 準備依賴項注入器。
 
-Angular creates the component with its *own* injector, which is a *child* of the fixture injector.
-It registers the component's providers \(the `HeroDetailService` in this case\) with the child injector.
+Angular 使用其 *自己的* 注入器來建立元件，它是固定裝置注入器的 *子代*。
+它將元件的提供者（本例中的 `HeroDetailService`）註冊到子代注入器。
 
-A test cannot get to child injector services from the fixture injector.
-And `TestBed.configureTestingModule` can't configure them either.
+測試無法從固定元件注入器取得子注入器服務。
+而 `TestBed.configureTestingModule` 也無法設定它們。
 
-Angular has created new instances of the real `HeroDetailService` all along!
+Angular 一直以來都建立了 `HeroDetailService` 的新實例！
 
-HELPFUL: These tests could fail or timeout if the `HeroDetailService` made its own XHR calls to a remote server.
-There might not be a remote server to call.
+HELPFUL: 如果 `HeroDetailService` 對遠端伺服器發出自己的 XHR 呼叫，這些測試可能會失敗或逾時。
+可能沒有遠端伺服器可以呼叫。
 
-Fortunately, the `HeroDetailService` delegates responsibility for remote data access to an injected `HeroService`.
+幸運的是，`HeroDetailService` 將遠端資料存取的責任委派給注入的 `HeroService`。
 
 <docs-code header="app/hero/hero-detail.service.ts (prototype)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.service.ts" visibleRegion="prototype"/>
 
-The [previous test configuration](#feature-module-import) replaces the real `HeroService` with a `TestHeroService` that intercepts server requests and fakes their responses.
+[前一個測試組態](#feature-module-import) 用 `TestHeroService` 替換真正的 `HeroService`，它會攔截伺服器要求並偽造其回應。
 
-What if you aren't so lucky.
-What if faking the `HeroService` is hard?
-What if `HeroDetailService` makes its own server requests?
+如果你沒有那麼幸運怎麼辦？
+如果偽造 `HeroService` 很難怎麼辦？
+如果 `HeroDetailService` 提出自己的伺服器請求怎麼辦？
 
-The `TestBed.overrideComponent` method can replace the component's `providers` with easy-to-manage *test doubles* as seen in the following setup variation:
+`TestBed.overrideComponent` 方法可以將組件的 `providers` 替換成易於管理的 *測試替身*，如下面的設定變化所示：
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (Override setup)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="setup-override"/>
 
-Notice that `TestBed.configureTestingModule` no longer provides a fake `HeroService` because it's [not needed](#spy-stub).
+注意，`TestBed.configureTestingModule` 不再提供假的 `HeroService`，因為它[不需要](#spy-stub)。
 
-### The `overrideComponent` method
+### `overrideComponent` 方法
 
-Focus on the `overrideComponent` method.
+專注於 `overrideComponent` 方法。
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (overrideComponent)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="override-component-method"/>
 
-It takes two arguments: the component type to override \(`HeroDetailComponent`\) and an override metadata object.
-The [override metadata object](guide/testing/utility-apis#metadata-override-object) is a generic defined as follows:
+它需要兩個參數：要覆寫的組件類型 \(`HeroDetailComponent`\) 和一個覆寫的元數據物件。
+[覆寫元數據物件](guide/testing/utility-apis#metadata-override-object) 是以如下方式定義的通用物件：
 
 <docs-code language="javascript">
 
@@ -1097,10 +1098,10 @@ type MetadataOverride&lt;T&gt; = {
 
 </docs-code>
 
-A metadata override object can either add-and-remove elements in metadata properties or completely reset those properties.
-This example resets the component's `providers` metadata.
+元數據覆寫物件可以新增和移除元數據屬性中的元素，或完全重設那些屬性。
+此範例重設元件的 `providers` 元數據。
 
-The type parameter, `T`, is the kind of metadata you'd pass to the `@Component` decorator:
+`T` 類型參數是您會傳遞給 `@Component` 裝飾器的元數據類型：
 
 <docs-code language="javascript">
 
@@ -1112,27 +1113,28 @@ providers?: any[];
 
 </docs-code>
 
-### Provide a *spy stub* (`HeroDetailServiceSpy`)
+### 提供 *spy stub* (`HeroDetailServiceSpy`)
 
-This example completely replaces the component's `providers` array with a new array containing a `HeroDetailServiceSpy`.
+此範例完全取代元件的 `providers` 陣列，以包含 `HeroDetailServiceSpy` 的新陣列。
 
-The `HeroDetailServiceSpy` is a stubbed version of the real `HeroDetailService` that fakes all necessary features of that service.
-It neither injects nor delegates to the lower level `HeroService` so there's no need to provide a test double for that.
+`HeroDetailServiceSpy` 是真實 `HeroDetailService` 的 stub 版本，可偽造該服務的所有必要功能。
+它既不注入也不委派到下層的 `HeroService`，因此無需為其提供測試替身。
 
-The related `HeroDetailComponent` tests will assert that methods of the `HeroDetailService` were called by spying on the service methods.
-Accordingly, the stub implements its methods as spies:
+相關的 `HeroDetailComponent` 測試會斷言 `HeroDetailService` 的方法被呼叫，方法是透過監控服務方法。
+因此，存根程式碼實作其方法作為間諜：
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (HeroDetailServiceSpy)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="hds-spy"/>
 
-### The override tests
+### 覆寫測試
 
-Now the tests can control the component's hero directly by manipulating the spy-stub's `testHero` and confirm that service methods were called.
+現在，測試可以通過操作 spy-stub 的 `testHero` 直接控制元件的英雄，並確認已呼叫服務方法。
 
 <docs-code header="app/hero/hero-detail.component.spec.ts (override tests)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.spec.ts" visibleRegion="override-tests"/>
 
-### More overrides
+### 更多覆寫
 
-The `TestBed.overrideComponent` method can be called multiple times for the same or different components.
-The `TestBed` offers similar `overrideDirective`, `overrideModule`, and `overridePipe` methods for digging into and replacing parts of these other classes.
+`TestBed.overrideComponent` 方法可以針對相同或不同的元件呼叫多次。
+`TestBed` 提供類似的 `overrideDirective`、`overrideModule` 和 `overridePipe` 方法來深入挖掘並替換這些其他類別的部分。
 
-Explore the options and combinations on your own.
+自行探索選項和組合。
+

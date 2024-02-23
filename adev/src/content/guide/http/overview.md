@@ -1,19 +1,20 @@
-# Understanding communicating with backend services using HTTP
+# 了解使用 HTTP 與後端服務通訊
 
-Most front-end applications need to communicate with a server over the HTTP protocol, to download or upload data and access other back-end services. Angular provides a client HTTP API for Angular applications, the `HttpClient` service class in `@angular/common/http`.
+大多數前端應用程式需要透過 HTTP 協定與伺服器進行通訊，以下載或上傳資料，並存取其他後端服務。Angular 為 Angular 應用程式提供了一個用戶端 HTTP API，位於 `@angular/common/http` 中的 `HttpClient` 服務類別。
 
-## HTTP client service features
+## HTTP 客戶端服務特色
 
-The HTTP client service offers the following major features:
+HTTP 客戶端服務提供以下主要功能：
 
-* The ability to request [typed response values](guide/http/making-requests#fetching-json-data)
-* Streamlined [error handling](guide/http/making-requests#handling-request-failure)
-* Request and response [interception](guide/http/interceptors)
-* Robust [testing utilities](guide/http/testing)
+* 要求 [型別化回應值](guide/http/making-requests#fetching-json-data) 的能力
+* 精簡的 [錯誤處理](guide/http/making-requests#handling-request-failure)
+* 要求和回應 [攔截](guide/http/interceptors)
+* 健全的 [測試工具](guide/http/testing)
 
-## What's next
+## 接下來
 
 <docs-pill-row>
-  <docs-pill href="guide/http/setup" title="Setting up HttpClient"/>
-  <docs-pill href="guide/http/making-requests" title="Making HTTP requests"/>
+  <docs-pill href="guide/http/setup" title="設定 HttpClient"/>
+  <docs-pill href="guide/http/making-requests" title="建立 HTTP 要求"/>
 </docs-pill-row>
+

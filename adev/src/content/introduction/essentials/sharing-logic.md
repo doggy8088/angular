@@ -1,19 +1,19 @@
-<docs-decorative-header title="Sharing Code" imgSrc="adev/src/assets/images/dependency_injection.svg"> <!-- markdownlint-disable-line -->
-Dependency injection allows you to share code.
+<docs-decorative-header title="共用程式碼" imgSrc="adev/src/assets/images/dependency_injection.svg"> <!-- markdownlint-disable-line -->
+相依性注入允許您共用程式碼。
 </docs-decorative-header>
 
-When you need to share logic between components, Angular leverages the design pattern of [dependency injection](/guide/di) that allows you to create a “service” which allows you to inject code into components while managing it from a single source of truth.
+當您需要在元件間共用邏輯時，Angular 採用 [依賴注入](/guide/di) 的設計模式，讓您可以建立一個「服務」，允許您將程式碼注入元件，同時從單一真實來源管理它。
 
-## What are services?
+## 服務是什麼？
 
-Services are reusable pieces of code that can be injected
+服務是可以注入的重複使用程式碼片段
 
-Similar to defining a component, services are comprised of the following:
+類似定義組件，服務由以下部分組成：
 
-- A **TypeScript decorator** that declares the class as an Angular service via `@Injectable` and allows you to define what part of the application can access the service via the `providedIn` property (which is typically `'root'`) to allow a service to be accessed anywhere within the application.
-- A **TypeScript class** that defines the desired code that will be accessible when the service is injected
+- 一個 **TypeScript 裝飾器**，它通過 `@Injectable` 將類別宣告為 Angular 服務，並允許您定義應用程式的哪個部分可以通過 `providedIn` 屬性（通常為 `'root'`）存取服務，以允許在應用程式中的任何地方存取服務。
+- 一個 **TypeScript 類別**，它定義注入服務時可存取的所需程式碼
 
-Here is an example of a `Calculator` service.
+以下是 `Calculator` 服務的範例。
 
 ```ts
 import {Injectable} from '@angular/core';
@@ -28,14 +28,27 @@ export class CalculatorService {
 }
 ```
 
-## How to use a service
+## 如何使用服務
 
-When you want to use a service in a component, you need to:
+<ul>
+<li>Go to the service's website.</li>
+<li>Click on the "Sign Up" button.</li>
+<li>Enter your email address and create a password.</li>
+<li>Click on the "Create Account" button.</li>
+<li>You will be sent a confirmation email.</li>
+<li>Click on the link in the email to activate your account.</li>
+<li>Once your account is activated, you can log in to the service.</li>
+<li>Click on the "My Account" button.</li>
+<li>You will see a list of your subscriptions.</li>
+<li>Click on the "Cancel Subscription" button to cancel a subscription.</li>
+</ul>
 
-1. Import the service
-2. Declare a class field where the service is injected. Assign the class field to the result of the call of the built-in function `inject` which creates the service
+當您想在元件中使用服務時，您需要：
 
-Here’s what it might look like in the `Receipt` component:
+1. 匯入服務
+2. 宣告一個服務被注入的類別欄位。將類別欄位指定給內建函數 `inject` 的呼叫結果，該函數會建立服務
+
+以下是在 `Receipt` 組件中可能看到的內容：
 
 ```ts
 import { Component } from '@angular/core';
@@ -52,10 +65,11 @@ export class Receipt {
 }
 ```
 
-In this example, the `CalculatorService` is being used by calling the Angular function `inject` and passing in the service to it.
+在此範例中，`CalculatorService` 透過呼叫 Angular 函數 `inject` 並將服務傳入，來進行使用。
 
-## Next Step
+## 下一步
 
 <docs-pill-row>
-  <docs-pill title="Next Steps After Essentials" href="essentials/next-steps" />
+  <docs-pill title="Essentials 後續步驟" href="essentials/next-steps" />
 </docs-pill-row>
+

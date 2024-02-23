@@ -1,10 +1,10 @@
-# Setting up `HttpClient`
+# 設定 `HttpClient`
 
-Before you can use `HttpClient` in your app, you must configure it using [dependency injection](guide/di).
+在您的應用程式中使用 `HttpClient` 之前，您必須使用 [相依性注入](guide/di) 來設定它。
 
-## Providing `HttpClient` through dependency injection
+## 透過依賴注入提供 `HttpClient`
 
-`HttpClient` is provided using the `provideHttpClient` helper function, which most apps include in the application `providers` in `app.config.ts`.
+`HttpClient` 是使用 `provideHttpClient` 輔助函數提供的，大多數應用程式會將其包含在 `app.config.ts` 的應用程式 `providers` 中。
 
 <docs-code language="ts">
 export const appConfig: ApplicationConfig = {
@@ -14,7 +14,7 @@ export const appConfig: ApplicationConfig = {
 };
 </docs-code>
 
-If your app is using NgModule-based bootstrap instead, you can include `provideHttpClient` in the providers of your app's NgModule:
+如果您的應用程式使用基於 NgModule 的引導程式，您可以將 `provideHttpClient` 包含在應用程式 NgModule 的提供者中：
 
 <docs-code language="ts">
 @NgModule({
@@ -26,7 +26,7 @@ If your app is using NgModule-based bootstrap instead, you can include `provideH
 export class AppModule {}
 </docs-code>
 
-You can then inject the `HttpClient` service as a dependency of your components, services, or other classes:
+然後，您可以將 `HttpClient` 服務注入為元件、服務或其他類別的相依性：
 
 <docs-code language="ts">
 @Injectable({providedIn: 'root'})
@@ -37,9 +37,9 @@ export class ConfigService {
 }
 </docs-code>
 
-## Configuring features of `HttpClient`
+## 配置 `HttpClient` 的功能`
 
-`provideHttpClient` accepts a list of optional feature configurations, to enable or configure the behavior of different aspects of the client. This section details the optional features and their usages.
+`provideHttpClient` 接受一個選用功能設定清單，以啟用或設定客戶端不同面向的行為。本節詳述選用功能及其用法。
 
 ### `withFetch`
 
@@ -53,57 +53,58 @@ export const appConfig: ApplicationConfig = {
 };
 </docs-code>
 
-By default, `HttpClient` uses the [`XMLHttpRequest`](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) API to make requests. The `withFetch` feature switches the client to use the [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) API instead.
+預設情況下，`HttpClient` 使用 [`XMLHttpRequest`](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) API 發出請求。`withFetch` 功能將用戶端切換為使用 [`fetch`](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) API。
 
-`fetch` is a more modern API and is available in a few environments where `XMLHttpRequest` is not supported. It does have a few limitations, such as not producing upload progress events.
+`fetch` 是較新的 API，可供 `XMLHttpRequest` 不受支援的一些環境使用。它有一些限制，例如不產生上傳進度事件。
 
-### `withInterceptors(...)`
+### `withInterceptors(...)``
 
-`withInterceptors` configures the set of interceptor functions which will process requests made through `HttpClient`. See the [interceptor guide](guide/http/interceptors) for more information.
+`withInterceptors` 配置一組攔截器函數，這些函數會處理透過 `HttpClient` 進行的請求。請參閱 [攔截器指南](guide/http/interceptors) 以了解更多資訊。
 
 ### `withInterceptorsFromDi()`
 
-`withInterceptorsFromDi` includes the older style of class-based interceptors in the `HttpClient` configuration. See the [interceptor guide](guide/http/interceptors) for more information.
+`withInterceptorsFromDi` 在 `HttpClient` 組態中包含舊式類別基礎攔截器。請參閱 [攔截器指南](guide/http/interceptors) 以了解更多資訊。
 
-HELPFUL: Functional interceptors (through `withInterceptors`) have more predictable ordering and we recommend them over DI-based interceptors.
+HELPFUL: 具有較可預測排序的功能性攔截器 (透過 `withInterceptors`)，我們建議使用它們而不是基於 DI 的攔截器。
 
 ### `withRequestsMadeViaParent()`
 
-By default, when you configure `HttpClient` using `provideHttpClient` within a given injector, this configuration overrides any configuration for `HttpClient` which may be present in the parent injector.
+預設情況下，當您在給定的注入器中使用 `provideHttpClient` 配置 `HttpClient` 時，此配置將覆寫父注入器中可能存在的 `HttpClient` 的任何配置。
 
-When you add `withRequestsMadeViaParent()`, `HttpClient` is configured to instead pass requests up to the `HttpClient` instance in the parent injector, once they've passed through any configured interceptors at this level. This is useful if you want to _add_ interceptors in a child injector, while still sending the request through the parent injector's interceptors as well.
+當你加入 `withRequestsMadeViaParent()`，`HttpClient` 會被配置為將請求傳遞到父層注入器中的 `HttpClient` 實例，一旦它們通過此層級的任何已配置攔截器。如果你想在子層級注入器中 _新增_ 攔截器，同時仍透過父層級注入器的攔截器來傳送請求，這將會很有用。
 
-CRITICAL: You must configure an instance of `HttpClient` above the current injector, or this option is not valid and you'll get a runtime error when you try to use it.
+CRITICAL：您必須在目前的注入器上方配置 `HttpClient` 的執行個體，否則此選項無效，而當您嘗試使用它時，您會收到執行時期錯誤。
 
 ### `withJsonpSupport()`
 
-Including `withJsonpSupport` enables the `.jsonp()` method on `HttpClient`, which makes a GET request via the [JSONP convention](https://en.wikipedia.org/wiki/JSONP) for cross-domain loading of data.
+包含 `withJsonpSupport` 啟用 `HttpClient` 上的 `.jsonp()` 方法，該方法透過 [JSONP 慣例](https://en.wikipedia.org/wiki/JSONP) 進行 GET 要求，以跨網域載入資料。
 
-HELPFUL: Prefer using [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) to make cross-domain requests instead of JSONP when possible.
+HELPFUL: 盡可能使用 [CORS](https://developer.mozilla.org/zh-TW/docs/Web/HTTP/CORS) 來進行跨網域請求，而不是 JSONP。
 
 ### `withXsrfConfiguration(...)`
 
-Including this option allows for customization of `HttpClient`'s built-in XSRF security functionality. See the [security guide](guide/http/security) for more information.
+包含此選項允許自定義 `HttpClient` 內建的 XSRF 安全性功能。有關更多資訊，請參閱 [安全性指南](guide/http/security)。
 
 ### `withNoXsrfProtection()`
 
-Including this option disables `HttpClient`'s built-in XSRF security functionality. See the [security guide](guide/http/security) for more information.
+包含此選項會停用 `HttpClient` 內建的 XSRF 安全性功能。請參閱 [安全性指南](guide/http/security)以了解更多資訊。
 
-## `HttpClientModule`-based configuration
+## 基於 `HttpClientModule` 的設定
 
-Some applications may configure `HttpClient` using the older API based on NgModules.
+某些應用程式可能會使用基於 NgModules 的舊 API 來配置 `HttpClient`。
 
-This table lists the NgModules available from `@angular/common/http` and how they relate to the provider configuration functions above.
+下表列出 `@angular/common/http` 提供的 NgModules，以及它們與上述提供者組態函數的關聯。
 
-| **NgModule** | `provideHttpClient()` equivalent |
+| **NgModule** | 等同於 `provideHttpClient()` |
 | - | - |
 | `HttpClientModule` | `provideHttpClient(withInterceptorsFromDi())` |
-| `HttpClientJsonpModule` |  `withJsonpSupport()` |
+| `HttpClientJsonpModule` | `withJsonpSupport()` |
 | `HttpClientXsrfModule.withOptions(...)` | `withXsrfConfiguration(...)` |
 | `HttpClientXsrfModule.disable()` | `withNoXsrfProtection()` |
 
-<docs-callout important title="Use caution when using HttpClientModule in multiple injectors">
-When `HttpClientModule` is present in multiple injectors, the behavior of interceptors is poorly defined and depends on the exact options and provider/import ordering.
+<docs-callout important title="在多個注入器中使用 HttpClientModule 時小心">
+當 `HttpClientModule` 出現在多個注入器中時，攔截器的行為定義不明確，且取決於確切的選項和提供者/匯入順序。
 
-Prefer `provideHttpClient` for multi-injector configurations, as it has more stable behavior. See the `withRequestsMadeViaParent` feature above.
+對於多注入器配置，優先使用 `provideHttpClient`，因為它具有更穩定的行為。請參閱上面的 `withRequestsMadeViaParent` 功能。
 </docs-callout>
+

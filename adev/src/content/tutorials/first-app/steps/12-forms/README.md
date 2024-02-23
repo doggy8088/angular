@@ -1,106 +1,107 @@
-# Adding a form to your Angular app
+# 將表單加入您的 Angular 應用程式
 
-This tutorial lesson demonstrates how to add a form that collects user data to an Angular app.
-This lesson starts with a functional Angular app and shows how to add a form to it.
+本教學課程示範如何新增一個收集使用者資料的表單至 Angular 應用程式。
+本課程從一個可用的 Angular 應用程式開始，並示範如何新增表單至該應用程式。
 
-The data that the form collects is sent only to the app's service, which writes it to the browser's console.
-Using a REST API to send and receive the form's data is not covered in this lesson.
+表單收集的資料只會傳送到應用程式的服務，它會將資料寫入瀏覽器的控制台。
+本課程不包含使用 REST API 傳送和接收表單資料的內容。
 
 <docs-video src="https://www.youtube.com/embed/kWbk-dOJaNQ?si=FYMXGdUiT-qh321h"/>
 
-IMPORTANT: We recommend using your local environment for this step of the tutorial.
+重要提示：我們建議您將此步驟的教學課程用於您的本地環境。
 
-## What you'll learn
+## 你將會學到
 
-* Your app has a form into which users can enter data that is sent to your app's service.
-* The service writes the data from the form to the browser's console log.
+* 您的應用程式有一個表單，使用者可以輸入其中，傳送到您應用程式的服務中。
+* 服務將表單中的資料寫入瀏覽器的控制台記錄。
 
 <docs-workflow>
 
-<docs-step title="Add a method to send form data">
-This step adds a method to your app's service that receives the form data to send to the data's destination.
-In this example, the method writes the data from the form to the browser's console log.
+<docs-step title="新增方法來傳送表單資料">
+這個步驟會為您的應用程式服務新增一個方法，用來接收要傳送至資料目的地的表單資料。
+在此範例中，該方法會將表單的資料寫入瀏覽器的控制台日誌。
 
-In the **Edit** pane of your IDE:
+在您的 IDE 的 **編輯** 窗格中：
 
-1. In `src/app/housing.service.ts`, inside the `HousingService` class, paste this method at the bottom of the class definition.
+1. 在 `src/app/housing.service.ts` 中，在 `HousingService` 類別內，將此方法貼到類別定義的底部。
 
-    <docs-code header="Submit method in src/app/housing.service.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/housing.service.ts" visibleLines="[120,122]"/>
+    <docs-code header="src/app/housing.service.ts 中的 Submit 方法" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/housing.service.ts" visibleLines="[120,122]"/>
 
-1. Confirm that the app builds without error.
-    Correct any errors before you continue to the next step.
+1. 確認應用程式沒有錯誤地建置。
+    在繼續到下一個步驟之前，請更正任何錯誤。
 </docs-step>
 
-<docs-step title="Add the form functions to the details page">
-This step adds the code to the details page that handles the form's interactions.
+<docs-step title="在詳細資料頁面中新增表單功能">
+此步驟會在詳細資料頁面中新增用於處理表單互動的程式碼。
 
-In the **Edit** pane of your IDE, in `src/app/details/details.component.ts`:
+在 IDE 的 **編輯** 窗格中，在 `src/app/details/details.component.ts` 中：
 
-1. After the `import` statements at the top of the file, add the following code to import the Angular form classes.
+1. 在檔案頂端 `import` 陳述句之後，加入以下程式碼來匯入 Angular 表單類別。
 
-    <docs-code header="Forms imports in src/app/details/details.component.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.component.ts" visibleLines="[6]"/>
+    <docs-code header="src/app/details/details.component.ts 中的 Forms 匯入" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.component.ts" visibleLines="[6]"/>
 
-1. In the `DetailsComponent` decorator metadata, update the `imports` property with the following code:
+1. 在 `DetailsComponent` 裝飾器中，使用以下程式碼更新 `imports` 屬性：
 
-    <docs-code header="imports directive in src/app/details/details.component.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.component.ts" visibleLines="[10,13]"/>
+    <docs-code header="src/app/details/details.component.ts 中的 imports 指令" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.component.ts" visibleLines="[10,13]"/>
 
-1. In the `DetailsComponent` class, before the `constructor()` method, add the following code to create the form object.
+1. 在 `DetailsComponent` 類別中，在 `constructor()` 方法之前，加入以下程式碼來建立表單物件。
 
-    <docs-code header="template directive in src/app/details/details.component.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.component.ts" visibleLines="[53,57]"/>
+    <docs-code header="src/app/details/details.component.ts 中的 template 指令" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.component.ts" visibleLines="[53,57]"/>
 
-    In Angular, `FormGroup` and `FormControl` are types that enable you to build forms. The `FormControl` type can provide a default value and shape the form data. In this example `firstName` is a `string` and the default value is empty string.
+    在 Angular 中，`FormGroup` 和 `FormControl` 是可讓您建立表單的類型。`FormControl` 類型可以提供預設值並塑造表單資料。在此範例中，`firstName` 是 `string`，而預設值為空字串。
 
-1. In the `DetailsComponent` class, after the `constructor()` method, add the following code to handle the **Apply now** click.
+1. 在 `DetailsComponent` 類別中，在 `constructor()` 方法之後，加入以下程式碼來處理 **立即申請** 的點擊。
 
-    <docs-code header="template directive in src/app/details/details.component.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.component.ts" visibleLines="[64,69]"/>
+    <docs-code header="src/app/details/details.component.ts 中的 template 指令" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.component.ts" visibleLines="[64,69]"/>
 
-    This button does not exist yet - you will add it in the next step. In the above code, the `FormControl`s may return `null`. This code uses the nullish coalescing operator to default to empty string if the value is `null`.
+    此按鈕尚未存在 - 您會在下一步中加入。在以上的程式碼中，`FormControl` 可能會傳回 `null`。此程式碼使用 null 合併運算子，如果值為 `null`，則預設為空字串。
 
-1. Confirm that the app builds without error.
-    Correct any errors before you continue to the next step.
+1. 確認應用程式在沒有錯誤的情況下建置完成。
+    在繼續進行下一步之前，請更正任何錯誤。
 </docs-step>
 
-<docs-step title="Add the form's markup to the details page">
-This step adds the markup to the details page that displays the form.
+<docs-step title="將表單標記新增至詳細資料頁面">
+此步驟將標記新增至顯示表單的詳細資料頁面。
 
-In the **Edit** pane of your IDE, in `src/app/details/details.component.ts`:
+在 IDE 的 **編輯** 窗格中，在 `src/app/details/details.component.ts` 中：
 
-1. In the `DetailsComponent` decorator metadata, update the `template` HTML to match the following code to add the form's markup.
+1. 在 `DetailsComponent` 裝飾器元數據中，更新 `template` HTML 以符合下列程式碼，以新增表單標記。
 
-    <docs-code header="template directive in src/app/details/details.component.ts" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.component.ts" visibleLines="[15,45]"/>
+    <docs-code header="src/app/details/details.component.ts 中的 template 指令" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/details/details.component.ts" visibleLines="[15,45]"/>
 
-    The template now includes an event handler `(submit)="submitApplication()"`. Angular uses parentheses syntax around the event name to define events in the template code. The code on the right hand side of the equals sign is the code that should be executed when this event is triggered. You can bind to browser events and custom events.
+    該範本現在包含一個事件處理常式 `(submit)="submitApplication()"`。Angular 使用事件名稱周圍的括號語法來定義範本程式碼中的事件。等號右邊的程式碼是在觸發此事件時應該執行的程式碼。您可以連結到瀏覽器事件和自訂事件。
 
-1. Confirm that the app builds without error.
-    Correct any errors before you continue to the next step.
+1. 確認應用程式建置時不會產生錯誤。
+    在繼續進行下一個步驟之前，請更正任何錯誤。
 
-    <img alt="details page with a form for applying to live at this location" src="assets/content/images/tutorials/first-app/homes-app-lesson-12-step-3.png">
+    <img alt="詳細資料頁面，其中有一個表單可申請住在這個地方" src="assets/content/images/tutorials/first-app/homes-app-lesson-12-step-3.png">
 
 </docs-step>
 
-<docs-step title="Test your app's new form">
-This step tests the new form to see that when the form data is submitted to the app, the form data appears in the console log.
+<docs-step title="測試應用程式的新表單">
+此步驟測試新的表單，以查看當表單資料提交至應用程式時，表單資料是否會出現在主控台記錄中。
 
-1. In the **Terminal** pane of your IDE, run `ng serve`, if it isn't already running.
-1. In your browser, open your app at `http://localhost:4200`.
-1. Right click on the app in the browser and from the context menu, choose **Inspect**.
-1. In the developer tools window, choose the **Console** tab.
-    Make sure that the developer tools window is visible for the next steps
-1. In your app:
-    1. Select a housing location and click **Learn more**, to see details about the house.
-    1. In the house's details page, scroll to the bottom to find the new form.
-    1. Enter data into the form's fields - any data is fine.
-    1. Choose **Apply now** to submit the data.
-1. In the developer tools window, review the log output to find your form data.
+1. 在 IDE 的 **終端機** 窗格中，執行 `ng serve`（如果尚未執行）。
+1. 在瀏覽器中，以 `http://localhost:4200` 開啟您的應用程式。
+1. 在瀏覽器中右鍵按一下應用程式，然後從內容功能表中選擇 **檢查**。
+1. 在開發人員工具視窗中，選擇 **主控台** 標籤。
+    請確保開發人員工具視窗在後續步驟中為可見狀態
+1. 在您的應用程式中：
+    1. 選擇一個房屋地點，然後按一下 **了解更多**，以查看房屋的詳細資料。
+    1. 在房屋的詳細資料頁面中，捲動到最下方以找到新表單。
+    1. 在表單欄位中輸入資料，任何資料皆可。
+    1. 選擇 **立即申請** 以提交資料。
+1. 在開發人員工具視窗中，檢閱記錄輸出以找到您的表單資料。
 </docs-step>
 
 </docs-workflow>
 
-Summary: In this lesson, you updated your app to add a form using Angular's forms feature, and connect the data captured in the form to a component using an event handler.
+摘要：在這個課程中，您已使用 Angular 的表單功能更新您的應用程式以新增表單，並使用事件處理常式將表單中擷取的資料連接到元件。
 
-For more information about the topics covered in this lesson, visit:
+有關本課程中涵蓋的主題的更多資訊，請造訪：
 
 <docs-pill-row>
   <docs-pill href="guide/forms" title="Angular Forms"/>
-  <docs-pill href="guide/templates/event-binding" title="Event Handling"/>
+  <docs-pill href="guide/templates/event-binding" title="事件處理"/>
 </docs-pill-row>
+

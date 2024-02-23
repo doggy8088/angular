@@ -1,148 +1,174 @@
-<docs-decorative-header title="Angular Roadmap" imgSrc="adev/src/assets/images/roadmap.svg"> <!-- markdownlint-disable-line -->
-Learn how the Angular team is building momentum on the web.
+<docs-decorative-header title="Angular 路線圖" imgSrc="adev/src/assets/images/roadmap.svg"> <!-- markdownlint-disable-line -->
+瞭解 Angular 團隊如何為網路建立動能。
 </docs-decorative-header>
 
-As an open source project, Angular’s daily commits, PRs and momentum is all trackable on GitHub. To increase transparency into how this daily work connects to the framework’s future, our roadmap brings together the team’s current and future planned vision.
+作為一個開放原始碼專案，Angular 的每日提交、公關和動態都可以在 GitHub 上追蹤。為了提高透明度，了解這些日常工作如何連接到架構的未來，我們的路線圖匯集了團隊目前和未來計劃的願景。
 
-The following projects are not associated with a particular Angular version. We will release them on completion, and they will be part of a specific version based on our release schedule, following semantic versioning. For example, we release features in the next minor after completion or the next major if they include breaking changes.
+以下專案與特定 Angular 版本無關。我們會在完成後發布它們，它們會根據我們的發布時間表，依照語意版本控管，成為特定版本的一部分。例如，我們會在完成後於下一個次要版本中發布功能，或是在包含重大變更時於下一個主要版本中發布。
 
-Currently, Angular has two goals for the framework:
+目前，Angular 對此框架有兩個目標：
 
-1. Improve the [Angular developer experience](#improving-the-angular-developer-experience) and
-2. Improve the [framework’s performance](#fast-by-default).
+1. 改善 [Angular 開發人員體驗](#improving-the-angular-developer-experience) 和
+2. 改善 [框架效能](#fast-by-default)。
 
-Continue reading to learn how we plan to deliver these objectives with specific project work.
+繼續閱讀以了解我們計劃如何通過具體的項目工作來實現這些目標。
 
-## Explore modern Angular
+## 探索現代 Angular
 
-Start developing with the latest Angular features from our roadmap. This list represents the current status of new features from our roadmap:
+開始使用我們路線圖上的最新 Angular 功能進行開發。此清單代表路線圖上新功能的當前狀態：
 
-| Ready to experiment with                                                      | Production ready                                                                        |
+| 準備好使用以下內容進行實驗                                                  | 已準備好投入生產                                                                      |
 | :---------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------- |
-| [Explore Angular Signals](guide/signals)                                      | [Migrate your Angular Material to MDC](https://material.angular.io/guide/mdc-migration) |
-| [Learn about Hydration](guide/hydration)                                      | [Migrate to Standalone APIs](reference/migrations/standalone)                           |
-| [Deferrable views](https://github.com/angular/angular/discussions/50716)      | [Improve image performance with NgOptimizedImage](guide/image-optimization)             |
-| [Built-in control flow](https://github.com/angular/angular/discussions/50719) | [Try out Inject](tutorials/learn-angular/inject-based-di)                               |
-|                                                                               | [New CDK directives](https://material.angular.io/cdk/categories)                        |
+| [探索 Angular Signals](guide/signals)                                      | [將你的 Angular Material 遷移至 MDC](https://material.angular.io/guide/mdc-migration) |
+| [了解 Hydration](guide/hydration)                                      | [遷移至獨立 API](reference/migrations/standalone)                           |
+| [可延遲的檢視](https://github.com/angular/angular/discussions/50716)      | [使用 NgOptimizedImage 改善圖片效能](guide/image-optimization)             |
+| [內建控制流程](https://github.com/angular/angular/discussions/50719) | [試用 Inject](tutorials/learn-angular/inject-based-di)                               |
+|                                                                               | [新的 CDK 指令](https://material.angular.io/cdk/categories)                        |
 
-## Improving the Angular developer experience
+## 改善 Angular 開發人員體驗
 
-### Improve runtime performance and make Zone.js optional
+html
+<p>
+  Angular CLI 1.7.0 now includes a new command, `ng update`, that will help you keep your Angular applications up to date with the latest Angular releases.
+</p>
+<p>
+  To use the `ng update` command, simply run the following command in your Angular project directory:
+</p>
+<pre>
+  ng update
+</pre>
+<p>
+  The `ng update` command will then check for any available updates to your Angular applications and prompt you to install them.
+</p>
+<p>
+  In addition to the `ng update` command, Angular CLI 1.7.0 also includes a number of other improvements to the Angular developer experience, including:
+</p>
+<ul>
+<li>Improved support for TypeScript 2.6</li>
+<li>Improved performance of the Angular compiler</li>
+<li>Improved error messages</li>
+<li>Better support for internationalization</li>
+</ul>
+<p>
+  For more information on the Angular CLI 1.7.0 release, please see the <a href="https://github.com/angular/angular-cli/releases/tag/v1.7.0">release notes</a>.
+</p>
+
+### 改善執行時期效能並讓 Zone.js 成為可選
 
 <docs-card-container>
-  <docs-card title="Deliver Angular Signals" href="https://github.com/angular/angular/discussions/49685">
-  This project rethinks the Angular reactivity model by introducing Signals as a reactivity primitive. Fully implemented, the project will make Zone.js optional. The initial planning resulted in hundreds of discussions, conversations with developers, feedback sessions, user experience studies, and a series of RFCs, which received over 1,000 comments.
+  <docs-card title="提供 Angular 信號" href="https://github.com/angular/angular/discussions/49685">
+  此專案透過將信號作為反應式基元來重新構思 Angular 反應式模型。此專案完全實施後，Zone.js 將成為選用元件。最初的規劃產生了數百次的討論、與開發人員的對話、回饋意見、使用者體驗研究，以及一系列收到超過 1,000 則評論的 RFC。
 
-  As part of the v17 release, we graduated the Angular Signals library from developer preview. Next we’ll continue implementing the proposals from the RFC. The first steps will be introducing signal-based inputs and queries.
+作為 v17 發行的一部分，我們已將 Angular Signals 函式庫從開發人員預覽版畢業。接下來，我們將繼續實施 RFC 的提案。第一步是引入基於信號的輸入和查詢。
   </docs-card>
 </docs-card-container>
 
-### Make Angular easier to learn
+### 讓 Angular 更容易學習
 
 <docs-card-container>
-  <docs-card title="Make Angular.dev the official home for Angular developers" href="https://goo.gle/angular-dot-dev">
-  Angular.dev will be the new site, domain and home for Angular development. The new site contains updated documentation, tutorials and guidance that will help developers build with Angular’s latest features. v17’s launch includes new and revised documentation on Angular’s core features, tutorials and reference materials. In the coming months, we will continue to collect feedback and improve the site, with a ton of enhancements planned.
+  <docs-card title="讓 Angular.dev 成為 Angular 開發人員的官方首頁" href="https://goo.gle/angular-dot-dev">
+  Angular.dev 將成為 Angular 開發的新網站、網域和首頁。新網站包含更新的說明文件、教學課程和指南，可協助開發人員使用 Angular 的最新功能進行建置。v17 的推出包含 Angular 核心功能、教學課程和參考文件的新增和修訂說明文件。在未來幾個月，我們將繼續收集意見回饋並改善網站，並計畫進行大量增強功能。
 
-  In v18, after collecting feedback and continuing to stabilize Angular.dev, we plan to make Angular.dev the official home for all Angular development.
+在 v18 中，我們在收集意見回饋並持續穩定 Angular.dev 之後，計劃將 Angular.dev 設為所有 Angular 開發的官方首頁。
   </docs-card>
-  <docs-card title="Introduce built-in control flow" href="https://github.com/angular/angular/discussions/50719">
-  In v17 we shipped a developer preview version of a new control flow. It brings significant performance improvements and better ergonomics for template authoring. We also provided a migration of existing `*ngIf`, `*ngFor`, and `*ngSwitch` which you can run to move your project to the new implementation. As the next steps we'll be working on addressing community feedback before officially completing this project and graduating it from developer preview.
+  <docs-card title="推出內建控制流程" href="https://github.com/angular/angular/discussions/50719">
+  在 v17 中，我們發布了新控制流程的開發人員預覽版本。它為範本撰寫帶來顯著的效能改進和更好的工學。我們還提供了現有 `*ngIf`、`*ngFor` 和 `*ngSwitch` 的遷移，你可以執行這些遷移將你的專案移至新的實作。作為後續步驟，我們將著手處理社群意見回饋，然後才能正式完成此專案，使其從開發人員預覽畢業。
   </docs-card>
 </docs-card-container>
 
-### Improve Angular Material and the CDK
+### 改進 Angular Material 和 CDK
 
 <docs-card-container>
-  <docs-card title="Expand the customizability of Angular Material" href="">
-  To provide better customization of our Angular Material components and enable Material 3 capabilities, we'll be collaborating with Google's Material Design team on defining token-based theming APIs.
+  <docs-card title="擴展 Angular Material 的自訂性" href="">
+  為了提供更佳的 Angular Material 元件自訂性，並啟用 Material 3 功能，我們將與 Google 的 Material Design 團隊合作，定義基於程式碼的佈景主題 API。
 
-  As of Q4 2023, we're refactoring components to use the new API, finalizing the comprehensive set of tokens, and updating the Sass API based on the new tokens.
+截至 2023 年第 4 季，我們正在重新調整元件以使用新的 API，完成全面的代幣集，並根據新的代幣更新 Sass API。
   </docs-card>
-  <docs-card title="New CDK primitives" href="">
-  We are working on new CDK primitives to facilitate creating custom components based on the WAI-ARIA design patterns for [Combobox](https://www.w3.org/TR/wai-aria-practices-1.1/#combobox). Angular v14 introduced stable [menu and dialog primitives](https://material.angular.io/cdk/categories) as part of this project, and in v15 Listbox.
+  <docs-card title="新的 CDK 原生元件" href="">
+  我們正在開發新的 CDK 原生元件，以促進根據 [Combobox](https://www.w3.org/TR/wai-aria-practices-1.1/#combobox) 的 WAI-ARIA 設計樣式建立自訂元件。Angular v14 引入了穩定的 [選單和對話方塊原生元件](https://material.angular.io/cdk/categories) 作為此專案的一部分，而在 v15 中引入了 Listbox。
   </docs-card>
-  <docs-card title="Angular component accessibility" href="">
-  We are evaluating components in Angular Material against accessibility standards such as WCAG and working to fix any issues that arise from this process.
+  <docs-card title="Angular 元件無障礙性" href="">
+  我們正在評估 Angular Material 中的元件是否符合 WCAG 等無障礙性標準，並致力於修正此程序中產生的任何問題。
   </docs-card>
 </docs-card-container>
 
-### Improve tooling
+### 改善工具
 
 <docs-card-container>
-  <docs-card title="Modernize unit testing tooling with ng test" href="">
-  In v12, we revisited the Angular end-to-end testing experience by replacing Protractor with modern alternatives such as Cypress, Nightwatch, and Webdriver.io. Next, we'd like to tackle `ng test` to modernize Angular's unit testing experience. In Q2, we introduced experimental [Jest](https://jestjs.io/) support and [announced](https://blog.angular.io/moving-angular-cli-to-jest-and-web-test-runner-ef85ef69ceca) the transition from Karma to the [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/).
+  <docs-card title="使用 ng test 現代化單元測試工具" href="">
+  在 v12 中，我們重新檢視了 Angular 端到端測試體驗，以 Cypress、Nightwatch 和 Webdriver.io 等現代替代方案取代 Protractor。接下來，我們想處理 `ng test` 以現代化 Angular 的單元測試體驗。在第二季，我們引入了實驗性的 [Jest](https://jestjs.io/) 支援並 [宣布](https://blog.angular.io/moving-angular-cli-to-jest-and-web-test-runner-ef85ef69ceca) 從 Karma 轉移到 [Web Test Runner](https://modern-web.dev/docs/test-runner/overview/)。
   </docs-card>
-  <docs-card title="iframe support in Angular DevTools" href="">
-  We are working on making it possible to debug and profile Angular apps embedded within an iframe on the page. This feature will allow you to select an iframe and inspect it directly within Angular DevTools.
+  <docs-card title="Angular DevTools 中的 iframe 支援" href="">
+  我們正在努力讓在頁面上嵌入 iframe 的 Angular 應用程式能夠除錯和分析。此功能將允許您選擇 iframe 並直接在 Angular DevTools 中檢查它。
   </docs-card>
-  <docs-card title="Automation for transition of existing hybrid rendering projects to esbuild and vite" href="tools/cli/esbuild">
-  In v17 we shipped a vite and esbuild-based application builder and enabled it for new projects by default. It improves build time for projects using hybrid rendering with up to 87%. Next, we'll be working on developing schematics that migrate existing projects using hybrid rendering to the new build pipeline.
+  <docs-card title="將現有的混合式呈現專案轉換為 esbuild 和 vite 的自動化" href="tools/cli/esbuild">
+  在 v17 中，我們發布了基於 vite 和 esbuild 的應用程式建構器，並在預設情況下啟用它以供新專案使用。它將使用混合式呈現的專案的建置時間縮短多達 87%。接下來，我們將致力於開發將使用混合式呈現的現有專案遷移到新的建置管線的指令碼。
   </docs-card>
-  <docs-card title="Streamline standalone imports with Language Service" href="">
-  As part of this initiative, the language service automatically imports components and pipes in standalone and NgModule-based apps. Additionally, to enable smaller app bundles, we'll work on allowing the language service to propose the automatic removal of unused imports.
+  <docs-card title="使用語言服務簡化獨立式匯入" href="">
+  作為此計畫的一部分，語言服務會自動匯入獨立式和基於 NgModule 的應用程式中的元件和管道。此外，為了讓應用程式套件更小，我們將致力於讓語言服務能夠提出自動移除未使用的匯入的建議。
   </docs-card>
 </docs-card-container>
 
-## Fast by default
+## 預設快速
 
 <docs-card-container>
-  <docs-card title="Enabling hybrid rendering by default (SSR and SSG)" href="">
-  We are working on more developer experience improvements which will allow us to enable hybrid (server-side rendering and static site generation) rendering by default for new projects. In particular, we're focused on route-level rendering strategy configuration and improving developer experience for i18n support.
+  <docs-card title="預設啟用混合式渲染 (SSR 和 SSG)" href="">
+  我們正在開發更多開發人員體驗改進，這將允許我們預設為新專案啟用混合式 (伺服器端渲染和靜態網站產生) 渲染。特別是，我們專注於路由等級渲染策略設定和改進 i18n 支援的開發人員體驗。
   </docs-card>
-  <docs-card title="Introduce deferred loading" href="https://github.com/angular/angular/discussions/50716">
-  In v17 we shipped deferrable views in developer preview, which provide an ergonomic API for deferred code loading. As the next step we'll be iterating on community feedback before officially making this feature stable.
+  <docs-card title="引入延遲載入" href="https://github.com/angular/angular/discussions/50716">
+  在 v17 中，我們在開發人員預覽中發布了可延遲檢視，它提供一個用於延遲程式碼載入的人體工程學 API。在正式使此功能穩定之前，我們將在接下來的步驟中反覆運算社群回饋。
   </docs-card>
 </docs-card-container>
 
-## Future work, explorations, and prototyping
+## 未來工作、探索和原型製作
 
-This section represents explorations and prototyping of potential future projects. A reasonable outcome is to decide that our current solutions are the best options. Other projects may result in RFCs, graduating to in-progress projects, or being deprioritized as the web continues to innovate along with our framework.
+此區段代表未來潛在專案的探索和原型製作。合理的結果是決定我們目前的解決方案是最佳選項。其他專案可能會產生 RFC，晉升至正在進行的專案，或隨著我們的架構持續創新而降低優先順序。
 
 <docs-card-container>
-  <docs-card title="Signal debugging in Angular DevTools" href="">
-  With the evolution of Signals in Angular, we'll be also working on a better tooling for debugging them. High on the priority list is a UI for inspecting and debugging Signal-based components.
+  <docs-card title="Angular DevTools 中的 Signal 除錯" href="">
+  隨著 Angular 中 Signals 的演進，我們也會開發更好的工具來除錯它們。優先事項清單的首要事項是，建立一個 UI 來檢查和除錯基於 Signal 的元件。
   </docs-card>
-  <docs-card title="Improve HMR (Hot Module Reload)" href="https://github.com/angular/angular/issues/39367#issuecomment-1439537306">
-  Angular CLI currently supports HMR via `ng serve --hmr`. Under the hood, this mostly rerenders the Angular application from scratch, which is better than a full page reload, but can definitely be improved.   Most importantly, our strategy here should be to optimize the turnaround time for any given change scaled with the frequency of that kind of change. In the future, our team will explore a number of opportunities for improving HMR, including:
+  <docs-card title="改善 HMR（熱模組重新載入）" href="https://github.com/angular/angular/issues/39367#issuecomment-1439537306">
+  Angular CLI 目前透過 `ng serve --hmr` 支援 HMR。基本上，這是在幕後從頭重新渲染 Angular 應用程式，這比重新載入整頁好，但絕對可以改進。最重要的是，我們的策略應該是要針對任何特定變更的處理時間進行最佳化，並根據該類變更的頻率進行調整。未來，我們的團隊將探索多種改善 HMR 的機會，包括：
 
-- Fast track CSS-only changes and apply them to any existing components on the page.
-- Fast track Angular template-only changes and apply them to any existing components on the page.
+- 快速追蹤僅限 CSS 的變更，並將其套用至頁面上的任何現有元件。
+- 快速追蹤僅限 Angular 範本的變更，並將其套用至頁面上的任何現有元件。
   </docs-card>
-  <docs-card title="Exploration of streamed server-side rendering" href="">
-  Over the past few releases we've been working on making Angular's server-side rendering story more robust. On our priority list is to explore streamed server-side rendering for zoneless application.
+  <docs-card title="探索串流伺服器端渲染" href="">
+  在過去的幾個版本中，我們一直致力於讓 Angular 的伺服器端渲染故事更強大。在我們的優先事項清單中，是探索無區域應用程式的串流伺服器端渲染。
   </docs-card>
-  <docs-card title="Exploration of partial hydration" href="">
-  In v17 we graduated hydration from developer preview and we've been consistently observing 40-50% improvements in LCP. As the next step, we'll explore how we can partially hydrate applications using deferrable views.
+  <docs-card title="探索部分水合" href="">
+  在 v17 中，我們將水合從開發人員預覽中畢業，並且我們一直持續觀察到 LCP 有 40-50% 的改進。作為下一步，我們將探索如何使用可延遲檢視來部分水合應用程式。
 
-  As part of this effort, we'll be also evaluating the trade-offs of more fine-grained hydration and resumability. We'll share updates as we progress.
+  作為此努力的一部分，我們還將評估更精細的水合和可恢復性的權衡。我們將在進展時分享更新。未來工作的優先事項將是向後相容性和互操作性。
   </docs-card>
-  <docs-card title="Investigation for authoring format improvements" href="">
-  Based on our developer surveys' results we saw there are opportunities for improving the ergonomics of the component authoring format. The first step of the process will be to gather requirements and understand the problem space in advanced to an RFC. We'll share updates as we make progress. High priority in the future work will be backward compatibility and interoperability.
+  <docs-card title="調查創作格式改進" href="">
+  根據我們的開發人員調查結果，我們發現有機會改善元件創作格式的人體工學。此流程的第一步將是收集需求並了解 RFC 的進階問題空間。我們將在取得進展時分享更新。未來工作的優先事項將是向後相容性和互操作性。
   </docs-card>
-  <docs-card title="Support two-dimensional drag-and-drop" href="https://github.com/angular/components/issues/13372">
-  As part of this project, we'd like to implement mixed orientation support for the Angular CDK drag and drop. This is one of the repository's most highly requested features.
+  <docs-card title="支援二維拖放" href="https://github.com/angular/components/issues/13372">
+  作為此專案的一部分，我們想為 Angular CDK 拖放實作混合方向支援。這是儲存庫中最受要求的功能之一。
   </docs-card>
 </docs-card-container>
 
-## Completed projects
+## 已完成項目
 
 <docs-card-container>
-  <docs-card title="Modernize getting started tutorial" link="Completed Q4 2023" href="">
-  Over the past two quarters, we developed a new [video](https://www.youtube.com/watch?v=xAT0lHYhHMY&list=PL1w1q3fL4pmj9k1FrJ3Pe91EPub2_h4jF) and [textual](https://angular.dev/tutorials/learn-angular) tutorial based on standalone components.
+  <docs-card title="現代化入門教學" link="2023 年第 4 季完成" href="">
+  在過去的兩個季度中，我們開發了一個新的 [影片](https://www.youtube.com/watch?v=xAT0lHYhHMY&list=PL1w1q3fL4pmj9k1FrJ3Pe91EPub2_h4jF) 和 [文字](https://angular.dev/tutorials/learn-angular) 教學，以獨立元件為基礎。
   </docs-card>
-  <docs-card title="Investigate modern bundlers" link="Completed Q4 2023" href="guide/hydration">
-  In Angular v16, we released a developer preview of an esbuild-based builder with support for `ng build` and `ng serve`. The `ng serve` development server uses Vite and a multi-file compilation by esbuild and the Angular compiler. In v17 we graduated the build tooling from developer preview and enabled it by default for new projects.
+  <docs-card title="研究現代化打包器" link="2023 年第 4 季完成" href="guide/hydration">
+  在 Angular v16 中，我們發布了一個基於 esbuild 的建構工具開發者預覽版，支援 `ng build` 和 `ng serve`。`ng serve` 開發伺服器使用 Vite 和由 esbuild 和 Angular 編譯器進行的多檔案編譯。在 v17 中，我們將建構工具從開發者預覽版升級，並在新的專案中預設啟用。
   </docs-card>
-  <docs-card title="Introduce dependency injection debugging APIs" link="Completed Q4 2023" href="tools/devtools">
-  To improve the debugging utilities of Angular and Angular DevTools, we'll work on APIs that provide access to the dependency injection runtime. As part of the project, we'll expose debugging methods that allow us to explore the injector hierarchy and the dependencies across their associated providers. As of v17, we shipped a feature that enables us to plug into the dependency injection life-cycle. We also launched a visualization of the injector tree and inspection of the providers declared inside each individual node,
+  <docs-card title="引入相依性注入除錯 API" link="2023 年第 4 季完成" href="tools/devtools">
+  為了改善 Angular 和 Angular DevTools 的除錯工具，我們將開發提供存取相依性注入執行階段的 API。在專案中，我們將公開除錯方法，讓我們可以探索注入器階層和跨其關聯提供者的相依性。在 v17 中，我們發布了一項功能，讓我們可以插入相依性注入生命週期。我們還推出了注入器樹的可視化，以及檢查每個個別節點中宣告的提供者，
   </docs-card>
-  <docs-card title="Improve documentation and schematics for standalone components" link="Completed Q4 2023" href="components">
-  We released a developer preview of the `ng new --standalone` schematics collection, allowing you to create apps free of NgModules. In v17 we switched the new application authoring format to standalone APIs and changed the documentation to reflect the recommendation. Additionally, we shipped schematics which support updating existing applications to standalone components, directives, and pipes. Even though NgModules will stick around for foreseeable future, we recommend you to explore the benefits of the new APIs to improve developer experience and benefit from the new features we build for them.
+  <docs-card title="改善獨立元件的文件和指令碼" link="2023 年第 4 季完成" href="components">
+  我們發布了 `ng new --standalone` 指令碼集合的開發者預覽版，讓您可以建立不含 NgModules 的 app。在 v17 中，我們將新的應用程式創作格式切換為獨立 API，並變更文件以反映建議。此外，我們發布了支援將現有應用程式更新為獨立元件、指令和管道的指令碼。即使在可預見的未來 NgModules 仍會存在，我們建議您探索新的 API 的優點，以改善開發人員體驗並受益於我們為其建構的新功能。
   </docs-card>
-  <docs-card title="Explore hydration and server-side rendering improvements" link="Completed Q4 2023">
-  In v16, we released a developer preview of non-destructive full hydration, see the [hydration guide](guide/hydration) and the [blog post](https://blog.angular.io/whats-next-for-server-side-rendering-in-angular-2a6f27662b67) for additional information. We're already seeing significant improvements to Core Web Vitals, including [LCP](https://web.dev/lcp) and [CLS](https://web.dev/cls). In lab tests, we consistently observed 45% better LCP of a real-world app.
+  <docs-card title="探索水化和伺服器端渲染的改善" link="2023 年第 4 季完成">
+  在 v16 中，我們發布了非破壞性完整水化的開發者預覽版，請參閱 [水化指南](guide/hydration) 和 [部落格文章](https://blog.angular.io/whats-next-for-server-side-rendering-in-angular-2a6f27662b67) 以取得更多資訊。我們已經看到 Core Web Vitals 的顯著改善，包括 [LCP](https://web.dev/lcp) 和 [CLS](https://web.dev/cls)。在實驗室測試中，我們持續觀察到真實世界 app 的 LCP 改善了 45%。
 
-  In v17 we launched hydration outside developer preview and did a series of improvements in the server-side rendering story, including: route discovery at runtime for SSG, up to 87% faster build times for hybrid rendered applications, prompt that enables hybrid rendering for new projects.
+In v17 we launched hydration outside developer preview and did a series of improvements in the server-side rendering story, including: route discovery at runtime for SSG, up to 87% faster build times for hybrid rendered applications, prompt that enables hybrid rendering for new projects.
   </docs-card>
   <docs-card title="Non-destructive full app hydration" link="Completed Q1 2023" href="guide/hydration">
   In v16, we released a developer preview of non-destructive full hydration, which allows Angular to reuse existing DOM nodes on a server-side rendered page, instead of re-creating an app from scratch. See additional information in the hydration guide.
@@ -250,3 +276,4 @@ This section represents explorations and prototyping of potential future project
   We are actively investing up to 50% of our engineering capacity on triaging issues and PRs until we have a clear understanding of broader community needs. After that, we will commit up to 20% of our engineering capacity to keep up with new submissions promptly.
   </docs-card>
 </docs-card-container>
+

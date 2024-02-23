@@ -1,33 +1,34 @@
-# Add routes to the application
+# 將路由新增到應用程式
 
-This tutorial lesson demonstrates how to add routes to your app.
+本教學課程示範如何將路線新增至您的應用程式。
 
 <docs-video src="https://www.youtube.com/embed/r5DEBMuStPw?si=H6Bx6nLJoMLaMxkx" />
 
-IMPORTANT: We recommend using your local environment to learn routing.
+重要：我們建議使用您的本地環境來學習路由。
 
-## What you'll learn
+## 你將會學到
 
-At the end of this lesson your application will have support for routing.
+在這個課程結束時，你的應用程式將支援路由。
 
-## Conceptual preview of routing
+## 路由的概念預覽
 
-This tutorial introduces routing in Angular. Routing is the ability to navigate from one component in the application to another. In [Single Page Applications (SPA)](/guide/routing), only parts of the page are updated to represent the requested view for the user.
+本教學介紹 Angular 中的路由。路由是從應用程式的一個元件導航到另一個元件的能力。在 [單頁應用程式 (SPA)](/guide/routing) 中，只有部分頁面會更新以代表使用者的請求檢視。
 
-The [Angular Router](/guide/routing) enables users to declare routes and specify which component should be displayed on the screen if that route is requested by the application.
+[Angular 路由器](/guide/routing) 使用戶能夠宣告路由並指定如果應用程式要求該路由，應該在螢幕上顯示哪個元件。
 
-In this lesson, you will enable routing in your application to navigate to the details page.
+在本課程中，您將在您的應用程式中啟用路由以導航至詳細資訊頁面。
 
 <docs-workflow>
 
-<docs-step title="Create a default details component ">
-1. From the terminal, enter the following command to create the `DetailsComponent`:
+<docs-step title="建立預設的 details 元件">
+1. 在終端機輸入以下指令建立 `DetailsComponent`：
 
     <docs-code language="shell">
     ng generate component details
     </docs-code>
 
     This component will represent the details page that provides more information on a given housing location.
+
 </docs-step>
 
 <docs-step title="Add routing to the application">
@@ -55,6 +56,7 @@ In this lesson, you will enable routing in your application to navigate to the d
 
         <docs-code header="Add router-outlet in src/app/app.component.ts" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/app.component.ts" visibleLines="[13,24]"/>
 
+
 </docs-step>
 
 <docs-step title="Add route to new component">
@@ -73,6 +75,7 @@ In the previous step you removed the reference to the `<app-home>` component in 
 1. Save all changes and confirm that the application works in the browser. The application should still display the list of housing locations.
 </docs-step>
 
+
 </docs-workflow>
 
 Summary: In this lesson, you enabled routing in your app as well as defined new routes. Now your app can support navigation between views. In the next lesson, you will learn to navigate to the "details" page for a given housing location.
@@ -85,3 +88,4 @@ For more information about the topics covered in this lesson, visit:
   <docs-pill href="guide/routing" title="Routing in Angular Overview"/>
   <docs-pill href="guide/routing/common-router-tasks" title="Common Routing Tasks"/>
 </docs-pill-row>
+

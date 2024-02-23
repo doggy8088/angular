@@ -1,40 +1,42 @@
-# Authoring schematics
+# 撰寫原理圖
 
-You can create your own schematics to operate on Angular projects.
-Library developers typically package schematics with their libraries to integrate them with the Angular CLI.
-You can also create stand-alone schematics to manipulate the files and constructs in Angular applications as a way of customizing them for your development environment and making them conform to your standards and constraints.
-Schematics can be chained, running other schematics to perform complex operations.
+您可以建立自己的範本來操作 Angular 專案。
+程式庫開發人員通常會將範本封裝到他們的程式庫中，以將它們與 Angular CLI 整合。
+您也可以建立獨立的範本來處理 Angular 應用程式中的檔案和結構，以便為您的開發環境自訂它們，並使它們符合您的標準和約束。
+範本可以串聯，執行其他範本來執行複雜的操作。
 
-Manipulating the code in an application has the potential to be both very powerful and correspondingly dangerous.
-For example, creating a file that already exists would be an error, and if it was applied immediately, it would discard all the other changes applied so far.
-The Angular Schematics tooling guards against side effects and errors by creating a virtual file system.
-A schematic describes a pipeline of transformations that can be applied to the virtual file system.
-When a schematic runs, the transformations are recorded in memory, and only applied in the real file system once they're confirmed to be valid.
+操作應用程式中的程式碼有潛在的強大功能，相應地也具有危險性。
+例如，建立一個已經存在的檔案會是錯誤的，如果它立即套用，它會捨棄到目前為止套用過的所有其他變更。
+Angular Schematics 工具透過建立虛擬檔案系統來防止副作用和錯誤。
+示意圖描述可以套用至虛擬檔案系統的轉換管線。
+當示意圖執行時，這些轉換會記錄在記憶體中，並且只在確認它們有效後才在真實檔案系統中套用。
 
-## Schematics concepts
+## 電路圖概念
 
-The public API for schematics defines classes that represent the basic concepts.
+schematics 的公開 API 定義代表基本概念的類別。
 
-* The virtual file system is represented by a `Tree`.
-    The `Tree` data structure contains a *base* \(a set of files that already exists\) and a *staging area* \(a list of changes to be applied to the base\).
-    When making modifications, you don't actually change the base, but add those modifications to the staging area.
+* 虛擬檔案系統由 `Tree` 表示。
+    `Tree` 資料結構包含一個 *基本值*（一組已存在的檔案）和一個 *暫存區*（要套用到基本值的一系列變更）。
+    當進行修改時，您並未實際變更基本值，而是將這些修改新增到暫存區。
 
-* A `Rule` object defines a function that takes a `Tree`, applies transformations, and returns a new `Tree`.
-    The main file for a schematic, `index.ts`, defines a set of rules that implement the schematic's logic.
+* `Rule` 物件定義一個函數，該函數會採用 `Tree`，套用轉換，並傳回新的 `Tree`。
+    架構的 main 檔案 `index.ts` 定義了一組規則，這些規則會實作架構的邏輯。
 
-* A transformation is represented by an `Action`.
-    There are four action types: `Create`, `Rename`, `Overwrite`, and `Delete`.
+* 轉換以 `Action` 表示。
+    有四種類型的動作：`Create`、`Rename`、`Overwrite` 和 `Delete`。
 
-* Each schematic runs in a context, represented by a `SchematicContext` object.
+* 每個架構都會在由 `SchematicContext` 物件表示的內容中執行。
 
-The context object passed into a rule provides access to utility functions and metadata that the schematic might need to work with, including a logging API to help with debugging.
-The context also defines a *merge strategy* that determines how changes are merged from the staged tree into the base tree.
-A change can be accepted or ignored, or throw an exception.
+傳遞到規則的內容物件提供存取實用程式功能和可能需要搭配 Schematic 使用的元資料，包括有助於除錯的記錄 API。
 
-### Defining rules and actions
+內容也定義 *合併策略*，用於決定如何將變更從暫存樹合併到基礎樹。
 
-When you create a new blank schematic with the [Schematics CLI](#cli), the generated entry function is a *rule factory*.
-A `RuleFactory` object defines a higher-order function that creates a `Rule`.
+變更可以被接受或忽略，或擲出例外。
+
+### 定義規則和動作
+
+當您使用 [Schematics CLI](#cli) 建立新的空白示意圖時，產生的輸入函數是一個 *規則工廠*。
+`RuleFactory` 物件定義一個建立 `Rule` 的高階函數。
 
 <docs-code header="index.ts" language="typescript">
 
@@ -50,11 +52,11 @@ export function helloWorld(_options: any): Rule {
 
 </docs-code>
 
-Your rules can make changes to your projects by calling external tools and implementing logic.
-You need a rule, for example, to define how a template in the schematic is to be merged into the hosting project.
+您的規則可以透過呼叫外部工具和實作邏輯來對專案進行變更。
+例如，您需要一個規則來定義如何將原理圖中的範本併入主機專案。
 
-Rules can make use of utilities provided with the `@schematics/angular` package.
-Look for helper functions for working with modules, dependencies, TypeScript, AST, JSON, Angular CLI workspaces and projects, and more.
+規則可以利用 `@schematics/angular` 套件提供的實用工具。
+尋找可協助處理模組、相依性、TypeScript、AST、JSON、Angular CLI 工作區和專案等等的輔助函式。
 
 <docs-code header="index.ts" language="typescript">
 
@@ -70,14 +72,14 @@ import {
 
 </docs-code>
 
-### Defining input options with a schema and interfaces
+### 使用 schema 和介面定義輸入選項
 
-Rules can collect option values from the caller and inject them into templates.
-The options available to your rules, with their allowed values and defaults, are defined in the schematic's JSON schema file, `<schematic>/schema.json`.
-Define variable or enumerated data types for the schema using TypeScript interfaces.
+規則可以從呼叫者收集選項值並將其注入範本中。
+規則可用的選項及其允許值和預設值，定義在範本的 JSON schema 檔案 `<schematic>/schema.json` 中。
+使用 TypeScript 介面為 schema 定義變數或列舉資料類型。
 
-The schema defines the types and default values of variables used in the schematic.
-For example, the hypothetical "Hello World" schematic might have the following schema.
+該架構定義了在原理圖中使用的變數類型和預設值。
+例如，假設的「Hello World」原理圖可能具有以下架構。
 
 <docs-code header="src/hello-world/schema.json" language="json">
 
@@ -95,20 +97,20 @@ For example, the hypothetical "Hello World" schematic might have the following s
 }
 </docs-code>
 
-See examples of schema files for the Angular CLI command schematics in [`@schematics/angular`](https://github.com/angular/angular-cli/blob/main/packages/schematics/angular/application/schema.json).
+有關 Angular CLI 命令 schematics 的範例檔案，請參閱 [`@schematics/angular`](https://github.com/angular/angular-cli/blob/main/packages/schematics/angular/application/schema.json)。
 
-### Schematic prompts
+### 示意圖提示
 
-Schematic *prompts* introduce user interaction into schematic execution.
-Configure schematic options to display a customizable question to the user.
-The prompts are displayed before the execution of the schematic, which then uses the response as the value for the option.
-This lets users direct the operation of the schematic without requiring in-depth knowledge of the full spectrum of available options.
+示意圖 *提示* 將使用者互動引入示意圖執行。
+配置示意圖選項以顯示使用者可自訂的問題。
+提示會在示意圖執行前顯示，然後使用回應做為選項的值。
+這讓使用者可以引導示意圖的運作，而不需要深入了解所有可用選項。
 
-The "Hello World" schematic might, for example, ask the user for their name, and display that name in place of the default name "world".
-To define such a prompt, add an `x-prompt` property to the schema for the `name` variable.
+「Hello World」範例可能會要求使用者輸入其名稱，並將該名稱顯示在預設名稱「world」的位置。
+若要定義此提示，請將 `x-prompt` 屬性新增至 `name` 變數的範例。
 
-Similarly, you can add a prompt to let the user decide whether the schematic uses color when executing its hello action.
-The schema with both prompts would be as follows.
+同樣地，您可以新增提示，讓使用者決定在執行 hello 動作時，是否使用彩色圖表。
+具有這兩個提示的範例如下。
 
 <docs-code header="src/hello-world/schema.json" language="json">
 
@@ -128,35 +130,35 @@ The schema with both prompts would be as follows.
 }
 </docs-code>
 
-#### Prompt short-form syntax
+#### 提示簡短語法
 
-These examples use a shorthand form of the prompt syntax, supplying only the text of the question.
-In most cases, this is all that is required.
-Notice however, that the two prompts expect different types of input.
-When using the shorthand form, the most appropriate type is automatically selected based on the property's schema.
-In the example, the `name` prompt uses the `input` type because it is a string property.
-The `useColor` prompt uses a `confirmation` type because it is a Boolean property.
-In this case, "yes" corresponds to `true` and "no" corresponds to `false`.
+以下範例使用提示語法的簡寫形式，僅提供問題文字。
+在多數情況下，這就足夠了。
+然而，請注意，這兩個提示語法預期有不同類型的輸入。
+當使用簡寫形式時，系統會根據該屬性的結構自動選擇最合適的類型。
+在範例中，`name` 提示語法使用 `input` 類型，因為它是一個字串屬性。
+`useColor` 提示語法使用 `confirmation` 類型，因為它是一個布林值屬性。
+在此情況下，「是」對應到 `true`，而「否」對應到 `false`。
 
-There are three supported input types.
+支援三種輸入類型。
 
-| Input type   | Details |
+| 輸入類型   | 詳細資料 |
 |:---          |:----    |
-| confirmation | A yes or no question; ideal for Boolean options.   |
-| input        | Textual input; ideal for string or number options. |
-| list         | A predefined set of allowed values.                |
+| 確認 | 是或否的問題；最適合布林選項。   |
+| 輸入        | 文字輸入；最適合字串或數字選項。 |
+| 清單         | 一組預先定義的允許值。                |
 
-In the short form, the type is inferred from the property's type and constraints.
+在簡短形式中，類型會從屬性的類型和約束推斷出來。
 
-| Property schema | Prompt type |
+| 屬性模式 | 提示類型 |
 |:---             |:---         |
-| "type": "boolean"  | confirmation \("yes"=`true`, "no"=`false`\)  |
-| "type": "string"   | input                                        |
-| "type": "number"   | input \(only valid numbers accepted\)        |
-| "type": "integer"  | input \(only valid numbers accepted\)        |
-| "enum": [&hellip;] | list \(enum members become list selections\) |
+| "type": "boolean"  | 確認 \("yes"=`true`, "no"=`false`\)  |
+| "type": "string"   | 輸入                                        |
+| "type": "number"   | 輸入 \(僅接受有效的數字\)        |
+| "type": "integer"  | 輸入 \(僅接受有效的數字\)        |
+| "enum": [&hellip;] | 清單 \(列舉成員變成清單選項\) |
 
-In the following example, the property takes an enumerated value, so the schematic automatically chooses the list type, and creates a menu from the possible values.
+在以下範例中，屬性採用列舉值，因此示意圖會自動選擇清單類型，並從可能值中建立選單。
 
 <docs-code header="schema.json" language="json">
 
@@ -176,24 +178,24 @@ In the following example, the property takes an enumerated value, so the schemat
 
 </docs-code>
 
-The prompt runtime automatically validates the provided response against the constraints provided in the JSON schema.
-If the value is not acceptable, the user is prompted for a new value.
-This ensures that any values passed to the schematic meet the expectations of the schematic's implementation, so that you do not need to add additional checks within the schematic's code.
+提示執行階段會根據 JSON 架構中提供的約束自動驗證提供的回應。
+如果該值不可接受，系統會提示使用者輸入新的值。
+這可確保傳遞至示意圖的任何值都符合示意圖實作的預期，因此您不需要在示意圖的程式碼中新增其他檢查。
 
-#### Prompt long-form syntax
+#### 提示長格式語法
 
-The `x-prompt` field syntax supports a long form for cases where you require additional customization and control over the prompt.
-In this form, the `x-prompt` field value is a JSON object with subfields that customize the behavior of the prompt.
+`x-prompt` 欄位語法支援長格式，適用於需要額外自訂和控制提示的情況。
+在此格式中，`x-prompt` 欄位值是一個 JSON 物件，其中包含自訂提示行為的子欄位。
 
-| Field   | Data value |
+| 欄位   | 資料值 |
 |:---     |:---        |
-| type    | `confirmation`, `input`, or `list` \(selected automatically in short form\) |
-| message | string \(required\)                                                         |
-| items   | string and/or label/value object pair \(only valid with type `list`\)       |
+| type    | `confirmation`, `input`, 或 `list` \(在短表單中自動選取\) |
+| message | 字串 \(必填\)                                                         |
+| items   | 字串和/或標籤/值物件配對 \(僅在 type 為 `list` 時有效\)       |
 
-The following example of the long form is from the JSON schema for the schematic that the CLI uses to [generate applications](https://github.com/angular/angular-cli/blob/ba8a6ea59983bb52a6f1e66d105c5a77517f062e/packages/schematics/angular/application/schema.json#L56).
-It defines the prompt that lets users choose which style preprocessor they want to use for the application being created.
-By using the long form, the schematic can provide more explicit formatting of the menu choices.
+以下長格式範例取自用於 [產生應用程式](https://github.com/angular/angular-cli/blob/ba8a6ea59983bb52a6f1e66d105c5a77517f062e/packages/schematics/angular/application/schema.json#L56) 的示意圖的 JSON 架構。
+它定義了提示，讓使用者選擇要為所建立的應用程式使用的樣式預處理器。
+透過使用長格式，示意圖可以提供選單選項更明確的格式。
 
 <docs-code header="package/schematics/angular/application/schema.json" language="json">
 
@@ -221,11 +223,11 @@ By using the long form, the schematic can provide more explicit formatting of th
 
 </docs-code>
 
-#### x-prompt schema
+#### x-prompt 架構
 
-The JSON schema that defines a schematic's options supports extensions to allow the declarative definition of prompts and their respective behavior.
-No additional logic or changes are required to the code of a schematic to support the prompts.
-The following JSON schema is a complete description of the long-form syntax for the `x-prompt` field.
+定義示意圖選項的 JSON 架構支援擴充功能，允許宣告式定義提示及其各自的行為。
+不需要對示意圖的程式碼進行額外邏輯或變更，即可支援提示。
+下列 JSON 架構是 `x-prompt` 欄位的長格式語法的完整說明。
 
 <docs-code header="x-prompt schema" language="json">
 
@@ -263,8 +265,8 @@ The following JSON schema is a complete description of the long-form syntax for 
 
 ## Schematics CLI
 
-Schematics come with their own command-line tool.
-Using Node 6.9 or later, install the Schematics command line tool globally:
+Schematics 附帶自己的命令列工具。
+使用 Node 6.9 或更新版本，請在全球安裝 Schematics 命令列工具：
 
 <docs-code language="shell">
 
@@ -272,17 +274,17 @@ npm install -g &commat;angular-devkit/schematics-cli
 
 </docs-code>
 
-This installs the `schematics` executable, which you can use to create a new schematics collection in its own project folder, add a new schematic to an existing collection, or extend an existing schematic.
+這會安裝 `schematics` 可執行檔，您可以使用它在自己的專案資料夾中建立新的 schematics 集合，將新的 schematic 加入現有的集合，或延伸現有的 schematic。
 
-In the following sections, you will create a new schematics collection using the CLI to introduce the files and file structure, and some of the basic concepts.
+在以下各節中，您將使用 CLI 建立新的範本集合，以介紹檔案和檔案結構，以及一些基本概念。
 
-The most common use of schematics, however, is to integrate an Angular library with the Angular CLI.
-Do this by creating the schematic files directly within the library project in an Angular workspace, without using the Schematics CLI.
-See [Schematics for Libraries](tools/cli/schematics-for-libraries).
+然而，示意圖最常見的用途是將 Angular 函式庫與 Angular CLI 整合。
+透過在 Angular 工作區中直接建立示意圖檔案來執行此操作，而無需使用 Schematics CLI。
+請參閱 [函式庫的示意圖](tools/cli/schematics-for-libraries)。
 
-### Creating a schematics collection
+### 建立範本集
 
-The following command creates a new schematic named `hello-world` in a new project folder of the same name.
+以下指令會在同名的專案資料夾中建立一個名為 `hello-world` 的新圖表。
 
 <docs-code language="shell">
 
@@ -290,11 +292,11 @@ schematics blank --name=hello-world
 
 </docs-code>
 
-The `blank` schematic is provided by the Schematics CLI.
-The command creates a new project folder \(the root folder for the collection\) and an initial named schematic in the collection.
+Schematics CLI 提供了 `blank` 範例。
+指令會建立新的專案資料夾（此為範例的根資料夾）和範例中的初始命名範例。
 
-Go to the collection folder, install your npm dependencies, and open your new collection in your favorite editor to see the generated files.
-For example, if you are using VS Code:
+前往 collection 資料夾，安裝您的 npm 相依性，並在您最愛的編輯器中開啟您的新 collection，以檢視產生的檔案。
+例如，如果您正在使用 VS Code：
 
 <docs-code language="shell">
 
@@ -305,14 +307,14 @@ code .
 
 </docs-code>
 
-The initial schematic gets the same name as the project folder, and is generated in `src/hello-world`.
-Add related schematics to this collection, and modify the generated skeleton code to define your schematic's functionality.
-Each schematic name must be unique within the collection.
+初始示意圖會採用與專案資料夾相同的名稱，並產生於 `src/hello-world`。
+將相關示意圖新增至該集合，並修改產生的範本程式碼來定義您的示意圖功能。
+每個示意圖名稱在集合中必須是獨一無二的。
 
-### Running a schematic
+### 運行一個示意圖
 
-Use the `schematics` command to run a named schematic.
-Provide the path to the project folder, the schematic name, and any mandatory options, in the following format.
+使用 `schematics` 指令來執行指定的名稱指令。
+請以以下格式提供專案資料夾路徑、指令名稱和任何強制選項。
 
 <docs-code language="shell">
 
@@ -320,8 +322,8 @@ schematics &lt;path-to-schematics-project&gt;:&lt;schematics-name&gt; --&lt;requ
 
 </docs-code>
 
-The path can be absolute or relative to the current working directory where the command is executed.
-For example, to run the schematic you just generated \(which has no required options\), use the following command.
+路徑可以是絕對路徑或相對路徑，取決於執行指令的目前工作目錄。
+例如，要執行您剛才產生的原理圖（沒有任何必要選項），請使用以下指令。
 
 <docs-code language="shell">
 
@@ -329,9 +331,9 @@ schematics .:hello-world
 
 </docs-code>
 
-### Adding a schematic to a collection
+### 將原理圖加入至集合中
 
-To add a schematic to an existing collection, use the same command you use to start a new schematics project, but run the command inside the project folder.
+若要將示意圖新增至現有合輯，請使用與您用來開始新的示意圖專案相同的指令，但請在專案資料夾中執行指令。
 
 <docs-code language="shell">
 
@@ -340,14 +342,14 @@ schematics blank --name=goodbye-world
 
 </docs-code>
 
-The command generates the new named schematic inside your collection, with a main `index.ts` file and its associated test spec.
-It also adds the name, description, and factory function for the new schematic to the collection's schema in the `collection.json` file.
+此指令會在您的集合中產生新的命名示意圖，包含一個主 `index.ts` 檔案及其相關測試規範。
+它也會將新示意圖的名稱、說明和工廠函數新增到 `collection.json` 檔案中的集合架構。
 
-## Collection contents
+## 收藏內容
 
-The top level of the root project folder for a collection contains configuration files, a `node_modules` folder, and a `src/` folder.
-The `src/` folder contains subfolders for named schematics in the collection, and a schema, `collection.json`, which describes the collected schematics.
-Each schematic is created with a name, description, and factory function.
+根專案資料夾的頂層包含組態檔、`node_modules` 資料夾和 `src/` 資料夾。
+`src/` 資料夾包含該組合中命名範例的子資料夾，以及描述收集到的範例的結構 `collection.json`。
+每個範例都建立名稱、說明和工廠函數。
 
 <docs-code language="json">
 
@@ -364,36 +366,37 @@ Each schematic is created with a name, description, and factory function.
 
 </docs-code>
 
-* The `$schema` property specifies the schema that the CLI uses for validation.
-* The `schematics` property lists named schematics that belong to this collection.
-    Each schematic has a plain-text description, and points to the generated entry function in the main file.
+* `$schema` 屬性指定 CLI 用於驗證的架構。
+* `schematics` 屬性列出屬於此集合的已命名架構。
+    每個架構都有純文字說明，並指向主檔案中的已生成輸入函數。
 
-* The `factory` property points to the generated entry function.
-    In this example, you invoke the `hello-world` schematic by calling the `helloWorld()` factory function.
+* `factory` 屬性指向已生成的輸入函數。
+    在此範例中，您可以透過呼叫 `helloWorld()` 工廠函數來呼叫 `hello-world` 架構。
 
-* The optional  `schema` property points to a JSON schema file that defines the command-line options available to the schematic.
-* The optional `aliases` array specifies one or more strings that can be used to invoke the schematic.
-    For example, the schematic for the Angular CLI "generate" command has an alias "g", that lets you use the command `ng g`.
+* 選擇性的 `schema` 屬性指向定義架構可用的命令列選項的 JSON 架構檔案。
+* 選擇性的 `aliases` 陣列指定一個或多個可被用來呼叫架構的字串。
+    例如，Angular CLI「產生」指令的架構有一個別名「g」，讓您可以使用指令 `ng g`。
 
-### Named schematics
+### 指定的結構圖
 
-When you use the Schematics CLI to create a blank schematics project, the new blank schematic is the first member of the collection, and has the same name as the collection.
-When you add a new named schematic to this collection, it is automatically added to the  `collection.json`  schema.
+當您使用 Schematics CLI 建立一個空白的 schematics 專案時，新的空白 schematic 是該集合的第一個成員，並與該集合擁有相同的名稱。
+當您將一個新的命名 schematic 新增到這個集合時，它會自動新增到 `collection.json` schema 中。
 
-In addition to the name and description, each schematic has a `factory` property that identifies the schematic's entry point.
-In the example, you invoke the schematic's defined functionality by calling the `helloWorld()` function in the main file,  `hello-world/index.ts`.
+除了名稱和說明以外，每個示意圖都有一個 `factory` 屬性，用來識別示意圖的進入點。
+在範例中，您可以呼叫主檔案 `hello-world/index.ts` 中的 `helloWorld()` 函數，來呼叫示意圖的已定義功能。
 
 <img alt="overview" src="assets/content/images/guide/schematics/collection-files.gif">
 
-Each named schematic in the collection has the following main parts.
+每個在集合中命名的原理圖都有以下主要部分。
 
-| Parts          | Details |
+| 部件          | 詳細 |
 |:---            |:---     |
-| `index.ts`     | Code that defines the transformation logic for a named schematic.  |
-| `schema.json`  | Schematic variable definition.                                     |
-| `schema.d.ts`  | Schematic variables.                                               |
-| `files/`       | Optional component/template files to replicate.                    |
+| `index.ts`     | 為指定圖式定義轉換邏輯的程式碼。  |
+| `schema.json`  | 圖式變數定義。                                     |
+| `schema.d.ts`  | 圖式變數。                                               |
+| `files/`       | 要複製的選用元件/範本檔案。                    |
 
-It is possible for a schematic to provide all of its logic in the `index.ts` file, without additional templates.
-You can create dynamic schematics for Angular, however, by providing components and templates in the `files` folder, like those in standalone Angular projects.
-The logic in the index file configures these templates by defining rules that inject data and modify variables.
+原理圖有可能在 `index.ts` 檔案中提供所有邏輯，而不需要額外的範本。
+不過，您可以透過在 `files` 資料夾中提供元件和範本，像是在獨立的 Angular 專案中一樣，來建立 Angular 的動態原理圖。
+索引檔案中的邏輯會透過定義注入資料和修改變數的規則來配置這些範本。
+

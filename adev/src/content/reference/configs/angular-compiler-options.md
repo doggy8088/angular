@@ -1,230 +1,230 @@
-# Angular compiler options
+# Angular 編譯器選項
 
-When you use [ahead-of-time compilation (AOT)](tools/cli/aot-compiler), you can control how your application is compiled by specifying Angular compiler options in the [TypeScript configuration file](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
+當您使用 [即時編譯 (AOT)](tools/cli/aot-compiler)，您可以透過在 [TypeScript 設定檔](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)中指定 Angular 編譯器選項來控制您的應用程式編譯方式。
 
-The Angular options object, `angularCompilerOptions`, is a sibling to the `compilerOptions` object that supplies standard options to the TypeScript compiler.
+Angular 選項物件 `angularCompilerOptions` 是 `compilerOptions` 物件的兄弟物件，它提供標準選項給 TypeScript 編譯器。
 
 <docs-code header="tsconfig.json" path="adev/src/content/examples/angular-compiler-options/tsconfig.json" visibleRegion="angular-compiler-options"/>
 
-## Configuration inheritance with `extends`
+## 透過 `extends` 繼承設定`
 
-Like the TypeScript compiler, the Angular AOT compiler also supports `extends` in the `angularCompilerOptions` section of the TypeScript configuration file.
-The `extends` property is at the top level, parallel to `compilerOptions` and `angularCompilerOptions`.
+如同 TypeScript 編譯器，Angular AOT 編譯器也支援 TypeScript 組態檔案的 `angularCompilerOptions` 區段中的 `extends`。
+`extends` 屬性位於頂層，與 `compilerOptions` 和 `angularCompilerOptions` 平行。
 
-A TypeScript configuration can inherit settings from another file using the `extends` property.
-The configuration options from the base file are loaded first, then overridden by those in the inheriting configuration file.
+TypeScript 組態可以使用 `extends` 屬性從另一個檔案繼承設定。
+基本檔案的組態選項會先載入，然後被繼承組態檔案中的選項覆寫。
 
-For example:
+例如：
 
 <docs-code header="tsconfig.app.json" path="adev/src/content/examples/angular-compiler-options/tsconfig.app.json" visibleRegion="angular-compiler-options-app"/>
 
-For more information, see the [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
+如需了解更多資訊，請參閱 [TypeScript 手冊](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)。
 
-## Template options
+## 範本選項
 
-The following options are available for configuring the Angular AOT compiler.
+以下選項可供設定 Angular AOT 編譯器。
 
 ### `annotationsAs`
 
-Modifies how Angular-specific annotations are emitted to improve tree-shaking.
-Non-Angular annotations are not affected.
-One of `static fields` or `decorators`. The default value is `static fields`.
+修改 Angular 特定註解的發射方式以改善樹狀搖晃。
+非 Angular 註解不受影響。
+`static fields` 或 `decorators` 之一。預設值為 `static fields`。
 
-* By default, the compiler replaces decorators with a static field in the class, which allows advanced tree-shakers like [Closure compiler](https://github.com/google/closure-compiler) to remove unused classes
-* The `decorators` value leaves the decorators in place, which makes compilation faster.
-    TypeScript emits calls to the `__decorate` helper.
-    Use `--emitDecoratorMetadata` for runtime reflection.
+* 預設情況下，編譯器會使用類別中的靜態欄位取代裝飾器，這允許進階樹狀搖晃器 (例如 [Closure compiler](https://github.com/google/closure-compiler)) 移除未使用的類別
+* `decorators` 值會保留裝飾器，這可以加快編譯速度。
+    TypeScript 會呼叫 `__decorate` 輔助函數。
+    使用 `--emitDecoratorMetadata` 以進行執行時期反射。
 
-    HELPFUL: That the resulting code cannot tree-shake properly.
+    有用的：產生的程式碼無法正確地進行樹狀搖晃。
 
 ### `annotateForClosureCompiler`
 
 <!-- vale Angular.Angular_Spelling = NO -->
 
-When `true`, use [Tsickle](https://github.com/angular/tsickle) to annotate the emitted JavaScript with [JSDoc](https://jsdoc.app) comments needed by the [Closure Compiler](https://github.com/google/closure-compiler).
-Default is `false`.
+當值為 `true` 時，使用 [Tsickle](https://github.com/angular/tsickle) 為發出的 JavaScript 加上 [JSDoc](https://jsdoc.app) 註解，[Closure Compiler](https://github.com/google/closure-compiler) 需要這些註解。
+預設值為 `false`。
 
 <!-- vale Angular.Angular_Spelling = YES -->
 
 ### `compilationMode`
 
-Specifies the compilation mode to use.
-The following modes are available:
+指定要使用的編譯模式。
+以下模式可用：
 
-| Modes       | Details |
+| 模式       | 詳細資料 |
 |:---         |:---     |
-| `'full'`    | Generates fully AOT-compiled code according to the version of Angular that is currently being used. |
-| `'partial'` | Generates code in a stable, but intermediate form suitable for a published library.                 |
+| `'full'`    | 根據當前使用的 Angular 版本，生成完全 AOT 編譯的程式碼。 |
+| `'partial'` | 以穩定但中間的形式生成程式碼，適合公開的程式庫。                 |
 
-The default value is `'full'`.
+預設值為 `'full'`。
 
-For most applications, `'full'` is the correct compilation mode.
+對於大多數應用程式，`'full'` 是正確的編譯模式。
 
-Use `'partial'` for independently published libraries, such as NPM packages.
-`'partial'` compilations output a stable, intermediate format which better supports usage by applications built at different Angular versions from the library.
-Libraries built at "HEAD" alongside their applications and using the same version of Angular such as in a mono-repository can use `'full'` since there is no risk of version skew.
+對於獨立發布的程式庫（例如 NPM 套件），請使用 `'partial'`。
+`'partial'` 編譯會輸出一個穩定的中間格式，它可以更好地支援不同 Angular 版本的應用程式使用該程式庫。
+在「HEAD」上與其應用程式一起建置並使用相同版本的 Angular 的程式庫（例如在單一儲存庫中）可以使用 `'full'`，因為沒有版本偏差的風險。
 
 ### `disableExpressionLowering`
 
-When `true`, the default, transforms code that is or could be used in an annotation, to allow it to be imported from template factory modules.
-See [metadata rewriting](tools/cli/aot-compiler#metadata-rewriting) for more information.
+當為 `true`（預設值）時，會轉換註解中使用或可能使用的程式碼，以允許從範本工廠模組匯入。
+請參閱 [元資料改寫](tools/cli/aot-compiler#metadata-rewriting)以了解更多資訊。
 
-When `false`, disables this rewriting, requiring the rewriting to be done manually.
+當為 `false` 時，停用此改寫，需要手動完成改寫。
 
-### `disableTypeScriptVersionCheck`
+### `disableTypeScriptVersionCheck``
 
-When `true`, the compiler does not look at the TypeScript version and does not report an error when an unsupported version of TypeScript is used.
-Not recommended, as unsupported versions of TypeScript might have undefined behavior.
-Default is `false`.
+當 `true` 時，編譯器不會查看 TypeScript 版本，也不會在使用不受支援的 TypeScript 版本時報告錯誤。
+不建議這樣做，因為不受支援的 TypeScript 版本可能會出現未定義的行為。
+預設為 `false`。
 
 ### `enableI18nLegacyMessageIdFormat`
 
-Instructs the Angular template compiler to create legacy ids for messages that are tagged in templates by the `i18n` attribute.
-See [Mark text for translations][AioGuideI18nCommonPrepareMarkTextInComponentTemplate] for more information about marking messages for localization.
+指示 Angular 範本編譯器為在範本中以 `i18n` 屬性標記的訊息建立舊版識別碼。
+請參閱 [將文字標記為翻譯][AioGuideI18nCommonPrepareMarkTextInComponentTemplate] 以取得有關標記訊息以進行在地化的更多資訊。
 
-Set this option to `false` unless your project relies upon translations that were created earlier using legacy IDs.
-Default is `true`.
+除非您的專案仰賴使用舊式 ID 建立的翻譯，否則將此選項設定為「false」。
+預設為「true」。
 
-The pre-Ivy message extraction tooling created a variety of legacy formats for extracted message IDs.
-These message formats have some issues, such as whitespace handling and reliance upon information inside the original HTML of a template.
+Ivy 訊息擷取工具在先前建立了多種舊版格式用於擷取訊息 ID。
+這些訊息格式有一些問題，例如空白處理和依賴範本原始 HTML 內部資訊。
 
-The new message format is more resilient to whitespace changes, is the same across all translation file formats, and can be created directly from calls to `$localize`.
-This allows `$localize` messages in application code to use the same ID as identical `i18n` messages in component templates.
+新的訊息格式更能抵抗空白的更動，在所有翻譯檔案格式中皆相同，並且可以直接從對 `$localize` 的呼叫中建立。
+這允許應用程式程式碼中的 `$localize` 訊息使用與元件範本中相同的 `i18n` 訊息作為 ID。
 
 ### `enableResourceInlining`
 
-When `true`, replaces the `templateUrl` and `styleUrls` properties in all `@Component` decorators with inline content in the `template` and `styles` properties.
+當為 `true` 時，會以 `template` 和 `styles` 屬性中的內聯內容取代所有 `@Component` 裝飾器中的 `templateUrl` 和 `styleUrls` 屬性。
 
-When enabled, the `.js` output of `ngc` does not include any lazy-loaded template or style URLs.
+如果啟用，`ngc` 的 `.js` 輸出不包含任何延遲載入的範本或樣式網址。
 
-For library projects created with the Angular CLI, the development configuration default is `true`.
+對於使用 Angular CLI 建立的程式庫專案，開發配置預設為 `true`。
 
 ### `enableLegacyTemplate`
 
-When `true`, enables the deprecated `<template>` element in place of `<ng-template>`.
-Default is `false`.
-Might be required by some third-party Angular libraries.
+當為 `true` 時，啟用已棄用的 `<template>` 元素取代 `<ng-template>`。
+預設為 `false`。
+可能為某些第三方 Angular 函式庫所要求。
 
 ### `flatModuleId`
 
-The module ID to use for importing a flat module \(when `flatModuleOutFile` is `true`\).
-References created by the template compiler use this module name when importing symbols from the flat module.
-Ignored if `flatModuleOutFile` is `false`.
+用於匯入平面模組的模組 ID（當 `flatModuleOutFile` 為 `true` 時）。
+由範本編譯器建立的參考在從平面模組匯入符號時使用這個模組名稱。
+如果 `flatModuleOutFile` 為 `false`，則忽略。
 
 ### `flatModuleOutFile`
 
-When `true`, generates a flat module index of the given filename and the corresponding flat module metadata.
-Use to create flat modules that are packaged similarly to `@angular/core` and `@angular/common`.
-When this option is used, the `package.json` for the library should refer to the created flat module index instead of the library index file.
+當 `true` 時，產生給定檔案名稱的扁平模組索引和對應的扁平模組中繼資料。
+用於建立封裝方式類似於 `@angular/core` 和 `@angular/common` 的扁平模組。
+當使用此選項時，函式庫的 `package.json` 應參照建立的扁平模組索引，而不是函式庫索引檔案。
 
-Produces only one `.metadata.json` file, which contains all the metadata necessary for symbols exported from the library index.
-In the created `.ngfactory.js` files, the flat module index is used to import symbols. Symbols that include both the public API from the library index and shrouded internal symbols.
+僅產生一個 `.metadata.json` 檔案，其中包含從函式庫索引匯出的符號的所有必要資訊。
+在建立的 `.ngfactory.js` 檔案中，扁平模組索引用於匯入符號。符號包括函式庫索引的公共 API 和隱藏的內部符號。
 
-By default, the `.ts` file supplied in the `files` field is assumed to be the library index.
-If more than one `.ts` file is specified, `libraryIndex` is used to select the file to use.
-If more than one `.ts` file is supplied without a `libraryIndex`, an error is produced.
+預設情況下，假設 `files` 欄位中提供的 `.ts` 檔案是函式庫索引。
+如果指定多個 `.ts` 檔案，則使用 `libraryIndex` 選擇要使用的檔案。
+如果提供多個 `.ts` 檔案而沒有 `libraryIndex`，則會產生錯誤。
 
-A flat module index `.d.ts` and `.js` is created with the given `flatModuleOutFile` name in the same location as the library index `.d.ts` file.
+平面模組索引 `.d.ts` 和 `.js` 會在與程式庫索引 `.d.ts` 檔案相同的位址中，以指定的 `flatModuleOutFile` 名稱建立。
 
-For example, if a library uses the `public_api.ts` file as the library index of the module, the `tsconfig.json` `files` field would be `["public_api.ts"]`.
-The `flatModuleOutFile` option could then be set, for example, to `"index.js"`, which produces `index.d.ts` and `index.metadata.json` files.
-The `module` field of the library's `package.json` would be `"index.js"` and the `typings` field would be `"index.d.ts"`.
+例如，如果某個函式庫使用 `public_api.ts` 檔案作為模組的函式庫索引，`tsconfig.json` `files` 欄位會是 `["public_api.ts"]`。
+然後可以設定 `flatModuleOutFile` 選項，例如，設定為 `"index.js"`, 它會產生 `index.d.ts` 和 `index.metadata.json` 檔案。
+函式庫的 `package.json` 的 `module` 欄位會是 `"index.js"`，而 `typings` 欄位會是 `"index.d.ts"`。
 
 ### `fullTemplateTypeCheck`
 
-When `true`, the recommended value, enables the [binding expression validation](tools/cli/aot-compiler#binding-expression-validation) phase of the template compiler. This phase uses TypeScript to verify binding expressions.
-For more information, see [Template type checking](tools/cli/template-typecheck).
+當 `true` 時，建議值，啟用範本編譯器的 [繫結表達式驗證](tools/cli/aot-compiler#binding-expression-validation) 階段。此階段使用 TypeScript 驗證繫結表達式。
+如需更多資訊，請參閱 [範本類型檢查](tools/cli/template-typecheck)。
 
-Default is `false`, but when you use the Angular CLI command `ng new --strict`, it is set to `true` in the new project's configuration.
+預設為 `false`，但當您使用 Angular CLI 命令 `ng new --strict` 時，它會在新專案的設定中設為 `true`。
 
-IMPORTANT: The `fullTemplateTypeCheck` option has been deprecated in Angular 13 in favor of the `strictTemplates` family of compiler options.
+重要：`fullTemplateTypeCheck` 選項已在 Angular 13 中棄用，取而代之的是 `strictTemplates` 編譯器選項家族。
 
 ### `generateCodeForLibraries`
 
-When `true`, creates factory files \(`.ngfactory.js` and `.ngstyle.js`\) for `.d.ts` files with a corresponding `.metadata.json` file. The default value is `true`.
+當 `true` 時，為具有對應 `.metadata.json` 檔案的 `.d.ts` 檔案建立工廠檔案 \(`.ngfactory.js` 和 `.ngstyle.js`\)。預設值為 `true`。
 
-When `false`, factory files are created only for `.ts` files.
-Do this when using factory summaries.
+當為 `false` 時，工廠檔案只會針對 `.ts` 檔案建立。
+在使用工廠摘要時執行此操作。
 
 ### `preserveWhitespaces`
 
-When `false`, the default, removes blank text nodes from compiled templates, which results in smaller emitted template factory modules.
-Set to `true` to preserve blank text nodes.
+當為 `false`（預設），會從編譯的範本中移除空白文字節點，這會產生較小的已發射範本工廠模組。
+設為 `true` 以保留空白文字節點。
 
-HELPFUL: When using hydration, it is recommended that you use `preserveWhitespaces: false`, which is the default value. If you choose to enable preserving whitespaces by adding `preserveWhitespaces: true` to your tsconfig, it is possible you may encounter issues with hydration. This is not yet a fully supported configuration. Ensure this is also consistently set between the server and client tsconfig files. See the [hydration guide](guide/hydration#preserve-whitespaces) for more details.
+有用的：在使用水合時，建議您使用 `preserveWhitespaces: false`，這是預設值。如果您選擇透過在 tsconfig 中加入 `preserveWhitespaces: true` 來啟用保留空白，您可能會遇到水合問題。這還不是完全受支援的設定。請確保這在伺服器和客戶端 tsconfig 檔案之間也一致設定。請參閱 [水合指南](guide/hydration#preserve-whitespaces)以了解更多詳情。
 
 ### `skipMetadataEmit`
 
-When `true`, does not produce `.metadata.json` files.
-Default is `false`.
+當 `true` 時，不產生 `.metadata.json` 檔案。
+預設值為 `false`。
 
-The `.metadata.json` files contain information needed by the template compiler from a `.ts` file that is not included in the `.d.ts` file produced by the TypeScript compiler.
-This information includes, for example, the content of annotations, such as a component's template, which TypeScript emits to the `.js` file but not to the `.d.ts` file.
+`.metadata.json` 檔案包含範本編譯器從 `.ts` 檔案中需要的資訊，這些資訊未包含在 TypeScript 編譯器產生的 `.d.ts` 檔案中。
+此資訊包括範例內容，例如元件範本，TypeScript 會將它發送到 `.js` 檔案，但不會發送到 `.d.ts` 檔案。
 
-You can set to `true` when using factory summaries, because the factory summaries include a copy of the information that is in the `.metadata.json` file.
+使用工廠摘要時，你可以設定為「true」，因為工廠摘要包含 `.metadata.json` 檔案中的資訊副本。
 
-Set to `true` if you are using TypeScript's `--outFile` option, because the metadata files are not valid for this style of TypeScript output.
-The Angular community does not recommend using `--outFile` with Angular.
-Use a bundler, such as [webpack](https://webpack.js.org), instead.
+如果使用 TypeScript 的 `--outFile` 選項，請設定為 `true`，因為此類型的 TypeScript 輸出對元資料檔案無效。
+Angular 社群不建議將 `--outFile` 與 Angular 搭配使用。
+請改用打包器，例如 [webpack](https://webpack.js.org)。
 
 ### `skipTemplateCodegen`
 
-When `true`, does not emit `.ngfactory.js` and `.ngstyle.js` files.
-This turns off most of the template compiler and disables the reporting of template diagnostics.
+當 `true` 時，不發出 `.ngfactory.js` 和 `.ngstyle.js` 檔案。
+這會關閉大部分的範本編譯器並停用範本診斷報告。
 
-Can be used to instruct the template compiler to produce `.metadata.json` files for distribution with an `npm` package. This avoids the production of `.ngfactory.js` and `.ngstyle.js` files that cannot be distributed to `npm`.
+可用於指示範本編譯器為 `npm` 套件分發產生 `.metadata.json` 檔案。這可避免產生無法分發到 `npm` 的 `.ngfactory.js` 和 `.ngstyle.js` 檔案。
 
-For library projects created with the Angular CLI, the development configuration default is `true`.
+對於使用 Angular CLI 建立的程式庫專案，開發配置預設為 `true`。
 
 ### `strictMetadataEmit`
 
-When `true`, reports an error to the `.metadata.json` file if `"skipMetadataEmit"` is `false`.
-Default is `false`.
-Use only when `"skipMetadataEmit"` is `false` and `"skipTemplateCodegen"` is `true`.
+當 `true` 時，如果 `"skipMetadataEmit"` 為 `false`，則會向 `.metadata.json` 檔案報告錯誤。
+預設為 `false`。
+僅在 `"skipMetadataEmit"` 為 `false` 且 `"skipTemplateCodegen"` 為 `true` 時使用。
 
-This option is intended to verify the `.metadata.json` files emitted for bundling with an `npm` package.
-The validation is strict and can emit errors for metadata that would never produce an error when used by the template compiler.
-You can choose to suppress the error emitted by this option for an exported symbol by including `@dynamic` in the comment documenting the symbol.
+此選項用於驗證針對與 `npm` 套件綑綁而發出的 `.metadata.json` 檔案。
+驗證很嚴格，可能會針對模板編譯器使用時絕不會產生錯誤的元資料發出錯誤。
+您可以選擇透過在記錄符號的註解中加入 `@dynamic` 來禁止此選項發出的錯誤。
 
-It is valid for `.metadata.json` files to contain errors.
-The template compiler reports these errors if the metadata is used to determine the contents of an annotation.
-The metadata collector cannot predict the symbols that are designed for use in an annotation. It preemptively includes error nodes in the metadata for the exported symbols.
-The template compiler can then use the error nodes to report an error if these symbols are used.
+`.metadata.json` 檔案包含錯誤是有效的。
+如果使用元資料來決定註解的內容，範本編譯器會報告這些錯誤。
+元資料收集器無法預測設計用於註解中的符號。它預先在匯出的符號的元資料中包含錯誤節點。
+然後，範本編譯器可以使用錯誤節點來報告使用這些符號時的錯誤。
 
-If the client of a library intends to use a symbol in an annotation, the template compiler does not normally report this. It gets reported after the client actually uses the symbol.
-This option allows detection of these errors during the build phase of the library and is used, for example, in producing Angular libraries themselves.
+如果函式庫用戶打算在註解中使用符號，範本編譯器通常不會報告此情況。在用戶實際使用符號後才會報告。
+這個選項允許在函式庫的建置階段偵測這些錯誤，例如，在製作 Angular 函式庫時使用。
 
-For library projects created with the Angular CLI, the development configuration default is `true`.
+對於使用 Angular CLI 建立的程式庫專案，開發配置預設為 `true`。
 
 ### `strictInjectionParameters`
 
-When `true`, reports an error for a supplied parameter whose injection type cannot be determined.
-When `false`, constructor parameters of classes marked with `@Injectable` whose type cannot be resolved produce a warning.
-The recommended value is `true`, but the default value is `false`.
+當為 `true` 時，會針對無法判斷插入類型的提供的參數報告錯誤。
+當為 `false` 時，無法解析其類型的已標記為 `@Injectable` 類別的建構函數參數會產生警告。
+建議的值為 `true`，但預設值為 `false`。
 
-When you use the Angular CLI command `ng new --strict`, it is set to `true` in the created project's configuration.
+當您使用 Angular CLI 指令 `ng new --strict` 時，它會在建立的專案設定中設為 `true`。
 
 ### `strictTemplates`
 
-When `true`, enables [strict template type checking](tools/cli/template-typecheck#strict-mode).
+如果 `true`，則啟用 [嚴格的範本類型檢查](tools/cli/template-typecheck#strict-mode)。
 
-The strictness flags that this option enables allow you to turn on and off specific types of strict template type checking.
-See [troubleshooting template errors](tools/cli/template-typecheck#troubleshooting-template-errors).
+此選項啟用的嚴格性旗標允許您開啟和關閉特定類型的嚴格範本類型檢查。
+請參閱 [排除範本錯誤](tools/cli/template-typecheck#troubleshooting-template-errors)。
 
-When you use the Angular CLI command `ng new --strict`, it is set to `true` in the new project's configuration.
+當您使用 Angular CLI 指令 `ng new --strict` 時，它會在新的專案設定中被設為 `true`。
 
 ### `trace`
 
-When `true`, prints extra information while compiling templates.
-Default is `false`.
+當為 `true` 時，在編譯範本時會印出額外資訊。
+預設為 `false`。
 
-## Command line options
+## 命令列選項
 
-Most of the time, you interact with the Angular Compiler indirectly using [Angular CLI](reference/configs/angular-compiler-options). When debugging certain issues, you might find it useful to invoke the Angular Compiler directly.
-You can use the `ngc` command provided by the `@angular/compiler-cli` npm package to call the compiler from the command line.
+在多數情況下，您會使用 [Angular CLI](reference/configs/angular-compiler-options) 間接與 Angular 編譯器互動。在除錯某些問題時，您可能會發現直接呼叫 Angular 編譯器很有用。
+您可以使用 `@angular/compiler-cli` npm 套件提供的 `ngc` 指令，從命令列呼叫編譯器。
 
-The `ngc` command is a wrapper around TypeScript's `tsc` compiler command. The Angular Compiler is primarily configured through `tsconfig.json` while Angular CLI is primarily configured through `angular.json`.
+`ngc` 命令是 TypeScript 的 `tsc` 編譯器命令的包裝器。Angular 編譯器主要透過 `tsconfig.json` 組態，而 Angular CLI 則主要透過 `angular.json` 組態。
 
-Besides the configuration file, you can also use [`tsc` command line options](https://www.typescriptlang.org/docs/handbook/compiler-options.html) to configure `ngc`.
+除了設定檔，您也可以使用 [`tsc` 命令列選項](https://www.typescriptlang.org/docs/handbook/compiler-options.html) 來設定 `ngc`。
 
-[AioGuideI18nCommonPrepareMarkTextInComponentTemplate]: guide/i18n/prepare#mark-text-in-component-template "Mark text in component template - Prepare component for translation | Angular"
+{{ 無法處理文件最後的 LinkReferenceDefinitionGroup 部分，需手動更新！ }}

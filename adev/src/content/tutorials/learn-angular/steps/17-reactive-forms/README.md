@@ -1,16 +1,16 @@
-# Reactive Forms
+# 反應式表單
 
-When you want to manage your forms programmatically instead of relying purely on the template, reactive forms are the answer.
+當你想程式化地管理你的表單，而不是純粹依賴範本，反應式表單就是解答。
 
-In this activity, you'll learn how to setup reactive forms.
+在這個活動中，您將學習如何設置反應式表單。
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Import `ReactiveForms` module">
+<docs-step title="匯入 `ReactiveForms` 模組">
 
-In `app.component.ts`, import `ReactiveFormsModule` from `@angular/forms` and add it to the `imports` array of the component.
+在 `app.component.ts` 中，從 `@angular/forms` 匯入 `ReactiveFormsModule` 並將它新增至元件的 `imports` 陣列中。
 
 ```ts
 import { ReactiveFormsModule } from '@angular/forms';
@@ -35,11 +35,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 </docs-step>
 
-<docs-step title="Create the `FormGroup` object with FormControls">
+<docs-step title="使用 `FormControls` 建立 `FormGroup` 物件">
 
-Reactive forms use the `FormControl` class to represent the form controls (e.g., inputs). Angular provides the `FormGroup` class to serve as a grouping of form controls into a helpful object that makes handling large forms more convenient for developers.
+Reactive forms 使用 `FormControl` 類別來表示表單控制項（例如輸入）。Angular 提供 `FormGroup` 類別，用作表單控制項的分組，成為一個有用的物件，讓開發人員更方便處理大型表單。
 
-Add `FormControl` and `FormGroup` to the import from `@angular/forms` so that you can create a FormGroup for each form, with the properties `name` and `email` as FormControls.
+將 `FormControl` 和 `FormGroup` 新增至 `@angular/forms` 的導入，以便為每個表單建立 `FormGroup`，其中 `name` 和 `email` 屬性為 `FormControls`。
 
 ```ts
 import {ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
@@ -54,11 +54,11 @@ export class AppComponent {
 
 </docs-step>
 
-<docs-step title="Link the FormGroup and FormControls to the form">
+<docs-step title="將 FormGroup 和 FormControls 連結至表單">
 
-Each `FormGroup` should be attached to a form using the `[formGroup]` directive.
+每個 `FormGroup` 都應該使用 `[formGroup]` 指令附加到表單。
 
-In addition, each `FormControl` can be attached with the `formControlName` directive and assigned to the corresponding property. Update the template with the following form code:
+此外，每個 `FormControl` 都可以附加 `formControlName` 指令，並指定到對應的屬性。使用以下表單程式碼更新範本：
 
 ```html
 <form [formGroup]="profileForm">
@@ -76,9 +76,9 @@ In addition, each `FormControl` can be attached with the `formControlName` direc
 
 </docs-step>
 
-<docs-step title="Handle update to the form">
+<docs-step title="處理表單更新">
 
-When you want to access data from the `FormGroup`, it can be done by accessing the value of the `FormGroup`. Update the `template` to display the form values:
+當您想要存取 `FormGroup` 中的資料時，可以透過存取 `FormGroup` 的值來做到。更新 `template` 以顯示表單值：
 
 ```html
 ...
@@ -89,11 +89,11 @@ When you want to access data from the `FormGroup`, it can be done by accessing t
 
 </docs-step>
 
-<docs-step title="Access FormGroup values">
-Add a new method to the component class called `handleSubmit` that you'll later use to handle the form submission.
-This method will display values from the form, you can access the values from the FormGroup.
+<docs-step title="存取 FormGroup 值">
+在元件類別中新增一個名為 `handleSubmit` 的新方法，稍後你會使用它來處理表單提交。
+這個方法會顯示表單中的值，你可以從 FormGroup 存取這些值。
 
-In the component class, add the `handleSubmit()` method to handle the form submission.
+在元件類別中，新增 `handleSubmit()` 方法來處理表單提交。
 
 <docs-code language="ts">
 handleSubmit() {
@@ -118,6 +118,7 @@ Angular has an event handler for this specific purpose called `ngSubmit`. Update
 
 </docs-workflow>
 
-And just like that, you know how to work with reactive forms in Angular.
+就這樣，您已經知道如何在 Angular 中使用反應表單了。
 
-Fantastic job with this activity. Keep going to learn about form validation.
+這項活動做得很好。繼續學習表單驗證。
+

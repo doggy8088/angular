@@ -1,21 +1,21 @@
-# Components in Angular
+# Angular 中的元件
 
-Components are the foundational building blocks for any Angular application. Each component has three parts:
+元件是任何 Angular 應用程式的基礎建構模組。每個元件有三個部分：
 
-* TypeScript class
-* HTML template
-* CSS styles
+* TypeScript 類別
+* HTML 範本
+* CSS 樣式
 
-In this activity you'll learn how to update the template and styles of a component.
+在此活動中，您將學習如何更新元件的範本和樣式。
 
 <hr />
 
-This is a great opportunity for you to get started with Angular.
+這是一個開始使用 Angular 的絕佳機會。
 
 <docs-workflow>
 
-<docs-step title="Update the component template">
-Update the `template` property to read `Hello Universe`
+<docs-step title="更新元件範本">
+將 `template` 屬性更新為 `Hello Universe`
 
 ```ts
 template: `
@@ -23,11 +23,11 @@ template: `
 `,
 ```
 
-When you changed the HTML template, the preview updated with your message. Let's go one step further: change the color of the text.
+當您變更 HTML 範本時，預覽會更新您的訊息。我們進一步：變更文字的顏色。
 </docs-step>
 
-<docs-step title="Update the component styles">
-Update the styles value and change the `color` property from `blue` to `#a144eb`.
+<docs-step title="更新元件樣式">
+更新 styles 值，並將 `color` 屬性從 `blue` 變更為 `#a144eb`。
 
 ```ts
 styles: `
@@ -37,9 +37,10 @@ styles: `
 `,
 ```
 
-When you check the preview, you'll find that the text color will be changed.
+當您檢查預覽時，您會發現文字顏色已變更。
 </docs-step>
 
 </docs-workflow>
 
-In Angular, you can use all the browser supported CSS and HTML that's available. If you'd like, you can store your template and styles in separate files.
+在 Angular 中，您可以使用所有瀏覽器支援的 CSS 和 HTML。如果您想，您可以將範本和樣式儲存在不同的檔案中。
+

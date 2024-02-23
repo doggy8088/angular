@@ -1,70 +1,68 @@
-# Angular coding style guide
+# Angular 編碼風格指南
 
-Looking for an opinionated guide to Angular syntax, conventions, and application structure?
-Step right in.
-This style guide presents preferred conventions and, as importantly, explains why.
+尋找關於 Angular 語法、慣例和應用程式結構的意見指南？
+直接進入。
+本風格指南呈現首選慣例，並更重要的是，解釋原因。
 
-## Style vocabulary
+## 風格詞彙
 
-Each guideline describes either a good or bad practice, and all have a consistent presentation.
+每個準則都描述一個好的或壞的實踐，並且都具有具有一致性的呈現方式。
 
-The wording of each guideline indicates how strong the recommendation is.
+每項指南的文字說明建議的強烈程度。
 
-**Do** is one that should always be followed.
-*Always* might be a bit too strong of a word.
-Guidelines that literally should always be followed are extremely rare.
-On the other hand, you need a really unusual case for breaking a *Do* guideline.
+**Do** 是應該永遠遵守的。
+*Always* 可能是一個有點太強烈的詞。
+真正應該永遠遵守的準則極為罕見。
+另一方面，你需要一個非常特殊的情況才能打破 *Do* 準則。
 
-**Consider** guidelines should generally be followed.
-If you fully understand the meaning behind the guideline and have a good reason to deviate, then do so.
-Aim to be consistent.
+**考慮**指南通常應遵循。
+如果您完全理解指南背後的含義並有充分的理由偏離，那就這樣做。
+目標是保持一致。
 
-**Avoid** indicates something you should almost never do.
-Code examples to *avoid* have an unmistakable red header.
+**避免** 表示幾乎永遠不該做的事。
+*避免* 的範例程式碼具有明顯的紅色標題。
 
-**Why**? <br />
-Gives reasons for following the previous recommendations.
+**為什麼**？<br />
+給予遵循先前建議的原因。
 
-## File structure conventions
+## 檔案結構慣例
 
-Some code examples display a file that has one or more similarly named companion files.
-For example, `hero.component.ts` and `hero.component.html`.
+一些程式碼範例顯示一個包含一個或多個類似名稱的附屬檔案。
+例如，`hero.component.ts` 和 `hero.component.html`。
 
-The guideline uses the shortcut `hero.component.ts|html|css|spec` to represent those various files.
-Using this shortcut makes this guide's file structures easier to read and more terse.
+該指南使用捷徑 `hero.component.ts|html|css|spec` 來表示那些不同的檔案。
+使用這個捷徑讓此指南的檔案結構更容易閱讀且更簡潔。
 
-## Single responsibility
+## 單一職責
 
-Apply the [*single responsibility principle (SRP)*](https://wikipedia.org/wiki/Single_responsibility_principle) to all components, services, and other symbols.
-This helps make the application cleaner, easier to read and maintain, and more testable.
+將 [*單一職責原則 (SRP)*](https://wikipedia.org/wiki/Single_responsibility_principle) 套用到所有元件、服務和其他符號。
+這有助於讓應用程式更乾淨、更易於閱讀和維護，並更具可測試性。
 
-### Rule of One
+### 一個規則
 
-#### Style 01-01
+#### 風格 01-01
 
-**Do** define one thing, such as a service or component, per file.
+**請**針對每一個檔案定義一件事，例如服務或元件。
 
-**Consider** limiting files to 400 lines of code.
+**考慮**將檔案限制在 400 行程式碼。
 
-**Why**? <br />
-One component per file makes it far easier to read, maintain, and avoid collisions with teams in source control.
+**為什麼**? <br />
+每個檔案一個元件，使閱讀、維護和避免與源碼控管中的團隊發生衝突變得更容易。
 
-**Why**? <br />
-One component per file avoids hidden bugs that often arise when combining components in a file where they may share variables, create unwanted closures, or unwanted coupling with dependencies.
+**為什麼**？<br />
+每檔案一個元件可避免將元件組合在一個檔案中時經常出現的隱藏錯誤，在這種情況下，元件可能會共享變數、建立不需要的封閉或與依賴項建立不需要的關聯。
 
-**Why**? <br />
-A single component can be the default export for its file which facilitates lazy loading with the router.
+**為什麼**？<br />
+單一元件可以是其檔案的預設匯出，這有助於使用路由器進行惰性載入。
 
-The key is to make the code more reusable, easier to read, and less mistake-prone.
+關鍵在於使程式碼更容易重複使用、更易讀，並且減少錯誤。
 
-The following *negative* example defines the `AppComponent`, bootstraps the app,
-defines the `Hero` model object, and loads heroes from the server all in the same file.
-*Don't do this*.
+以下 *負面* 範例定義了 `AppComponent`、引導應用程式、定義 `Hero` 模型物件，並從伺服器載入英雄，全部都在同一個檔案中。
+*不要這樣做*。
 
 <docs-code path="adev/src/content/examples/styleguide/src/01-01/app/heroes/hero.component.avoid.ts" language="typescript" header="app/heroes/hero.component.ts"/>
 
-It is a better practice to redistribute the component and its
-supporting classes into their own, dedicated files.
+將組件及其支援類別重新分佈到它們自己的專用檔案中是一種更好的做法。
 
 <docs-code-multifile>
     <docs-code header="main.ts" path="adev/src/content/examples/styleguide/src/01-01/main.ts"/>
@@ -76,80 +74,80 @@ supporting classes into their own, dedicated files.
     <docs-code header="app/heroes/shared/mock-heroes.ts" path="adev/src/content/examples/styleguide/src/01-01/app/heroes/shared/mock-heroes.ts"/>
 </docs-code-multifile>
 
-As the application grows, this rule becomes even more important.
+隨著應用程式成長，這個規則變得更為重要。
 
-## Naming
+## 命名
 
-Naming conventions are hugely important to maintainability and readability.
-This guide recommends naming conventions for the file name and the symbol name.
+命名慣例對於可維護性和可讀性非常重要。
+本指南建議檔案名稱和符號名稱的命名慣例。
 
-### General Naming Guidelines
+### 一般命名準則
 
-#### Style 02-01
+#### 風格 02-01
 
-**Do** use consistent names for all symbols.
+**做**對所有符號使用一致的名稱。
 
-**Do** follow a pattern that describes the symbol's feature then its type.
-The recommended pattern is `feature.type.ts`.
+**請**遵循描述符號特徵然後是類型的模式。
+建議的模式為 `feature.type.ts`。
 
-**Why**? <br />
-Naming conventions help provide a consistent way to find content at a glance.
-Consistency within the project is vital.
-Consistency with a team is important.
-Consistency across a company provides tremendous efficiency.
+**為什麼**？<br />
+命名慣例有助於提供一致的方式，以便快速找到內容。
+專案內的一致性至關重要。
+與團隊的一致性很重要。
+整個公司的統一性提供了巨大的效率。
 
-**Why**? <br />
-The naming conventions should help find desired code faster and make it easier to understand.
+**為什麼**？<br />
+命名慣例應該有助於更快找到所需的程式碼並使之更易於理解。
 
-**Why**? <br />
-Names of folders and files should clearly convey their intent.
-For example, `app/heroes/hero-list.component.ts` may contain a component that manages a list of heroes.
+**為什麼**？<br />
+資料夾和檔案的名稱應該清楚地傳達它們的意圖。
+例如，`app/heroes/hero-list.component.ts` 可能包含一個管理英雄清單的元件。
 
-### Separate file names with dots and dashes
+### 用點和破折號分隔不同的檔案名稱
 
-#### Style 02-02
+#### 風格 02-02
 
-**Do** use dashes to separate words in the descriptive name.
+**請**使用破折號來區分描述性名稱中的字詞。
 
-**Do** use dots to separate the descriptive name from the type.
+**請**使用句點來區分描述性名稱和類型。
 
-**Do** use consistent type names for all components following a pattern that describes the component's feature then its type.
-A recommended pattern is `feature.type.ts`.
+**做**使用一致的類型名稱，所有元件都依照描述元件功能和類型的模式。
+推薦的模式是 `feature.type.ts`。
 
-**Do** use conventional type names including `.service`, `.component`, `.pipe`, `.module`, and `.directive`.
-Invent additional type names if you must but take care not to create too many.
+**應**使用包含 `.service`、`.component`、`.pipe`、`.module` 和 `.directive` 的慣例類型名稱。
+若必須發明其他類型名稱，請小心不要創造太多。
 
-**Why**? <br />
-Type names provide a consistent way to quickly identify what is in the file.
+**為什麼**？<br />
+類型名稱提供一致的方法來快速識別檔案中的內容。
 
-**Why**? <br />
-Type names make it easy to find a specific file type using an editor or IDE's fuzzy search techniques.
+**為什麼**？ <br />
+類型名稱讓您可以使用編輯器或 IDE 的模糊搜尋技巧，輕鬆找到特定類型的檔案。
 
-**Why**? <br />
-Unabbreviated type names such as `.service` are descriptive and unambiguous.
-Abbreviations such as `.srv`, `.svc`, and `.serv` can be confusing.
+**為什麼**？ <br />
+未縮寫的類型名稱，例如「.service」，具有描述性且明確。
+縮寫，例如「.srv」、「.svc」和「.serv」可能會令人困惑。
 
-**Why**? <br />
-Type names provide pattern matching for any automated tasks.
+**為什麼**？<br />
+類型名稱提供任何自動化任務的模式比對。
 
-### Symbols and file names
+### 符號和檔案名稱
 
-#### Style 02-03
+#### 樣式 02-03
 
-**Do** use consistent names for all assets named after what they represent.
+**請**對所有資產使用一致性名稱，這些名稱應以資產所代表的內容命名。
 
-**Do** use upper camel case for class names.
+**做**使用大寫駝峰式大小寫為類別名稱。
 
-**Do** match the name of the symbol to the name of the file.
+**請**將符號的名稱與檔案名稱配對。
 
-**Do** append the symbol name with the conventional suffix \(such as `Component`, `Directive`, `Module`, `Pipe`, or `Service`\) for a thing of that type.
+**請**為該類型的項目附加慣例字尾（例如 `Component`、`Directive`、`Module`、`Pipe` 或 `Service`）作為符號名稱。
 
-**Do** give the filename the conventional suffix \(such as `.component.ts`, `.directive.ts`, `.module.ts`, `.pipe.ts`, or `.service.ts`\) for a file of that type.
+**請**給予檔案名稱慣用的字尾（例如 `.component.ts`、`.directive.ts`、`.module.ts`、`.pipe.ts` 或 `.service.ts`）給該類型的檔案。
 
-**Why**? <br />
-Consistent conventions make it easy to quickly identify and reference assets of different types.
+**為什麼**？<br />
+一致的慣例使快速識別和參考不同類型的資產變得容易。
 
-| Symbol name                                                                                                                                                                          | File name |
+| 符號名稱                                                                                                                                                                          | 檔案名稱 |
 |:---                                                                                                                                                                                  |:---       |
 | <docs-code hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class AppComponent { } </docs-code>                             | app.component.ts |
 | <docs-code hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class HeroesComponent { } </docs-code>                          | heroes.component.ts |
@@ -160,31 +158,31 @@ Consistent conventions make it easy to quickly identify and reference assets of 
 | <docs-code hideCopy language="typescript"> &commat;Pipe({ name: 'initCaps' }) &NewLine;export class InitCapsPipe implements PipeTransform { } </docs-code> | init-caps.pipe.ts |
 | <docs-code hideCopy language="typescript"> &commat;Injectable() &NewLine;export class UserProfileService { } </docs-code>                                  | user-profile.service.ts |
 
-### Service names
+### 服務名稱
 
-#### Style 02-04
+#### 樣式 02-04
 
-**Do** use consistent names for all services named after their feature.
+**請**對所有以其功能命名的服務使用一致的命名。
 
-**Do** suffix a service class name with `Service`.
-For example, something that gets data or heroes should be called a `DataService` or a `HeroService`.
+**請**在服務類別名稱後面加上 `Service`。
+例如，取得資料或英雄的東西應稱為 `DataService` 或 `HeroService`。
 
-A few terms are unambiguously services.
-They typically indicate agency by ending in "-er".
-You may prefer to name a service that logs messages `Logger` rather than `LoggerService`.
-Decide if this exception is agreeable in your project.
-As always, strive for consistency.
+以下幾個術語明確是服務。
+它們通常以「-er」結尾來表示代理。
+您可能更喜歡將記錄訊息的服務命名為 `Logger` 而不是 `LoggerService`。
+決定此例外是否符合您的專案。
+一如往常，致力於一致性。
 
-**Why**? <br />
-Provides a consistent way to quickly identify and reference services.
+**為什麼**？<br />
+提供一種一致的方式來快速識別和參考服務。
 
-**Why**? <br />
-Clear service names such as `Logger` do not require a suffix.
+**為什麼**？<br />
+清楚的服務名稱，例如 `Logger` 不需要後綴。
 
-**Why**? <br />
-Service names such as `Credit` are nouns and require a suffix and should be named with a suffix when it is not obvious if it is a service or something else.
+**為什麼**？ <br />
+服務名稱例如 `Credit` 是名詞，需要一個後綴，並且在不確定它是否為服務或其他東西時，應該使用後綴來命名它。
 
-| Symbol name                                                                                                                                      | File name |
+| 符號名稱                                                                                                                                      | 檔案名稱 |
 |:---                                                                                                                                              |:---       |
 | <docs-code hideCopy language="typescript"> &commat;Injectable() &NewLine;export class HeroDataService { } </docs-code> | hero-data.service.ts |
 | <docs-code hideCopy language="typescript"> &commat;Injectable() &NewLine;export class CreditService { } </docs-code>   | credit.service.ts    |
@@ -192,31 +190,31 @@ Service names such as `Credit` are nouns and require a suffix and should be name
 
 ### Bootstrapping
 
-#### Style 02-05
+#### 風格 02-05
 
-**Do** put bootstrapping and platform logic for the application in a file named `main.ts`.
+**做**將應用程式的 bootstrapping 和平台邏輯放在一個名為 `main.ts` 的檔案中。
 
-**Do** include error handling in the bootstrapping logic.
+**Do** 在引導邏輯中包含錯誤處理。
 
-**Avoid** putting application logic in `main.ts`.
-Instead, consider placing it in a component or service.
+**避免**在 `main.ts` 中放置應用程序邏輯。
+相反，考慮將其放入組件或服務中。
 
-**Why**? <br />
-Follows a consistent convention for the startup logic of an app.
+**為什麼**？ <br/>
+遵循應用程序啟動邏輯的一致慣例。
 
-**Why**? <br />
-Follows a familiar convention from other technology platforms.
+**為什麼**？ <br />
+遵循其他技術平台的慣例。
 
 <docs-code header="main.ts" path="adev/src/content/examples/styleguide/src/02-05/main.ts"/>
 
-### Component selectors
+### 元件選擇器
 
-#### Style 05-02
+#### 風格 05-02
 
-**Do** use *dashed-case* or *kebab-case* for naming the element selectors of components.
+**請**使用 *dashed-case* 或 *kebab-case* 來命名元件的元素選擇器。
 
-**Why**? <br />
-Keeps the element names consistent with the specification for [Custom Elements](https://www.w3.org/TR/custom-elements).
+**為什麼**？<br />
+讓元素名稱與 [Custom Elements](https://www.w3.org/TR/custom-elements) 規範保持一致。
 
 <docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-02/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
 
@@ -225,22 +223,22 @@ Keeps the element names consistent with the specification for [Custom Elements](
     <docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-02/app/app.component.html"/>
 </docs-code-multifile>
 
-### Component custom prefix
+### 元件自訂前綴
 
-#### Style 02-07
+#### 風格 02-07
 
-**Do** use a hyphenated, lowercase element selector value; for example, `admin-users`.
+**請**使用連字號的小寫元素選擇器值；例如，`admin-users`。
 
-**Do** use a prefix that identifies the feature area or the application itself.
+**請**使用可識別功能區域或應用程式本身的前綴。
 
-**Why**? <br />
-Prevents element name collisions with components in other applications and with native HTML elements.
+**為什麼**？<br />
+防止元素名稱與其他應用程式中的元件及原生 HTML 元素發生衝突。
 
-**Why**? <br />
-Makes it easier to promote and share the component in other applications.
+**為什麼**？<br />
+讓在其他應用程式中宣傳和分享元件變得更容易。
 
-**Why**? <br />
-Components are easy to identify in the DOM.
+**為什麼**？<br />
+元件在 DOM 中很容易識別。
 
 <docs-code header="app/heroes/hero.component.ts" path="adev/src/content/examples/styleguide/src/02-07/app/heroes/hero.component.avoid.ts" visibleRegion="example"/>
 
@@ -250,104 +248,103 @@ Components are easy to identify in the DOM.
 
 <docs-code header="app/users/users.component.ts" path="adev/src/content/examples/styleguide/src/02-07/app/users/users.component.ts" visibleRegion="example"/>
 
-### Directive selectors
+### 指令選擇器
 
-#### Style 02-06
+#### 風格 02-06
 
-**Do** Use lower camel case for naming the selectors of directives.
+**做** 為指令選擇器命名時，請使用小寫的駝峰式命名法。
 
-**Why**? <br />
-Keeps the names of the properties defined in the directives that are bound to the view consistent with the attribute names.
+**為什麼**？<br />
+使繫結至檢視的指令中定義的屬性名稱與屬性名稱保持一致。
 
-**Why**? <br />
-The Angular HTML parser is case-sensitive and recognizes lower camel case.
+**為什麼**？ <br />
+Angular HTML 解析器區分大小寫，並識別小寫的駝峰式大小寫。
 
-### Directive custom prefix
+### 指令自訂前綴
 
-#### Style 02-08
+#### 風格 02-08
 
-**Do** spell non-element selectors in lower camel case unless the selector is meant to match a native HTML attribute.
+**請**以小寫的駝峰式來拼寫非元素選擇器，除非該選擇器是要符合原生 HTML 屬性。
 
-**Don't** prefix a directive name with `ng` because that prefix is reserved for Angular and using it could cause bugs that are difficult to diagnose.
+**不要**使用 `ng` 為指令名稱加上前綴，因為此前綴是 Angular 專用，使用它可能會導致難以診斷的錯誤。
 
-**Why**? <br />
-Prevents name collisions.
+**為什麼**？ <br />
+防止名稱衝突。
 
-**Why**? <br />
-Directives are easily identified.
+**為什麼**？<br />
+指令很容易辨識。
 
 <docs-code header="app/shared/validate.directive.ts" path="adev/src/content/examples/styleguide/src/02-08/app/shared/validate.directive.avoid.ts" visibleRegion="example"/>
 
 <docs-code header="app/shared/validate.directive.ts" path="adev/src/content/examples/styleguide/src/02-08/app/shared/validate.directive.ts" visibleRegion="example"/>
 
-### Pipe names
+### 管道名稱
 
-#### Style 02-09
+#### 風格 02-09
 
-**Do** use consistent names for all pipes, named after their feature.
-The pipe class name should use `UpperCamelCase` \(the general convention for class names\), and the corresponding `name` string should use *lowerCamelCase*.
-The `name` string cannot use hyphens \("dash-case" or "kebab-case"\).
+**請**為所有管道使用一致的命名，以其功能命名。
+管道類別名稱應使用 `UpperCamelCase` （類別名稱的一般慣例），相對應的 `name` 字串應使用 *lowerCamelCase*。
+`name` 字串不能使用連字號（「dash-case」或「kebab-case」）。
 
-**Why**? <br />
-Provides a consistent way to quickly identify and reference pipes.
+**為什麼**？<br />提供一致的方法來快速識別和參照管道。
 
-| Symbol name                                                                                                                                                                          | File name |
-|:---                                                                                                                                                                                  |:---       |
+| 符號名稱                                                                                                                                                                       | 檔案名稱 |
+|:---                                                                                                                                                                         |:---       |
 | <docs-code hideCopy language="typescript"> &commat;Pipe({ standalone: true, name: 'ellipsis' }) &NewLine;export class EllipsisPipe implements PipeTransform { } </docs-code> | ellipsis.pipe.ts  |
 | <docs-code hideCopy language="typescript"> &commat;Pipe({ standalone: true, name: 'initCaps' }) &NewLine;export class InitCapsPipe implements PipeTransform { } </docs-code> | init-caps.pipe.ts |
 
-### Unit test file names
+### 單元測試檔案名稱
 
-#### Style 02-10
+#### 樣式 02-10
 
-**Do** name test specification files the same as the component they test.
+**做** 將測試規範檔案命名與其測試的組件相同。
 
-**Do** name test specification files with a suffix of `.spec`.
+**做**以 `.spec` 為字尾來命名測試規範檔案。
 
-**Why**? <br />
-Provides a consistent way to quickly identify tests.
+**為什麼**？<br />
+提供一致的方式來快速識別測試。
 
-**Why**? <br />
-Provides pattern matching for [karma](https://karma-runner.github.io) or other test runners.
+**為何**？<br />
+提供 [karma](https://karma-runner.github.io) 或其他測試執行器的樣式比對。
 
-| Test type  | File names |
+| 測試類型  | 檔案名稱 |
 |:---        |:---        |
-| Components | heroes.component.spec.ts <br /> hero-list.component.spec.ts <br /> hero-detail.component.spec.ts |
-| Services   | logger.service.spec.ts <br /> hero.service.spec.ts <br /> filter-text.service.spec.ts            |
-| Pipes      | ellipsis.pipe.spec.ts <br /> init-caps.pipe.spec.ts                                              |
+| 組件       | heroes.component.spec.ts <br /> hero-list.component.spec.ts <br /> hero-detail.component.spec.ts |
+| 服務       | logger.service.spec.ts <br /> hero.service.spec.ts <br /> filter-text.service.spec.ts            |
+| 管道       | ellipsis.pipe.spec.ts <br /> init-caps.pipe.spec.ts                                              |
 
-## Application structure and NgModules
+## 應用程式結構和 NgModules
 
-Have a near-term view of implementation and a long-term vision.
-Start small but keep in mind where the application is heading.
+具備近期的執行觀點和長遠的願景。
+先從小處著手，但要記住應用程式的發展方向。
 
-All of the application's code goes in a folder named `src`.
-All feature areas are in their own folder.
+所有應用程式的程式碼都放在名為 `src` 的資料夾中。
+所有功能區域都在其各自的資料夾中。
 
-All content is one asset per file.
-Each component, service, and pipe is in its own file.
-All third party vendor scripts are stored in another folder and not in the `src` folder.
-Use the naming conventions for files in this guide.
+所有內容都是一個檔案一個資源。
+每個元件、服務和管道都在它自己的檔案中。
+所有第三方供應商腳本都儲存在另一個資料夾中，而不是在 `src` 資料夾中。
+使用本指南中的檔案命名慣例。
 
-### Overall structural guidelines
+### 整體結構指引
 
 #### Style 04-06
 
-**Do** start small but keep in mind where the application is heading down the road.
+**做**小一點，但記住應用程序未來的發展方向。
 
-**Do** have a near term view of implementation and a long term vision.
+**做**有近期實施的觀點和長期的願景。
 
-**Do** put all of the application's code in a folder named `src`.
+**請**將所有應用程式的程式碼放在一個名為 `src` 的資料夾中。
 
-**Consider** creating a folder for a component when it has multiple accompanying files \(`.ts`, `.html`, `.css`, and `.spec`\).
+當元件有多個附屬檔案（`.ts`、`.html`、`.css` 和 `.spec`）時，**考慮**為元件建立一個資料夾。
 
-**Why**? <br />
-Helps keep the application structure small and easy to maintain in the early stages, while being easy to evolve as the application grows.
+**為什麼**？ <br />
+在早期階段有助於保持應用程序結構精簡且易於維護，同時隨著應用程序的增長，也很容易演進。
 
-**Why**? <br />
-Components often have four files \(for example, `*.html`, `*.css`, `*.ts`, and `*.spec.ts`\) and can clutter a folder quickly.
+**為什麼**？<br />
+元件通常有四個檔案（例如，`*.html`、`*.css`、`*.ts` 和 `*.spec.ts`）並能快速弄亂一個資料夾。
 
-Here is a compliant folder and file structure:
+以下是合規的資料夾和檔案結構：
 
 ```markdown
 project root
@@ -390,115 +387,114 @@ project root
 └── &hellip;
 ```
 
-HELPFUL: While components in dedicated folders are widely preferred, another option for small applications is to keep components flat \(not in a dedicated folder\).
-This adds up to four files to the existing folder, but also reduces the folder nesting.
-Whatever you choose, be consistent.
+HELPFUL：儘管專用資料夾中的元件廣受歡迎，但小型應用程式的另一個選項是保持元件扁平（不在專用資料夾中）。
+這會將多達四個檔案新增到現有資料夾中，但也會減少資料夾層級。
+不論您選擇哪一種，都要保持一致。
 
-### *Folders-by-feature* structure
+### *依照功能* 資料夾結構
 
-#### Style 04-07
+#### 風格 04-07
 
-**Do** create folders named for the feature area they represent.
+**請**建立以其代表的功能區域命名的資料夾。
 
-**Why**? <br />
-A developer can locate the code and identify what each file represents at a glance.
-The structure is as flat as it can be and there are no repetitive or redundant names.
+**為什麼**？<br />
+開發人員可以一眼找到程式碼並識別每個檔案代表的意思。
+結構盡可能扁平，而且沒有重複或多餘的名稱。
 
-**Why**? <br />
-Helps reduce the application from becoming cluttered through organizing the content.
+**為什麼**？<br />
+有助於透過組織內容減少應用程序的雜亂。
 
-**Why**? <br />
-When there are a lot of files, for example 10+, locating them is easier with a consistent folder structure and more difficult in a flat structure.
+**為什麼**？<br />
+當有很多檔案時，例如 10 個以上，使用一致的資料夾結構可以更容易找到檔案，而扁平結構則更難找到檔案。
 
-For more information, refer to [this folder and file structure example](#file-tree).
+有關更多資訊，請參閱 [此資料夾和檔案結構範例](#file-tree)。
 
-### App *root module*
+### App *根模組*
 
-IMPORTANT: The following style guide recommendations are for applications based on `NgModule`. New applications should use standalone components, directives, and pipes instead.
+重要：以下樣式指南建議適用於基於 `NgModule` 的應用程式。新應用程式應改用獨立元件、指令和管道。
 
-#### Style 04-08
+#### 風格 04-08
 
-**Do** create an NgModule in the application's root folder, for example, in `/src/app` if creating a `NgModule` based app.
+**請**在應用程式根目錄中建立一個 `NgModule`，例如，在 `/src/app` 中，如果建立一個基於 `NgModule` 的應用程式。
 
-**Why**? <br />
-Every `NgModule` based application requires at least one root NgModule.
+**為什麼**？<br />
+每個基於 `NgModule` 的應用程式至少需要一個根 NgModule。
 
-**Consider** naming the root module `app.module.ts`.
+**考慮**將根模組命名為 `app.module.ts`。
 
-**Why**? <br />
-Makes it easier to locate and identify the root module.
+**為什麼**？<br />
+更容易找到和識別根模組。
 
 <docs-code path="adev/src/content/examples/styleguide/src/04-08/app/app.module.ts" language="typescript" visibleRegion="example" header="app/app.module.ts"/>
 
-### Feature modules
+### 功能模塊
 
-#### Style 04-09
+#### 樣式 04-09
 
-**Do** create an NgModule for all distinct features in an application; for example, a `Heroes` feature.
+**請**為應用程式中的所有不同功能建立一個 NgModule；例如，一個「英雄」功能。
 
-**Do** place the feature module in the same named folder as the feature area; for example, in `app/heroes`.
+**請**將功能模組放在與功能區域同名的資料夾中；例如，在 `app/heroes` 中。
 
-**Do** name the feature module file reflecting the name of the feature area and folder; for example, `app/heroes/heroes.module.ts`.
+**請**讓功能模組檔案反映功能區域和資料夾的名稱；例如，`app/heroes/heroes.module.ts`。
 
-**Do** name the feature module symbol reflecting the name of the feature area, folder, and file; for example, `app/heroes/heroes.module.ts` defines `HeroesModule`.
+**請**將功能模組符號命名反映功能區域、資料夾與檔案的名稱；例如，`app/heroes/heroes.module.ts` 定義 `HeroesModule`。
 
-**Why**? <br />
-A feature module can expose or hide its implementation from other modules.
+**為什麼**？<br />
+特徵模組可以顯示或隱藏其實作以供其他模組使用。
 
-**Why**? <br />
-A feature module identifies distinct sets of related components that comprise the feature area.
+**為什麼**？<br />
+功能模組識別出組成功能區域的不同相關元件集合。
 
-**Why**? <br />
-A feature module can easily be routed to both eagerly and lazily.
+**為什麼**？<br />
+功能模組可以輕易地被路由到熱切和延遲。
 
-**Why**? <br />
-A feature module defines clear boundaries between specific functionality and other application features.
+**為什麼**？<br />
+功能模組定義特定功能和其他應用程式功能之間的明確界限。
 
-**Why**? <br />
-A feature module helps clarify and make it easier to assign development responsibilities to different teams.
+**為什麼**？<br />
+功能模組有助於釐清並讓不同團隊更容易分配開發責任。
 
-**Why**? <br />
-A feature module can easily be isolated for testing.
+**為什麼**？ <br />
+功能模組可以輕鬆地被隔離以便進行測試。
 
-### Shared feature module
+### 共享功能模組
 
-#### Style 04-10
+#### 風格 04-10
 
-**Do** create a feature module named `SharedModule` in a `shared` folder; for example, `app/shared/shared.module.ts` defines `SharedModule`.
+**請**在 `shared` 資料夾中建立一個名為 `SharedModule` 的功能模組；例如，`app/shared/shared.module.ts` 定義 `SharedModule`。
 
-**Do** declare components, directives, and pipes in a shared module when those items will be re-used and referenced by the components declared in other feature modules.
+**請**在共享模組中宣告元件、指令和管道，當這些項目將由其他功能模組中宣告的元件重複使用和參照時。
 
-**Consider** using the name SharedModule when the contents of a shared
-module are referenced across the entire application.
+**考慮**在共享模組的內容在整個應用程式中參照時使用名稱 SharedModule。
 
-**Consider** *not* providing services in shared modules.
-Services are usually singletons that are provided once for the entire application or in a particular feature module.
-There are exceptions, however.
-For example, in the sample code that follows, notice that the `SharedModule` provides `FilterTextService`.
-This is acceptable here because the service is stateless;that is, the consumers of the service aren't impacted by new instances.
+**考慮** *不* 在共享模組中提供服務。
+服務通常是單例，僅為整個應用程式或特定功能模組提供一次。
+不過，仍有例外。
+例如，在以下範例程式碼中，請注意 `SharedModule` 提供 `FilterTextService`。
+這是可以接受的，因為服務是無狀態的；也就是說，服務的使用者不會受到新執行個體的影響。
 
-**Do** import all modules required by the assets in the `SharedModule`; for example, `CommonModule` and `FormsModule`.
+**請**匯入 `SharedModule` 中資產所需的模組，例如 `CommonModule` 和 `FormsModule`。
 
-**Why**? <br />
-`SharedModule` will contain components, directives, and pipes that may need features from another common module; for example, `ngFor` in `CommonModule`.
+**為什麼**？<br />
+`SharedModule` 將包含可能需要另一個常見模組的功能的元件、指令和管道；例如，`CommonModule` 中的 `ngFor`。
 
-**Do** declare all components, directives, and pipes in the `SharedModule`.
+**請**在 `SharedModule` 中宣告所有元件、指令和管道。
 
-**Do** export all symbols from the `SharedModule` that other feature modules need to use.
+**做**從 `SharedModule` 匯出其他功能模組需要使用的所有符號。
 
-**Why**? <br />
-`SharedModule` exists to make commonly used components, directives, and pipes available for use in the templates of components in many other modules.
+**為什麼**？<br />
+`SharedModule` 存在的原因是為了讓常用的元件、指令和管道可以在許多其他模組的元件範本中使用。
 
-**Avoid** specifying app-wide singleton providers in a `SharedModule`.
-Intentional singletons are OK.
-Take care.
+**避免**在 `SharedModule` 中指定應用程式範圍的單例提供者。
+有意的單例是可以的。
+小心。
 
-**Why**? <br />
-A lazy loaded feature module that imports that shared module will make its own copy of the service and likely have undesirable results.
+**為什麼**？<br />
+一個載入延遲功能模組，導入共享模組，會建立服務的副本，並且可能產生不理想的結果。
 
-**Why**? <br />
-You don't want each module to have its own separate instance of singleton services.
-Yet there is a real danger of that happening if the `SharedModule` provides a service.
+**為什麼**？<br />
+您不想讓每個模組都有自己的單例服務實例。
+但是，如果 `SharedModule` 提供服務，那麼確實可能會發生這種情況。
 
 ```markdown
 project root
@@ -526,37 +522,37 @@ project root
     <docs-code header="app/heroes/heroes.component.html" path="adev/src/content/examples/styleguide/src/04-10/app/heroes/heroes.component.html"/>
 </docs-code-multifile>
 
-### Lazy Loaded folders
+### 延遲載入的資料夾
 
-#### Style 04-11
+#### 風格 04-11
 
-A distinct application feature or workflow may be *lazy loaded* or *loaded on demand* rather than when the application starts.
+一個明確的應用程式功能或工作流程可以是「*延遲載入*」或「*依需求載入*」，而不是在應用程式啟動時載入。
 
-**Do** put the contents of lazy loaded features in a *lazy loaded folder*.
-A typical *lazy loaded folder* contains a *routing component*, its child components, and their related assets.
+**請**將延遲載入功能的內容放入 *延遲載入資料夾*。
+典型的 *延遲載入資料夾* 包含一個 *路由元件*、其子元件及其相關資產。
 
-**Why**? <br />
-The folder makes it easy to identify and isolate the feature content.
+**為什麼**？<br />
+資料夾讓識別和分離功能內容變得容易。
 
-## Components
+## 組件
 
-### Components as elements
+### 組件作為元素
 
 #### Style 05-03
 
-**Consider** giving components an *element* selector, as opposed to *attribute* or *class* selectors.
+**考慮**給予元件一個 *元素* 選擇器，而不是 *屬性* 或 *類別* 選擇器。
 
-**Why**? <br />
-Components have templates containing HTML and optional Angular template syntax.
-They display content.
-Developers place components on the page as they would native HTML elements and web components.
+**為什麼**？<br />
+元件含有包含 HTML 和選擇性 Angular 範本語法的範本。
+它們顯示內容。
+開發人員會將元件放置在頁面上，就像他們會放置原生 HTML 元素和網路元件一樣。
 
-**Why**? <br />
-It is easier to recognize that a symbol is a component by looking at the template's html.
+**為什麼**？ <br />
+透過查看範本的 html，更容易辨識一個符號是組件。
 
-HELPFUL: There are a few cases where you give a component an attribute, such as when you want to augment a built-in element.
-For example, [Material Design](https://material.angular.io/components/button/overview) uses this technique with `<button mat-button>`.
-However, you wouldn't use this technique on a custom element.
+有用的提示：在某些情況下，您可以給元件一個屬性，例如當您想擴充內建元素時。
+例如，[Material Design](https://material.angular.io/components/button/overview) 使用此技術與 `<button mat-button>`。
+但是，您不會在自訂元素上使用此技術。
 
 <docs-code header="app/heroes/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-03/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
 
@@ -567,30 +563,30 @@ However, you wouldn't use this technique on a custom element.
     <docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-03/app/app.component.html"/>
 </docs-code-multifile>
 
-### Extract templates and styles to their own files
+### 將範本和樣式萃取到它們自己的檔案
 
-#### Style 05-04
+#### 風格 05-04
 
-**Do** extract templates and styles into a separate file, when more than 3 lines.
+**做**如果超過 3 行，將範本和樣式萃取到一個獨立檔案。
 
-**Do** name the template file `[component-name].component.html`, where [component-name] is the component name.
+**請**將範本檔案命名為 `[component-name].component.html`，其中 [component-name] 是元件名稱。
 
-**Do** name the style file `[component-name].component.css`, where [component-name] is the component name.
+**請**將樣式檔案命名為 `[component-name].component.css`，其中 [component-name] 是 component 名稱。
 
-**Do** specify *component-relative* URLs, prefixed with `./`.
+**請**指定以 `./` 為前綴的 *組件相對* URL。
 
-**Why**? <br />
-Large, inline templates and styles obscure the component's purpose and implementation, reducing readability and maintainability.
+**為什麼**？<br />
+大型內聯範本和樣式會掩蓋組件的目的和實作，降低可讀性和可維護性。
 
-**Why**? <br />
-In most editors, syntax hints and code snippets aren't available when developing inline templates and styles.
-The Angular TypeScript Language Service \(forthcoming\) promises to overcome this deficiency for HTML templates in those editors that support it; it won't help with CSS styles.
+**為什麼**？<br />
+在多數編輯器中，在開發內嵌範本和樣式時，無法使用語法提示和程式碼片段。
+Angular TypeScript Language Service（即將推出）承諾克服此缺陷，供支援它的編輯器使用 HTML 範本；但它無法協助處理 CSS 樣式。
 
-**Why**? <br />
-A *component relative* URL requires no change when you move the component files, as long as the files stay together.
+**為什麼**？<br />
+只要檔案保持在一起，當您移動元件檔案時，*元件相對*的 URL 不需要變更。
 
-**Why**? <br />
-The `./` prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix.
+**為什麼**？<br />
+`./` 前綴是相對 URL 的標準語法；請勿依賴 Angular 目前不需要該前綴的能力。
 
 <docs-code header="app/heroes/heroes.component.ts" path="adev/src/content/examples/styleguide/src/05-04/app/heroes/heroes.component.avoid.ts" visibleRegion="example"/>
 
@@ -600,43 +596,42 @@ The `./` prefix is standard syntax for relative URLs; don't depend on Angular's 
     <docs-code header="app/heroes/heroes.component.css" path="adev/src/content/examples/styleguide/src/05-04/app/heroes/heroes.component.css"/>
 </docs-code-multifile>
 
-### Decorate `input` and `output` properties
+### Decorate `input` 和 `output` 屬性
 
-#### Style 05-12
+#### 風格 05-12
 
-**Do** use the `@Input()` and `@Output()` class decorators instead of the `inputs` and `outputs` properties of the `@Directive` and `@Component` metadata:
+**做**使用 `@Input()` 和 `@Output()` 類別裝飾器，而不是 `@Directive` 和 `@Component` 元資料的 `inputs` 和 `outputs` 屬性：
 
-**Consider** placing `@Input()` or `@Output()` on the same line as the property it decorates.
+**考慮**將 `@Input()` 或 `@Output()` 放在與其修飾的屬性同一行。
 
-**Why**? <br />
-It is easier and more readable to identify which properties in a class are inputs or outputs.
+**為什麼**？<br />
+識別類別中的哪些屬性是輸入或輸出更簡單且更具可讀性。
 
-**Why**? <br />
-If you ever need to rename the property or event name associated with `@Input()` or `@Output()`, you can modify it in a single place.
+**為什麼**？<br />
+如果您需要變更與 `@Input()` 或 `@Output()` 關聯的屬性或事件名稱，您可以在單一地方修改它。
 
-**Why**? <br />
-The metadata declaration attached to the directive is shorter and thus more readable.
+**為什麼**？<br />
+附加到指令的元數據聲明更簡短，因此更易於閱讀。
 
-**Why**? <br />
-Placing the decorator on the same line *usually* makes for shorter code and still easily identifies the property as an input or output.
-Put it on the line above when doing so is clearly more readable.
+**為什麼**？<br />
+將裝飾器放在同一行通常會使程式碼更短，並且仍然可以輕鬆地將屬性識別為輸入或輸出。
+當這樣做時，顯然更具可讀性，請將其放在上一行。
 
 <docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-12/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
 
 <docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-12/app/heroes/shared/hero-button/hero-button.component.ts" visibleRegion="example"/>
 
-### Avoid aliasing `inputs` and `outputs`
+### 避免別名 `inputs` 和 `outputs`
 
 #### Style 05-13
 
-**Avoid** `input` and `output` aliases except when it serves an important purpose.
+**避免**使用別名 `input` 和 `output`，除非它用於重要目的。
 
-**Why**? <br />
-Two names for the same property \(one private, one public\) is inherently confusing.
+**為什麼**？<br />
+同一個屬性的兩個名稱（一個私有，一個公有）本質上令人混淆。
 
-**Why**? <br />
-You should use an alias when the directive name is also an `input` property,
-and the directive name doesn't describe the property.
+**為什麼**？<br />
+當指令名稱同時也是 `input` 屬性時，且指令名稱沒有描述該屬性，則應使用別名。
 
 <docs-code header="app/heroes/shared/hero-button/hero-button.component.ts" path="adev/src/content/examples/styleguide/src/05-13/app/heroes/shared/hero-button/hero-button.component.avoid.ts" visibleRegion="example"/>
 
@@ -648,45 +643,45 @@ and the directive name doesn't describe the property.
     <docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-13/app/app.component.html"/>
 </docs-code-multifile>
 
-### Delegate complex component logic to services
+### 將複雜的組件邏輯委派給服務
 
-#### Style 05-15
+#### 風格 05-15
 
-**Do** limit logic in a component to only that required for the view.
-All other logic should be delegated to services.
+**盡可能**只將元件中的邏輯限制在檢視所需的內容。
+所有其他邏輯都應該委派給服務。
 
-**Do** move reusable logic to services and keep components simple and focused on their intended purpose.
+**務必** 將可重複使用的邏輯移至服務，並讓組件保持簡單，並專注於其預期目的。
 
-**Why**? <br />
-Logic may be reused by multiple components when placed within a service and exposed as a function.
+**為什麼**？<br />
+當邏輯放入服務中並公開為一個函數時，可以被多個元件重複使用。
 
-**Why**? <br />
-Logic in a service can more easily be isolated in a unit test, while the calling logic in the component can be easily mocked.
+**為什麼**？ <br />
+服務中的邏輯更容易在單元測試中被隔離，而元件中的呼叫邏輯很容易被模擬。
 
-**Why**? <br />
-Removes dependencies and hides implementation details from the component.
+**為什麼**？<br />
+移除依賴並隱藏元件的實作細節。
 
-**Why**? <br />
-Keeps the component slim, trim, and focused.
+**為什麼**？<br />
+保持元件纖細、精簡且專注。
 
 <docs-code header="app/heroes/hero-list/hero-list.component.ts" path="adev/src/content/examples/styleguide/src/05-15/app/heroes/hero-list/hero-list.component.avoid.ts"/>
 
 <docs-code header="app/heroes/hero-list/hero-list.component.ts" path="adev/src/content/examples/styleguide/src/05-15/app/heroes/hero-list/hero-list.component.ts" visibleRegion="example"/>
 
-### Don't prefix `output` properties
+### 不要為 `output` 屬性加上前綴
 
-#### Style 05-16
+#### 樣式 05-16
 
-**Do** name events without the prefix `on`.
+**不要** 使用前綴 `on` 命名事件。
 
-**Do** name event handler methods with the prefix `on` followed by the event name.
+**做**以 `on` 為前綴加上事件名稱來命名事件處理器方法。
 
-**Why**? <br />
-This is consistent with built-in events such as button clicks.
+**為什麼**？<br />
+這與內建事件一致，例如按鈕點擊。
 
-**Why**? <br />
-Angular allows for an [alternative syntax](guide/templates/binding) `on-*`.
-If the event itself was prefixed with `on` this would result in an `on-onEvent` binding expression.
+**為什麼**？<br />
+Angular 允許使用 [替代語法](guide/templates/binding) `on-*`。
+如果事件本身加上前綴 `on`，這將導致 `on-onEvent` 繫結表達式。
 
 <docs-code header="app/heroes/hero.component.ts" path="adev/src/content/examples/styleguide/src/05-16/app/heroes/hero.component.avoid.ts" visibleRegion="example"/>
 
@@ -697,17 +692,17 @@ If the event itself was prefixed with `on` this would result in an `on-onEvent` 
     <docs-code header="app/app.component.html" path="adev/src/content/examples/styleguide/src/05-16/app/app.component.html"/>
 </docs-code-multifile>
 
-### Put presentation logic in the component class
+### 將簡報邏輯放入元件類別
 
-#### Style 05-17
+#### 風格 05-17
 
-**Do** put presentation logic in the component class, and not in the template.
+**請**將簡報邏輯放在組件類別中，而不是範本中。
 
-**Why**? <br />
-Logic will be contained in one place \(the component class\) instead of being spread in two places.
+**為什麼**？<br />
+邏輯將包含在一個地方（元件類別）中，而不是分散在兩個地方。
 
-**Why**? <br />
-Keeping the component's presentation logic in the class instead of the template improves testability, maintainability, and reusability.
+**為什麼**？<br />
+將元件的呈現邏輯保存在類別中，而非範本，可改善可測試性、可維護性和可重複使用性。
 
 <docs-code header="app/heroes/hero-list/hero-list.component.ts" path="adev/src/content/examples/styleguide/src/05-17/app/heroes/hero-list/hero-list.component.avoid.ts" visibleRegion="example"/>
 
@@ -891,3 +886,4 @@ Here are templates and/or snippets for some of the web development editors and I
 **Consider** using [snippets](https://github.com/orizens/sublime-angular2-snippets) for [Sublime Text](https://www.sublimetext.com) that follow these styles and guidelines.
 
 **Consider** using [snippets](https://github.com/mhartington/vim-angular2-snippets) for [Vim](https://www.vim.org) that follow these styles and guidelines.
+

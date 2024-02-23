@@ -1,38 +1,38 @@
 # Injection context
 
-The dependency injection (DI) system relies internally on a runtime context where the current injector is available.
-This means that injectors can only work when code is executed in this context.
+依賴注入 (DI) 系統在內部依賴於執行時間環境，在該環境中可取得目前的注入器。
+這表示注入器只有在程式碼在此環境中執行時才能運作。
 
-The injection context is available in these situations:
+注入內容在下列情況下可用：
 
-* Construction (via the `constructor`) of a class being instantiated by the DI system, such as an `@Injectable` or `@Component`.
-* In the initializer for fields of such classes.
-* In the factory function specified for `useFactory` of a `Provider` or an `@Injectable`.
-* In the `factory` function specified for an `InjectionToken`.
-* Within a stack frame that is run in a injection context.
+* 建構函數（通過 `constructor`）建立一個由依賴注入系統實例化的類別，例如 `@Injectable` 或 `@Component`。
+* 在此類別的欄位初始化項中。
+* 在 `Provider` 或 `@Injectable` 的 `useFactory` 指定的工廠函數中。
+* 在 `InjectionToken` 指定的 `factory` 函數中。
+* 在注入內容中執行的堆疊框架中。
 
-Knowing when you are in an injection context, will allow you to use the [`inject`](api/core/inject) function to inject instances.
+了解何時處於注入環境中，將允許您使用 [`inject`](api/core/inject) 函數來注入執行個體。
 
-## Class constructors
+## 類別建構函式
 
-Everytime the DI system instantiates a class, this is done in an injection context. This is being handled by the framework itself. The constructor of the class is executed in that runtime context thus allowing to inject a token using the [`inject`](api/core/inject) function.
+每次 DI 系統實例化一個類別時，這會在注入內容中完成。這由架構本身處理。類別的建構函數在該執行階段內容中執行，因此允許使用 [`inject`](api/core/inject) 函數注入令牌。
 
 <docs-code language="typescript" highlight="[[3],[6]]">
 class MyComponent  {
   private service1: Service1;
   private service2: Service2 = inject(Service2); // In context
 
-  constructor() {
+constructor() {
     this.service1 = inject(HeroService) // In context
   }
 }
 </docs-code>
 
-## Stack frame in context
+## 上下文中堆疊的框架
 
-Some APIs are designed to be run in an injection context. This is the case, for example, of the router guards. It allows the use of [`inject`](api/core/inject) to access a service within the guard function.
+有些 API 是設計用於在注入的內容中執行。例如，路由防護就是如此。它允許使用 [`inject`](api/core/inject) 存取防護函數中的服務。
 
-Here is an example for `CanActivateFn`
+以下是一個 `CanActivateFn` 的範例：
 
 <docs-code language="typescript" highlight="[3]">
 const canActivateTeam: CanActivateFn =
@@ -41,10 +41,10 @@ const canActivateTeam: CanActivateFn =
     };
 </docs-code>
 
-## Run within an injection context
+## 在注入內容中執行
 
-When you want to run a given function in an injection context without being in one, you can do it with `runInInjectionContext`.
-This requires to have access to a given injector like the `EnvironmentInjector` for example.
+當您想在不在注入內容中執行給定函數時，您可以使用 `runInInjectionContext` 來執行。
+這需要訪問給定的注入器，例如 `EnvironmentInjector`。
 
 <docs-code header="src/app/heroes/hero.service.ts" language="typescript"
            highlight="[9]">
@@ -54,7 +54,7 @@ This requires to have access to a given injector like the `EnvironmentInjector` 
 export class HeroService {
   private environmentInjector = inject(EnvironmentInjector);
 
-  someMethod() {
+someMethod() {
     runInInjectionContext(this.environmentInjector, () => {
       inject(SomeService); // Do what you need with the injected service
     });
@@ -62,12 +62,13 @@ export class HeroService {
 }
 </docs-code>
 
-Note that `inject` will return an instance only if the injector can resolve the required token.
+注意，僅當注入器可以解決所需的令牌時，`inject` 才會傳回一個實例。
 
-## Asserts the context
+## 斷言上下文
 
-Angular provides `assertInInjectionContext` helper function to assert that the current context is an injection context.
+Angular 提供 `assertInInjectionContext` 輔助函數，用以斷言目前的情境是注入的情境。
 
-## Using DI outside of a context
+## 在背景之外使用 DI
 
-Calling [`inject`](api/core/inject) or calling `assertInInjectionContext` outside of an injection context will throw [error NG0203](/errors/NG0203).
+呼叫 [`inject`](api/core/inject) 或在注入內容外呼叫 `assertInInjectionContext` 會擲出 [錯誤 NG0203](/errors/NG0203)。
+

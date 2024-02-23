@@ -1,15 +1,17 @@
-# Unwrapping data from an observable
+# 從可觀察物件中解除包裝數據
 
-Observables let you pass messages between parts of your application.
-You can use observables for event handling, asynchronous programming, and handling multiple values.
-Observables can deliver single or multiple values of any type, either synchronously (as a function delivers a value to its caller) or asynchronously on a schedule.
+可觀察物件讓您在應用程式的各個部分之間傳遞訊息。
+您可以使用可觀察物件來進行事件處理、非同步程式設計和處理多個值。
+可觀察物件可以傳遞任何類型的單個或多個值，無論是同步地（如同函數將值傳遞給其呼叫者）或非同步地排程。
 
-Use the built-in [`AsyncPipe`](api/common/AsyncPipe "API description of AsyncPipe") to accept an observable as input and subscribe to the input automatically.
-Without this pipe, your component code would have to subscribe to the observable to consume its values, extract the resolved values, expose them for binding, and unsubscribe when the observable is destroyed in order to prevent memory leaks.
-`AsyncPipe` is a pipe that saves boilerplate code in your component to maintain the subscription and keep delivering values from that observable as they arrive.
+使用內建的 [`AsyncPipe`](api/common/AsyncPipe "AsyncPipe 的 API 說明") 將可觀察物件作為輸入並自動訂閱輸入。
+沒有這條管線，您的元件程式碼必須訂閱可觀察物件才能使用其值、擷取已解析的值、公開這些值以進行繫結，以及在可觀察物件被銷毀時取消訂閱，以防止記憶體外洩。
+`AsyncPipe` 是元件中的管線，可儲存樣板程式碼，以維護訂閱並在可觀察物件到達時持續傳送其值。
 
-The following code example binds an observable of message strings (`message$`) to a view with the `async` pipe.
+以下程式碼範例會將訊息字串 (`message$`) 的可觀察綁定到使用 `async` 管道的檢視。
 
-<!-- TODO: Enable preview if this example does not depend on Zone/ or if we run the example with Zone. -->
+<!-- TODO: 啟用預覽，如果這個範例不依賴 Zone/，或者如果我們使用 Zone 執行範例。 -->
+
 <docs-code header="src/app/hero-async-message.component.ts"
            path="adev/src/content/examples/pipes/src/app/hero-async-message.component.ts" />
+

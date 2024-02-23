@@ -1,34 +1,35 @@
-# Overview of Angular libraries
+# Angular 函式庫概述
 
-Many applications need to solve the same general problems, such as presenting a unified user interface, presenting data, and allowing data entry.
-Developers can create general solutions for particular domains that can be adapted for re-use in different applications.
-Such a solution can be built as Angular *libraries* and these libraries can be published and shared as *npm packages*.
+許多應用程式需要解決相同的一般問題，例如呈現統一的使用者介面、呈現資料，以及允許輸入資料。
+開發人員可以為特定網域建立一般解決方案，以便在不同應用程式中改編以重複使用。
+此類解決方案可以建置為 Angular *函式庫*，而且這些函式庫可以發布並分享為 *npm 套件*。
 
-An Angular library is an Angular project that differs from an application in that it cannot run on its own.
-A library must be imported and used in an application.
+Angular 函式庫是一個 Angular 專案，它與應用程式不同之處在於它無法自行執行。
+函式庫必須在應用程式中匯入和使用。
 
-Libraries extend Angular's base features.
-For example, to add [reactive forms](guide/forms/reactive-forms) to an application, add the library package using `ng add @angular/forms`, then import the `ReactiveFormsModule` from the `@angular/forms` library in your application code.
-Similarly, adding the [service worker](ecosystem/service-workers) library to an Angular application is one of the steps for turning an application into a [Progressive Web App](https://developers.google.com/web/progressive-web-apps) \(PWA\).
-[Angular Material](https://material.angular.io) is an example of a large, general-purpose library that provides sophisticated, reusable, and adaptable UI components.
+Libraries 擴充 Angular 的基本功能。
+例如，若要將 [reactive forms](guide/forms/reactive-forms) 加入應用程式，請使用 `ng add @angular/forms` 加入函式庫套件，然後在應用程式程式碼中從 `@angular/forms` 函式庫匯入 `ReactiveFormsModule`。
+同樣地，將 [service worker](ecosystem/service-workers) 函式庫加入 Angular 應用程式是將應用程式轉換為 [Progressive Web App](https://developers.google.com/web/progressive-web-apps) \(PWA\) 的步驟之一。
+[Angular Material](https://material.angular.io) 是大型、通用函式庫的一個範例，它提供進階、可重複使用且可適應的 UI 元件。
 
-Any application developer can use these and other libraries that have been published as npm packages by the Angular team or by third parties.
-See [Using Published Libraries](tools/libraries/using-libraries).
+任何應用程式開發人員都可以使用這些和其它已由 Angular 團隊或第三方以 npm 套件形式發佈的函式庫。
+請參閱 [使用發佈函式庫](tools/libraries/using-libraries)。
 
-HELPFUL: Libraries are intended to be used by Angular applications. To add Angular features to non-Angular web applications, use [Angular custom elements](guide/elements).
+HELPFUL: 程式庫供 Angular 應用程式使用。如要將 Angular 功能新增至非 Angular 網路應用程式，請使用 [Angular 自訂元素](guide/elements)。
 
-## Creating libraries
+## 建立函式庫
 
-If you have developed features that are suitable for reuse, you can create your own libraries.
-These libraries can be used locally in your workspace, or you can publish them as [npm packages](reference/configs/npm-packages) to share with other projects or other Angular developers.
-These packages can be published to the npm registry, a private npm Enterprise registry, or a private package management system that supports npm packages.
-See [Creating Libraries](tools/libraries/creating-libraries).
+如果您已開發出適合重複使用的功能，您可以建立您自己的函式庫。
+這些函式庫可以在您的工作區中本地使用，或者您可以將它們發佈為 [npm 套件](reference/configs/npm-packages) 以與其他專案或其他 Angular 開發人員分享。
+這些套件可以發佈到 npm 註冊表、私人 npm Enterprise 註冊表，或支援 npm 套件的私人套件管理系統。
+請參閱 [建立函式庫](tools/libraries/creating-libraries)。
 
-Deciding to package features as a library is an architectural decision. It is comparable to deciding whether a feature is a component or a service, or deciding on the scope of a component.
+決定將功能打包為函式庫是一項架構決策。這可以比擬為決定一個功能是元件或服務，或決定元件的範圍。
 
-Packaging features as a library forces the artifacts in the library to be decoupled from the application's business logic.
-This can help to avoid various bad practices or architecture mistakes that can make it difficult to decouple and reuse code in the future.
+將包裝功能作為程式庫強制程式庫中的成品與應用程式的商業邏輯分離。
+這有助於避免各種不良做法或架構錯誤，這些錯誤可能會導致未來難以分離和重複使用程式碼。
 
-Putting code into a separate library is more complex than simply putting everything in one application.
-It requires more of an investment in time and thought for managing, maintaining, and updating the library.
-This complexity can pay off when the library is being used in multiple applications.
+將程式碼放入獨立的程式庫比將所有內容放入一個應用程式要複雜。
+它需要更多時間和想法的投入，以管理、維護和更新程式庫。
+當程式庫用於多個應用程式時，這種複雜性可以得到回報。
+

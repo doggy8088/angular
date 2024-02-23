@@ -1,9 +1,9 @@
-# Sharing modules
+# 共享模組
 
-Creating shared modules allows you to organize and streamline your code.
-You can put commonly used directives, pipes, and components into one module and then import just that module wherever you need it in other parts of your application.
+創建共用模組，可讓您整理並簡化程式碼。
+您可以將常用指令、管道和元件放入一個模組，然後在應用程式的其他部分需要時，僅匯入該模組。
 
-Consider the following module from an imaginary app:
+考慮以下一個假想應用程式的模組：
 
 <docs-code language="typescript" highlight="[9,19,20]">
 import { CommonModule } from '@angular/common';
@@ -32,20 +32,21 @@ export class SharedModule { }
 
 </docs-code>
 
-Notice the following:
+請注意以下事項：
 
-* It imports the `CommonModule` because the module's component needs common directives
-* It declares and exports the utility pipe, directive, and component classes
-* It re-exports the `CommonModule` and `FormsModule`
+* 它匯入 `CommonModule` 因為模組的組件需要常見的指令
+* 它宣告並匯出工具管道、指令和組件類別
+* 它重新匯出 `CommonModule` 和 `FormsModule`
 
-By re-exporting `CommonModule` and `FormsModule`, any other module that imports this `SharedModule`, gets access to directives like `NgIf` and `NgFor` from `CommonModule` and can bind to component properties with `[(ngModel)]`, a directive in the `FormsModule`.
+藉由重新導出 `CommonModule` 和 `FormsModule`，任何匯入此 `SharedModule` 的其他模組，都能存取 `CommonModule` 的指令，例如 `NgIf` 和 `NgFor`，並能以 `FormsModule` 中的指令 `[(ngModel)]` 繫結至元件屬性。
 
-Even though the components declared by `SharedModule` might not bind with `[(ngModel)]` and there may be no need for `SharedModule` to import `FormsModule`, `SharedModule` can still export `FormsModule` without listing it among its `imports`.
-This way, you can give other modules access to `FormsModule` without having to make it available for itself.
+即使由 `SharedModule` 宣告的元件可能不會與 `[(ngModel)]` 繫結，而且 `SharedModule` 可能不需要匯入 `FormsModule`，`SharedModule` 仍然可以匯出 `FormsModule`，而不用將它列在 `imports` 之中。
+這樣您可以讓其他模組存取 `FormsModule`，而不用讓它自己可用。
 
-## More on NgModules
+## 更多有關 NgModules
 
 <docs-pill-row>
-  <docs-pill href="/guide/ngmodules/providers" title="Providers"/>
-  <docs-pill href="/guide/ngmodules/module-types" title="Types of Feature Modules"/>
+  <docs-pill href="/guide/ngmodules/providers" title="提供者"/>
+  <docs-pill href="/guide/ngmodules/module-types" title="功能模組類型"/>
 </docs-pill-row>
+

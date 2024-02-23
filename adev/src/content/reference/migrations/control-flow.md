@@ -1,12 +1,12 @@
-# Migration to Control Flow syntax
+# 遷移至控制流程語法
 
+[控制流程語法](guide/templates/control-flow) 可用於 Angular 17，而且是使用控制流程指令（例如 *ngFor、*ngIf 和 *ngSwitch）的簡化方式。
 
-[Control flow syntax](guide/templates/control-flow) is available from Angular 17 and simplified way to use the control-flow directives like *ngFor, *ngIf and *ngSwitch. 
-
-The new syntax is baked into the template, so you don't need to import `CommonModule` anymore. But wait there is more to it, there is an migration availble for migrating all your old code to use new Control Flow Syntax with Angular 17 release. Run the schematic with the following command:
+新的語法已內建至範本，因此您不再需要導入 `CommonModule`。但等等，還有更多內容，有一個可用於將所有舊程式碼移轉至使用 Angular 17 發行版的全新控制流程語法的移轉。使用下列指令執行示意圖：
 
 <docs-code language="shell">
 
 ng generate @angular/core:control-flow
 
 </docs-code>
+

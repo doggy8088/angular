@@ -1,59 +1,59 @@
-# Integrate details page into application
+# 將詳細資訊頁面整合到應用程式中
 
-This tutorial lesson demonstrates how to connect the details page to your app.
+這個教學課程示範如何將詳細資訊頁面連接到你的應用程式。
 
 <docs-video src="https://www.youtube.com/embed/-jRxG84AzCI?si=CbqIpmRpwp5ZZDnu&amp;start=345"/>
 
-IMPORTANT: We recommend using your local environment to learn routing.
+重要：我們建議使用您的本地環境來學習路由。
 
-## What you'll learn
+## 你將會學到
 
-At the end of this lesson your application will have support for routing to the details page.
+在本課程結束時，您的應用程式將支援路由至詳細資料頁面。
 
-## Conceptual preview of routing with route parameters
+## 使用路由參數的路由概念性預覽
 
-Each housing location has specific details that should be displayed when a user navigates to the details page for that item. To accomplish this goal, you will need to use route parameters.
+每個住房地點都有特定詳細資訊，當使用者導航至該項目的詳細資訊頁面時應顯示這些詳細資訊。為達成此目標，您需要使用路由參數。
 
-Route parameters enable you to include dynamic information as a part of your route URL. To identify which housing location a user has clicked on you will use the `id` property of the `HousingLocation` type.
+路徑參數讓您能將動態資訊包含在您的路徑 URL 中。若要識別使用者點擊的房屋位置，您將使用 `HousingLocation` 類型的 `id` 屬性。
 
 <docs-workflow>
 
-<docs-step title="Create a new service for your app">
-In lesson 10, you added a second route to `src/app/routes.ts` which includes a special segment that identifies the route parameter, `id`:
+<docs-step title="為你的應用程式建立一個新服務">
+在課程 10 中，你將第二個路由新增至 `src/app/routes.ts`，其中包含一個特殊區段，用於識別路由參數 `id`：
 
 <docs-code language="javascript">
 'details/:id'
 </docs-code>
 
-In this case, `:id` is dynamic and will change based on how the route is requested by the code.
+在這種情況下，`:id` 是動態的，且會根據程式碼如何要求路由而改變。
 
-1. In `src/app/housing-location/housing-location.component.ts`, add an anchor tag to the `section` element and include the `routerLink` directive:
+1. 在 `src/app/housing-location/housing-location.component.ts` 中，將錨點標籤新增至 `section` 元素並包含 `routerLink` 指令：
 
-    <docs-code header="Add anchor with a routerLink directive to housing-location.component.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/housing-location/housing-location.component.ts" visibleLines="[13,20]"/>
+    <docs-code header="將錨點加上 routerLink 指令新增至 housing-location.component.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/housing-location/housing-location.component.ts" visibleLines="[13,20]"/>
 
-    The `routerLink` directive enables Angular's router to create dynamic links in the application. The value assigned to the `routerLink` is an array with two entries: the static portion of the path and the dynamic data.
+    `routerLink` 指令可啟用 Angular 的路由器，以在應用程式中建立動態連結。指定給 `routerLink` 的值是包含兩個條目的陣列：路徑的靜態部分和動態資料。
 
-    For the `routerLink` to work in the template, add a file level import of `RouterLink` and `RouterOutlet` from '@angular/router', then update the component `imports` array to include both `RouterLink` and `RouterOutlet`.
-1. At this point you can confirm that the routing is working in your app. In the browser, refresh the home page and click the "Learn More" button for a housing location.
+    若要在範本中使用 `routerLink`，請新增 `RouterLink` 和 `RouterOutlet` 的檔案層級匯入，路徑為 '@angular/router'，然後更新元件 `imports` 陣列以包含 `RouterLink` 和 `RouterOutlet`。
+1. 在此階段，您可以確認路由是否在您的應用程式中運作。在瀏覽器中，重新整理首頁，然後按一下房屋地點的「了解更多」按鈕。
 
-    <img alt="details page displaying the text 'details works!'" src="assets/content/images/tutorials/first-app/homes-app-lesson-11-step-1.png">
+    <img alt="顯示文字「details works!」的詳細資料頁面" src="assets/content/images/tutorials/first-app/homes-app-lesson-11-step-1.png">
 
 </docs-step>
 
-<docs-step title="Get route parameters">
-In this step, you will get the route parameter in the `DetailsComponent`. Currently, the app displays `details works!`. Next you'll update the code to display the `id` value passed using the route parameters.
+<docs-step title="取得路由參數">
+在這個步驟中，你將在 `DetailsComponent` 中取得路由參數。目前，應用程式顯示 `詳情有效！`。接下來，你將更新程式碼以顯示使用路由參數傳遞的 `id` 值。
 
-1. In `src/app/details/details.component.ts` update the template to import the functions, classes and services that you'll need to use in the `DetailsComponent`:
+1. 在 `src/app/details/details.component.ts` 中更新範本以匯入您需要在 `DetailsComponent` 中使用的函式、類別和服務：
 
-    <docs-code header="Update file level imports" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.component.ts" visibleLines="[1,5]"/>
+    <docs-code header="更新檔案層級匯入" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.component.ts" visibleLines="[1,5]"/>
 
-1. Update the `template` property of the `@Component` decorator to display the value `housingLocationId`:
+1. 更新 `@Component` 裝飾器的 `template` 屬性以顯示 `housingLocationId` 值：
 
     <docs-code language="javascript">
       template: `&lt;p&gt;details works! {{ housingLocationId }}&lt;/p&gt;`,
     </docs-code>
 
-1. Update the body of the `DetailsComponent` with the following code:
+1. 使用以下程式碼更新 `DetailsComponent` 的主體：
 
     <docs-code language="javascript">
         export class DetailsComponent {
@@ -65,69 +65,70 @@ In this step, you will get the route parameter in the `DetailsComponent`. Curren
         }
     </docs-code>
 
-    This code gives the `DetailsComponent` access to the `ActivatedRoute` router feature that enables you to have access to the data about the current route. In the `constructor`, the code converts the `id` parameter acquired from the route from a string to a number.
+    此程式碼授予 `DetailsComponent` 存取 `ActivatedRoute` 路由功能，讓您可以存取有關目前路徑的資料。在 `constructor` 中，程式碼將從路徑取得的 `id` 參數從字串轉換為數字。
 
-1. Save all changes.
+1. 儲存所有變更。
 
-1. In the browser, click on one of the housing location's "Learn More" links and confirm that the numeric value displayed on the page matches the `id` property for that location in the data.
+1. 在瀏覽器中，按一下其中一個住宅地點的「瞭解更多」連結，並確認頁面上顯示的數值值與資料中該地點的 `id` 屬性相符。
 </docs-step>
 
-<docs-step title="Customize the `DetailComponent`">
-Now that routing is working properly in the application this is a great time to update the template of the `DetailsComponent` to display the specific data represented by the housing location for the route parameter.
+<docs-step title="自訂 `DetailComponent`">
+現在路由在應用程式中正常運作，這時是更新 `DetailsComponent` 範本的絕佳時機，以顯示路由參數的住宅位置所代表的特定資料。
 
-To access the data you will add a call to the `HousingService`.
+要存取資料，您會新增呼叫到 `HousingService`。
 
-1. Update the template code to match the following code:
+1. 將範本程式碼更新為符合下列程式碼：
 
-    <docs-code header="Update the DetailsComponent template in src/app/details/details.component.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.component.ts" visibleLines="[11,28]"/>
+    <docs-code header="更新 src/app/details/details.component.ts 中的 DetailsComponent 範本" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.component.ts" visibleLines="[11,28]"/>
 
-    Notice that the `housingLocation` properties are being accessed with the optional chaining operator `?`. This ensures that if the `housingLocation` value is null or undefined the application doesn't crash.
+    請注意，`housingLocation` 屬性是使用選擇性鏈結運算子 `?` 存取的。這可確保如果 `housingLocation` 值為 null 或未定義，應用程式就不會崩潰。
 
-1. Update the body of the `DetailsComponent` class to match the following code:
+1. 將 `DetailsComponent` 類別的主體更新為符合下列程式碼：
 
-    <docs-code header="Update the DetailsComponent class in src/app/details/details.component.ts" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.component.ts" visibleLines="[31,42]"/>
+    <docs-code header="更新 src/app/details/details.component.ts 中的 DetailsComponent 類別" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.component.ts" visibleLines="[31,42]"/>
 
-    Now the component has the code to display the correct information based on the selected housing location. The `constructor` now includes a call to the `HousingService` to pass the route parameter as an argument to the `getHousingLocationById` service function.
+    現在，此元件有程式碼可根據所選的住房位置顯示正確的資訊。`constructor` 函式現在包括呼叫 `HousingService` 以將路由參數作為引數傳遞給 `getHousingLocationById` 服務函式。
 
-1. Copy the following styles into the `src/app/details/details.component.css` file:
+1. 將下列樣式複製到 `src/app/details/details.component.css` 檔案：
 
-    <docs-code header="Add styles for the DetailsComponent" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.component.css" visibleLines="[1,71]"/>
+    <docs-code header="新增 DetailsComponent 的樣式" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.component.css" visibleLines="[1,71]"/>
 
-1. Save your changes.
+1. 儲存變更。
 
-1. In the browser refresh the page and confirm that when you click on the "Learn More" link for a given housing location the details page displays the correct information based on the data for that selected item.
+1. 在瀏覽器中重新整理頁面，並確認當您按一下特定住房位置的「了解更多」連結時，詳細資料頁面會根據所選項目資料顯示正確的資訊。
 
-    <img alt="Details page listing home info" src="assets/content/images/tutorials/first-app/homes-app-lesson-11-step-3.png">
+    <img alt="列出房屋資訊的詳細資料頁面" src="assets/content/images/tutorials/first-app/homes-app-lesson-11-step-3.png">
 
 </docs-step>
 
-<docs-step title="Add navigation to the `HomeComponent`">
-In a previous lesson you updated the `AppComponent` template to include a `routerLink`. Adding that code updated your app to enable navigation back to the `HomeComponent` whenever the logo is clicked.
+<docs-step title="在 `HomeComponent` 中新增導覽">
+在前面的課程中，您更新了 `AppComponent` 範本，以包含 `routerLink`。新增該程式碼可更新您的應用程式，以便在每次點擊標誌時，都可以導覽回 `HomeComponent`。
 
-1. Confirm that your code matches the following:
+1. 確認您的程式碼符合以下內容：
 
-    <docs-code header="Add routerLink to AppComponent" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/app.component.ts" visibleLines="[13,24]"/>
+    <docs-code header="將 routerLink 加入 AppComponent" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/app.component.ts" visibleLines="[13,24]"/>
 
-    Your code may already be up-to-date but confirm to be sure.
+    您的程式碼可能已經是最新的了，但請確認以確保無誤。
 </docs-step>
 
 </docs-workflow>
 
-Summary: In this lesson you added routing to show details pages.
+摘要：在本課程中，您新增路由以顯示詳細資料頁面。
 
-You now know how to:
+現在您知道如何：
 
-* use route parameters to pass data to a route
-* use the `routerLink` directive to use dynamic data to create a route
-* use route parameter to retrieve data from the `HousingService` to display specific housing location information.
+* 使用路由參數將資料傳遞至路由
+* 使用 `routerLink` 指令使用動態資料來建立路由
+* 使用路由參數從 `HousingService` 中擷取資料來顯示特定住房位置資訊。
 
-Really great work so far.
+目前為止真的很棒。
 
-For more information about the topics covered in this lesson, visit:
+有關本課程中涵蓋的主題的更多資訊，請造訪：
 
 <docs-pill-row>
-  <docs-pill href="guide/routing/common-router-tasks#accessing-query-parameters-and-fragments" title="Route Parameters"/>
-  <docs-pill href="guide/routing" title="Routing in Angular Overview"/>
-  <docs-pill href="guide/routing/common-router-tasks" title="Common Routing Tasks"/>
-  <docs-pill href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining" title="Optional Chaining Operator"/>
+  <docs-pill href="guide/routing/common-router-tasks#accessing-query-parameters-and-fragments" title="路由參數"/>
+  <docs-pill href="guide/routing" title="Angular 概觀中的路由"/>
+  <docs-pill href="guide/routing/common-router-tasks" title="常見路由任務"/>
+  <docs-pill href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining" title="選擇性鏈結運算子"/>
 </docs-pill-row>
+

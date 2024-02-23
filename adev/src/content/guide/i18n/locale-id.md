@@ -1,66 +1,58 @@
-# Refer to locales by ID
+# 透過 ID 參照地區設定
 
-Angular uses the Unicode *locale identifier* \(Unicode locale ID\) to find the correct locale data for internationalization of text strings.
+Angular 使用 Unicode *語言環境識別碼*（Unicode 語言環境 ID）來查找正確的語言環境資料，以便將文字字串國際化。
 
-<docs-callout title="Unicode locale ID">
+<docs-callout title="Unicode 地區程式碼">
 
-* A locale ID conforms to the [Unicode Common Locale Data Repository (CLDR) core specification][UnicodeCldrDevelopmentCoreSpecification].
-    For more information about locale IDs, see [Unicode Language and Locale Identifiers][UnicodeCldrDevelopmentCoreSpecificationLocaleIDs].
+* 地區 ID 符合 [Unicode 通用地區資料儲存庫 (CLDR) 核心規格][UnicodeCldrDevelopmentCoreSpecification]。
+    有關地區 ID 的更多資訊，請參閱 [Unicode 語言和地區識別碼][UnicodeCldrDevelopmentCoreSpecificationLocaleIDs]。
 
-* CLDR and Angular use [BCP 47 tags][RfcEditorInfoBcp47] as the base for the locale ID
+* CLDR 和 Angular 使用 [BCP 47 標籤][RfcEditorInfoBcp47] 作為地區 ID 的基礎
 
 </docs-callout>
 
-A locale ID specifies the language, country, and an optional code for further variants or subdivisions.
-A locale ID consists of the language identifier, a hyphen \(`-`\) character, and the locale extension.
+區域程式碼識別語言、國家和用於進一步變體或細分的選用程式碼。
+區域程式碼包括語言識別碼、連字符 (`-`) 字元和區域程式碼擴充。
 
 <docs-code language="html">
 {language_id}-{locale_extension}
 </docs-code>
 
-HELPFUL: To accurately translate your Angular project, you must decide which languages and locales you are targeting for internationalization.
+HELPFUL: 為了精確翻譯您的 Angular 專案，您必須決定您要針對哪些語言和地區進行國際化。
 
-Many countries share the same language, but differ in usage.
-The differences include grammar, punctuation, formats for currency, decimal numbers, dates, and so on.
+許多國家使用相同的語言，但用法不同。
+差異包括文法、標點符號、貨幣格式、小數、日期等。
 
-For the examples in this guide, use the following languages and locales.
+對於本指南中的範例，請使用下列語言和地區設定。
 
-| Language | Locale                   | Unicode locale ID |
+| 語言 | 地區                   | Unicode 地區 ID |
 |:---      |:---                      |:---               |
-| English  | Canada                   | `en-CA`           |
-| English  | United States of America | `en-US`           |
-| French   | Canada                   | `fr-CA`           |
-| French   | France                   | `fr-FR`           |
+| 英文  | 加拿大                   | `en-CA`           |
+| 英文  | 美利堅合眾國 | `en-US`           |
+| 法文   | 加拿大                   | `fr-CA`           |
+| 法文   | 法國                   | `fr-FR`           |
 
-The [Angular repository][GithubAngularAngularTreeMasterPackagesCommonLocales] includes common locales.
+[Angular 儲存庫][GithubAngularAngularTreeMasterPackagesCommonLocales] 包含常見的地區設定。
 
 <docs-callout>
-For a list of language codes, see [ISO 639-2](https://www.loc.gov/standards/iso639-2).
+有關語言程式碼清單，請參閱 [ISO 639-2](https://www.loc.gov/standards/iso639-2)。
 </docs-callout>
 
-## Set the source locale ID
+## 設定來源區域 ID
 
-Use the Angular CLI to set the source language in which you are writing the component template and code.
+使用 Angular CLI 來設定您正在撰寫元件範本和程式碼的原始語言。
 
-By default, Angular uses `en-US` as the source locale of your project.
+預設情況下，Angular 使用 `en-US` 作為專案的來源地區設定。
 
-To change the source locale of your project for the build, complete the following actions.
+若要變更專案的原始區域設定以進行建置，請完成下列動作。
 
-1. Open the [`angular.json`][AioGuideWorkspaceConfig] workspace build configuration file.
-1. Change the source locale in the `sourceLocale` field.
+1. 開啟 [`angular.json`][AioGuideWorkspaceConfig] 工作區建置設定檔。
+1. 變更 `sourceLocale` 欄位中的來源地區。
 
-## What's next
+## 接下來
 
 <docs-pill-row>
-  <docs-pill href="guide/i18n/format-data-locale" title="Format data based on locale"/>
+  <docs-pill href="guide/i18n/format-data-locale" title="根據地區設定格式化資料"/>
 </docs-pill-row>
 
-[AioGuideWorkspaceConfig]: reference/configs/workspace-config "Angular workspace configuration | Angular"
-
-[GithubAngularAngularTreeMasterPackagesCommonLocales]: <https://github.com/angular/angular/tree/main/packages/common/locales> "angular/packages/common/locales | angular/angular | GitHub"
-
-[RfcEditorInfoBcp47]: https://www.rfc-editor.org/info/bcp47 "BCP 47 | RFC Editor"
-
-[UnicodeCldrDevelopmentCoreSpecification]: https://cldr.unicode.org/index/cldr-spec "Core Specification | Unicode CLDR Project"
-
-[UnicodeCldrDevelopmentCoreSpecificationLocaleID]: https://cldr.unicode.org/index/cldr-spec/picking-the-right-language-code "Unicode Language and Locale Identifiers - Core Specification | Unicode CLDR Project"
+{{ 無法處理文件最後的 LinkReferenceDefinitionGroup 部分，需手動更新！ }}

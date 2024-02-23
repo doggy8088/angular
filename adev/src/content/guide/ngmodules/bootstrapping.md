@@ -1,10 +1,10 @@
-# Launching your app with a root module
+# 使用根模組啟動應用程式
 
-An NgModule describes how the application parts fit together.
-Every application has at least one Angular module, the *root* module, which must be present for bootstrapping the application on launch.
-By convention and by default, this NgModule is named `AppModule`.
+NgModule 描述應用程序部分如何結合在一起。
+每個應用程序至少有一個 Angular 模塊，即 *根* 模塊，必須存在才能在啟動時引導應用程序。
+根據慣例和默認情況，此 NgModule 名稱為 `AppModule`。
 
-When you use the [Angular CLI](/tools/cli) `ng new` command to generate an app, the default `AppModule` looks like the following:
+當您使用 [Angular CLI](/tools/cli) `ng new` 命令來產生一個應用程式時，預設的 `AppModule` 看起來像以下：
 
 <docs-code language="typescript">
 import { BrowserModule } from '@angular/platform-browser';
@@ -26,30 +26,30 @@ export class AppModule { }
 
 </docs-code>
 
-The `@NgModule` decorator identifies `AppModule` as an `NgModule` class.
-`@NgModule` takes a metadata object that tells Angular how to compile and launch the application.
+`@NgModule` 裝飾器將 `AppModule` 標識為 `NgModule` 類別。
+`@NgModule` 採用一個元數據物件，告訴 Angular 如何編譯和啟動應用程式。
 
-| Metadata field    | Details |
+| 元數據欄位    | 詳細資料 |
 |:---               |:---     |
-| `declarations`    | Includes the *root* application component.                                                                        |
-| `imports`         | Imports `BrowserModule` to enable browser-specific services (such as DOM rendering, sanitization)                 |
-| `providers`       | The service providers.                                                                                            |
-| `bootstrap`       | The *root* component that Angular creates and inserts into the `index.html` host web page.                        |
+| `declarations`    | 包括 *根* 應用程式元件。                                                                            |
+| `imports`         | 匯入 `BrowserModule` 以啟用特定於瀏覽器的服務（例如 DOM 呈現、清理）                                 |
+| `providers`       | 服務提供者。                                                                                              |
+| `bootstrap`       | Angular 建立並插入到 `index.html` 主機網頁的 *根* 元件。                                          |
 
-## The `declarations` array
+## `declarations` 陣列
 
-The module's `declarations` array tells Angular which components belong to that module.
-As you create more components, add them to `declarations`.
+該模組的 `declarations` 陣列告訴 Angular 哪些組件屬於該模組。
+當您建立更多組件時，將它們新增至 `declarations`。
 
-The `declarations` array only takes declarables.
-Declarables are [components](/components), [directives](/directives), and [pipes](/guide/pipes).
-All of a module's declarables must be in the `declarations` array.
-Declarables must belong to exactly one module.
-The compiler returns an error if declare the same class in multiple modules.
+`declarations` 陣列只接受可宣告項。
+可宣告項包括 [組件](/components)、[指令](/directives) 和 [管道](/guide/pipes)。
+模組的所有可宣告項都必須在 `declarations` 陣列中。
+可宣告項必須只屬於一個模組。
+如果在多個模組中宣告同一個類別，編譯器會傳回錯誤。
 
-These declared classes are usable within the module but private to components in a different module, unless they are exported from this module and the other module imports this one.
+這些宣告的類別可以在模組中使用，但對其他模組中的元件是私有的，除非它們是由這個模組匯出且其他模組匯入這個模組。
 
-An example of what goes into a declarations array follows:
+以下是一個宣告陣列內容的範例：
 
 <docs-code language="typescript">
 
@@ -61,17 +61,17 @@ declarations: [
 
 </docs-code>
 
-### Using directives with `@NgModule`
+### 使用指令和 `@NgModule`
 
-Use the `declarations` array for directives.
-To use a directive, component, or pipe in a module, you must do a few things:
+使用 `declarations` 陣列來放指令。
+若要在模組中使用指令、元件或管道，您必須執行以下幾件事：
 
-1. Export it from the TypeScript file where you wrote it
-2. Import it into the appropriate file containing the `@NgModule` class.
-3. Declare it in the `@NgModule` `declarations` array.
+1. 從您編寫它的 TypeScript 檔案中匯出
+2. 匯入至包含 `@NgModule` 類別的適當檔案中。
+3. 在 `@NgModule` `declarations` 陣列中宣告它。
 
-Those three steps look like the following. In the file where you create your directive, export it.
-The following example shows an empty directive named `ItemDirective`.
+以下三個步驟看起來像這樣。在建立指令的檔案中，將它匯出。
+以下範例顯示一個名為 `ItemDirective` 的空指令。
 
 <docs-code header="src/app/item.directive.ts" highlight="[6]">
 import { Directive } from '@angular/core';
@@ -84,14 +84,14 @@ export class ItemDirective {
 }
 </docs-code>
 
-The key point here is that you have to export it, so that you can import it elsewhere.
-Next, import it into the file in which your `NgModule` lives. In this example, this is the `app.module.ts` file.
+這裡的重點是您必須匯出它，以便您可以在其他地方匯入它。
+接下來，將它匯入您的 `NgModule` 所在的文件。在此範例中，這是 `app.module.ts` 文件。
 
 <docs-code header="src/app/app.module.ts">
 import { ItemDirective } from './item.directive';
 </docs-code>
 
-And in the same file, add it to the `@NgModule` `declarations` array:
+在同一個檔案中，將它加入 `@NgModule` 的 `declarations` 陣列：
 
 <docs-code header="src/app/app.module.ts" highlight="[3]">
   declarations: [
@@ -100,19 +100,19 @@ And in the same file, add it to the `@NgModule` `declarations` array:
   ],
 </docs-code>
 
-Now you can use `ItemDirective` in a component.
-This example uses `AppModule`, but you would follow the same steps for a feature module.
-For more about directives, see [Attribute Directives](/guide/directives/attribute-directives) and [Structural Directives](/guide/directives/structural-directives).
-You'd also use the same technique for [pipes](/guide/pipes) and [components](/components).
+現在您可以在組件中使用 `ItemDirective`。
+此範例使用 `AppModule`，但您會對功能模組執行相同的步驟。
+有關指令的詳細資訊，請參閱 [屬性指令](/guide/directives/attribute-directives) 和 [結構指令](/guide/directives/structural-directives)。
+您也會對 [管道](/guide/pipes) 和 [組件](/components) 使用相同的技巧。
 
-Remember, components, directives, and pipes belong to one module only.
-You only need to declare them once in your application because you share them by importing the necessary modules.
-This saves you time and helps keep your application lean.
+記住，元件、指令和管道僅屬於一個模組。
+您只需在應用程式中宣告它們一次，因為您可以透過匯入必要的模組來共享它們。
+這可以節省您的時間，並有助於保持應用程式的精簡。
 
-## The `imports` array
+## `imports` 陣列
 
-Modules accept an `imports` array in the `@NgModule` metadata object.
-It tells Angular about other NgModules that this particular module needs to function properly.
+模組在 `@NgModule` 元資料物件中接受 `imports` 陣列。
+它告訴 Angular 此特定模組需要正常運作的其他 NgModules。
 
 <docs-code header="src/app/app.module.ts">
   imports: [
@@ -122,31 +122,31 @@ It tells Angular about other NgModules that this particular module needs to func
   ],
 </docs-code>
 
-This list of modules are those that export components, directives, or pipes that component templates in this module reference.
-In this case, the component is `AppComponent`, which references components, directives, or pipes in `BrowserModule`, `FormsModule`, or  `HttpClientModule`.
-A component template can reference another component, directive, or pipe when the referenced class is declared in this module, or the class was imported from another module.
+這份模組清單是匯出元件、指令或管線的清單，此模組中的元件範本會參考這些清單。
+在這個案例中，元件是 `AppComponent`，它參考了 `BrowserModule`、`FormsModule` 或 `HttpClientModule` 中的元件、指令或管線。
+當被參照的類別在此模組中宣告，或該類別從其他模組匯入時，元件範本可以參考其他元件、指令或管線。
 
-## The `providers` array
+## `providers` 陣列
 
-The providers array is where you list the services the application needs.
-When you list services here, they are available app-wide.
-You can scope them when using feature modules and lazy loading.
-For more information, see [Providers in modules](/guide/ngmodules/providers).
+`providers` 陣列是您列出應用程式所需服務的地方。
+當您在此列出服務時，它們會在整個應用程式中可用。
+您可以在使用功能模組和延遲載入時設定它們的範圍。
+如需更多資訊，請參閱 [模組中的提供者](/guide/ngmodules/providers)。
 
-## The `bootstrap` array
+## `bootstrap` 陣列
 
-The application launches by bootstrapping the root `AppModule`.
-The bootstrapping process creates the component(s) listed in the `bootstrap` array and inserts each one into the browser DOM, if it finds an element matching the component's `selector`.
+應用程式透過啟動根 `AppModule` 來啟動。
+啟動程序會建立在 `bootstrap` 陣列中列出的元件，如果找到與元件的 `selector` 相符的元素，就會將每個元件插入瀏覽器 DOM 中。
 
-Each bootstrapped component is the base of its own tree of components.
-Inserting a bootstrapped component usually triggers a cascade of component creations that builds up that tree.
-While you can put more than one component tree on a host web page, most applications have only one component tree and bootstrap a single root component.
+每個引導元件都是其元件樹的基礎。
+插入引導元件通常會觸發元件建立的連鎖反應，建立該樹。
+即使您可以在主機網頁上放置多個元件樹，但大多數應用程式只有一個元件樹，並引導單一根元件。
 
-The root component is commonly called `AppComponent` and is in the root module's `bootstrap` array.
+根組件通常稱為 `AppComponent`，並位於根模組的 `bootstrap` 陣列中。
 
-In a situation where you want to bootstrap a component based on an API response,
-or you want to mount the `AppComponent` in a different DOM node that doesn't match the component selector, please refer to `ApplicationRef.bootstrap()` documentation.
+在您想根據 API 回應引導元件的情況下，或您想在與元件選擇器不符的其他 DOM 節點中掛載 `AppComponent`，請參閱 `ApplicationRef.bootstrap()` 文件。
 
-## More about Angular Modules
+## 更多關於 Angular 模組
 
-See [Frequently Used Modules](guide/ngmodules/frequent) to learn more about modules you will commonly see in applications.
+參閱 [常用模組](guide/ngmodules/frequent)以進一步了解您通常會在應用程式中看到的模組。
+

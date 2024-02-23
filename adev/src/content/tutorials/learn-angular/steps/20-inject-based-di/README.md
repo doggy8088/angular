@@ -1,14 +1,14 @@
-# Inject-based dependency injection
+# 基於注入的依賴性注入
 
-Creating an injectable service is the first part of the dependency injection (DI) system in Angular. How do you inject a service into a component? Angular has a convenient function called `inject()` that can be used in the proper context.
+建立可注入服務是 Angular 中依賴注入 (DI) 系統的第一部分。如何將服務注入元件？Angular 有個方便的功能稱為 `inject()`，可以在適當的語境中使用。
 
-Note: Injection contexts are beyond the scope of this tutorial, but you can find more information in the [Angular Docs](guide/di/dependency-injection-context) if you would like to learn more.
+註解：注入內容不在本教學的範圍內，但如果您想了解更多，可以在 [Angular 文件](guide/di/dependency-injection-context) 中找到更多資訊。
 
-In this activity you'll learn how to inject a service and use it in a component.
+在這個活動中，您將學習如何注入服務並在元件中使用它。
 
 <hr>
 
-It is often helpful to initialize class properties with values provided by the DI system. Here's an example:
+初始化類別屬性，使用 DI 系統提供的數值，通常很有幫助。以下是一個範例：
 
 <docs-code language="ts" highlight="[3]">
 @Component({...})
@@ -19,19 +19,19 @@ class PetCareDashboardComponent {
 
 <docs-workflow>
 
-<docs-step title="Inject the `CarService`">
+<docs-step title="注入 `CarService`">
 
-In `app.component.ts`, using the `inject()` function inject the `CarService` and assign it to a property called `carService`
+在 `app.component.ts` 中，使用 `inject()` 函數注入 `CarService` 並將其指定給名為 `carService` 的屬性
 
-Note: Notice the difference between the property `carService` and the class `CarService`.
+注意：注意屬性 `carService` 和類別 `CarService` 之間的差異。
 
 </docs-step>
 
-<docs-step title="Use the `carService` instance">
+<docs-step title="使用 `carService` 實例">
 
-Calling `inject(CarService)` gave you an instance of the `CarService` that you can use in your application, stored in the `carService` property.
+呼叫 `inject(CarService)` 為您提供了 `CarService` 的實例，您可以在應用程式中使用它，並儲存在 `carService` 屬性中。
 
-In the `constructor` function of the `AppComponent`, add the following implementation:
+在 `AppComponent` 的 `constructor` 函數中，加入以下實作：
 
 ```ts
 constructor() {
@@ -41,9 +41,9 @@ constructor() {
 
 </docs-step>
 
-<docs-step title="Update the `AppComponent` template">
+<docs-step title="更新 `AppComponent` 範本">
 
-Update the component template in `app.component.ts` with the following code:
+在 `app.component.ts` 中更新元件範本，使用以下程式碼：
 
 ```ts
 template: `<p>Car Listing: {{ display }}</p>`,
@@ -53,4 +53,5 @@ template: `<p>Car Listing: {{ display }}</p>`,
 
 </docs-workflow>
 
-You've just injected your first service into a component - fantastic effort. Before you finish this section on DI, you'll learn an alternative syntax to inject resources into your components.
+你剛在元件中注入第一個服務 - 真是太棒了。在你完成 DI 這部分之前，你會學到一種注入資源到元件中的替代語法。
+

@@ -1,9 +1,10 @@
-# Instructions for Angular SSR Example Download
+# Angular SSR範例下載說明
 
-This is the downloaded sample code for the [Angular SSR (Standalone) guide](https://angular.io/guide/ssr).
+以下是 [Angular SSR (Standalone) 指南](https://angular.io/guide/ssr) 的下載範例程式碼。
 
-## Install and Run
+## 安裝和執行
 
-1. `npm install` to install the `node_module` packages
-2. `ng serve` to launch the dev-server
-3. Launch the browser to `http://localhost:4200`
+1. `npm install` 安裝 `node_module` 套件
+2. `ng serve` 啟動 dev-server
+3. 啟動瀏覽器至 `http://localhost:4200`
+

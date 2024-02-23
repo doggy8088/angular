@@ -1,35 +1,31 @@
-# Add the localize package
+# 加入 localize 套件
 
-To take advantage of the localization features of Angular, use the [Angular CLI][AioCliMain] to add the `@angular/localize` package to your project.
+若要利用 Angular 的在地化功能，請使用 [Angular CLI][AioCliMain] 將 `@angular/localize` 套件新增至專案。
 
-To add the `@angular/localize` package, use the following command to update the `package.json` and TypeScript configuration files in your project.
+如要新增 `@angular/localize` 套件，請使用下列指令更新專案中的 `package.json` 與 TypeScript 組態檔案。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="add-localize"/>
 
-It adds `types: ["@angular/localize"]` in the TypeScript configuration files as well as the reference to the type definition of `@angular/localize` at the top of the `main.ts` file.
+它在 TypeScript 組態檔中加入 `types: ["@angular/localize"]`，並在 `main.ts` 檔案的頂端加入 `@angular/localize` 的類型定義參考。
 
-HELPFUL: For more information about `package.json` and `tsconfig.json` files, see [Workspace npm dependencies][AioGuideNpmPackages] and [TypeScript Configuration][AioGuideTsConfig].
+HELPFUL: 有關 `package.json` 和 `tsconfig.json` 檔案的更多資訊，請參閱 [Workspace npm 相依性][AioGuideNpmPackages] 和 [TypeScript 設定][AioGuideTsConfig]。
 
-If `@angular/localize` is not installed and you try to build a localized version of your project (for example, while using the `i18n` attributes in templates), the [Angular CLI][AioCliMain] will generate an error, which would contain the steps that you can take to enable i18n for your project.
+如果未安裝 `@angular/localize`，而您嘗試建置專案的在地化版本（例如，在範本中使用 `i18n` 屬性的同時），[Angular CLI][AioCliMain] 會產生錯誤，其中包含您可採取的步驟來為專案啟用 i18n。
 
-## Options
+## 選項
 
-| OPTION           | DESCRIPTION | VALUE TYPE | DEFAULT VALUE
+| 選項           | 說明 | 值類型 | 預設值
 |:---              |:---    |:------     |:------
-| `--project`      | The name of the project. | `string` |
-| `--use-at-runtime` | If set, then `$localize` can be used at runtime. Also `@angular/localize` gets included in the `dependencies` section of `package.json`, rather than `devDependencies`, which is the default.  | `boolean` | `false`
+| `--project`      | 專案名稱 | `string` |
+| `--use-at-runtime` | 如果設定，則 `$localize` 可以於執行期間使用。另外，`@angular/localize` 會包含在 `package.json` 的 `dependencies` 區段，而不是預設的 `devDependencies`。  | `boolean` | `false`
 
-For more available options, see `ng add` in [Angular CLI][AioCliMain].
+有關更多可用選項，請參閱 [Angular CLI][AioCliMain] 中的 `ng add`。
 
-## What's next
+## 接下來
 
 <docs-pill-row>
   <docs-pill href="api/localize" title="@angular/localize API"/>
-  <docs-pill href="guide/i18n/locale-id" title="Refer to locales by ID"/>
+  <docs-pill href="guide/i18n/locale-id" title="依 ID 參照區域設定"/>
 </docs-pill-row>
 
-[AioCliMain]: cli "CLI Overview and Command Reference | Angular"
-
-[AioGuideNpmPackages]: reference/configs/npm-packages "Workspace npm dependencies | Angular"
-
-[AioGuideTsConfig]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html "TypeScript Configuration"
+{{ 無法處理文件最後的 LinkReferenceDefinitionGroup 部分，需手動更新！ }}

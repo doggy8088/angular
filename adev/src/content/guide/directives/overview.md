@@ -1,346 +1,384 @@
-<docs-decorative-header title="Built-in directives" imgSrc="adev/src/assets/images/directives.svg"> <!-- markdownlint-disable-line -->
-Directives are classes that add additional behavior to elements in your Angular applications.
+<docs-decorative-header title="內建指令" imgSrc="adev/src/assets/images/directives.svg"> <!-- markdownlint-disable-line -->
+指令是類別，可為 Angular 應用程式中的元素新增其他行為。
 </docs-decorative-header>
 
-Use Angular's built-in directives to manage forms, lists, styles, and what users see.
+使用 Angular 內建的指令來管理表單、清單、樣式，以及使用者看到什麼。
 
-The different types of Angular directives are as follows:
+Angular 指令類型如下：
 
-| Directive Types                                          | Details                                                                           |
+| 指令類型                                          | 詳細資料                                                                           |
 | :------------------------------------------------------- | :-------------------------------------------------------------------------------- |
-| [Components](guide/components)                           | Used with a template. This type of directive is the most common directive type.   |
-| [Attribute directives](#built-in-attribute-directives)   | Change the appearance or behavior of an element, component, or another directive. |
-| [Structural directives](#built-in-structural-directives) | Change the DOM layout by adding and removing DOM elements.                        |
+| [元件](guide/components)                           | 與範本搭配使用。此類指令是最常見的指令類型。                                 |
+| [屬性指令](#built-in-attribute-directives)   | 變更元素、元件或其他指令的外觀或行為。                                       |
+| [結構指令](#built-in-structural-directives) | 透過新增和移除 DOM 元素來變更 DOM 佈局。                                     |
 
-This guide covers built-in [attribute directives](#built-in-attribute-directives) and [structural directives](#built-in-structural-directives).
+本指南涵蓋內建的 [屬性指令](#built-in-attribute-directives) 和 [結構指令](#built-in-structural-directives)。
 
-## Built-in attribute directives
+## 內建屬性指令
 
-Attribute directives listen to and modify the behavior of other HTML elements, attributes, properties, and components.
+屬性指令會偵聽和修改其他 HTML 元素、屬性、內容和元件的行為。
 
-The most common attribute directives are as follows:
+最常見的屬性指令如下：
 
-| Common directives                                             | Details                                            |
+| 常見指令                                             | 詳細資料                                            |
 | :------------------------------------------------------------ | :------------------------------------------------- |
-| [`NgClass`](#adding-and-removing-classes-with-ngclass)        | Adds and removes a set of CSS classes.             |
-| [`NgStyle`](#setting-inline-styles-with-ngstyle)              | Adds and removes a set of HTML styles.             |
-| [`NgModel`](#displaying-and-updating-properties-with-ngmodel) | Adds two-way data binding to an HTML form element. |
+| [`NgClass`](#adding-and-removing-classes-with-ngclass)        | 新增並移除一組 CSS 類別。             |
+| [`NgStyle`](#setting-inline-styles-with-ngstyle)              | 新增並移除一組 HTML 樣式。             |
+| [`NgModel`](#displaying-and-updating-properties-with-ngmodel) | 將雙向資料繫結新增至 HTML 表單元素。 |
 
-HELPFUL: Built-in directives use only public APIs. They do not have special access to any private APIs that other directives can't access.
+HELPFUL：內建指令僅使用公開 API。它們無法特別存取其他指令無法存取的任何私人 API。
 
-## Adding and removing classes with `NgClass`
+## 使用 `NgClass` 新增和移除類別
 
-Add or remove multiple CSS classes simultaneously with `ngClass`.
+html
+<div [ngClass]="currentClasses">...</div>
 
-HELPFUL: To add or remove a _single_ class, use [class binding](guide/templates/class-binding) rather than `NgClass`.
+同時使用 `ngClass` 新增或移除多個 CSS 類別。
 
-### Import `NgClass` in the component
+HELPFUL: 若要新增或移除 _單一_ 類別，請使用 [類別繫結](guide/templates/class-binding) 而不是 `NgClass`。
 
-To use `NgClass`, add it to the component's `imports` list.
+### 在元件中匯入 `NgClass`
+
+若要使用 `NgClass`，請將它新增至元件的 `imports` 清單。
 
 <docs-code header="src/app/app.component.ts (NgClass import)" path="adev/src/content/examples/built-in-directives/src/app/app.component.ts" visibleRegion="import-ng-class"/>
 
-### Using `NgClass` with an expression
+### 使用帶有表達式的 `NgClass`
 
-On the element you'd like to style, add `[ngClass]` and set it equal to an expression.
-In this case, `isSpecial` is a boolean set to `true` in `app.component.ts`.
-Because `isSpecial` is true, `ngClass` applies the class of `special` to the `<div>`.
+在您想設定樣式的元素上，加入 `[ngClass]` 並將它設定為等於一個表達式。
+在這個案例中，`isSpecial` 是在 `app.component.ts` 中設定為 `true` 的布林值。
+因為 `isSpecial` 為真，`ngClass` 將 `special` 的類別套用至 `<div>`。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="special-div"/>
 
-### Using `NgClass` with a method
+### 使用 `NgClass` 與方法
 
-1. To use `NgClass` with a method, add the method to the component class.
-    In the following example, `setCurrentClasses()` sets the property `currentClasses` with an object that adds or removes three classes based on the `true` or `false` state of three other component properties.
+1. 若要將 `NgClass` 與方法搭配使用，請將方法新增至元件類別。
+    在以下範例中，`setCurrentClasses()` 會以物件設定 `currentClasses` 屬性，該物件會根據三個其他元件屬性的 `true` 或 `false` 狀態新增或移除三個類別。
 
-    Each key of the object is a CSS class name.
-    If a key is `true`, `ngClass` adds the class.
-    If a key is `false`, `ngClass` removes the class.
+    物件的每個金鑰都是 CSS 類別名稱。
+    如果金鑰為 `true`，`ngClass` 會新增類別。
+    如果金鑰為 `false`，`ngClass` 會移除類別。
 
     <docs-code header="src/app/app.component.ts" path="adev/src/content/examples/built-in-directives/src/app/app.component.ts" visibleRegion="setClasses"/>
 
-1. In the template, add the `ngClass` property binding to `currentClasses` to set the element's classes:
+1. 在範本中，將 `ngClass` 屬性繫結新增至 `currentClasses` 以設定元素的類別：
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgClass-1"/>
 
-For this use case, Angular applies the classes on initialization and in case of changes.
-The full example calls `setCurrentClasses()` initially with `ngOnInit()` and when the dependent properties change through a button click.
-These steps are not necessary to implement `ngClass`.
+對於這個用例，Angular 會在初始化時套用類別，並且在變更時套用。
+完整的範例最初會透過 `ngOnInit()` 呼叫 `setCurrentClasses()`，以及當相關屬性透過按鈕點擊而變更時。
+這些步驟對於實作 `ngClass` 來說不是必要的。
 
-## Setting inline styles with `NgStyle`
+## 使用 `NgStyle` 設定內聯樣式
 
-### Import `NgStyle` in the component
+html
+<div [ngStyle]="{'color': 'red', 'font-size': '20px'}"></div>
 
-To use `NgStyle`, add it to the component's `imports` list.
+### 在元件中匯入 `NgStyle`
+
+要使用 `NgStyle`，請將它新增到元件的 `imports` 清單中。
 
 <docs-code header="src/app/app.component.ts (NgStyle import)" path="adev/src/content/examples/built-in-directives/src/app/app.component.ts" visibleRegion="import-ng-style"/>
 
-Use `NgStyle` to set multiple inline styles simultaneously, based on the state of the component.
+使用 `NgStyle` 可根據元件的狀態同時設定多個內聯樣式。
 
-1. To use `NgStyle`, add a method to the component class.
+1. 若要使用 `NgStyle`，請在元件類別中新增一個方法。
 
-    In the following example, `setCurrentStyles()` sets the property `currentStyles` with an object that defines three styles, based on the state of three other component properties.
+    在以下範例中，`setCurrentStyles()` 會使用定義三種樣式的物件設定 `currentStyles` 屬性，這些樣式基於三個其他元件屬性的狀態。
 
     <docs-code header="src/app/app.component.ts" path="adev/src/content/examples/built-in-directives/src/app/app.component.ts" visibleRegion="setStyles"/>
 
-1. To set the element's styles, add an `ngStyle` property binding to `currentStyles`.
+1. 若要設定元素的樣式，請將 `ngStyle` 屬性繫結新增至 `currentStyles`。
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgStyle-2"/>
 
-For this use case, Angular applies the styles upon initialization and in case of changes.
-To do this, the full example calls `setCurrentStyles()` initially with `ngOnInit()` and when the dependent properties change through a button click.
-However, these steps are not necessary to implement `ngStyle` on its own.
+針對此用例，Angular 在初始化時套用樣式，並在變更時套用。
+為執行此動作，完整範例會在 `ngOnInit()` 中以 `setCurrentStyles()` 進行初始呼叫，以及在依賴屬性因為按鈕點擊而變更時呼叫。
+不過，要單獨實作 `ngStyle` 時，不需要執行這些步驟。
 
-## Displaying and updating properties with `ngModel`
+## 使用 `ngModel` 顯示和更新屬性
 
-Use the `NgModel` directive to display a data property and update that property when the user makes changes.
+使用 `NgModel` 指令來顯示資料屬性，並在使用者進行變更時更新該屬性。
 
-1. Import `FormsModule` and add it to the AppComponent's `imports` list.
+1. 匯入 `FormsModule` 並將它新增至 `AppComponent` 的 `imports` 清單。
 
     <docs-code header="src/app/app.component.ts (FormsModule import)" path="adev/src/content/examples/built-in-directives/src/app/app.component.ts" visibleRegion="import-forms-module" />
 
-1. Add an `[(ngModel)]` binding on an HTML `<form>` element and set it equal to the property, here `name`.
+1. 在 HTML `<form>` 元素上新增 `[(ngModel)]` 繫結，並將它設定等於屬性，這裡是 `name`。
 
     <docs-code header="src/app/app.component.html (NgModel example)" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgModel-1"/>
 
-    This `[(ngModel)]` syntax can only set a data-bound property.
+    這個 `[(ngModel)]` 語法只能設定資料繫結的屬性。
 
-To customize your configuration, write the expanded form, which separates the property and event binding.
-Use [property binding](guide/templates/property-binding) to set the property and [event binding](guide/templates/event-binding) to respond to changes.
-The following example changes the `<input>` value to uppercase:
+要自訂您的設定，請寫入擴充表單，它會將屬性和事件繫結分開。
+使用 [屬性繫結](guide/templates/property-binding) 來設定屬性，並使用 [事件繫結](guide/templates/event-binding) 來回應變更。
+以下範例將 `<input>` 值變更為大寫：
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="uppercase"/>
 
-Here are all variations in action, including the uppercase version:
+以下為所有變體的實際操作，包括大寫版本：
 
-<img alt="NgModel variations" src="assets/content/images/guide/built-in-directives/ng-model-anim.gif">
+<img alt="NgModel 變化" src="assets/content/images/guide/built-in-directives/ng-model-anim.gif">
 
-### `NgModel` and value accessors
+### `NgModel` 及值存取器
 
-The `NgModel` directive works for an element supported by a [ControlValueAccessor](api/forms/ControlValueAccessor).
-Angular provides _value accessors_ for all of the basic HTML form elements.
-For more information, see [Forms](guide/forms).
+`NgModel` 指令適用於由 [ControlValueAccessor](api/forms/ControlValueAccessor) 支援的元素。
+Angular 為所有基本 HTML 表單元素提供 _值存取器_。
+如需更多資訊，請參閱 [表單](guide/forms)。
 
-To apply `[(ngModel)]` to a non-form built-in element or a third-party custom component, you have to write a value accessor.
-For more information, see the API documentation on [DefaultValueAccessor](api/forms/DefaultValueAccessor).
+若要將 `[(ngModel)]` 套用至非表單內建元素或第三方自訂元件，您必須撰寫值存取器。
+如需詳細資訊，請參閱 [DefaultValueAccessor](api/forms/DefaultValueAccessor) 的 API 文件。
 
-HELPFUL: When you write an Angular component, you don't need a value accessor or `NgModel` if you name the value and event properties according to Angular's [two-way binding syntax](guide/templates/two-way-binding#how-two-way-binding-works).
+HELPFUL: 當您撰寫 Angular 元件時，如果您根據 Angular 的[雙向繫結語法](guide/templates/two-way-binding#how-two-way-binding-works)來命名值和事件屬性，則不需要值存取器或 `NgModel`。
 
-## Built-in structural directives
+## 內建結構指令
 
-Structural directives are responsible for HTML layout.
-They shape or reshape the DOM's structure, typically by adding, removing, and manipulating the host elements to which they are attached.
+結構性指令負責 HTML 佈局。
+它們塑造或重塑 DOM 的結構，通常是透過新增、移除和操作其附加的主機元素來達成。
 
-This section introduces the most common built-in structural directives:
+本節介紹最常見的內建結構性指令：
 
-| Common built-in structural directives              | Details                                                          |
+| 常見內建結構性指令 | 詳情 |
 | :------------------------------------------------- | :--------------------------------------------------------------- |
-| [`NgIf`](#adding-or-removing-an-element-with-ngif) | Conditionally creates or disposes of subviews from the template. |
-| [`NgFor`](#listing-items-with-ngfor)               | Repeat a node for each item in a list.                           |
-| [`NgSwitch`](#switching-cases-with-ngswitch)       | A set of directives that switch among alternative views.         |
+| [`NgIf`](#adding-or-removing-an-element-with-ngif) | 有條件地建立或處置來自範本的子檢視。 |
+| [`NgFor`](#listing-items-with-ngfor) | 重複一個節點以供清單中的每個項目使用。 |
+| [`NgSwitch`](#switching-cases-with-ngswitch) | 一組在不同檢視之間切換的指令。 |
 
-For more information, see [Structural Directives](guide/directives/structural-directives).
+如欲了解更多資訊，請參閱 [結構型指令](guide/directives/structural-directives)。
 
-## Adding or removing an element with `NgIf`
+## 使用 `NgIf` 新增或移除元素
 
-Add or remove an element by applying an `NgIf` directive to a host element.
+將元素新增或移除，方法是將 `NgIf` 指令套用到主機元素。
 
-When `NgIf` is `false`, Angular removes an element and its descendants from the DOM.
-Angular then disposes of their components, which frees up memory and resources.
+當 `NgIf` 為 `false` 時，Angular 會從 DOM 中移除元素及其子元素。
+Angular 然後處置其組件，這會釋放記憶體和資源。
 
-### Import `NgIf` in the component
+### 在元件中匯入 `NgIf`
 
-To use `NgIf`, add it to the component's `imports` list.
+要使用 `NgIf`，請將它新增至元件的 `imports` 清單。
 
 <docs-code header="src/app/app.component.ts (NgIf import)" path="adev/src/content/examples/built-in-directives/src/app/app.component.ts" visibleRegion="import-ng-if"/>
 
-### Using `NgIf`
+### 使用 `NgIf`
 
-To add or remove an element, bind `*ngIf` to a condition expression such as `isActive` in the following example.
+若要新增或移除元素，請將 `*ngIf` 繫結至條件表達式，例如以下範例中的 `isActive`。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgIf-1"/>
 
-When the `isActive` expression returns a truthy value, `NgIf` adds the `ItemDetailComponent` to the DOM.
-When the expression is falsy, `NgIf` removes the `ItemDetailComponent` from the DOM and disposes of the component and all of its subcomponents.
+當 `isActive` 表達式傳回真值時，`NgIf` 將 `ItemDetailComponent` 新增至 DOM。
+當表達式為假值時，`NgIf` 將 `ItemDetailComponent` 從 DOM 中移除，並處理該元件及其所有子元件。
 
-For more information on `NgIf` and `NgIfElse`, see the [NgIf API documentation](api/common/NgIf).
+有關 `NgIf` 和 `NgIfElse` 的更多資訊，請參閱 [NgIf API 文件](api/common/NgIf)。
 
-### Guarding against `null`
+### 防範 `null`
 
-By default, `NgIf` prevents display of an element bound to a null value.
+null
 
-To use `NgIf` to guard a `<div>`, add `*ngIf="yourProperty"` to the `<div>`.
-In the following example, the `currentCustomer` name appears because there is a `currentCustomer`.
+預設情況下，`NgIf` 會防止顯示繫結到 null 值的元素。
+
+要使用 `NgIf` 來保護 `<div>`，請將 `*ngIf="yourProperty"` 新增到 `<div>`。
+在以下範例中，`currentCustomer` 名稱會顯示，因為有一個 `currentCustomer`。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgIf-2"/>
 
-However, if the property is `null`, Angular does not display the `<div>`.
-In this example, Angular does not display the `nullCustomer` because it is `null`.
+`null` 的話，Angular 不會顯示 `<div>`。
+在這個範例中，Angular 不會顯示 `nullCustomer` 因為它是 `null`。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgIf-2b"/>
 
-## Listing items with `NgFor`
+## 使用 `NgFor` 列出項目
 
-Use the `NgFor` directive to present a list of items.
+使用 `NgFor` 指令來呈現項目清單。
 
-### Import `NgFor` in the component
+### 在組件中匯入 `NgFor`
 
-To use `NgFor`, add it to the component's `imports` list.
+若要使用 `NgFor`，請將它加入元件的 `imports` 清單。
 
 <docs-code header="src/app/app.component.ts (NgFor import)" path="adev/src/content/examples/built-in-directives/src/app/app.component.ts" visibleRegion="import-ng-for"/>
 
-### Using `NgFor`
+### 使用 `NgFor`
 
-To use `NgFor`, you have to:
+要使用 `NgFor`，您必須：
 
-1. Define a block of HTML that determines how Angular renders a single item.
-1. To list your items, assign the shorthand `let item of items` to `*ngFor`.
+1. 定義一個 HTML 區塊，用於決定 Angular 如何呈現單個項目。
+1. 若要列出您的項目，請將簡寫 `let item of items` 指派給 `*ngFor`。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgFor-1"/>
 
-The string `"let item of items"` instructs Angular to do the following:
+字串 `"let item of items"` 指示 Angular 執行下列動作：
 
-- Store each item in the `items` array in the local `item` looping variable
-- Make each item available to the templated HTML for each iteration
-- Translate `"let item of items"` into an `<ng-template>` around the host element
-- Repeat the `<ng-template>` for each `item` in the list
+- 將每個項目儲存在 `item` 迴圈變數的 `items` 陣列中
+- 讓每個項目在每次叠代時都能使用範本 HTML
+- 將 `"let item of items"` 轉換成圍繞主機元素的 `<ng-template>`
+- 對清單中的每個 `item` 重複 `<ng-template>`
 
-For more information see the [Structural directive shorthand](guide/directives/structural-directives#structural-directive-shorthand) section of [Structural directives](guide/directives/structural-directives).
+有關更多資訊，請參閱 [結構性指令速記](guide/directives/structural-directives#structural-directive-shorthand) 部分的 [結構性指令](guide/directives/structural-directives)。
 
-### Repeating a component view
+### 重複元件檢視
 
-To repeat a component element, apply `*ngFor` to the selector.
-In the following example, the selector is `<app-item-detail>`.
+若要重複元件元素，請將 `*ngFor` 套用至選取器。
+在下列範例中，選取器是 `<app-item-detail>`。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgFor-2"/>
 
-Reference a template input variable, such as `item`, in the following locations:
+參照範本輸入變數（例如 `item`），如下所示：
 
-- Within the `ngFor` host element
-- Within the host element descendants to access the item's properties
+- 在 `ngFor` 主機元素內
+- 在主機元素的子孫中存取項目屬性
 
-The following example references `item` first in an interpolation and then passes in a binding to the `item` property of the `<app-item-detail>` component.
+以下範例首先在內插中參照 `item`，然後傳入對 `<app-item-detail>` 元件的 `item` 屬性的繫結。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgFor-1-2"/>
 
-For more information about template input variables, see [Structural directive shorthand](guide/directives/structural-directives#structural-directive-shorthand).
+有關範本輸入變數的更多資訊，請參閱 [結構性指令簡寫](guide/directives/structural-directives#structural-directive-shorthand)。
 
-### Getting the `index` of `*ngFor`
+### 取得 `*ngFor` 的 `index`
 
-Get the `index` of `*ngFor` in a template input variable and use it in the template.
+在範本輸入變數中取得 `*ngFor` 的 `index` 並在範本中使用它。
 
-In the `*ngFor`, add a semicolon and `let i=index` to the shorthand.
-The following example gets the `index` in a variable named `i` and displays it with the item name.
+在 `*ngFor` 中，將分號和 `let i=index` 新增至簡寫。
+以下範例以變數 `i` 取得 `index`，並與項目名稱一起顯示。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgFor-3"/>
 
-The index property of the `NgFor` directive context returns the zero-based index of the item in each iteration.
+`NgFor` 指令內容的 index 屬性會傳回每次叠代中該項目的以 0 為基底的索引。
 
-Angular translates this instruction into an `<ng-template>` around the host element,
-then uses this template repeatedly to create a new set of elements and bindings for each `item`
-in the list.
-For more information about shorthand, see the [Structural Directives](guide/directives/structural-directives#structural-directive-shorthand) guide.
+Angular 將此指令轉換為主機元素周圍的 `<ng-template>`，
+然後重複使用此範本為清單中的每個 `item` 建立一組新的元素和繫結。
+如需有關簡寫的更多資訊，請參閱 [結構指令](guide/directives/structural-directives#structural-directive-shorthand) 指南。
 
-## Repeating elements when a condition is true
+## 當條件為真時重複元素
 
-To repeat a block of HTML when a particular condition is true, put the `*ngIf` on a container element that wraps an `*ngFor` element.
+若要重複一個 HTML 區塊，當特定條件為 true 時，請在包裝 `*ngFor` 元素的容器元素上放置 `*ngIf`。
 
-For more information see [one structural directive per element](guide/directives/structural-directives#one-structural-directive-per-element).
+有關更多資訊，請參閱 [每個元素一個結構性指令](guide/directives/structural-directives#one-structural-directive-per-element)。
 
-### Tracking items with `*ngFor` `trackBy`
+### 使用 `*ngFor` `trackBy` 追蹤項目
 
-Reduce the number of calls your application makes to the server by tracking changes to an item list.
-With the `*ngFor` `trackBy` property, Angular can change and re-render only those items that have changed, rather than reloading the entire list of items.
+通過追蹤項目清單的變更來減少你的應用程式對伺服器的呼叫次數。
+使用 `*ngFor` `trackBy` 屬性，Angular 僅會變更並重新呈現已變更的那些項目，而不是重新載入整個項目清單。
 
-1. Add a method to the component that returns the value `NgFor` should track.
-    In this example, the value to track is the item's `id`.
-    If the browser has already rendered `id`, Angular keeps track of it and doesn't re-query the server for the same `id`.
+1. 將方法新增至元件，以傳回 `NgFor` 應追蹤的值。
+    在此範例中，要追蹤的值是項目 `id`。
+    如果瀏覽器已呈現 `id`，Angular 會追蹤它，且不會針對相同 `id` 重新查詢伺服器。
 
     <docs-code header="src/app/app.component.ts" path="adev/src/content/examples/built-in-directives/src/app/app.component.ts" visibleRegion="trackByItems"/>
 
-1. In the shorthand expression, set `trackBy` to the `trackByItems()` method.
+1. 在簡寫表達式中，將 `trackBy` 設為 `trackByItems()` 方法。
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="trackBy"/>
 
-**Change ids** creates new items with new `item.id`s.
-In the following illustration of the `trackBy` effect, **Reset items** creates new items with the same `item.id`s.
+**變更 id** 會建立具有新 `item.id` 的新項目。
+在以下 `trackBy` 效果的插圖中，**重設項目** 會建立具有相同 `item.id` 的新項目。
 
-- With no `trackBy`, both buttons trigger complete DOM element replacement.
-- With `trackBy`, only changing the `id` triggers element replacement.
+- 沒有 `trackBy`，兩個按鈕都會觸發完整的 DOM 元素替換。
+- 使用 `trackBy`，只有變更 `id` 才會觸發元素替換。
 
 <img alt="Animation of trackBy" src="assets/content/images/guide/built-in-directives/ngfor-trackby.gif">
 
-## Hosting a directive without a DOM element
+## 無 DOM 元素的指令寄存
 
-The Angular `<ng-container>` is a grouping element that doesn't interfere with styles or layout because Angular doesn't put it in the DOM.
+Angular `<ng-container>` 是一個分組元素，不會幹擾樣式或佈局，因為 Angular 沒有將它放入 DOM 中。
 
-Use `<ng-container>` when there's no single element to host the directive.
+當沒有單一元素可以主導指令時，使用 `<ng-container>`。
 
-Here's a conditional paragraph using `<ng-container>`.
+以下是使用`<ng-container>`的條件段落。
 
 <docs-code header="src/app/app.component.html (ngif-ngcontainer)" path="adev/src/content/examples/structural-directives/src/app/app.component.html" visibleRegion="ngif-ngcontainer"/>
 
-<img alt="ngcontainer paragraph with proper style" src="assets/content/images/guide/structural-directives/good-paragraph.png">
+<img alt="ngcontainer 段落具有適當樣式" src="assets/content/images/guide/structural-directives/good-paragraph.png">
 
-1. Import the `ngModel` directive from `FormsModule`.
+1. 從 `FormsModule` 匯入 `ngModel` 指令。
 
-1. Add `FormsModule` to the imports section of the relevant Angular module.
+1. 將 `FormsModule` 加入相關 Angular 模組的匯入區段。
 
-1. To conditionally exclude an `<option>`, wrap the `<option>` in an `<ng-container>`.
+1. 若要以條件方式排除 `<option>`，請用 `<ng-container>` 包住 `<option>`。
 
     <docs-code header="src/app/app.component.html (select-ngcontainer)" path="adev/src/content/examples/structural-directives/src/app/app.component.html" visibleRegion="select-ngcontainer"/>
 
-    <img alt="ngcontainer options work properly" src="assets/content/images/guide/structural-directives/select-ngcontainer-anim.gif">
+    <img alt="ngcontainer 選項正常運作" src="assets/content/images/guide/structural-directives/select-ngcontainer-anim.gif">
 
-## Switching cases with `NgSwitch`
+## 使用 `NgSwitch` 切換案例
 
-Like the JavaScript `switch` statement, `NgSwitch` displays one element from among several possible elements, based on a switch condition.
-Angular puts only the selected element into the DOM.
+<h3>Switch cases with `NgSwitch`</h3>
+
+<p>Here is an example of how to use `NgSwitch` to switch between different views based on the value of a property.</p>
+
+html
+<div [ngSwitch]="color">
+  <div *ngSwitchCase="'red'">You picked red!</div>
+  <div *ngSwitchCase="'blue'">You picked blue!</div>
+  <div *ngSwitchCase="'green'">You picked green!</div>
+  <div *ngSwitchDefault>Pick a color!</div>
+</div>
+<p>In this example, the `color` property is bound to the `[ngSwitch]` directive. When the value of the `color` property changes, the `NgSwitch` directive will switch to the corresponding view. For example, if the value of the `color` property is `"red"`, then the view with the `*ngSwitchCase="'red'"` directive will be displayed.</p>
+
+<p>You can also use the `*ngSwitchDefault` directive to specify a default view that will be displayed if none of the other cases match. In this example, the default view is the one with the `*ngSwitchDefault` directive, which displays the message "Pick a color!".</p>
+
+<p>Here is a live example of how to use `NgSwitch` to switch between different views based on the value of a property:</p>
+
+html
+<div [ngSwitch]="color">
+  <div *ngSwitchCase="'red'">You picked red!</div>
+  <div *ngSwitchCase="'blue'">You picked blue!</div>
+  <div *ngSwitchCase="'green'">You picked green!</div>
+  <div *ngSwitchDefault>Pick a color!</div>
+</div>
+
+<button (click)="color = 'red'">Red</button>
+<button (click)="color = 'blue'">Blue</button>
+<button (click)="color = 'green'">Green</button>
+<p>When you click on one of the buttons, the value of the `color` property will change and the `NgSwitch` directive will switch to the corresponding view.</p>
+
+如同 JavaScript 的 `switch` 語句，`NgSwitch` 會根據切換條件，在多個可能的元素中顯示一個元素。
+Angular 僅將選取的元素放入 DOM。
 
 <!--todo: API Flagged -->
 
-`NgSwitch` is a set of three directives:
+`NgSwitch` 是一組三個指令：
 
-| `NgSwitch` directives | Details                                                                                                                                                                |
+| `NgSwitch` 指令 | 詳細資料                                                                                                                                                                |
 | :-------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NgSwitch`            | An attribute directive that changes the behavior of its companion directives.                                                                                          |
-| `NgSwitchCase`        | Structural directive that adds its element to the DOM when its bound value equals the switch value and removes its bound value when it doesn't equal the switch value. |
-| `NgSwitchDefault`     | Structural directive that adds its element to the DOM when there is no selected `NgSwitchCase`.                                                                        |
+| `NgSwitch`            | 一個屬性指令，用來改變其同伴指令的行為。                                                                                                                             |
+| `NgSwitchCase`        | 當其綁定的值等於切換值時，將其元素加入 DOM，當其綁定的值不等於切換值時，將其元素移除的結構性指令。                                                               |
+| `NgSwitchDefault`     | 當沒有選取 `NgSwitchCase` 時，將其元素加入 DOM 的結構性指令。                                                                                                        |
 
-To use the directives, add the `NgSwitch`, `NgSwitchCase` and `NgSwitchDefault` to the component's `imports` list.
+若要使用指令，請將 `NgSwitch`、`NgSwitchCase` 和 `NgSwitchDefault` 新增至元件的 `imports` 清單。
 
 <docs-code header="src/app/app.component.ts (NgSwitch imports)" path="adev/src/content/examples/built-in-directives/src/app/app.component.ts" visibleRegion="import-ng-switch"/>
 
-### Using `NgSwitch`
+### 使用 `NgSwitch`
 
-1. On an element, such as a `<div>`, add `[ngSwitch]` bound to an expression that returns the switch value, such as `feature`.
-    Though the `feature` value in this example is a string, the switch value can be of any type.
+1. 在元素上，例如 `<div>`，加入繫結到回傳切換值 (如 `feature`) 的表達式的 `[ngSwitch]`。
+    雖然此範例中的 `feature` 值為字串，但切換值可以是任何類型。
 
-1. Bind to `*ngSwitchCase` and `*ngSwitchDefault` on the elements for the cases.
+1. 在案例元素上繫結至 `*ngSwitchCase` 和 `*ngSwitchDefault`。
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgSwitch"/>
 
-1. In the parent component, define `currentItem`, to use it in the `[ngSwitch]` expression.
+1. 在父元件中定義 `currentItem`，以便在 `[ngSwitch]` 表達式中使用它。
 
     <docs-code header="src/app/app.component.ts" path="adev/src/content/examples/built-in-directives/src/app/app.component.ts" visibleRegion="item"/>
 
-1. In each child component, add an `item` [input property](guide/components/inputs) which is bound to the `currentItem` of the parent component.
-    The following two snippets show the parent component and one of the child components.
-    The other child components are identical to `StoutItemComponent`.
+1. 在每個子元件中，加入繫結至父元件的 `currentItem` 的 `item` [輸入屬性](guide/components/inputs)。
+    以下兩個程式片段顯示父元件和其中一個子元件。
+    其他子元件與 `StoutItemComponent` 相同。
 
-    <docs-code header="In each child component, here StoutItemComponent" path="adev/src/content/examples/built-in-directives/src/app/item-switch.component.ts" visibleRegion="input"/>
+    <docs-code header="在每個子元件中，這裡是 StoutItemComponent" path="adev/src/content/examples/built-in-directives/src/app/item-switch.component.ts" visibleRegion="input"/>
 
-    <img alt="Animation of NgSwitch" src="assets/content/images/guide/built-in-directives/ngswitch.gif">
+    <img alt="NgSwitch 的動畫" src="assets/content/images/guide/built-in-directives/ngswitch.gif">
 
-Switch directives also work with built-in HTML elements and web components.
-For example, you could replace the `<app-best-item>` switch case with a `<div>` as follows.
+`Switch` 指令也可以與內建 HTML 元素和網頁元件一起使用。
+例如，您可以將 `<app-best-item>` 切換案例改用 `<div>`，如下所示。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgSwitch-div"/>
 
-## What's next
+## 接下來
 
 <docs-pill-row>
-  <docs-pill href="guide/directives/attribute-directives" title="Attribute Directives"/>
-  <docs-pill href="guide/directives/structural-directives" title="Structural Directives"/>
-  <docs-pill href="guide/directives/directive-composition-api" title="Directive composition API"/>
+  <docs-pill href="guide/directives/attribute-directives" title="屬性指令"/>
+  <docs-pill href="guide/directives/structural-directives" title="結構指令"/>
+  <docs-pill href="guide/directives/directive-composition-api" title="指令組合 API"/>
 </docs-pill-row>
+

@@ -1,107 +1,107 @@
-# Guidelines for creating NgModules
+# NgModules 建立指南
 
-This topic provides a conceptual overview of the different categories of NgModules you can create in order to organize your code in a modular structure.
-These categories are not cast in stone &mdash;they are suggestions.
-You may want to create NgModules for other purposes, or combine the characteristics of some of these categories.
+本主題提供 NgModules 不同類別的概念概述，以便您可以將程式碼整理成模組化結構。
+這些類別並非一成不變&mdash;它們是建議。
+您可能想為其他目的建立 NgModules，或結合某些這些類別的特徵。
 
-NgModules are a great way to organize an application and keep code related to a specific functionality or feature separate from other code.
-Use NgModules to consolidate components, directives, and pipes into cohesive blocks of functionality.
-Focus each block on a feature or business domain, a workflow or navigation flow, a common collection of utilities, or one or more providers for services.
+NgModules 是整理應用程式和讓與特定功能或特性相關的程式碼與其他程式碼分開的絕佳方式。
+使用 NgModules 將元件、指令和管道整併成具凝聚力的功能區塊。
+將每個區塊聚焦於功能或業務領域、工作流程或導覽流程、公用的工具集合，或一個或多個服務提供者。
 
-## Summary of NgModule categories
+## NgModule 類別摘要
 
-All applications start by [bootstrapping a root NgModule](/guide/ngmodules/bootstrapping "Launching an app with a root NgModule").
-You can organize your other NgModules any way you want.
+所有應用程式會先透過 [引導根 NgModule](/guide/ngmodules/bootstrapping "以根 NgModule 啟動應用程式") 開始。
+您可以依自己的喜好來組織其他 NgModule。
 
-This topic provides some guidelines for the following general categories of NgModules:
+此主題提供下列 NgModules 一般類別的一些準則：
 
-| Category            | Details |
+| 類別            | 詳細資訊 |
 |:---                 |:---     |
-| [Domain](#domain-ngmodules)   | Is organized around a feature, business domain, or user experience.                                                                         |
-| [Routing](#routing-ngmodules) | Provides the routing configuration for another NgModule.                                                                                    |
-| [Service](#service-ngmodules) | Provides utility services such as data access and messaging.                                                                                |
-| [Widget](#widget-ngmodules)   | Makes a component, directive, or pipe available to other NgModules.                                                                         |
-| [Shared](#shared-ngmodules)   | Makes a set of components, directives, and pipes available to other NgModules.                                                              |
+| [網域](#domain-ngmodules)   | 圍繞著功能、業務領域或使用者體驗而組織。                                                                         |
+| [路由](#routing-ngmodules) | 提供另一個 NgModule 的路由設定。                                                                                    |
+| [服務](#service-ngmodules) | 提供數據訪問和訊息傳遞等實用程式服務。                                                                                |
+| [小工具](#widget-ngmodules)   | 使元件、指令或管線可供其他 NgModules 使用。                                                                         |
+| [共用](#shared-ngmodules)   | 使一組元件、指令和管線可供其他 NgModules 使用。                                                              |
 
-The following table summarizes the key characteristics of each category.
+以下表格總結了每個類別的主要特徵。
 
 | NgModule | Declarations | Providers      | Exports       | Imported by |
 |:---      |:---          |:---            |:---           |:---         |
-| Domain   | Yes          | Rare           | Top component | Another domain, `AppModule`    |
-| Routed   | Yes          | Rare           | No            | None                           |
-| Routing  | No           | Yes \(Guards\) | RouterModule  | Another domain \(for routing\) |
-| Service  | No           | Yes            | No            | `AppModule`                    |
-| Widget   | Yes          | Rare           | Yes           | Another domain                 |
-| Shared   | Yes          | No             | Yes           | Another domain                 |
+| Domain   | 是          | 罕見           | 頂層元件     | 其他網域、`AppModule`    |
+| Routed   | 是          | 罕見           | 否            | 無                           |
+| Routing  | 否           | 是 \(Guards\) | RouterModule  | 其他網域 \(用於路由\) |
+| Service  | 否           | 是            | 否            | `AppModule`                    |
+| Widget   | 是          | 罕見           | 是           | 其他網域                 |
+| Shared   | 是          | 否             | 是           | 其他網域                 |
 
 ## Domain NgModules
 
-Use a domain NgModule to deliver a user experience dedicated to a particular feature or application domain, such as editing a customer or placing an order.
+使用網域 NgModule 提供專門針對特定功能或應用程式網域的使用者體驗，例如編輯客戶或下訂單。
 
-A domain NgModule organizes the code related to a certain function, containing all of the components, routing, and templates that make up the function.
-Your top component in the domain NgModule acts as the feature or domain's root, and is the only component you export.
-Private supporting subcomponents descend from it.
+網域 NgModule 組織與某項功能相關的程式碼，包含組成該功能的所有元件、路由和範本。
+網域 NgModule 中的頂層元件充當功能或網域的根，而且是唯一會匯出的元件。
+私人的支援子元件會從它衍生。
 
-Import a domain NgModule exactly once into another NgModule, such as a domain NgModule, or into the root NgModule (`AppModule`) of an application that contains only a few NgModules.
+將某個網域 NgModule 準確地匯入另一個 NgModule 一次，例如網域 NgModule，或僅包含少數 NgModules 的應用程式的根 NgModule (`AppModule`)。
 
-Domain NgModules consist mostly of declarations.
-You rarely include providers.
-If you do, the lifetime of the provided services should be the same as the lifetime of the NgModule.
+Domain NgModules 大多包含宣告。
+您很少包含提供者。
+如果您有，所提供服務的生命週期應與 NgModule 的生命週期相同。
 
 ## Routing NgModules
 
-Use a routing NgModule to provide the routing configuration for a domain NgModule, thereby separating routing concerns from its companion domain NgModule.
+使用路由 NgModule 來提供網域 NgModule 的路由配置，從而將路由問題與其伴隨的網域 NgModule 分離。
 
-HELPFUL: For an overview and details about routing, see [In-app navigation: routing to views](/guide/routing "In-app navigation: routing to views").
+HELPFUL: 有關路由概述和詳細資訊，請參閱 [應用程式內導覽：導覽至檢視](/guide/routing "應用程式內導覽：導覽至檢視")。
 
-Use a routing NgModule to do the following tasks:
+使用路由 NgModule 來執行下列任務：
 
-* Define routes
-* Add router configuration to the NgModule via `imports`
-* Add guard and resolver service providers to the NgModule's providers
+* 定義路由
+* 透過 `imports` 將路由器設定新增到 NgModule
+* 將防護和解析器服務提供者新增到 NgModule 的提供者
 
-The name of the routing NgModule should parallel the name of its companion NgModule, using the suffix `Routing`.
-For example, consider a `ContactModule` in `contact.module.ts` has a routing NgModule named `ContactRoutingModule` in `contact-routing.module.ts`.
+路由 NgModule 的名稱應與其伴生 NgModule 的名稱相符，並使用後綴 `Routing`。
+例如，假設 `contact.module.ts` 中的 `ContactModule` 有一個名為 `ContactRoutingModule` 的路由 NgModule，位於 `contact-routing.module.ts` 中。
 
-Import a routing NgModule only into its companion NgModule.
-If the companion NgModule is the root `AppModule`, the `AppRoutingModule` adds router configuration to its imports with `RouterModule.forRoot(routes)`.
-All other routing NgModules are children that import using `RouterModule.forChild(routes)`.
+僅將路由 NgModule 匯入其伴隨的 NgModule。
+如果伴隨的 NgModule 是根 `AppModule`，則 `AppRoutingModule` 會以 `RouterModule.forRoot(routes)` 將路由器設定新增到其匯入中。
+所有其他路由 NgModules 都是使用 `RouterModule.forChild(routes)` 匯入的子項。
 
-In your routing NgModule, re-export the `RouterModule` as a convenience so that components of the companion NgModule have access to router directives such as `RouterLink` and `RouterOutlet`.
+在您的路由 NgModule 中，重新匯出 `RouterModule` 作為一種便利，以便伴隨的 NgModule 的元件可以存取路由指令，例如 `RouterLink` 和 `RouterOutlet`。
 
-Don't use declarations in a routing NgModule.
-Components, directives, and pipes are the responsibility of the companion domain NgModule, not the routing NgModule.
+不要在路由 NgModule 中使用聲明。
+組件、指令和管道是 companion 領域 NgModule 的責任，而不是路由 NgModule 的責任。
 
-## Service NgModules
+## 服務 NgModules
 
-Use a service NgModule to provide a utility service such as data access or messaging.
-Ideal service NgModules consist entirely of providers and have no declarations.
-Angular's `HttpClientModule` is a good example of a service NgModule.
+使用服務 NgModule 提供數據訪問或訊息傳遞等實用服務。
+理想的服務 NgModule 完全由提供者組成，並且沒有聲明。
+Angular 的 `HttpClientModule` 是服務 NgModule 的一個好例子。
 
-Use only the root `AppModule` to import service NgModules.
+僅使用根 `AppModule` 來匯入服務 NgModules。
 
 ## Widget NgModules
 
-Use a widget NgModule to make a component, directive, or pipe available to external NgModules.
-Import widget NgModules into any NgModules that need the widgets in their templates.
-Many third-party UI component libraries are provided as widget NgModules.
+使用 widget NgModule 使元件、指令或導管可供外部 NgModules 使用。
+將 widget NgModules 匯入任何需要在其範本中使用 widget 的 NgModules。
+許多第三方 UI 元件庫都以 widget NgModules 的形式提供。
 
-A widget NgModule should consist entirely of declarations, most of them exported.
-It would rarely have providers.
+小工具 NgModule 應完全由宣告組成，其中大部分都已匯出。它很少會有提供者。
 
-## Shared NgModules
+## 共用 NgModules
 
-Put commonly used directives, pipes, and components into one NgModule, typically named `SharedModule`, and then import just that NgModule wherever you need it in other parts of your application.
-You can import the shared NgModule in your domain NgModules, including [lazy-loaded NgModules](/guide/ngmodules/lazy-loading "Lazy-loading an NgModule").
+將常用的指令、管道和元件放入一個 NgModule，通常命名為 `SharedModule`，然後在應用程式的其他部分需要時匯入該 NgModule。
+可以在網域 NgModule 中匯入共用 NgModule，包括 [延遲載入的 NgModule](/guide/ngmodules/lazy-loading "延遲載入 NgModule")。
 
-Note: Shared NgModules should not include providers, nor should any of its imported or re-exported NgModules include providers.
+注意：共用的 NgModules 不應包含提供者，其導入或重新導出的任何 NgModules 也不應包含提供者。
 
-To learn how to use shared modules to organize and streamline your code, see [Sharing NgModules in an app](/guide/ngmodules/sharing "Sharing NgModules in an app").
+如要了解如何使用共用模組來組織和簡化您的程式碼，請參閱 [應用程式中的共用 NgModules](/guide/ngmodules/sharing "應用程式中的共用 NgModules")。
 
-## Next steps
+## 後續步驟
 
-If you want to manage NgModule loading and the use of dependencies and services, see the following:
+如果您想管理 NgModule 加載以及依賴項和服務的使用，請參閱以下內容：
 
-* To learn about loading NgModules eagerly when the application starts, or lazy-loading NgModules asynchronously by the router, see [Lazy-loading feature modules](/guide/ngmodules/lazy-loading)
-* To understand how to provide a service or other dependency for your app, see [Providing Dependencies for an NgModule](/guide/ngmodules/providers "Providing Dependencies for an NgModule")
-* To learn how to create a singleton service to use in NgModules, see [Making a service a singleton](/guide/ngmodules/singleton-services "Making a service a singleton")
+* 如要瞭解如何在應用程式啟動時急切載入 NgModules，或路由器非同步延遲載入 NgModules，請參閱 [延遲載入功能模組](/guide/ngmodules/lazy-loading)
+* 如要瞭解如何為您的應用程式提供服務或其他相依性，請參閱 [為 NgModule 提供相依性](/guide/ngmodules/providers "為 NgModule 提供相依性")
+* 如要瞭解如何在 NgModules 中使用建立單例服務，請參閱 [建立單例服務](/guide/ngmodules/singleton-services "建立單例服務")
+

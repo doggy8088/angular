@@ -1,11 +1,11 @@
 # Angular Language Service
 
-The Angular Language Service provides code editors with a way to get completions, errors, hints, and navigation inside Angular templates.
-It works with external templates in separate HTML files, and also with in-line templates.
+Angular 語言服務為程式碼編輯器提供一種在 Angular 範本中取得完成、錯誤、提示和導覽的方式。
+它適用於獨立 HTML 檔案中的外部範本，也適用於內嵌範本。
 
-## Configuring compiler options for the Angular Language Service
+## 為 Angular 語言服務設定編譯器選項
 
-To enable the latest Language Service features, set the `strictTemplates` option in `tsconfig.json` by setting `strictTemplates` to `true`, as shown in the following example:
+如要啟用最新的語言服務功能，請在 `tsconfig.json` 中將 `strictTemplates` 選項設為 `true`，如下例所示：
 
 <docs-code language="json">
 
@@ -15,81 +15,104 @@ To enable the latest Language Service features, set the `strictTemplates` option
 
 </docs-code>
 
-For more information, see the [Angular compiler options](reference/configs/angular-compiler-options) guide.
+有關更多資訊，請參閱 [Angular 編譯器選項](reference/configs/angular-compiler-options)指南。
 
-## Features
+## 特色
 
-Your editor autodetects that you are opening an Angular file.
-It then uses the Angular Language Service to read your `tsconfig.json` file, find all the templates you have in your application, and then provide language services for any templates that you open.
+您的編輯器會自動偵測您正在開啟一個 Angular 檔案。
+然後它會使用 Angular 語言服務來讀取您的 `tsconfig.json` 檔案，找到您應用程式中的所有範本，然後為您開啟的任何範本提供語言服務。
 
-Language services include:
+語言服務包括：
 
-* Completions lists
-* AOT Diagnostic messages
-* Quick info
-* Go to definition
+* 自動完成清單
+* AOT 診斷訊息
+* 快速資訊
+* 前往定義
 
-### Autocompletion
+### 自動完成
 
-Autocompletion can speed up your development time by providing you with contextual possibilities and hints as you type.
-This example shows autocomplete in an interpolation.
-As you type it out, you can press tab to complete.
+自動完成功能會在您輸入時提供您情境可能性和提示，從而加快您的開發時間。
+此範例顯示插補中的自動完成功能。
+在您輸入時，您可以按下 tab 鍵來完成。
 
-<img alt="autocompletion" src="assets/content/images/guide/language-service/language-completion.gif">
+<img alt="自動完成功能" src="assets/content/images/guide/language-service/language-completion.gif">
 
-There are also completions within elements.
-Any elements you have as a component selector will show up in the completion list.
+元素內也有補全功能。
 
-### Error checking
+您作為元件選擇器擁有的任何元素都將顯示在補全清單中。
 
-The Angular Language Service can forewarn you of mistakes in your code.
-In this example, Angular doesn't know what `orders` is or where it comes from.
+### 錯誤檢查
 
-<img alt="error checking" src="assets/content/images/guide/language-service/language-error.gif">
+Angular 語言服務可以預先警告您程式碼中的錯誤。
+在此範例中，Angular 不知道 `orders` 是什麼或它從何而來。
 
-### Quick info and navigation
+<img alt="錯誤檢查" src="assets/content/images/guide/language-service/language-error.gif">
 
-The quick-info feature lets you hover to see where components, directives, and modules come from.
-You can then click "Go to definition" or press F12 to go directly to the definition.
+### 快速資訊與導覽
+
+快速資訊功能讓您將滑鼠懸停在元件、指令和模組上，以查看它們的來源。
+然後，您可以按一下「前往定義」或按 F12 直接前往定義。
 
 <img alt="navigation" src="assets/content/images/guide/language-service/language-navigation.gif">
 
-## Angular Language Service in your editor
+## 編輯器中的 Angular 語言服務
 
-Angular Language Service is currently available as an extension for [Visual Studio Code](https://code.visualstudio.com), [WebStorm](https://www.jetbrains.com/webstorm), [Sublime Text](https://www.sublimetext.com) and [Eclipse IDE](https://www.eclipse.org/eclipseide).
+html
+<p>
+  The Angular Language Service provides a number of features that make it easier to develop Angular applications in your editor. These features include:
+</p>
+<ul>
+  <li>Autocompletion</li>
+  <li>Syntax highlighting</li>
+  <li>Error checking</li>
+  <li>Navigation</li>
+  <li>Refactoring</li>
+</ul>
+<p>
+  To use the Angular Language Service, you need to install the Angular extension for your editor. The extension is available for a variety of editors, including Visual Studio Code, Atom, and Sublime Text.
+</p>
+<p>
+  Once you have installed the extension, you can enable the Angular Language Service by opening the settings for your editor and selecting the "Angular" checkbox.
+</p>
+<p>
+  The Angular Language Service will then be available in your editor. You can use the features of the service by typing in your Angular code.
+</p>
+
+Angular 語言服務目前可作為 [Visual Studio Code](https://code.visualstudio.com)、[WebStorm](https://www.jetbrains.com/webstorm)、[Sublime Text](https://www.sublimetext.com) 和 [Eclipse IDE](https://www.eclipse.org/eclipseide) 的擴充功能。
 
 ### Visual Studio Code
 
-In [Visual Studio Code](https://code.visualstudio.com), install the extension from the [Extensions: Marketplace](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template).
-Open the marketplace from the editor using the Extensions icon on the left menu pane, or use VS Quick Open \(⌘+P on Mac, CTRL+P on Windows\) and type "? ext".
-In the marketplace, search for Angular Language Service extension, and click the **Install** button.
+在 [Visual Studio Code](https://code.visualstudio.com) 中，從 [擴充功能：市集](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template) 安裝擴充功能。
+使用左側功能表窗格上的擴充功能圖示，或使用 VS 快速開啟（Mac 上的 ⌘+P，Windows 上的 CTRL+P），然後輸入「? ext」來從編輯器開啟市集。
+在市集中搜尋 Angular 語言服務擴充功能，然後按一下 **安裝** 按鈕。
 
-The Visual Studio Code integration with the Angular language service is maintained and distributed by the Angular team.
+Visual Studio Code 與 Angular 語言服務的整合是由 Angular 團隊維護和分發。
 
 ### Visual Studio
 
-In [Visual Studio](https://visualstudio.microsoft.com), install the extension from the [Extensions: Marketplace](https://marketplace.visualstudio.com/items?itemName=TypeScriptTeam.AngularLanguageService).
-Open the marketplace from the editor selecting Extensions on the top menu pane, and then selecting Manage Extensions.
-In the marketplace, search for Angular Language Service extension, and click the **Install** button.
+在 [Visual Studio](https://visualstudio.microsoft.com) 中，從 [擴充功能：市集](https://marketplace.visualstudio.com/items?itemName=TypeScriptTeam.AngularLanguageService) 安裝擴充功能。
+從頂端功能表窗格選擇擴充功能，然後選擇管理擴充功能，即可從編輯器開啟市集。
+在市集中，搜尋 Angular 語言服務擴充功能，然後按一下 **安裝** 按鈕。
 
-The Visual Studio integration with the Angular language service is maintained and distributed by Microsoft with help from the Angular team.
-Check out the project [here](https://github.com/microsoft/vs-ng-language-service).
+Visual Studio 與 Angular 語言服務的整合由 Microsoft 與 Angular 團隊共同維護和發行。
+查看[此處](https://github.com/microsoft/vs-ng-language-service)的專案。
 
 ### WebStorm
 
-In [WebStorm](https://www.jetbrains.com/webstorm), enable the plugin [Angular and AngularJS](https://plugins.jetbrains.com/plugin/6971-angular-and-angularjs).
+在 [WebStorm](https://www.jetbrains.com/webstorm) 中，啟用外掛程式 [Angular and AngularJS](https://plugins.jetbrains.com/plugin/6971-angular-and-angularjs)。
 
-Since WebStorm 2019.1, the `@angular/language-service` is not required anymore and should be removed from your `package.json`.
+自 WebStorm 2019.1 起，不再需要 `@angular/language-service`，並應從 `package.json` 中移除它。
 
 ### Sublime Text
 
-In [Sublime Text](https://www.sublimetext.com), the Language Service supports only in-line templates when installed as a plug-in.
-You need a custom Sublime plug-in \(or modifications to the current plug-in\) for completions in HTML files.
+在 [Sublime Text](https://www.sublimetext.com) 中，當作為外掛安裝時，語言服務僅支援內聯範本。
+您需要一個自訂 Sublime 外掛（或對目前外掛的修改）才能在 HTML 檔案中完成。
 
-To use the Language Service for in-line templates, you must first add an extension to allow TypeScript, then install the Angular Language Service plug-in.
-Starting with TypeScript 2.3, TypeScript has a plug-in model that the language service can use.
+若要使用內嵌範本的語言服務，您必須先新增一個擴充功能來允許 TypeScript，然後安裝 Angular 語言服務外掛程式。
 
-1. Install the latest version of TypeScript in a local `node_modules` directory:
+從 TypeScript 2.3 開始，TypeScript 具備語言服務可使用的外掛程式模型。
+
+1. 在本機 `node_modules` 目錄中安裝最新版本的 TypeScript：
 
     <docs-code language="shell">
 
@@ -97,7 +120,7 @@ Starting with TypeScript 2.3, TypeScript has a plug-in model that the language s
 
     </docs-code>
 
-1. Install the Angular Language Service package in the same location:
+1. 在相同的位置安裝 Angular 語言服務套件：
 
     <docs-code language="shell">
 
@@ -105,7 +128,7 @@ Starting with TypeScript 2.3, TypeScript has a plug-in model that the language s
 
     </docs-code>
 
-1. Once the package is installed,  add the following to the `"compilerOptions"` section of your project's `tsconfig.json`.
+1. 套件安裝完成後，將下列內容新增到專案 `tsconfig.json` 的 `"compilerOptions"` 區段。
 
     <docs-code header="tsconfig.json" language="json">
 
@@ -115,36 +138,37 @@ Starting with TypeScript 2.3, TypeScript has a plug-in model that the language s
 
     </docs-code>
 
-1. In your editor's user preferences \(`Cmd+,` or `Ctrl+,`\), add the following:
+1. 在編輯器的使用者偏好設定中\(`Cmd+,` 或 `Ctrl+,`\)，新增下列內容：
 
-    <docs-code header="Sublime Text user preferences" language="json">
+    <docs-code header="Sublime Text 使用者偏好設定" language="json">
 
-    "typescript-tsdk": "&lt;path to your folder&gt;/node_modules/typescript/lib"
+    "typescript-tsdk": "&lt;路徑至您的資料夾&gt;/node_modules/typescript/lib"
 
     </docs-code>
 
-This lets the Angular Language Service provide diagnostics and completions in `.ts` files.
+這讓 Angular Language Service 能在 `.ts` 檔案中提供診斷和補全。
 
 ### Eclipse IDE
 
-Either directly install the "Eclipse IDE for Web and JavaScript developers" package which comes with the Angular Language Server included, or from other Eclipse IDE packages, use Help &gt; Eclipse Marketplace to find and install [Eclipse Wild Web Developer](https://marketplace.eclipse.org/content/wild-web-developer-html-css-javascript-typescript-nodejs-angular-json-yaml-kubernetes-xml).
+可以直接安裝附帶 Angular 語言伺服器的「Eclipse IDE for Web and JavaScript developers」套件，或從其他 Eclipse IDE 套件中使用「說明」>「Eclipse Marketplace」尋找並安裝 [Eclipse Wild Web Developer](https://marketplace.eclipse.org/content/wild-web-developer-html-css-javascript-typescript-nodejs-angular-json-yaml-kubernetes-xml)。
 
-## How the Language Service works
+## 語言服務如何運作
 
-When you use an editor with a language service, the editor starts a separate language-service process and communicates with it through an [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call), using the [Language Server Protocol](https://microsoft.github.io/language-server-protocol).
-When you type into the editor, the editor sends information to the language-service process to track the state of your project.
+當您使用具有語言服務的編輯器時，編輯器會啟動一個獨立的語言服務程序，並透過 [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call) 使用 [語言伺服器協定](https://microsoft.github.io/language-server-protocol) 與之通訊。
+當您在編輯器中輸入時，編輯器會將資訊傳送給語言服務程序來追蹤專案狀態。
 
-When you trigger a completion list within a template, the editor first parses the template into an HTML [abstract syntax tree (AST)](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
-The Angular compiler interprets that tree to determine the context: which module the template is part of, the current scope, the component selector, and where your cursor is in the template AST.
-It can then determine the symbols that could potentially be at that position.
+當你在範本中觸發完成清單時，編輯器會先將範本解析成 HTML [抽象語法樹 (AST)](https://en.wikipedia.org/wiki/Abstract_syntax_tree)。
+Angular 編譯器會解譯該樹以判斷內容：範本屬於哪個模組、目前的範圍、元件選擇器，以及你的遊標在範本 AST 中的位置。
+然後，它可以判斷可能在該位置的符號。
 
-It's a little more involved if you are in an interpolation.
-If you have an interpolation of `{{data.---}}` inside a `div` and need the completion list after `data.---`, the compiler can't use the HTML AST to find the answer.
-The HTML AST can only tell the compiler that there is some text with the characters "`{{data.---}}`".
-That's when the template parser produces an expression AST, which resides within the template AST.
-The Angular Language Services then looks at `data.---` within its context, asks the TypeScript Language Service what the members of `data` are, and returns the list of possibilities.
+如果您在內插法中，這會涉及更多內容。
+如果在 `div` 內部有 `{{data.---}}` 的內插法，並且需要在 `data.---` 之後顯示完成清單，編譯器無法使用 HTML AST 來尋找答案。
+HTML AST 只會告訴編譯器，有一些文字包含字元 "`{{data.---}}`"。
+這是範本解析器產生表達式 AST 的時候，它位於範本 AST 內部。
+然後 Angular 語言服務會在自己的內容中查看 `data.---`，詢問 TypeScript 語言服務 `data` 的成員是什麼，並傳回可能性清單。
 
-## More information
+## 更多資訊
 
-* For more in-depth information on the implementation, see the [Angular Language Service source](https://github.com/angular/angular/blob/main/packages/language-service/src)
-* For more on the design considerations and intentions, see [design documentation here](https://github.com/angular/vscode-ng-language-service/wiki/Design)
+* 如需有關實作的更深入資訊，請參閱 [Angular Language Service 來源](https://github.com/angular/angular/blob/main/packages/language-service/src)
+* 如需有關設計考量和意圖的更多資訊，請參閱 [此處的設計文件](https://github.com/angular/vscode-ng-language-service/wiki/Design)
+

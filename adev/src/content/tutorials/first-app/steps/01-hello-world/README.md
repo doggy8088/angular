@@ -1,120 +1,121 @@
-# Hello world
+# 您好，世界
 
-This first lesson serves as the starting point from which each lesson in this tutorial adds new features to build a complete Angular app. In this lesson, we'll update the application to display the famous text, "Hello World".
+這個第一課是起點，本教學課程中的每一課都從此處開始，新增功能以建構完整的 Angular 應用程式。在這一課中，我們會更新應用程式以顯示著名的文字「Hello World」。
 
 <docs-video src="https://www.youtube.com/embed/UnOwDuliqZA?si=uML-cDRbrxmYdD_9"/>
 
-## What you'll learn
+## 你將會學到
 
-The updated app you have after this lesson confirms that you and your IDE are ready to begin creating an Angular app.
+完成此課程後您所更新的應用程式確認您和您的 IDE 已準備好開始建立 Angular 應用程式。
 
-Note: If you are working with the embedded editor, skip to [step three](#create-%60hello-world%60).
-When working in the browser playground, you do not need to `ng serve` to run the app. Other commands like `ng generate` can be done in the console window to your right.
+注意：如果您使用的是嵌入式編輯器，請跳至 [步驟三](#create-%60hello-world%60)。
+在瀏覽器遊樂場中工作時，您不需要 `ng serve` 來運行應用程式。其他命令，例如 `ng generate` 可以直接在您右邊的主控台視窗中執行。
 
 <docs-workflow>
 
-<docs-step title="Download the default app">
-Start by clicking the "Download" icon in the top right pan of the code editor. This will download a `.zip` file containing the source code for this tutorial. Open this in your local Terminal and IDE then move on to testing the default app.
+<docs-step title="下載預設應用程式">
+先點選程式碼編輯器右上角的「下載」圖示。這會下載一個包含本教學程式碼的 `.zip` 檔案。在你的本地端終端機和 IDE 中開啟此檔案，然後繼續測試預設應用程式。
 
-At any step in the tutorial, you can click this icon to download the step's source code and start from there.
+在教學課程的任何步驟中，您可以點擊此圖示下載該步驟的原始程式碼，然後從該處開始。
 </docs-step>
 
-<docs-step title="Test the default app">
-In this step, after you download the default starting app, you build the default Angular app.
-This confirms that your development environment has what you need to continue the tutorial.
+<docs-step title="測試預設應用程式">
+在這個步驟，下載預設起始應用程式後，建立預設 Angular 應用程式。
+這確認您的開發環境有繼續本教學所需的內容。
 
-In the **Terminal** pane of your IDE:
+在您的 IDE 的 **Terminal** 窗格中：
 
-1. In your project directory, navigate to the `first-app` directory.
-1. Run this command to install the dependencies needed to run the app.
+1. 在您的專案目錄中，導航至 `first-app` 目錄。
+1. 執行此命令，以安裝執行應用程式所需的相依性。
 
     <docs-code language="shell">
     npm install
     </docs-code>
 
-1. Run this command to build and serve the default app.
+1. 執行此命令，以建構並提供預設應用程式。
 
     <docs-code language="shell">
     ng serve
     </docs-code>
 
-    The app should build without errors.
+    應用程式應會在沒有錯誤的情況下建構。
 
-1. In a web browser on your development computer, open `http://localhost:4200`.
-1. Confirm that the default web site appears in the browser.
-1. You can leave `ng serve` running as you complete the next steps.
+1. 在您的開發電腦上的網路瀏覽器中，開啟 `http://localhost:4200`。
+1. 確認預設網站出現在瀏覽器中。
+1. 您可以在完成後續步驟時，讓 `ng serve` 持續執行。
 </docs-step>
 
-<docs-step title="Review the files in the project">
-In this step, you get to know the files that make up a default Angular app.
+<docs-step title="檢閱專案中的檔案">
+在這個步驟中，您必須了解組成預設 Angular 應用程式的檔案。
 
-In the **Explorer** pane of your IDE:
+在您的 IDE 的 **瀏覽器** 窗格中：
 
-1. In your project directory, navigate to the `first-app` directory.
-1. Open the `src` directory to see these files.
-    1. In the file explorer, find the Angular app files (`/src`).
-        1. `index.html` is the app's top level HTML template.
-        1. `style.css` is the app's top level style sheet.
-        1. `main.ts` is where the app starts running.
-        1. `favicon.ico` is the app's icon, just as you would find in any web site.
-    1. In the file explorer, find the Angular app's component files (`/app`).
-        1. `app.component.ts` is the source file that describes the `app-root` component.
-            This is the top-level Angular component in the app. A component is the basic building block of an Angular application.
-            The component description includes the component's code, HTML template, and styles, which can be described in this file, or in separate files.
+1. 在您的專案目錄中，導覽至 `first-app` 目錄。
+1. 開啟 `src` 目錄以查看這些檔案。
+    1. 在檔案總管中，找到 Angular 應用程式檔案 (`/src`)。
+        1. `index.html` 是應用程式的頂層 HTML 範本。
+        1. `style.css` 是應用程式的頂層樣式表。
+        1. `main.ts` 是應用程式開始執行的位置。
+        1. `favicon.ico` 是應用程式的圖示，就像您在任何網站中找到的一樣。
+    1. 在檔案總管中，找到 Angular 應用程式的元件檔案 (`/app`)。
+        1. `app.component.ts` 是描述 `app-root` 元件的原始檔。
+            這是應用程式中的頂層 Angular 元件。元件是 Angular 應用程式的基本建構區塊。
+            元件說明包括元件的程式碼、HTML 範本和樣式，可以在此檔案中或在個別檔案中描述。
 
-            In this app, the styles are in a separate file while the component's code and HTML template are in this file.
-        1. `app.component.css` is the style sheet for this component.
-        1. New components are added to this directory.
-    1. In the file explorer, find the image directory (`/assets`) that contains images used by the app.
-    1. In the file explorer, find the files and directories that an Angular app needs to build and run, but they are not files that you normally interact with.
-        1. `.angular` has files required to build the Angular app.
-        1. `.e2e` has files used to test the app.
-        1. `.node_modules` has the node.js packages that the app uses.
-        1. `angular.json` describes the Angular app to the app building tools.
-        1. `package.json` is used by `npm` (the node package manager) to run the finished app.
-        1. `tsconfig.*` are the files that describe the app's configuration to the TypeScript compiler.
+            在此應用程式中，樣式在個別檔案中，而元件的程式碼和 HTML 範本在此檔案中。
+        1. `app.component.css` 是此元件的樣式表。
+        1. 新的元件會新增到此目錄。
+    1. 在檔案總管中，找到包含應用程式所使用影像的影像目錄 (`/assets`)。
+    1. 在檔案總管中，找到 Angular 應用程式需要建置和執行，但您通常不會與之互動的檔案和目錄。
+        1. `.angular` 有建置 Angular 應用程式所需的檔案。
+        1. `.e2e` 有用於測試應用程式的檔案。
+        1. `.node_modules` 有應用程式使用的 node.js 套件。
+        1. `angular.json` 向應用程式建置工具說明 Angular 應用程式。
+        1. `package.json` 由 `npm` (node 套件管理員) 用於執行已完成的應用程式。
+        1. `tsconfig.*` 是向 TypeScript 編譯器說明應用程式組態的檔案。
 
-After you have reviewed the files that make up an Angular app project, continue to the next step.
+當您已檢閱組成 Angular 應用程式專案的檔案後，繼續至下一步。
 </docs-step>
 
-<docs-step title="Create `Hello World`">
-In this step, you update the Angular project files to change the displayed content.
+<docs-step title="建立 `Hello World`">
+在此步驟中，您會更新 Angular 專案檔案，以變更顯示的內容。
 
-In your IDE:
+在您的 IDE 中：
 
-1. Open `first-app/src/index.html`.
-    Note: This step and the next are only for your local environment!
+1. 開啟 `first-app/src/index.html`。
+    注意：此步驟和下一個步驟僅適用於您的本地環境！
 
-1. In `index.html`, replace the `<title>` element with this code to update the title of the app.
+1. 在 `index.html` 中，以這個程式碼取代 `<title>` 元素，以更新應用程式的標題。
 
-    <docs-code header="Replace in src/index.html" path="adev/src/content/tutorials/first-app/steps/01-hello-world/src/index.html" visibleLines="[5]"/>
+    <docs-code header="在 src/index.html 中取代" path="adev/src/content/tutorials/first-app/steps/01-hello-world/src/index.html" visibleLines="[5]"/>
 
-    Then, save the changes you just made to `index.html`.
+    然後，儲存您剛才對 `index.html` 所做的變更。
 
-1. Next, open  `first-app/src/app/app.component.ts`.
-1. In `app.component.ts`, in the `@Component` definition, replace the `template` line with this code to change the text in the app component.
+1. 接下來，開啟 `first-app/src/app/app.component.ts`。
+1. 在 `app.component.ts` 中，在 `@Component` 定義中，以這個程式碼取代 `template` 列，以變更應用程式元件中的文字。
 
-    <docs-code header="Replace in src/app/app.component.ts" path="adev/src/content/tutorials/first-app/steps/01-hello-world/src/app/app.component.ts" visibleLines="[7]"/>
+    <docs-code header="在 src/app/app.component.ts 中取代" path="adev/src/content/tutorials/first-app/steps/01-hello-world/src/app/app.component.ts" visibleLines="[7]"/>
 
-1. In `app.component.ts`, in the `AppComponent` class definition, replace the `title` line with this code to change the component title.
+1. 在 `app.component.ts` 中，在 `AppComponent` 類別定義中，以這個程式碼取代 `title` 列，以變更元件標題。
 
-    <docs-code header="Replace in src/app/app.component.ts" path="adev/src/content/tutorials/first-app/steps/01-hello-world/src/app/app.component.ts" visibleLines="[11]"/>
+    <docs-code header="在 src/app/app.component.ts 中取代" path="adev/src/content/tutorials/first-app/steps/01-hello-world/src/app/app.component.ts" visibleLines="[11]"/>
 
-    Then, save the changes you made to `app.component.ts`.
+    然後，儲存您對 `app.component.ts` 所做的變更。
 
-1. If you stopped the `ng serve` command from step 1, in the **Terminal** window of your IDE, run `ng serve` again.
-1. Open your browser and navigate to `localhost:4200` and confirm that the app builds without error and displays *Hello world* in the title and body of your app:
-    <img alt="browser frame of page displaying the text 'Hello World'" src="assets/content/images/tutorials/first-app/homes-app-lesson-01-browser.png">
+1. 如果您已在步驟 1 中停止 `ng serve` 指令，請在 IDE 的 **終端機** 視窗中，再次執行 `ng serve`。
+1. 開啟您的瀏覽器並導航至 `localhost:4200`，並確認應用程式在沒有錯誤的情況下建置，並在應用程式的標題和內文中顯示 *Hello world*：
+    <img alt="顯示文字「Hello World」的頁面瀏覽器畫面" src="assets/content/images/tutorials/first-app/homes-app-lesson-01-browser.png">
 </docs-step>
 
 </docs-workflow>
 
-Summary: In this lesson, you updated a default Angular app to display *Hello world*.
-In the process, you learned about the `ng serve` command to serve your app locally for testing.
+摘要：在本課程中，您更新了預設的 Angular 應用程式，以顯示 *Hello world*。
+在此過程中，您瞭解了 `ng serve` 指令，可在本地端為您的應用程式提供測試服務。
 
-For more information about the topics covered in this lesson, visit:
+有關本課程中涵蓋的主題的更多資訊，請造訪：
 
 <docs-pill-row>
-  <docs-pill href="guide/components" title="Angular Components"/>
-  <docs-pill href="tools/cli" title="Creating applications with the Angular CLI"/>
+  <docs-pill href="guide/components" title="Angular 元件"/>
+  <docs-pill href="tools/cli" title="使用 Angular CLI 建立應用程式"/>
 </docs-pill-row>
+

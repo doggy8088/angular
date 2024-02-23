@@ -1,18 +1,15 @@
-# Directive composition API
+# 指令組合 API
 
-Angular directives offer a great way to encapsulate reusable behaviors— directives can apply
-attributes, CSS classes, and event listeners to an element.
+Angular 指令提供了一個封裝可重複使用的行為的絕佳方法 - 指令可以將
+屬性、CSS 類別和事件偵聽器應用到元素。
 
-The *directive composition API* lets you apply directives to a component's host element from
-*within* the component TypeScript class.
+*指令組合 API* 讓您從 *內部* 元件 TypeScript 類別將指令套用至元件的宿主元素。
 
-## Adding directives to a component
+## 在元件中新增指令
 
-You apply directives to a component by adding a `hostDirectives` property to a component's
-decorator. We call such directives *host directives*.
+您可以透過將 `hostDirectives` 屬性新增至元件的裝飾器來將指令套用至元件。我們稱此類指令為 *主機指令*。
 
-In this example, we apply the directive `MenuBehavior` to the host element of `AdminMenu`. This
-works similarly to applying the `MenuBehavior` to the `<admin-menu>` element in a template.
+在此範例中，我們將指令 `MenuBehavior` 套用至 `AdminMenu` 的主機元素。這類似於在範本中將 `MenuBehavior` 套用至 `<admin-menu>` 元素。
 
 ```typescript
 @Component({
@@ -24,23 +21,20 @@ works similarly to applying the `MenuBehavior` to the `<admin-menu>` element in 
 export class AdminMenu { }
 ```
 
-When the framework renders a component, Angular also creates an instance of each host directive. The
-directives' host bindings apply to the component's host element. By default, host directive inputs
-and outputs are not exposed as part of the component's public API. See
-[Including inputs and outputs](#including-inputs-and-outputs) below for more information.
+當框架呈現元件時，Angular 也會為每個主機指令建立一個實例。
+指令的主機繫結套用至元件的主機元素。
+預設情況下，主機指令輸入和輸出不會公開為元件的公開 API 的一部分。
+請參閱以下 [包括輸入和輸出](#including-inputs-and-outputs) 以獲取更多資訊。
 
-**Angular applies host directives statically at compile time.** You cannot dynamically add
-directives at runtime.
+**Angular 在編譯時以靜態方式套用主機指令。**您無法在執行階段動態新增指令。
 
-**Directives used in `hostDirectives` must be `standalone: true`.**
+**在 `hostDirectives` 中使用的指令必須為 `standalone: true`。**
 
-**Angular ignores the `selector` of directives applied in the `hostDirectives` property.**
+**Angular 會忽略應用在 `hostDirectives` 屬性中的指令的 `selector`。**
 
-## Including inputs and outputs
+## 包括輸入和輸出
 
-When you apply `hostDirectives` to your component, the inputs and outputs from the host directives
-are not included in your component's API by default. You can explicitly include inputs and outputs
-in your component's API by expanding the entry in `hostDirectives`:
+當你將 `hostDirectives` 套用至元件時，預設情況下，主機指令的輸入和輸出不會包含在元件的 API 中。你可以透過擴展 `hostDirectives` 中的項目，將輸入和輸出明確包含在元件的 API 中：
 
 ```typescript
 @Component({
@@ -56,16 +50,14 @@ in your component's API by expanding the entry in `hostDirectives`:
 export class AdminMenu { }
 ```
 
-By explicitly specifying the inputs and outputs, consumers of the component with `hostDirective` can
-bind them in a template:
+通過明確指定輸入和輸出，使用者可使用 `hostDirective` 將元件綁定在範本中：
 
 ```html
 
 <admin-menu menuId="top-menu" (menuClosed)="logMenuClosed()">
 ```
 
-Furthermore, you can alias inputs and outputs from `hostDirective` to customize the API of your
-component:
+此外，您可以從 `hostDirective` 別名輸入和輸出以自訂您的元件 API：
 
 ```typescript
 @Component({
@@ -86,18 +78,13 @@ export class AdminMenu { }
 <admin-menu id="top-menu" (closed)="logMenuClosed()">
 ```
 
-## Adding directives to another directive
+## 在另一指令添加指令
 
-You can also add `hostDirectives` to other directives, in addition to components. This enables the
-transitive aggregation of multiple behaviors.
+你也可以將 `hostDirectives` 新增至其他指令，除了元件之外。這啟用了多個行為的遞移聚合。
 
-In the following example, we define two directives, `Menu` and `Tooltip`. We then compose the behavior
-of these two directives in `MenuWithTooltip`. Finally, we apply `MenuWithTooltip`
-to `SpecializedMenuWithTooltip`.
+在以下範例中，我們定義兩個指令，`Menu` 和 `Tooltip`。然後我們在 `MenuWithTooltip` 中組合這兩個指令的行為。最後，我們將 `MenuWithTooltip` 套用至 `SpecializedMenuWithTooltip`。
 
-When `SpecializedMenuWithTooltip` is used in a template, it creates instances of all of `Menu`
-, `Tooltip`, and `MenuWithTooltip`. Each of these directives' host bindings apply to the host
-element of `SpecializedMenuWithTooltip`.
+當在範本中使用 `SpecializedMenuWithTooltip` 時，它會建立所有 `Menu`、`Tooltip` 和 `MenuWithTooltip` 的執行個體。這些指令的每個主機繫結套用到 `SpecializedMenuWithTooltip` 的主機元素。
 
 ```typescript
 @Directive({...})
@@ -121,15 +108,13 @@ export class MenuWithTooltip { }
 export class SpecializedMenuWithTooltip { }
 ```
 
-## Host directive semantics
+## 主機指令語義
 
-### Directive execution order
+### 指令執行順序
 
-Host directives go through the same lifecycle as components and directives used directly in a
-template. However, host directives always execute their constructor, lifecycle hooks, and bindings _
-before_ the component or directive on which they are applied.
+主機指令的運作週期與直接在範本中使用的元件及指令相同。然而，主機指令總是會先執行他們的建構函數、生命週期掛鉤和繫結，然後才會執行他們所套用的元件或指令。
 
-The following example shows minimal use of a host directive:
+以下範例顯示主機指令的最低限度使用：
 
 ```typescript
 @Component({
@@ -141,20 +126,18 @@ The following example shows minimal use of a host directive:
 export class AdminMenu { }
 ```
 
-The order of execution here is:
+這裡的執行順序是：
 
-1. `MenuBehavior` instantiated
-2. `AdminMenu` instantiated
-3. `MenuBehavior` receives inputs (`ngOnInit`)
-4. `AdminMenu` receives inputs (`ngOnInit`)
-5. `MenuBehavior` applies host bindings
-6. `AdminMenu` applies host bindings
+1. `MenuBehavior` 實例化
+2. `AdminMenu` 實例化
+3. `MenuBehavior` 接收輸入 (`ngOnInit`)
+4. `AdminMenu` 接收輸入 (`ngOnInit`)
+5. `MenuBehavior` 套用主機繫結
+6. `AdminMenu` 套用主機繫結
 
-This order of operations means that components with `hostDirectives` can override any host bindings
-specified by a host directive.
+這個運算順序表示具有 `hostDirectives` 的元件可以覆寫由主機指令指定的任何主機繫結。
 
-This order of operations extends to nested chains of host directives, as shown in the following
-example.
+這項運算順序延伸到主機指令的巢狀鏈，如下例所示。
 
 ```typescript
 @Directive({...})
@@ -173,38 +156,31 @@ export class CustomTooltip { }
 export class EvenMoreCustomTooltip { }
 ```
 
-In the example above, the order of execution is:
+在上面的範例中，執行的順序是：
 
-1. `Tooltip` instantiated
-2. `CustomTooltip` instantiated
-3. `EvenMoreCustomTooltip` instantiated
-4. `Tooltip` receives inputs (`ngOnInit`)
-5. `CustomTooltip` receives inputs (`ngOnInit`)
-6. `EvenMoreCustomTooltip` receives inputs (`ngOnInit`)
-7. `Tooltip` applies host bindings
-8. `CustomTooltip` applies host bindings
-9. `EvenMoreCustomTooltip` applies host bindings
+1. `Tooltip` 實例化
+2. `CustomTooltip` 實例化
+3. `EvenMoreCustomTooltip` 實例化
+4. `Tooltip` 接收輸入 (`ngOnInit`)
+5. `CustomTooltip` 接收輸入 (`ngOnInit`)
+6. `EvenMoreCustomTooltip` 接收輸入 (`ngOnInit`)
+7. `Tooltip` 套用主機繫結
+8. `CustomTooltip` 套用主機繫結
+9. `EvenMoreCustomTooltip` 套用主機繫結
 
-### Dependency injection
+### 依賴注入
 
-A component or directive that specifies `hostDirectives` can inject the instances of those host
-directives and vice versa.
+指定 `hostDirectives` 的元件或指令可以注入這些主機指令的執行個體，反之亦然。
 
-When applying host directives to a component, both the component and host directives can define
-providers.
+在將主機指令套用至組件時，組件和主機指令都能定義提供者。
 
-If a component or directive with `hostDirectives` and those host directives both provide the same
-injection token, the providers defined by class with `hostDirectives` take precedence over providers
-defined by the host directives.
+如果一個元件或指令具備 `hostDirectives`，且這些主機指令都提供相同的注入權杖，由具備 `hostDirectives` 的類別定義的提供者優先於由主機指令定義的提供者。
 
-### Performance
+### 效能
 
-While the directive composition API offers a powerful tool for reusing common behaviors, excessive
-use of host directives can impact your application's memory use. If you create components or
-directives that use *many* host directives, you may inadvertently balloon the memory used by your
-application.
+雖然指令組合 API 提供了重用常見行為的強大工具，但過度使用主機指令可能會影響應用程式的記憶體使用。如果您建立了使用 *大量* 主機指令的元件或指令，您可能會無意中增加應用程式使用的記憶體。
 
-The following example shows a component that applies several host directives.
+以下範例顯示套用多個主機指令的元件。
 
 ```typescript
 @Component({
@@ -220,9 +196,5 @@ The following example shows a component that applies several host directives.
 export class CustomCheckbox { }
 ```
 
-This example declares a custom checkbox component that includes five host directives. This
-means that Angular will create six objects each time a `CustomCheckbox` renders— one for the
-component and one for each host directive. For a few checkboxes on a page, this won't pose any
-significant issues. However, if your page renders *hundreds* of checkboxes, such as in a table, then
-you could start to see an impact of the additional object allocations. Always be sure to profile
-your application to determine the right composition pattern for your use case.
+以下範例宣告一個自訂核取方塊元件，其中包含五個主機指令。這表示 Angular 會在每次 `CustomCheckbox` 呈現時建立六個物件，其中一個是元件，其餘則分別對應每個主機指令。如果頁面上只有幾個核取方塊，這不會造成任何重大問題。不過，如果您的頁面會呈現數百個核取方塊，例如在表格中，那麼您可能會開始看到額外物件配置所造成的影響。務必剖析您的應用程式，以確定最適合您使用案例的組合模式。
+

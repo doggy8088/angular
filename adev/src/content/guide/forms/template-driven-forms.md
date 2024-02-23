@@ -1,201 +1,202 @@
-# Building a template-driven form
+# 建立一個模板驅動表單
 
-This tutorial shows you how to create a template-driven form. The control elements in the form are bound to data properties that have input validation. The input validation helps maintain data integrity and styling to improve the user experience.
+本教學課程將向您展示如何建立範本驅動表單。表單中的控制元素會繫結至具有輸入驗證的資料屬性。輸入驗證有助於維護資料完整性及樣式，以改善使用者體驗。
 
-Template-driven forms use [two-way data binding](guide/templates/two-way-binding) to update the data model in the component as changes are made in the template and vice versa.
+以範本為基礎的表單使用 [雙向資料繫結](guide/templates/two-way-binding) 來更新元件中的資料模型，因為範本中的變更和反之亦然。
 
-<docs-callout helpful title="Template vs Reactive forms">
-Angular supports two design approaches for interactive forms. Template-driven forms allow you to use form-specific directives in your Angular template.Reactive forms provide a model-driven approach to building forms.
+<docs-callout helpful title="範本 vs. 反應式表單">
+Angular 支援兩種互動式表單的設計方法。範本驅動的表單讓您在 Angular 範本中使用特定於表單的指令。反應式表單提供以模型為主的表單建構方法。
 
-Template-driven forms are a great choice for small or simple forms, while reactive forms are more scalable and suitable for complex forms. For a comparison of the two approaches, see [Choosing an approach](guide/forms#choosing-an-approach)
+模板驅動的表單非常適合小型或簡單的表單，而反應式表單更具可擴展性，適合複雜的表單。如需比較這兩種方法，請參閱 [選擇方法](guide/forms#choosing-an-approach)
 </docs-callout>
 
-You can build almost any kind of form with an Angular template &mdash;login forms, contact forms, and pretty much any business form.
-You can lay out the controls creatively and bind them to the data in your object model.
-You can specify validation rules and display validation errors, conditionally allow input from specific controls, trigger built-in visual feedback, and much more.
+你可以使用 Angular 範本建立幾乎任何類型的表單，例如登入表單、連絡表單，以及幾乎任何業務表單。
+你可以有創意地配置控制項，並將它們繫結到物件模型中的資料。
+你可以指定驗證規則和顯示驗證錯誤，有條件地允許輸入特定控制項、觸發內建的視覺回饋，以及更多。
 
-## Objectives
+## 目標
 
-This tutorial teaches you how to do the following:
+此教學課程教您如何執行下列操作：
 
-* Build an Angular form with a component and template
-* Use `ngModel` to create two-way data bindings for reading and writing input-control values
-* Provide visual feedback using special CSS classes that track the state of the controls
-* Display validation errors to users and conditionally allow input from form controls based on the form status
-* Share information across HTML elements using [template reference variables](guide/templates/reference-variables)
+* 使用元件和範本來建立 Angular 表單
+* 使用 `ngModel` 建立雙向資料繫結，以讀取和寫入輸入控制值
+* 使用追蹤控制項狀態的特殊 CSS 類別提供視覺回饋
+* 向使用者顯示驗證錯誤，並根據表單狀態有條件地允許輸入表單控制項
+* 使用 [範本參考變數](guide/templates/reference-variables) 在 HTML 元素之間共享資訊
 
-## Build a template-driven form
+## 建立範本驅動的表單
 
-Template-driven forms rely on directives defined in the `FormsModule`.
+模板驅動表單依賴在 `FormsModule` 中定義的指令。
 
-| Directives     | Details |
+| 指令     | 詳細 |
 |:---            |:---     |
-| `NgModel`      | Reconciles value changes in the attached form element with changes in the data model, allowing you to respond to user input with input validation and error handling.                                                                                                           |
-| `NgForm`       | Creates a top-level `FormGroup` instance and binds it to a `<form>` element to track aggregated form value and validation status. As soon as you import `FormsModule`, this directive becomes active by default on all `<form>` tags. You don't need to add a special selector. |
-| `NgModelGroup` | Creates and binds a `FormGroup` instance to a DOM element.                                                                                                                                                                                                                      |
+| `NgModel`      | 協調附加的表單元素中的值變更和資料模型中的變更，允許您以輸入驗證和錯誤處理來回應使用者輸入。                                                                                                           |
+| `NgForm`       | 建立頂層 `FormGroup` 實例並將其繫結至 `<form>` 元素以追蹤聚集的表單值和驗證狀態。只要您匯入 `FormsModule`，此指令就會在所有 `<form>` 標籤上自動啟用。您不需要加入特殊選擇器。 |
+| `NgModelGroup` | 建立並繫結 `FormGroup` 實例至 DOM 元素。                                                                                                                                                                                                                      |
 
-### Step overview
+### 步驟概述
 
-In the course of this tutorial, you bind a sample form to data and handle user input using the following steps.
+在本教學課程中，您可以使用下列步驟將範例表單繫結至資料並處理使用者輸入。
 
-1. Build the basic form.
-    * Define a sample data model
-    * Include required infrastructure such as the `FormsModule`
-1. Bind form controls to data properties using the `ngModel` directive and two-way data-binding syntax.
-    * Examine how `ngModel` reports control states using CSS classes
-    * Name controls to make them accessible to `ngModel`
-1. Track input validity and control status using `ngModel`.
-    * Add custom CSS to provide visual feedback on the status
-    * Show and hide validation-error messages
-1. Respond to a native HTML button-click event by adding to the model data.
-1. Handle form submission using the [`ngSubmit`](api/forms/NgForm#properties) output property of the form.
-    * Disable the **Submit** button until the form is valid
-    * After submit, swap out the finished form for different content on the page
+1. 建立基本表單。
+    * 定義範例資料模型
+    * 包括必要的基礎設施，例如 `FormsModule`
+1. 使用 `ngModel` 指令和雙向資料繫結語法將表單控制項繫結至資料屬性。
+    * 檢查 `ngModel` 如何使用 CSS 類別報告控制狀態
+    * 命名控制項以使 `ngModel` 可以存取
+1. 使用 `ngModel` 追蹤輸入有效性和控制狀態。
+    * 加入自訂 CSS 以提供關於狀態的可視化回饋
+    * 顯示和隱藏驗證錯誤訊息
+1. 透過新增至模型資料來回應原生 HTML 按鈕點擊事件。
+1. 使用表單的 [`ngSubmit`](api/forms/NgForm#properties) 輸出屬性來處理表單提交。
+    * 在表單有效之前停用 **提交** 按鈕
+    * 提交後，將完成的表單換成頁面上的不同內容
 
-## Build the form
+## 建立表格
 
-<!-- TODO: link to preview -->
+<!-- TODO: 連結至預覽 -->
+
 <!-- <docs-code live/> -->
 
-1. The provided sample application creates the `Actor` class which defines the data model reflected in the form.
+1. 提供的範例應用程式建立 `Actor` 類別，其中定義反映在表單中的資料模型。
 
     <docs-code header="src/app/actor.ts" language="typescript" path="adev/src/content/examples/forms/src/app/actor.ts"/>
 
-1. The form layout and details are defined in the `ActorFormComponent` class.
+1. 表單配置和詳細資訊定義在 `ActorFormComponent` 類別中。
 
     <docs-code header="src/app/actor-form/actor-form.component.ts (v1)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" visibleRegion="v1"/>
 
-    The component's `selector` value of "app-actor-form" means you can drop this form in a parent template using the `<app-actor-form>` tag.
+    元件的「app-actor-form」`selector` 值表示您可以使用 `<app-actor-form>` 標籤將此表單放入父範本中。
 
-1. The following code creates a new actor instance, so that the initial form can show an example actor.
+1. 下列程式碼建立新的演員實例，以便初始表單可以顯示範例演員。
 
     <docs-code language="typescript" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.ts" language="typescript" visibleRegion="Marilyn"/>
 
-    This demo uses dummy data for `model` and `skills`.
-    In a real app, you would inject a data service to get and save real data, or expose these properties as inputs and outputs.
+    此範例使用 `model` 和 `skills` 的虛擬資料。
+    在真實的應用程式中，您會注入資料服務來取得並儲存真實資料，或將這些屬性公開為輸入和輸出。
 
-1. The application enables the Forms feature and registers the created form component.
+1. 應用程式啟用表單功能並註冊建立的表單元件。
 
     <docs-code header="src/app/app.module.ts" language="typescript" path="adev/src/content/examples/forms/src/app/app.module.ts"/>
 
-1. The form is displayed in the application layout defined by the root component's template.
+1. 表單顯示在由根元件範本定義的應用程式配置中。
 
     <docs-code header="src/app/app.component.html" language="html" path="adev/src/content/examples/forms/src/app/app.component.html"/>
 
-    The initial template defines the layout for a form with two form groups and a submit button.
-    The form groups correspond to two properties of the Actor data model, name and studio.
-    Each group has a label and a box for user input.
+    初始範本定義具有兩個表單群組和一個提交按鈕的表單配置。
+    表單群組對應於 Actor 資料模型的兩個屬性：姓名和工作室。
+    每個群組都有標籤和使用者輸入方塊。
 
-    * The **Name** `<input>` control element has the HTML5 `required` attribute
-    * The **Studio** `<input>` control element does not because `studio` is optional
+    * **姓名** `<input>` 控制元素具有 HTML5 `required` 屬性
+    * **工作室** `<input>` 控制元素沒有，因為 `studio` 是選填的
 
-    The **Submit** button has some classes on it for styling.
-    At this point, the form  layout is all plain HTML5, with no bindings or directives.
+    **提交**按鈕有一些樣式類別。
+    在這個階段，表單配置都是純粹的 HTML5，沒有任何繫結或指令。
 
-1. The sample form uses some style classes from [Twitter Bootstrap](https://getbootstrap.com/css): `container`, `form-group`, `form-control`, and `btn`.
-    To use these styles, the application's style sheet imports the library.
+1. 範例表單使用 [Twitter Bootstrap](https://getbootstrap.com/css) 的一些樣式類別：`container`、`form-group`、`form-control` 和 `btn`。
+    若要使用這些樣式，應用程式的樣式表會匯入程式庫。
 
     <docs-code header="src/styles.css" path="adev/src/content/examples/forms/src/styles.1.css"/>
 
-1. The form requires that an actor's skill is chosen from a predefined list of `skills` maintained internally in `ActorFormComponent`.
-    The Angular [NgForOf directive](api/common/NgForOf "API reference") iterates over the data values to populate the `<select>` element.
+1. 表單要求演員的技能必須從 `ActorFormComponent` 內部維護的預定義 `skills` 清單中選取。
+    Angular [NgForOf 指令](api/common/NgForOf "API 參考") 會叠代資料值以填入 `<select>` 元素。
 
     <docs-code header="src/app/actor-form/actor-form.component.html (skills)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="skills"/>
 
-If you run the application right now, you see the list of skills in the selection control.
-The input elements are not yet bound to data values or events, so they are still blank and have no behavior.
+如果您現在執行應用程式，您會在選擇控制項中看到技能清單。
+輸入元素尚未繫結至資料值或事件，因此它們仍然空白且沒有行為。
 
-## Bind input controls to data properties
+## 將輸入控制項繫結至資料屬性
 
-The next step is to bind the input controls to the corresponding `Actor` properties with two-way data binding, so that they respond to user input by updating the data model, and also respond to programmatic changes in the data by updating the display.
+下一步是將輸入控制項與對應的 `Actor` 屬性繫結，以雙向資料繫結的方式，讓它們對使用者輸入做出回應，更新資料模型，並對資料的程式化變更做出回應，更新顯示。
 
-The `ngModel` directive declared in the `FormsModule` lets you bind controls in your template-driven form to properties in your data model.
-When you include the directive using the  syntax for two-way data binding, `[(ngModel)]`, Angular can track the value and user interaction of the control and keep the view synced with the model.
+在 `FormsModule` 中宣告的 `ngModel` 指令，讓您能將範本驅動表單中的控制項繫結到資料模型中的屬性。
+當您使用雙向資料繫結語法 `[(ngModel)]` 包含該指令時，Angular 能追蹤控制項的值和使用者互動，並使檢視與模型保持同步。
 
-1. Edit the template file `actor-form.component.html`.
-1. Find the `<input>` tag next to the **Name** label.
-1. Add the `ngModel` directive, using two-way data binding syntax `[(ngModel)]="..."`.
+1. 編輯範本檔案 `actor-form.component.html`。
+1. 找到 **名稱** 標籤旁邊的 `<input>` 標籤。
+1. 加入 `ngModel` 指令，使用雙向資料繫結語法 `[(ngModel)]="..."`。
 
 <docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngModelName-1"/>
 
-HELPFUL: This example has a temporary diagnostic interpolation after each input tag, `{{model.name}}`, to show the current data value of the corresponding property. The comment reminds you to remove the diagnostic lines when you have finished observing the two-way data binding at work.
+有用的資訊：此範例在每個輸入標籤之後都有暫時的診斷內插，`{{model.name}}`，以顯示對應屬性的目前資料值。當您完成觀察雙向資料繫結的運作後，請記得移除診斷行。
 
-### Access the overall form status
+### 存取整體表單狀態
 
-When you imported the `FormsModule` in your component, Angular automatically created and attached an [NgForm](api/forms/NgForm) directive to the `<form>` tag in the template (because `NgForm` has the selector `form` that matches `<form>` elements).
+當你在你的元件中匯入 `FormsModule` 時，Angular 會自動建立並將 [NgForm](api/forms/NgForm) 指令附加至範本中的 `<form>` 標籤（因為 `NgForm` 具有與 `<form>` 元素匹配的選取器 `form`）。
 
-To get access to the `NgForm` and the overall form status, declare a [template reference variable](guide/templates/reference-variables).
+要存取 `NgForm` 和整體表單狀態，請宣告一個 [範本參考變數](guide/templates/reference-variables)。
 
-1. Edit the template file `actor-form.component.html`.
-1. Update the `<form>` tag with a template reference variable, `#actorForm`, and set its value as follows.
+1. 編輯範本檔案 `actor-form.component.html`。
+1. 使用範本參考變數 `#actorForm` 更新 `<form>` 標籤，並將其值設定如下。
 
-    <docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="template-variable"/>
+    <docs-code header="src/app/actor-form/actor-form.component.html (摘錄)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="template-variable"/>
 
-    The `actorForm` template variable is now a reference to the `NgForm` directive instance that governs the form as a whole.
+    `actorForm` 範本變數現在是 `NgForm` 指令實例的參考，該實例管理整個表單。
 
-1. Run the app.
-1. Start typing in the **Name** input box.
+1. 執行應用程式。
+1. 開始在 **名稱** 輸入方塊中輸入文字。
 
-    As you add and delete characters, you can see them appear and disappear from the data model.
+    當您新增和刪除字元時，您會看到它們出現在資料模型中，並從資料模型中消失。
 
-  The diagnostic line that shows interpolated values demonstrates that values are really flowing from the input box to the model and back again.
+顯示插入值的診斷線證明值真的從輸入框流向模型，然後再流回。
 
-### Naming control elements
+### 命名控制元素
 
-When you use `[(ngModel)]` on an element, you must define a `name` attribute for that element.
-Angular uses the assigned name to register the element with the `NgForm` directive attached to the parent `<form>` element.
+當您在元素上使用 `[(ngModel)]` 時，您必須為該元素定義一個 `name` 屬性。
+Angular 使用指定的 name 將元素註冊到附加至父 `<form>` 元素的 `NgForm` 指令。
 
-The example added a `name` attribute to the `<input>` element and set it to "name", which makes sense for the actor's name.
-Any unique value will do, but using a descriptive name is helpful.
+範例為 `<input>` 元素新增 `name` 屬性，並將其設定為「name」，這對於演員姓名來說很有意義。
+任何唯一值都可以，但使用描述性名稱會很有幫助。
 
-1. Add similar `[(ngModel)]` bindings and `name` attributes to **Studio** and **Skill**.
-1. You can now remove the diagnostic messages that show interpolated values.
-1. To confirm that two-way data binding works for the entire actor model, add a new text binding with the [`json`](api/common/JsonPipe) pipe at the top to the component's template, which serializes the data to a string.
+1. 將類似的 `[(ngModel)]` 繫結和 `name` 屬性新增至 **Studio** 和 **Skill**。
+1. 現在您可以移除顯示內插值診斷訊息。
+1. 若要確認雙向資料繫結適用於整個 actor 模型，請在元件範本的頂端新增一個使用 [`json`](api/common/JsonPipe) 管道的文字繫結，將資料序列化為字串。
 
-After these revisions, the form template should look like the following:
+在這些修訂之後，表單範本看起來應如下所示：
 
 <docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="ngModel-2"/>
 
-You'll notice that:
+您會注意到：
 
-* Each `<input>` element has an `id` property.
-    This is used by the `<label>` element's `for` attribute to match the label to its input control.
-    This is a [standard HTML feature](https://developer.mozilla.org/docs/Web/HTML/Element/label).
+* 每個 `<input>` 元素都有 `id` 屬性。
+    `<label>` 元素的 `for` 屬性會使用它來將標籤與其輸入控制項配對。
+    這是一個 [標準 HTML 功能](https://developer.mozilla.org/docs/Web/HTML/Element/label)。
 
-* Each `<input>` element also has the required `name` property that Angular uses to register the control with the form.
+* 每個 `<input>` 元素還具有 Angular 用來向表單註冊控制項的必要 `name` 屬性。
 
-When you have observed the effects, you can delete the `{{ model | json }}` text binding.
+當你觀察到效果後，你可以刪除 `{{ model | json }}` 文字繫結。
 
-## Track form states
+## 追蹤表單狀態
 
-Angular applies the `ng-submitted` class to `form` elements after the form has been submitted. This class can be used to change the form's style after it has been submitted.
+Angular 在提交表單後會將 `ng-submitted` 類別套用至 `form` 元素。此類別可於提交表單後用來變更表單的樣式。
 
-## Track control states
+## 追蹤控制狀態
 
-Adding the `NgModel` directive to a control adds class names to the control that describe its state.
-These classes can be used to change a control's style based on its state.
+在控制項中加入 `NgModel` 指令會將描述其狀態的類別名稱加入控制項。
+這些類別可用於根據控制項的狀態來變更其樣式。
 
-The following table describes the class names that Angular applies based on the control's state.
+以下表格說明 Angular 依照控制項狀態套用的類別名稱。
 
-| States                           | Class if true | Class if false |
+| 狀態                           | 如果為真則為類別 | 如果為假則為類別 |
 |:---                              |:---           |:---            |
-| The control has been visited.    | `ng-touched`  | `ng-untouched` |
-| The control's value has changed. | `ng-dirty`    | `ng-pristine`  |
-| The control's value is valid.    | `ng-valid`    | `ng-invalid`   |
+| 控制項已被訪問。    | `ng-touched`  | `ng-untouched` |
+| 控制項的值已變更。 | `ng-dirty`    | `ng-pristine`  |
+| 控制項的值有效。    | `ng-valid`    | `ng-invalid`   |
 
-Angular also applies the `ng-submitted` class to `form` elements upon submission,
-but not to the controls inside the `form` element.
+Angular 也會在提交後將 `ng-submitted` 類別套用至 `form` 元素，
+但不會套用至 `form` 元素內的控制項。
 
-You use these CSS classes to define the styles for your control based on its status.
+您可以使用這些 CSS 類別根據控制項的狀態來定義其樣式。
 
-### Observe control states
+### 觀察控制狀態
 
-To see how the classes are added and removed by the framework, open the browser's developer tools and inspect the `<input>` element that represents the actor name.
+若要查看框架如何新增和移除類別，請開啟瀏覽器的開發人員工具並檢查代表演員名稱的 `<input>` 元素。
 
-1. Using your browser's developer tools, find the  `<input>` element that corresponds to the **Name** input box.
-    You can see that the element has multiple CSS classes in addition to "form-control".
+1. 使用瀏覽器的開發人員工具，找到對應於 **名稱** 輸入方塊的 `<input>` 元素。
+    您可以看到該元素除了「form-control」之外，還有多個 CSS 類別。
 
-1. When you first bring it up, the classes indicate that it has a valid value, that the value has not been changed since initialization or reset, and that the control has not been visited since initialization or reset.
+1. 當您第一次開啟它時，這些類別表示它具有有效值，自初始化或重置以來該值尚未變更，並且自初始化或重置以來尚未訪問過該控件。
 
     <docs-code language="html">
 
@@ -203,69 +204,67 @@ To see how the classes are added and removed by the framework, open the browser'
 
     </docs-code>
 
-1. Take the following actions on the **Name** `<input>` box, and observe which classes appear.
-    * Look but don't touch.
-        The classes indicate that it is untouched, pristine, and valid.
+1. 對 **名稱** `<input>` 方塊執行下列動作，並觀察出現哪些類別。
+    * 檢視但不觸碰。
+        這些類別表示它是未觸碰、原始且有效的。
 
-    * Click inside the name box, then click outside it.
-        The control has now been visited, and the element has the `ng-touched` class instead of the `ng-untouched` class.
+    * 按一下名稱方塊內部，然後按一下其外部。
+        現在已訪問過該控件，且元素具有 `ng-touched` 類別，而不是 `ng-untouched` 類別。
 
-    * Add slashes to the end of the name.
-        It is now touched and dirty.
+    * 在名稱的結尾新增斜線。
+        現在已觸碰且不乾不淨。
 
-    * Erase the name.
-        This makes the value invalid, so the `ng-invalid` class replaces the `ng-valid` class.
+    * 刪除名稱。
+        這會使值無效，因此 `ng-invalid` 類別取代了 `ng-valid` 類別。
 
-### Create visual feedback for states
+### 為狀態建立視覺回饋
 
-The `ng-valid`/`ng-invalid` pair is particularly interesting, because you want to send a
-strong visual signal when the values are invalid.
-You also want to mark required fields.
+`ng-valid`/`ng-invalid` 組合特別有趣，因為當值無效時，您想要傳送強烈的視覺訊號。
+您也想要標記必填欄位。
 
-You can mark required fields and invalid data at the same time with a colored bar
-on the left of the input box.
+您可以在輸入框左側以彩色條同時標記必填欄位和無效資料。
 
-To change the appearance in this way, take the following steps.
+若要以這種方式變更外觀，請執行下列步驟。
 
-1. Add definitions for the `ng-*` CSS classes.
-1. Add these class definitions to a new `forms.css` file.
-1. Add the new file to the project as a sibling to `index.html`:
+1. 為 `ng-*` CSS 類別新增定義。
+1. 將這些類別定義新增到新的 `forms.css` 檔案。
+1. 將新檔案新增到專案中，與 `index.html` 同層：
 
 <docs-code header="src/assets/forms.css" language="css" path="adev/src/content/examples/forms/src/assets/forms.css"/>
 
-1. In the `index.html` file, update the `<head>` tag to include the new style sheet.
+1. 在 `index.html` 檔案中，更新 `<head>` 標籤以包含新的樣式表。
 
 <docs-code header="src/index.html (styles)" path="adev/src/content/examples/forms/src/index.html" visibleRegion="styles"/>
 
-### Show and hide validation error messages
+### 顯示和隱藏驗證錯誤訊息
 
-The **Name** input box is required and clearing it turns the bar red.
-That indicates that something is wrong, but the user doesn't know what is wrong or what to do about it.
-You can provide a helpful message by checking for and responding to the control's state.
+**名字** 輸入框是必需的，清除它會使欄位變紅。
+這表示有些地方有問題，但使用者不知道哪裡有問題或該如何解決。
+您可以透過檢查控制項的狀態並做出回應來提供說明訊息。
 
-The **Skill** select box is also required, but it doesn't need this kind of error handling because the selection box already constrains the selection to valid values.
+**技能**選取方塊也是必要的，但它不需要這種錯誤處理，因為選取方塊已將選取限制為有效值。
 
-To define and show an error message when appropriate, take the following steps.
+要定義和顯示錯誤訊息，請執行下列步驟。
 
 <docs-workflow>
-<docs-step title="Add a local reference to the input">
-Extend the `input` tag with a template reference variable that you can use to access the input box's Angular control from within the template. In the example, the variable is `#name="ngModel"`.
+<docs-step title="將輸入的當地參照新增至輸入">
+使用範本參照變數來擴充 `input` 標籤，以便在範本內存取輸入方塊的 Angular 控制項。在範例中，變數為 `#name="ngModel"`。
 
-The template reference variable (`#name`) is set to `"ngModel"` because that is the value of the [`NgModel.exportAs`](api/core/Directive#exportAs) property. This property tells Angular how to link a reference variable to a directive.
+範本參考變數 (`#name`) 設為 `"ngModel"`，這是因為這是 [`NgModel.exportAs`](api/core/Directive#exportAs) 屬性的值。此屬性會告訴 Angular 如何將參考變數連結至指令。
 </docs-step>
 
-<docs-step title="Add the error message">
-Add a `<div>` that contains a suitable error message.
+<docs-step title="新增錯誤訊息">
+新增包含合適錯誤訊息的 `<div>`。
 </docs-step>
 
-<docs-step title="Make the error message conditional">
-Show or hide the error message by binding properties of the `name` control to the message `<div>` element's `hidden` property.
+<docs-step title="讓錯誤訊息有條件">
+透過繫結 `name` 控制項的內容到訊息 `<div>` 元素的 `hidden` 內容，顯示或隱藏錯誤訊息。
 </docs-step>
 
 <docs-code header="src/app/actor-form/actor-form.component.html (hidden-error-msg)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="hidden-error-msg"/>
 
-<docs-step title="Add a conditional error message to name">
-Add a conditional error message to the `name` input box, as in the following example.
+<docs-step title="在名稱中新增條件錯誤訊息">
+在 `name` 輸入方塊中新增條件錯誤訊息，如下所示。
 
 <docs-code header="src/app/actor-form/actor-form.component.html (excerpt)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="name-with-error-msg"/>
 </docs-step>
@@ -314,6 +313,7 @@ To let form users add a new actor, you will add a **New Actor** button that resp
     <docs-code header="src/app/actor-form/actor-form.component.html (Reset the form)" path="adev/src/content/examples/forms/src/app/actor-form/actor-form.component.html" visibleRegion="new-actor-button-form-reset"/>
 
     Now clicking **New Actor** resets both the form and its control flags.
+
 
 ## Submit the form with `ngSubmit`
 
@@ -397,6 +397,7 @@ framework features to provide support for data modification, validation, and mor
 * Controlling the **Submit** button's enabled state by binding to `NgForm` validity
 * Custom CSS classes that provide visual feedback to users about controls that are not valid
 
+
 Here's the code for the final version of the application:
 
 <docs-code-multifile>
@@ -409,3 +410,4 @@ Here's the code for the final version of the application:
     <docs-code header="main.ts" path="adev/src/content/examples/forms/src/main.ts"/>
     <docs-code header="forms.css" path="adev/src/content/examples/forms/src/assets/forms.css"/>
 </docs-code-multifile>
+

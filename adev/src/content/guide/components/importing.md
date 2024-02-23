@@ -1,14 +1,13 @@
-# Importing and using components
+# 導入和使用組件
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+提示：本指南假設您已經閱讀過 [精華指南](essentials)。如果您是 Angular 新手，請先閱讀該指南。
 
-Angular supports two ways of making a component available to other components: as a standalone component or in an `NgModule`.
+Angular 支援兩種方式讓其他元件使用元件：當作獨立元件或在 `NgModule` 中。
 
-## Standalone components
+## 獨立元件
 
-A **standalone component** is a component that sets `standalone: true` in its component metadata.
-Standalone components directly import other components, directives, and pipes used in their
-templates:
+A **獨立元件** 是在元件的元資料中設定 `standalone: true` 的元件。
+獨立元件直接匯入其範本中使用的其他元件、指令和管道：
 
 <docs-code language="ts" highlight="[2, [8, 9]]">
 @Component({
@@ -25,11 +24,11 @@ export class ProfilePhoto { }
 export class UserProfile { }
 </docs-code>
 
-Standalone components are directly importable into other standalone components.
+獨立元件可以直接匯入到其他獨立元件。
 
-The Angular team recommends using standalone components for all new development.
+Angular 團隊建議將獨立元件用於所有新開發。
 
 ## NgModules
 
-Angular code that predates standalone components uses `NgModule` as a mechanism for importing and
-using other components. See the full [`NgModule` guide](guide/ngmodules) for details.
+在獨立元件之前編寫的 Angular 程式碼會使用 `NgModule` 作為匯入和使用其他元件的機制。請參閱完整的 [`NgModule` 指南](guide/ngmodules) 以了解詳情。
+

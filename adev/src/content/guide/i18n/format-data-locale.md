@@ -1,20 +1,20 @@
-# Format data based on locale
+# 依據地區格式化數據
 
-Angular provides the following built-in data transformation [pipes](guide/pipes).
-The data transformation pipes use the [`LOCALE_ID`][AioApiCoreLocaleId] token to format data based on rules of each locale.
+Angular 提供以下內建資料轉換 [管道](guide/pipes)。
+資料轉換管道使用 [`LOCALE_ID`][AioApiCoreLocaleId] 令牌來根據每個語言環境的規則格式化資料。
 
-| Data transformation pipe                   | Details |
+| 數據轉換管道                   | 細節 |
 |:---                                        |:---     |
-| [`DatePipe`][AioApiCommonDatepipe]         | Formats a date value.                             |
-| [`CurrencyPipe`][AioApiCommonCurrencypipe] | Transforms a number into a currency string.       |
-| [`DecimalPipe`][AioApiCommonDecimalpipe]   | Transforms a number into a decimal number string. |
-| [`PercentPipe`][AioApiCommonPercentpipe]   | Transforms a number into a percentage string.     |
+| [`DatePipe`][AioApiCommonDatepipe]         | 格式化日期值。                             |
+| [`CurrencyPipe`][AioApiCommonCurrencypipe] | 將數字轉換成貨幣字串。       |
+| [`DecimalPipe`][AioApiCommonDecimalpipe]   | 將數字轉換成小數數字字串。 |
+| [`PercentPipe`][AioApiCommonPercentpipe]   | 將數字轉換成百分比字串。     |
 
-## Use DatePipe to display the current date
+## 使用 DatePipe 顯示目前日期
 
-To display the current date in the format for the current locale, use the following format for the `DatePipe`.
+若要以當前地區設定的格式顯示目前日期，請針對 `DatePipe` 使用下列格式。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="typescript">
 
@@ -22,13 +22,13 @@ To display the current date in the format for the current locale, use the follow
 
 </docs-code>
 
-## Override current locale for CurrencyPipe
+## 以 CurrencyPipe 覆寫目前地區
 
-Add the `locale` parameter to the pipe to override the current value of `LOCALE_ID` token.
+將 `locale` 參數新增到管線以覆寫 `LOCALE_ID` 令牌的當前值。
 
-To force the currency to use American English \(`en-US`\), use the following format for the `CurrencyPipe`
+要強制貨幣使用美式英文 \(`en-US`\)，請使用以下格式給予 `CurrencyPipe``
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="typescript">
 
@@ -36,17 +36,12 @@ To force the currency to use American English \(`en-US`\), use the following for
 
 </docs-code>
 
-HELPFUL: The locale specified for the `CurrencyPipe` overrides the global `LOCALE_ID` token of your application.
+HELPFUL: 為 `CurrencyPipe` 指定的 locale 會覆寫應用程式的全域 `LOCALE_ID` 令牌。
 
-## What's next
+## 接下來
 
 <docs-pill-row>
-  <docs-pill href="guide/i18n/prepare" title="Prepare component for translation"/>
+  <docs-pill href="guide/i18n/prepare" title="準備元件進行翻譯"/>
 </docs-pill-row>
 
-[AioApiCommonCurrencypipe]: api/common/CurrencyPipe "CurrencyPipe | Common - API | Angular"
-
-[AioApiCommonDatepipe]: api/common/DatePipe "DatePipe | Common - API | Angular"
-[AioApiCommonDecimalpipe]: api/common/DecimalPipe "DecimalPipe | Common - API | Angular"
-[AioApiCommonPercentpipe]: api/common/PercentPipe "PercentPipe | Common - API | Angular"
-[AioApiCoreLocaleId]: api/core/LOCALE_ID "LOCALE_ID | Core - API | Angular"
+{{ 無法處理文件最後的 LinkReferenceDefinitionGroup 部分，需手動更新！ }}

@@ -1,24 +1,24 @@
-# Common Routing Tasks
+# 常見的路由任務
 
-This topic describes how to implement many of the common tasks associated with adding the Angular router to your application.
+這個主題說明如何實作許多與將 Angular 路由器新增到應用程式相關的常見任務。
 
-## Generate an application with routing enabled
+## 啟用路由功能來產生應用程式
 
-The following command uses the Angular CLI to generate a basic Angular application with application routes. The application name in the following example is `routing-app`.
+以下指令使用 Angular CLI 來產生一個具有應用程式路由的基本 Angular 應用程式。以下範例中的應用程式名稱為 `routing-app`。
 
 ```shell
 ng new routing-app
 ```
 
-### Adding components for routing
+### 加入路由元件
 
-To use the Angular router, an application needs to have at least two components so that it can navigate from one to the other. To create a component using the CLI, enter the following at the command line where `first` is the name of your component:
+若要使用 Angular 路由器，應用程式至少需要兩個元件，以便讓您可以從一個元件導覽至另一個元件。若要使用 CLI 建立元件，請在命令列中輸入下列內容，其中 `first` 是元件的名稱：
 
 ```shell
 ng generate component first
 ```
 
-Repeat this step for a second component but give it a different name. Here, the new name is `second`.
+針對第二個元件重複此步驟，但給它不同的名稱。這裡，新名稱為 `second`。
 
 <docs-code language="shell">
 
@@ -26,17 +26,17 @@ ng generate component second
 
 </docs-code>
 
-The CLI automatically appends `Component`, so if you were to write `first-component`, your component would be `FirstComponentComponent`.
+CLI 會自動附加 `Component`，因此如果您寫 `first-component`，您的元件將會是 `FirstComponentComponent`。
 
 <docs-callout title="`base href`">
 
-This guide works with a CLI-generated Angular application.
+本指南適用於 CLI 生成的 Angular 應用程式。
 
 </docs-callout>
 
-### Importing your new components
+### 匯入您的新組件
 
-To use your new components, import them into `app.routes.ts` at the top of the file, as follows:
+如要使用您的新元件，請將其導入 `app.routes.ts` 檔案頂端，如下所示：
 
 <docs-code language="ts">
 
@@ -45,11 +45,11 @@ import {SecondComponent} from './second/second.component';
 
 </docs-code>
 
-## Defining a basic route
+## 定義基本路由
 
-There are three fundamental building blocks to creating a route.
+建立路線有三個基本構建模塊。
 
-Import the routes into `app.config.ts` and add it to the `provideRouter` function. The following is the default `ApplicationConfig` using the CLI.
+將路由匯入 `app.config.ts` 並將其新增至 `provideRouter` 函數。以下是在 CLI 中使用的預設 `ApplicationConfig`。
 
 <docs-code language="ts">
 
@@ -59,13 +59,13 @@ export const appConfig: ApplicationConfig = {
 
 </docs-code>
 
-The Angular CLI performs this step for you. However, if you are creating an application manually or working with an existing, non-CLI application, verify that the imports and configuration are correct.
+Angular CLI 會為您執行此步驟。但是，如果您手動建立應用程式或使用現有的非 CLI 應用程式，請驗證匯入和組態是否正確。
 
 <docs-workflow>
 
-<docs-step title="Set up a `Routes` array for your routes">
+<docs-step title="為您的路由設定 `Routes` 陣列">
 
-The Angular CLI performs this step automatically.
+Angular CLI 會自動執行此步驟。
 
 ```ts
 import { Routes } from '@angular/router';
@@ -75,9 +75,9 @@ export const routes: Routes = [];
 
 </docs-step>
 
-<docs-step title="Define your routes in your `Routes` array">
+<docs-step title="在您的 `Routes` 陣列中定義您的路由">
 
-Each route in this array is a JavaScript object that contains two properties. The first property, `path`, defines the URL path for the route. The second property, `component`, defines the component Angular should use for the corresponding path.
+這個陣列中的每個路由都是一個包含兩個屬性的 JavaScript 物件。第一個屬性 `path` 定義路由的 URL 路徑。第二個屬性 `component` 定義 Angular 應針對對應路徑所使用的元件。
 
 ```ts
 const routes: Routes = [
@@ -88,9 +88,9 @@ const routes: Routes = [
 
 </docs-step>
 
-<docs-step title="Add your routes to your application">
+<docs-step title="將您的路由新增至您的應用程式">
 
-Now that you have defined your routes, add them to your application. First, add links to the two components. Assign the anchor tag that you want to add the route to the `routerLink` attribute. Set the value of the attribute to the component to show when a user clicks on each link. Next, update your component template to include `<router-outlet>`. This element informs Angular to update the application view with the component for the selected route.
+現在您已定義好路由，將其加入您的應用程式。首先，新增連結至兩個元件。將您想要加入路由的錨點標籤指定給 `routerLink` 屬性。將屬性的值設定為使用者點擊各連結時要顯示的元件。接著，更新您的元件範本，加入 `<router-outlet>`。此元素通知 Angular 使用所選路由的元件更新應用程式檢視。
 
 ```html
 <h1>Angular Router App</h1>
@@ -104,7 +104,7 @@ Now that you have defined your routes, add them to your application. First, add 
 <router-outlet></router-outlet>
 ```
 
-You also need to add the `RouterLink`, `RouterLinkActive`, and `RouterOutlet` to the `imports` array of `AppComponent`.
+您還需要將 `RouterLink`、`RouterLinkActive` 和 `RouterOutlet` 新增到 `AppComponent` 的 `imports` 陣列。
 
 ```ts
 @Component({
@@ -123,30 +123,30 @@ export class AppComponent {
 
 </docs-workflow>
 
-### Route order
+### 路線順序
 
-The order of routes is important because the `Router` uses a first-match wins strategy when matching routes, so more specific routes should be placed above less specific routes.
-List routes with a static path first, followed by an empty path route, which matches the default route.
-The [wildcard route](guide/routing/common-router-tasks#setting-up-wildcard-routes) comes last because it matches every URL and the `Router` selects it only if no other routes match first.
+路由的順序很重要，因為 `Router` 在比對路由時會採用先配對先獲勝的策略，因此較明確的路由應該放在較不明確的路由上方。
+首先列出具有靜態路徑的路由，接著是空路徑路由，它符合預設路由。
+[萬用字元路由](guide/routing/common-router-tasks#setting-up-wildcard-routes) 排在最後，因為它符合每個 URL，而且只有在沒有其他路由先符合時，`Router` 才會選取它。
 
-## Getting route information
+## 取得路線資訊
 
-Often, as a user navigates your application, you want to pass information from one component to another.
-For example, consider an application that displays a shopping list of grocery items.
-Each item in the list has a unique `id`.
-To edit an item, users click an Edit button, which opens an `EditGroceryItem` component.
-You want that component to retrieve the `id` for the grocery item so it can display the right information to the user.
+通常，當使用者瀏覽您的應用程式時，您可能會想要將資訊從一個元件傳遞到另一個元件。
+例如，考慮一個顯示購物清單的應用程式。
+清單中的每個項目都有唯一的 `id`。
+若要編輯項目，使用者會按一下「編輯」按鈕，這會開啟 `EditGroceryItem` 元件。
+您希望該元件擷取雜貨項目的 `id`，以便向使用者顯示正確的資訊。
 
-Use a route to pass this type of information to your application components.
-To do so, you use the [withComponentInputBinding](api/router/withComponentInputBinding) feature with `provideRouter` or the `bindToComponentInputs` option of `RouterModule.forRoot`.
+使用路由將此類型的資訊傳遞至您的應用程式元件。
+為此，您使用 [withComponentInputBinding](api/router/withComponentInputBinding) 功能搭配 `provideRouter` 或 `RouterModule.forRoot` 的 `bindToComponentInputs` 選項。
 
-To get information from a route:
+如何從路線取得資訊：
 
 <docs-workflow>
 
-<docs-step title="Add `withComponentInputBinding`">
+<docs-step title="加入 `withComponentInputBinding`">
 
-Add the `withComponentInputBinding` feature to the `provideRouter` method.
+將 `withComponentInputBinding` 功能新增至 `provideRouter` 方法中。
 
 ```ts
 providers: [
@@ -156,9 +156,9 @@ providers: [
 
 </docs-step>
 
-<docs-step title="Add an `Input` to the component">
+<docs-step title="在元件中新增 `Input`">
 
-Update the component to have an `Input` matching the name of the parameter.
+將該組件更新為具有與參數名稱相符的 `Input`。
 
 ```ts
 @Input()
@@ -167,27 +167,27 @@ set id(heroId: string) {
 }
 ```
 
-NOTE: You can bind all route data with key, value pairs to component inputs: static or resolved route data, path parameters, matrix parameters, and query parameters.
-If you want to use the parent components route info you will need to set the router paramsInheritanceStrategy option: withRouterConfig({paramsInheritanceStrategy: 'always'})
+備註：您可以將所有路由資料與金鑰、值對繫結至元件輸入：靜態或已解析路由資料、路徑參數、矩陣參數和查詢參數。
+如果您想使用父元件的路由資訊，您需要設定路由參數繼承策略選項：withRouterConfig({paramsInheritanceStrategy: 'always'})
 
 </docs-step>
 
-Note: You can bind all route data with key, value pairs to component inputs: static or resolved route data, path parameters, matrix parameters, and query parameters.
+備註：您可以將所有路由資料與金鑰、值對繫結至元件輸入：靜態或已解析的路由資料、路徑參數、矩陣參數和查詢參數。
 
-If you want to use the parent components route info you will need to set the router `paramsInheritanceStrategy` option:
+如果要使用父組件路由資訊，您需要設定路由器 `paramsInheritanceStrategy` 選項：
 `withRouterConfig({paramsInheritanceStrategy: 'always'})`
 
 </docs-step>
 
 </docs-workflow>
 
-## Setting up wildcard routes
+## 設定萬用字元路由
 
-A well-functioning application should gracefully handle when users attempt to navigate to a part of your application that does not exist.
-To add this functionality to your application, you set up a wildcard route.
-The Angular router selects this route any time the requested URL doesn't match any router paths.
+運作良好的應用程式應該在使用者嘗試導覽至應用程式中不存在的部分時，以優雅的方式處理。
+若要將此功能新增至您的應用程式，請設定萬用字元路由。
+Angular 路由器會在要求的 URL 與任何路由路徑不符時，選擇此路由。
 
-To set up a wildcard route, add the following code to your `routes` definition.
+若要設定萬用字元路由，請將下列程式碼新增至 `routes` 定義。
 
 <docs-code>
 
@@ -195,15 +195,27 @@ To set up a wildcard route, add the following code to your `routes` definition.
 
 </docs-code>
 
-The two asterisks, `**`, indicate to Angular that this `routes` definition is a wildcard route.
-For the component property, you can define any component in your application.
-Common choices include an application-specific `PageNotFoundComponent`, which you can define to [display a 404 page](guide/routing/common-router-tasks#displaying-a-404-page) to your users; or a redirect to your application's main component.
-A wildcard route is the last route because it matches any URL.
-For more detail on why order matters for routes, see [Route order](guide/routing/common-router-tasks#route-order).
+兩個星號 `**` 告知 Angular 此 `routes` 定義為萬用字元路由。
+對於 `component` 屬性，您可以定義應用程式中的任何元件。
+常見的選擇包括應用程式專用的 `PageNotFoundComponent`，您可以定義它以 [向使用者顯示 404 頁面](guide/routing/common-router-tasks#displaying-a-404-page)；或者重新導向至應用程式的 main 元件。
+萬用字元路由是最後一個路由，因為它會比對任何 URL。
+有關路由順序為何重要的詳細資訊，請參閱 [路由順序](guide/routing/common-router-tasks#route-order)。
 
-## Displaying a 404 page
+## 顯示 404 頁面
 
-To display a 404 page, set up a [wildcard route](guide/routing/common-router-tasks#setting-up-wildcard-routes) with the `component` property set to the component you'd like to use for your 404 page as follows:
+html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>404 Not Found</title>
+</head>
+<body>
+  <h1>404 Not Found</h1>
+  <p>The requested URL was not found on this server.</p>
+</body>
+</html>
+
+若要顯示 404 頁面，請設定 [萬用字元路由](guide/routing/common-router-tasks#setting-up-wildcard-routes)，其 `component` 屬性設定為您想用於 404 頁面的元件，如下所示：
 
 ```ts
 const routes: Routes = [
@@ -213,12 +225,12 @@ const routes: Routes = [
 ];
 ```
 
-The last route with the `path` of `**` is a wildcard route.
-The router selects this route if the requested URL doesn't match any of the paths earlier in the list and sends the user to the `PageNotFoundComponent`.
+最後一個具有 `path` 的 `**` 路由是一個萬用字元路由。
+如果請求的 URL 與清單中較早的路徑都不相符，路由器會選擇此路由，並將使用者傳送至 `PageNotFoundComponent`。
 
-## Setting up redirects
+## 設置重新導向
 
-To set up a redirect, configure a route with the `path` you want to redirect from, the `component` you want to redirect to, and a `pathMatch` value that tells the router how to match the URL.
+要設定重新導向，請設定一條路徑，其中包含您要重新導向的 `path`、您要重新導向的 `component`，以及一個 `pathMatch` 值，用於告知路由器如何比對 URL。
 
 ```ts
 const routes: Routes = [
@@ -229,18 +241,18 @@ const routes: Routes = [
 ];
 ```
 
-In this example, the third route is a redirect so that the router defaults to the `first-component` route.
-Notice that this redirect precedes the wildcard route.
-Here, `path: ''` means to use the initial relative URL \(`''`\).
+在此範例中，第三個路由是重新導向，因此路由器預設為 `first-component` 路由。
+請注意，此重新導向位於萬用字元路由之前。
+在此，`path: ''` 表示使用初始相對 URL \(`''`\)。
 
-## Nesting routes
+## 巢狀路由
 
-As your application grows more complex, you might want to create routes that are relative to a component other than your root component.
-These types of nested routes are called child routes.
-This means you're adding a second `<router-outlet>` to your app, because it is in addition to the `<router-outlet>` in `AppComponent`.
+隨著您的應用程式變得更複雜，您可能需要建立相對於根元件以外的元件的路由。
+這種類型的巢狀路由稱為子路由。
+這表示您正在將第二個 `<router-outlet>` 新增到您的應用程式，因為它除了 `AppComponent` 中的 `<router-outlet>` 之外。
 
-In this example, there are two additional child components, `child-a`, and `child-b`.
-Here, `FirstComponent` has its own `<nav>` and a second `<router-outlet>` in addition to the one in `AppComponent`.
+在此範例中，有兩個額外的子元件，`child-a` 和 `child-b`。
+在此，`FirstComponent` 除了 `AppComponent` 中的一個之外，還有它自己的 `<nav>` 和第二個 `<router-outlet>`。
 
 ```html
 <h2>First Component</h2>
@@ -255,8 +267,8 @@ Here, `FirstComponent` has its own `<nav>` and a second `<router-outlet>` in add
 <router-outlet></router-outlet>
 ```
 
-A child route is like any other route, in that it needs both a `path` and a `component`.
-The one difference is that you place child routes in a `children` array within the parent route.
+子路由與其他路由一樣，需要 `path` 和 `component`。
+唯一的不同是，您將子路由置於父路由中的 `children` 陣列中。
 
 ```ts
 const routes: Routes = [
@@ -277,10 +289,10 @@ const routes: Routes = [
 ];
 ```
 
-## Setting the page title
+## 設定頁面標題
 
-Each page in your application should have a unique title so that they can be identified in the browser history.
-The `Router` sets the document's title using the `title` property from the `Route` config.
+應用程式中的每個頁面都應該有一個獨特的標題，以便在瀏覽器歷史記錄中識別它們。
+`Router` 使用 `Route` 配置中的 `title` 屬性來設定文件的標題。
 
 ```ts
 const routes: Routes = [
@@ -306,9 +318,9 @@ const routes: Routes = [
 const resolvedChildATitle: ResolveFn<string> = () => Promise.resolve('child a');
 ```
 
-HELPFUL: The `title` property follows the same rules as static route `data` and dynamic values that implement `ResolveFn`.
+HELPFUL: `title` 屬性遵循與靜態路由 `data` 和實作 `ResolveFn` 的動態值相同的規則。
 
-You can also provide a custom title strategy by extending the `TitleStrategy`.
+您也可以透過擴充 `TitleStrategy` 來提供自訂的標題策略。
 
 ```ts
 @Injectable({providedIn: 'root'})
@@ -333,12 +345,12 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## Using relative paths
+## 使用相對路徑
 
-Relative paths let you define paths that are relative to the current URL segment.
-The following example shows a relative route to another component, `second-component`.
-`FirstComponent` and `SecondComponent` are at the same level in the tree, however, the link to `SecondComponent` is situated within the `FirstComponent`, meaning that the router has to go up a level and then into the second directory to find the `SecondComponent`.
-Rather than writing out the whole path to get to `SecondComponent`, use the `../` notation to go up a level.
+相對路徑可讓您定義相對於目前 URL 片段的路徑。
+以下範例顯示前往另一個元件 `second-component` 的相對路線。
+`FirstComponent` 和 `SecondComponent` 在樹狀結構中位於同一層級，不過連結到 `SecondComponent` 的連結位於 `FirstComponent` 中，這表示路由器必須往上一個層級，然後進入第二個目錄才能找到 `SecondComponent`。
+您可以使用 `../` 符號往上一個層級，而不是寫出前往 `SecondComponent` 的完整路徑。
 
 ```html
 <h2>First Component</h2>
@@ -351,15 +363,15 @@ Rather than writing out the whole path to get to `SecondComponent`, use the `../
 <router-outlet></router-outlet>
 ```
 
-In addition to `../`, use `./` or no leading slash to specify the current level.
+除了 `../`，使用 `./` 或不帶前置斜線來指定目前層級。
 
-### Specifying a relative route
+### 指定相對路徑
 
-To specify a relative route, use the `NavigationExtras` `relativeTo` property.
-In the component class, import `NavigationExtras` from the `@angular/router`.
+若要指定相對路徑，請使用 `NavigationExtras` 的 `relativeTo` 屬性。
+在元件類別中，從 `@angular/router` 匯入 `NavigationExtras`。
 
-Then use `relativeTo` in your navigation method.
-After the link parameters array, which here contains `items`, add an object with the `relativeTo` property set to the `ActivatedRoute`, which is `this.route`.
+然後在導覽方法中使用 `relativeTo`。
+在連結參數陣列，這裡包含 `items`，後面新增一個物件，其 `relativeTo` 屬性設定為 `ActivatedRoute`，也就是 `this.route`。
 
 ```ts
 goToItems() {
@@ -367,17 +379,17 @@ goToItems() {
 }
 ```
 
-The `navigate()` arguments configure the router to use the current route as a basis upon which to append `items`.
+`navigate()` 參數將路由器設定為使用目前路由作為基礎，其上附加 `items`。
 
-The `goToItems()` method interprets the destination URI as relative to the activated route and navigates to the `items` route.
+`goToItems()` 方法將目的地 URI 解釋為相對於已啟用路由並導航至 `items` 路由。
 
-## Accessing query parameters and fragments
+## 存取查詢參數和片段
 
-Sometimes, a feature of your application requires accessing a part of a route, such as a query parameter or a fragment.
-The Tour of Heroes application at this stage in the tutorial uses a list view in which you can click on a hero to see details.
-The router uses an `id` to show the correct hero's details.
+有時，應用程式的功能需要存取路由的一部分，例如查詢參數或片段。
+英雄之旅應用程式在教學課程的這個階段使用清單檢視，您可以在其中點擊英雄以查看詳細資訊。
+路由器使用 `id` 來顯示正確的英雄詳細資訊。
 
-First, import the following members in the component you want to navigate from.
+首先，在您要導航的元件中匯入下列成員。
 
 ```ts
 import { ActivatedRoute } from '&commat;angular/router';
@@ -385,14 +397,14 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 ```
 
-Next inject the activated route service:
+接下來注入已啟用的路由服務：
 
 ```ts
 constructor(private route: ActivatedRoute) {}
 ```
 
-Configure the class so that you have an observable, `heroes$`, a `selectedId` to hold the `id` number of the hero, and the heroes in the `ngOnInit()`, add the following code to get the `id` of the selected hero.
-This code snippet assumes that you have a heroes list, a hero service, a function to get your heroes, and the HTML to render your list and details, just as in the Tour of Heroes example.
+將類別設定為具有可觀察物件 `heroes$`、`selectedId` 以保存英雄的 `id` 號碼，以及在 `ngOnInit()` 中的英雄，加入以下程式碼以取得所選英雄的 `id`。
+此程式碼片段假設您有英雄清單、英雄服務、取得英雄的函式，以及用於呈現清單和詳細資料的 HTML，就像在英雄之旅範例中一樣。
 
 ```ts
 heroes$: Observable<Hero[]>;
@@ -409,14 +421,14 @@ ngOnInit() {
 }
 ```
 
-Next, in the component that you want to navigate to, import the following members.
+接下來，在您想要導航到的元件中，匯入下列成員。
 
 ```ts
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 ```
 
-Inject `ActivatedRoute` and `Router` in the constructor of the component class so they are available to this component:
+在組件類別的建構函數中注入 `ActivatedRoute` 和 `Router`，讓此組件可以使用它們：
 
 ```ts
 hero$: Observable<Hero>;
@@ -438,17 +450,17 @@ gotoItems(hero: Hero) {
 }
 ```
 
-## Lazy loading
+## 延遲加載
 
-You can configure your routes to lazy load modules, which means that Angular only loads modules as needed, rather than loading all modules when the application launches.
-Additionally, preload parts of your application in the background to improve the user experience.
+您可以將路由設定為延遲載入模組，這表示 Angular 只會在需要時載入模組，而不是在應用程式啟動時載入所有模組。
+另外，在背景預載應用程式的一部分以改善使用者體驗。
 
-For more information on lazy loading and preloading see the dedicated guide [Lazy loading](guide/ngmodules/lazy-loading).
+有關延遲載入和預載入的詳細資訊，請參閱專屬指南 [延遲載入](guide/ngmodules/lazy-loading)。
 
-## Preventing unauthorized access
+## 防止未經授權的存取
 
-Use route guards to prevent users from navigating to parts of an application without authorization.
-The following route guards are available in Angular:
+使用路線守衛來防止使用者在未經授權的情況下導覽至應用程式的一部分。
+以下路線守衛在 Angular 中可用：
 
 <docs-pill-row>
   <docs-pill href="api/router/CanActivateFn" title="`canActivate`"/>
@@ -459,16 +471,16 @@ The following route guards are available in Angular:
   <docs-pill href="api/router/CanLoadFn" title="`canLoad`"/>
 </docs-pill-row>
 
-To use route guards, consider using [component-less routes](api/router/Route#componentless-routes) as this facilitates guarding child routes.
+若要使用路由防護，請考慮使用 [無元件路由](api/router/Route#componentless-routes)，因為這有助於保護子路由。
 
-Create a file for your guard:
+建立一個檔案給你的守衛：
 
 ```bash
 ng generate guard your-guard
 ```
 
-In your guard file, add the guard functions you want to use.
-The following example uses `canActivateFn` to guard the route.
+在你的 guard 檔案中，新增你想使用的 guard 函式。
+以下範例使用 `canActivateFn` 來保護路由。
 
 ```ts
 export const yourGuardFunction: CanActivateFn = (
@@ -478,8 +490,8 @@ export const yourGuardFunction: CanActivateFn = (
   }
 ```
 
-In your routing module, use the appropriate property in your `routes` configuration.
-Here, `canActivate` tells the router to mediate navigation to this particular route.
+在您的路由模組中，在您的 `routes` 配置中使用適當的屬性。
+在此，`canActivate` 告訴路由器調解導航至這個特定路由。
 
 ```ts
 {
@@ -489,20 +501,20 @@ Here, `canActivate` tells the router to mediate navigation to this particular ro
 }
 ```
 
-## Link parameters array
+## 連結參數陣列
 
-A link parameters array holds the following ingredients for router navigation:
+連結參數陣列含有以下路由導航成分：
 
-- The path of the route to the destination component
-- Required and optional route parameters that go into the route URL
+- 路線到目的地組件的路徑
+- 路線 URL 中的必要和可選路線參數
 
-Bind the `RouterLink` directive to such an array like this:
+將 `RouterLink` 指令綁定至陣列，如下：
 
 ```html
 <a [routerLink]="['/heroes']">Heroes</a>
 ```
 
-The following is a two-element array when specifying a route parameter:
+在指定路徑參數時，以下是一個包含兩個元素的陣列：
 
 ```html
 <a [routerLink]="['/hero', hero.id]">
@@ -510,42 +522,42 @@ The following is a two-element array when specifying a route parameter:
 </a>
 ```
 
-Provide optional route parameters in an object, as in `{ foo: 'foo' }`:
+以物件提供選用路由參數，如 `{ foo: 'foo' }`：
 
 ```html
 <a [routerLink]="['/crisis-center', { foo: 'foo' }]">Crisis Center</a>
 ```
 
-These three examples cover the needs of an application with one level of routing.
-However, with a child router, such as in the crisis center, you create new link array possibilities.
+這三個範例涵蓋了一個具有路由單層級應用程式的需求。
+然而，使用子路由器（例如危機中心），您可以建立新的連結陣列可能性。
 
-The following minimal `RouterLink` example builds upon a specified default child route for the crisis center.
+以下最小的 `RouterLink` 範例建立在危機中心的指定預設子路由上。
 
 ```html
 <a [routerLink]="['/crisis-center']">Crisis Center</a>
 ```
 
-Review the following:
+檢視下列內容：
 
-- The first item in the array identifies the parent route \(`/crisis-center`\)
-- There are no parameters for this parent route
-- There is no default for the child route so you need to pick one
-- You're navigating to the `CrisisListComponent`, whose route path is `/`, but you don't need to explicitly add the slash
+- 陣列中的第一個項目識別父路由 \(`/crisis-center`\)
+- 這個父路由沒有參數
+- 子路由沒有預設值，所以你需要挑選一個
+- 你正在導航到 `CrisisListComponent`，其路由路徑為 `/`，但你不需要明確添加斜線
 
-Consider the following router link that navigates from the root of the application down to the Dragon Crisis:
+考慮以下路由連結，它從應用程式的根目錄導航到 Dragon Crisis：
 
 ```html
 <a [routerLink]="['/crisis-center', 1]">Dragon Crisis</a>
 ```
 
-- The first item in the array identifies the parent route \(`/crisis-center`\)
-- There are no parameters for this parent route
-- The second item identifies the child route details about a particular crisis \(`/:id`\)
-- The details child route requires an `id` route parameter
-- You added the `id` of the Dragon Crisis as the second item in the array \(`1`\)
-- The resulting path is `/crisis-center/1`
+- 陣列中的第一個項目識別父路由 \(`/crisis-center`\)
+- 這個父路由沒有參數
+- 第二個項目識別子路由，提供特定危機的詳細資訊 \(`/:id`\)
+- 詳細資訊子路由需要一個 `id` 路由參數
+- 你將龍危機的 `id` 新增為陣列中的第二個項目 \(`1`\)
+- 產生的路徑是 `/crisis-center/1`
 
-You could also redefine the `AppComponent` template with Crisis Center routes exclusively:
+您也可以重新定義僅包含危機中心路由的 `AppComponent` 範本：
 
 ```ts
 template: `
@@ -559,77 +571,77 @@ template: `
 `
 ```
 
-In summary, you can write applications with one, two or more levels of routing.
-The link parameters array affords the flexibility to represent any routing depth and any legal sequence of route paths, \(required\) router parameters, and \(optional\) route parameter objects.
+總體而言，您可以使用一個、兩個或多個路由層級來撰寫應用程式。
+連結參數陣列提供了彈性，可代表任何路由深度和任何合法的路由路徑順序、\(必要的\) 路由器參數，以及\(選用的\) 路由器參數物件。
 
-## `LocationStrategy` and browser URL styles
+## `LocationStrategy` 與瀏覽器網址樣式
 
-When the router navigates to a new component view, it updates the browser's location and history with a URL for that view.
+當路由器導航到新的元件視圖時，它會使用該視圖的 URL 更新瀏覽器的位址和記錄。
 
-Modern HTML5 browsers support [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 browser history push-state'), a technique that changes a browser's location and history without triggering a server page request.
-The router can compose a "natural" URL that is indistinguishable from one that would otherwise require a page load.
+現代 HTML5 瀏覽器支援 [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 瀏覽器歷史記錄推入狀態')，這項技術會變更瀏覽器的位置和歷史記錄，而不會觸發伺服器頁面請求。
+路由器可以組合「自然」的 URL，它與否則需要載入頁面的 URL 無法區分。
 
-Here's the Crisis Center URL in this "HTML5 pushState" style:
+以下是使用「HTML5 pushState」樣式的危機中心網址：
 
 ```http
 localhost:3002/crisis-center
 ```
 
-Older browsers send page requests to the server when the location URL changes unless the change occurs after a "#" \(called the "hash"\).
-Routers can take advantage of this exception by composing in-application route URLs with hashes.
-Here's a "hash URL" that routes to the Crisis Center.
+較舊的瀏覽器會在位置 URL 變更時向伺服器發送頁面要求，除非變更發生在「#」之後（稱為「雜湊」）。
+路由器可以透過在應用程式路由 URL 中加入雜湊來利用此例外。
+以下是一個路由到危機中心的「雜湊 URL」。
 
 ```http
 localhost:3002/src/#/crisis-center
 ```
 
-The router supports both styles with two `LocationStrategy` providers:
+路由器支援兩種樣式，提供兩個 `LocationStrategy` 提供者：
 
-| Providers              | Details                              |
+| 供應商              | 詳細資訊                              |
 | :--------------------- | :----------------------------------- |
-| `PathLocationStrategy` | The default "HTML5 pushState" style. |
-| `HashLocationStrategy` | The "hash URL" style.                |
+| `PathLocationStrategy` | 預設的「HTML5 pushState」樣式。 |
+| `HashLocationStrategy` | 「雜湊 URL」樣式。                |
 
-The `RouterModule.forRoot()` function sets the `LocationStrategy` to the `PathLocationStrategy`, which makes it the default strategy.
-You also have the option of switching to the `HashLocationStrategy` with an override during the bootstrapping process.
+`RouterModule.forRoot()` 函數會將 `LocationStrategy` 設為 `PathLocationStrategy`，使其成為預設策略。
+您也可以在引導程序期間以覆寫的方式切換至 `HashLocationStrategy`。
 
-HELPFUL: For more information on providers and the bootstrap process, see [Dependency Injection](guide/di/dependency-injection-providers).
+HELPFUL: 有關提供者和引導程序的更多資訊，請參閱 [依賴注入](guide/di/dependency-injection-providers)。
 
-## Choosing a routing strategy
+## 選擇路由策略
 
-You must choose a routing strategy early in the development of your project because once the application is in production, visitors to your site use and depend on application URL references.
+在項目開發早期，您必須選擇路由策略，因為一旦應用程式投入生產，網站訪客會使用並依賴應用程式網址參考。
 
-Almost all Angular projects should use the default HTML5 style.
-It produces URLs that are easier for users to understand and it preserves the option to do server-side rendering.
+幾乎所有 Angular 專案都應該使用預設的 HTML5 風格。
+它產生的 URL 使用者更容易理解，並保留了執行伺服器端呈現的選項。
 
-Rendering critical pages on the server is a technique that can greatly improve perceived responsiveness when the application first loads.
-An application that would otherwise take ten or more seconds to start could be rendered on the server and delivered to the user's device in less than a second.
+在伺服器上呈現關鍵頁面是一種技術，它可以大幅改善應用程式首次載入時感受到的回應性。
+一個原本需要十秒以上才能啟動的應用程式，可以在伺服器上進行呈現，並在不到一秒的時間內傳送到使用者的裝置。
 
-This option is only available if application URLs look like normal web URLs without hash \(`#`\) characters in the middle.
+如果應用程式網址看起來像沒有中間雜湊 (`#`) 字元的正常網路網址，則此選項才可用。
 
 ## `<base href>`
 
-The router uses the browser's [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 browser history push-state') for navigation.
-`pushState` lets you customize in-application URL paths; for example, `localhost:4200/crisis-center`.
-The in-application URLs can be indistinguishable from server URLs.
+該路由器使用瀏覽器的 [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 瀏覽器歷史記錄 push-state') 進行導覽。
+`pushState` 讓您可以自訂應用程式內部 URL 路徑；例如，`localhost:4200/crisis-center`。
+應用程式內部的 URL 無法與伺服器 URL 區分。
 
-Modern HTML5 browsers were the first to support `pushState` which is why many people refer to these URLs as "HTML5 style" URLs.
+現代的 HTML5 瀏覽器是第一批支援 `pushState` 的瀏覽器，這就是為什麼很多人稱呼這些網址為「HTML5 風格」網址。
 
-HELPFUL: HTML5 style navigation is the router default.
-In the [LocationStrategy and browser URL styles](#browser-url-styles) section, learn why HTML5 style is preferable, how to adjust its behavior, and how to switch to the older hash \(`#`\) style, if necessary.
+HELPFUL: HTML5 風格導覽是路由器預設值。
+在 [LocationStrategy 和瀏覽器 URL 風格](#browser-url-styles) 部分中，瞭解為何 HTML5 風格較佳、如何調整其行為以及如何在有需要時切換至較舊的雜湊 \(`#`\) 風格。
 
-You must add a [`<base href>` element](https://developer.mozilla.org/docs/Web/HTML/Element/base 'base href') to the application's `index.html` for `pushState` routing to work.
-The browser uses the `<base href>` value to prefix relative URLs when referencing CSS files, scripts, and images.
+您必須在應用程式的 `index.html` 中加入 [`<base href>` 元素](https://developer.mozilla.org/docs/Web/HTML/Element/base 'base href')，`pushState` 路由才能運作。
+瀏覽器使用 `<base href>` 值為 CSS 檔案、指令碼和圖片參照時加上相對 URL 的字首。
 
-Add the `<base>` element just after the `<head>` tag.
-If the `app` folder is the application root, as it is for this application, set the `href` value in `index.html` as shown here.
+將 `<base>` 元素新增到 `<head>` 標籤之後。
+如果 `app` 資料夾是應用程式根目錄，如這個應用程式，請在 `index.html` 中設定 `href` 值，如下所示。
 
 <docs-code header="src/index.html (base-href)" path="adev/src/content/examples/router/src/index.html" visibleRegion="base-href"/>
 
-### HTML5 URLs and the `<base href>`
+### HTML5 網址和 `<base href>`
 
-The guidelines that follow will refer to different parts of a URL.
-This diagram outlines what those parts refer to:
+以下準則將參考 URL 的不同部分。
+此圖表概述這些部分所指為何：
 
 <docs-code hideCopy language="text">
 foo://example.com:8042/over/there?name=ferret#nose
@@ -638,37 +650,37 @@ foo://example.com:8042/over/there?name=ferret#nose
 scheme    authority      path        query   fragment
 </docs-code>
 
-While the router uses the [HTML5 pushState](https://developer.mozilla.org/docs/Web/API/History_API#Adding_and_modifying_history_entries 'Browser history push-state') style by default, you must configure that strategy with a `<base href>`.
+雖然路由器預設使用 [HTML5 pushState](https://developer.mozilla.org/docs/Web/API/History_API#Adding_and_modifying_history_entries '瀏覽器歷史 push-state') 風格，您必須以 `<base href>` 配置該策略。
 
-The preferred way to configure the strategy is to add a [`<base href>` element](https://developer.mozilla.org/docs/Web/HTML/Element/base 'base href') tag in the `<head>` of the `index.html`.
+設定策略的優先方式是在 `index.html` 的 `<head>` 中加入一個 [`<base href>` 元素](https://developer.mozilla.org/docs/Web/HTML/Element/base 'base href') 標記。
 
 ```html
 <base href="/">
 ```
 
-Without that tag, the browser might not be able to load resources \(images, CSS, scripts\) when "deep linking" into the application.
+沒有該標籤，瀏覽器在「深度連結」到應用程式時，可能無法載入資源（圖像、CSS、腳本）。
 
-Some developers might not be able to add the `<base>` element, perhaps because they don't have access to `<head>` or the `index.html`.
+有些開發人員可能無法新增 `<base>` 元素，可能是因為他們無法存取 `<head>` 或 `index.html`。
 
-Those developers can still use HTML5 URLs by taking the following two steps:
+這些開發人員仍可藉由採取下列兩個步驟來使用 HTML5 URL：
 
-1. Provide the router with an appropriate `APP_BASE_HREF` value.
-1. Use root URLs \(URLs with an `authority`\) for all web resources: CSS, images, scripts, and template HTML files.
+1. 提供路由器一個適當的 `APP_BASE_HREF` 值。
+1. 使用根網址 (具有「權限」的網址) 作為所有網路資源的 CSS、圖像、腳本和範本 HTML 檔案。
 
-   - The `<base href>` `path` should end with a "/", as browsers ignore characters in the `path` that follow the right-most "`/`"
-   - If the `<base href>` includes a `query` part, the `query` is only used if the `path` of a link in the page is empty and has no `query`.
-     This means that a `query` in the `<base href>` is only included when using `HashLocationStrategy`.
+   - `<base href>` `path` 應以「/」結尾，因為瀏覽器會忽略 `path` 中位於最右邊「`/`」之後的字元
+   - 如果 `<base href>` 包含 `query` 部分，則僅在頁面中連結的 `path` 為空且沒有 `query` 時才會使用 `query`。
+     這表示僅在使用 `HashLocationStrategy` 時才會包含 `<base href>` 中的 `query`。
 
-   - If a link in the page is a root URL \(has an `authority`\), the `<base href>` is not used.
-     In this way, an `APP_BASE_HREF` with an authority will cause all links created by Angular to ignore the `<base href>` value.
+   - 如果頁面中的連結是根網址 (具有「權限」)，則不會使用 `<base href>`。
+     如此一來，具有權限的 `APP_BASE_HREF` 會導致 Angular 建立的所有連結忽略 `<base href>` 值。
 
-   - A fragment in the `<base href>` is _never_ persisted
+   - `<base href>` 中的片段 _從不_ 會被保留
 
-For more complete information on how `<base href>` is used to construct target URIs, see the [RFC](https://tools.ietf.org/html/rfc3986#section-5.2.2) section on transforming references.
+有關 `<base href>` 如何用於建構目標 URI 的更完整資訊，請參閱 [RFC](https://tools.ietf.org/html/rfc3986#section-5.2.2) 關於轉換參考的章節。
 
-### `HashLocationStrategy`
+### `HashLocationStrategy``
 
-Use `HashLocationStrategy` by providing the `useHash: true` in an object as the second argument of the `RouterModule.forRoot()` in the `AppModule`.
+在 `AppModule` 中的 `RouterModule.forRoot()` 的第二個參數中，提供一個物件 `{ useHash: true }`，使用 `HashLocationStrategy`。
 
 ```ts
 providers: [
@@ -676,4 +688,5 @@ providers: [
 ]
 ```
 
-When using `RouterModule.forRoot`, this is configured with the `useHash: true` in the second argument: `RouterModule.forRoot(routes, {useHash: true})`.
+在使用 `RouterModule.forRoot` 時，這會在第二個參數中以 `useHash: true` 進行配置：`RouterModule.forRoot(routes, {useHash: true})`。
+

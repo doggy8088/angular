@@ -1,13 +1,13 @@
-# AOT metadata errors
+# AOT 元數據錯誤
 
-The following are metadata errors you may encounter, with explanations and suggested corrections.
+以下是你可能會遇到的元數據錯誤，以及解釋和建議的更正方法。
 
-## Expression form not supported
+## 表達式表單不受支援
 
-HELPFUL: The compiler encountered an expression it didn't understand while evaluating Angular metadata.
+HELPFUL：編譯器在評估 Angular 元數據時遇到它不理解的表達式。
 
-Language features outside of the compiler's [restricted expression syntax](tools/cli/aot-compiler#expression-syntax)
-can produce this error, as seen in the following example:
+語言功能在編譯器的[受限表達式語法](tools/cli/aot-compiler#expression-syntax)之外，
+可能會產生這個錯誤，如下面的範例所示：
 
 <docs-code language="typescript">
 // ERROR
@@ -20,20 +20,18 @@ const prop = typeof Fooish; // typeof is not valid in metadata
   &hellip;
 </docs-code>
 
-You can use `typeof` and bracket notation in normal application code.
-You just can't use those features within expressions that define Angular metadata.
+您可以在一般應用程式碼中使用 `typeof` 和方括號表示法。
+您只能在定義 Angular 元資料的表達式中使用這些功能。
 
-Avoid this error by sticking to the compiler's [restricted expression syntax](tools/cli/aot-compiler#expression-syntax)
-when writing Angular metadata
-and be wary of new or unusual TypeScript features.
+寫入 Angular 元數據時，請堅持使用編譯器的 [受限表達式語法](tools/cli/aot-compiler#expression-syntax) 來避免此錯誤，並小心新的或不尋常的 TypeScript 功能。
 
-## Reference to a local (non-exported) symbol
+## 參考當地 (非導出的) 符號
 
-HELPFUL: Reference to a local \(non-exported\) symbol 'symbol name'. Consider exporting the symbol.
+有用的：參考本地（未導出）符號「符號名稱」。請考慮導出符號。
 
-The compiler encountered a reference to a locally defined symbol that either wasn't exported or wasn't initialized.
+編譯器遇到對本地定義的符號的參考，而該符號未導出或未初始化。
 
-Here's a `provider` example of the problem.
+以下是一個 `provider` 的問題範例。
 
 <docs-code language="typescript">
 
@@ -51,15 +49,15 @@ export class MyComponent {}
 
 </docs-code>
 
-The compiler generates the component factory, which includes the `useValue` provider code, in a separate module. *That* factory module can't reach back to *this* source module to access the local \(non-exported\) `foo` variable.
+編譯器生成元件工廠，其中包括 `useValue` 提供者程式碼，在一個獨立的模組中。*該* 工廠模組無法回溯到 *這個* 來源模組來存取本地的（未導出的）`foo` 變數。
 
-You could fix the problem by initializing `foo`.
+您可以通過初始化 `foo` 來修復此問題。
 
 <docs-code language="typescript">
 let foo = 42; // initialized
 </docs-code>
 
-The compiler will [fold](tools/cli/aot-compiler#code-folding) the expression into the provider as if you had written this.
+編譯器會將表達式 [摺疊](tools/cli/aot-compiler#code-folding) 成供應者，就像您寫下這個一樣。
 
 <docs-code language="typescript">
 providers: [
@@ -67,7 +65,7 @@ providers: [
 ]
 </docs-code>
 
-Alternatively, you can fix it by exporting `foo` with the expectation that `foo` will be assigned at runtime when you actually know its value.
+或者，您可以透過匯出 `foo` 來修正它，預期在您實際知道它的值時，`foo` 將在執行階段被指定。
 
 <docs-code language="typescript">
 // CORRECTED
@@ -83,11 +81,10 @@ export let foo: number; // exported
 export class MyComponent {}
 </docs-code>
 
-Adding `export` often works for variables referenced in metadata such as `providers` and `animations` because the compiler can generate *references* to the exported variables in these expressions. It doesn't need the *values* of those variables.
+將 `export` 加入通常適用於在元數據中引用的變數，例如 `providers` 和 `animations`，因為編譯器可以在這些表達式中產生導出變數的 *參照*。它不需要那些變數的 *值*。
 
-Adding `export` doesn't work when the compiler needs the *actual value*
-in order to generate code.
-For example, it doesn't work for the `template` property.
+當編譯器需要*實際值*來產生程式碼時，加入 `export` 不起作用。
+例如，它不適用於 `template` 屬性。
 
 <docs-code language="typescript">
 
@@ -102,18 +99,18 @@ export class MyComponent {}
 
 </docs-code>
 
-The compiler needs the value of the `template` property *right now* to generate the component factory.
-The variable reference alone is insufficient.
-Prefixing the declaration with `export` merely produces a new error, "[`Only initialized variables and constants can be referenced`](#only-initialized-variables)".
+編譯器需要 `template` 屬性的值 *當下* 來產生元件工廠。
+僅變數參照是不夠的。
+在宣告之前加上 `export` 僅會產生新的錯誤，「[`Only initialized variables and constants can be referenced`](#only-initialized-variables)」。
 
-## Only initialized variables and constants
+## 僅初始化變數和常數
 
-HELPFUL: *Only initialized variables and constants can be referenced because the value of this variable is needed by the template compiler.*
+HELPFUL: *只能參考已初始化的變數和常數，因為範本編譯器需要這個變數的值。*
 
-The compiler found a reference to an exported variable or static field that wasn't initialized.
-It needs the value of that variable to generate code.
+編譯器找到一個未初始化的已匯出變數或靜態欄位的參考。
+它需要該變數的值來產生程式碼。
 
-The following example tries to set the component's `template` property to the value of the exported `someTemplate` variable which is declared but *unassigned*.
+以下範例嘗試將元件的 `template` 屬性設定為匯出的 `someTemplate` 變數值，此變數已宣告但 *未指定*。
 
 <docs-code language="typescript">
 
@@ -128,7 +125,7 @@ export class MyComponent {}
 
 </docs-code>
 
-You'd also get this error if you imported `someTemplate` from some other module and neglected to initialize it there.
+如果你從其他模組導入 `someTemplate` 且忽略在那裡初始化它，你同樣會得到這個錯誤。
 
 <docs-code language="typescript">
 
@@ -143,10 +140,10 @@ export class MyComponent {}
 
 </docs-code>
 
-The compiler cannot wait until runtime to get the template information.
-It must statically derive the value of the `someTemplate` variable from the source code so that it can generate the component factory, which includes instructions for building the element based on the template.
+編譯器無法等到執行階段才能取得範本資訊。
+它必須從原始碼中靜態衍生 `someTemplate` 變數的值，以便它能產生元件工廠，其中包含根據範本建立元素的指示。
 
-To correct this error, provide the initial value of the variable in an initializer clause *on the same line*.
+若要修正此錯誤，請在初始化子句中提供變數的初始值（*在同一行*）。
 
 <docs-code language="typescript">
 
@@ -161,21 +158,21 @@ export class MyComponent {}
 
 </docs-code>
 
-## Reference to a non-exported class
+## 參照未導出的類別
 
-HELPFUL: *Reference to a non-exported class `<class name>`.*
-*Consider exporting the class.*
+HELPFUL: *參照未匯出的類別`<class name>`.*
+*考慮匯出該類別。*
 
-Metadata referenced a class that wasn't exported.
+Metadata 參照未導出的類別。
 
-For example, you may have defined a class and used it as an injection token in a providers array but neglected to export that class.
+例如，您可能已定義一個類別並將它用作提供者陣列中的注入令牌，但忽視匯出該類別。
 
 <docs-code language="typescript">
 
 // ERROR
 abstract class MyStrategy { }
 
-  &hellip;
+&hellip;
   providers: [
     { provide: MyStrategy, useValue: &hellip; }
   ]
@@ -183,15 +180,15 @@ abstract class MyStrategy { }
 
 </docs-code>
 
-Angular generates a class factory in a separate module and that factory [can only access exported classes](tools/cli/aot-compiler#exported-symbols).
-To correct this error, export the referenced class.
+Angular 在一個獨立的模組中產生一個類別工廠，而該工廠 [只能存取匯出的類別](tools/cli/aot-compiler#exported-symbols)。
+要修正這個錯誤，請匯出所引用的類別。
 
 <docs-code language="typescript">
 
 // CORRECTED
 export abstract class MyStrategy { }
 
-  &hellip;
+&hellip;
   providers: [
     { provide: MyStrategy, useValue: &hellip; }
   ]
@@ -199,18 +196,18 @@ export abstract class MyStrategy { }
 
 </docs-code>
 
-## Reference to a non-exported function
+## 參照非導出的函數
 
-HELPFUL: *Metadata referenced a function that wasn't exported.*
+HELPFUL: *Metadata 參照未匯出的函數。*
 
-For example, you may have set a providers `useFactory` property to a locally defined function that you neglected to export.
+例如，您可能已將提供者的 `useFactory` 屬性設定為您忽略導出的本地定義函數。
 
 <docs-code language="typescript">
 
 // ERROR
 function myStrategy() { &hellip; }
 
-  &hellip;
+&hellip;
   providers: [
     { provide: MyStrategy, useFactory: myStrategy }
   ]
@@ -218,15 +215,15 @@ function myStrategy() { &hellip; }
 
 </docs-code>
 
-Angular generates a class factory in a separate module and that factory [can only access exported functions](tools/cli/aot-compiler#exported-symbols).
-To correct this error, export the function.
+Angular 在獨立的模組中產生類別工廠，而該工廠 [只能存取匯出的函式](tools/cli/aot-compiler#exported-symbols)。
+若要修正此錯誤，請匯出函式。
 
 <docs-code language="typescript">
 
 // CORRECTED
 export function myStrategy() { &hellip; }
 
-  &hellip;
+&hellip;
   providers: [
     { provide: MyStrategy, useFactory: myStrategy }
   ]
@@ -234,12 +231,12 @@ export function myStrategy() { &hellip; }
 
 </docs-code>
 
-## Function calls are not supported
+## 函數呼叫不受支援
 
-HELPFUL: *Function calls are not supported. Consider replacing the function or lambda with a reference to an exported function.*
+HELPFUL: *函數呼叫不受支援。請考慮使用參考已匯出的函數來取代函數或 lambda。*
 
-The compiler does not currently support [function expressions or lambda functions](tools/cli/aot-compiler#function-expression).
-For example, you cannot set a provider's `useFactory` to an anonymous function or arrow function like this.
+編譯器目前不支援 [函式表達式或 lambda 函式](tools/cli/aot-compiler#function-expression)。
+例如，您無法將提供者的 `useFactory` 設為匿名函式或箭頭函式，如下所示。
 
 <docs-code language="typescript">
 
@@ -253,14 +250,14 @@ For example, you cannot set a provider's `useFactory` to an anonymous function o
 
 </docs-code>
 
-You also get this error if you call a function or method in a provider's `useValue`.
+如果您在提供者的 `useValue` 中呼叫函數或方法，也會發生這個錯誤。
 
 <docs-code language="typescript">
 
 // ERROR
 import { calculateValue } from './utilities';
 
-  &hellip;
+&hellip;
   providers: [
     { provide: SomeValue, useValue: calculateValue() }
   ]
@@ -268,7 +265,7 @@ import { calculateValue } from './utilities';
 
 </docs-code>
 
-To correct this error, export a function from the module and refer to the function in a `useFactory` provider instead.
+若要修正此錯誤，請從模組匯出函數，並在 `useFactory` 提供者中參照該函數。
 
 <docs-code language="typescript">
 
@@ -290,13 +287,13 @@ export function someValueFactory() {
 
 </docs-code>
 
-## Destructured variable or constant not supported
+## 解構變數或常數不受支援
 
-HELPFUL: *Referencing an exported destructured variable or constant is not supported by the template compiler. Consider simplifying this to avoid destructuring.*
+HELPFUL: *範本編譯器不支援參照已匯出的解構變數或常數。請考慮簡化此範本以避免解構。*
 
-The compiler does not support references to variables assigned by [destructuring](https://www.typescriptlang.org/docs/handbook/variable-declarations.html#destructuring).
+編譯器不支援參考由 [解構](https://www.typescriptlang.org/docs/handbook/variable-declarations.html#destructuring) 指派之變數。
 
-For example, you cannot write something like this:
+例如，您無法寫出像這樣的內容：
 
 <docs-code language="typescript">
 
@@ -314,7 +311,7 @@ const {foo, bar} = configuration;
 
 </docs-code>
 
-To correct this error, refer to non-destructured values.
+若要修正此錯誤，請參閱非結構化值。
 
 <docs-code language="typescript">
 
@@ -329,14 +326,14 @@ import { configuration } from './configuration';
 
 </docs-code>
 
-## Could not resolve type
+## 無法解析類型
 
-HELPFUL: *The compiler encountered a type and can't determine which module exports that type.*
+有用的資訊：*編譯器遇到一個類型，並且無法判斷哪個模組會匯出該類型。*
 
-This can happen if you refer to an ambient type.
-For example, the `Window` type is an ambient type declared in the global `.d.ts` file.
+這可能會在您參考環境類型時發生。
+例如，`Window` 類型是宣告在全域 `.d.ts` 檔案中的環境類型。
 
-You'll get an error if you reference it in the component constructor, which the compiler must statically analyze.
+如果您在元件建構函數中參照它，則會出現錯誤，編譯器必須靜態分析。
 
 <docs-code language="typescript">
 
@@ -348,22 +345,21 @@ export class MyComponent {
 
 </docs-code>
 
-TypeScript understands ambient types so you don't import them.
-The Angular compiler does not understand a type that you neglect to export or import.
+TypeScript 瞭解環境類型，因此您不必匯入它們。
+Angular 編譯器不瞭解您忽略匯入或匯出的類型。
 
-In this case, the compiler doesn't understand how to inject something with the `Window` token.
+在這種情況下，編譯器無法理解如何使用 `Window` 令牌注入某些內容。
 
-Do not refer to ambient types in metadata expressions.
+不要在元數據表達式中參照環境類型。
 
-If you must inject an instance of an ambient type,
-you can finesse the problem in four steps:
+如果您必須注入一個環境類型的實例，您可以按照四個步驟來解決這個問題：
 
-1. Create an injection token for an instance of the ambient type.
-1. Create a factory function that returns that instance.
-1. Add a `useFactory` provider with that factory function.
-1. Use `@Inject` to inject the instance.
+1. 為 ambient 類型的實例建立注入令牌。
+1. 建立返回該實例的工廠函數。
+1. 使用該工廠函數加入 `useFactory` 提供者。
+1. 使用 `@Inject` 來注入實例。
 
-Here's an illustrative example.
+以下是一個說明性的範例。
 
 <docs-code language="typescript">
 
@@ -385,10 +381,9 @@ export class MyComponent {
 
 </docs-code>
 
-The `Window` type in the constructor is no longer a problem for the compiler because it
-uses the `@Inject(WINDOW)` to generate the injection code.
+建構函式中的 `Window` 型別不再會造成編譯器問題，因為它使用 `@Inject(WINDOW)` 來產生注入程式碼。
 
-Angular does something similar with the `DOCUMENT` token so you can inject the browser's `document` object \(or an abstraction of it, depending upon the platform in which the application runs\).
+Angular 用 `DOCUMENT` 代幣執行類似的事情，因此你可以注入瀏覽器的 `document` 物件 \(或依據應用程式執行的平台，注入一個抽象物件\)。
 
 <docs-code language="typescript">
 
@@ -402,11 +397,11 @@ export class MyComponent {
 
 </docs-code>
 
-## Name expected
+## 預期名稱
 
-HELPFUL: *The compiler expected a name in an expression it was evaluating.*
+HELPFUL: *編譯器在它正在評估的表達式中預期一個名稱。*
 
-This can happen if you use a number as a property name as in the following example.
+如果您使用數字作為屬性名稱，就會發生這種情況，如下例所示。
 
 <docs-code language="typescript">
 
@@ -415,7 +410,7 @@ provider: [{ provide: Foo, useValue: { 0: 'test' } }]
 
 </docs-code>
 
-Change the name of the property to something non-numeric.
+將屬性名稱改為非數字。
 
 <docs-code language="typescript">
 
@@ -424,11 +419,11 @@ provider: [{ provide: Foo, useValue: { '0': 'test' } }]
 
 </docs-code>
 
-## Unsupported enum member name
+## 不支援的列舉成員名稱
 
-HELPFUL: *Angular couldn't determine the value of the [enum member](https://www.typescriptlang.org/docs/handbook/enums.html) that you referenced in metadata.*
+HELPFUL: *Angular 無法判定您在 metadata 中引用的 [枚舉成員](https://www.typescriptlang.org/docs/handbook/enums.html) 的值。*
 
-The compiler can understand simple enum values but not complex values such as those derived from computed properties.
+編譯器可以理解簡單的列舉值，但無法理解複雜的值，例如那些源自計算屬性。
 
 <docs-code language="typescript">
 
@@ -439,7 +434,7 @@ enum Colors {
   Blue = "Blue".length // computed
 }
 
-  &hellip;
+&hellip;
   providers: [
     { provide: BaseColor,   useValue: Colors.White } // ok
     { provide: DangerColor, useValue: Colors.Red }   // ok
@@ -449,13 +444,13 @@ enum Colors {
 
 </docs-code>
 
-Avoid referring to enums with complicated initializers or computed properties.
+避免參照具有複雜初始化程序或計算屬性的枚舉。
 
-## Tagged template expressions are not supported
+## 標記模板表達式不受支援
 
-HELPFUL: *Tagged template expressions are not supported in metadata.*
+HELPFUL: *標記範本表達式不支援元資料。*
 
-The compiler encountered a JavaScript ES2015 [tagged template expression](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals) such as the following.
+編譯器遇到一個 JavaScript ES2015 [標記模板表達式](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals)，如下所示。
 
 <docs-code language="typescript">
 
@@ -468,14 +463,15 @@ const raw = String.raw`A tagged template &dollar;{expression} string`;
 
 </docs-code>
 
-[`String.raw()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/raw) is a *tag function* native to JavaScript ES2015.
+[`String.raw()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/raw) 是 JavaScript ES2015 原生的 *標籤函數*。
 
-The AOT compiler does not support tagged template expressions; avoid them in metadata expressions.
+AOT 編譯器不支援標記範本表達式；請避免在元數據表達式中使用它們。
 
-## Symbol reference expected
+## 符號引用預期
 
-HELPFUL: *The compiler expected a reference to a symbol at the location specified in the error message.*
+HELPFUL: *編譯器期望在錯誤訊息中指定的位置引用符號。*
 
-This error can occur if you use an expression in the `extends` clause of a class.
+如果您在類別的 `extends` 子句中使用表達式，可能會發生此錯誤。
 
-<!--todo: Chuck: After reviewing your PR comment I'm still at a loss. See [comment there](https://github.com/angular/angular/pull/17712#discussion_r132025495). -->
+<!--todo：Chuck：檢閱你的公關評論後我仍然一頭霧水。參閱[那裡的評論](https://github.com/angular/angular/pull/17712#discussion_r132025495)。 -->
+

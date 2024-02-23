@@ -1,15 +1,13 @@
-# Programmatically rendering components
+# 使用程式碼呈現組件
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+提示：本指南假設您已經閱讀過 [精華指南](essentials)。如果您是 Angular 新手，請先閱讀該指南。
 
-In addition to using a component directly in a template, you can also dynamically render components.
-There are two main ways to dynamically render a component: in a template with `NgComponentOutlet`,
-or in your TypeScript code with `ViewContainerRef`.
+除了在範本中直接使用元件外，您也可以動態呈現元件。
+有兩種主要方法可以動態呈現元件：在範本中使用 `NgComponentOutlet`，或在您的 TypeScript 程式碼中使用 `ViewContainerRef`。
 
-## Using NgComponentOutlet
+## 使用 NgComponentOutlet
 
-`NgComponentOutlet` is a structural directive that dynamically renders a given component in a
-template.
+NgComponentOutlet 是一個結構性指令，會在範本中動態呈現一個給定的元件。
 
 ```ts
 @Component({ ... })
@@ -33,18 +31,13 @@ export class CustomDialog {
 }
 ```
 
-See the [NgComponentOutlet API reference](api/common/NgComponentOutlet) for more information on the
-directive's capabilities.
+請參閱 [NgComponentOutlet API 參考](api/common/NgComponentOutlet)以了解有關此指令功能的更多資訊。
 
-## Using ViewContainerRef
+## 使用 ViewContainerRef
 
-A **view container** is a node in Angular's component tree that can contain content. Any component
-or directive can inject `ViewContainerRef` to get a reference to a view container corresponding to
-that component or directive's location in the DOM.
+A **檢視容器** 是 Angular 元件樹中的一個節點，可以包含內容。任何元件或指令都可以注入 `ViewContainerRef` 以取得對應於該元件或指令在 DOM 中位置的檢視容器的參考。
 
-You can use the `createComponent`method on `ViewContainerRef` to dynamically create and render a
-component. When you create a new component with a `ViewContainerRef`, Angular appends it into the
-DOM as the next sibling of the component or directive that injected the `ViewContainerRef`.
+您可以在 `ViewContainerRef` 上使用 `createComponent` 方法動態建立和呈現元件。當您使用 `ViewContainerRef` 建立新元件時，Angular 會將它附加到 DOM 中，作為注入 `ViewContainerRef` 的元件或指令的下一同儕元件。
 
 ```ts
 @Component({
@@ -80,7 +73,7 @@ export class InnerItem {
 }
 ```
 
-In the example above, clicking the "Load content" button results in the following DOM structure
+在上面的範例中，點擊「載入內容」按鈕會產生以下的 DOM 結構
 
 ```html
 <outer-container>
@@ -93,11 +86,10 @@ In the example above, clicking the "Load content" button results in the followin
 </outer-container>
 ```
 
-## Lazy-loading components
+## 延遲加載組件
 
-You can use both of the approaches described above, `NgComponentOutlet` and `ViewContainerRef`, to
-render components that are lazy-loaded with a standard
-JavaScript [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import).
+你可以使用上述兩種方法，`NgComponentOutlet` 和 `ViewContainerRef`，來
+呈現使用標準 JavaScript [動態導入](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Operators/import) 的延遲載入元件。
 
 ```ts
 @Component({
@@ -124,4 +116,5 @@ export class AdminSettings {
 }
 ```
 
-The example above loads and displays the `AdvancedSettings` upon receiving a button click.
+上面的範例在接收到按鈕點擊後，載入並顯示 `AdvancedSettings`。
+

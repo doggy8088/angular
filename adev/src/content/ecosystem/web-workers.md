@@ -1,13 +1,13 @@
-# Background processing using web workers
+# 使用 Web 工作執行緒的背景處理作業
 
-[Web workers](https://developer.mozilla.org/docs/Web/API/Web_Workers_API) let you run CPU-intensive computations in a background thread, freeing the main thread to update the user interface.
-Application's performing a lot of computations, like generating Computer-Aided Design \(CAD\) drawings or doing heavy geometric calculations, can use web workers to increase performance.
+[Web 工作者](https://developer.mozilla.org/docs/Web/API/Web_Workers_API) 讓您在背景執行緒中執行大量使用 CPU 的運算，釋放主執行緒以更新使用者介面。
+執行大量運算的應用程式，例如產生電腦輔助設計 (CAD) 圖面或執行繁重的幾何運算，可以使用 Web 工作者來提高效能。
 
-HELPFUL: The Angular CLI does not support running itself in a web worker.
+HELPFUL: Angular CLI 不支援在網頁工作執行緒中執行。
 
-## Adding a web worker
+## 添加 web worker
 
-To add a web worker to an existing project, use the Angular CLI `ng generate` command.
+若要將 Web 工作者新增到現有專案，請使用 Angular CLI `ng generate` 指令。
 
 <docs-code language="shell">
 
@@ -15,8 +15,8 @@ ng generate web-worker &lt;location&gt;
 
 </docs-code>
 
-You can add a web worker anywhere in your application.
-For example, to add a web worker to the root component, `src/app/app.component.ts`, run the following command.
+您可以在應用程式中的任何位置新增網頁工作執行緒。
+例如，若要將網頁工作執行緒新增至根元件 `src/app/app.component.ts`，請執行以下指令。
 
 <docs-code language="shell">
 
@@ -24,10 +24,10 @@ ng generate web-worker app
 
 </docs-code>
 
-The command performs the following actions.
+該指令執行下列動作。
 
-1. Configures your project to use web workers, if it isn't already.
-1. Adds the following scaffold code to `src/app/app.worker.ts` to  receive messages.
+1. 如果尚未設定，請將專案設定為使用網路工作執行緒。
+2. 將下列架構程式碼加入 `src/app/app.worker.ts` 以接收訊息。
 
     <docs-code language="typescript" header="src/app/app.worker.ts">
 
@@ -38,26 +38,27 @@ The command performs the following actions.
 
     </docs-code>
 
-1. Adds the following scaffold code to `src/app/app.component.ts` to use the worker.
+3. 將下列架構程式碼加入 `src/app/app.component.ts` 以使用工作執行緒。
 
     <docs-code language="typescript" header="src/app/app.component.ts">
 
     if (typeof Worker !== 'undefined') {
-      // Create a new
+      // 建立新的
       const worker = new Worker(new URL('./app.worker', import.meta.url));
       worker.onmessage = ({ data }) =&gt; {
         console.log(`page got message: &dollar;{data}`);
       };
       worker.postMessage('hello');
     } else {
-      // Web workers are not supported in this environment.
-      // You should add a fallback so that your program still executes correctly.
+      // 此環境不支援網路工作執行緒。
+      // 您應該加入備援方案，讓您的程式依然能夠正確執行。
     }
 
     </docs-code>
 
-After you create this initial scaffold, you must refactor your code to use the web worker by sending messages to and from the worker.
+在您建立這個初始架構後，您必須重構您的程式碼以使用 Web 工作者，方法是傳送訊息到工作者及從工作者傳送訊息。
 
-IMPORTANT: Some environments or platforms, such as `@angular/platform-server` used in [Server-side Rendering](guide/ssr), don't support web workers.
+IMPORTANT: 有些環境或平台，例如在 [伺服器端渲染](guide/ssr) 中使用的 `@angular/platform-server`，不支援網頁工作執行緒。
 
-To ensure that your application works in these environments, you must provide a fallback mechanism to perform the computations that the worker would otherwise perform.
+為了確保你的應用程式在這些環境中運作，你必須提供一個後備機制來執行工作線程原本會執行的運算。
+

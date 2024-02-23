@@ -1,25 +1,55 @@
-# Resolving zone pollution
+# 解決區域汙染
 
-**Zone.js** is a signaling mechanism that Angular uses to detect when an application state might have changed. It captures asynchronous operations like `setTimeout`, network requests, and event listeners. Angular schedules change detection based on signals from Zone.js.
+**Zone.js** 是一種信號機制，Angular 用來偵測應用程式狀態可能已變更的時間。它擷取非同步操作，例如 `setTimeout`、網路要求和事件監聽器。Angular 根據 Zone.js 的信號排程變更偵測。
 
-In some cases scheduled [tasks](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide#tasks) or [microtasks](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide#microtasks) don’t make any changes in the data model, which makes running change detection unnecessary. Common examples are:
+在某些情況下，排定的 [任務](https://developer.mozilla.org/zh-TW/docs/Web/API/HTML_DOM_API/Microtask_guide#tasks) 或 [微任務](https://developer.mozilla.org/zh-TW/docs/Web/API/HTML_DOM_API/Microtask_guide#microtasks) 根本不會在資料模型中進行任何變更，這使得執行變更偵測變得沒有必要。常見的範例包括：
 
-* `requestAnimationFrame`, `setTimeout` or `setInterval`
-* Task or microtask scheduling by third-party libraries
+* `requestAnimationFrame`, `setTimeout` 或 `setInterval`
+* 透過第三方程式庫排程的工作或微工作
 
-This section covers how to identify such conditions, and how to run code outside the Angular zone to avoid unnecessary change detection calls.
+本節說明如何識別此類條件，以及如何在 Angular 區域外執行程式碼以避免不必要的變更偵測呼叫。
 
-## Identifying unnecessary change detection calls
+## 識別不必要的變更偵測呼叫
 
-You can detect unnecessary change detection calls using Angular DevTools. Often they appear as consecutive bars in the profiler’s timeline with source `setTimeout`, `setInterval`, `requestAnimationFrame`, or an event handler. When you have limited calls within your application of these APIs, the change detection invocation is usually caused by a third-party library.
+html
+<p>
+  如果變更偵測呼叫不必要，則可以通過以下方式進行優化：
+</p>
+<ul>
+  <li>使用 ChangeDetectorRef.detach() 函數來分離檢測器。</li>
+  <li>使用 ChangeDetectorRef.detectChanges() 函數手動觸發變更偵測。</li>
+  <li>使用 ChangeDetectorRef.markForCheck() 函數標記檢測器以便在下次變更偵測週期中進行檢查。</li>
+</ul>
+
+您可以使用 Angular DevTools 偵測不必要的變更偵測呼叫。它們通常在 Profiler 的時間軸中以連續的長條出現，來源為 `setTimeout`、`setInterval`、`requestAnimationFrame` 或事件處理常式。當您的應用程式中對這些 API 的呼叫有限時，變更偵測呼叫通常是由第三方程式庫造成的。
 
 <img alt="Angular DevTools profiler preview showing Zone pollution" src="assets/content/images/best-practices/runtime-performance/zone-pollution.png">
 
-In the image above, there is a series of change detection calls triggered by event handlers associated with an element. That’s a common challenge when using third-party, non-native Angular components, which do not alter the default behavior of `NgZone`.
+在上面的圖片中，有一系列變更偵測呼叫是由與元素關聯的事件處理常式觸發的。這是使用第三方、非原生 Angular 元件時常見的挑戰，這些元件不會變更 `NgZone` 的預設行為。
 
-## Run tasks outside `NgZone`
+## 在 `NgZone` 外執行任務
 
-In such cases, you can instruct Angular to avoid calling change detection for tasks scheduled by a given piece of code using [NgZone](/api/core/NgZone).
+html
+<button (click)="runTaskOutsideNgZone()">Run task outside NgZone</button>
+
+
+typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'my-app',
+  template: `<button (click)="runTaskOutsideNgZone()">Run task outside NgZone</button>`
+})
+export class AppComponent {
+  runTaskOutsideNgZone() {
+    // Run a task outside the Angular zone.
+    setTimeout(() => {
+      console.log('Task completed outside the Angular zone.');
+    }, 1000);
+  }
+}
+
+在這種情況下，你可以指示 Angular 使用 [NgZone](/api/core/NgZone) 避免為由給定程式碼片段排定的任務呼叫變更偵測。
 
 <docs-code header="Run outside of the Zone" language='ts' linenums>
 import { Component, NgZone, OnInit } from '@angular/core';
@@ -33,9 +63,9 @@ class AppComponent implements OnInit {
 }
 </docs-code>
 
-The preceding snippet instructs Angular to call `setInterval` outside the Angular Zone and skip running change detection after `pollForUpdates` runs.
+上述程式碼片段指示 Angular 在 Angular Zone 外呼叫 `setInterval`，並在 `pollForUpdates` 執行後略過執行變更偵測。
 
-Third-party libraries commonly trigger unnecessary change detection cycles because they weren't authored with Zone.js in mind. Avoid these extra cycles by calling library APIs outside the Angular zone:
+第三方程式庫通常會觸發不必要的變更偵測週期，因為它們並非以 Zone.js 為前提而編寫。透過在 Angular 區域外呼叫程式庫 API，可以避免這些額外的週期：
 
 <docs-code header="Move the plot initialization outside of the Zone" language='ts' linenums>
 import { Component, NgZone, OnInit } from '@angular/core';
@@ -44,9 +74,9 @@ import * as Plotly from 'plotly.js-dist-min';
 @Component(...)
 class AppComponent implements OnInit {
 
-  constructor(private ngZone: NgZone) {}
+constructor(private ngZone: NgZone) {}
 
-  ngOnInit() {
+ngOnInit() {
     this.ngZone.runOutsideAngular(() => {
       Plotly.newPlot('chart', data);
     });
@@ -54,6 +84,7 @@ class AppComponent implements OnInit {
 }
 </docs-code>
 
-Running `Plotly.newPlot('chart', data);` within `runOutsideAngular` instructs the framework that it shouldn’t run change detection after the execution of tasks scheduled by the initialization logic.
+在 `runOutsideAngular` 內執行 `Plotly.newPlot('chart', data);` 指示框架不應在初始化邏輯預定的任務執行後執行變更偵測。
 
-For example, if `Plotly.newPlot('chart', data)` adds event listeners to a DOM element, Angular does not run change detection after the execution of their handlers.
+例如，如果 `Plotly.newPlot('chart', data)` 將事件監聽器新增到 DOM 元素，則 Angular 在其處理程序執行後不會執行變更偵測。
+

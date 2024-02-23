@@ -1,13 +1,14 @@
-# Control Flow in Components - `@for`
+# 元件中的控制流程 - `@for`
 
-Often when building web applications, you need to repeat some code a specific number of times - for example, given an array of names, you may want to display each name in a `<p>` tag.
+在建立網頁應用程式時，您經常需要重複一些程式碼數次 - 例如，給定一個陣列名稱，您可能想要在 `<p>` 標籤中顯示每個名稱。
 
-In this activity you'll learn how to use `@for` to repeat elements in a template.
+在這個活動中，您將學習如何使用 `@for` 在範本中重複元素。
+
 <hr/>
 
-The syntax that enables repeating elements in a template is `@for`.
+讓範本中元素可重複的語法是 `@for`。
 
-Here's an example of how to use the `@for` syntax in a component:
+以下是如何在元件中使用 `@for` 語法的範例：
 
 ```ts
 @Component({
@@ -23,15 +24,15 @@ export class AppComponent {
 }
 ```
 
-Two things to take note of:
+兩件事需要注意：
 
-* There is an `@` prefix for the `for` because it is a special syntax called [Angular template syntax](guide/templates)
-* For applications using v16 and older please refer to the [Angular documentation for NgFor](guide/directives/structural-directives)
+* `for` 前面有 `@` 前綴，因為它是一種特殊語法，稱為 [Angular 範本語法](guide/templates)
+* 對於使用 v16 及以下版本的應用程式，請參閱 [Angular 說明文件以取得 NgFor](guide/directives/structural-directives)
 
 <docs-workflow>
 
-<docs-step title="Add the `users` property">
-In the `AppComponent` class, add a property called `users` that contains users and their names.
+<docs-step title="加入 `users` 屬性">
+在 `AppComponent` 類別中，加入一個名為 `users` 且包含使用者及其名稱的屬性。
 
 ```ts
 [{id: 0, name: 'Sarah'}, {id: 1, name: 'Amy'}, {id: 2, name: 'Rachel'}, {id: 3, name: 'Jessica'}, {id: 4, name: 'Poornima'}]
@@ -39,8 +40,8 @@ In the `AppComponent` class, add a property called `users` that contains users a
 
 </docs-step>
 
-<docs-step title="Update the template">
-Update the template to display each user name in a `p` element using the `@for` template syntax.
+<docs-step title="更新範本">
+使用 `@for` 範本語法將每個使用者名稱顯示在 `p` 元素中，以更新範本。
 
 ```ts
 @for (user of users; track user.id) {
@@ -48,10 +49,11 @@ Update the template to display each user name in a `p` element using the `@for` 
 }
 ```
 
-Note: the use of `track` is required, you may use the `id` or some other unique identifier.
+注意: 使用 `track` 是必要的，你可以使用 `id` 或其他唯一的識別符號。
 
 </docs-step>
 
 </docs-workflow>
 
-This type of functionality is called control flow. Next, you'll learn to customize and communicate with components - by the way, you're doing a great job so far.
+這種功能稱為控制流程。接下來，您將學習自訂和與元件溝通 - 順便說一下，到目前為止您做得很好。
+

@@ -1,47 +1,47 @@
-# Getting started with the Angular CLI's new build system
+# 開始使用 Angular CLI 的新建置系統
 
-In v17 and higher, the new build system provides an improved way to build Angular applications. This new build system includes:
+在 v17 及更高版本中，新的建置系統提供了建置 Angular 應用程式的新方法。這個新的建置系統包含：
 
-- A modern output format using ESM, with dynamic import expressions to support lazy module loading.
-- Faster build-time performance for both initial builds and incremental rebuilds.
-- Newer JavaScript ecosystem tools such as [esbuild](https://esbuild.github.io/) and [Vite](https://vitejs.dev/).
-- Integrated SSR and prerendering capabilities.
+- 使用 ESM 的現代輸出格式，具有動態導入表達式來支援延遲模組載入。
+- 對於初始建構和增量重建，都有更快的建構時間效能。
+- 更新的 JavaScript 生態系統工具，例如 [esbuild](https://esbuild.github.io/) 和 [Vite](https://vitejs.dev/)。
+- 整合的 SSR 和預先渲染功能。
 
-This new build system is stable and fully supported for use with Angular applications.
-You can migrate to the new build system with applications that use the `browser` builder.
-If using a custom builder, please refer to the documentation for that builder on possible migration options.
+這個新的建置系統穩定且完全支援供 Angular 應用程式使用。
+您可以將使用 `browser` 建置器的應用程式遷移至新的建置系統。
+如果使用自訂建置器，請參閱該建置器的文件以了解可能的遷移選項。
 
-IMPORTANT: The existing Webpack-based build system is still considered stable and fully supported.
-Applications can continue to use the `browser` builder and will not be automatically migrated when updating.
+重要：現有的基於 Webpack 的建置系統仍被視為穩定且獲得完全支援。
+應用程式可以繼續使用 `browser` 建置器，並且在更新時不會自動遷移。
 
-## For new applications
+## 針對新應用程式
 
-New applications will use this new build system by default via the `application` builder.
+新的應用程式會透過 `application` 建構器預設使用此新的建構系統。
 
-## For existing applications
+## 對於現有應用程式
 
-For existing projects, you can opt-in to use the new builder on a per-application basis with two different options.
-Both options are considered stable and fully supported by the Angular team.
-The choice of which option to use is a factor of how many changes you will need to make to migrate and what new features you would like to use in the project.
+對於現有的專案，您可以選擇使用兩個不同的選項，以逐個應用程式的方式使用新的建構器。
+Angular 團隊認為這兩個選項都很穩定，並提供完整的支援。
+選擇使用哪個選項取決於您在遷移時需要進行多少變更，以及您想在專案中使用哪些新功能。
 
-- The `browser-esbuild` builder builds only the client-side bundle of an application designed to be compatible with the existing `browser` builder that provides the preexisting build system. It serves as a drop-in replacement for existing `browser` applications.
-- The `application` builder covers an entire application, such as the client-side bundle, as well as optionally building a server for server-side rendering and performing build-time prerendering of static pages.
+- `browser-esbuild` 建構器僅建構應用程式的用戶端套件，設計上與現有 `browser` 建構器相容，該建構器提供既有的建構系統。它可作為現有 `browser` 應用程式的簡易替換。
+- `application` 建構器涵蓋整個應用程式，例如用戶端套件，以及選擇性地建構一個用於伺服器端渲染的伺服器，並執行靜態頁面的建構時間預先渲染。
 
-The `application` builder is generally preferred as it improves server-side rendered (SSR) builds, and makes it easier for client-side rendered projects to adopt SSR in the future.
-However it requires a little more migration effort, particularly for existing SSR applications.
-If the `application` builder is difficult for your project to adopt, `browser-esbuild` can be an easier solution which gives most of the build performance benefits with fewer breaking changes.
+一般來說建議使用 `application` 建構器，因為它可以改進伺服器端渲染 (SSR) 建置，並且讓客戶端渲染專案在將來更容易採用 SSR。
+然而，它需要一點額外的遷移工作，尤其是現有的 SSR 應用程式。
+如果專案難以採用 `application` 建構器，`browser-esbuild` 可以是一個較簡單的解決方案，它可以提供大部分的建置效能優勢，而且變更較少。
 
-### Using the `browser-esbuild` builder
+### 使用 `browser-esbuild` builder
 
-A builder named `browser-esbuild` is available within the `@angular-devkit/build-angular` package that is present in an Angular CLI generated application.
-You can try out the new build system for applications that use the `browser` builder.
-If using a custom builder, please refer to the documentation for that builder on possible migration options.
+在 Angular CLI 生成的應用程式中，`@angular-devkit/build-angular` 套件內提供一個名為 `browser-esbuild` 的建構工具。
+您可以針對使用 `browser` 建構工具的應用程式嘗試新的建構系統。
+如果使用自訂建構工具，請參閱該建構工具的文件，以了解可能的遷移選項。
 
-The compatibility option was implemented to minimize the amount of changes necessary to initially migrate your applications.
-This is provided via an alternate builder (`browser-esbuild`).
-You can update the `build` target for any application target to migrate to the new build system.
+相容性選項是為了最小化應用程式在最初遷移時必要的變更量而實作的。
+這透過備用建構器 (`browser-esbuild`) 提供。
+您可以更新任何應用程式目標的 `build` 目標，以遷移至新的建構系統。
 
-The following is what you would typically find in `angular.json` for an application:
+以下是在 `angular.json` 中通常會找到的應用程式範例：
 
 <docs-code language="json">
 ...
@@ -51,7 +51,7 @@ The following is what you would typically find in `angular.json` for an applicat
 ...
 </docs-code>
 
-Changing the `builder` field is the only change you will need to make.
+更改 `builder` 欄位是您唯一需要做的變更。
 
 <docs-code language="json">
 ...
@@ -61,12 +61,12 @@ Changing the `builder` field is the only change you will need to make.
 ...
 </docs-code>
 
-### Using the `application` builder
+### 使用 `application` 建構函數
 
-A builder named `application` is also available within the `@angular-devkit/build-angular` package that is present in an Angular CLI generated application.
-This builder is the default for all new applications created via `ng new`.
+在 Angular CLI 生成的應用程式中，`@angular-devkit/build-angular` 套件中也有一個名為 `application` 的建構器。
+這個建構器是所有透過 `ng new` 建立的新應用程式的預設建構器。
 
-The following is what you would typically find in `angular.json` for an application:
+以下是在 `angular.json` 中通常會找到的應用程式範例：
 
 <docs-code language="json">
 ...
@@ -76,7 +76,7 @@ The following is what you would typically find in `angular.json` for an applicat
 ...
 </docs-code>
 
-Changing the `builder` field is the first change you will need to make.
+更改 `builder` 欄位是您需要做的第一個變更。
 
 <docs-code language="json">
 ...
@@ -86,38 +86,38 @@ Changing the `builder` field is the first change you will need to make.
 ...
 </docs-code>
 
-Once the builder name has been changed, options within the `build` target will need to be updated.
-The following list discusses all the `browser` builder options that will need to be adjusted.
+一旦變更建構器名稱，`build` 目標中的選項就需要更新。
+下列清單討論所有需要調整的 `browser` 建構器選項。
 
-- `main` should be renamed to `browser`.
-- `polyfills` should be an array, rather than a single file.
-- `buildOptimizer` should be removed, as this is covered by the `optimization` option.
-- `resourcesOutputPath` should be removed, this is now always `media`.
-- `vendorChunk` should be removed, as this was a performance optimization which is no longer needed.
-- `commonChunk` should be removed, as this was a performance optimization which is no longer needed.
-- `deployUrl` should be removed and is not supported. Prefer [`<base href>`](guide/routing/common-router-tasks) instead. See [deployment documentation](tools/cli/deployment#--deploy-url) for more information.
-- `ngswConfigPath` should be renamed to `serviceWorker`.
+- `main` 應重新命名為 `browser`。
+- `polyfills` 應為陣列，而非單一檔案。
+- 應移除 `buildOptimizer`，因為這已涵蓋在 `optimization` 選項中。
+- 應移除 `resourcesOutputPath`，這現在總是 `media`。
+- 應移除 `vendorChunk`，因為這是一項效能最佳化，現在已不再需要。
+- 應移除 `commonChunk`，因為這是一項效能最佳化，現在已不再需要。
+- 應移除 `deployUrl`，且不支援。請改用 [`<base href>`](guide/routing/common-router-tasks)。請參閱 [佈署文件](tools/cli/deployment#--deploy-url)以取得更多資訊。
+- 應將 `ngswConfigPath` 重新命名為 `serviceWorker`。
 
-If the application is not using SSR currently, this should be the final step to allow `ng build` to function.
-After executing `ng build` for the first time, there may be new warnings or errors based on behavioral differences or application usage of Webpack-specific features.
-Many of the warnings will provide suggestions on how to remedy that problem.
-If it appears that a warning is incorrect or the solution is not apparent, please open an issue on [GitHub](https://github.com/angular/angular-cli/issues).
-Also, the later sections of this guide provide additional information on several specific cases as well as current known issues.
+如果應用程式目前未使用 SSR，這應是最後一個步驟，以允許 `ng build` 發揮作用。
+首次執行 `ng build` 之後，可能會出現新的警告或錯誤，這些警告或錯誤是基於行為差異或應用程式使用 Webpack 特定功能而來。
+許多警告會提供有關如何解決該問題的建議。
+如果警告看來不正確，或解決方案不明顯，請在 [GitHub](https://github.com/angular/angular-cli/issues) 上開啟一個問題。
+此外，本指南的後續章節提供了有關多個特定案例以及目前已知問題的其他資訊。
 
-For applications new to SSR, the [Angular SSR Guide](guide/ssr) provides additional information regarding the setup process for adding SSR to an application.
+對於新的 SSR 應用程式，[Angular SSR 指南](guide/ssr) 提供有關將 SSR 新增到應用程式的設定程序的其他資訊。
 
-For applications that are already using SSR, additional adjustments will be needed to update the application server to support the new integrated SSR capabilities.
-The `application` builder now provides the integrated functionality for all of the following preexisting builders:
+對於已經使用 SSR 的應用程式，需要額外調整以更新應用程式伺服器，以支援新的整合 SSR 功能。
+`application` 建構函數現在為所有下列預先存在的建構函數提供整合功能：
 
 - `app-shell`
 - `prerender`
 - `server`
 - `ssr-dev-server`
 
-The `ng update` process will automatically remove usages of the `@nguniversal` scope packages where some of these builders were previously located.
-The new `@angular/ssr` package will also be automatically added and used with configuration and code being adjusted during the update.
-The `@angular/ssr` package supports the `browser` builder as well as the `application` builder.
-To convert from the separate SSR builders to the integrated capabilities of the `application` builder, run the experimental `use-application-builder` migration.
+`ng update` 程序會自動移除 `@nguniversal` 範圍套件的使用，這些建構器先前位於其中。
+新的 `@angular/ssr` 套件也會自動新增，並在更新期間調整設定和程式碼。
+`@angular/ssr` 套件支援 `browser` 建構器和 `application` 建構器。
+若要從個別 SSR 建構器轉換成 `application` 建構器的整合功能，請執行實驗性質的 `use-application-builder` 移轉。
 
 <docs-code language="shell">
 
@@ -125,22 +125,22 @@ ng update @angular/cli --name use-application-builder
 
 </docs-code>
 
-The migration does the following:
+遷移執行下列動作：
 
-* Converts existing `browser` or `browser-esbuild` target to `application`
-* Removes any previous SSR builders (because `application` does that now).
-* Updates configuration accordingly.
-* Merges `tsconfig.server.json` with `tsconfig.app.json` and adds the TypeScript option `"esModuleInterop": true` to ensure `express` imports are [ESM compliant](#esm-default-imports-vs-namespace-imports).
-* Updates application server code to use new bootstrapping and output directory structure.
+* 將現有的 `browser` 或 `browser-esbuild` 目標轉換為 `application`
+* 移除任何之前的 SSR 建構器（因為 `application` 現在會執行此操作）。
+* 相應地更新配置。
+* 將 `tsconfig.server.json` 與 `tsconfig.app.json` 合併，並添加 TypeScript 選項 `"esModuleInterop": true` 以確保 `express` 導入與 [ESM 相容](#esm-default-imports-vs-namespace-imports)。
+* 更新應用程式伺服器程式碼以使用新的引導和輸出目錄結構。
 
-HELPFUL: Remember to remove any CommonJS assumptions in the application server code such as `require`, `__filename`, `__dirname`, or other constructs from the [CommonJS module scope](https://nodejs.org/api/modules.html#the-module-scope). All application code should be ESM compatible. This does not apply to third-party dependencies.
+HELPFUL：請記得移除應用程式伺服器程式碼中的任何 CommonJS 假設，例如 `require`、`__filename`、`__dirname` 或 [CommonJS 模組範圍](https://nodejs.org/api/modules.html#the-module-scope) 中的其他結構。所有應用程式程式碼都應該與 ESM 相容。這不適用於第三方依賴項。
 
-## Executing a build
+## 執行建置
 
-Once you have updated the application configuration, builds can be performed using `ng build` as was previously done.
-Depending on the choice of builder migration, some of the command line options may be different.
-If the build command is contained in any `npm` or other scripts, ensure they are reviewed and updated.
-For applications that have migrated to the `application` builder and that use SSR and/or prererending, you also may be able to remove extra `ng run` commands from scripts now that `ng build` has integrated SSR support.
+一旦您更新應用程式設定，即可使用 `ng build` 來執行建置，如同先前所做的一樣。
+根據建置器遷移的選擇，某些命令列選項可能會有所不同。
+如果建置指令包含在任何 `npm` 或其他指令碼中，請確定已檢閱並更新。
+對於已遷移至 `application` 建置器且使用 SSR 和/或預先渲染的應用程式，您現在也可以從指令碼中移除額外的 `ng run` 指令，因為 `ng build` 已整合 SSR 支援。
 
 <docs-code language="shell">
 
@@ -148,10 +148,10 @@ ng build
 
 </docs-code>
 
-## Starting the development server
+## 啟動開發伺服器
 
-The development server will automatically detect the new build system and use it to build the application.
-To start the development server no changes are necessary to the `dev-server` builder configuration or command line.
+開發伺服器會自動偵測新的建置系統，並使用該系統來建置應用程式。
+要啟動開發伺服器，無需對 `dev-server` 建置工具配置或命令列進行任何變更。
 
 <docs-code language="shell">
 
@@ -159,31 +159,31 @@ ng serve
 
 </docs-code>
 
-You can continue to use the [command line options](/cli/serve) you have used in the past with the development server.
+您可以繼續使用過去在開發伺服器中使用過的 [命令列選項](/cli/serve)。
 
-## Hot module replacement
+## 熱模組更換
 
-JavaScript-based hot module replacement (HMR) is currently not supported.
-However, global stylesheet (`styles` build option) HMR is available and enabled by default.
-Angular focused HMR capabilities are currently planned and will be introduced in a future version.
+基於 JavaScript 的熱模組替換 (HMR) 目前不支援。
+然而，預設啟用並提供全域樣式表 (`styles` 建置選項) HMR。
+目前已規劃 Angular 重點 HMR 功能，並會在未來版本中推出。
 
-## Unimplemented options and behavior
+## 未實現的選項和行為
 
-Several build options are not yet implemented but will be added in the future as the build system moves towards a stable status. If your application uses these options, you can still try out the build system without removing them. Warnings will be issued for any unimplemented options but they will otherwise be ignored. However, if your application relies on any of these options to function, you may want to wait to try.
+多種建置選項尚未實作，但會在建置系統趨於穩定狀態時於未來加入。如果您的應用程式使用這些選項，您仍然可以在不移除它們的情況下測試建置系統。系統會針對任何未實作的選項發出警告，但否則會忽略它們。不過，如果您的應用程式仰賴其中任何一個選項才能運作，您可能需要等到測試。
 
-- [WASM imports](https://github.com/angular/angular-cli/issues/25102) -- WASM can still be loaded manually via [standard web APIs](https://developer.mozilla.org/en-US/docs/WebAssembly/Loading_and_running).
+- [WASM 匯入](https://github.com/angular/angular-cli/issues/25102) -- WASM 仍可透過 [標準網路 API](https://developer.mozilla.org/en-US/docs/WebAssembly/Loading_and_running) 手動載入。
 
-## ESM default imports vs. namespace imports
+## ESM 預設匯入與命名空間匯入的比較
 
-TypeScript by default allows default exports to be imported as namespace imports and then used in call expressions.
-This is unfortunately a divergence from the ECMAScript specification.
-The underlying bundler (`esbuild`) within the new build system expects ESM code that conforms to the specification.
-The build system will now generate a warning if your application uses an incorrect type of import of a package.
-However, to allow TypeScript to accept the correct usage, a TypeScript option must be enabled within the application's `tsconfig` file.
-When enabled, the [`esModuleInterop`](https://www.typescriptlang.org/tsconfig#esModuleInterop) option provides better alignment with the ECMAScript specification and is also recommended by the TypeScript team.
-Once enabled, you can update package imports where applicable to an ECMAScript conformant form.
+TypeScript 預設允許將預設匯出作為命名空間匯入，然後在呼叫表達式中使用。
+很不幸地，這偏離了 ECMAScript 規範。
+新建置系統中的底層套件組合器 (`esbuild`) 預期 ESM 程式碼會符合規範。
+如果您的應用程式使用錯誤的套件匯入類型，建置系統現在會產生警告。
+但是，為了讓 TypeScript 接受正確的用法，必須在應用程式的 `tsconfig` 檔案中啟用 TypeScript 選項。
+啟用後，[`esModuleInterop`](https://www.typescriptlang.org/tsconfig#esModuleInterop) 選項會提供與 ECMAScript 規範更好的對齊，TypeScript 團隊也建議啟用此選項。
+啟用後，您可以將適用的套件匯入更新為符合 ECMAScript 的格式。
 
-Using the [`moment`](https://npmjs.com/package/moment) package as an example, the following application code will cause runtime errors:
+使用 [`moment`](https://npmjs.com/package/moment) 套件為例，以下應用程式碼會造成執行時期錯誤：
 
 ```ts
 import * as moment from 'moment';
@@ -191,7 +191,7 @@ import * as moment from 'moment';
 console.log(moment().format());
 ```
 
-The build will generate a warning to notify you that there is a potential problem. The warning will be similar to:
+建置會產生警告，通知您有潛在問題。警告會類似於：
 
 <docs-code language="text">
 ▲ [WARNING] Calling "moment" will crash at run-time because it's an import namespace object, not a function [call-import-namespace]
@@ -200,6 +200,7 @@ The build will generate a warning to notify you that there is a potential proble
       2 │ console.log(moment().format());
         ╵             ~~~~~~
 
+
 Consider changing "moment" to a default import instead:
 
     src/main.ts:1:7:
@@ -207,9 +208,10 @@ Consider changing "moment" to a default import instead:
         │        ~~~~~~~~~~~
         ╵        moment
 
+
 </docs-code>
 
-However, you can avoid the runtime errors and the warning by enabling the `esModuleInterop` TypeScript option for the application and changing the import to the following:
+不過，你可以透過為應用程式啟用 `esModuleInterop` TypeScript 選項，並將匯入變更為下列內容來避免執行時期錯誤和警告：
 
 ```ts
 import moment from 'moment';
@@ -217,30 +219,31 @@ import moment from 'moment';
 console.log(moment().format());
 ```
 
-## Vite as a development server
+## Vite 作為開發伺服器
 
-The usage of Vite in the Angular CLI is currently only within a _development server capacity only_. Even without using the underlying Vite build system, Vite provides a full-featured development server with client side support that has been bundled into a low dependency npm package. This makes it an ideal candidate to provide comprehensive development server functionality. The current development server process uses the new build system to generate a development build of the application in memory and passes the results to Vite to serve the application. The usage of Vite, much like the Webpack-based development server, is encapsulated within the Angular CLI `dev-server` builder and currently cannot be directly configured.
+Vite 在 Angular CLI 中的使用目前僅限於 _開發伺服器容量_。即使不使用底層的 Vite 構建系統，Vite 也提供了一個功能齊全的開發伺服器，並具有已捆綁到低依賴 npm 套件中的客戶端側支援。這使其成為提供全面的開發伺服器功能的理想候選者。當前的開發伺服器程序使用新的構建系統在內存中生成應用程式的開發構建，並將結果傳遞給 Vite 以服務應用程式。Vite 的使用與基於 Webpack 的開發伺服器非常相似，被封裝在 Angular CLI `dev-server` 構建器中，目前無法直接配置。
 
-## Known Issues
+## 已知問題
 
-There are currently several known issues that you may encounter when trying the new build system. This list will be updated to stay current. If any of these issues are currently blocking you from trying out the new build system, please check back in the future as it may have been solved.
+當您嘗試新的建置系統時，目前會遇到幾個已知問題。此清單將會更新以保持最新狀態。如果您目前因為任何這些問題而無法嘗試新的建置系統，請在未來再次查看，因為問題可能已經解決。
 
-### Type-checking of Web Worker code and processing of nested Web Workers
+### Web Worker 程式碼的類型檢查和處理嵌套的 Web Worker
 
-Web Workers can be used within application code using the same syntax (`new Worker(new URL('<workerfile>', import.meta.url))`) that is supported with the `browser` builder.
-However, the code within the Worker will not currently be type-checked by the TypeScript compiler. TypeScript code is supported just not type-checked.
-Additionally, any nested workers will not be processed by the build system. A nested worker is a Worker instantiation within another Worker file.
+Web Workers 可使用與 `browser` 建構函式支援的相同語法 (`new Worker(new URL('<workerfile>', import.meta.url))`) 在應用程式程式碼中使用。
+但是，Worker 中的程式碼目前不會由 TypeScript 編譯器進行類型檢查。TypeScript 程式碼受支援，只是不會進行類型檢查。
+此外，任何巢狀 worker 都不會由建構系統處理。巢狀 worker 是另一個 Worker 檔案中的 Worker 實例化。
 
-### Order-dependent side-effectful imports in lazy modules
+### 延遲載入模組中的順序依賴副作用匯入
 
-Import statements that are dependent on a specific ordering and are also used in multiple lazy modules can cause top-level statements to be executed out of order.
-This is not common as it depends on the usage of side-effectful modules and does not apply to the `polyfills` option.
-This is caused by a [defect](https://github.com/evanw/esbuild/issues/399) in the underlying bundler but will be addressed in a future update.
+依賴特定順序的 Import 陳述式且在多個延遲模組中使用，可能會導致頂層陳述式以不正確的順序執行。
+這並不常見，因為這取決於副作用模組的使用，而且不適用於 `polyfills` 選項。
+這是由於底層打包工具的一個 [缺陷](https://github.com/evanw/esbuild/issues/399)，但將會在未來的更新中修復。
 
-IMPORTANT: Avoiding the use of modules with non-local side effects (outside of polyfills) is recommended whenever possible regardless of the build system being used and avoids this particular issue. Modules with non-local side effects can have a negative effect on both application size and runtime performance as well.
+重要：強烈建議盡可能避免使用具有非本地副作用的模組（多重填充之外），無論使用哪種建構系統，都能避免這個特定問題。具有非本地副作用的模組會對應用程式大小和執行階段效能造成負面影響。
 
-## Bug reports
+## 錯誤回報
 
-Report issues and feature requests on [GitHub](https://github.com/angular/angular-cli/issues).
+在 [GitHub](https://github.com/angular/angular-cli/issues) 上報告問題和功能請求。
 
-Please provide a minimal reproduction where possible to aid the team in addressing issues.
+如有可能，請提供一個最小的重現範例，以幫助團隊解決問題。
+

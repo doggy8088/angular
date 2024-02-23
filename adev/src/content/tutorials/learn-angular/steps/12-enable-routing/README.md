@@ -1,19 +1,19 @@
-# Routing Overview
+# 導覽概述
 
-For most apps, there comes a point where the app requires more than a single page. When that time inevitably comes, routing becomes a big part of the performance story for users.
+對於大多數應用程式，會遇到應用程式需要多於一個頁面的情況。當這情況不可避免地發生時，路由就成為使用者效能故事的重要元素。
 
-In this activity, you'll learn how to setup and configure your app to use Angular Router.
+在這個活動中，您將學習如何設定和配置您的應用程式以使用 Angular Router。
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Create an app.route.ts file">
+<docs-step title="建立 app.route.ts 檔案">
 
-Inside `app.routes.ts`, make the following changes:
+在 `app.routes.ts` 內，做出以下變更：
 
-1. Import `Routes` from the `@angular/router` package.
-1. Export a constant called `routes` of type `Routes`, assign it `[]` as the value.
+1. 從 `@angular/router` 套件匯入 `Routes`。
+1. 匯出一個名為 `routes` 的常數，類型為 `Routes`，將 `[]` 指定為值。
 
 ```ts
 import {Routes} from '@angular/router';
@@ -23,13 +23,13 @@ export const routes: Routes = [];
 
 </docs-step>
 
-<docs-step title="Add routing to provider">
+<docs-step title="將路由新增至提供者">
 
-In `app.config.ts`, configure the app to Angular Router with the following steps:
+在 `app.config.ts` 中，以下列步驟將應用程式設定為 Angular Router：
 
-1. Import the `provideRouter` function from `@angular/router`.
-1. Import `routes` from the `./app.routes.ts`.
-1. Call the `provideRouter` function with `routes` passed in as an argument in the `providers` array.
+1. 從 `@angular/router` 匯入 `provideRouter` 函數。
+1. 從 `./app.routes.ts` 匯入 `routes`。
+1. 在 `providers` 陣列中呼叫 `provideRouter` 函數，並將 `routes` 傳入作為參數。
 
 <docs-code language="ts" highlight="[2,3,6]">
 import {ApplicationConfig} from '@angular/core';
@@ -43,11 +43,11 @@ export const appConfig: ApplicationConfig = {
 
 </docs-step>
 
-<docs-step title="Import `RouterOutlet` in the component">
+<docs-step title="在元件中匯入 `RouterOutlet`">
 
-Finally, to make sure your app is ready to use the Angular Router, you need to tell the app where you expect the router to display the desired content. Accomplish that by using the `RouterOutlet` directive from `@angular/router`.
+最後，為了確保您的應用程式已準備好使用 Angular Router，您需要告訴應用程式您預期路由器會在哪裡顯示所需的內容。使用 `@angular/router` 中的 `RouterOutlet` 指令來完成此操作。
 
-Update the template for `AppComponent` by adding `<router-outlet />`
+通過添加 `<router-outlet />` 來更新 `AppComponent` 的範本`
 
 <docs-code language="ts" highlight="[11]">
 import {RouterOutlet} from '@angular/router';
@@ -72,6 +72,7 @@ export class AppComponent {}
 
 </docs-workflow>
 
-Your app is now setup to use Angular Router. Nice work! 🙌
+您的應用程式現在已設定好使用 Angular Router。幹得好！ 🙌
 
-Keep the momentum going to learn the next step of defining the routes for our app.
+保持動力，學習為我們的應用程式定義路由的下一步。
+

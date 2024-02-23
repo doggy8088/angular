@@ -1,145 +1,145 @@
-# Prepare component for translation
+# 準備元件以進行翻譯
 
-To prepare your project for translation, complete the following actions.
+為翻譯專案做準備，請完成以下動作。
 
-* Use the `i18n` attribute to mark text in component templates
-* Use the `i18n-` attribute to mark attribute text strings in component templates
-* Use the `$localize` tagged message string to mark text strings in component code
+* 使用 `i18n` 屬性來標記元件範本中的文字
+* 使用 `i18n-` 屬性來標記元件範本中的屬性文字字串
+* 使用 `$localize` 標記訊息字串來標記元件程式碼中的文字字串
 
-## Mark text in component template
+## 標記元件範本中的文字
 
-In a component template, the i18n metadata is the value of the `i18n` attribute.
+在組件範本中，i18n 元數據是 `i18n` 屬性的值。
 
 <docs-code language="html">
 &lt;element i18n="{i18n_metadata}"&gt;{string_to_translate}&lt;/element&gt;
 </docs-code>
 
-Use the `i18n` attribute to mark a static text message in your component templates for translation.
-Place it on every element tag that contains fixed text you want to translate.
+使用 `i18n` 屬性來標記元件範本中要翻譯的靜態文字訊息。
+將它放在包含要翻譯的固定文字的每個元素標籤上。
 
-HELPFUL: The `i18n` attribute is a custom attribute that the Angular tools and compilers recognize.
+HELPFUL: `i18n` 屬性是 Angular 工具和編譯器識別的客製屬性。
 
-### `i18n` example
+### `i18n` 範例
 
-The following `<h1>` tag displays a simple English language greeting, "Hello i18n!".
+以下 `<h1>` 標籤顯示簡單的英文問候語，「Hello i18n!」
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="greeting"/>
 
-To mark the greeting for translation, add the `i18n` attribute to the `<h1>` tag.
+要標記要翻譯的問候語，請將 `i18n` 屬性新增到 `<h1>` 標籤。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute"/>
 
-### Translate inline text without HTML element
+### 在沒有 HTML 元素的情況下翻譯內嵌文字
 
-Use the `<ng-container>` element to associate a translation behavior for specific text without changing the way text is displayed.
+使用 `<ng-container>` 元素來將翻譯行為與特定文字關聯，而不改變文字的顯示方式。
 
-HELPFUL: Each HTML element creates a new DOM element.
-To avoid creating a new DOM element, wrap the text in an `<ng-container>` element.
-The following example shows the `<ng-container>` element transformed into a non-displayed HTML comment.
+HELPFUL：每個 HTML 元素都會建立一個新的 DOM 元素。
+若要避免建立新的 DOM 元素，請將文字包在 `<ng-container>` 元素內。
+以下範例顯示 `<ng-container>` 元素轉換成未顯示的 HTML 註解。
 
 <docs-code path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-ng-container"/>
 
-## Mark element attributes for translations
+## 標記元素屬性以利翻譯
 
-In a component template, the i18n metadata is the value of the `i18n-{attribute_name}` attribute.
+在組件範本中，`i18n-{attribute_name}` 屬性的值是 i18n 元資料。
 
 <docs-code language="html">
 &lt;element i18n-{attribute_name}="{i18n_metadata}" {attribute_name}="{attribute_value}" /&gt;
 </docs-code>
 
-The attributes of HTML elements include text that should be translated along with the rest of the displayed text in the component template.
+HTML 元素的屬性包含應與元件範本中顯示文字的其他部分一起翻譯的文字。
 
-Use `i18n-{attribute_name}` with any attribute of any element and replace `{attribute_name}` with the name of the attribute.
-Use the following syntax to assign a meaning, description, and custom ID.
+使用任何元素的任何屬性中的 `i18n-{attribute_name}` 並將 `{attribute_name}` 替換為屬性的名稱。
+使用下列語法來指定意義、說明和自訂 ID。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="html">
 i18n-{attribute_name}="{meaning}|{description}&commat;&commat;{id}"
 </docs-code>
 
-### `i18n-title` example
+### `i18n-title` 範例
 
-To translate the title of an image, review this example.
-The following example displays an image with a `title` attribute.
+若要翻譯圖片的標題，請檢閱此範例。
+以下範例顯示具有 `title` 屬性的圖片。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-title"/>
 
-To mark the title attribute for translation, complete the following action.
+若要標記標題屬性以進行翻譯，請完成下列動作。
 
-1. Add the `i18n-title` attribute
+1. 新增 `i18n-title` 屬性
 
-    The following example displays how to mark the `title` attribute on the `img` tag by adding `i18n-title`.
+    以下範例顯示如何透過新增 `i18n-title` 來標示 `img` 標籤上的 `title` 屬性。
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-title-translate"/>
 
-## Mark text in component code
+## 在元件程式碼中標記文字
 
-In component code, the translation source text and the metadata are surrounded by backtick \(<code>&#96;</code>\) characters.
+在元件程式碼中，翻譯的原始文字和元資料以反引號 \(&#96;\) 字元包圍。
 
-Use the [`$localize`][AioApiLocalizeInitLocalize] tagged message string to mark a string in your code for translation.
+使用 [`$localize`][AioApiLocalizeInitLocalize] 標記訊息字串，以將程式碼中的字串標記為翻譯。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="typescript">
 &dollar;localize `string_to_translate`;
 </docs-code>
 
-The i18n metadata is surrounded by colon \(`:`\) characters and prepends the translation source text.
+i18n 的元數據以冒號 \(`:`\) 字元包圍，並置於翻譯原始文字之前。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="typescript">
 &dollar;localize `:{i18n_metadata}:string_to_translate`
 </docs-code>
 
-### Include interpolated text
+### 包含內插文字
 
-Include [interpolations](guide/templates/interpolation) in a [`$localize`][AioApiLocalizeInitLocalize] tagged message string.
+在 [`$localize`][AioApiLocalizeInitLocalize] 標記訊息字串中包含 [插補](guide/templates/interpolation)。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="typescript">
 &dollar;localize `string_to_translate &dollar;{variable_name}`;
 </docs-code>
 
-### Name the interpolation placeholder
+### 命名插值預留位置
 
 <docs-code language="typescript">
 &dollar;localize `string_to_translate &dollar;{variable_name}:placeholder_name:`;
 </docs-code>
 
-## i18n metadata for translation
+## 翻譯的 i18n 元數據
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="html">
 {meaning}|{description}&commat;&commat;{custom_id}
 </docs-code>
 
-The following parameters provide context and additional information to reduce confusion for your translator.
+以下參數提供背景和額外資訊，以減少翻譯人員的混淆。
 
-| Metadata parameter | Details                                                               |
+| 元數據參數 | 詳細資訊                                                                   |
 |:---                |:---                                                                   |
-| Custom ID          | Provide a custom identifier                                           |
-| Description        | Provide additional information or context                             |
-| Meaning            | Provide the meaning or intent of the text within the specific context |
+| 自訂 ID          | 提供自訂識別碼                                                           |
+| 說明              | 提供額外資訊或內容                                                       |
+| 意義              | 提供特定內容中的文字含義或意圖                                       |
 
-For additional information about custom IDs, see [Manage marked text with custom IDs][AioGuideI18nOptionalManageMarkedText].
+如需有關自訂 ID 的更多資訊，請參閱 [使用自訂 ID 管理標記文字][AioGuideI18nOptionalManageMarkedText]。
 
-### Add helpful descriptions and meanings
+### 新增有用的描述及意義
 
-To translate a text message accurately, provide additional information or context for the translator.
+要準確翻譯簡訊，請提供額外的資訊或背景給翻譯者。
 
-Add a *description* of the text message as the value of the `i18n` attribute or [`$localize`][AioApiLocalizeInitLocalize] tagged message string.
+將文字訊息的「說明」加入 `i18n` 屬性的值或 [`$localize`][AioApiLocalizeInitLocalize] 標記的訊息字串。
 
-The following example shows the value of the `i18n` attribute.
+以下範例顯示 `i18n` 屬性的值。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-desc"/>
 
-The following example shows the value of the [`$localize`][AioApiLocalizeInitLocalize] tagged message string with a description.
+以下範例顯示標記訊息字串 [`$localize`][AioApiLocalizeInitLocalize] 的值，並附有說明。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="typescript">
 
@@ -147,22 +147,22 @@ The following example shows the value of the [`$localize`][AioApiLocalizeInitLoc
 
 </docs-code>
 
-The translator may also need to know the meaning or intent of the text message within this particular application context, in order to translate it the same way as other text with the same meaning.
-Start the `i18n` attribute value with the *meaning* and separate it from the *description* with the `|` character: `{meaning}|{description}`.
+翻譯人員可能還需要知道此特定應用程序語境中文字訊息的含義或目的，才能將其翻譯成與具有相同含義的其他文字相同的方式。
+以 *含義* 開頭的 `i18n` 屬性值，並使用 `|` 字元將其與 *描述* 分隔：`{含義}|{描述}`。
 
-#### `h1` example
+#### `h1` 範例
 
-For example, you may want to specify that the `<h1>` tag is a site header that you need translated the same way, whether it is used as a header or referenced in another section of text.
+例如，您可能想要指定 `<h1>` 標記是一個網站標題，您需要以相同的方式翻譯它，無論它用作標題還是參考於文本的另一部分。
 
-The following example shows how to specify that the `<h1>` tag must be translated as a header or referenced elsewhere.
+以下範例顯示如何指定 `<h1>` 標籤必須翻譯為標題或在其他地方參照。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-meaning"/>
 
-The result is any text marked with `site header`, as the *meaning* is translated exactly the same way.
+結果是任何標記為 `site header` 的文字，因為 *意義* 的翻譯方式完全相同。
 
-The following code example shows the value of the [`$localize`][AioApiLocalizeInitLocalize] tagged message string with a meaning and a description.
+以下程式碼範例顯示 [`$localize`][AioApiLocalizeInitLocalize] 標記訊息字串的值，並附有意義和說明。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="typescript">
 
@@ -170,34 +170,34 @@ The following code example shows the value of the [`$localize`][AioApiLocalizeIn
 
 </docs-code>
 
-<docs-callout title="How meanings control text extraction and merges">
+<docs-callout title="意義如何控制文字擷取及合併">
 
-The Angular extraction tool generates a translation unit entry for each `i18n` attribute in a template.
-The Angular extraction tool assigns each translation unit a unique ID based on the *meaning* and *description*.
+Angular 提取工具會為範本中的每個 `i18n` 屬性產生一個翻譯單元項目。
+Angular 提取工具會根據 *意義* 和 *說明* 為每個翻譯單元指定一個唯一 ID。
 
-HELPFUL: For more information about the Angular extraction tool, see [Work with translation files](guide/i18n/translation-files).
+HELPFUL: 有關 Angular 萃取工具的更多資訊，請參閱 [使用翻譯檔案](guide/i18n/translation-files)。
 
-The same text elements with different *meanings* are extracted with different IDs.
-For example, if the word "right" uses the following two definitions in two different locations, the word is translated differently and merged back into the application as different translation entries.
+具有不同 *含義* 的相同文字元素會以不同的 ID 提取出來。
+例如，如果文字「right」在兩個不同位置使用以下兩個定義，則文字會以不同的方式翻譯，然後以不同的翻譯項目合併回應用程式中。
 
-* `correct` as in "you are right"
-* `direction` as in "turn right"
+* `correct` 如同「你說得對」
+* `direction` 如同「向右轉」
 
-If the same text elements meet the following conditions, the text elements are extracted only once and use the same ID.
+如果相同的文字元素符合下列條件，則僅擷取一次文字元素並使用相同的 ID。
 
-* Same meaning or definition
-* Different descriptions
+* 相同的意義或定義
+* 不同的描述
 
-That one translation entry is merged back into the application wherever the same text elements appear.
+那一個翻譯條目會合併回應用程式，無論相同的文字元素出現在哪裡。
 
 </docs-callout>
 
-## ICU expressions
+## ICU 表達式
 
-ICU expressions help you mark alternate text in component templates to meet conditions.
-An ICU expression includes a component property, an ICU clause, and the case statements surrounded by open curly brace \(`{`\) and close curly brace \(`}`\) characters.
+ICU 表達式可協助您在元件範本中標記交替文字，以符合條件。
+ICU 表達式包含元件屬性、ICU 子句，以及用開大括弧 \(`{`\) 和閉大括弧 \(`}`\) 字元圍起來的案例陳述。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="html">
 
@@ -205,25 +205,25 @@ An ICU expression includes a component property, an ICU clause, and the case sta
 
 </docs-code>
 
-The component property defines the variable
-An ICU clause defines the type of conditional text.
+組件屬性定義變數
+ICU 子句定義條件文字的類型。
 
-| ICU clause                                                              | Details                                                             |
-|:---                                                                     |:---                                                                 |
-| [`plural`][AioGuideI18nCommonPrepareMarkPlurals]                        | Mark the use of plural numbers                                      |
-| [`select`][AioGuideI18nCommonPrepareMarkAlternatesAndNestedExpressions] | Mark choices for alternate text based on your defined string values |
+| ICU 子句                                                              | 詳細資訊                                                           |
+|:---                                                                     |:---                                                               |
+| [`plural`][AioGuideI18nCommonPrepareMarkPlurals]                        | 標記使用複數數字                                                   |
+| [`select`][AioGuideI18nCommonPrepareMarkAlternatesAndNestedExpressions] | 標記基於定義的字串值選擇替代文字                               |
 
-To simplify translation, use International Components for Unicode clauses \(ICU clauses\) with regular expressions.
+為了簡化翻譯，請將具有正規表達式的國際元件統一碼子句（ICU 子句）用於
 
-HELPFUL: The ICU clauses adhere to the [ICU Message Format][GithubUnicodeOrgIcuUserguideFormatParseMessages] specified in the [CLDR pluralization rules][UnicodeCldrIndexCldrSpecPluralRules].
+HELPFUL: ICU 條款遵守 [CLDR 複數形式規則][UnicodeCldrIndexCldrSpecPluralRules] 中指定的 [ICU 訊息格式][GithubUnicodeOrgIcuUserguideFormatParseMessages]。
 
-### Mark plurals
+### 標記複數
 
-Different languages have different pluralization rules that increase the difficulty of translation.
-Because other locales express cardinality differently, you may need to set pluralization categories that do not align with English.
-Use the `plural` clause to mark expressions that may not be meaningful if translated word-for-word.
+不同的語言有不同的複數規則，這增加了翻譯的難度。
+由於其他地區以不同的方式表達基數，你可能需要設定與英文不一致的複數類別。
+使用 `plural` 子句來標記可能無法逐字翻譯成有意義的表達式。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="html">
 
@@ -231,9 +231,9 @@ Use the `plural` clause to mark expressions that may not be meaningful if transl
 
 </docs-code>
 
-After the pluralization category, enter the default text \(English\) surrounded by open curly brace \(`{`\) and close curly brace \(`}`\) characters.
+在複數類別之後，輸入預設文字\(英文\)，並以左大括號 \(`{`\) 和右大括號 \(`}`\) 字元括住。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="html">
 
@@ -241,20 +241,20 @@ pluralization_category { }
 
 </docs-code>
 
-The following pluralization categories are available for English and may change based on the locale.
+以下複數形式類別適用於英文，並可能根據語言環境而有所變更。
 
-| Pluralization category | Details                    | Example                    |
-|:---                    |:---                        |:---                        |
-| `zero`                 | Quantity is zero           | `=0 { }` <br /> `zero { }` |
-| `one`                  | Quantity is 1              | `=1 { }` <br /> `one { }`  |
-| `two`                  | Quantity is 2              | `=2 { }` <br /> `two { }`  |
-| `few`                  | Quantity is 2 or more      | `few { }`                  |
-| `many`                 | Quantity is a large number | `many { }`                 |
-| `other`                | The default quantity       | `other { }`                |
+| 複數型別 | 詳細資料 | 範例 |
+|:--- |:--- |:--- |
+| `zero` | 數量為零 | `=0 { }` <br /> `zero { }` |
+| `one` | 數量為 1 | `=1 { }` <br /> `one { }` |
+| `two` | 數量為 2 | `=2 { }` <br /> `two { }` |
+| `few` | 數量為 2 或更多 | `few { }` |
+| `many` | 數量為大量 | `many { }` |
+| `other` | 預設數量 | `other { }` |
 
-If none of the pluralization categories match, Angular uses `other` to match the standard fallback for a missing category.
+如果沒有任何複數形式類別符合，Angular 會使用 `other` 來符合遺漏類別的標準後設。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="html">
 
@@ -262,25 +262,25 @@ other { default_quantity }
 
 </docs-code>
 
-HELPFUL: For more information about pluralization categories, see [Choosing plural category names][UnicodeCldrIndexCldrSpecPluralRulesTocChoosingPluralCategoryNames] in the [CLDR - Unicode Common Locale Data Repository][UnicodeCldrMain].
+HELPFUL: 有關複數類別的更多資訊，請參閱 [UnicodeCldrIndexCldrSpecPluralRulesTocChoosingPluralCategoryNames][CLDR - Unicode Common Locale Data Repository][UnicodeCldrMain] 中的 [選擇複數類別名稱]。
 
-<docs-callout header='Background: Locales may not support some pluralization categories'>
+<docs-callout header='背景：有些地區可能不支援某些複數化類別'>
 
-Many locales don't support some of the pluralization categories.
-The default locale \(`en-US`\) uses a very simple `plural()` function that doesn't support the `few` pluralization category.
-Another locale with a simple `plural()` function is `es`.
-The following code example shows the [en-US `plural()`][GithubAngularAngularBlobEcffc3557fe1bff9718c01277498e877ca44588dPackagesCoreSrcI18nLocaleEnTsL14L18] function.
+許多地區設定不支援部分複數型態類別。
+預設地區設定 \(`en-US`\) 使用非常簡單的 `plural()` 函數，而不支援 `few` 複數型態類別。
+另一個具有簡單 `plural()` 函數的地區設定是 `es`。
+以下程式碼範例顯示 [en-US `plural()`][GithubAngularAngularBlobEcffc3557fe1bff9718c01277498e877ca44588dPackagesCoreSrcI18nLocaleEnTsL14L18] 函數。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/locale_plural_function.ts" class="no-box" hideCopy/>
 
-The `plural()` function only returns 1 \(`one`\) or 5 \(`other`\).
-The `few` category never matches.
+`plural()` 函數僅回傳 1（`one`）或 5（`other`）。
+`few` 類別從不匹配。
 
 </docs-callout>
 
-#### `minutes` example
+#### `minutes` 範例
 
-If you want to display the following phrase in English, where `x` is a number.
+如果您想顯示以下句子，其中 `x` 是數字。
 
 <!--todo: replace output docs-code with screen capture image --->
 
@@ -290,7 +290,7 @@ updated x minutes ago
 
 </docs-code>
 
-And you also want to display the following phrases based on the cardinality of `x`.
+而且您還想根據 `x` 的基數顯示以下短語。
 
 <!--todo: replace output docs-code with screen capture image --->
 
@@ -308,28 +308,28 @@ updated one minute ago
 
 </docs-code>
 
-Use HTML markup and [interpolations](guide/templates/interpolation).
-The following code example shows how to use the `plural` clause to express the previous three situations in a `<span>` element.
+使用 HTML 標記和 [內插法](guide/templates/interpolation)。
+以下程式碼範例顯示如何使用 `plural` 子句在 `<span>` 元素中表達前三個情況。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-plural"/>
 
-Review the following details in the previous code example.
+檢閱先前程式範例中的以下詳細資料。
 
-| Parameters                        | Details|
+| 參數                        | 詳細資料 |
 |:---                               |:---    |
-| `minutes`                         | The first parameter specifies the component property is `minutes` and determines the number of minutes.               |
-| `plural`                          | The second parameter specifies the ICU clause is `plural`.                                                            |
-| `=0 {just now}`                   | For zero minutes, the pluralization category is `=0`. The value is `just now`.                                        |
-| `=1 {one minute}`                 | For one minute, the pluralization category is `=1`. The value is `one minute`.                                        |
-| `other {{{minutes}} minutes ago}` | For any unmatched cardinality, the default pluralization category is `other`. The value is `{{minutes}} minutes ago`. |
+| `minutes`                         | 第一個參數指定元件屬性為 `minutes`，並決定分鐘數。               |
+| `plural`                          | 第二個參數指定 ICU 子句為 `plural`。                                                            |
+| `=0 {just now}`                   | 對於零分鐘，複數形式類別為 `=0`。值為 `just now`。                                        |
+| `=1 {one minute}`                 | 對於一分鐘，複數形式類別為 `=1`。值為 `one minute`。                                        |
+| `other {{{minutes}} minutes ago}` | 對於任何不匹配的基數，預設複數形式類別為 `other`。值為 `{{minutes}} minutes ago`。 |
 
-`{{minutes}}` is an [interpolation](guide/templates/interpolation).
+`{{minutes}}` 是 [插入法](guide/templates/interpolation)。
 
-### Mark alternates and nested expressions
+### 標記替換和巢狀表達式
 
-The `select` clause marks choices for alternate text based on your defined string values.
+`select` 子句根據您定義的字串值標記替代文字的選項。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="html">
 
@@ -339,9 +339,11 @@ The `select` clause marks choices for alternate text based on your defined strin
 
 Translate all of the alternates to display alternate text based on the value of a variable.
 
-After the selection category, enter the text \(English\) surrounded by open curly brace \(`{`\) and close curly brace \(`}`\) characters.
+翻譯所有替換文字以根據變數值顯示替換文字。
 
-<!--todo: replace with docs-code -->
+在選取類別後，輸入以開括號 \(`{`\) 和閉括號 \(`}`\) 字元包圍的文字 \(英文\)。
+
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="html">
 
@@ -349,11 +351,11 @@ selection_category { text }
 
 </docs-code>
 
-Different locales have different grammatical constructions that increase the difficulty of translation.
-Use HTML markup.
-If none of the selection categories match, Angular uses `other` to match the standard fallback for a missing category.
+不同的地區具有不同的語法結構，這增加了翻譯的難度。
+使用 HTML 標記。
+如果沒有任何選項類別相符，Angular 會使用 `other` 來比對缺少類別的標準後備。
 
-<!--todo: replace with docs-code -->
+<!--todo: 用 docs-code 取代 -->
 
 <docs-code language="html">
 
@@ -361,9 +363,9 @@ other { default_value }
 
 </docs-code>
 
-#### `gender` example
+#### `gender` 範例
 
-If you want to display the following phrase in English.
+如果您想以英文顯示以下詞組。
 
 <!--todo: replace output docs-code with screen capture image --->
 
@@ -373,7 +375,7 @@ The author is other
 
 </docs-code>
 
-And you also want to display the following phrases based on the `gender` property of the component.
+並且你還想要根據元件的 `gender` 屬性來顯示以下短語。
 
 <!--todo: replace output docs-code with screen capture image --->
 
@@ -391,45 +393,32 @@ The author is male
 
 </docs-code>
 
-The following code example shows how to bind the `gender` property of the component and use the `select` clause to express the previous three situations in a `<span>` element.
+以下程式碼範例顯示如何繫結元件的 `gender` 屬性，並使用 `select` 子句在 `<span>` 元素中表達前述三種情況。
 
-The `gender` property binds the outputs to each of following string values.
+`gender` 屬性會將輸出綁定到下列字串值。
 
-| Value  | English value |
+| 值  | 英文值 |
 |:---    |:---           |
-| female | `female`      |
-| male   | `male`        |
-| other  | `other`       |
+| 女性 | `female`      |
+| 男性   | `male`        |
+| 其他  | `other`       |
 
-The `select` clause maps the values to the appropriate translations.
-The following code example shows `gender` property used with the select clause.
+`select` 子句將值映射到適當的翻譯。
+以下程式碼範例顯示與 `select` 子句一起使用的 `gender` 屬性。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-select"/>
 
-#### `gender` and `minutes` example
+#### `gender` 和 `minutes` 範例
 
-Combine different clauses together, such as the `plural` and `select` clauses.
-The following code example shows nested clauses based on the `gender` and `minutes` examples.
+結合不同的子句，例如 `plural` 子句和 `select` 子句。
+以下程式碼範例顯示基於 `gender` 和 `minutes` 範例的巢狀子句。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/i18n/src/app/app.component.html" visibleRegion="i18n-nested"/>
 
-## What's next
+## 接下來
 
 <docs-pill-row>
-  <docs-pill href="guide/i18n/translation-files" title="Work with translation files"/>
+  <docs-pill href="guide/i18n/translation-files" title="使用翻譯檔案"/>
 </docs-pill-row>
 
-[AioApiLocalizeInitLocalize]: api/localize/init/$localize "$localize | init - localize - API  | Angular"
-
-[AioGuideI18nCommonPrepareMarkAlternatesAndNestedExpressions]: guide/i18n/prepare#mark-alternates-and-nested-expressions "Mark alternates and nested expressions - Prepare templates for translation | Angular"
-[AioGuideI18nCommonPrepareMarkPlurals]: guide/i18n/prepare#mark-plurals "Mark plurals - Prepare component for translation | Angular"
-
-[AioGuideI18nOptionalManageMarkedText]: guide/i18n/manage-marked-text "Manage marked text with custom IDs | Angular"
-
-[GithubAngularAngularBlobEcffc3557fe1bff9718c01277498e877ca44588dPackagesCoreSrcI18nLocaleEnTsL14L18]: <https://github.com/angular/angular/blob/ecffc3557fe1bff9718c01277498e877ca44588d/packages/core/src/i18n/locale_en.ts#L14-L18> "Line 14 to 18 - angular/packages/core/src/i18n/locale_en.ts | angular/angular | GitHub"
-
-[GithubUnicodeOrgIcuUserguideFormatParseMessages]: https://unicode-org.github.io/icu/userguide/format_parse/messages "ICU Message Format - ICU Documentation | Unicode | GitHub"
-
-[UnicodeCldrMain]: https://cldr.unicode.org "Unicode CLDR Project"
-[UnicodeCldrIndexCldrSpecPluralRules]: http://cldr.unicode.org/index/cldr-spec/plural-rules "Plural Rules | CLDR - Unicode Common Locale Data Repository | Unicode"
-[UnicodeCldrIndexCldrSpecPluralRulesTocChoosingPluralCategoryNames]: http://cldr.unicode.org/index/cldr-spec/plural-rules#TOC-Choosing-Plural-Category-Names "Choosing Plural Category Names - Plural Rules | CLDR - Unicode Common Locale Data Repository | Unicode"
+{{ 無法處理文件最後的 LinkReferenceDefinitionGroup 部分，需手動更新！ }}

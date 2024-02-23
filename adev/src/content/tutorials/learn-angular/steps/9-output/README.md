@@ -1,14 +1,14 @@
-# Component Communication with `@Output`
+# 以 `@Output` 進行元件通訊`
 
-When working with components it may be required to notify other components that something has happened. Perhaps a button has been clicked, an item has been added/removed from a list or some other important update has occurred. In this scenario components need to communicate with parent components.
+在使用元件時，可能需要通知其他元件某件事已發生。可能是按鈕已點擊、項目已加入/從清單中移除，或是已發生其他重要更新。在這種情況下，元件需要與父元件通訊。
 
-Angular uses the `@Output` decorator to enable this type of behavior.
+Angular 使用 `@Output` 裝飾器啟用此類行為。
 
-In this activity you'll learn how to use the `@Output` decorator and `EventEmitter` to communicate with components.
+在這個活動中，你將學習如何使用 `@Output` 裝飾器和 `EventEmitter` 與元件進行通訊。
 
 <hr />
 
-To create the communication path from child to parent components, use the `@Output` decorator on a class property and assign it a value of type `EventEmitter`:
+若要建立子元件至父元件的通訊路徑，請在類別屬性上使用 `@Output` 裝飾器並將其值指定為 `EventEmitter` 類型：
 
 <docs-code header="child.component.ts" language="ts">
 @Component({...})
@@ -17,7 +17,7 @@ class ChildComponent {
 }
 </docs-code>
 
-Now the component can generate events that can be listened to by the parent component. Trigger events by calling the `emit` method:
+現在，此元件可以產生事件，且父元件可以監聽這些事件。透過呼叫 `emit` 方法來觸發事件：
 
 <docs-code header="child.component.ts" language="ts">
 class ChildComponent {
@@ -28,21 +28,22 @@ class ChildComponent {
         this.incrementCountEvent.emit(count);
     }
 
+
 }
 </docs-code>
 
-The emit function will generate an event with the same type as the `EventEmitter` instance.
+`emit` 函數會產生與 `EventEmitter` 實例相同類型的事件。
 
-Alright, your turn to give this a try. Complete the code by following these tasks:
+好的，輪到您來試試看了。請按照下列任務完成程式碼：
 
 <docs-workflow>
 
-<docs-step title="Add an `@Output` property">
-Update `child.component.ts` by adding an output property called `addItemEvent`, be sure to set the EventEmitter type to be `string`.
+<docs-step title="加入 `@Output` 屬性">
+透過新增輸出屬性 `addItemEvent` 來更新 `child.component.ts`，務必將 EventEmitter 類型設定為 `string`。
 </docs-step>
 
-<docs-step title="Complete `addItem` method">
-In `child.component.ts` update the `addItem` method; use the following code as the logic:
+<docs-step title="完成 `addItem` 方法">
+在 `child.component.ts` 更新 `addItem` 方法；使用以下程式碼作為邏輯：
 
 <docs-code header="child.component.ts" highlight="[2]" language="ts">
 addItem() {
@@ -52,19 +53,20 @@ addItem() {
 
 </docs-step>
 
-<docs-step title="Update the `AppComponent` template">
-In `app.component.ts` update the template to listen to the emitted event by adding the following code:
+<docs-step title="更新 `AppComponent` 範本">
+在 `app.component.ts` 中，藉由新增以下程式碼，更新範本來傾聽已發出的事件：
 
 ```html
 <app-child (addItemEvent)="addItem($event)" />
 ```
 
-Now, the "Add Item" button adds a new item to the list every time the button is clicked.
+現在，「新增項目」按鈕每次被點擊時，都會新增一個項目到清單中。
 
 </docs-step>
 
 </docs-workflow>
 
-Wow, at this point you've completed the component fundamentals - impressive 👏
+哇，到此你已經完成元件基本知識 - 令 人印象深刻 👏
 
-Keep learning to unlock more of Angular's great features.
+繼續學習以解鎖更多 Angular 的優異功能。
+

@@ -1,13 +1,14 @@
-# Runtime performance optimization
+# 執行時期效能最佳化
 
-Fast rendering is critical for Angular and we've built the framework with a lot of optimizations in mind to help you develop performant apps. To better understand the performance of your app we offer [Angular DevTools](tools/devtools) and a [video guide](https://www.youtube.com/watch?v=FjyX_hkscII) on how to use Chrome DevTools for profiling. In this section we cover the most common performance optimization techniques.
+快速渲染對 Angular 至關重要，我們已經在架構中針對許多最佳化進行建構，以協助您開發高效能的應用程式。為了更好地瞭解您的應用程式的效能，我們提供了 [Angular DevTools](tools/devtools) 和 [影片指南](https://www.youtube.com/watch?v=FjyX_hkscII) 說明如何使用 Chrome DevTools 進行分析。在本節中，我們介紹最常見的效能最佳化技術。
 
-**Change detection** is the process through which Angular checks to see whether your application state has changed, and if any DOM needs to be updated. At a high level, Angular walks your components from top to bottom, looking for changes. Angular runs its change detection mechanism periodically so that changes to the data model are reflected in an application’s view. Change detection can be triggered either manually or through an asynchronous event (for example, a user interaction or an XMLHttpRequest completion).
+**變更偵測** 是 Angular 檢查您的應用程式狀態是否已變更，以及是否需要更新任何 DOM 的程序。基本上，Angular 會從上到下檢視您的元件，尋找變更。Angular 會定期執行其變更偵測機制，以便將資料模型的變更反映在應用程式的檢視中。變更偵測可以手動觸發，或透過非同步事件 (例如，使用者互動或 XMLHttpRequest 完成) 觸發。
 
-Change detection is highly optimized and performant, but it can still cause slowdowns if the application runs it too frequently.
+改變偵測高度最佳化且效能良好，但如果應用程式執行得太頻繁，它仍然可能導致速度變慢。
 
-In this guide, you’ll learn how to control and optimize the change detection mechanism by skipping parts of your application and running change detection only when necessary.
+在本指南中，您將學習如何透過略過應用程式的一部分，並僅在必要時執行變更偵測來控制和最佳化變更偵測機制。
 
-Watch this video if you prefer to learn more about performance optimizations in a media format:
+如果您喜歡以媒體格式了解有關效能最佳化的更多資訊，請觀看此影片：
 
 <docs-video src="https://www.youtube.com/embed/f8sA-i6gkGQ"/>
+

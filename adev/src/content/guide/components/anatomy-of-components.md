@@ -1,15 +1,15 @@
-<docs-decorative-header title="Anatomy of a component" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
+<docs-decorative-header title="元件解剖" imgSrc="adev/src/assets/images/components.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+提示：本指南假設您已經閱讀過 [精華指南](essentials)。如果您是 Angular 新手，請先閱讀該指南。
 
-Every component must have:
+每個元件必須有：
 
-* A TypeScript class with _behaviors_ such as handling user input and fetching data from a server
-* An HTML template that controls what renders into the DOM
-* A [CSS selector](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors) that defines how the component is used in HTML
+* 一個具有 _行為_ 的 TypeScript 類別，例如處理使用者輸入和從伺服器擷取資料
+* 一個控制內容如何呈現在 DOM 中的 HTML 範本
+* 一個定義元件如何在 HTML 中使用的 [CSS 選擇器](https://developer.mozilla.org/zh-TW/docs/Learn/CSS/Building_blocks/Selectors)
 
-You provide Angular-specific information for a component by adding a `@Component` [decorator](https://www.typescriptlang.org/docs/handbook/decorators.html) on top of the TypeScript class:
+您可以藉由在 TypeScript 類別的頂端新增 `@Component` [裝飾器](https://www.typescriptlang.org/docs/handbook/decorators.html) 來提供元件的 Angular 特定資訊：
 
 <docs-code language="ts" highlight="[1, 2, 3, 4]">
 @Component({
@@ -19,11 +19,11 @@ You provide Angular-specific information for a component by adding a `@Component
 export class ProfilePhoto { }
 </docs-code>
 
-For full details on writing Angular templates, see the [Templates guide](guide/templates).
+有關撰寫 Angular 範本的完整詳細資料，請參閱 [範本指南](guide/templates)。
 
-The object passed to the `@Component` decorator is called the component's **metadata**. This includes the `selector`, `template`, and other properties described throughout this guide.
+傳遞給 `@Component` 裝飾器的物件稱為元件的 **元資料**。這包括 `selector`、`template` 和本指南中描述的其他屬性。
 
-Components can optionally include a list of CSS styles that apply to that component's DOM:
+組件可以選擇性地包含套用到該組件 DOM 的 CSS 樣式清單：
 
 <docs-code language="ts" highlight="[4]">
 @Component({
@@ -34,9 +34,9 @@ Components can optionally include a list of CSS styles that apply to that compon
 export class ProfilePhoto { }
 </docs-code>
 
-By default, a component's styles only affect elements defined in that component's template. See [Styling Components](guide/components/styling) for details on Angular's approach to styling.
+預設情況下，元件的樣式只會影響在該元件範本中定義的元素。有關 Angular 的樣式處理方式的詳細資訊，請參閱 [樣式元件](guide/components/styling)。
 
-You can alternatively choose to write your template and styles in separate files:
+您可以選擇將您的範本和樣式分別寫在不同的檔案中：
 
 <docs-code language="ts" highlight="[3, 4]">
 @Component({
@@ -47,13 +47,13 @@ You can alternatively choose to write your template and styles in separate files
 export class ProfilePhoto { }
 </docs-code>
 
-This can help separate the concerns of _presentation_ from _behavior_ in your project. You can choose one approach for your entire project, or you decide which to use for each component.
+這可以幫助將專案中的 _呈現_ 與 _行為_ 的問題分開。您可以為整個專案選擇一種方式，或決定為每個元件使用哪一種。
 
-Both `templateUrl` and `styleUrl` are relative to the directory in which the component resides.
+`templateUrl` 與 `styleUrl` 都是相對於組件所在的目錄。
 
-## Using components
+## 使用組件
 
-Every component defines a [CSS selector](https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks/Selectors):
+每個組件都定義一個 [CSS 選擇器](https://developer.mozilla.org/zh-TW/docs/Learn/CSS/Building_blocks/Selectors)：
 
 <docs-code language="ts" highlight="[2]">
 @Component({
@@ -63,9 +63,9 @@ Every component defines a [CSS selector](https://developer.mozilla.org/en-US/doc
 export class ProfilePhoto { }
 </docs-code>
 
-See [Component Selectors](guide/components/selectors) for details about which types of selectors Angular supports and guidance on choosing a selector.
+有關 Angular 支援的選擇器類型和選擇選擇器的指南，請參閱 [元件選擇器](guide/components/selectors)。
 
-You use a component by creating a matching HTML element in the template of _other_ components:
+您可透過在 _其他_ 元件範本中建立相符的 HTML 元素來使用元件：
 
 <docs-code language="ts" highlight="[4]">
 @Component({
@@ -78,16 +78,16 @@ You use a component by creating a matching HTML element in the template of _othe
 export class UserProfile { }
 </docs-code>
 
-See [Importing and using components](guide/components/importing) for details on how to reference and use other components in your template.
+有關如何在範本中參照和使用其他元件的詳細資訊，請參閱 [匯入和使用元件](guide/components/importing)。
 
-Angular creates an instance of the component for every matching HTML element it encounters. The DOM element that matches a component's selector is referred to as that component's **host element**. The contents of a component's template are rendered inside its host element.
+Angular 會為它遇到的每個匹配的 HTML 元素建立一個元件實例。與元件選擇器匹配的 DOM 元素稱為該元件的 **主機元素**。元件範本的內容會在其主機元素內呈現。
 
-The DOM rendered by a component, corresponding to that component's template, is called that
-component's **view**.
+由元件呈現的 DOM，對應到該元件的範本，稱為該元件的 **檢視**。
 
-In composing components in this way, **you can think of your Angular application as a tree of components**.
+以這種方式組合元件，**您可以將您的 Angular 應用程式想成一個元件樹**。
 
 <!-- TODO(josephperrott): enable this mermaid chart -->
+
 ```
 flowchart TD
     A[AccountSettings]-->B
@@ -99,5 +99,5 @@ flowchart TD
     E[UserBio]
 ```
 
+此樹狀結構對於了解其他幾個 Angular 概念很重要，包括 [相依性注入](guide/di) 和 [子查詢](guide/components/queries)。
 
-This tree structure is important to understanding several other Angular concepts, including [dependency injection](guide/di) and [child queries](guide/components/queries).

@@ -1,9 +1,10 @@
-# The MIT License
+# 麻省理工學院許可證
 
-Copyright (c) 2010-2023 Google LLC. https://angular.dev/license
+著作權所有 (c) 2010-2023 Google LLC. https://angular.dev/license
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+特此授予任何取得本軟體及其相關文件（以下稱「軟體」）副本的人，無償許可，在不限制任何權利的狀況下使用、拷貝、修改、合併、發表、散佈、再授權，及／或販售軟體副本，並允許被提供軟體的人在以下條件下做同樣的事：
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+以上版權公告和此許可公告應包含在軟體的所有副本或實質部分中。
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+本軟體以「依樣」形式提供，不附任何明示或暗示的保證，包括但不限於適銷性、特定目的的適用性和非侵權性。在任何情況下，作者或版權持有者都不應對任何索賠、損害或其他責任負責，無論是基於合約、侵權或其他行為，而這些索賠、損害或其他責任源於、出於或與本軟體或本軟體的使用或其他交易有關。
+

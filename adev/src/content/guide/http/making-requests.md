@@ -1,16 +1,16 @@
-# Making HTTP requests
+# 發出 HTTP 請求
 
-`HttpClient` has methods corresponding to the different HTTP verbs used to make requests, both to load data and to apply mutations on the server. Each method returns an [RxJS `Observable`](https://rxjs.dev/guide/observable) which, when subscribed, sends the request and then emits the results when the server responds.
+HttpClient` 有對應於用於發出要求的不同 HTTP 動詞的方法，用於載入資料和套用伺服器上的突變。每種方法都會傳回一個 [RxJS `Observable`](https://rxjs.dev/guide/observable)，當訂閱時，會傳送要求，然後在伺服器回應時發出結果。
 
-Note: `Observable`s created by `HttpClient` may be subscribed any number of times and will make a new backend request for each subscription.
+備註：由 `HttpClient` 建立的 `Observable` 可以訂閱任意次數，並會為每個訂閱建立新的後端要求。
 
-Through an options object passed to the request method, various properties of the request and the returned response type can be adjusted.
+通過傳遞給 request 方法的選項物件，可以調整請求的各種屬性和回傳的回應類型。
 
-## Fetching JSON data
+## 擷取 JSON 資料
 
-Fetching data from a backend often requires making a GET request using the [`HttpClient.get()`](api/common/http/HttpClient#get) method. This method takes two arguments: the string endpoint URL from which to fetch, and an *optional options* object to configure the request.
+從後端擷取資料通常需要使用 [`HttpClient.get()`](api/common/http/HttpClient#get) 方法發出 GET 要求。此方法接受兩個參數：要從中擷取的字串端點 URL，以及用於設定要求的*選項物件*。
 
-For example, to fetch configuration data from a hypothetical API using the `HttpClient.get()` method:
+例如，使用 `HttpClient.get()` 方法從假設的 API 中擷取組態資料：
 
 <docs-code language="ts">
 http.get<Config>('/api/config').subscribe(config => {
@@ -18,24 +18,24 @@ http.get<Config>('/api/config').subscribe(config => {
 });
 </docs-code>
 
-Note the generic type argument which specifies that the data returned by the server will be of type `Config`. This argument is optional, and if you omit it then the returned data will have type `any`.
+注意指定伺服器回傳資料為 `Config` 類型的泛型類型引數。此引數為選用，若您省略它，回傳資料類型為 `any`。
 
-Tip: If the data has an unknown shape, then a safer alternative to `any` is to use the `unknown` type as the response type.
+提示：如果資料具有未知的形狀，那麼 `any` 的更安全的替代方案是使用 `unknown` 類型作為回應類型。
 
-CRITICAL: The generic type of request methods is a type **assertion** about the data returned by the server. `HttpClient` does not verify that the actual return data matches this type.
+CRITICAL: 要求方法的泛型類型是對伺服器傳回資料的一種類型 **斷言**。`HttpClient` 沒有驗證實際傳回的資料是否符合此類型。
 
-## Fetching other types of data
+## 擷取其他類型的資料
 
-By default, `HttpClient` assumes that servers will return JSON data. When interacting with a non-JSON API, you can tell `HttpClient` what response type to expect and return when making the request. This is done with the `responseType` option.
+`HttpClient` 預設假設伺服器會回傳 JSON 資料。當與非 JSON API 互動時，您可以在發出請求時告訴 `HttpClient` 預期和回傳的回應類型。這是透過 `responseType` 選項來完成。
 
-| **`responseType` value** | **Returned response type** |
+| **`responseType` 值** | **回傳的回應類型** |
 | - | - |
-| `'json'` (default) | JSON data of the given generic type |
-| `'text'` | string data |
-| `'arraybuffer'` | [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) containing the raw response bytes |
-| `'blob'` | [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob) instance |
+| `'json'` (預設) | 具有給定一般類型的 JSON 資料 |
+| `'text'` | 字串資料 |
+| `'arraybuffer'` | 包含原始回應位元組的 [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) |
+| `'blob'` | [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob) 實例 |
 
-For example, you can ask `HttpClient` to download the raw bytes of a `.jpeg` image into an `ArrayBuffer`:
+例如，您可以要求 `HttpClient` 將 `.jpeg` 圖像的原始位元組下載到 `ArrayBuffer` 中：
 
 <docs-code language="ts">
 http.get('/images/dog.jpg', {responseType: 'arraybuffer'}).subscribe(buffer => {
@@ -43,17 +43,17 @@ http.get('/images/dog.jpg', {responseType: 'arraybuffer'}).subscribe(buffer => {
 });
 </docs-code>
 
-<docs-callout important title="Literal value for `responseType`">
-Because the value of `responseType` affects the type returned by `HttpClient`, it must have a literal type and not a `string` type.
+<docs-callout important title="`responseType` 的字面值">
+由於 `responseType` 的值會影響 `HttpClient` 傳回的類型，它必須具有字面值類型，而不是 `string` 類型。
 
-This happens automatically if the options object passed to the request method is a literal object, but if you're extracting the request options out into a variable or helper method you might need to explicitly specify it as a literal, such as `responseType: 'text' as const`.
+如果傳遞給 request 方法的選項物件為文字物件，這會自動發生，但如果您要將要求選項提取到變數或輔助方法中，您可能需要明確地指定為文字，例如 `responseType: 'text' as const`。
 </docs-callout>
 
-## Mutating server state
+## 改變伺服器狀態
 
-Server APIs which perform mutations often require making POST requests with a request body specifying the new state or the change to be made.
+執行變更的伺服器 API 通常需要建立 POST 要求，其中要求主體指定新的狀態或要進行的變更。
 
-The [`HttpClient.post()`](api/common/http/HttpClient#post) method behaves similarly to `get()`, and accepts an additional `body` argument before its options:
+[`HttpClient.post()`](api/common/http/HttpClient#post) 方法行為類似於 `get()`，並在選項之前接受額外的 `body` 參數：
 
 <docs-code language="ts">
 http.post<Config>('/api/config', newConfig).subscribe(config => {
@@ -61,24 +61,24 @@ http.post<Config>('/api/config', newConfig).subscribe(config => {
 });
 </docs-code>
 
-Many different types of values can be provided as the request's `body`, and `HttpClient` will serialize them accordingly:
+請求的 `body` 可以提供許多不同類型的值，而 `HttpClient` 會相應地序列化它們：
 
-| **`body` type** | **Serialized as** |
+| **`body` 類型** | **序列化為** |
 | - | - |
-| string | Plain text |
-| number, boolean, array, or plain object | JSON |
-| [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) | raw data from the buffer |
-| [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob) | raw data with the `Blob`'s content type |
-| [`FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData) | `multipart/form-data` encoded data |
-| [`HttpParams`](api/common/http/HttpParams) or [`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) | `application/x-www-form-urlencoded` formatted string |
+| 字串 | 純文字 |
+| 數字、布林值、陣列或一般物件 | JSON |
+| [`ArrayBuffer`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer) | 緩衝區的原始資料 |
+| [`Blob`](https://developer.mozilla.org/en-US/docs/Web/API/Blob) | 具有 `Blob` 內容類型的原始資料 |
+| [`FormData`](https://developer.mozilla.org/en-US/docs/Web/API/FormData) | `multipart/form-data` 編碼資料 |
+| [`HttpParams`](api/common/http/HttpParams) 或 [`URLSearchParams`](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) | `application/x-www-form-urlencoded` 格式的字串 |
 
-IMPORTANT: Remember to `.subscribe()` to mutation request `Observable`s in order to actually fire the request.
+重要：請記得`.subscribe()` 到變更要求 `Observable`，以便實際發出要求。
 
-## Setting URL parameters
+## 設定 URL 參數
 
-Specify request parameters that should be included in the request URL using the `params` option.
+使用 `params` 選項指定應包含在要求 URL 中的要求參數。
 
-Passing an object literal is the simplest way of configuring URL parameters:
+傳遞一個物件字面值是最簡單的 URL 參數設定方式：
 
 <docs-code language="ts">
 http.get('/api/config', {
@@ -88,9 +88,9 @@ http.get('/api/config', {
 });
 </docs-code>
 
-Alternatively, pass an instance of `HttpParams` if you need more control over the construction or serialization of the parameters.
+或者，如果您需要更精確地控制參數的建構或序列化，請傳遞 `HttpParams` 的執行個體。
 
-IMPORTANT: Instances of `HttpParams` are _immutable_ and cannot be directly changed. Instead, mutation methods such as `append()` return a new instance of `HttpParams` with the mutation applied.
+IMPORTANT: `HttpParams` 的實例是 _不可變_ 的，且無法直接變更。相反地，突變方法（例如 `append()`）會回傳一個已套用突變的 `HttpParams` 新實例。
 
 <docs-code language="ts">
 const baseParams = new HttpParams().set('filter', 'all');
@@ -102,13 +102,13 @@ http.get('/api/config', {
 });
 </docs-code>
 
-You can instantiate `HttpParams` with a custom `HttpParameterCodec` that determines how `HttpClient` will encode the parameters into the URL.
+您可以使用決定 `HttpClient` 將如何將參數編碼到 URL 的自訂 `HttpParameterCodec` 來實例化 `HttpParams`。
 
-## Setting request headers
+## 設定請求標頭
 
-Specify request headers that should be included in the request using the `headers` option.
+使用 `headers` 選項指定應包含在請求中的請求標頭。
 
-Passing an object literal is the simplest way of configuring request headers:
+通過物件文字傳遞是最簡單的設定要求標頭方式：
 
 <docs-code language="ts">
 http.get('/api/config', {
@@ -120,9 +120,9 @@ http.get('/api/config', {
 });
 </docs-code>
 
-Alternatively, pass an instance of `HttpHeaders` if you need more control over the construction of headers
+或者，如果您需要更多控制權來建構標頭，請傳遞 `HttpHeaders` 的執行個體
 
-IMPORTANT: Instances of `HttpHeaders` are _immutable_ and cannot be directly changed. Instead, mutation methods such as `append()` return a new instance of `HttpHeaders` with the mutation applied.
+重要提示：`HttpHeaders` 的實例是 _不可變_ 的，且無法直接變更。相反地，異動方法（例如 `append()`）會傳回一個已套用異動的新 `HttpHeaders` 實例。
 
 <docs-code language="ts">
 const baseHeaders = new HttpHeaders().set('X-Debug-Level', 'minimal');
@@ -134,11 +134,11 @@ http.get<Config>('/api/config', {
 });
 </docs-code>
 
-## Interacting with the server response events
+## 與伺服器回應事件互動
 
-For convenience, `HttpClient` by default returns an `Observable` of the data returned by the server (the response body). Occasionally it's desirable to examine the actual response, for example to retrieve specific response headers.
+為了方便，`HttpClient` 預設會傳回伺服器傳回資料的 `Observable` (回應內文)。偶爾會想要檢查實際的回應，例如擷取特定的回應標頭。
 
-To access the entire response, set the `observe` option to `'response'`:
+如需存取完整回應，請將 `observe` 選項設為 `'response'`：
 
 <docs-code language="ts">
 http.get<Config>('/api/config', {observe: 'response'}).subscribe(res => {
@@ -147,21 +147,21 @@ http.get<Config>('/api/config', {observe: 'response'}).subscribe(res => {
 });
 </docs-code>
 
-<docs-callout important title="Literal value for `observe`">
-Because the value of `observe` affects the type returned by `HttpClient`, it must have a literal type and not a `string` type.
+<docs-callout important title="`observe` 的字面值">
+因為 `observe` 的值會影響 `HttpClient` 回傳的類型，所以它必須是字面類型而非 `string` 類型。
 
-This happens automatically if the options object passed to the request method is a literal object, but if you're extracting the request options out into a variable or helper method you might need to explicitly specify it as a literal, such as `observe: 'response' as const`.
+如果傳遞給請求方法的選項物件是文字物件，則會自動執行此動作，但如果您將請求選項萃取到變數或輔助方法中，您可能需要明確地將它指定為文字，例如 `observe: 'response' as const`。
 </docs-callout>
 
-## Receiving raw progress events
+## 接收原始進度事件
 
-In addition to the response body or response object, `HttpClient` can also return a stream of raw _events_ corresponding to specific moments in the request lifecycle. These events include when the request is sent, when the response header is returned, and when the body is complete. These events can also include _progress events_ which report upload and download status for large request or response bodies.
+除了回應主體或回應物件之外，`HttpClient` 也能傳回對應於請求生命週期中的特定時刻的原始 _事件_ 串流。這些事件包括請求發送時、回應標頭傳回時，以及主體完成時。這些事件也可以包含 _進度事件_，以報告大型請求或回應主體的上傳和下載狀態。
 
-Progress events are disabled by default (as they have a performance cost) but can be enabled with the `reportProgress` option.
+進度事件在預設情況下已停用（因為它們有性能成本），但可以使用 `reportProgress` 選項啟用它們。
 
-Note: The optional `fetch` implementation of `HttpClient` does not report _upload_ progress events.
+注：`HttpClient` 的可選 `fetch` 實作不會報告 _上傳_ 進度事件。
 
-To observe the event stream, set the `observe` option to `'events'`:
+若要觀察事件串流，請將 `observe` 選項設定為 `'events'`：
 
 <docs-code language="ts">
 http.post('/api/upload', myData, {
@@ -179,70 +179,72 @@ http.post('/api/upload', myData, {
 });
 </docs-code>
 
-<docs-callout important title="Literal value for `observe`">
-Because the value of `observe` affects the type returned by `HttpClient`, it must have a literal type and not a `string` type.
+<docs-callout important title="`observe` 的字面值">
+因為 `observe` 的值會影響 `HttpClient` 回傳的類型，所以它必須是字面類型而非 `string` 類型。
 
-This happens automatically if the options object passed to the request method is a literal object, but if you're extracting the request options out into a variable or helper method you might need to explicitly specify it as a literal, such as `observe: 'events' as const`.
+如果傳遞給 request 方法的選項物件是字面值物件，這會自動發生，但如果您將要求選項萃取到變數或輔助方法中，您可能需要明確地指定它為字面值，例如 `observe: 'events' as const`。
 </docs-callout>
 
-Each `HttpEvent` reported in the event stream has a `type` which distinguishes what the event represents:
+事件串流中所報告的每個 `HttpEvent` 都有 `type`，用來區分事件代表的內容：
 
-| **`type` value** | **Event meaning** |
+| **`type` 值** | **事件含義** |
 | - | - |
-| `HttpEventType.Sent` | The request has been dispatched to the server |
-| `HttpEventType.UploadProgress` | An `HttpUploadProgressEvent` reporting progress on uploading the request body |
-| `HttpEventType.ResponseHeader` | The head of the response has been received, including status and headers |
-| `HttpEventType.DownloadProgress` | An `HttpDownloadProgressEvent` reporting progress on downloading the response body |
-| `HttpEventType.Response` | The entire response has been received, including the response body |
-| `HttpEventType.User` | A custom event from an Http interceptor.
+| `HttpEventType.Sent` | 請求已派發到伺服器 |
+| `HttpEventType.UploadProgress` | `HttpUploadProgressEvent` 報告上傳請求主體的進度 |
+| `HttpEventType.ResponseHeader` | 已收到回應的標頭，包括狀態和標頭 |
+| `HttpEventType.DownloadProgress` | `HttpDownloadProgressEvent` 報告下載回應主體的進度 |
+| `HttpEventType.Response` | 已收到整個回應，包括回應主體 |
+| `HttpEventType.User` | Http 攔截器的自訂事件。
 
-## Handling request failure
+## 處理請求失敗
 
-There are two ways an HTTP request can fail:
+HTTP 要求有兩種可能失敗的方式：
 
-* A network or connection error can prevent the request from reaching the backend server.
-* The backend can receive the request but fail to process it, and return an error response.
+* 網路或連線錯誤可能導致請求無法到達後端伺服器。
+* 後端可以收到請求，但無法處理它，並返回錯誤回應。
 
-`HttpClient` captures both kinds of errors in an `HttpErrorResponse` which it returns through the `Observable`'s error channel. Network errors have a `status` code of `0` and an `error` which is an instance of [`ProgressEvent`](https://developer.mozilla.org/en-US/docs/Web/API/ProgressEvent). Backend errors have the failing `status` code returned by the backend, and the error response as the `error`. Inspect the response to identify the error's cause and the appropriate action to handle the error.
+`HttpClient` 會在 `HttpErrorResponse` 中擷取兩種錯誤，並透過 `Observable` 的錯誤頻道回傳。網路錯誤的 `status` 程式碼為 `0`，而 `error` 為 [`ProgressEvent`](https://developer.mozilla.org/en-US/docs/Web/API/ProgressEvent) 的執行個體。後端錯誤會回傳後端返回的失敗 `status` 程式碼，而錯誤回應則為 `error`。檢查回應以識別錯誤原因和處理錯誤的適當動作。
 
-The [RxJS library](https://rxjs.dev/) offers several operators which can be useful for error handling.
+[RxJS 函式庫](https://rxjs.dev/) 提供了幾個可用於錯誤處理的運算子。
 
-You can use the `catchError` operator to transform an error response into a value for the UI. This value can tell the UI to display an error page or value, and capture the error's cause if necessary.
+您可以使用 `catchError` 運算子將錯誤回應轉換為 UI 的值。此值可以告訴 UI 顯示錯誤頁面或值，並在必要時擷取錯誤原因。
 
-Sometimes transient errors such as network interruptions can cause a request to fail unexpectedly, and simply retrying the request will allow it to succeed. RxJS provides several *retry* operators which automatically re-subscribe to a failed `Observable` under certain conditions. For example, the `retry()` operator will automatically attempt to re-subscribe a specified number of times.
+有時暫時性錯誤，例如網路中斷，會導致要求意外失敗，而只需重試要求即可讓它成功。RxJS 提供多個 *retry* 運算子，可在特定條件下自動重新訂閱失敗的 `Observable`。例如，`retry()` 運算子會自動嘗試重新訂閱指定次數。
+
+## Http `Observable`
 
 ## Http `Observable`s
 
-Each request method on `HttpClient` constructs and returns an `Observable` of the requested response type. Understanding how these `Observable`s work is important when using `HttpClient`.
+`HttpClient` 上的每個請求方法都會建構並傳回請求回應類型的一個 `Observable`。在使用 `HttpClient` 時，了解這些 `Observable` 的工作方式非常重要。
 
-`HttpClient` produces what RxJS calls "cold" `Observable`s, meaning that no actual request happens until the `Observable` is subscribed. Only then is the request actually dispatched to the server. Subscribing to the same `Observable` multiple times will trigger multiple backend requests. Each subscription is independent.
+`HttpClient` 產生 RxJS 所稱的「冷」`Observable`，表示在 `Observable` 訂閱之前不會發生實際的請求。只有在那個時候，請求才會實際發送至伺服器。多次訂閱同一個 `Observable` 將會觸發多個後端請求。每個訂閱都是獨立的。
 
-TIP: You can think of `HttpClient` `Observable`s as _blueprints_ for actual server requests.
+提示：您可以將 `HttpClient` `Observable` 視為實際伺服器請求的_藍圖_。
 
-Once subscribed, unsubscribing will abort the in-progress request. This is very useful if the `Observable` is subscribed via the `async` pipe, as it will automatically cancel the request if the user navigates away from the current page. Additionally, if you use the `Observable` with an RxJS combinator like `switchMap`, this cancellation will clean up any stale requests.
+一旦訂閱，取消訂閱將中止正在進行的請求。這非常有用，如果 `Observable` 是透過 `async` 管道訂閱的，因為如果使用者導覽離開目前的頁面，它會自動取消請求。此外，如果您將 `Observable` 與 RxJS 組合器一起使用，例如 `switchMap`，這個取消將會清除任何過期的請求。
 
-Once the response returns, `Observable`s from `HttpClient` usually complete (although interceptors can influence this).
+一旦回應返回，`HttpClient` 的 `Observable` 通常會完成 (儘管攔截器可能會影響此行為)。
 
-Because of the automatic completion, there is usually no risk of memory leaks if `HttpClient` subscriptions are not cleaned up. However, as with any async operation, we strongly recommend that you clean up subscriptions when the component using them is destroyed, as the subscription callback may otherwise run and encounter errors when it attempts to interact with the destroyed component.
+由於自動完成，`HttpClient` 訂閱通常不會有記憶體洩漏的風險。但是，與任何非同步操作一樣，我們強烈建議您在使用它們的元件毀損時清除訂閱，否則訂閱回呼可能會執行並在嘗試與毀損的元件互動時遇到錯誤。
 
-TIP: Using the `async` pipe or the `toSignal` operation to subscribe to `Observable`s ensures that subscriptions are disposed properly.
+TIP：使用 `async` 管道或 `toSignal` 運算來訂閱 `Observable` 可確保訂閱正確地被處置。
 
-## Best practices
+## 最佳實務範例
 
-While `HttpClient` can be injected and used directly from components, generally we recommend you create reusable, injectable services which isolate and encapsulate data access logic. For example, this `UserService` encapsulates the logic to request data for a user by their id:
+雖然 `HttpClient` 可以注入並直接從組件使用，但我們通常建議您建立可重複使用、可注入的服務，以隔離和封裝資料存取邏輯。例如，此 `UserService` 封裝了根據其 ID 要求使用者資料的邏輯：
 
 <docs-code language="ts">
 @Injectable({providedIn: 'root'})
 export class UserService {
   constructor(private http: HttpClient) {}
 
-  getUser(id: string): Observable<User> {
+getUser(id: string): Observable<User> {
     return this.http.get<User>(`/api/user/${id}`);
   }
 }
 </docs-code>
 
-Within a component, you can combine `NgIf` with the `async` pipe to render the UI for the data only after it's finished loading:
+在元件內，您可以結合 `NgIf` 與 `async` 管道，來在資料載入完成之後才呈現 UI：
 
 <docs-code language="ts">
 @Component({
@@ -257,10 +259,11 @@ export class UserProfileComponent {
   @Input() userId!: string;
   user$!: Observable<User>;
 
-  constructor(private userService: UserService) {}
+constructor(private userService: UserService) {}
 
-  ngOnInit(): void {
+ngOnInit(): void {
     this.user$ = userService.getUser(this.userId);
   }
 }
 </docs-code>
+

@@ -1,27 +1,27 @@
 <docs-decorative-header title="Angular Routing" imgSrc="adev/src/assets/images/routing.svg"> <!-- markdownlint-disable-line -->
-Routing helps you change what the user sees in a single-page app.
+Routing 可協助您變更使用者在單頁應用程式中看到的事項。
 </docs-decorative-header>
 
-In a single-page app, you change what the user sees by showing or hiding portions of the display that correspond to particular components, rather than going out to the server to get a new page.
+在單頁應用程式中，您透過顯示或隱藏對應特定組件的顯示區段來變更使用者所見的內容，而不是到伺服器取得新頁面。
 
-As users perform application tasks, they need to move between the different views that you have defined.
+當使用者執行應用程式任務時，他們需要在您已定義的不同檢視之間移動。
 
-To handle the navigation from one view to the next, you use the Angular **`Router`**.
-The **`Router`** enables navigation by interpreting a browser URL as an instruction to change the view.
+要處理從一個檢視到下一個檢視的導覽，您可以使用 Angular **`Router`**。**`Router`** 透過將瀏覽器網址解譯為變更檢視的指令，來啟用導覽。
 
-## Learn about Angular routing
+## 瞭解 Angular 路由
 
 <docs-card-container>
-  <docs-card title="Common routing tasks" href="guide/routing/common-router-tasks">
-    Learn how to implement many of the common tasks associated with Angular routing.
+  <docs-card title="常見路由任務" href="guide/routing/common-router-tasks">
+    了解如何實作與 Angular 路由相關的許多常見任務。
   </docs-card>
-  <docs-card title="Routing SPA tutorial" href="guide/routing/router-tutorial">
-    A tutorial that covers patterns associated with Angular routing.
+  <docs-card title="路由 SPA 教學" href="guide/routing/router-tutorial">
+    涵蓋與 Angular 路由相關的模式的教學。
   </docs-card>
-  <docs-card title="Creating custom route matches tutorial" href="guide/routing/routing-with-urlmatcher">
-    A tutorial that covers how to use custom matching strategy patterns with Angular routing.
+  <docs-card title="建立自訂路由比對教學" href="guide/routing/routing-with-urlmatcher">
+    涵蓋如何將自訂比對策略模式與 Angular 路由搭配使用的教學。
   </docs-card>
-  <docs-card title="Router reference" href="guide/routing/router-reference">
-    Describes some core router API concepts.
+  <docs-card title="路由器參考" href="guide/routing/router-reference">
+    描述一些核心路由器 API 概念。
   </docs-card>
 </docs-card-container>
+

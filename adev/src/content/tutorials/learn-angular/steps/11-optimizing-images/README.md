@@ -1,16 +1,16 @@
-# Optimizing images
+# 優化圖片
 
-Images are a big part of many applications, and can be a major contributor to application performance problems, including low [Core Web Vitals](https://web.dev/explore/learn-core-web-vitals) scores.
+圖片是許多應用程式的重要部分，也可能是造成應用程式效能問題的主要原因，包括 [核心網路指標](https://web.dev/explore/learn-core-web-vitals) 分數低。
 
-Image optimization can be a complex topic, but Angular handles most of it for you, with the `NgOptimizedImage` directive. In this activity, you'll learn how to use `NgOptimizedImage` to ensure your images are loaded efficiently.
+影像優化可能是一個複雜的主題，但 Angular 可以透過 `NgOptimizedImage` 指令為您處理大部分內容。在此活動中，您將學習如何使用 `NgOptimizedImage` 來確保影像以有效率的方式載入。
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Import the NgOptimizedImage directive">
+<docs-step title="匯入 NgOptimizedImage 指令">
 
-In order to leverage the `NgOptimizedImage` directive, first import it from the `@angular/common` library and add it to the component `imports` array.
+為了利用 `NgOptimizedImage` 指令，首先從 `@angular/common` 函式庫匯入它並將它新增到元件 `imports` 陣列。
 
 ```ts
 import { NgOptimizedImage } from '@angular/common';
@@ -24,9 +24,9 @@ import { NgOptimizedImage } from '@angular/common';
 
 </docs-step>
 
-<docs-step title="Update the src attribute to be ngSrc">
+<docs-step title="將 src 屬性更新為 ngSrc">
 
-To enable the `NgOptimizedImage` directive, swap out the `src` attribute for `ngSrc`. This applies for both static image sources (i.e., `src`) and dynamic image sources (i.e., `[src]`).
+若要啟用 `NgOptimizedImage` 指令，請將 `src` 屬性替換為 `ngSrc`。這適用於靜態圖片來源（即 `src`）和動態圖片來源（即 `[src]`）。
 
 <docs-code language="ts" highlight="[[9], [13]]">
 import { NgOptimizedImage } from '@angular/common';
@@ -51,11 +51,11 @@ import { NgOptimizedImage } from '@angular/common';
 
 </docs-step>
 
-<docs-step title="Add width and height attributes">
+<docs-step title="加入寬度和高度屬性">
 
-Note that in the above code example, each image has both `width` and `height` attributes. In order to prevent [layout shift](https://web.dev/articles/cls), the `NgOptimizedImage` directive requires both size attributes on each image.
+注意在以上的程式碼範例中，每個圖片都有 `width` 和 `height` 屬性。為了防止 [版面變形](https://web.dev/articles/cls)，`NgOptimizedImage` 指令需要每個圖片都有這兩個尺寸屬性。
 
-In situations where you can't or don't want to specify a static `height` and `width` for images, you can use [the `fill` attribute](https://web.dev/articles/cls) to tell the image to act like a "background image", filling its containing element:
+在無法或不想為圖像指定靜態 `height` 和 `width` 的情況下，您可以使用 [the `fill` attribute](https://web.dev/articles/cls) 告訴圖像像「背景圖像」一樣，填滿其包含的元素：
 
 ```ts
 <div class="image-container"> //Container div has 'position: "relative"'
@@ -63,13 +63,13 @@ In situations where you can't or don't want to specify a static `height` and `wi
 </div>
 ```
 
-Note: For the `fill` image to render properly, its parent element must be styled with `position: "relative"`, `position: "fixed"`, or `position: "absolute"`.
+注：為使 `fill` 圖像正確呈現，其父元素必須以 `position: "relative"`、`position: "fixed"` 或 `position: "absolute"` 進行樣式設定。
 
 </docs-step>
 
-<docs-step title="Prioritize important images">
+<docs-step title="優先處理重要圖像">
 
-One of the most important optimizations for loading performance is to prioritize any image which might be the ["LCP element"](https://web.dev/articles/optimize-lcp), which is the largest on-screen graphical element when the page loads. To optimize your loading times, make sure to add the `priority` attribute to your "hero image" or any other images that you think could be an LCP element.
+加載效能最重要的最佳化之一是優先處理任何可能成為 ["LCP 元素"](https://web.dev/articles/optimize-lcp) 的圖像，這是頁面載入時螢幕上最大的圖形元素。若要最佳化您的載入時間，請務必將 `priority` 屬性新增至您的「英雄圖像」或您認為可能是 LCP 元素的任何其他圖像。
 
 ```ts
 <img ngSrc="www.example.com/image.png" height="600" width="800" priority />
@@ -77,9 +77,9 @@ One of the most important optimizations for loading performance is to prioritize
 
 </docs-step>
 
-<docs-step title="Optional: Use an image loader">
+<docs-step title="選用：使用影像載入器">
 
-`NgOptimizedImage` allows you to specify an [image loader](guide/image-optimization#configuring-an-image-loader-for-ngoptimizedimage), which tells the directive how to format URLs for your images. Using a loader allows you to define your images with short, relative URLs:
+`NgOptimizedImage` 允許你指定一個 [影像載入器](guide/image-optimization#configuring-an-image-loader-for-ngoptimizedimage)，它會告訴指令如何為你的影像格式化 URL。使用載入器允許你使用簡短的相對 URL 來定義你的影像：
 
 ```ts
 providers: [
@@ -91,12 +91,13 @@ providers: [
 <img ngSrc="image.png" height="600" width="800" />
 ```
 
-Image loaders are for more than just convenience--they allow you to use the full capabilities of `NgOptimizedImage`. Learn more about these optimizations and the built-in loaders for popular CDNs [here](guide/image-optimization#configuring-an-image-loader-for-ngoptimizedimage).
+影像載入器不只是為了方便，它們允許您使用 `NgOptimizedImage` 的全部功能。在此處瞭解更多關於這些優化和內建的流行 CDN 載入器 [here](guide/image-optimization#configuring-an-image-loader-for-ngoptimizedimage)。
 
 </docs-step>
 
 </docs-workflow>
 
-By adding this directive to your workflow, your images are now loading using best practices with the help of Angular 🎉
+將此指令新增至工作流程後，您的圖片現在會在 Angular 🎉 的協助下使用最佳實務來載入
 
-If you would like to learn more, check out the [documentation for `NgOptimizedImage`](guide/image-optimization). Keep up the great work and let's learn about routing next.
+如果您想了解更多資訊，請查看 [`NgOptimizedImage`](guide/image-optimization) 的文件。繼續努力，讓我們接著來了解路由。
+

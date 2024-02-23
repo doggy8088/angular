@@ -1,18 +1,18 @@
-# Singleton services
+# Singleton 服務
 
-A singleton service is a service for which only one instance exists in an application.
+單例服務是一種在應用程式中僅存在一個實例的服務。
 
-## Providing a singleton service
+## 提供單例服務
 
-There are two ways to make a service a singleton in Angular:
+在 Angular 中有兩種方法可以讓服務成為單例：
 
-* Set the `providedIn` property of the `@Injectable()` to `"root"`
-* Include the service in the `AppModule` or in a module that is only imported by the `AppModule`
+* 將 `@Injectable()` 的 `providedIn` 屬性設為 `"root"`
+* 將服務包含在 `AppModule` 或僅由 `AppModule` 匯入的模組中
 
-### Using `providedIn`
+### 使用 `providedIn`
 
-The preferred way to create a singleton service is to set `providedIn` to `root` on the service's `@Injectable()` decorator.
-This tells Angular to provide the service in the application root.
+建立單例服務的首選方式是在服務的 `@Injectable()` 裝飾器上將 `providedIn` 設為 `root`。
+這會指示 Angular 在應用程式根目錄中提供該服務。
 
 <docs-code header="src/app/user.service.ts" highlight="[4]">
 import { Injectable } from '@angular/core';
@@ -24,9 +24,9 @@ export class UserService {
 }
 </docs-code>
 
-### NgModule `providers` array
+### NgModule `providers` 陣列
 
-In applications built with Angular versions prior to 6.0, services were commonly registered in the `@NgModule` `providers` field as followed:
+在使用 6.0 之前的 Angular 版本所建置的應用程式中，服務通常在 `@NgModule` `providers` 欄位中註冊，如下所示：
 
 <docs-code language="typescript">
 @NgModule({
@@ -35,29 +35,29 @@ In applications built with Angular versions prior to 6.0, services were commonly
 })
 </docs-code>
 
-If this NgModule were the root `AppModule`, the `UserService` would be a singleton and available throughout the application.
-Though you may see it coded this way, using the `providedIn` property of the `@Injectable()` decorator on the service itself is preferable as of Angular 6.0 as it makes your services tree-shakable.
+如果此 NgModule 是根 `AppModule`，則 `UserService` 將成為單例並在整個應用程式中可用。
+雖然你可能會看到以這種方式編碼，但自 Angular 6.0 起，最好在服務本身上使用 `@Injectable()` 裝飾器的 `providedIn` 屬性，因為它使服務可樹狀動態搖樹。
 
-## The `forRoot()` pattern
+## `forRoot()` 模式
 
-Generally, you'll only need `providedIn` for providing services and `forRoot()`/`forChild()` for routing.
-However, understanding how `forRoot()` works to make sure a service is a singleton will inform your development at a deeper level.
+一般來說，您只需要 `providedIn` 來提供服務，而 `forRoot()`/`forChild()` 則用於路由。
+然而，了解 `forRoot()` 的運作方式以確保服務是單例，將會在更深層次上為您的開發提供資訊。
 
-If a module defines both providers and declarations (components, directives, pipes), then loading the module in multiple feature modules would duplicate the registration of the service.
-This could result in multiple service instances and the service would no longer behave as a singleton.
+如果模組同時定義了供應商和聲明 (組件、指令、管道)，則在多個功能模組中載入模組將會重複服務的註冊。
+這可能會導致多個服務實例，而服務將不再表現為單例。
 
-There are multiple ways to prevent this:
+防止此問題的方法有很多：
 
-* Use the [`providedIn` syntax](#using-providedin) instead of registering the service in the module.
-* Separate your services into their own module that is imported once.
-* Define `forRoot()` and `forChild()` methods in the module.
+* 使用 [`providedIn` 語法](#using-providedin) 代替在模組中註冊服務。
+* 將服務分開到一次導入的獨立模組中。
+* 在模組中定義 `forRoot()` 和 `forChild()` 方法。
 
-For an introductory explanation see the [Lazy Loading Feature Modules](guide/ngmodules/lazy-loading) guide.
+有關入門說明，請參閱 [Lazy Loading Feature Modules](guide/ngmodules/lazy-loading) 指南。
 
-Use `forRoot()` to separate providers from a module so you can import that module into the root module with `providers` and child modules without `providers`.
+使用 `forRoot()` 將提供者從模組中分隔，以便您可以將該模組匯入具有 `providers` 的根模組和沒有 `providers` 的子模組。
 
-1. Create a static method `forRoot()` on the module.
-1. Place the providers into the `forRoot()` method.
+1. 在模組上建立一個靜態方法 `forRoot()`。
+1. 將提供者放入 `forRoot()` 方法。
 
 <docs-code header="src/app/greeting/greeting.module.ts" highlight="[3,6,7]" language="typescript">
 @NgModule({...})
@@ -73,35 +73,34 @@ export class GreetingModule {
 }
 </docs-code>
 
-### `forRoot()` and the `Router`
+### `forRoot()` 和 `Router`
 
-`RouterModule` provides the `Router` service, as well as router directives, such as `RouterOutlet` and `routerLink`.
-The root application module imports `RouterModule` so that the application has a `Router` and the root application components can access the router directives.
-Any feature modules must also import `RouterModule` so that their components can place router directives into their templates.
+`RouterModule` 提供 `Router` 服務，以及路由器指令，例如 `RouterOutlet` 和 `routerLink`。
+根應用程式模組匯入 `RouterModule`，以便應用程式具有 `Router`，而且根應用程式元件可以存取路由器指令。
+任何功能模組也必須匯入 `RouterModule`，以便其元件可以將路由器指令置入其範本。
 
-If the `RouterModule` didn't have `forRoot()` then each feature module would instantiate a new `Router` instance, which would break the application as there can only be one `Router`.
-By using the `forRoot()` method, the root application module imports `RouterModule.forRoot(...)` and gets a `Router`, and all feature modules import `RouterModule.forChild(...)` which does not instantiate another `Router`.
+如果 `RouterModule` 沒有 `forRoot()`，那麼每個功能模組都會實例化一個新的 `Router`，這會中斷應用程式，因為只能有一個 `Router`。
+通過使用 `forRoot()` 方法，根應用程式模組匯入 `RouterModule.forRoot(...)` 並獲取一個 `Router`，而所有功能模組匯入 `RouterModule.forChild(...)`，這不會實例化另一個 `Router`。
 
-HELPFUL: If you have a module which has both providers and declarations, you *can* use this technique to separate them out and you may see this pattern in legacy applications.
-However, since Angular 6.0, the best practice for providing services is with the `@Injectable()` `providedIn` property.
+有用：如果您有同時具有提供者和宣告的模組，您*可以*使用此技術將其分開，您可能會在舊版應用程式中看到此模式。
+但是，自 Angular 6.0 以來，提供服務的最佳做法是使用 `@Injectable()` `providedIn` 屬性。
 
-### How `forRoot()` works
+### `forRoot()` 是如何運作的
 
-`forRoot()` takes a service configuration object and returns a [ModuleWithProviders](api/core/ModuleWithProviders), which is a simple object with the following properties:
+forRoot()` 接受服務設定物件並傳回 [ModuleWithProviders](api/core/ModuleWithProviders)，這是一個具有以下屬性的簡單物件：
 
-| Properties  | Details |
+| 屬性  | 詳細資料 |
 |:---         |:---     |
-| `ngModule`  | In this example, the `GreetingModule` class |
-| `providers` | The configured providers                    |
+| `ngModule`  | 在這個範例中，`GreetingModule` 類別 |
+| `providers` | 已設定的提供者                    |
 
-Specifically, Angular accumulates all imported providers before appending the items listed in `@NgModule.providers`.
-This sequence ensures that whatever you add explicitly to the `AppModule` providers takes precedence over the providers of imported modules.
+具體來說，Angular 會在附加 `@NgModule.providers` 中列出的項目之前累積所有匯入的提供者。
+此順序可確保您明確新增至 `AppModule` 提供者的內容會優先於匯入模組的提供者。
 
-The sample application imports `GreetingModule` and uses its `forRoot()` method one time, in `AppModule`.
-Registering it once like this prevents multiple instances.
+範例應用程式匯入 `GreetingModule` 並在其 `forRoot()` 方法中使用一次，在 `AppModule` 中。像這樣註冊一次可防止多個執行個體。
 
-In the following example, the `UserServiceConfig` is optionally injected in the `UserService`.
-If a config exists, the service sets the user name based on the retrieved config.
+在以下範例中，`UserServiceConfig` 可選擇性地注入到 `UserService`。
+如果設定檔存在，服務會根據擷取的設定檔來設定使用者名稱。
 
 <docs-code header="src/app/greeting/user.service.ts (constructor)" language="typescript">
   constructor(@Optional() config?: UserServiceConfig) {
@@ -111,7 +110,7 @@ If a config exists, the service sets the user name based on the retrieved config
   }
 </docs-code>
 
-Here's `forRoot()` that takes a `UserServiceConfig` object:
+以下為採用 `UserServiceConfig` 物件的 `forRoot()`：
 
 <docs-code header="src/app/greeting/greeting.module.ts" highlight="[3,6,7]" language="typescript">
 @NgModule({...})
@@ -127,8 +126,8 @@ export class GreetingModule {
 }
 </docs-code>
 
-Lastly, call it within the `imports` list of the `AppModule`.
-In the following snippet, other parts of the file are left out.
+最後，在 `AppModule` 的 `imports` 清單中呼叫它。
+在以下程式片段中，檔案的其他部分已省略。
 
 <docs-code header="src/app/app.module.ts (imports)" language="typescript">
 import { GreetingModule } from './greeting/greeting.module';
@@ -142,16 +141,16 @@ import { GreetingModule } from './greeting/greeting.module';
 })
 </docs-code>
 
-The application will then display "Miss Marple" as the user.
+此應用程式會將使用者顯示為「瑪波小姐」。
 
-Remember to import `GreetingModule` as a JavaScript import, and don't add usages of `forRoot` to more than one `@NgModule` `imports` list.
+請記住將 `GreetingModule` 匯入為 JavaScript 匯入，而且不要在多個 `@NgModule` `imports` 清單中增加 `forRoot` 的用法。
 
-## Prevent reimport of the `GreetingModule`
+## 防止重新導入 `GreetingModule`
 
-Only the root `AppModule` should import the `GreetingModule`.
-If a lazy-loaded module imports it too, the application can generate [multiple instances](guide/ngmodules/faq#why-is-it-bad-if-a-shared-module-provides-a-service-to-a-lazy-loaded-module?) of a service.
+只有根 `AppModule` 應該導入 `GreetingModule`。
+如果延遲載入的模組也導入它，應用程式可能會產生服務的 [多個實例](guide/ngmodules/faq#why-is-it-bad-if-a-shared-module-provides-a-service-to-a-lazy-loaded-module?)。
 
-To guard against a lazy loaded module re-importing `GreetingModule`, add the following `GreetingModule` constructor.
+為避免延遲載入的模組重新匯入 `GreetingModule`，請新增以下 `GreetingModule` 建構函數。
 
 <docs-code header="src/app/greeting/greeting.module.ts" language="typescript">
   constructor(@Optional() @SkipSelf() parentModule?: GreetingModule) {
@@ -162,24 +161,25 @@ To guard against a lazy loaded module re-importing `GreetingModule`, add the fol
   }
 </docs-code>
 
-The constructor tells Angular to inject the `GreetingModule` into itself.
-The injection would be circular if Angular looked for `GreetingModule` in the *current* injector, but the `@SkipSelf()` decorator means "look for `GreetingModule` in an ancestor injector, above me in the injector hierarchy".
+建構函數指示 Angular 將 `GreetingModule` 注入自身。
+如果 Angular 在 *目前的* 注入器中尋找 `GreetingModule`，注入就會是循環的，但 `@SkipSelf()` 裝飾器的意思是「在父級注入器中尋找 `GreetingModule`，在注入器階層中位於我的上方」。
 
-By default, the injector throws an error when it can't find a requested provider.
-The `@Optional()` decorator means not finding the service is OK.
-The injector returns `null`, the `parentModule` parameter is null, and the constructor concludes uneventfully.
+預設情況下，注射器在找不到所要求的提供者時會擲出錯誤。
+`@Optional()` 裝飾器表示找不到服務是正常的。
+注射器會傳回 `null`，`parentModule` 參數為 `null`，建構函數會順利結束。
 
-It's a different story if you improperly import `GreetingModule` into a lazy loaded module such as `CustomersModule`.
+如果您將 `GreetingModule` 不正確地匯入到延遲載入的模組，例如 `CustomersModule`，那又是另一回事。
 
-Angular creates a lazy loaded module with its own injector, a child of the root injector.
-`@SkipSelf()` causes Angular to look for a `GreetingModule` in the parent injector, which this time is the root injector.
-Of course it finds the instance imported by the root `AppModule`.
-Now `parentModule` exists and the constructor throws the error.
+`Angular` 建立了一個延遲載入模組，這個模組有自己的注入器，是根注入器的子項。
+`@SkipSelf()` 會讓 `Angular` 在父注入器中尋找 `GreetingModule`，這次的父注入器是根注入器。
+當然，它會找到由根 `AppModule` 導入的實例。
+現在 `parentModule` 存在，建構函式就會擲出錯誤。
 
-## More on NgModules
+## 更多有關 NgModules
 
 <docs-pill-row>
-  <docs-pill href="/guide/ngmodules/sharing" title="Sharing Modules"/>
-  <docs-pill href="/guide/ngmodules/lazy-loading" title="Lazy Loading Modules"/>
-  <docs-pill href="/guide/ngmodules/faq" title="NgModule FAQ"/>
+  <docs-pill href="/guide/ngmodules/sharing" title="共享模組"/>
+  <docs-pill href="/guide/ngmodules/lazy-loading" title="延遲載入模組"/>
+  <docs-pill href="/guide/ngmodules/faq" title="NgModule 常見問題"/>
 </docs-pill-row>
+

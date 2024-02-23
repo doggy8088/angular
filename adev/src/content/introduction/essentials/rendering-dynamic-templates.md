@@ -1,14 +1,14 @@
-<docs-decorative-header title="Rendering Dynamic Templates" imgSrc="adev/src/assets/images/templates.svg"> <!-- markdownlint-disable-line -->
-Use Angular's template syntax to create dynamic HTML.
+<docs-decorative-header title="呈現動態範本" imgSrc="adev/src/assets/images/templates.svg"> <!-- markdownlint-disable-line -->
+使用 Angular 的範本語法來建立動態 HTML。
 </docs-decorative-header>
 
-What you've learned so far enables you to break an application up into components of HTML, but this limits you to static templates (i.e., content that doesn't change). The next step is to learn how to make use of Angular's template syntax to create dynamic HTML.
+您到目前為止所學的內容讓您可以將應用程式分解成 HTML 組件，但這會將您限制在靜態範本（即內容不會變更）。下一步是學習如何利用 Angular 的範本語法來建立動態 HTML。
 
-## Rendering Dynamic Data
+## 呈現動態資料
 
-When you need to display dynamic content in your template, Angular uses the double curly brace syntax in order to distinguish between static and dynamic content.
+當您需要在範本中顯示動態內容時，Angular 使用雙重大括號語法以區別靜態和動態內容。
 
-Here is a simplified example from a `TodoListItem` component.
+以下是 `TodoListItem` 元件的簡化範例。
 
 ```ts
 @Component({
@@ -22,21 +22,21 @@ export class TodoListItem {
 }
 ```
 
-When Angular renders the component you'll see the output:
+當 Angular 呈現元件時，您會看到輸出：
 
 ```html
 <p>Title: Read cup of coffee</p>
 ```
 
-This syntax declares an **interpolation** between the dynamic data property inside of the HTML. As a result, whenever the data changes, Angular will automatically update the DOM reflecting the new value of the property.
+這個語法宣告在 HTML 內部的動態資料屬性之間的 **內插**。因此，每當資料改變時，Angular 將自動更新 DOM，反映屬性的新值。
 
-## Dynamic Properties
+## 動態屬性
 
-When you need to dynamically set the value of standard DOM properties on an HTML element, the property is wrapped in square brackets to inform Angular that the declared value should be interpreted as a JavaScript-like statement ([with some Angular enhancements](guide/templates/interpolation)) instead of a plain string.
+當您需要動態設定 HTML 元素上標準 DOM 屬性的值時，該屬性會以方括號包住，以告知 Angular 已宣告的值應解釋為類 JavaScript 陳述式（[具有一些 Angular 增強功能](guide/templates/interpolation)），而非純文字字串。
 
-For example, a common example of dynamically updating properties in your HTML is determining whether the form submit button should be disabled based on whether the form is valid or not.
+例如，在 HTML 中動態更新屬性的常見範例是根據表單是否有效來判斷表單提交按鈕是否應停用。
 
-Wrap the desired property in square brackets to tell Angular that the assigned value is dynamic (i.e., not a static string).
+將所需的屬性用方括號包住，以告訴 Angular 指派的值是動態的（即非靜態字串）。
 
 ```ts
 @Component({
@@ -50,15 +50,15 @@ export class SignUpForm {
 }
 ```
 
-In this example, because `formIsInvalid` is true, the rendered HTML would be:
+在此範例中，由於 `formIsInvalid` 為 true，因此呈現的 HTML 將會是：
 
 ```html
 <button type="submit" disabled>Submit</button>
 ```
 
-## Dynamic Attributes
+## 動態屬性
 
-In the event you want to dynamically bind custom HTML attributes (e.g., `aria-`, `data-`, etc.), you might be inclined to wrap the custom attributes with the same square brackets.
+如果您想動態繫結自訂 HTML 屬性（例如：`aria-`、`data-` 等），您可能會傾向於使用相同的方括號來包覆自訂屬性。
 
 ```ts
 @Component({
@@ -72,7 +72,7 @@ export class AppBanner {
 }
 ```
 
-Unfortunately, this will not work because custom HTML attributes are not standard DOM properties. In order for this to work as intended, we need to prepend the custom HTML attribute with the `attr.` prefix.
+很遺憾的是，這不會奏效，因為自訂 HTML 屬性並非標準 DOM 屬性。為了讓它如預期般運作，我們需要在自訂 HTML 屬性前面加上 `attr.` 前綴。
 
 ```ts
 @Component({
@@ -86,10 +86,11 @@ export class AppBanner {
 }
 ```
 
-## Next Step
+## 下一步
 
-Now that you have dynamic data and templates in the application, it's time to learn how to enhance templates by conditionally hiding or showing certain elements, looping over elements, and more.
+現在您的應用程式有動態資料和範本，是時候學習如何透過有條件地隱藏或顯示某些元素、迴圈元素等來增強範本。
 
 <docs-pill-row>
-  <docs-pill title="Conditionals and Loops" href="essentials/conditionals-and-loops" />
+  <docs-pill title="條件和迴圈" href="essentials/conditionals-and-loops" />
 </docs-pill-row>
+

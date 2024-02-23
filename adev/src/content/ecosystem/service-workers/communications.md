@@ -1,107 +1,108 @@
-# Communicating with the Service Worker
+# 與 Service Worker 溝通
 
-Enabling service worker support does more than just register the service worker; it also provides services you can use to interact with the service worker and control the caching of your application.
+啟用服務工作者支援的功能不僅僅是註冊服務工作者；它還提供你可以用來與服務工作者互動並控制應用程式快取的服務。
 
-## `SwUpdate` service
+## `SwUpdate` 服務
 
-The `SwUpdate` service gives you access to events that indicate when the service worker discovers and installs an available update for your application.
+`SwUpdate` 服務讓您可以存取事件，這些事件會在服務工作者偵測並安裝應用程式的可用更新時指出。
 
-The `SwUpdate` service supports three separate operations:
+`SwUpdate` 服務支援三個獨立作業：
 
-* Receiving notifications when an updated version is *detected* on the server, *installed and ready* to be used locally or when an *installation fails*.
-* Asking the service worker to check the server for new updates.
-* Asking the service worker to activate the latest version of the application for the current tab.
+* 在伺服器上 *偵測到* 更新版本、*安裝並準備好* 本機使用或 *安裝失敗* 時接收通知。
+* 要求服務工作者檢查伺服器是否有新的更新。
+* 要求服務工作者為當前分頁啟用最新版本的應用程式。
 
-### Version updates
+### 版本更新
 
-The `versionUpdates` is an `Observable` property of `SwUpdate` and emits four event types:
+`versionUpdates` 是 `SwUpdate` 的 `Observable` 屬性，會發出四種事件類型：
 
-| Event types                      | Details |
+| 事件類型                      | 詳細資料 |
 |:---                              |:---     |
-| `VersionDetectedEvent`           | Emitted when the service worker has detected a new version of the app on the server and is about to start downloading it.                                                   |
-| `NoNewVersionDetectedEvent`      | Emitted when the service worker has checked the version of the app on the server and did not find a new version.                                                            |
-| `VersionReadyEvent`              | Emitted when a new version of the app is available to be activated by clients. It may be used to notify the user of an available update or prompt them to refresh the page. |
-| `VersionInstallationFailedEvent` | Emitted when the installation of a new version failed. It may be used for logging/monitoring purposes.                                                                      |
+| `VersionDetectedEvent`           | 當服務工作者在伺服器上偵測到新版本的應用程式，並且即將開始下載時發出。                                                   |
+| `NoNewVersionDetectedEvent`      | 當服務工作者已檢查伺服器上應用程式的版本，但未找到新版本時發出。                                                            |
+| `VersionReadyEvent`              | 當新版本的應用程式可供用戶端啟用時發出。可用於通知用戶有可用的更新，或提示他們重新整理頁面。 |
+| `VersionInstallationFailedEvent` | 當安裝新版本失敗時發出。可供用於記錄/監控目的。                                                                      |
 
 <docs-code header="log-update.service.ts" path="adev/src/content/examples/service-worker-getting-started/src/app/log-update.service.ts" visibleRegion="sw-update"/>
 
-### Checking for updates
+### 檢查更新
 
-It's possible to ask the service worker to check if any updates have been deployed to the server.
-The service worker checks for updates during initialization and on each navigation request &mdash;that is, when the user navigates from a different address to your application.
-However, you might choose to manually check for updates if you have a site that changes frequently or want updates to happen on a schedule.
+可以要求服務人員檢查伺服器上是否已部署任何更新。
+服務人員會在初始化期間和每次導覽請求時檢查更新，也就是說，當使用者從不同的地址導覽到您的應用程式時。
+但是，如果您有經常變更的網站或希望更新按計畫發生，則可以選擇手動檢查更新。
 
-Do this with the `checkForUpdate()` method:
+使用 `checkForUpdate()` 方法執行此操作：
 
 <docs-code header="check-for-update.service.ts" path="adev/src/content/examples/service-worker-getting-started/src/app/check-for-update.service.ts"/>
 
-This method returns a `Promise<boolean>` which indicates if an update is available for activation.
-The check might fail, which will cause a rejection of the `Promise`.
+此方法傳回一個 `Promise<boolean>` 表示是否有可啟用的更新。
+檢查可能會失敗，這將導致 `Promise` 遭到拒絕。
 
-<docs-callout important title="Stabilization and service worker registration">
-In order to avoid negatively affecting the initial rendering of the page, by default the Angular service worker service waits for up to 30 seconds for the application to stabilize before registering the ServiceWorker script.
+<docs-callout important title="穩定性與服務工作者註冊">
+為了避免對頁面的初始呈現造成負面影響，預設情況下，Angular 服務工作者服務會等待應用程式穩定長達 30 秒，然後再註冊 ServiceWorker 腳本。
 
-Constantly polling for updates, for example, with [setInterval()](https://developer.mozilla.org/docs/Web/API/WindowOrWorkerGlobalScope/setInterval) or RxJS' [interval()](https://rxjs.dev/api/index/function/interval), prevents the application from stabilizing and the ServiceWorker script is not registered with the browser until the 30 seconds upper limit is reached.
+例如，使用 [setInterval()](https://developer.mozilla.org/docs/Web/API/WindowOrWorkerGlobalScope/setInterval) 或 RxJS 的 [interval()](https://rxjs.dev/api/index/function/interval) 持續輪詢更新會防止應用程式穩定，而且 ServiceWorker 腳本直到達到 30 秒的上限之前才會向瀏覽器註冊。
 
-This is true for any kind of polling done by your application.
-Check the [isStable](api/core/ApplicationRef#isStable) documentation for more information.
+這適用於您的應用程式執行的任何類型的輪詢。
+請查看 [isStable](api/core/ApplicationRef#isStable) 文件以了解更多資訊。
 
-Avoid that delay by waiting for the application to stabilize first, before starting to poll for updates, as shown in the preceding example.
-Alternatively, you might want to define a different [registration strategy](api/service-worker/SwRegistrationOptions#registrationStrategy) for the ServiceWorker.
+透過在開始輪詢更新之前先等待應用程式穩定下來，可以避免延遲，如前一個範例所示。
+或者，您可能想為 ServiceWorker 定義不同的 [註冊策略](api/service-worker/SwRegistrationOptions#registrationStrategy)。
 </docs-callout>
 
-### Updating to the latest version
+### 更新到最新版本
 
-You can update an existing tab to the latest version by reloading the page as soon as a new version is ready.
-To avoid disrupting the user's progress, it is generally a good idea to prompt the user and let them confirm that it is OK to reload the page and update to the latest version:
+當新版本準備就緒時，您可以透過重新載入頁面來將現有分頁更新到最新版本。
+為了避免中斷使用者的進度，通常建議提示使用者並讓他們確認重新載入頁面和更新到最新版本是可以的：
 
 <docs-code header="prompt-update.service.ts" path="adev/src/content/examples/service-worker-getting-started/src/app/prompt-update.service.ts" visibleRegion="sw-version-ready"/>
 
-<docs-callout important title="Safety of updating without reloading">
-Calling `activateUpdate()` updates a tab to the latest version without reloading the page, but this could break the application.
+<docs-callout important title="在不重新載入的情況下更新的安全">
+呼叫 `activateUpdate()` 會將分頁更新至最新版本，而不會重新載入頁面，但這可能會損壞應用程式。
 
-Updating without reloading can create a version mismatch between the application shell and other page resources, such as lazy-loaded chunks, whose filenames may change between versions.
+不重新載入更新可能會造成應用程式殼層與其他頁面資源（例如可能會在版本之間變更檔名的延遲載入區塊）之間的版本不相符。
 
-You should only use `activateUpdate()`, if you are certain it is safe for your specific use case.
+只有在您確定它對您的特定用例安全時，才應使用 `activateUpdate()`。
 </docs-callout>
 
-### Handling an unrecoverable state
+### 處理無法復原的狀態
 
-In some cases, the version of the application used by the service worker to serve a client might be in a broken state that cannot be recovered from without a full page reload.
+在某些情況下，服務工作者用來為客戶端提供服務的應用程式版本可能處於無法復原的損壞狀態，除非重新載入整個頁面。
 
-For example, imagine the following scenario:
+例如，想像以下情境：
 
-1. A user opens the application for the first time and the service worker caches the latest version of the application.
-    Assume the application's cached assets include `index.html`, `main.<main-hash-1>.js` and `lazy-chunk.<lazy-hash-1>.js`.
+1. 用戶第一次打開應用程式，服務工作者會快取最新版本的應用程式。
+    假設應用程式快取的資產包括 `index.html`、`main.<main-hash-1>.js` 和 `lazy-chunk.<lazy-hash-1>.js`。
 
-1. The user closes the application and does not open it for a while.
-1. After some time, a new version of the application is deployed to the server.
-    This newer version includes the files `index.html`, `main.<main-hash-2>.js` and `lazy-chunk.<lazy-hash-2>.js`.
+1. 用戶關閉應用程式，一段時間沒有打開。
+1. 過了一段時間後，伺服器部署了應用程式的較新版本。
+    這個較新版本包括檔案 `index.html`、`main.<main-hash-2>.js` 和 `lazy-chunk.<lazy-hash-2>.js`。
 
-IMPORTANT: The hashes are different now, because the content of the files changed. The old version is no longer available on the server.
+重要：雜湊現在不同，因為檔案內容已變更。舊版本不再在伺服器上提供。
 
-1. In the meantime, the user's browser decides to evict `lazy-chunk.<lazy-hash-1>.js` from its cache.
-    Browsers might decide to evict specific (or all) resources from a cache in order to reclaim disk space.
+1. 與此同時，使用者的瀏覽器決定從快取中移除 `lazy-chunk.<lazy-hash-1>.js`。
+    瀏覽器可能會決定從快取中移除特定（或全部）資源，以回收磁碟空間。
 
-1. The user opens the application again.
-    The service worker serves the latest version known to it at this point, namely the old version (`index.html` and `main.<main-hash-1>.js`).
+1. 使用者再次開啟應用程式。
+    服務工作者提供它目前已知的最新版本，亦即舊版本（`index.html` 和 `main.<main-hash-1>.js`）。
 
-1. At some later point, the application requests the lazy bundle, `lazy-chunk.<lazy-hash-1>.js`.
-1. The service worker is unable to find the asset in the cache (remember that the browser evicted it).
-    Nor is it able to retrieve it from the server (because the server now only has `lazy-chunk.<lazy-hash-2>.js` from the newer version).
+1. 在某個稍後時間點，應用程式要求延遲載入的套件 `lazy-chunk.<lazy-hash-1>.js`。
+1. 服務工作者無法在快取中找到資產（請記住瀏覽器已將其移除）。
+    它也無法從伺服器擷取它（因為伺服器現在只有較新版本的 `lazy-chunk.<lazy-hash-2>.js`）。
 
-In the preceding scenario, the service worker is not able to serve an asset that would normally be cached.
-That particular application version is broken and there is no way to fix the state of the client without reloading the page.
-In such cases, the service worker notifies the client by sending an `UnrecoverableStateEvent` event.
-Subscribe to `SwUpdate#unrecoverable` to be notified and handle these errors.
+在上述情境中，服務工作者無法提供通常會快取的資產。
+那個特定應用程式版本已損壞，而且沒有辦法在不重新整理頁面的情況下修正用戶端的狀態。
+在這種情況下，服務工作者會藉由傳送 `UnrecoverableStateEvent` 事件來通知用戶端。
+請訂閱 `SwUpdate#unrecoverable` 以接收通知並處理這些錯誤。
 
 <docs-code header="handle-unrecoverable-state.service.ts" path="adev/src/content/examples/service-worker-getting-started/src/app/handle-unrecoverable-state.service.ts" visibleRegion="sw-unrecoverable-state"/>
 
-## More on Angular service workers
+## 更深入了解 Angular 服務工作者
 
-You might also be interested in the following:
+您可能也有興趣：
 
 <docs-pill-row>
-  <docs-pill href="ecosystem/service-workers/push-notifications" title="Push notifications"/>
+  <docs-pill href="ecosystem/service-workers/push-notifications" title="推播通知"/>
   <docs-pill href="ecosystem/service-workers/devops" title="Service Worker devops"/>
 </docs-pill-row>
+

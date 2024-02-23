@@ -1,16 +1,16 @@
-# Referencing component children with queries
+# 使用查詢參照元件子項
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+提示：本指南假設您已經閱讀過 [精華指南](essentials)。如果您是 Angular 新手，請先閱讀該指南。
 
-A component can define **queries** that find child elements and read values from their injectors.
+組件可以定義**查詢**，以查找子元素並從其注入器中讀取值。
 
-Developers most commonly use queries to retrieve references to child components, directives, DOM elements, and more.
+開發人員最常使用查詢來擷取子元件、指令、DOM 元素等之參考。
 
-There are two categories of query: **view queries** and **content queries.**
+查詢分為兩類：**檢視查詢**和**內容查詢。**
 
-## View queries
+## 檢視查詢
 
-View queries retrieve results from the elements in the component's _view_ — the elements defined in the component's own template. You can query for a single result with the `@ViewChild` decorator.
+檢視查詢會從組件的 _檢視_ 中的元素擷取結果，也就是在組件本身的範本中定義的元素。您可以使用 `@ViewChild` 裝飾器查詢單一結果。
 
 <docs-code language="ts" highlight="[14, 16, 17, 18]">
 @Component({
@@ -28,19 +28,19 @@ export class CustomCardHeader {
 export class CustomCard {
   @ViewChild(CustomCardHeader) header: CustomCardHeader;
 
-  ngAfterViewInit() {
+ngAfterViewInit() {
    console.log(this.header.text);
   }
 }
 </docs-code>
 
-In this example, the `CustomCard` component queries for a child `CustomCardHeader` and accesses the result in `ngAfterViewInit`.
+在此範例中，`CustomCard` 元件查詢子 `CustomCardHeader` 並在 `ngAfterViewInit` 中存取結果。
 
-If the query does not find a result, its value is `undefined`. This may occur if the target element is hidden by `NgIf`. Angular keeps the result of `@ViewChild` up to date as your application state changes.
+如果查詢沒有找到結果，其值為 `undefined`。如果目標元素被 `NgIf` 隱藏，可能會發生這種情況。Angular 會在應用程式狀態變更時保持 `@ViewChild` 的結果為最新狀態。
 
-**View query results become available in the `ngAfterViewInit` lifecycle method**. Before this point, the value is `undefined`. See the [Lifecycle](guide/components/lifecycle) section for details on the component lifecycle.
+**在 `ngAfterViewInit` 生命周期方法中，檢視查詢結果可供使用。**在此之前，值為 `undefined`。有關組件生命週期的詳細資訊，請參閱 [生命週期](guide/components/lifecycle) 部分。
 
-You can also query for multiple results with the `@ViewChildren` decorator.
+你可以使用 `@ViewChildren` 裝飾器查詢多個結果。
 
 <docs-code language="ts" highlight="[17, 19, 20, 21, 22, 23]">
 @Component({
@@ -61,7 +61,7 @@ export class CustomCardAction {
 export class CustomCard {
   @ViewChildren(CustomCardAction) actions: QueryList<CustomCardAction>;
 
-  ngAfterViewInit() {
+ngAfterViewInit() {
     this.actions.forEach(action => {
       console.log(action.text);
     });
@@ -69,13 +69,27 @@ export class CustomCard {
 }
 </docs-code>
 
-`@ViewChildren` creates a `QueryList` object that contains the query results. You can subscribe to changes to the query results over time via the `changes` property.
+`@ViewChildren` 建立一個包含查詢結果的 `QueryList` 物件。您可以透過 `changes` 屬性訂閱查詢結果的變更。
 
-**Queries never pierce through component boundaries.** View queries can only retrieve results from the component's template.
+**查詢絕不會穿透組件邊界。**檢視查詢只能從組件範本中擷取結果。
 
-## Content queries
+## 內容查詢
 
-Content queries retrieve results from the elements in the component's _content_— the elements nested inside the component in the template where it's used. You can query for a single result with the `@ContentChild` decorator.
+html
+<p>
+  <b>Content queries</b> allow you to select elements based on their
+  content. This can be useful for selecting elements that contain a
+  certain word or phrase, or elements that match a certain regular
+  expression.
+</p>
+<p>
+  To use a content query, you simply add a colon (:) to the beginning of
+  the selector, followed by the content you want to match. For example,
+  the following selector will select all elements that contain the word
+  "foo":
+</p>
+
+內容查詢會從元件的 _content_ 中擷取結果，也就是在模板中使用元件時，元件內部巢狀的元素。你可以使用 `@ContentChild` 裝飾器來查詢單一結果。
 
 <docs-code language="ts" highlight="[14, 16, 17, 18, 25]">
 @Component({
@@ -93,7 +107,7 @@ export class CustomToggle {
 export class CustomExpando {
   @ContentChild(CustomToggle) toggle: CustomToggle;
 
-  ngAfterContentInit() {
+ngAfterContentInit() {
     console.log(this.toggle.text);
   }
 }
@@ -108,15 +122,15 @@ export class CustomExpando {
 })
 </docs-code>
 
-In this example, the `CustomExpando` component queries for a child `CustomToggle` and accesses the result in `ngAfterContentInit`.
+在此範例中，`CustomExpando` 元件查詢子 `CustomToggle`，並在 `ngAfterContentInit` 中存取結果。
 
-If the query does not find a result, its value is `undefined`. This may occur if the target element is absent or hidden by `NgIf`. Angular keeps the result of `@ContentChild` up to date as your application state changes.
+如果查詢沒有找到結果，其值是 `undefined`。如果目標元素不存在或被 `NgIf` 隱藏，可能會發生這種情況。隨著應用程式狀態的改變，Angular 會保持 `@ContentChild` 的結果為最新。
 
-By default, content queries find only _direct_ children of the component and do not traverse into descendants.
+預設情況下，內容查詢只會尋找元件的_直接_子項，而不會深入後代。
 
-**Content query results become available in the `ngAfterContentInit` lifecycle method**. Before this point, the value is `undefined`. See the [Lifecycle](guide/components/lifecycle) section for details on the component lifecycle.
+**內容查詢結果在 `ngAfterContentInit` 生命週期方法中可供使用**。在此之前，該值為 `undefined`。有關組件生命週期的詳細資訊，請參閱 [生命週期](guide/components/lifecycle) 部分。
 
-You can also query for multiple results with the `@ContentChildren` decorator.
+你也可以使用 `@ContentChildren` 裝飾器查詢多個結果。
 
 <docs-code language="ts" highlight="[14, 16, 17, 18, 19, 20]">
 @Component({
@@ -134,7 +148,7 @@ export class CustomMenuItem {
 export class CustomMenu {
   @ContentChildren(CustomMenuItem) items: QueryList<CustomMenuItem>;
 
-  ngAfterContentInit() {
+ngAfterContentInit() {
     this.items.forEach(item => {
       console.log(item.text);
     });
@@ -152,18 +166,18 @@ export class CustomMenu {
 })
 </docs-code>
 
-`@ContentChildren` creates a `QueryList` object that contains the query results. You can subscribe to changes to the query results over time via the `changes` property.
+`@ContentChildren` 建立一個包含查詢結果的 `QueryList` 物件。您可以透過 `changes` 屬性訂閱查詢結果的變更。
 
-**Queries never piece through component boundaries.** Content queries can only retrieve results from the same template as the component itself.
+**查詢絕不會透過組件邊界。**內容查詢只能從與組件相同的範本中擷取結果。
 
-## Query locators
+## 查詢定位器
 
-This first parameter for each query decorator is its **locator**.
+每個查詢裝飾器的第一個參數是其 **定位器**。
 
-Most of the time, you want to use a component or directive as your locator.
+大多數時間，您會想使用組件或指令作為您的定位器。
 
-You can alternatively specify a string locator corresponding to
-a [template reference variable](guide/templates/reference-variables).
+您也可以指定一個字串定位器，對應至
+[範本參考變數](guide/templates/reference-variables)。
 
 ```ts
 @Component({
@@ -178,15 +192,15 @@ export class ActionBar {
 }
 ```
 
-If more than one element defines the same template reference variable, the query retrieves the first matching element.
+如果有多個元素定義相同的範本參考變數，查詢會擷取第一個符合的元素。
 
-Angular does not support CSS selectors as query locators.
+Angular 不支援 CSS 選擇器作為查詢定位器。
 
-### Queries and the injector tree
+### 查詢和注入器樹
 
-Tip: See [Dependency Injection](guide/di) for background on providers and Angular's injection tree.
+提示：請參閱 [依存項注入](guide/di) 以了解提供者和 Angular 的注入樹的背景。
 
-For more advanced cases, you can use any `ProviderToken` as a locator. This lets you locate elements based on component and directive providers.
+對於進階情況，您可以使用任何 `ProviderToken` 作為定位器。這讓您可以根據組件和指令提供者來定位元素。
 
 ```ts
 const SUB_ITEM = new InjectionToken<string>('sub-item');
@@ -203,15 +217,15 @@ export class CustomList {
 }
 ```
 
-The above example uses an `InjectionToken` as a locator, but you can use any `ProviderToken` to locate specific elements.
+上面的範例使用 `InjectionToken` 作為定位器，但您可以使用任何 `ProviderToken` 來定位特定元素。
 
-## Query options
+## 查詢選項
 
-All query decorators accept an options object as a second parameter. These options control how the query finds its results.
+所有查詢裝飾器接受一個選項物件作為第二個參數。這些選項控制著查詢如何找到它的結果。
 
-### Static queries
+### 靜態查詢
 
-`@ViewChild` and `@ContentChild` queries accept the `static` option.
+`@ViewChild` 和 `@ContentChild` 查詢接受 `static` 選項。
 
 ```ts
 @Component({
@@ -227,15 +241,15 @@ export class CustomCard {
 }
 ```
 
-By setting `static: true`, you guarantee to Angular that the target of this query is _always_ present and is not conditionally rendered. This makes the result available earlier, in the `ngOnInit` lifecycle method.
+透過設定 `static: true`，您可以向 Angular 保證此查詢的目標 _始終_ 存在，且不會有條件地呈現。這會讓結果更早出現在 `ngOnInit` 生命週期方法中。
 
-Static query results do not update after initialization.
+靜態查詢結果初始化後不會更新。
 
-The `static` option is not available for `@ViewChildren` and `@ContentChildren` queries.
+`static` 選項不適用於 `@ViewChildren` 和 `@ContentChildren` 查詢。
 
-### Content descendants
+### 內容後代
 
-By default, content queries find only _direct_ children of the component and do not traverse into descendants.
+預設情況下，內容查詢只會尋找元件的_直接_子項，而不會深入後代。
 
 <docs-code language="ts" highlight="[13, 14, 15, 16]">
 @Component({
@@ -259,13 +273,13 @@ export class CustomExpando {
 })
 </docs-code>
 
-In the example above, `CustomExpando` cannot find `<custom-toggle>` because it is not a direct child of `<custom-expando>`. By setting `descendants: true`, you configure the query to traverse all descendants in the same template. Queries, however, _never_ pierce into components to traverse elements in other templates.
+在上面的範例中，`CustomExpando` 找不到 `<custom-toggle>`，因為它不是 `<custom-expando>` 的直接子項目。藉由設定 `descendants: true`，您可以將查詢設定為橫跨同一個樣板中的所有後代。然而，查詢_永遠_不會穿透元件以橫跨其他樣板中的元素。
 
-View queries do not have this option because they _always_ traverse into descendants.
+檢視查詢沒有這個選項，因為它們_總是_會穿越到子孫。
 
-### Reading specific values from an element's injector
+### 從元素的注入器讀取特定值
 
-By default, the query locator indicates both the element you're searching for and the value retrieved. You can alternatively specify the `read` option to retrieve a different value from the element matched by the locator.
+預設情況下，查詢定位器會指示您搜尋的元素和檢索到的值。或者，您可以指定 `read` 選項，以從與定位器匹配的元素檢索不同的值。
 
 ```ts
 @Component({...})
@@ -274,25 +288,25 @@ export class CustomExpando {
 }
 ```
 
-The above example, locates an element with the directive `ExpandoContent` and retrieves
-the `TemplateRef` associated with that element.
+上述範例，會找到一個具有指令 `ExpandoContent` 的元素並擷取與該元素關聯的 `TemplateRef`。
 
-Developers most commonly use `read` to retrieve `ElementRef` and `TemplateRef`.
+開發人員最常使用 `read` 來擷取 `ElementRef` 和 `TemplateRef`。
 
-## Using QueryList
+## 使用 QueryList
 
-`@ViewChildren` and `@ContentChildren` both provide a `QueryList` object that contains a list of results.
+`@ViewChildren` 和 `@ContentChildren` 都提供一個 `QueryList` 物件，其中包含結果清單。
 
-`QueryList` offers a number of convenience APIs for working with results in an array-like manner, such as `map`, `reduce`, and `forEach`. You can get an array of the current results by calling `toArray`.
+`QueryList` 提供一些便利的 API，可讓你以類似陣列的方式處理結果，例如 `map`、`reduce` 和 `forEach`。你可以透過呼叫 `toArray` 來取得當前結果的陣列。
 
-You can subscribe to the `changes` property to do something any time the results change.
+您可以訂閱 `changes` 屬性，以便在結果變更時執行某些操作。
 
-## Common query pitfalls
+## 常見查詢陷阱
 
-When using queries, common pitfalls can make your code harder to understand and maintain.
+使用查詢時，常見的陷阱會讓你的程式碼更難理解和維護。
 
-Always maintain a single source of truth for state shared between multiple components. This avoids scenarios where repeated state in different components becomes out of sync.
+始終維持多個元件之間共用狀態的單一真實來源。這可避免不同元件中的重複狀態不同步的場景。
 
-Avoid directly writing state to child components. This pattern can lead to brittle code that is hard to understand and is prone to [ExpressionChangedAfterItHasBeenChecked](errors/NG0100) errors.
+避免直接將狀態寫入子組件。此模式可能導致難以理解且容易發生 [ExpressionChangedAfterItHasBeenChecked](errors/NG0100) 錯誤的脆弱程式碼。
 
-Never directly write state to parent or ancestor components. This pattern can lead to brittle code that is hard to understand and is prone to [ExpressionChangedAfterItHasBeenChecked](errors/NG0100) errors.
+切勿直接將狀態寫入父級或祖先組件。這種模式可能導致難以理解且容易產生 [ExpressionChangedAfterItHasBeenChecked](errors/NG0100) 錯誤的脆弱程式碼。
+

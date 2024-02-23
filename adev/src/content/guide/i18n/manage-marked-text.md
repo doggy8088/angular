@@ -1,34 +1,34 @@
-# Manage marked text with custom IDs
+# 使用自訂 ID 管理標記文字
 
-The Angular extractor generates a file with a translation unit entry each of the following instances.
+Angular 萃取器會為下列各個執行個體產生一個具翻譯單位的檔案。
 
-* Each `i18n` attribute in a component template
-* Each [`$localize`][AioApiLocalizeInitLocalize] tagged message string in component code
+* 組件範本中的每個 `i18n` 屬性
+* 組件程式碼中的每個 [`$localize`][AioApiLocalizeInitLocalize] 標記訊息字串
 
-As described in [How meanings control text extraction and merges][AioGuideI18nCommonPrepareHowMeaningsControlTextExtractionAndMerges], Angular assigns each translation unit a unique ID.
+如 [含義如何控制文字擷取和合併][AioGuideI18nCommonPrepareHowMeaningsControlTextExtractionAndMerges] 中所述，Angular 會為每個翻譯單元指定一個唯一的 ID。
 
-The following example displays translation units with unique IDs.
+以下範例顯示具有唯一 ID 的翻譯單位。
 
 <docs-code header="messages.fr.xlf.html" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="generated-id"/>
 
-When you change the translatable text, the extractor generates a new ID for that translation unit.
-In most cases, changes in the source text also require a change to the translation.
-Therefore, using a new ID keeps the text change in sync with translations.
+當您變更可翻譯文字時，提取器會為該翻譯單位產生新的 ID。
+在多數情況下，原始文字的變更也需要變更翻譯。
+因此，使用新的 ID 可讓文字變更與翻譯保持同步。
 
-However, some translation systems require a specific form or syntax for the ID.
-To address the requirement, use a custom ID to mark text.
-Most developers don't need to use a custom ID.
-If you want to use a unique syntax to convey additional metadata, use a custom ID.
-Additional metadata may include the library, component, or area of the application in which the text appears.
+然而，有些翻譯系統需要特定形式或語法作為 ID。
+為了滿足該需求，請使用自訂 ID 來標記文字。
+大多數開發人員不需要使用自訂 ID。
+如果您想使用獨特的語法傳達額外的元資料，請使用自訂 ID。
+額外的元資料可能包括文字出現的程式庫、元件或應用程式區域。
 
-To specify a custom ID in the `i18n` attribute or [`$localize`][AioApiLocalizeInitLocalize] tagged message string, use the `@@` prefix.
-The following example defines the `introductionHeader` custom ID in a heading element.
+若要在 `i18n` 屬性或 [`$localize`][AioApiLocalizeInitLocalize] 標記訊息字串中指定自訂 ID，請使用 `@@` 前綴。
+以下範例在標題元素中定義 `introductionHeader` 自訂 ID。
 
 <docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-solo-id"/>
 
-The following example defines the `introductionHeader` custom ID for a variable.
+以下範例為變數定義 `introductionHeader` 自訂 ID。
 
-<!--todo: replace with code example -->
+<!--todo: 替換成程式碼範例 -->
 
 <docs-code language="typescript">
 
@@ -36,25 +36,25 @@ variableText1 = &dollar;localize `:&commat;&commat;introductionHeader:Hello i18n
 
 </docs-code>
 
-When you specify a custom ID, the extractor generates a translation unit with the custom ID.
+當您指定自訂 ID 時，提取器會產生具有自訂 ID 的翻譯單元。
 
 <docs-code header="messages.fr.xlf.html" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="custom-id"/>
 
-If you change the text, the extractor does not change the ID.
-As a result, you don't have to take the extra step to update the translation.
-The drawback of using custom IDs is that if you change the text, your translation may be out-of-sync with the newly changed source text.
+如果你更改文字，則擷取器不會變更 ID。
+因此，你不必執行額外步驟來更新翻譯。
+使用自訂 ID 的缺點是，如果你更改文字，則翻譯可能會與新變更的原始文字不同步。
 
-## Use a custom ID with a description
+## 使用具有說明的客製化 ID
 
-Use a custom ID in combination with a description and a meaning to further help the translator.
+使用自定義 ID 搭配說明和意義，進一步協助翻譯人員。
 
-The following example includes a description, followed by the custom ID.
+以下範例包含說明，後面接著自訂 ID。
 
 <docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-id"/>
 
-The following example defines the `introductionHeader` custom ID and description for a variable.
+以下範例定義變數的 `introductionHeader` 自訂 ID 和說明。
 
-<!--todo: replace with code example -->
+<!--todo: 替換成程式碼範例 -->
 
 <docs-code language="typescript">
 
@@ -62,13 +62,13 @@ variableText2 = &dollar;localize `:An introduction header for this sample&commat
 
 </docs-code>
 
-The following example adds a meaning.
+以下範例新增一個意義。
 
 <docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-attribute-meaning-and-id"/>
 
-The following example defines the `introductionHeader` custom ID for a variable.
+以下範例為變數定義 `introductionHeader` 自訂 ID。
 
-<!--todo: replace with code example -->
+<!--todo: 替換成程式碼範例 -->
 
 <docs-code language="typescript">
 
@@ -76,23 +76,21 @@ variableText3 = &dollar;localize `:site header|An introduction header for this s
 
 </docs-code>
 
-### Define unique custom IDs
+### 定義唯一的自訂 ID
 
-Be sure to define custom IDs that are unique.
-If you use the same ID for two different text elements, the extraction tool extracts only the first one, and Angular uses the translation in place of both original text elements.
+務必定義獨特的自定義 ID。
+如果您對兩個不同的文字元素使用相同的 ID，則萃取工具只會萃取第一個元素，而 Angular 會使用翻譯取代兩個原始文字元素。
 
-For example, in the following code snippet the same `myId` custom ID is defined for two different text elements.
+例如，在以下程式碼片段中，相同的 `myId` 自訂 ID 被定義給兩個不同的文字元素。
 
 <docs-code header="app/app.component.html" path="adev/src/content/examples/i18n/doc-files/app.component.html" visibleRegion="i18n-duplicate-custom-id"/>
 
-The following displays the translation in French.
+以下顯示法語翻譯。
 
 <docs-code header="src/locale/messages.fr.xlf" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf.html" visibleRegion="i18n-duplicate-custom-id"/>
 
-Both elements now use the same translation \(`Bonjour`\), because both were defined with the same custom ID.
+由於兩個元素都定義了相同的自訂 ID，因此現在兩個元素都使用相同的翻譯 \(`Bonjour`\)。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/rendered-output.html"/>
 
-[AioApiLocalizeInitLocalize]: api/localize/init/$localize "$localize | init - localize - API | Angular"
-
-[AioGuideI18nCommonPrepareHowMeaningsControlTextExtractionAndMerges]: guide/i18n/prepare#h1-example "How meanings control text extraction and merges - Prepare components for translations | Angular"
+{{ 無法處理文件最後的 LinkReferenceDefinitionGroup 部分，需手動更新！ }}

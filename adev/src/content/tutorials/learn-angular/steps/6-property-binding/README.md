@@ -1,25 +1,25 @@
-# Property Binding in Angular
+# Angular 中的屬性繫結
 
-Property binding in Angular enables you to set values for properties of HTML elements, Angular components and more.
+在 Angular 中的屬性繫結可讓您設定 HTML 元素、Angular 元件等的屬性值。
 
-Use property binding to dynamically set values for properties and attributes. You can do things such as toggle button features, set image paths programmatically, and share values between components.
+使用屬性繫結動態設定屬性和屬性的值。您可以執行諸如切換按鈕功能、以程式設定影像路徑，以及在元件之間共用值等操作。
 
-In this activity, you'll learn to use property binding in templates.
+在這個活動中，您將學會在範本中使用屬性繫結。
 
 <hr />
 
-To bind to an element's attribute, wrap the attribute name in square brackets. Here's an example:
+要繫結到元素的屬性，請將屬性名稱用方括號括起來。 voici une 例子：
 
 ```ts
 <img alt="photo" [src]="imageURL">
 ```
 
-In this example, the value of the `src` attribute will be bound to the class property `imageURL`. Whatever value `imageURL` has will be set as the `src` attribute of the `img` tag.
+在此範例中，`src` 屬性的值會繫結至類別屬性 `imageURL`。`imageURL` 所具有的任何值都將設定為 `img` 標籤的 `src` 屬性。
 
 <docs-workflow>
 
-<docs-step title="Add a property called `isEditable`" header="app.component.ts" language="ts">
-Update the code in `app.component.ts` by adding a property to the `AppComponent` class called `isEditable` with the initial value set to `true`.
+<docs-step title="新增一個名為 `isEditable` 的屬性" header="app.component.ts" language="ts">
+藉由新增一個名為 `isEditable` 的屬性至 `AppComponent` 類別，並將初始值設定為 `true`，來更新 `app.component.ts` 中的程式碼。
 
 <docs-code highlight="[2]">
 export class AppComponent {
@@ -44,3 +44,4 @@ Next, bind the `contentEditable` attribute of the `div` to the `isEditable` prop
 The div is now editable. Nice work 👍
 
 Property binding is one of Angular's many powerful features. If you'd like to learn more checkout [the Angular documentation](/guide/templates/property-binding).
+

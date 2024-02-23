@@ -1,14 +1,14 @@
-# Structural directives
+# 結構指令
 
-Structural directives are directives applied to an `<ng-template>` element that conditionally or repeatedly render the content of that `<ng-template>`.
+構造性指令是套用於 `<ng-template>` 元素的指令，有條件或重複地呈現該 `<ng-template>` 的內容。
 
-## Example use case
+## 範例使用案例
 
-In this guide you'll build a structural directive which fetches data from a given data source and renders its template when that data is available. This directive is called `SelectDirective`, after the SQL keyword `SELECT`, and match it with an attribute selector `[select]`.
+在本指南中，您將建立一個結構性指令，它會從給定的資料來源擷取資料，並在資料可用時呈現其範本。這個指令稱為 `SelectDirective`，以 SQL 關鍵字 `SELECT` 命名，並與屬性選擇器 `[select]` 匹配。
 
-`SelectDirective` will have an input naming the data source to be used, which you will call `selectFrom`. The `select` prefix for this input is important for the [shorthand syntax](#structural-directive-shorthand). The directive will instantiate its `<ng-template>` with a template context providing the selected data.
+`SelectDirective` 將會有一個輸入，命名為要使用的資料來源，您會稱之為 `selectFrom`。此輸入的 `select` 前綴對於 [簡寫語法](#structural-directive-shorthand) 來說很重要。指令會以提供所選資料的範本內容，實例化其 `<ng-template>`。
 
-The following is an example of using this directive directly on an `<ng-template>` would look like:
+以下是一個範例，說明如何直接在 `<ng-template>` 上使用此指令：
 
 ```html
 <ng-template select let-data [selectFrom]="source">
@@ -16,27 +16,27 @@ The following is an example of using this directive directly on an `<ng-template
 </ng-template>
 ```
 
-The structural directive can wait for the data to become available and then render its `<ng-template>`.
+結構型指令可以等待數據可用，然後呈現其 `<ng-template>`。
 
-HELPFUL: Note that Angular's `<ng-template>` element defines a template that doesn't render anything by default, if you just wrap elements in an `<ng-template>` without applying a structural directive those elements will not be rendered.
+HELPFUL：請注意 Angular 的 `<ng-template>` 元素定義了一個預設不呈現任何內容的範本，如果你只是將元素包在 `<ng-template>` 中而沒有套用結構性指令，這些元素將不會被呈現。
 
-For more information, see the [ng-template API](api/core/ng-template) documentation.
+如需更多資訊，請參閱 [ng-template API](api/core/ng-template) 文件。
 
-## Structural directive shorthand
+## 結構性指令簡寫
 
-Angular supports a shorthand syntax for structural directives which avoids the need to explicitly author an `<ng-template>` element.
+Angular 支援結構性指令的簡寫語法，避免需要顯式地撰寫 `<ng-template>` 元素。
 
-Structural directives can be applied directly on an element by prefixing the directive attribute selector with an asterisk (`*`), such as `*select`. Angular transforms the asterisk in front of a structural directive into an `<ng-template>` that hosts the directive and surrounds the element and its descendants.
+結構指令可直接套用在元素上，方法是使用星號 (`*`) 作為指令屬性選取器的字首，例如 `*select`。Angular 會將結構指令前面的星號轉換成一個 `<ng-template>`，作為指令的宿主，並包圍元素及其子代。
 
-You can use this with `SelectDirective` as follows:
+你可以使用這個與 `SelectDirective` 如下：
 
 ```html
 <p *select="let data from source">The data is: {{data}}</p>
 ```
 
-This example shows the flexibility of structural directive shorthand syntax, which is sometimes called _microsyntax_.
+以下範例顯示結構指令簡寫語法的彈性，這有時稱為「微語法」。
 
-When used in this way, only the structural directive and its bindings are applied to the `<ng-template>`. Any other attributes or bindings on the `<p>` tag are left alone. For example, these two forms are equivalent:
+當以這種方式使用時，只有結構指令及其繫結套用於 `<ng-template>`。`<p>` 標籤上的任何其他屬性或繫結都會保留。例如，這兩種形式是等效的：
 
 ```html
 <!-- Shorthand syntax: -->
@@ -48,32 +48,32 @@ When used in this way, only the structural directive and its bindings are applie
 </ng-template>
 ```
 
-Shorthand syntax is expanded through a set of conventions. A more thorough [grammar](#structural-directive-syntax-reference) is defined below, but in the above example, this transformation can be explained as follows:
+簡寫語法是透過一組慣例來擴展的。更詳盡的[語法](#structural-directive-syntax-reference)定義如下，但在上述範例中，此轉換可以說明如下：
 
-The first part of the `*select` expression is `let data`, which declares a template variable `data`. Since no assignment follows, the template variable is bound to the template context property `$implicit`.
+`*select` 運算式的第一部分是 `let data`，它宣告一個範本變數 `data`。由於沒有後續的指定，因此範本變數繫結到範本內容屬性 `$implicit`。
 
-The second piece of syntax is a key-expression pair, `from source`. `from` is a binding key and `source` is a regular template expression. Binding keys are mapped to properties by transforming them to PascalCase and prepending the structural directive selector. The `from` key is mapped to `selectFrom`, which is then bound to the expression `source`. This is why many structural directives will have inputs that are all prefixed with the structural directive's selector.
+第二個語法是關鍵字-表達式配對，`from source`。`from` 是繫結關鍵字，`source` 是常規範本表達式。繫結關鍵字會透過轉換成 PascalCase 以及在最前面加上結構性指令選擇器來對應至屬性。`from` 關鍵字會對應至 `selectFrom`，然後繫結至表達式 `source`。這就是為什麼許多結構性指令會擁有所有以結構性指令選擇器為前綴的輸入。
 
-## One structural directive per element
+## 每個元素只有一個結構指令
 
-You can only apply one structural directive per element when using the shorthand syntax. This is because there is only one `<ng-template>` element onto which that directive gets unwrapped. Multiple directives would require multiple nested `<ng-template>`, and it's unclear which directive should be first. `<ng-container>` can be used when to create wrapper layers when multiple structural directives need to be applied around the same physical DOM element or component, which allows the user to define the nested structure.
+使用簡寫語法時，您只能對每個元素套用一個結構性指令。這是因為只有一個 `<ng-template>` 元素，該指令會在該元素上展開。多個指令需要多個巢狀 `<ng-template>`，而應該先使用哪個指令並不清楚。當需要在同一個實體 DOM 元素或元件周圍套用多個結構性指令時，可以使用 `<ng-container>` 來建立包裝層，這允許使用者定義巢狀結構。
 
-## Creating a structural directive
+## 建立結構性指令
 
-This section guides you through creating the `SelectDirective`.
+以下章節將引導您建立 `SelectDirective`。
 
 <docs-workflow>
-<docs-step title="Generate the directive">
-Using the Angular CLI, run the following command, where `select` is the name of the directive:
+<docs-step title="產生指令">
+使用 Angular CLI，執行以下指令，其中 `select` 是指令的名稱：
 
 ```shell
 ng generate directive select
 ```
 
-Angular creates the directive class and specifies the CSS selector, `[select]`, that identifies the directive in a template.
+Angular 建立指令類別，並指定 CSS 選擇器 `[select]`，以在範本中識別指令。
 </docs-step>
-<docs-step title="Make the directive structural">
-Import `TemplateRef`, and `ViewContainerRef`. Inject `TemplateRef` and `ViewContainerRef` in the directive constructor as private variables.
+<docs-step title="使指令具有結構">
+匯入 `TemplateRef` 和 `ViewContainerRef`。在指令建構函數中注入 `TemplateRef` 和 `ViewContainerRef` 作為私人變數。
 
 ```ts
 import {Directive, TemplateRef, ViewContainerRef} from '@angular/core';
@@ -89,8 +89,8 @@ export class SelectDirective {
 ```
 
 </docs-step>
-<docs-step title="Add the 'selectFrom' input">
-Add a `selectFrom` `@Input()` property.
+<docs-step title="新增 'selectFrom' 輸入內容">
+新增一個 `selectFrom` `@Input()` 屬性。
 
 ```ts
 export class SelectDirective {
@@ -101,8 +101,8 @@ export class SelectDirective {
 ```
 
 </docs-step>
-<docs-step title="Add the business logic">
-With `SelectDirective` now scaffolded as a structural directive with its input, you can now add the logic to fetch the data and render the template with it:
+<docs-step title="加入商業邏輯">
+使用 `SelectDirective` 現在可作為結構性指令與輸入進行架構，您現在可加入邏輯以擷取資料並使用它來呈現範本：
 
 ```ts
 export class SelectDirective {
@@ -122,11 +122,11 @@ export class SelectDirective {
 </docs-step>
 </docs-workflow>
 
-That's it - `SelectDirective` is up and running. A follow-up step might be to [add template type-checking support](#typing-the-directives-context).
+完成了 - `SelectDirective` 已經啟動並執行。後續步驟可能是 [新增範本類型檢查支援](#為指令內容鍵入)。
 
-## Structural directive syntax reference
+## 結構性指令語法參考
 
-When you write your own structural directives, use the following syntax:
+當您撰寫自己的結構性指令時，請使用下列語法：
 
 <docs-code hideCopy language="typescript">
 
@@ -134,7 +134,7 @@ When you write your own structural directives, use the following syntax:
 
 </docs-code>
 
-The following patterns describe each portion of the structural directive grammar:
+以下模式描述結構化指令語法的每個部分：
 
 ```ts
 as = :export "as" :local ";"?
@@ -142,57 +142,57 @@ keyExp = :key ":"? :expression ("as" :local)? ";"?
 let = "let" :local "=" :export ";"?
 ```
 
-| Keyword      | Details                                            |
+| 關鍵字      | 詳細資料                                            |
 | :----------- | :------------------------------------------------- |
-| `prefix`     | HTML attribute key                                 |
-| `key`        | HTML attribute key                                 |
-| `local`      | Local variable name used in the template           |
-| `export`     | Value exported by the directive under a given name |
-| `expression` | Standard Angular expression                        |
+| `prefix`     | HTML 屬性鍵                                        |
+| `key`        | HTML 屬性鍵                                        |
+| `local`      | 範本中使用的區域變數名稱                             |
+| `export`     | 指令在給定名稱下導出的值                             |
+| `expression` | 標準的 Angular 運算式                                |
 
-### How Angular translates shorthand
+### Angular 如何轉換簡寫
 
-Angular translates structural directive shorthand into the normal binding syntax as follows:
+Angular 將結構指令簡寫轉換為正常的繫結語法，如下：
 
-| Shorthand | Translation |
+| 簡寫 | 翻譯 |
 |:--- |:--- |
-| `prefix` and naked `expression` | `[prefix]="expression"` |
-| `keyExp` | `[prefixKey]="expression"` (The `prefix` is added to the `key`) |
+| `prefix` 和裸 `expression` | `[prefix]="expression"` |
+| `keyExp` | `[prefixKey]="expression"` (`prefix` 加到 `key` 上) |
 | `let local` | `let-local="export"` |
 
-### Shorthand examples
+### 簡寫範例
 
-The following table provides shorthand examples:
+以下表格提供速記範例：
 
-| Shorthand | How Angular interprets the syntax |
+| 簡寫 | Angular 如何解釋語法 |
 |:--- |:--- |
 | `*ngFor="let item of [1,2,3]"` | `<ng-template ngFor let-item [ngForOf]="[1, 2, 3]">` |
 | `*ngFor="let item of [1,2,3] as items; trackBy: myTrack; index as i"` | `<ng-template ngFor let-item [ngForOf]="[1,2,3]" let-items="ngForOf" [ngForTrackBy]="myTrack" let-i="index">` |
 | `*ngIf="exp"`| `<ng-template [ngIf]="exp">` |
 | `*ngIf="exp as value"` | `<ng-template [ngIf]="exp" let-value="ngIf">` |
 
-## Improving template type checking for custom directives
+## 改進自訂指令的範本類型檢查
 
-You can improve template type checking for custom directives by adding template guards to your directive definition.
-These guards help the Angular template type checker find mistakes in the template at compile time, which can avoid runtime errors.
-Two different types of guards are possible:
+您可以透過在指令定義中加入範本防護，來改善自訂指令的範本類型檢查。
+這些防護有助於 Angular 範本類型檢查器在編譯時找到範本中的錯誤，可避免執行階段錯誤。
+有兩種不同的防護類型：
 
-* `ngTemplateGuard_(input)` lets you control how an input expression should be narrowed based on the type of a specific input.
-* `ngTemplateContextGuard` is used to determine the type of the context object for the template, based on the type of the directive itself.
+* `ngTemplateGuard_(input)` 可讓您控制如何基於特定輸入的類型來縮小輸入表達式。
+* `ngTemplateContextGuard` 用於根據指令本身的類型來決定範本的內容物件的類型。
 
-This section provides examples of both kinds of guards.
-For more information, see [Template type checking](tools/cli/template-typecheck "Template type-checking guide").
+此區段提供兩種防護機制的範例。
+如需更多資訊，請參閱 [範本類型檢查](tools/cli/template-typecheck "範本類型檢查指南")。
 
-### Type narrowing with template guards
+### 使用範本防護進行類型縮小
 
-A structural directive in a template controls whether that template is rendered at run time. Some structural directives want to perform type narrowing based the type of an input expression.
+範本中的結構性指令控制該範本是否在執行時期呈現。一些結構性指令想要根據輸入表達式的類型來執行類型縮小。
 
-There are two narrowings which are possible with input guards:
+輸入防護具中可能有兩種狹窄：
 
-* Narrowing the input expression based on a TypeScript type assertion function.
-* Narrowing the input expression based on its truthiness.
+* 根據 TypeScript 型別斷言函數縮小輸入表達式。
+* 根據其真假值縮小輸入表達式。
 
-To narrow the input expression by defining a type assertion function:
+要藉由定義類型斷言函數來縮小輸入表達式：
 
 ```ts
 // This directive only renders its template if the actor is a user.
@@ -210,9 +210,9 @@ class ActorIsUser {
 }
 ```
 
-Type-checking will behave within the template as if the `ngTemplateGuard_actor` has been asserted on the expression bound to the input.
+在範本內進行型別檢查時，會將 `ngTemplateGuard_actor` 斷言套用至輸入所繫結的表達式。
 
-Some directives only render their templates when an input is truthy. It's not possible to capture the full semantics of truthiness in a type assertion function, so instead a literal type of `'binding'` can be used to signal to the template type-checker that the binding expression itself should be used as the guard:
+某些指令僅在輸入為真時才呈現其範本。無法在類型斷言函數中捕捉到真值的完整語義，因此可以使用文字類型 `'binding'` 來向範本類型檢查器發出訊號，表示應該將繫結表達式本身用作防護：
 
 ```ts
 @Directive(...)
@@ -223,13 +223,13 @@ class CustomIf {
 }
 ```
 
-The template type-checker will behave as if the expression bound to `condition` was asserted to be truthy within the template.
+範本類型檢查器會像在範本中已宣告 `condition` 的繫結表達式為真一樣運作。
 
-### Typing the directive's context
+### 鍵入指令的內容
 
-If your structural directive provides a context to the instantiated template, you can properly type it inside the template by providing a static `ngTemplateContextGuard` type assertion function. This function can use the type of the directive to derive the type of the context, which is useful when the type of the directive is generic.
+如果結構指令提供一個給實例化範本的內容，您可以透過提供靜態的 `ngTemplateContextGuard` 類型斷言函數，在範本內適當地輸入它。此函數可以使用指令的類型來推導內容的類型，這在指令的類型是泛型時非常有用。
 
-For the `SelectDirective` described above, you can implement an `ngTemplateContextGuard` to correctly specify the data type, even if the data source is generic.
+對於上面所描述的 `SelectDirective`，您可以實作一個 `ngTemplateContextGuard` 來正確指定資料類型，即使資料來源是泛型的。
 
 ```ts
 // Declare an interface for the template context:
@@ -251,3 +251,4 @@ export class SelectDirective<T> {
   }
 }
 ```
+

@@ -1,3 +1,4 @@
-# Page Not Found 🙃
+# 網頁不存在 🙃
 
-If you think this is a mistake, please [open an issue](https://github.com/angular/angular/issues/new?template=3-docs-bug.yaml) so we can fix it.
+如果您認為這是錯誤，請 [開啟問題](https://github.com/angular/angular/issues/new?template=3-docs-bug.yaml) 以便我們可以修復它。
+

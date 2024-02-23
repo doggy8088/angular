@@ -1,14 +1,14 @@
-# Constructor-based dependency injection
+# 基於建構函數的相依性注入
 
-In previous activities you used the `inject()` function to make resources available, "providing" them to your components. The `inject()` function is one pattern and it is useful to know that there is another pattern for injecting resources called constructor-based dependency injection.
+在先前的活動中，您使用 `inject()` 函數來提供資源，並將它們「提供」給您的元件。 `inject()` 函數是一種模式，知道還存在另一種模式可注入資源，稱為建構函數為基礎的依賴注入，這一點非常有用。
 
-You specify the resources as parameters to the `constructor` function of a component. Angular will make those resources available to your component.
+您可以將資源指定為元件的 `constructor` 函數的參數。Angular 會讓您的元件可以使用這些資源。
 <br><br>
-In this activity you will learn to use constructor-based dependency injection.
+在本活動中，您將學習如何使用基於建構函式的依賴性注入。
 
 <hr>
 
-To inject a service or some other injectable resource into your componenet use the following syntax:
+若要將服務或其他可注入資源注入元件，請使用下列語法：
 
 <docs-code language="ts" highlight="[3]">
 @Component({...})
@@ -19,21 +19,21 @@ class PetCarDashboardComponent {
 }
 </docs-code>
 
-There are a few things to notice here:
+這裡有幾件事需要注意：
 
-- Use the `private` keyword
-- The `petCareService` becomes a property you can use in your class
-- The `PetCareService` class is the injected class
+- 使用 `private` 關鍵字
+- `petCareService` 變成一個可以在類別中使用的屬性
+- `PetCareService` 類別是注入的類別
 
-Alright, now you give this a try:
+好的，現在你試著這樣做：
 
 <docs-workflow>
 
-<docs-step title="Update the code to use constructor-based DI">
+<docs-step title="更新程式碼以使用基於建構函數的 DI">
 
-In `app.component.ts`, update the constructor code to match the code below:
+在 `app.component.ts` 中，更新建構函式程式碼以符合以下程式碼：
 
-Tip: Remember, if you get stuck refer to the example on this activity page.
+提示：請記住，如果您遇到困難，請參閱此活動頁面上的範例。
 
 ```ts
 constructor(private carService: CarService) {
@@ -45,8 +45,9 @@ constructor(private carService: CarService) {
 
 </docs-workflow>
 
-Congratulations on completing this activity. The example code works the same as with using the `inject` function. While these two approaches are largely the same, there are some small differences that are beyond the scope of this tutorial.
+恭喜您完成此活動。範例程式碼與使用 `inject` 函數相同。雖然這兩種方法大致相同，但存在一些超出本教學範圍的細微差異。
 
 <br>
 
-You can find out more information about dependency injection in the [Angular Documentation](guide/di).
+您可以在 [Angular 文件](guide/di) 中找到有關依賴注入的更多資訊。
+

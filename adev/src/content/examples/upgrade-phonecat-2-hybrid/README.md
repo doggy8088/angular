@@ -1,39 +1,34 @@
-# This is the Angular Phonecat application adjusted to fit our boilerplate project
+# 這是 Angular Phonecat 應用程式，已調整以符合我們的樣板專案
 
 structure.
 
-The following changes from vanilla Phonecat are applied:
+下列變更套用自 vanilla Phonecat：
 
-* Karma config for unit tests is in karma.conf.ajs.js because the boilerplate
-  Karma config is not compatible with the way AngularJS tests need to be run.
-  The shell script run-unit-tests.sh can be used to run the unit tests.
-* Also for the Karma shim, there is a `karma-test-shim.1.js` file which isn't
-  used but is shown in the test appendix.
-* Instead of using Bower, AngularJS and its dependencies are fetched from a CDN
-  in index.html and karma.conf.ajs.js.
-* E2E tests have been moved to the parent directory, where `run-e2e-tests` can
-  discover and run them along with all the other examples.
-* Most of the phone JSON and image data removed in the interest of keeping
-  repo weight down. Keeping enough to retain testability of the app.
+* 單元測試的 Karma 配置在 karma.conf.ajs.js 中，因為現成的 Karma 配置與 AngularJS 測試需要執行的程序不兼容。可以使用外殼指令碼 run-unit-tests.sh 來執行單元測試。
+* 此外，對於 Karma shim，有一個 `karma-test-shim.1.js` 檔案，它未被使用，但會顯示在測試附錄中。
+* 除了使用 Bower 之外，AngularJS 及其依賴項會從 index.html 和 karma.conf.ajs.js 中的 CDN 擷取。
+* E2E 測試已移至父目錄，`run-e2e-tests` 可以在那裡偵測並執行這些測試以及所有其他範例。
+* 為了降低存放庫的權重，已移除大部分的手機 JSON 和圖像資料。保留足夠資料以維持應用程式的可測試性。
 
-## Running the app
+## 執行應用程式
 
-Start like any example
+開始像任何範例一樣
 
 ```shell
 npm run start
 ```
 
-## Running unit tests
+## 執行單元測試
 
 ```shell
 ./run-unit-tests.sh
 ```
 
-## Running E2E tests
+## 執行 E2E 測試
 
-Like for any example \(at the project root\):
+如同任何範例（在專案根目錄）：
 
 ```shell
 gulp run-e2e-tests --filter=phonecat-2
 ```
+

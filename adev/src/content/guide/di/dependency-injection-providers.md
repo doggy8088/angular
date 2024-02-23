@@ -1,54 +1,54 @@
-# Configuring dependency providers
+# 配置依賴提供者
 
-The previous sections described how to use class instances as dependencies.
-Aside from classes, you can also use values such as `boolean`, `string`, `Date`, and objects as dependencies.
-Angular provides the necessary APIs to make the dependency configuration flexible, so you can make those values available in DI.
+上述章節描述如何將類別實例視為相依性。
+除了類別之外，您也可以將值（例如 `boolean`、`string`、`Date` 和物件）視為相依性。
+Angular 提供必要的 API 來讓相依性設定更彈性，因此您可以讓這些值在 DI 中可用。
 
-## Specifying a provider token
+## 指定提供者權杖
 
-If you specify the service class as the provider token, the default behavior is for the injector to instantiate that class using the `new` operator.
+如果您將服務類別指定為提供者程式碼，則預設行為是注入器使用 `new` 運算子來實例化該類別。
 
-In the following example, the app component provides a `Logger` instance.
+在以下範例中，應用程式元件提供 `Logger` 實例。
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 providers: [Logger],
 </docs-code>
 
-You can, however, configure DI to associate the `Logger` provider token with a different class or any other value.
-So when the `Logger` is injected, the configured value is used instead.
+然而，您可以設定 DI 以將 `Logger` 提供者代幣與不同的類別或任何其他值關聯。
+因此，當注入 `Logger` 時，將改用已設定的值。
 
-In fact, the class provider syntax is a shorthand expression that expands into a provider configuration, defined by the `Provider` interface.
-Angular expands the `providers` value in this case into a full provider object as follows:
+事實上，類別提供者語法是一種簡寫表達式，它會擴展到由 `Provider` 介面定義的提供者設定。
+Angular 在這種情況下將 `providers` 值擴展為完整的提供者物件，如下所示：
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 [{ provide: Logger, useClass: Logger }]
 </docs-code>
 
-The expanded provider configuration is an object literal with two properties:
+擴充的提供者配置是一個擁有兩個屬性的物件文字：
 
-- The `provide` property holds the token that serves as the key for consuming the dependency value.
-- The second property is a provider definition object, which tells the injector **how** to create the dependency value. The provider-definition can be one of the following:
-  - `useClass` - this option tells Angular DI to instantiate a provided class when a dependency is injected
-  - `useExisting` - allows you to alias a token and reference any existing one.
-  - `useFactory` - allows you to define a function that constructs a dependency.
-  - `useValue` - provides a static value that should be used as a dependency.
+- `provide` 屬性持有作為使用相依性值之金鑰的權杖。
+- 第二個屬性是提供者定義物件，它告訴注入器**如何**建立相依性值。提供者定義可以是下列其中一項：
+  - `useClass` - 此選項告訴 Angular DI 在注入相依性時，要實例化一個已提供的類別。
+  - `useExisting` - 允許您建立權杖別名並參照任何現有的權杖。
+  - `useFactory` - 允許您定義一個建立相依性的函式。
+  - `useValue` - 提供應當作為相依性使用的靜態值。
 
-The section below describes how to use the different provider definitions.
+以下章節描述如何使用不同的提供者定義。
 
-### Class providers: useClass
+### 類別提供者：useClass
 
-The `useClass` provider key lets you create and return a new instance of the specified class.
+`useClass` 提供者金鑰讓您可以建立並傳回指定類別的新執行個體。
 
-You can use this type of provider to substitute an alternative implementation for a common or default class.
-The alternative implementation can, for example, implement a different strategy, extend the default class, or emulate the behavior of the real class in a test case.
+您可以使用此類型的提供者來替換常見或預設類別的替代實作。
+替代實作可以例如實作不同的策略、延伸預設類別或在測試案例中模擬真實類別的行為。
 
-In the following example, `BetterLogger` would be instantiated when the `Logger` dependency is requested in a component or any other class.
+在以下範例中，當在元件或任何其他類別中要求 `Logger` 相依項時，會實例化 `BetterLogger`。
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 [{ provide: Logger, useClass: BetterLogger }]
 </docs-code>
 
-If the alternative class providers have their own dependencies, specify both providers in the providers metadata property of the parent module or component.
+如果替代類別提供者有其自己的依賴項，請在父模組或元件的提供者元資料屬性中指定兩個提供者。
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 [
@@ -57,7 +57,7 @@ If the alternative class providers have their own dependencies, specify both pro
 ]
 </docs-code>
 
-In this example, `EvenBetterLogger` displays the user name in the log message. This logger gets the user from an injected `UserService` instance.
+在此範例中，`EvenBetterLogger` 在記錄訊息中顯示使用者名稱。此記錄器從注入的 `UserService` 實例取得使用者。
 
 <docs-code header="src/app/even-better-logger.component.ts" language="typescript"
            highlight="[[3],[6]]">
@@ -65,22 +65,22 @@ In this example, `EvenBetterLogger` displays the user name in the log message. T
 export class EvenBetterLogger extends Logger {
   constructor(private userService: UserService) {}
 
-  override log(message: string) {
+override log(message: string) {
     const name = this.userService.user.name;
     super.log(`Message to ${name}: ${message}`);
   }
 }
 </docs-code>
 
-Angular DI knows how to construct the `UserService` dependency, since it has been configured above and is available in the injector.
+Angular DI 知道如何建構 `UserService` 依賴項，因為它已在上方配置，並且在注入器中可用。
 
-### Alias providers: useExisting
+### 別名提供者：useExisting
 
-The `useExisting` provider key lets you map one token to another.
-In effect, the first token is an alias for the service associated with the second token, creating two ways to access the same service object.
+`useExisting` 提供者金鑰讓您可以將一個代幣對應到另一個代幣。
+實際上，第一個代幣是與第二個代幣相關聯的服務的別名，創造了存取相同服務物件的兩種方式。
 
-In the following example, the injector injects the singleton instance of `NewLogger` when the component asks for either the new or the old logger.
-In this way, `OldLogger` is an alias for `NewLogger`.
+在以下範例中，注入器在元件要求新的或舊的記錄器時，會注入 `NewLogger` 的單例執行個體。
+這樣一來，`OldLogger` 就是 `NewLogger` 的別名。
 
 <docs-code header="src/app/app.component.ts" language="typescript" highlight="[4]">
 [
@@ -90,17 +90,17 @@ In this way, `OldLogger` is an alias for `NewLogger`.
 ]
 </docs-code>
 
-Note: Ensure you do not alias `OldLogger` to `NewLogger` with `useClass`, as this creates two different `NewLogger` instances.
+註解：請勿使用 `useClass` 將 `OldLogger` 別名設為 `NewLogger`，因為這會建立兩個不同的 `NewLogger` 實例。
 
-### Factory providers: useFactory
+### 工廠提供者：useFactory
 
-The `useFactory` provider key lets you create a dependency object by calling a factory function.
-With this approach you can create a dynamic value based on information available in the DI and elsewhere in the app.
+`useFactory` 提供者金鑰讓您可以透過呼叫工廠函數來建立依賴項物件。
+透過此方法，您可以基於 DI 和應用程式其他位置中可用的資訊來建立動態值。
 
-In the following example, only authorized users should see secret heroes in the `HeroService`.
-Authorization can change during the course of a single application session, as when a different user logs in .
+在以下範例中，只有經過授權的使用者才能在 `HeroService` 中看到秘密英雄。
+授權可以在單一應用程式階段期間變更，例如當不同的使用者登入時。
 
-To keep security-sensitive information in `UserService` and out of `HeroService`, give the `HeroService` constructor a boolean flag to control display of secret heroes.
+要讓 `UserService` 保有安全性敏感資訊，並將其排除在 `HeroService` 之外，請給予 `HeroService` 建構函式一個布林旗標來控制秘密英雄的顯示。
 
 <docs-code header="src/app/heroes/hero.service.ts" language="typescript"
            highlight="[[4],[7]]">
@@ -109,7 +109,7 @@ class HeroService {
     private logger: Logger,
     private isAuthorized: boolean) { }
 
-  getHeroes() {
+getHeroes() {
     const auth = this.isAuthorized ? 'authorized ' : 'unauthorized';
     this.logger.log(`Getting heroes for ${auth} user.`);
     return HEROES.filter(hero => this.isAuthorized || !hero.isSecret);
@@ -117,16 +117,16 @@ class HeroService {
 }
 </docs-code>
 
-To implement the `isAuthorized` flag, use a factory provider to create a new logger instance for `HeroService`.
-This is necessary as we need to manually pass `Logger` when constructing the hero service.
+若要實作 `isAuthorized` 旗標，請使用工廠提供者為 `HeroService` 建立新的記錄器執行個體。
+這是必要的，因為我們在建構英雄服務時需要手動傳遞 `Logger`。
 
 <docs-code header="src/app/heroes/hero.service.provider.ts" language="typescript">
 const heroServiceFactory = (logger: Logger, userService: UserService) =>
   new HeroService(logger, userService.user.isAuthorized);
 </docs-code>
 
-The factory function has access to `UserService`.
-You inject both `Logger` and `UserService` into the factory provider so the injector can pass them along to the factory function.
+工廠函數可存取 `UserService`。
+您將 `Logger` 和 `UserService` 都注入到工廠提供者中，以便注入器可以將它們傳遞給工廠函數。
 
 <docs-code header="src/app/heroes/hero.service.provider.ts" language="typescript"
            highlight="[3,4]">
@@ -137,26 +137,26 @@ export const heroServiceProvider = {
 };
 </docs-code>
 
-- The `useFactory` field specifies that the provider is a factory function whose implementation is `heroServiceFactory`.
-- The `deps` property is an array of provider tokens.
-The `Logger` and `UserService` classes serve as tokens for their own class providers.
-The injector resolves these tokens and injects the corresponding services into the matching `heroServiceFactory` factory function parameters, based on the order specified.
+- `useFactory` 欄位指定提供者是一個工廠函數，其實作為 `heroServiceFactory`。
+- `deps` 屬性是一個提供者權杖陣列。
+`Logger` 和 `UserService` 類別作為它們自己的類別提供者的權杖。
+注入器解析這些權杖，並根據指定的順序將對應的服務注入到匹配的 `heroServiceFactory` 工廠函數參數中。
 
-Capturing the factory provider in the exported variable, `heroServiceProvider`, makes the factory provider reusable.
+將工廠提供者捕獲到匯出的變數 `heroServiceProvider` 中，使工廠提供者可重複使用。
 
-### Value providers: useValue
+### 值提供者：useValue
 
-The `useValue` key lets you associate a static value with a DI token.
+`useValue` 鍵讓你可以將靜態值與 DI 標記關聯。
 
-Use this technique to provide runtime configuration constants such as website base addresses and feature flags.
-You can also use a value provider in a unit test to provide mock data in place of a production data service.
+使用此技術提供執行階段組態常數，例如網站基本位址和功能標誌。
+您也可以在單元測試中使用值提供者，以提供模擬資料來取代生產資料服務。
 
-The next section provides more information about the `useValue` key.
+下一個區段提供有關 `useValue` 鍵的更多資訊。
 
-## Using an `InjectionToken` object
+## 使用 `InjectionToken` 物件
 
-Use an `InjectionToken` object as provider token for non-class dependencies.
-The following example defines a token, `APP_CONFIG` of the type `InjectionToken`.
+使用 `InjectionToken` 物件作為提供者代號以供非類別相依性使用。
+以下範例定義了一個代號 `APP_CONFIG`，其類型為 `InjectionToken`。
 
 <docs-code header="src/app/app.config.ts" language="typescript" highlight="[3]">
 import { InjectionToken } from '@angular/core';
@@ -164,15 +164,15 @@ import { InjectionToken } from '@angular/core';
 export const APP_CONFIG = new InjectionToken<AppConfig>('app.config description');
 </docs-code>
 
-The optional type parameter, `<AppConfig>`, and the token description, `app.config description`, specify the token's purpose.
+選用的類型參數「<AppConfig>」和權杖描述「app.config description」指定權杖的目的。
 
-Next, register the dependency provider in the component using the `InjectionToken` object of `APP_CONFIG`.
+接下來，使用 `APP_CONFIG` 的 `InjectionToken` 物件在元件中註冊相依項提供者。
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 providers: [{ provide: APP_CONFIG, useValue: MY_APP_CONFIG_VARIABLE }]
 </docs-code>
 
-Now, inject the configuration object into the constructor with `@Inject()` parameter decorator.
+現在，使用 `@Inject()` 參數裝飾器將組態物件注入建構函式中。
 
 <docs-code header="src/app/app.component.ts" language="typescript" highlight="[2]">
 export class AppComponent {
@@ -182,13 +182,13 @@ export class AppComponent {
 }
 </docs-code>
 
-### Interfaces and DI
+### 接口和 DI
 
-Though the TypeScript `AppConfig` interface supports typing within the class, the `AppConfig` interface plays no role in DI.
-In TypeScript, an interface is a design-time artifact, and does not have a runtime representation, or token, that the DI framework can use.
+儘管 TypeScript `AppConfig` 介面支援類別內的分型，但 `AppConfig` 介面在 DI 中沒有任何作用。
+在 TypeScript 中，介面是設計時間的產物，沒有 DI 架構可以使用的執行時間表示法或令牌。
 
-When the transpiler changes TypeScript to JavaScript, the interface disappears because JavaScript doesn't have interfaces.
-Because there is no interface for Angular to find at runtime, the interface cannot be a token, nor can you inject it.
+當轉譯器將 TypeScript 轉換為 JavaScript 時，介面會消失，因為 JavaScript 沒有介面。
+由於 Angular 在執行時找不到介面，因此介面無法成為令牌，也無法注入。
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 // Can't use interface as provider token
@@ -201,3 +201,4 @@ export class AppComponent {
   constructor(private config: AppConfig) {}
 }
 </docs-code>
+

@@ -1,64 +1,65 @@
-# Two-way binding
+# 雙向繫結
 
-Two-way binding gives components in your application a way to share data.
-Use two-way binding to listen for events and update values simultaneously between parent and child components.
+雙向繫結為應用程式中的元件提供一種共享數據的方式。
+使用雙向繫結來偵聽事件，並在父元件和子元件之間同時更新值。
 
-Two-way binding combines [property binding](guide/templates/property-binding) with event binding:
+雙向繫結結合了 [屬性繫結](guide/templates/property-binding) 與事件繫結：
 
-| Bindings                                   | Details |
+| 綁定                                   | 詳細資料 |
 |:---                                        |:---     |
-| [Property binding](guide/templates/property-binding) | Sets a specific element property.    |
-| [Event binding](guide/templates/event-binding)       | Listens for an element change event. |
+| [屬性綁定](guide/templates/property-binding) | 設定特定元素屬性。    |
+| [事件綁定](guide/templates/event-binding)       | 監聽元素變更事件。 |
 
-## Adding two-way data binding
+## 新增雙向資料繫結
 
-Angular's two-way binding syntax is a combination of square brackets and parentheses, `[()]`.
-The `[()]` syntax combines the brackets of property binding, `[]`, with the parentheses of event binding, `()`, as follows.
+Angular 的雙向繫結語法是方括號和圓括號的組合，`[()]`。
+`[()]` 語法結合屬性繫結的方括號，`[]`，與事件繫結的圓括號，`()`，如下所示：
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/two-way-binding/src/app/app.component.html" visibleRegion="two-way-syntax"/>
 
-## How two-way binding works
+## 雙向繫結是如何運作的
 
-For two-way data binding to work, the `@Output()` property must use the pattern, `inputChange`, where `input` is the name of the `@Input()` property.
-For example, if the `@Input()` property is `size`, the `@Output()` property must be `sizeChange`.
+要讓雙向資料繫結運作，`@Output()` 屬性必須使用模式，`inputChange`，其中 `input` 是 `@Input()` 屬性的名稱。
+舉例來說，如果 `@Input()` 屬性是 `size`，`@Output()` 屬性必須是 `sizeChange`。
 
-The following `sizerComponent` has a `size` value property and a `sizeChange` event.
-The `size` property is an `@Input()`, so data can flow into the `sizerComponent`.
-The `sizeChange` event is an `@Output()`, which lets data flow out of the `sizerComponent` to the parent component.
+以下 `sizerComponent` 具有 `size` 值屬性和 `sizeChange` 事件。
+`size` 屬性是 `@Input()`，因此資料可以流入 `sizerComponent`。
+`sizeChange` 事件是 `@Output()`，它讓資料從 `sizerComponent` 流出到父元件。
 
-Next, there are two methods, `dec()` to decrease the font size and `inc()` to increase the font size.
-These two methods use `resize()` to change the value of the `size` property within min/max value constraints, and to emit an event that conveys the new `size` value.
+接下來，有兩種方法，`dec()` 用於減小字體大小，`inc()` 用於增大字體大小。
+這兩種方法使用 `resize()` 來更改 `size` 屬性的值，但須在最小/最大值約束內，並發出傳達新 `size` 值的事件。
 
 <docs-code header="src/app/sizer.component.ts" path="adev/src/content/examples/two-way-binding/src/app/sizer/sizer.component.ts" visibleRegion="sizer-component"/>
 
-The `sizerComponent` template has two buttons that each bind the click event to the `inc()` and `dec()` methods.
-When the user clicks one of the buttons, the `sizerComponent` calls the corresponding method.
-Both methods, `inc()` and `dec()`, call the `resize()` method with a `+1` or `-1`, which in turn raises the `sizeChange` event with the new size value.
+`sizerComponent` 範本有兩個按鈕，每個按鈕都會將 click 事件繫結到 `inc()` 和 `dec()` 方法。
+當使用者點擊其中一個按鈕時，`sizerComponent` 會呼叫對應的方法。
+`inc()` 和 `dec()` 這兩個方法都會呼叫 `resize()` 方法，並傳入 `+1` 或 `-1`，這將會觸發 `sizeChange` 事件，並傳入新的尺寸值。
 
 <docs-code header="src/app/sizer.component.html" path="adev/src/content/examples/two-way-binding/src/app/sizer/sizer.component.html"/>
 
-In the `AppComponent` template, `fontSizePx` is two-way bound to the `SizerComponent`.
+在 `AppComponent` 範本中，`fontSizePx` 與 `SizerComponent` 雙向繫結。
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/two-way-binding/src/app/app.component.html" visibleRegion="two-way-1"/>
 
-In the `AppComponent`, `fontSizePx` establishes the initial `SizerComponent.size` value by setting the value to `16`.
+在 `AppComponent` 中，`fontSizePx` 透過將值設定為 `16` 來建立初始的 `SizerComponent.size` 值。
 
 <docs-code header="src/app/app.component.ts" path="adev/src/content/examples/two-way-binding/src/app/app.component.ts" visibleRegion="font-size"/>
 
-Clicking the buttons updates the `AppComponent.fontSizePx`.
-The revised `AppComponent.fontSizePx` value updates the style binding, which makes the displayed text bigger or smaller.
+點擊按鈕會更新 `AppComponent.fontSizePx`。
+經過修正的 `AppComponent.fontSizePx` 值會更新樣式繫結，這會讓顯示的文字變大或變小。
 
-The two-way binding syntax is shorthand for a combination of property binding and event binding.
-The `SizerComponent` binding as separate property binding and event binding is as follows.
+雙向繫結語法是屬性繫結和事件繫結組合的簡寫。
+`SizerComponent` 繫結作為單獨的屬性繫結和事件繫結如下。
 
 <docs-code header="src/app/app.component.html (expanded)" path="adev/src/content/examples/two-way-binding/src/app/app.component.html" visibleRegion="two-way-2"/>
 
-The `$event` variable contains the data of the `SizerComponent.sizeChange` event.
-Angular assigns the `$event` value to the `AppComponent.fontSizePx` when the user clicks the buttons.
+`$event` 變數包含 `SizerComponent.sizeChange` 事件的資料。
+當使用者按下按鈕時，Angular 會將 `$event` 值指派給 `AppComponent.fontSizePx`。
 
-<docs-callout title="Two-way binding in forms">
+<docs-callout title="表單中的雙向繫結">
 
-Because no built-in HTML element follows the `x` value and `xChange` event pattern, two-way binding with form elements requires `NgModel`.
-For more information on how to use two-way binding in forms, see Angular [NgModel](guide/directives#ngModel).
+由於沒有內建的 HTML 元素遵循 `x` 值和 `xChange` 事件模式，因此表單元素的雙向繫結需要 `NgModel`。
+如需有關如何使用表單中的雙向繫結的詳細資訊，請參閱 Angular [NgModel](guide/directives#ngModel)。
 
 </docs-callout>
+

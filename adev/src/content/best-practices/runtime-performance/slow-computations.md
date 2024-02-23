@@ -1,26 +1,27 @@
-# Slow computations
+# 緩慢的計算
 
-On every change detection cycle, Angular synchronously:
+在每個變更偵測週期中，Angular 同步地：
 
-* Evaluates all template expressions in all components, unless specified otherwise, based on that each component's detection strategy
-* Executes the `ngDoCheck`, `ngAfterContentChecked`, `ngAfterViewChecked`, and `ngOnChanges` lifecycle hooks.
-A single slow computation within a template or a lifecycle hook can slow down the entire change detection process because Angular runs the computations sequentially.
+* 除非另有指定，否則會根據各個元件的偵測策略，評估所有元件中所有的範本表達式
+* 執行 `ngDoCheck`、`ngAfterContentChecked`、`ngAfterViewChecked` 和 `ngOnChanges` 生命週期掛鉤。
+範本或生命週期掛鉤中的單一緩慢運算可能會減慢整個變更偵測程序，因為 Angular 會依序執行運算。
 
-## Identifying slow computations
+## 識別緩慢的運算
 
-You can identify heavy computations with Angular DevTools’ profiler. In the performance timeline, click a bar to preview a particular change detection cycle. This displays a bar chart, which shows how long the framework spent in change detection for each component. When you click a component, you can preview how long Angular spent  evaluating its template and lifecycle hooks.
+您可使用 Angular DevTools 的分析器來識別繁重的運算。在效能時間軸中，按一下長條圖以預覽特定的變更偵測週期。這會顯示一個長條圖，其中顯示架構在每個元件的變更偵測中所花費的時間。當您按一下元件時，您可以預覽 Angular 花費了多少時間來評估其範本和生命週期鉤子。
 
 <img alt="Angular DevTools profiler preview showing slow computation" src="assets/content/images/best-practices/runtime-performance/slow-computations.png">
 
-For example, in the preceding screenshot, the second recorded change detection cycle is selected. Angular spent over 573 ms on this cycle, with the most time spent in the `EmployeeListComponent`. In the details panel, you can see that Angular spent over 297 ms evaluating the template of the `EmployeeListComponent`.
+例如，在前面的螢幕截圖中，選取了第二個已記錄的變更偵測週期。Angular 在這個週期花費了 573 毫秒以上，其中在 `EmployeeListComponent` 中花費的時間最長。在詳細資料面板中，您可以看到 Angular 花費了 297 毫秒以上來評估 `EmployeeListComponent` 的範本。
 
-## Optimizing slow computations
+## 優化慢速運算
 
-Here are several techniques to remove slow computations:
+以下是一些移除緩慢運算的方法：
 
-* **Optimizing the underlying algorithm**. This is the recommended approach. If you can speed up the algorithm that is causing the problem, you can speed up the entire change detection mechanism.
-* **Caching using pure pipes**. You can move the heavy computation to a pure [pipe](/guide/pipes). Angular reevaluates a pure pipe only if it detects that its inputs have changed, compared to the previous time Angular called it.
-* **Using memoization**. [Memoization](https://en.wikipedia.org/wiki/Memoization) is a similar technique to pure pipes, with the difference that pure pipes preserve only the last result from the computation where memoization could store multiple results.
-* **Avoid repaints/reflows in lifecycle hooks**. Certain [operations](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing/) cause the browser to either synchronously recalculate the layout of the page or re-render it. Since reflows and repaints are generally slow, you want to avoid performing them in every change detection cycle.
+* **優化基礎演算法**。這是建議的方法。如果你可以加速造成問題的演算法，就能加速整個變更偵測機制。
+* **使用純粹管道快取**。你可以將繁重的運算移到純粹的 [管道](/guide/pipes)。Angular 僅在偵測到其輸入內容已變更時，相較於上次 Angular 呼叫它時，才會重新評估純粹管道。
+* **使用記憶化**。[記憶化](https://zh.wikipedia.org/wiki/%E8%A8%98%E6%86%B6%E5%8C%96) 是與純粹管道類似的技術，不同之處在於純粹管道僅保留運算的最後一個結果，而記憶化可以儲存多個結果。
+* **避免在生命週期鉤子中重新繪製/重新配置**。某些 [操作](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing/) 會導致瀏覽器同步重新計算頁面配置或重新呈現。由於重新配置和重新繪製通常很慢，因此你應避免在每個變更偵測週期中執行它們。
 
-Pure pipes and memoization have different trade-offs. Pure pipes are an Angular built-in concept compared to memoization, which is a general software engineering practice for caching function results. The memory overhead of memoization could be significant if you invoke the heavy computation frequently with different arguments.
+純粹管道和記憶化有不同的取捨。純粹管道是 Angular 內建的概念，而記憶化則是快取函數結果的一般軟體工程實務。如果你經常使用不同的參數呼叫大量的運算，則記憶化的記憶體開銷可能會很大。
+

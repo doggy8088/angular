@@ -1,172 +1,172 @@
-# DevTools Overview
+# DevTools 概述
 
-Angular DevTools is a browser extension that provides debugging and profiling capabilities for Angular applications.
+Angular DevTools 是提供 Angular 應用程式除錯和剖析功能的瀏覽器擴充功能。
 
 <docs-video src="https://www.youtube.com/embed/bavWOHZM6zE"/>
 
-Install Angular DevTools from the [Chrome Web Store](https://chrome.google.com/webstore/detail/angular-developer-tools/ienfalfjdbdpebioblfackkekamfmbnh) or from [Firefox Addons](https://addons.mozilla.org/en-GB/firefox/addon/angular-devtools/).
+從 [Chrome 網路商店](https://chrome.google.com/webstore/detail/angular-developer-tools/ienfalfjdbdpebioblfackkekamfmbnh) 或 [Firefox 附加元件](https://addons.mozilla.org/en-GB/firefox/addon/angular-devtools/) 安裝 Angular DevTools。
 
-You can open Chrome or Firefox DevTools on any web page by pressing <kbd>F12</kbd> or <kbd><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></kbd> (Windows or Linux) and <kbd><kbd>Fn</kbd>+<kbd>F12</kbd></kbd> or <kbd><kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd></kbd> (Mac).
-Once browser DevTools is open and Angular DevTools is installed, you can find it under the "Angular" tab.
+您可以在任何網頁上按 <kbd>F12</kbd> 或 <kbd><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></kbd> （Windows 或 Linux）和 <kbd><kbd>Fn</kbd>+<kbd>F12</kbd></kbd> 或 <kbd><kbd>Cmd</kbd>+<kbd>Option</kbd>+<kbd>I</kbd></kbd> （Mac）開啟 Chrome 或 Firefox DevTools。
+瀏覽器 DevTools 開啟且 Angular DevTools 安裝好後，您可以在「Angular」標籤下找到它。
 
-HELPFUL: Chrome's new tab page does not run installed extensions, so the Angular tab will not appear in DevTools. Visit any other page to see it.
+HELPFUL: Chrome 的新分頁不會執行已安裝的擴充功能，因此 Angular 分頁不會出現在 DevTools 中。請瀏覽其他任何頁面以檢視它。
 
-<img src="assets/content/images/guide/devtools/devtools.png" alt="An overview of Angular DevTools showing a tree of components for an application.">
+<img src="assets/content/images/guide/devtools/devtools.png" alt="Angular DevTools 概觀，顯示應用程式的元件樹。">
 
-## Open your application
+## 開啟您的應用程式
 
-When you open the extension, you'll see two additional tabs:
+當你開啟此擴充功能時，你將會看到兩個額外的分頁：
 
-| Tabs                                     | Details |
+| 標籤                                     | 詳細資料 |
 |:---                                      |:---     |
-| [Components](tools/devtools#components) | Lets you explore the components and directives in your application and preview or edit their state.                    |
-| [Profiler](tools/devtools#profiler)     | Lets you profile your application and understand what the performance bottleneck is during change detection execution. |
+| [元件](tools/devtools#components) | 讓您探索應用程式中的元件和指令，並預覽或編輯它們的狀態。                    |
+| [Profiler](tools/devtools#profiler)     | 讓您分析應用程式並了解在變更偵測執行期間的效能瓶頸是什麼。 |
 
-<img src="assets/content/images/guide/devtools/devtools-tabs.png" alt="A screenshot of the top of Angular DevTools illustrating two tabs in the upper-left corner, one labeled 'Components' and another labeled 'Profiler'.">
+<img src="assets/content/images/guide/devtools/devtools-tabs.png" alt="Angular DevTools 上方的螢幕截圖，說明左上角的兩個索引標籤，一個標籤標示為「元件」，另一個標籤標示為「分析工具」。">
 
-In the top-right corner of Angular DevTools you'll find which version of Angular is running on the page as well as the latest commit hash for the extension.
+在 Angular DevTools 的右上角，您會找到在頁面上執行的 Angular 版本，以及該擴充功能的最新提交雜湊值。
 
-### Angular application not detected
+### Angular 應用程式未偵測到
 
-If you see an error message "Angular application not detected" when opening Angular DevTools, this means it is not able to communicate with an Angular app on the page.
-The most common reason for this is because the web page you are inspecting does not contain an Angular application.
-Double check that you are inspecting the right web page and that the Angular app is running.
+當開啟 Angular DevTools 時，如果您看到錯誤訊息「未偵測到 Angular 應用程式」，這表示它無法與頁面上的 Angular 應用程式進行通訊。
+最常見的原因是因為您正在檢查的網頁不包含 Angular 應用程式。
+請仔細確認您正在檢查正確的網頁，並且 Angular 應用程式正在執行。
 
-### We detected an application built with production configuration
+### 我們偵測到一個使用製作設定所建置的應用程式
 
-If you see an error message "We detected an application built with production configuration. Angular DevTools only supports development builds.", this means that an Angular application was found on the page, but it was compiled with production optimizations.
-When compiling for production, Angular CLI removes various debug features to minimize the amount of the JavaScript on the page to improve performance. This includes features needed to communicate with DevTools.
+若您看到錯誤訊息「我們偵測到一個以生產組態建置的應用程式。Angular DevTools 只支援開發建置。」，這表示在頁面上找到一個 Angular 應用程式，但它是以生產最佳化編譯的。
+在針對生產編譯時，Angular CLI 會移除各種除錯功能，以減少頁面上的 JavaScript 數量，以提升效能。這包括與 DevTools 溝通所需的功能。
 
-To run DevTools, you need to compile your application with optimizations disabled. `ng serve` does this by default.
-If you need to debug a deployed application, disable optimizations in your build with the [`optimization` configuration option](reference/configs/workspace-config#optimization-configuration) (`{"optimization": false}`).
+若要執行 DevTools，您需要在關閉最佳化功能的情況下編譯應用程式。`ng serve` 預設會執行此操作。
+如果您需要偵錯已部署的應用程式，請使用 [`optimization` 設定選項](reference/configs/workspace-config#optimization-configuration) (`{"optimization": false}`) 在您的建置中停用最佳化功能。
 
-## Debug your application
+## 除錯您的應用程式
 
-The **Components** tab lets you explore the structure of your application.
-You can visualize the component and directive instances in the DOM and inspect or modify their state.
+**元件** 標籤讓您探索應用程式的結構。
+您可以在 DOM 中視覺化元件和指令實例，並檢查或修改其狀態。
 
-### Explore the application structure
+### 探索應用結構
 
-The component tree displays a hierarchical relationship of the *components and directives* within your application.
+組件樹顯示應用程式中 *組件與指令* 的層次關係。
 
-<img src="assets/content/images/guide/devtools/component-explorer.png" alt="A screenshot of the 'Components' tab showing a tree of Angular components and directives starting the root of the application.">
+<img src="assets/content/images/guide/devtools/component-explorer.png" alt="「組件」標籤的螢幕截圖，顯示從應用程式根目錄開始的 Angular 組件和指令樹。">
 
-Click the individual components or directives in the component explorer to select them and preview their properties.
-Angular DevTools displays properties and metadata on the right side of the component tree.
+在元件瀏覽器中按一下個別元件或指令以選擇它們，並預覽其屬性。
+Angular DevTools 會在元件樹的右側顯示屬性和元資料。
 
-To look up a component or directive by name use the search box above the component tree.
+要按名稱查找元件或指令，請使用元件樹上方的搜尋方塊。
 
-<img src="assets/content/images/guide/devtools/search.png" alt="A screenshot of the 'Components' tab. The filter bar immediately underneath the tab is searching for 'todo' and all components with 'todo' in the name are highlighted in the tree. `app-todos` is currently selected and a sidebar to the right displays information about the component's properties. This includes a section of `@Output` fields and another section for other properties.">
+<img src="assets/content/images/guide/devtools/search.png" alt="「元件」標籤的螢幕擷圖。位於標籤正下方的篩選器列正在搜尋「todo」，且名稱中含有「todo」的所有元件都會在樹狀結構中以醒目顏色標示。目前已選取「app-todos」，右側的側邊欄會顯示元件屬性的資訊。其中包含一節「@Output」欄位，以及另一節的其他屬性。">
 
-### Navigate to the host node
+### 導覽至主機節點
 
-To go to the host element of a particular component or directive, double-click it in the component explorer.
-Angular DevTools will open the Elements tab in Chrome or the Inspector tab in Firefox, and select the associated DOM node.
+如要前往特定元件或指令的宿主元素，請在元件探索器中雙擊它。
+Angular DevTools 會在 Chrome 中開啟「元素」標籤或在 Firefox 中開啟「檢查」標籤，並選取關聯的 DOM 節點。
 
-### Navigate to source
+### 前往來源
 
-For components, Angular DevTools lets you navigate to the component definition in the Sources tab (Chrome) and Debugger tab (Firefox).
-After you select a particular component, click the icon at the top-right of the properties view:
+對於元件，Angular DevTools 讓您在來源標籤 (Chrome) 和偵錯程式標籤 (Firefox) 中導航到元件定義。
+選擇特定元件後，按一下屬性檢視右上角的圖示：
 
-<img src="assets/content/images/guide/devtools/navigate-source.png" alt="A screenshot of the 'Components' tab. The properties view on the right is visible for a component and the mouse rests in the upper right corner of that view on top of a `<>` icon. An adjacent tooltip reads 'Open component source'.">
+<img src="assets/content/images/guide/devtools/navigate-source.png" alt="「元件」標籤的螢幕截圖。右側的屬性檢視對元件可見，且滑鼠靜止在該檢視的右上角，位於 `<>` 圖示上方。鄰近的工具提示寫著「開啟元件來源」。">
 
-### Update property value
+### 更新屬性值
 
-Like browsers' DevTools, the properties view lets you edit the value of an input, output, or other properties.
-Right-click on the property value and if edit functionality is available for this value type, a text input will appear.
-Type the new value and press `Enter` to apply this value to the property.
+就像瀏覽器的 DevTools，屬性檢視可讓您編輯輸入、輸出或其他屬性的值。
+右鍵點擊屬性值，若此值類型有編輯功能，將會顯示文字輸入。
+輸入新值並按下 `Enter` 將此值套用到屬性。
 
-<img src="assets/content/images/guide/devtools/update-property.png" alt="A screenshot of the 'Components' tab with the properties view open for a component. An `@Input` named `todo` contains a `label` property which is currently selected and has been manually updated to the value 'Buy milk'.">
+<img src="assets/content/images/guide/devtools/update-property.png" alt="「元件」標籤的螢幕截圖，元件的屬性檢視開啟。「@Input」名為「todo」，包含一個目前已選取的「標籤」屬性，且已手動更新為「買牛奶」值。">
 
-### Access selected component or directive in console
+### 在控制台中存取選取的元件或指令
 
-As a shortcut in the console, Angular DevTools provides access to instances of recently selected components or directives.
-Type `$ng0` to get a reference to the instance of the currently selected component or directive, and type `$ng1` for the previously selected instance, `$ng2` for the instance selected before that, and so on.
+作為指令台的捷徑，Angular DevTools 提供最近選取的元件或指令的實例存取權。
+輸入 `$ng0` 以取得目前選取的元件或指令實例的參照，輸入 `$ng1` 則為先前選取的實例，輸入 `$ng2` 則為先前選取的實例，依此類推。
 
-<img src="assets/content/images/guide/devtools/access-console.png" alt="A screenshot of the 'Components' tab with the browser console underneath. In the console, the user has typed three commands, `$ng0`, `$ng1`, and `$ng2` to view the three most recently selected elements. After each statement, the console prints a different component reference.">
+<img src="assets/content/images/guide/devtools/access-console.png" alt="『Components』標籤的螢幕截圖，下方有瀏覽器控制台。在控制台中，使用者已輸入三個指令，`$ng0`、`$ng1` 和 `$ng2`，用來檢視最近選取的三個元素。在每個陳述式之後，控制台會印出不同的元件參考。">
 
-### Select a directive or component
+### 選擇指令或元件
 
-Similar to browsers' DevTools, you can inspect the page to select a particular component or directive.
-Click the ***Inspect element*** icon in the top left corner within Angular DevTools and hover over a DOM element on the page.
-The extension recognizes the associated directives and/or components and lets you select the corresponding element in the Component tree.
+與瀏覽器的 DevTools 類似，您可以檢查頁面以選取特定元件或指令。
+按一下 Angular DevTools 中左上角的 ***檢查元素*** 圖示，並將滑鼠遊標懸停在頁面上的 DOM 元素上。
+此擴充功能會辨識相關聯的指令和/或元件，並讓您在「元件樹狀圖」中選取對應的元素。
 
-<img src="assets/content/images/guide/devtools/inspect-element.png" alt="A screenshot of the 'Components' tab with an Angular todo application visible. In the very top-left corner of Angular DevTools, an icon of a screen with a mouse icon inside it is selected. The mouse rests on a todo element in the Angular application UI. The element is highlighted with a `<TodoComponent>` label displayed in an adjacent tooltip.">
+<img src="assets/content/images/guide/devtools/inspect-element.png" alt="截圖顯示「元件」標籤，其中顯示 Angular 待辦事項應用程式。在 Angular DevTools 的左上角，選取一個螢幕圖示，其中有一個滑鼠圖示。滑鼠停留在 Angular 應用程式 UI 中的待辦事項元素上。該元素以「`<TodoComponent>`」標籤突出顯示，並在相鄰的工具提示中顯示。">
 
-## Profile your application
+## 分析你的應用程序
 
-The **Profiler** tab lets you visualize the execution of Angular's change detection.
-This is useful for determining when and how change detection impacts your application's performance.
+**Profiler** 標籤讓您可視化 Angular 變更偵測的執行。這對於確定變更偵測何時以及如何影響應用程式的效能非常有用。
 
-<img src="assets/content/images/guide/devtools/profiler.png" alt="A screenshot of the 'Profiler' tab which reads 'Click the play button to start a new recording, or upload a json file containing profiler data.' Next to this is a record button to being recording a new profile as well as a file picker to select an existing profile.">
+<img src="assets/content/images/guide/devtools/profiler.png" alt="「Profiler」標籤的螢幕截圖，其中寫著「按一下播放按鈕以開始新的錄製，或上傳包含 Profiler 資料的 json 檔案。」在旁邊的是一個用於開始錄製新剖析的記錄按鈕，以及一個用於選擇現有剖析的檔案選擇器。">
 
-The Profiler tab lets you start profiling the current application or import an existing profile from a previous run.
-To start profiling your application, hover over the circle in the top-left corner within the **Profiler** tab and click **Start recording**.
+**Profiler** 標籤讓您開始剖析目前的應用程式，或從先前的執行匯入現有的剖析。
+若要開始剖析您的應用程式，請將遊標懸停在 **Profiler** 標籤內左上角的圓圈上，然後按一下 **開始記錄**。
 
-During profiling, Angular DevTools captures execution events, such as change detection and lifecycle hook execution.
-Interact with your application to trigger change detection and generate data Angular DevTools can use.
-To finish recording, click the circle again to **Stop recording**.
+在分析期間，Angular DevTools 會擷取執行事件，例如變更偵測和生命週期掛鉤執行。
+與應用程式互動以觸發變更偵測並產生 Angular DevTools 可使用的資料。
+若要完成記錄，請再次按一下圓圈以 **停止記錄**。
 
-You can also import an existing recording.
-Read more about this feature in the [Import recording](tools/devtools#import-recording) section.
+您也可以匯入現有的錄製。
+在 [匯入錄製](tools/devtools#import-recording) 區段中，進一步了解此功能。
 
-### Understand your application's execution
+### 了解應用程式的執行
 
-After recording or importing a profile, Angular DevTools displays a visualization of change detection cycles.
+在記錄或匯入設定檔後，Angular DevTools 會顯示變更偵測週期的視覺化。
 
-<img src="assets/content/images/guide/devtools/default-profiler-view.png" alt="A screenshot of the 'Profiler' tab after a profile has been recorded or uploaded. It displays a bar chart illustrating various change detection cycles with some text which reads 'Select a bar to preview a particular change detection cycle'.">
+<img src="assets/content/images/guide/devtools/default-profiler-view.png" alt="已記錄或上傳分析資料後『Profiler』標籤的螢幕截圖。其中顯示一個條形圖，說明各種變更偵測週期，還有一些文字寫著『選取一個長條預覽特定變更偵測週期』。">
 
-Each bar in the sequence represents a change detection cycle in your app.
-The taller a bar is, the longer the application spent running change detection in this cycle.
-When you select a bar, DevTools displays useful information about it including:
+序列中的每個長條代表應用程式中的變更偵測週期。
+長條越高，應用程式花在執行此週期中的變更偵測的時間就越長。
+當您選擇長條時，DevTools 會顯示有關它的有用資訊，包括：
 
-* A bar chart with all the components and directives that it captured during this cycle
-* How much time Angular spent running change detection in this cycle.
-* An estimated frame rate as experienced by the user.
-* The source which triggered change detection.
+* 一個條狀圖，其中包含在這個週期中它所擷取的所有組件和指令。
+* Angular 在這個週期中執行變更偵測所花費的時間。
+* 使用者體驗到的預估畫面更新率。
+* 觸發變更偵測的來源。
 
-<img src="assets/content/images/guide/devtools/profiler-selected-bar.png" alt="A screenshot of the 'Profiler' tab. A single bar has been selected by the user and a nearby dropdown menu displays 'Bar chart`, showing a second bar chart underneath it. The new chart has two bars which take up the majority of the space, one labeled `TodosComponent` and the other labeled `NgForOf`. The other bars are small enough to be negligible in comparison.">
+<img src="assets/content/images/guide/devtools/profiler-selected-bar.png" alt="「Profiler」標籤的螢幕截圖。使用者已選取單一長條，且附近的下拉式功能表顯示「長條圖」，並在下方顯示第二個長條圖。新圖表有兩個長條佔據大部分空間，分別標示為「TodosComponent」和「NgForOf」。其他長條非常小，幾乎可以忽略不計。">
 
-### Understand component execution
+### 了解元件執行
 
-The bar chart displayed after clicking on a change detection cycle displays a detailed view about how much time your application spent running change detection in that particular component or directive.
+按一下變更偵測週期後顯示的長條圖會顯示有關您的應用程式在特定元件或指令中執行變更偵測所花費時間的詳細檢視。
 
-This example shows the total time spent by the `NgForOf` directive and which method was called on it.
+此範例顯示 `NgForOf` 指令所花費的總時間，以及呼叫該指令的方法。
 
-<img src="assets/content/images/guide/devtools/directive-details.png" alt="A screenshot of the 'Profiler' tab where the `NgForOf` bar is selected. A detailed view of `NgForOf` is visible to the right where it lists 'Total time spent: 1.76 ms'. It includes a with exactly one row, listing `NgForOf` as a directives with an `ngDoCheck` method which took 1.76 ms. It also includes a list labeled 'Parent Hierarchy' containing the parent components of this directive.">
+<img src="assets/content/images/guide/devtools/directive-details.png" alt="螢幕截圖顯示已選取 `NgForOf` 列的「剖析器」標籤。`NgForOf` 的詳細檢視顯示在右側，其中列出「總花費時間：1.76 毫秒」。其中包括一行，將 `NgForOf` 列為指令，其 `ngDoCheck` 方法耗時 1.76 毫秒。還包括一個標記為「父層級」的清單，其中包含此指令的父元件。">
 
-### Hierarchical views
+### 層級檢視
 
-<img src="assets/content/images/guide/devtools/flame-graph-view.png" alt="A screenshot of the 'Profiler' tab. A single bar has been selected by the user and a nearby dropdown menu now displays 'Flame graph', showing a flame graph underneath it. The flame graph starts with a row called 'Entire application' and another row called 'AppComponent'. Beneath those, the rows start to break up into multiple items, starting with `[RouterOutlet]` and `DemoAppComponent` on the third row. A few layers deep, one cell is highlighted red.">
+<img src="assets/content/images/guide/devtools/flame-graph-view.png" alt="「Profiler」標籤的螢幕截圖。使用者已選取單一長條圖，現在附近的下拉式功能表顯示「火焰圖形」，下方顯示火焰圖形。火焰圖形從稱為「整個應用程式」和稱為「AppComponent」的列開始。在這些列下方，列開始分成多個項目，第三列從 `[RouterOutlet]` 和 `DemoAppComponent` 開始。幾層深處，一個儲存格以紅色突出顯示。">
 
-You can also visualize the change detection execution in a flame graph-like view.
+您也可以在火焰圖狀檢視中視覺化變更偵測執行。
 
-Each tile in the graph represents an element on the screen at a specific position in the render tree.
-For example, consider a change detection cycle where a `LoggedOutUserComponent` is removed and in its place Angular rendered a `LoggedInUserComponent`. In this scenario both components will be displayed in the same tile.
+圖表中的每個磁磚代表螢幕上位於渲染樹中特定位置的一個元素。
+例如，考慮一個變更偵測週期，其中 `LoggedOutUserComponent` 被移除，而 Angular 呈現一個 `LoggedInUserComponent` 取代它。在這個情境中，這兩個元件都會顯示在同一個磁磚中。
 
-The x-axis represents the full time it took to render this change detection cycle.
-The y-axis represents the element hierarchy. Running change detection for an element requires render its directives and child components.
-Together, this graph visualizes which components are taking the longest time to render and where that time is going.
+x 軸代表渲染此變更偵測週期所花費的完整時間。
+y 軸代表元素階層。為元素執行變更偵測需要渲染其指令和子元件。
+此圖表可視化哪些元件花費最長時間來渲染，以及花費時間的地方。
 
-Each tile is colored depending on how much time Angular spent there.
-Angular DevTools determines the intensity of the color by the time spent relative to the tile where rendering took the most time.
+每個圖塊的顏色取決於 Angular 在該處花費的時間。
+Angular DevTools 根據相對於花費最多時間進行渲染的圖塊的時間來決定顏色的強度。
 
-When you click on a certain tile, you'll see details about it in the panel on the right.
-Double-clicking the tile zooms it in so you can more easily view its nested children.
+當您點擊某個磁貼時，您會在右邊的面板中看到它的詳細資訊。
+雙擊磁貼會將其放大，以便您可以更輕鬆地查看其巢狀子項目。
 
-### Debug change detection and `OnPush` components
+### 除錯變更偵測和 `OnPush` 組件
 
-Normally, the graph visualizes the time it takes to *render* an application, for any given change detection frame. However some components such as `OnPush` components will only re-render if their input properties change. It can be useful to visualize the flame graph without these components for particular frames.
+通常，圖表會將*呈現*應用程式的時間視覺化，針對任何給定的變更偵測框架。然而，某些元件，例如 `OnPush` 元件，僅在輸入內容變更時才會重新呈現。在特定框架中，不包含這些元件來視覺化火焰圖可能會很有用。
 
-To visualize only the components in a change detection frame that went through the change detection process, select the **Change detection** checkbox at the top, above the flame graph.
+若要僅視覺化變更偵測過程中經過變更偵測架構的元件，請選取火焰圖上方頂端的 **變更偵測** 核取方塊。
 
-This view highlights all the components that went through change detection and displays those that did not in gray, such as `OnPush` components that did not re-render.
+此檢視強調所有經過變更偵測的元件，並以灰色顯示未經過變更偵測的元件，例如未重新呈現的 `OnPush` 元件。
 
-<img src="assets/content/images/guide/devtools/debugging-onpush.png" alt="A screenshot of the 'Profiler' tab displaying a flame chart visualization of a change detection cycle. A checkbox labeled 'Show only change detection' is now checked. The flame graph looks very similar to before, however the color of components has changed from orange to blue. Several tiles labeled `[RouterOutlet]` are no longer highlighted with any color.">
+<img src="assets/content/images/guide/devtools/debugging-onpush.png" alt="屏幕截圖顯示『Profiler』標籤，顯示變更偵測週期的火焰圖視覺化。現在已勾選標記為『僅顯示變更偵測』的核取方塊。火焰圖看起來與之前非常相似，但是元件的顏色已從橘色變更為藍色。數個標記為 `[RouterOutlet]` 的磁磚不再以任何顏色突顯。">
 
-### Import and export recordings
+### 匯入與匯出錄音
 
-Click the **Save Profile** button at the top-right of a recorded profiling session to export it as a JSON file and save it to the disk.
-Later, import the file in the initial view of the profiler by clicking the **Choose file** input.
+點擊已記錄分析工作階段右上角的 **儲存設定檔** 按鈕，以 JSON 格式將其匯出並儲存至磁碟。
+稍後，在分析工具的初始檢視中，點擊 **選擇檔案** 輸入，以匯入檔案。
 
-<img src="assets/content/images/guide/devtools/save-profile.png" alt="A screenshot of the 'Profiler' tab displaying change detection cycles. On the right side a 'Save Profile' button is visible.">
+<img src="assets/content/images/guide/devtools/save-profile.png" alt="「Profiler」標籤的螢幕截圖，顯示變更偵測週期。在右側可見「儲存設定檔」按鈕。">
+

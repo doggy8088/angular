@@ -1,96 +1,96 @@
-# Basics of testing components
+# 測試組件的基礎
 
-A component, unlike all other parts of an Angular application, combines an HTML template and a TypeScript class.
-The component truly is the template and the class *working together*.
-To adequately test a component, you should test that they work together as intended.
+元件，與 Angular 應用程式的所有其他部分不同，結合了 HTML 範本和 TypeScript 類別。
+元件真正是範本和類別 *共同運作* 的結果。
+若要充分測試元件，您應測試它們是否如預期般共同運作。
 
-Such tests require creating the component's host element in the browser DOM, as Angular does, and investigating the component class's interaction with the DOM as described by its template.
+此類測試需要在瀏覽器 DOM 中建立元件的主機元素，就像 Angular 所做的那樣，並根據範本的描述來研究元件類別與 DOM 的互動。
 
-The Angular `TestBed` facilitates this kind of testing as you'll see in the following sections.
-But in many cases, *testing the component class alone*, without DOM involvement, can validate much of the component's behavior in a straightforward, more obvious way.
+Angular `TestBed` 簡化了這類測試，您將在以下各節中看到。
+但在許多情況下，*單獨測試元件類別*，不涉及 DOM，可以用直接、更明顯的方式驗證元件的許多行為。
 
-## Component class testing
+## 元件類別測試
 
-Test a component class on its own as you would test a service class.
+測試一個元件類別本身，如同測試服務類別一樣。
 
-Component class testing should be kept very clean and simple.
-It should test only a single unit.
-At first glance, you should be able to understand what the test is testing.
+Component 類別測試應該保持非常乾淨和簡單。
+它應該只測試一個單元。
+乍看之下，你應該能理解測試正在測試什麼。
 
-Consider this `LightswitchComponent` which toggles a light on and off (represented by an on-screen message) when the user clicks the button.
+考慮這個 `LightswitchComponent`，當使用者點擊按鈕時，它會打開和關閉燈（由螢幕上的訊息表示）。
 
 <docs-code header="app/demo/demo.ts (LightswitchComp)" path="adev/src/content/examples/testing/src/app/demo/demo.ts" visibleRegion="LightswitchComp"/>
 
-You might decide only to test that the `clicked()` method toggles the light's *on/off* state and sets the message appropriately.
+您可能決定僅測試 `clicked()` 方法是否切換燈光的 *開/關* 狀態並適當設定訊息。
 
-This component class has no dependencies.
-To test these types of classes, follow the same steps as you would for a service that has no dependencies:
+此組件類別沒有相依性。
+若要測試這些類別的類型，請按照您對沒有相依性的服務所執行的步驟：
 
-1. Create a component using the new keyword.
-1. Poke at its API.
-1. Assert expectations on its public state.
+1. 使用 new 關鍵字建立組件。
+1. 測試其 API。
+1. 斷言其公開狀態的預期。
 
 <docs-code header="app/demo/demo.spec.ts (Lightswitch tests)" path="adev/src/content/examples/testing/src/app/demo/demo.spec.ts" visibleRegion="Lightswitch"/>
 
-Here is the `DashboardHeroComponent` from the *Tour of Heroes* tutorial.
+以下內容是來自 *英雄之旅* 教學的 `DashboardHeroComponent`。
 
 <docs-code header="app/dashboard/dashboard-hero.component.ts (component)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.ts" visibleRegion="class"/>
 
-It appears within the template of a parent component, which binds a *hero* to the `@Input` property and listens for an event raised through the *selected* `@Output` property.
+它出現在父元件的範本中，該父元件將 *英雄* 繫結至 `@Input` 屬性，並監聽透過 *選取* `@Output` 屬性引發的事件。
 
-You can test that the class code works without creating the `DashboardHeroComponent` or its parent component.
+您可以在不建立 `DashboardHeroComponent` 或其父元件的情況下測試類別程式碼是否有效運作。
 
 <docs-code header="app/dashboard/dashboard-hero.component.spec.ts (class tests)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="class-only"/>
 
-When a component has dependencies, you might want to use the `TestBed` to both create the component and its dependencies.
+當一個元件有依賴關係時，你可能想要使用 `TestBed` 來建立元件及其依賴關係。
 
-The following `WelcomeComponent` depends on the `UserService` to know the name of the user to greet.
+以下 `WelcomeComponent` 依賴 `UserService` 來知道要問候的使用者名稱。
 
-IMPORTANT: Remember to either *import* or *provide* each standalone component you want to test.
+IMPORTANT: 記得要 *匯入* 或 *提供* 你想測試的每個獨立元件。
 
 <docs-code header="app/welcome/welcome.component.ts" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.ts" visibleRegion="class"/>
 
-You might start by creating a mock of the `UserService` that meets the minimum needs of this component.
+您可以先建立一個滿足此元件最低需求的 `UserService` 模擬。
 
 <docs-code header="app/welcome/welcome.component.spec.ts (MockUserService)" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="mock-user-service"/>
 
-Then provide and inject *both the* **component** *and the service* in the `TestBed` configuration.
+然後在 `TestBed` 配置中提供並注入*元件和服務*。
 
 <docs-code header="app/welcome/welcome.component.spec.ts (class-only setup)" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="class-only-before-each"/>
 
-Then exercise the component class, remembering to call the [lifecycle hook methods](guide/components/lifecycle) as Angular does when running the application.
+然後練習元件類別，記得呼叫 [生命週期掛鉤方法](guide/components/lifecycle)，就像 Angular 在執行應用程式時所做的一樣。
 
 <docs-code header="app/welcome/welcome.component.spec.ts (class-only tests)" path="adev/src/content/examples/testing/src/app/welcome/welcome.component.spec.ts" visibleRegion="class-only-tests"/>
 
-## Component DOM testing
+## 元件 DOM 測試
 
-Testing the component *class* is as straightforward as [testing a service](guide/testing/services).
+測試元件 *class* 與 [測試服務](guide/testing/services) 一樣簡單。
 
-But a component is more than just its class.
-A component interacts with the DOM and with other components.
-The *class-only* tests can tell you about class behavior.
-They cannot tell you if the component is going to render properly, respond to user input and gestures, or integrate with its parent and child components.
+但元件不只是類別而已。
+元件會與 DOM 和其他元件互動。
+*僅有類別* 的測試可以告訴你類別行為。
+無法告訴你元件是否會正確呈現、回應使用者輸入和手勢，或與其父元件和子元件整合。
 
-None of the preceding *class-only* tests can answer key questions about how the components actually behave on screen.
+上述所有僅有的 *class* 測試，均無法回答有關元件在螢幕上實際行為的主要問題。
 
-* Is `Lightswitch.clicked()` bound to anything such that the user can invoke it?
-* Is the `Lightswitch.message` displayed?
-* Can the user actually select the hero displayed by `DashboardHeroComponent`?
-* Is the hero name displayed as expected \(such as uppercase\)?
-* Is the welcome message displayed by the template of `WelcomeComponent`?
+* `Lightswitch.clicked()` 是否繫結到任何項目，以便使用者可以呼叫它？
+* 是否顯示 `Lightswitch.message`？
+* 使用者是否可以實際選取由 `DashboardHeroComponent` 顯示的英雄？
+* 英雄名稱是否如預期顯示\(例如大寫\)?
+* 是否由 `WelcomeComponent` 範本顯示歡迎訊息？
 
-These might not be troubling questions for the preceding simple components illustrated.
-But many components have complex interactions with the DOM elements described in their templates, causing HTML to appear and disappear as the component state changes.
+對於前面說明的簡單元件來說，這些可能不是麻煩的問題。
+但許多元件與其範本中所述的 DOM 元素有複雜的互動，導致在元件狀態變化的同時，HTML 會出現和消失。
 
-To answer these kinds of questions, you have to create the DOM elements associated with the components, you must examine the DOM to confirm that component state displays properly at the appropriate times, and you must simulate user interaction with the screen to determine whether those interactions cause the component to behave as expected.
+要回答這類問題，您必須建立與元件相關聯的 DOM 元素，您必須檢查 DOM 以確認元件狀態在適當時間正確顯示，並且您必須模擬使用者與螢幕的互動，以判斷這些互動是否導致元件的行為如預期。
 
-To write these kinds of test, you'll use additional features of the `TestBed` as well as other testing helpers.
+要撰寫這些類型的測試，您必須使用 `TestBed` 的其他功能以及其他測試輔助程式。
 
-### CLI-generated tests
+### CLI-產生的測試
 
-The CLI creates an initial test file for you by default when you ask it to generate a new component.
+當您要求它產生新的組件時，CLI 會預設為您建立一個初始測試檔案。
 
-For example, the following CLI command generates a `BannerComponent` in the `app/banner` folder \(with inline template and styles\):
+例如，以下 CLI 命令會在 `app/banner` 資料夾中產生一個 `BannerComponent` （包含內嵌範本和樣式）：
 
 <docs-code language="shell">
 
@@ -98,142 +98,143 @@ ng generate component banner --inline-template --inline-style --module app
 
 </docs-code>
 
-It also generates an initial test file for the component, `banner-external.component.spec.ts`, that looks like this:
+它也為元件產生一個初始測試檔案 `banner-external.component.spec.ts`，如下所示：
 
 <docs-code header="app/banner/banner-external.component.spec.ts (initial)" path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v1"/>
 
-HELPFUL: Because `compileComponents` is asynchronous, it uses the [`waitForAsync`](api/core/testing/waitForAsync) utility function imported from `@angular/core/testing`.
+HELPFUL: 因為 `compileComponents` 是非同步的，因此它使用從 `@angular/core/testing` 匯入的 [`waitForAsync`](api/core/testing/waitForAsync) 實用函數。
 
-Refer to the [waitForAsync](guide/testing/components-scenarios#waitForAsync) section for more details.
+有關更多詳細資訊，請參閱 [waitForAsync](guide/testing/components-scenarios#waitForAsync) 部分。
 
-### Reduce the setup
+### 減少設定
 
-Only the last three lines of this file actually test the component and all they do is assert that Angular can create the component.
+只有此檔案的最後三行實際測試元件，而且它們所做的只是斷言 Angular 可以建立元件。
 
-The rest of the file is boilerplate setup code anticipating more advanced tests that *might* become necessary if the component evolves into something substantial.
+其餘檔案是預期可能成為必要之更進階測試的樣板設定程式碼，若元件演變成實質內容。
 
-You'll learn about these advanced test features in the following sections.
-For now, you can radically reduce this test file to a more manageable size:
+您將在以下各節中瞭解這些進階測試功能。
+現在，您可以徹底減少此測試檔案至更易於管理的大小：
 
 <docs-code header="app/banner/banner-initial.component.spec.ts (minimal)" path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v2"/>
 
-In this example, the metadata object passed to `TestBed.configureTestingModule` simply declares `BannerComponent`, the component to test.
+在此範例中，傳遞給 `TestBed.configureTestingModule` 的元資料物件僅宣告要測試的元件 `BannerComponent`。
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="configureTestingModule"/>
 
-HELPFUL: There's no need to declare or import anything else.
-The default test module is pre-configured with something like the `BrowserModule` from `@angular/platform-browser`.
+HELPFUL：無需宣告或匯入其他任何內容。
+預設測試模組已預先配置類似於 `@angular/platform-browser` 中的 `BrowserModule`。
 
-Later you'll call `TestBed.configureTestingModule()` with imports, providers, and more declarations to suit your testing needs.
-Optional `override` methods can further fine-tune aspects of the configuration.
+稍後，您會呼叫 `TestBed.configureTestingModule()`，其中包含匯入、提供者，以及更多聲明，以滿足您的測試需求。
+選用的 `override` 方法可以進一步微調組態的各個方面。
 
 ### `createComponent()`
 
-After configuring `TestBed`, you call its `createComponent()` method.
+設定 `TestBed` 之後，您呼叫其 `createComponent()` 方法。
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="createComponent"/>
 
-`TestBed.createComponent()` creates an instance of the `BannerComponent`, adds a corresponding element to the test-runner DOM, and returns a [`ComponentFixture`](#component-fixture).
+TestBed.createComponent()` 建立一個 `BannerComponent` 的實例，將對應的元素新增到測試執行器的 DOM，並傳回一個 [`ComponentFixture`](#component-fixture)。
 
-IMPORTANT: Do not re-configure `TestBed` after calling `createComponent`.
+IMPORTANT: 在呼叫 `createComponent` 後，請勿重新配置 `TestBed`。
 
-The `createComponent` method freezes the current `TestBed` definition, closing it to further configuration.
+`createComponent` 方法將凍結目前的 `TestBed` 定義，並將其關閉以進行進一步的配置。
 
-You cannot call any more `TestBed` configuration methods, not `configureTestingModule()`, nor `get()`, nor any of the `override...` methods.
-If you try, `TestBed` throws an error.
+您無法再呼叫任何 `TestBed` 組態方法，包括 `configureTestingModule()`、`get()` 或任何 `override...` 方法。
+如果您嘗試，`TestBed` 會擲回錯誤。
 
 ### `ComponentFixture`
 
-The [ComponentFixture](api/core/testing/ComponentFixture) is a test harness for interacting with the created component and its corresponding element.
+[ComponentFixture](api/core/testing/ComponentFixture) 是一個測試工具，用於與已建立的元件及其對應元素互動。
 
-Access the component instance through the fixture and confirm it exists with a Jasmine expectation:
+通過 fixture 存取元件實體，並使用 Jasmine 期望確認它存在：
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="componentInstance"/>
 
 ### `beforeEach()`
 
-You will add more tests as this component evolves.
-Rather than duplicate the `TestBed` configuration for each test, you refactor to pull the setup into a Jasmine `beforeEach()` and some supporting variables:
+隨著此元件演進，您會新增更多測試。
+與其為每個測試重複 `TestBed` 設定，您重構以將設定拉到 Jasmine `beforeEach()` 及一些支援變數：
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v3"/>
 
-Now add a test that gets the component's element from `fixture.nativeElement` and looks for the expected text.
+現在加入一個測試，從 `fixture.nativeElement` 取得元件的元素，並尋找預期的文字。
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v4-test-2"/>
 
 ### `nativeElement`
 
-The value of `ComponentFixture.nativeElement` has the `any` type.
-Later you'll encounter the `DebugElement.nativeElement` and it too has the `any` type.
+`ComponentFixture.nativeElement` 的值具有 `any` 類型。
+稍後你會遇到 `DebugElement.nativeElement`，它也具有 `any` 類型。
 
-Angular can't know at compile time what kind of HTML element the `nativeElement` is or if it even is an HTML element.
-The application might be running on a *non-browser platform*, such as the server or a [Web Worker](https://developer.mozilla.org/docs/Web/API/Web_Workers_API), where the element might have a diminished API or not exist at all.
+`nativeElement` 是什麼類型的 HTML 元素或它是否甚至是 HTML 元素，Angular 在編譯時無法得知。
+應用程式可能在 *非瀏覽器平台* 上執行，例如伺服器或 [Web Worker](https://developer.mozilla.org/docs/Web/API/Web_Workers_API)，在此情況下，元素的 API 可能有所減少或根本不存在。
 
-The tests in this guide are designed to run in a browser so a `nativeElement` value will always be an `HTMLElement` or one of its derived classes.
+本指南中的測試設計為在瀏覽器中執行，因此 `nativeElement` 值永遠會是 `HTMLElement` 或其衍生類別。
 
-Knowing that it is an `HTMLElement` of some sort, use the standard HTML `querySelector` to dive deeper into the element tree.
+知道它是一種 `HTMLElement`，使用標準的 HTML `querySelector` 來更深入地探究元素樹。
 
-Here's another test that calls `HTMLElement.querySelector` to get the paragraph element and look for the banner text:
+以下為另一個測試，呼叫 `HTMLElement.querySelector` 來取得段落元素並尋找標語文字：
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v4-test-3"/>
 
 ### `DebugElement`
 
-The Angular *fixture* provides the component's element directly through the `fixture.nativeElement`.
+Angular *fixture* 透過 `fixture.nativeElement` 直接提供元件的元素。
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="nativeElement"/>
 
-This is actually a convenience method, implemented as `fixture.debugElement.nativeElement`.
+這實際上是一個便利方法，實現為 `fixture.debugElement.nativeElement`。
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="debugElement-nativeElement"/>
 
-There's a good reason for this circuitous path to the element.
+元素採用這種曲折路徑是有充分理由的。
 
-The properties of the `nativeElement` depend upon the runtime environment.
-You could be running these tests on a *non-browser* platform that doesn't have a DOM or whose DOM-emulation doesn't support the full `HTMLElement` API.
+`nativeElement` 的屬性取決於執行時間環境。
+您可能會在沒有 DOM 或其 DOM 模擬不支援完整 `HTMLElement` API 的 *非瀏覽器* 平臺上執行這些測試。
 
-Angular relies on the `DebugElement` abstraction to work safely across *all supported platforms*.
-Instead of creating an HTML element tree, Angular creates a `DebugElement` tree that wraps the *native elements* for the runtime platform.
-The `nativeElement` property unwraps the `DebugElement` and returns the platform-specific element object.
+Angular 依靠 `DebugElement` 抽象來安全地跨 *所有支援的平台* 工作。
+Angular 沒有建立 HTML 元素樹，而是建立一個 `DebugElement` 樹來包裝執行階段平台的 *原生元素*。
+`nativeElement` 屬性會將 `DebugElement` 解包並傳回特定於平台的元素物件。
 
-Because the sample tests for this guide are designed to run only in a browser, a `nativeElement` in these tests is always an `HTMLElement` whose familiar methods and properties you can explore within a test.
+因為本指南的範例測試設計為僅在瀏覽器中執行，所以這些測試中的 `nativeElement` 始終是 `HTMLElement`，您可以使用測試中的熟悉方法和屬性來探索。
 
-Here's the previous test, re-implemented with `fixture.debugElement.nativeElement`:
+以下是先前的測試，使用 `fixture.debugElement.nativeElement` 重新實作：
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v4-test-4"/>
 
-The `DebugElement` has other methods and properties that are useful in tests, as you'll see elsewhere in this guide.
+`DebugElement` 還有其他在測試中很有用的方法和屬性，您將會在指南的其他地方看到。
 
-You import the `DebugElement` symbol from the Angular core library.
+您可以從 Angular 核心函式庫匯入 `DebugElement` 符號。
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="import-debug-element"/>
 
 ### `By.css()`
 
-Although the tests in this guide all run in the browser, some applications might run on a different platform at least some of the time.
+雖然本指南中的測試皆在瀏覽器中執行，但某些應用程式可能會在至少某段時間內於不同平台執行。
 
-For example, the component might render first on the server as part of a strategy to make the application launch faster on poorly connected devices.
-The server-side renderer might not support the full HTML element API.
-If it doesn't support `querySelector`, the previous test could fail.
+例如，該元件可能首先在伺服器上呈現，作為一種策略，以使應用程式在連線不良的裝置上更快啟動。
+伺服器端渲染器可能不支援完整的 HTML 元素 API。
+如果它不支援 `querySelector`，則先前的測試可能會失敗。
 
-The `DebugElement` offers query methods that work for all supported platforms.
-These query methods take a *predicate* function that returns `true` when a node in the `DebugElement` tree matches the selection criteria.
+`DebugElement` 提供適用於所有支援平台的查詢方法。
+這些查詢方法採用一個 *謂詞* 函數，當 `DebugElement` 樹中的節點符合選擇條件時，該函數會傳回 `true`。
 
-You create a *predicate* with the help of a `By` class imported from a library for the runtime platform.
-Here's the `By` import for the browser platform:
+您可以藉助從運行時平台的庫匯入的 `By` 類別來建立 *謂詞*。
+這是瀏覽器平台的 `By` 匯入：
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="import-by"/>
 
-The following example re-implements the previous test with `DebugElement.query()` and the browser's `By.css` method.
+以下範例使用 `DebugElement.query()` 與瀏覽器的 `By.css` 方法重新實作前一個測試。
 
 <docs-code path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v4-test-5"/>
 
-Some noteworthy observations:
+一些值得注意的觀察：
 
-* The `By.css()` static method selects `DebugElement` nodes with a [standard CSS selector](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors 'CSS selectors').
-* The query returns a `DebugElement` for the paragraph.
-* You must unwrap that result to get the paragraph element.
+* `By.css()` 靜態方法選取具有 [標準 CSS 選擇器](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors 'CSS selectors') 的 `DebugElement` 節點。
+* 查詢會傳回段落的一個 `DebugElement`。
+* 您必須展開該結果以取得段落元素。
 
-When you're filtering by CSS selector and only testing properties of a browser's *native element*, the `By.css` approach might be overkill.
+當您以 CSS 選擇器過濾並僅測試瀏覽器 *原生元素* 的屬性時，`By.css` 的方法可能會殺雞用牛刀。
 
-It's often more straightforward and clear to filter with a standard `HTMLElement` method such as `querySelector()` or `querySelectorAll()`.
+通常使用標準的 `HTMLElement` 方法（例如 `querySelector()` 或 `querySelectorAll()`) 來過濾會更直接且更清楚。
+

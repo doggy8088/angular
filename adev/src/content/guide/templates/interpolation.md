@@ -1,24 +1,25 @@
-# Displaying values with interpolation
+# 使用內插來顯示值
 
-Interpolation refers to embedding expressions into marked up text. By default, interpolation uses the double curly braces `{{` and `}}` as delimiters.
+內插是指將表達式嵌入標記文字中。預設內插使用雙大括弧 `{{` 和 `}}` 作為分隔符。
 
-To illustrate how interpolation works, consider an Angular component that contains a `currentCustomer` variable:
+為了說明內插運作的方式，考慮一個包含 `currentCustomer` 變數的 Angular 組件：
 
 <docs-code path="adev/src/content/examples/interpolation/src/app/app.component.ts" visibleLines="13"/>
 
-Use interpolation to display the value of this variable in the corresponding component template:
+使用插值在對應的組件範本中顯示此變數的值：
 
 <docs-code path="adev/src/content/examples/interpolation/src/app/app.component.html" visibleRegion="interpolation-example1"/>
 
-Angular replaces `currentCustomer` with the string value of the corresponding component property. In this case, the value is `Maria`.
+Angular 將 `currentCustomer` 替換為對應元件屬性的字串值。在此範例中，該值為 `Maria`。
 
-In the following example, Angular evaluates the `title` and `itemImageUrl` properties to display some title text and an image.
+在以下範例中，Angular 會評估 `title` 和 `itemImageUrl` 屬性以顯示一些標題文字和圖像。
 
 <docs-code path="adev/src/content/examples/interpolation/src/app/app.component.html" visibleRegion="component-property"/>
 
-## What's Next
+## 接下來是什麼
 
 <docs-pill-row>
-  <docs-pill href="guide/templates/property-binding" title="Property binding"/>
-  <docs-pill href="guide/templates/event-binding" title="Event binding"/>
+  <docs-pill href="guide/templates/property-binding" title="屬性繫結"/>
+  <docs-pill href="guide/templates/event-binding" title="事件繫結"/>
 </docs-pill-row>
+

@@ -1,12 +1,12 @@
-# Built-in control flow
+# 內建控制流程
 
-Angular templates support *control flow blocks* that let you conditionally show, hide, and repeat elements.
+Angular 模板支援 *控制流程區塊*，讓你可以有條件地顯示、隱藏和重複元素。
 
-IMPORTANT: Angular built-in control flow is in [developer preview](reference/releases#developer-preview). It is ready to try, but may change before becoming stable.
+重要提示：Angular 內建控制流程目前仍處於 [開發人員預覽](reference/releases#developer-preview) 階段。它已經可以試用，但在穩定之前可能會有所變更。
 
-## `@if` block conditionals
+## `@if` 區塊條件
 
-The `@if` block conditionally displays its content when its condition expression is truthy:
+當其條件表達式為真值時，`@if` 區塊會條件式顯示其內容：
 
 ```html
 @if (a > b) {
@@ -14,7 +14,7 @@ The `@if` block conditionally displays its content when its condition expression
 }
 ```
 
-The `@if` block might have one or more associated `@else` blocks. Immediately after an `@if` block, you can optionally specify any number of `@else if` blocks and one `@else` block:
+`@if` 區塊可能有一個或多個關聯的 `@else` 區塊。在 `@if` 區塊之後，您可以選擇指定任意數量的 `@else if` 區塊和一個 `@else` 區塊：
 
 ```html
 @if (a > b) {
@@ -26,9 +26,9 @@ The `@if` block might have one or more associated `@else` blocks. Immediately af
 }
 ```
 
-### Referencing the conditional expression's result
+### 參照條件式運算式的結果
 
-The new built-in `@if` conditional supports referencing of expression results to keep a solution for common coding patterns:
+新的內建 `@if` 條件式支援參照表達式結果以保持常見編碼模式的解決方案：
 
 ```html
 @if (users$ | async; as users) {
@@ -36,9 +36,9 @@ The new built-in `@if` conditional supports referencing of expression results to
 }
 ```
 
-## `@for` block - repeaters
+## `@for` 區塊 - 重複器
 
- The `@for` repeatedly renders content of a block for each item in a collection. The collection can be represented as any JavaScript [iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols) but there are performance advantages of using a regular `Array`. A basic `@for` loop looks like:
+`@for` 重複呈現區塊中的內容，以供集合中的每個項目使用。集合可以表示為任何 JavaScript [可叠代](https://developer.mozilla.org/zh-TW/docs/Web/JavaScript/Reference/Iteration_protocols) 項目，但使用常規 `Array` 會有性能優勢。基本的 `@for` 循環如下所示：
 
 ```html
 @for (item of items; track item.id) {
@@ -46,26 +46,26 @@ The new built-in `@if` conditional supports referencing of expression results to
 }
 ```
 
-### `track` for calculating difference of two collections
+### `track` 用於計算兩個集合的差異
 
-The value of the `track` expression determines a key used to associate array items with the views in the DOM. Having clear indication of the item identity allows Angular to execute a minimal set of DOM operations as items are added, removed or moved in a collection.
+`track` 表達式的值決定用於將陣列項目與 DOM 中的檢視關聯的鍵。清楚指出項目身分，讓 Angular 能在陣列中新增、移除或移動項目時執行最少數量的 DOM 操作。
 
-Loops over immutable data without `trackBy` are one of the most common causes for performance issues across Angular applications. Because of the potential for poor performance, the `track` expression is required for the `@for` loops. When in doubt, using `track $index` is a good default.
+在 Angular 應用程式中，重複運算不變資料而不使用 `trackBy` 是最常見的效能問題原因之一。由於效能不佳的可能性，`@for` 迴圈需要 `track` 表達式。有疑問時，使用 `track $index` 是個不錯的預設值。
 
-### `$index` and other contextual variables
+### `$index` 和其他情境變數
 
-Inside `@for`  contents, several implicit variables are always available:
+在 `@for` 內容中，數個隱含變數永遠可用：
 
-| Variable | Meaning |
+| 變數 | 意義 |
 | -------- | ------- |
-| `$count` | Number of items in a collection iterated over |
-| `$index` | Index of the current row |
-| `$first` | Whether the current row is the first row |
-| `$last` | Whether the current row is the last row |
-| `$even` | Whether the current row index is even |
-| `$odd` | Whether the current row index is odd |
+| `$count` | 反覆運算的集合中的項目數目 |
+| `$index` | 目前列的索引 |
+| `$first` | 目前列是否為第一列 |
+| `$last` | 目前列是否為最後一列 |
+| `$even` | 目前列索引是否為偶數 |
+| `$odd` | 目前列索引是否為奇數 |
 
-These variables are always available with these names, but can be aliased via a `let` segment:
+這些變數總是使用這些名稱，但可透過 `let` 片段別名：
 
 ```html
 @for (item of items; track item.id; let idx = $index, e = $even) {
@@ -73,11 +73,11 @@ These variables are always available with these names, but can be aliased via a 
 }
 ```
 
-The aliasing is especially useful in case of using nested `@for` blocks where contextual variable names could collide.
+在使用嵌套的 `@for` 區塊時別名特別有用，因為上下文變數名稱可能會發生衝突。
 
-### `empty` block
+### `empty` 區塊
 
-You can optionally include an `@empty` section immediately after the `@for` block content. The content of the `@empty` block displays when there are no items:
+您也可以在 `@for` 區塊內容之後立即包含 `@empty` 區段。當沒有項目時，`@empty` 區塊的內容會顯示：
 
 ```html
 @for (item of items; track item.name) {
@@ -87,9 +87,9 @@ You can optionally include an `@empty` section immediately after the `@for` bloc
 }
 ```
 
-## `@switch` block - selection
+## `@switch` 區塊 - 選擇
 
-The syntax for `switch` is very similar to `if`, and is inspired by the JavaScript `switch` statement:
+`switch` 的語法和 `if` 非常相似，並受到 JavaScript `switch` 語句的啟發：
 
 ```html
 @switch (condition) {
@@ -105,31 +105,32 @@ The syntax for `switch` is very similar to `if`, and is inspired by the JavaScri
 }
 ```
 
-The value of the conditional expression is compared to the case expression using the `===` operator.
+條件式的值使用 `===` 運算子與案例式進行比較。
 
-**`@switch` does not have fallthrough**, so you do not need an equivalent to a `break` or `return` statement.
+**`@switch` 沒有穿透執行**，因此您不需要等同於 `break` 或 `return` 語句。
 
-The `@default` block is optional and can be omitted. If no `@case` matches the expression and there is no `@default` block, nothing is shown.
+`@default` 區塊是可選的，可以省略。如果沒有 `@case` 與表達式相符，也沒有 `@default` 區塊，則不會顯示任何內容。
 
-## Built-in control flow and the `NgIf`, `NgSwitch` and `NgFor` structural directives
+## 內建控制流程和 `NgIf`、`NgSwitch` 和 `NgFor` 結構型指令
 
-The `@if` block replaces `*ngIf` for expressing conditional parts of the UI.
+`@if` 區塊取代 `*ngIf`，用於表達 UI 的條件部分。
 
-The `@switch` block replaces `ngSwitch` with major benefits:
+`@switch` 區塊取代 `ngSwitch`，具有以下主要優點：
 
-* it does not require a container element to hold the condition expression or each conditional template;
-* it supports template type-checking, including type narrowing within each branch.
+* 它不需要容器元素來保存條件表達式或每個條件範本；
+* 它支援範本類型檢查，包括每個分支中的類型縮小。
 
-The `@for` block replaces `*ngFor` for iteration, and has several differences compared to its structural directive `NgFor` predecessor:
+@for` 區塊取代 `*ngFor` 進行反覆，與其結構型指令 `NgFor` 前身相比有幾個差異：
 
-* tracking expression (calculating keys corresponding to object identities) is mandatory but has better ergonomics (it is enough to write an expression instead of creating the `trackBy` method);
-* uses a new optimized algorithm for calculating a minimal number of DOM operations to be performed in response to changes in a collection, instead of Angular’s customizable diffing implementation (`IterableDiffer`);
-* has support for `@empty` blocks.
+* 追蹤表達式（計算與物件識別對應的鍵）是強制性的，但具有更好的便利性（只需寫一個表達式即可，而不是建立 `trackBy` 方法）；
+* 使用新的最佳化演算法計算最少數量的 DOM 操作，以響應集合的變更，而不是 Angular 的可自定義比較實作（`IterableDiffer`）；
+* 支援 `@empty` 區塊。
 
-The `track` setting replaces `NgFor`'s concept of a `trackBy` function. Because `@for` is built-in, we can provide a better experience than passing a `trackBy` function, and directly use an expression representing the key instead. Migrating from `trackBy` to `track` is possible by invoking the `trackBy` function:
+`track` 設定取代了 `NgFor` 的 `trackBy` 函數概念。由於 `@for` 是內建的，因此我們可以提供比傳遞 `trackBy` 函數更好的體驗，並直接使用代表鍵的表達式。可以透過呼叫 `trackBy` 函數，從 `trackBy` 遷移到 `track`：
 
 ```html
 @for (item of items; track itemId($index, item)) {
   {{ item.name }}
 }
 ```
+

@@ -1,11 +1,10 @@
-# Version compatibility
+# 版本相容性
 
-The following tables describe the versions of Node.js, TypeScript, and RxJS that each version of
-Angular requires.
+以下表格說明每個版本的 Angular 所需的 Node.js、TypeScript 和 RxJS 版本。
 
-## Actively supported versions
+## 積極支援的版本
 
-This table covers [Angular versions under active support](reference/releases#actively-supported-versions).
+下表涵蓋 [Angular 版本，可獲得主動支援](reference/releases#actively-supported-versions)。
 
 | Angular            | Node.js                              | TypeScript     | RxJS               |
 | ------------------ | ------------------------------------ | -------------- | ------------------ |
@@ -16,11 +15,9 @@ This table covers [Angular versions under active support](reference/releases#act
 | 15.1.x \|\| 15.2.x | ^14.20.0 \|\| ^16.13.0 \|\| ^18.10.0 | >=4.8.2 <5.0.0 | ^6.5.3 \|\| ^7.4.0 |
 | 15.0.x             | ^14.20.0 \|\| ^16.13.0 \|\| ^18.10.0 | ~4.8.2         | ^6.5.3 \|\| ^7.4.0 |
 
-## Unsupported Angular versions
+## 不支援的 Angular 版本
 
-This table covers Angular versions that are no longer under long-term support (LTS). This
-information was correct when each version went out of LTS and is provided without any further
-guarantees. It is listed here for historical reference.
+此表格包含不再提供長期支援 (LTS) 的 Angular 版本。此資訊在每個版本停止提供 LTS 時為正確資訊，且不提供任何進一步保證。將在此處列出以供參考。
 
 | Angular            | Node.js                              | TypeScript     | RxJS               |
 | ------------------ | ------------------------------------ | -------------- | ------------------ |
@@ -41,9 +38,9 @@ guarantees. It is listed here for historical reference.
 | 9.1.x              | ^10.13.0 \|\| ^12.11.0               | >=3.6.0 <3.9.0 | ^6.5.3             |
 | 9.0.x              | ^10.13.0 \|\| ^12.11.0               | >=3.6.0 <3.8.0 | ^6.5.3             |
 
-### Before v9
+### v9 之前
 
-Until Angular v9, Angular and Angular CLI versions were not synced.
+在 Angular v9 之前，Angular 和 Angular CLI 版本並不同步。
 
 | Angular                     | Angular CLI                 | Node.js             | TypeScript     | RxJS   |
 | --------------------------- | --------------------------- | ------------------- | -------------- | ------ |
@@ -60,43 +57,42 @@ Until Angular v9, Angular and Angular CLI versions were not synced.
 | 4.0.x \|\| 4.1.x            | 1.0.x \|\| 1.1.x \|\| 1.2.x | ^6.9.0              | >=2.1.6 <2.4.0 | ^5.0.1 |
 | 2.x                         | -                           | ^6.9.0              | >=1.8.0 <2.2.0 | ^5.0.1 |
 
-## Browser support
+## 瀏覽器支援
 
-Angular supports most recent browsers.
-This includes the following specific versions:
+Angular 支援大多數最新的瀏覽器。
+其中包含以下特定版本：
 
-| Browser | Supported versions                          |
-| :------ | :------------------------------------------ |
-| Chrome  | 2 most recent versions                      |
-| Firefox | latest and extended support release \(ESR\) |
-| Edge    | 2 most recent major versions                |
-| Safari  | 2 most recent major versions                |
-| iOS     | 2 most recent major versions                |
-| Android | 2 most recent major versions                |
+| 瀏覽器 | 支援版本                                      |
+| :------ | :-------------------------------------------- |
+| Chrome  | 最近兩個版本                                  |
+| Firefox | 最新版本和延伸支援版本 \(ESR\)             |
+| Edge    | 最近兩個主要版本                               |
+| Safari  | 最近兩個主要版本                               |
+| iOS     | 最近兩個主要版本                               |
+| Android | 最近兩個主要版本                               |
 
-HELPFUL: Angular's continuous integration process runs unit tests of the framework on all of these browsers for every pull request, using [Sauce Labs](https://saucelabs.com).
+HELPFUL: Angular 的持續整合程序會在所有這些瀏覽器上針對每個拉取請求執行架構的單元測試，並使用 [Sauce Labs](https://saucelabs.com)。
 
 ## Polyfills
 
-Angular is built on the latest standards of the web platform.
-Targeting such a wide range of browsers is challenging because they do not support all features of modern browsers.
-You compensate by loading polyfill scripts \("polyfills"\) for the browsers that you must support.
-See instructions on how to include polyfills into your project below.
+Angular 建構於網路平台的最新標準上。
+鎖定如此廣泛的瀏覽器種類是個挑戰，因為它們並不支援現代瀏覽器的所有功能。
+您可以透過載入您必須支援的瀏覽器的 polyfill 腳本（「polyfills」）來彌補。
+請參閱下方關於如何將 polyfills 納入專案的說明。
 
-IMPORTANT: The suggested polyfills are the ones that run full Angular applications.
-You might need additional polyfills to support features not covered by this list.
+重要事項：建議的 polyfill 是用來執行完整的 Angular 應用程式。
+您可能需要額外的 polyfill 來支援此清單中未涵蓋的功能。
 
-HELPFUL: Polyfills cannot magically transform an old, slow browser into a modern, fast one.
+HELPFUL: Polyfills 無法神奇地將舊的、慢的瀏覽器變成新的、快的瀏覽器。
 
-## Enabling polyfills with CLI projects
+## 使用 CLI 專案啟用 polyfill
 
-The [Angular CLI](tools/cli) provides support for polyfills.
-If you are not using the CLI to create your projects, see [Polyfill instructions for non-CLI users](#polyfills-for-non-cli-users).
+[Angular CLI](tools/cli) 提供對 polyfill 的支援。
+如果您沒有使用 CLI 來建立專案，請參閱 [非 CLI 使用者的 Polyfill 說明](#polyfills-for-non-cli-users)。
 
-The `polyfills` options of the [browser and test builder](tools/cli/cli-builder) can be a full path for a file \(Example: `src/polyfills.ts`\) or,
-relative to the current workspace or module specifier \(Example: `zone.js`\).
+[瀏覽器和測試建構器](tools/cli/cli-builder) 的 `polyfills` 選項可以是檔案的完整路徑 \(範例：`src/polyfills.ts`\) 或相對於目前的工作區或模組指定符 \(範例：`zone.js`\)。
 
-If you create a TypeScript file, make sure to include it in the `files` property of your `tsconfig` file.
+如果您建立 TypeScript 檔案，請務必將其包含在 `tsconfig` 檔案的 `files` 屬性中。
 
 <docs-code language="json">
 {
@@ -112,11 +108,11 @@ If you create a TypeScript file, make sure to include it in the `files` property
 }
 </docs-code>
 
-## Polyfills for non-CLI users
+## 非 CLI 使用者的 Polyfill
 
-If you are not using the CLI, add your polyfill scripts directly to the host web page \(`index.html`\).
+如果您沒有使用 CLI，請將您的 polyfill 腳本直接新增到主機網頁 \(`index.html`\) 中。
 
-For example:
+例如：
 
 <docs-code header="src/index.html" language="html">
 &lt;!-- pre-zone polyfills --&gt;
@@ -140,3 +136,4 @@ For example:
 &lt;script src="node_modules/zone.js/bundles/zone.umd.js"&gt;&lt;/script&gt;
 &lt;!-- application polyfills --&gt;
 </docs-code>
+

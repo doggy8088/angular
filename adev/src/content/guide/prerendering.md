@@ -1,14 +1,14 @@
-# Prerendering (SSG)
+# 預先渲染 (SSG)
 
-Prerendering, commonly referred to as Static Site Generation (SSG), represents the method by which pages are rendered to static HTML files during the build process.
+預先渲染，通常稱為靜態網站產生 (SSG)，代表在建置過程中將頁面渲染成靜態 HTML 檔案的方法。
 
-Prerendering maintains the same performance benefits of [server-side rendering (SSR)](guide/ssr#why-use-server-side-rendering) but achieves a reduced Time to First Byte (TTFB), ultimately enhancing user experience. The key distinction lies in its approach that pages are served as static content, and there is no request-based rendering.
+預先渲染維持與 [伺服器端渲染 (SSR)](guide/ssr#why-use-server-side-rendering) 相同的效能優勢，但減少了首次位元組時間 (TTFB)，最終提升使用者體驗。其關鍵區別在於它的方法，頁面以靜態內容提供，且沒有基於要求的渲染。
 
-When the data necessary for server-side rendering remains consistent across all users, the strategy of prerendering emerges as a valuable alternative. Rather than dynamically rendering pages for each user request, prerendering takes a proactive approach by rendering them in advance.
+當伺服器端渲染所需要的資料在所有使用者間保持一致時，預先渲染的策略便成為有價值的替代方案。預先渲染採取主動方式，在每個使用者要求之前就先渲染頁面，而不是動態地渲染。
 
-## How to prerender a page
+## 如何預先呈示頁面
 
-To prerender a static page, add SSR capabilities to your application with the following Angular CLI command:
+若要預先呈現靜態頁面，請使用以下 Angular CLI 指令為應用程式新增 SSR 功能：
 
 <docs-code language="shell">
 
@@ -18,11 +18,11 @@ ng add @angular/ssr
 
 <div class="alert is-helpful">
 
-To create an application with prerendering capabilities from the beginning use the [`ng new --ssr`](tools/cli/setup-local) command.
+要從一開始就建立具有預先呈現功能的應用程式，請使用 [`ng new --ssr`](tools/cli/setup-local) 指令。
 
 </div>
 
-Once SSR is added, you can generate the static pages by running the build command:
+一旦加入 SSR，您可以藉由執行建置指令來產生靜態頁面：
 
 <docs-code language="shell">
 
@@ -30,15 +30,15 @@ ng build
 
 </docs-code>
 
-### Build options for prerender
+### Prerender 的建置選項
 
-The application builder `prerender` option can be either a Boolean or an Object for more fine-tuned configuration.
-When the option is `false`, no prerendering is done. When it is `true`, all options use the default value. When it is an Object, each option can be individually configured.
+應用程式建構器 `prerender` 選項可以是布林值或用於更精細調整設定的物件。
+當選項為 `false` 時，不會進行任何預先渲染。當選項為 `true` 時，所有選項都使用預設值。當選項為物件時，每個選項都可以個別設定。
 
-| Options          | Details                                                                                                                                                                   | Default Value |
+| 選項          | 詳細資料                                                                                                                                                                   | 預設值 |
 | :--------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :------------ |
-| `discoverRoutes` | Whether the builder should process the Angular Router configuration to find all unparameterized routes and prerender them.                                                | `true`        |
-| `routesFile`     | The path to a file that contains a list of all routes to prerender, separated by newlines. This option is useful if you want to prerender routes with parameterized URLs. |               |
+| `discoverRoutes` | 是否由 Builder 處理 Angular Router 組態，以尋找所有未參數化的路徑並預先呈現。                                                                                                            | `true`        |
+| `routesFile`     | 包含所有要預先呈現的路徑清單之檔案路徑，以換行符號分隔。此選項適用於要預先呈現具有參數化 URL 的路徑。                                                                   |               |
 
 <docs-code language="json">
 
@@ -61,11 +61,11 @@ When the option is `false`, no prerendering is done. When it is `true`, all opti
 
 </docs-code>
 
-### Prerendering parameterized routes
+### 預先渲染參數化路由
 
-You can prerender parameterized routes using the `routesFile` option. An example of a parameterized route is `product/:id`, where `id` is dynamically provided. To specify these routes, they should be listed in a text file, with each route on a separate line.
+你可以使用 `routesFile` 選項預先呈現參數化的路由。參數化路由的範例為 `product/:id`，其中 `id` 是動態提供的。若要指定這些路由，應將它們列在文字檔案中，每條路由佔一行。
 
-For an app with a large number of parameterized routes, consider generating this file using a script before running `ng build`.
+對於具有大量參數化路由的應用程式，請考慮在執行 `ng build` 之前使用腳本來產生此檔案。
 
 <docs-code header="routes.txt" language="text">
 
@@ -74,7 +74,7 @@ For an app with a large number of parameterized routes, consider generating this
 
 </docs-code>
 
-With routes specified in the `routes.txt` file, use the `routesFile` option to configure the builder to prerender the product routes.
+使用 `routes.txt` 檔案中指定的路由，使用 `routesFile` 選項來設定建構器以預先呈現產品路由。
 
 <docs-code language="json">
 
@@ -97,4 +97,5 @@ With routes specified in the `routes.txt` file, use the `routesFile` option to c
 
 </docs-code>
 
-This configures `ng build` to prerender `/products/1` and `/products/555` at build time.
+這會將 `ng build` 配置為在建置時預先呈現 `/products/1` 和 `/products/555`。
+

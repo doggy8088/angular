@@ -1,16 +1,16 @@
-# Validating forms
+# 驗證表單
 
-Another common scenario when working with forms is the need to validate the inputs to ensure the correct data is submitted.
+在使用表單時，另一個常見情境是需要驗證輸入以確保提交正確資料。
 
-In this activity, you'll learn how to validate forms with reactive forms.
+在這個活動中，您將學習如何使用反應式表單驗證表單。
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Import Validators">
+<docs-step title="匯入驗證程式">
 
-Angular provides a set of validation tools. To use them, first update the component to import `Validators` from `@angular/forms`.
+Angular 提供了一組驗證工具。若要使用這些工具，請先將元件更新為從 `@angular/forms` 匯入 `Validators`。
 
 <docs-code language="ts" highlight="[1]">
 import {ReactiveFormsModule, Validators} from '@angular/forms';
@@ -21,9 +21,9 @@ export class AppComponent {}
 
 </docs-step>
 
-<docs-step title="Add validation to form">
+<docs-step title="加入驗證至表單">
 
-Every `FormControl` can be passed the `Validators` you want to use for validating the `FormControl` values. For example, if you want to make the fields for the `profileForm` required then use `Validators.required`. Update the `name` and `email` `FormControl` to be required:
+每個 `FormControl` 都可以傳入您要使用以驗證 `FormControl` 值的 `Validators`。例如，如果您想要讓 `profileForm` 的欄位為必填，請使用 `Validators.required`。更新 `name` 和 `email` `FormControl` 為必填：
 
 ```ts
 profileForm = new FormGroup({
@@ -34,10 +34,10 @@ profileForm = new FormGroup({
 
 </docs-step>
 
-<docs-step title="Check form validation in template">
+<docs-step title="在範本中檢查表單驗證">
 
-To determine if a form is valid, the `FormGroup` class has a `valid` property.
-You can use this property to dynamically bind attributes. Update the submit `button` to be enabled based on the validity of the form.
+要判斷表單是否有效，`FormGroup` 類別有一個 `valid` 屬性。
+您可以使用這個屬性動態繫結屬性。根據表單的有效性來更新提交 `button` 以啟用。
 
 ```html
 <button type="submit" [disabled]="!profileForm.valid">Submit</button>
@@ -47,6 +47,7 @@ You can use this property to dynamically bind attributes. Update the submit `but
 
 </docs-workflow>
 
-You now know the basics around how validation works with reactive forms.
+現在您知道驗證是如何與反應式表單一起運作的基本知識。
 
-Great job learning these core concepts of working with forms in Angular. If you want to learn more, be sure to refer to the [Angular forms documentation](guide/forms/form-validation).
+在 Angular 中使用表單這些核心概念的學習成果很好。如果您想了解更多資訊，務必參考 [Angular 表單文件](guide/forms/form-validation)。
+

@@ -1,19 +1,18 @@
+# 找出你正在測試的程式碼量
 
-# Find out how much code you're testing
+Angular CLI 可以執行單元測試和建立程式碼覆蓋率報告。
+程式碼覆蓋率報告會顯示您的程式碼庫中可能未通過單元測試適當測試的任何部分。
 
-The Angular CLI can run unit tests and create code coverage reports.
-Code coverage reports show you any parts of your code base that might not be properly tested by your unit tests.
-
-To generate a coverage report run the following command in the root of your project.
+要產生覆蓋率報告，請在專案的根目錄執行以下指令。
 
 <docs-code language="shell">
 ng test --no-watch --code-coverage
 </docs-code>
 
-When the tests are complete, the command creates a new `/coverage` directory in the project.
-Open the `index.html` file to see a report with your source code and code coverage values.
+測試完成後，指令會在專案中建立新的 `/coverage` 目錄。
+開啟 `index.html` 檔案，即可檢視包含原始程式碼和程式碼涵蓋率數值的報告。
 
-If you want to create code-coverage reports every time you test, set the following option in the Angular CLI configuration file, `angular.json`:
+如果你想在每次測試時建立程式碼覆蓋率報告，請在 Angular CLI 組態檔案 `angular.json` 中設定下列選項：
 
 <docs-code language="json">
 "test": {
@@ -23,13 +22,13 @@ If you want to create code-coverage reports every time you test, set the followi
 }
 </docs-code>
 
-## Code coverage enforcement
+## 程式碼覆蓋率強制執行
 
-The code coverage percentages let you estimate how much of your code is tested.
-If your team decides on a set minimum amount to be unit tested, enforce this minimum with the Angular CLI.
+程式碼覆蓋率百分比讓您可以估計已測試的程式碼比例。
+如果您的團隊決定一組要進行單元測試的最低數量，請使用 Angular CLI 執行此最低數量。
 
-For example, suppose you want the code base to have a minimum of 80% code coverage.
-To enable this, open the [Karma](https://karma-runner.github.io) test platform configuration file, `karma.conf.js`, and add the `check` property in the `coverageReporter:` key.
+例如，假設您想要程式碼庫擁有至少 80% 的程式碼覆蓋率。
+為啟用此功能，請開啟 [Karma](https://karma-runner.github.io) 測試平台設定檔 `karma.conf.js`，並在 `coverageReporter:` 鍵中新增 `check` 屬性。
 
 <docs-code language="javascript">
 coverageReporter: {
@@ -50,8 +49,9 @@ coverageReporter: {
 }
 </docs-code>
 
-HELPFUL: Read more about creating and fine tunning Karma configuration in the [testing guide](guide/testing#configuration).
+HELPFUL：閱讀 [測試指南](guide/testing#configuration)，以進一步了解如何建立和微調 Karma 組態。
 
-The `check` property causes the tool to enforce a minimum of 80% code coverage when the unit tests are run in the project.
+`check` 屬性會導致工具在專案中執行單元測試時強制執行至少 80% 的程式碼覆蓋率。
 
-Read more on coverage configuration options in the [karma coverage documentation](https://github.com/karma-runner/karma-coverage/blob/master/docs/configuration.md).
+在 [karma 覆蓋率文件](https://github.com/karma-runner/karma-coverage/blob/master/docs/configuration.md) 中閱讀更多關於覆蓋率配置選項。
+

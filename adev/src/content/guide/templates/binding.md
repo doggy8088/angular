@@ -1,102 +1,103 @@
-# Understanding binding
+# 理解 Binding
 
-In an Angular template, a binding creates a live connection between a part of the UI created from a template (a DOM element, directive, or component) and the model (the component instance to which the template belongs). This connection can be used to synchronize the view with the model, to notify the model when an event or user action takes place in the view, or both. Angular's [Change Detection](best-practices/runtime-performance) algorithm is responsible for keeping the view and the model in sync.
+在 Angular 範本中，繫結會在從範本建立的 UI 部分（DOM 元素、指令或元件）和模型（範本所屬的元件實例）之間建立動態連結。此連結可以用於將檢視與模型同步，在檢視中發生事件或使用者動作時通知模型，或同時進行這兩項操作。Angular 的 [變更偵測](best-practices/runtime-performance) 演算法負責讓檢視和模型保持同步。
 
-Examples of binding include:
+範例包含：
 
-* text interpolations
-* property binding
-* event binding
-* two-way binding
+* 文字插補
+* 屬性繫結
+* 事件繫結
+* 雙向繫結
 
-Bindings always have two parts: a _target_ which will receive the bound value, and a _template expression_ which produces a value from the model.
+綁定總是包含兩部分：一個會接收綁定值的 _目標_，以及一個從模型產生值的 _範本表達式_。
 
-## Syntax
+## 語法
 
-Template expressions are similar to JavaScript expressions.
-Many JavaScript expressions are legal template expressions, with the following exceptions.
+模板表達式類似於 JavaScript 表達式。
+許多 JavaScript 表達式都是合法的模板表達式，但有以下例外。
 
-You can't use JavaScript expressions that have or promote side effects, including:
+你不能使用有或促進副作用的 JavaScript 表達式，包括：
 
-* Assignments (`=`, `+=`, `-=`, `...`)
-* Operators such as `new`, `typeof`, or `instanceof`
-* Chaining expressions with <code>;</code> or <code>,</code>
-* The increment and decrement operators `++` and `--`
-* Some of the ES2015+ operators
+* 指定（`=`, `+=`, `-=`, `...`）
+* 運算子，例如 `new`, `typeof` 或 `instanceof`
+* 以 ; 或 , 連結表達式
+* 增量和減量運算子 `++` 和 `--`
+* 一些 ES2015+ 運算子
 
-Other notable differences from JavaScript syntax include:
+其他與 JavaScript 語法值得注意的不同包括：
 
-* No support for the bitwise operators such as `|` and `&`
+* 不支援位元運算子，例如 `|` 和 `&`
 
-## Expression context
+## 表達式內容
 
-Interpolated expressions have a context&mdash;a particular part of the application to which the expression belongs.  Typically, this context is the component instance.
+插補表達式有一個情境&mdash;一個表達式所屬的應用程式特定部分。通常，這個情境是組件實例。
 
-In the following snippet, the expression `recommended` and the expression `itemImageUrl2` refer to properties of the `AppComponent`.
+在以下程式碼片段中，表達式 `recommended` 和表達式 `itemImageUrl2` 參考 `AppComponent` 的屬性。
 
 <docs-code path="adev/src/content/examples/interpolation/src/app/app.component.html" visibleRegion="component-context" header="src/app/app.component.html"/>
 
-An expression can also refer to properties of the _template's_ context such as a [template input variable](guide/directives/structural-directives#shorthand) or a [template reference variable](guide/templates/reference-variables).
+表達式也可以參照範本的內容屬性，例如 [範本輸入變數](guide/directives/structural-directives#shorthand) 或 [範本參考變數](guide/templates/reference-variables)。
 
-The following example uses a template input variable of `customer`.
+以下範例使用範本輸入變數 `customer`。
 
 <docs-code path="adev/src/content/examples/interpolation/src/app/app.component.html" visibleRegion="template-input-variable" header="src/app/app.component.html (template input variable)"/>
 
-This next example features a template reference variable, `#customerInput`.
+以下範例具有範本參考變數 `#customerInput`。
 
 <docs-code path="adev/src/content/examples/interpolation/src/app/app.component.html" visibleRegion="template-reference-variable" header="src/app/app.component.html (template reference variable)"/>
 
-HELPFUL: Template expressions cannot refer to anything in the global namespace, except `undefined`.  They can't refer to `window` or `document`.  Additionally, they can't call `console.log()` or `Math.max()` and are restricted to referencing members of the expression context.
+HELPFUL: 範本表達式無法參照全域名稱空間中的任何內容，但 `undefined` 除外。它們無法參照 `window` 或 `document`。此外，它們無法呼叫 `console.log()` 或 `Math.max()`，並且僅限於參照表達式內容的成員。
 
-### Preventing name collisions
+### 避免名稱衝突
 
-The context against which an expression evaluates is the union of the template variables, the directive's context object&mdash;if it has one&mdash;and the component's members.
-If you reference a name that belongs to more than one of these namespaces, Angular applies the following precedence logic to determine the context:
+運算式評估的內容是範本變數、指令的內容物件（如果有的話）和組件成員的聯集。
+如果您參照屬於多個這些命名空間的名稱，則 Angular 會套用下列優先順序邏輯來決定內容：
 
-1. The template variable name.
-1. A name in the directive's context.
-1. The component's member names.
+1. 範本變數名稱。
+1. 指令文脈中的名稱。
+1. 元件的成員名稱。
 
-To avoid variables shadowing variables in another context, keep variable names unique.
-In the following example, the `AppComponent` template greets the `customer`, Padma.
+為了避免變數遮蔽其他內容中的變數，請保持變數名稱的唯一性。
+在以下範例中，`AppComponent` 範本向顧客 Padma 問候。
 
-The `@for` then lists each `customer` in the `customers` array.
+`@for` 然後列出 `customers` 陣列中的每個 `customer`。
 
 <docs-code path="adev/src/content/examples/interpolation/src/app/app.component.1.ts" visibleRegion="var-collision" header="src/app/app.component.ts"/>
 
-The `customer` within the `@for` is in the context of the implicit `<ng-template>` defined by the _@for_.  It refers to each `customer` in the `customers` array and displays "Ebony" and "Chiho".  "Padma" is not displayed because that name is not in that array.
+`@for` 內的 `customer` 處於由 _@for_ 定義的隱含 `<ng-template>` 的上下文中。它指的是 `customers` 陣列中的每一個 `customer`，並顯示「Ebony」和「Chiho」。沒有顯示「Padma」，因為該名稱不在該陣列中。
 
-On the other hand, the `<h1>` displays "Padma" which is bound to the value of the `customer` property in the component class.
+另一方面，`<h1>` 顯示「Padma」，這個值繫結到元件類別中 `customer` 屬性的值。
 
-## Expression best practices
+## 表達式最佳做法
 
-When using a template expression, follow these best practices:
+使用範本表達式時，請遵循以下最佳範例：
 
-* **Use short expressions**
+* **使用簡短的表達式**
 
-Use property names or method calls whenever possible.  Keep application and business logic in the component, where it is accessible to develop and test.
+盡可能使用屬性名稱或方法呼叫。將應用程式和業務邏輯保留在元件中，以便於開發和測試。
 
-* **Quick execution**
+* **快速執行**
 
-Angular executes a template expression after every change detection cycle.  Many asynchronous activities trigger change detection cycles, such as promise resolutions, HTTP results, timer events, key presses, and mouse moves.
+Angular 在每次變更偵測週期之後執行範本表達式。許多非同步活動會觸發變更偵測週期，例如承諾解決、HTTP 結果、計時器事件、按鍵和滑鼠移動。
 
-An expression should finish quickly to keep the user experience as efficient as possible, especially on slower devices.  Consider caching values when their computation requires greater resources.
+表達式應該快速完成以保持使用者體驗盡可能有效率，尤其是在較慢的裝置上。當其運算需要更多資源時，請考慮快取值。
 
-## No visible side effects
+## 無明顯的副作用
 
-According to Angular's unidirectional data flow model, a template expression should not change any application state other than the value of the target property.  Reading a component value should not change some other displayed value.  The view should be stable throughout a single rendering pass.
+根據 Angular 的單向資料流模型，範本表達式不應變更目標屬性值以外的任何應用程式狀態。讀取元件值不應變更其他顯示值。檢視應在單一繪製過程中保持穩定。
 
-  <docs-callout title='Idempotent expressions reduce side effects'>
+<docs-callout title='冪等表達式減少副作用'>
 
-An [idempotent](https://en.wikipedia.org/wiki/Idempotence) expression is free of side effects and improves Angular's change detection performance.  In Angular terms, an idempotent expression always returns _exactly the same thing_ until one of its dependent values changes.
+[冪等](https://zh.wikipedia.org/wiki/%E5%89%B2%E7%AD%89) 表達式沒有副作用，並可改善 Angular 的變更偵測效能。在 Angular 用語中，冪等表達式在任一相依值變更之前，始終回傳「完全相同的事物」。
 
-Dependent values should not change during a single turn of the event loop.  If an idempotent expression returns a string or a number, it returns the same string or number if you call it twice consecutively.  If the expression returns an object, including an `array`, it returns the same object _reference_ if you call it twice consecutively.
+在事件循環的一次單次輪轉期間，相依值不應變更。如果一個冪等表達式回傳一個字串或一個數字，它會在您連續呼叫它兩次時回傳相同的字串或數字。如果表達式回傳一個物件，包括一個陣列，它會在您連續呼叫它兩次時回傳相同的物件_參考_。
 
-  </docs-callout>
+</docs-callout>
 
-## What's next
+## 接下來
 
 <docs-pill-row>
-  <docs-pill href="guide/templates/property-binding" title="Property binding"/>
-  <docs-pill href="guide/templates/event-binding" title="Event binding"/>
+  <docs-pill href="guide/templates/property-binding" title="屬性繫結"/>
+  <docs-pill href="guide/templates/event-binding" title="事件繫結"/>
 </docs-pill-row>
+

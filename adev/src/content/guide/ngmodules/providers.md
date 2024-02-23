@@ -1,12 +1,12 @@
-# Providing dependencies in modules
+# 模組中提供相依性
 
-A provider is an instruction to the [Dependency Injection](/guide/di) system on how to obtain a value for a dependency.
-Most of the time, these dependencies are services that you create and provide.
+提供者是對 [依賴注入](/guide/di) 系統的指示，說明如何取得依賴項的值。
+大多時候，這些依賴項是您建立並提供的服務。
 
-## Providing a service
+## 提供服務
 
-If you already have an application that was created with the [Angular CLI](/tools/cli), you can create a service using the `ng generate` CLI command in the root project directory.
-Replace *User* with the name of your service.
+如果您已經有一個使用 [Angular CLI](/tools/cli) 建立的應用程式，您可以使用 `ng generate` CLI 指令在根專案目錄中建立一個服務。
+將 *User* 替換成您的服務名稱。
 
 <docs-code language="shell">
 
@@ -14,7 +14,7 @@ ng generate service User
 
 </docs-code>
 
-This command creates the following `UserService` skeleton:
+這個指令會建立以下的 `UserService` 雛形：
 
 <docs-code header="src/app/user.service.ts">
 import { Injectable } from '@angular/core';
@@ -26,48 +26,49 @@ export class UserService {
 }
 </docs-code>
 
-You can now inject `UserService` anywhere in your application.
+現在您可以在應用程式的任何地方注入 `UserService`。
 
-The service itself is a class that the CLI generated and that's decorated with `@Injectable()`.
-By default, this decorator has a `providedIn` property, which creates a provider for the service.
-In this case, `providedIn: 'root'` specifies that Angular should provide the service in the root injector.
+服務本身是一個由 CLI 生成的類別，並以 `@Injectable()` 裝飾。
+預設情況下，此裝飾器具有 `providedIn` 屬性，可為服務創建提供者。
+在這種情況下，`providedIn: 'root'` 指定 Angular 應在根注入器中提供服務。
 
-## Provider scope
+## 提供者範圍
 
-When you add a service provider to the root application injector, it's available throughout the application.
-Additionally, these providers are also available to all the classes in the application as long they have the lookup token.
+當您將服務提供者新增至根應用程式注入器時，它會在整個應用程式中可用。
+此外，只要這些類別具有查詢權杖，這些提供者也會對應用程式中的所有類別可用。
 
-You should always provide your service in the root injector unless there is a case where you want the service to be available only if the consumer imports a particular `@NgModule`.
+除非有情況是您希望該服務僅在使用者匯入特定 `@NgModule` 時才可用，否則您應該始終在根注入器中提供您的服務。
 
-## Limiting provider scope by lazy loading modules
+## 透過延遲載入模組來限制提供者範圍
 
-In the basic CLI-generated app, modules are eagerly loaded which means that they are all loaded when the application launches.
-Angular uses an injector system to make things available between modules.
-In an eagerly loaded app, the root application injector makes all of the providers in all of the modules available throughout the application.
+在基本 CLI 生成的應用程式中，模組是急切加載的，這意味著它們在應用程式啟動時全部載入。
+Angular 使用注入器系統讓各模組之間可以互相使用。
+在急切加載的應用程式中，根應用程式注入器會讓所有模組中的所有提供者在整個應用程式中可用。
 
-This behavior necessarily changes when you use lazy loading.
-Lazy loading is when you load modules only when you need them; for example, when routing.
-They aren't loaded right away like with eagerly loaded modules.
-This means that any services listed in their provider arrays aren't available because the root injector doesn't know about these modules.
+這個行為在使用延遲載入時勢必會有所改變。
+延遲載入是指僅在需要時載入模組；例如，在路由時。
+它們不會像熱切載入的模組一樣立即載入。
+這表示提供者陣列中列出的任何服務均不可用，因為根注入器不知道這些模組。
 
-<!--todo: KW--Make diagram here -->
-<!--todo: KW--per Misko: not clear if the lazy modules are siblings or grand-children. They are both depending on router structure. -->
+<!--todo: KW--在此處製作圖表 -->
 
-When the Angular router lazy-loads a module, it creates a new injector.
-This injector is a child of the root application injector.
-Imagine a tree of injectors; there is a single root injector and then a child injector for each lazy loaded module.
-This child injector gets populated with all the module-specific providers, if any.
-Look up resolution for every provider follows the [rules of dependency injection hierarchy](/guide/di/hierarchical-dependency-injection#resolution-rules).
+<!--todo: KW--per Misko: 不清楚懶惰模組是兄弟還是孫輩。它們都取決於路由器結構。 -->
 
-Any component created within a lazy loaded module's context, such as by router navigation, gets its own local instance of child provided services, not the instance in the root application injector.
-Components in external modules continue to receive the instances created for the application root injector.
+當 Angular 路由器延遲載入模組時，它會建立一個新的注入器。
+此注入器是根應用程式注入器的子代。
+想像一個注入器樹，有一個單一的根注入器，然後為每個延遲載入的模組建立一個子注入器。
+此子注入器會填充所有模組特定的提供者（如果有）。
+每個提供者的查詢解析遵循 [依存注入層級規則](/guide/di/hierarchical-dependency-injection#resolution-rules)。
 
-Though you can provide services by lazy loading modules, not all services can be lazy loaded.
-For instance, some modules only work in the root module, such as the Router.
-The Router works with the global location object in the browser.
+在延遲載入模組的內容中建立的任何元件（例如，透過路由器導覽），會取得子項提供的服務的自己的本地執行個體，而不是根應用程式注入器的執行個體。
+外部模組中的元件繼續接收為應用程式根注入器建立的執行個體。
 
-As of Angular version 9, you can provide a new instance of a service with each lazy loaded module.
-The following code adds this functionality to `UserService`.
+雖然你可以透過延遲載入模組的方式提供服務，但不是所有服務都可以延遲載入。
+例如，有些模組只能在根模組中運作，例如路由器。
+路由器會與瀏覽器中的全域位置物件一起運作。
+
+自 Angular 版本 9 開始，您可以為每個延遲載入的模組提供新的服務實例。
+以下程式碼將此功能新增至 `UserService`。
 
 <docs-code header="src/app/user.service.ts" highlight="[4]">
 import { Injectable } from '@angular/core';
@@ -79,17 +80,17 @@ export class UserService {
 }
 </docs-code>
 
-With `providedIn: 'any'`, all eagerly loaded modules share a singleton instance; however, lazy loaded modules each get their own unique instance, as shown in the following diagram.
+使用 `providedIn: 'any'` 時，所有急切加載的模組都會共用單例實例；但延遲加載的模組各自會取得自己獨有的實例，如下圖所示。
 
 <img alt="any-provider-scope" class="left" src="assets/content/images/guide/providers/any-provider.svg">
 
-## Limiting provider scope with components
+## 使用元件限制提供者範圍
 
-Another way to limit provider scope is by adding the service you want to limit to the component's `providers` array.
-Component providers and NgModule providers are independent of each other.
-This method is helpful when you want to eagerly load a module that needs a service all to itself.
-Providing a service in the component limits the service only to that component and its descendants.
-Other components in the same module can't access it.
+限制提供者範圍的另一種方式是將您想限制的服務新增到元件的 `providers` 陣列中。
+元件提供者和 NgModule 提供者彼此獨立。
+當您想積極載入需要服務的模組時，此方法很有用。
+在元件中提供服務會將服務限制在該元件及其子代中。
+同一個模組中的其他元件無法存取它。
 
 <docs-code header="src/app/app.component.ts">
 @Component({
@@ -99,35 +100,51 @@ Other components in the same module can't access it.
 export class AppComponent {}
 </docs-code>
 
-## Providing services in modules vs. components
+## 在模組中提供服務 vs. 元件
 
-Generally, provide services the whole application needs in the root module and scope services by providing them in lazy loaded modules.
+html
+<p>
+  In Angular, services are typically provided in one of two ways:
+</p>
 
-The router works at the root level so if you put providers in a component, even `AppComponent`, lazy loaded modules, which rely on the router, can't see them.
+<ul>
+  <li>
+    In the root injector, which is provided by the root module.
+  </li>
+  <li>
+    In a child injector, which is provided by a child module.
+  </li>
+</ul>
 
-<!-- KW--Make a diagram here -->
-Register a provider with a component when you must limit a service instance to a component and its component tree, that is, its child components.
-For example, a user editing component, `UserEditorComponent`, that needs a private copy of a caching `UserService` should register the `UserService` with the `UserEditorComponent`.
-Then each new instance of the `UserEditorComponent` gets its own cached service instance.
+一般來說，在根模組中提供整個應用程式所需的服務，並透過在延遲載入的模組中提供服務來設定服務範圍。
 
-## Injector hierarchy and service instances
+路由器在根層級運作，因此即便將提供者放在元件中，即使是 `AppComponent`，依賴路由器的延遲載入模組也看不到它們。
 
-Services are singletons within the scope of an injector, which means there is at most one instance of a service in a given injector.
+<!-- KW--在此處製作圖表 -->
 
-Angular DI has a [hierarchical injection system](/guide/di/hierarchical-dependency-injection), which means that nested injectors can create their own service instances.
-Whenever Angular creates a new instance of a component that has `providers` specified in `@Component()`, it also creates a new child injector for that instance.
-Similarly, when a new NgModule is lazy-loaded at run time, Angular can create an injector for it with its own providers.
+當您必須將服務實例限制在組件及其組件樹，即其子組件時，請使用組件註冊提供者。
+例如，正在編輯使用者的組件 `UserEditorComponent`，需要快取 `UserService` 的私有副本，應該使用 `UserEditorComponent` 註冊 `UserService`。
+然後，`UserEditorComponent` 的每個新實例都會取得其自己的快取服務實例。
 
-Child modules and component injectors are independent of each other, and create their own separate instances of the provided services.
-When Angular destroys an NgModule or component instance, it also destroys that injector and that injector's service instances.
+## 注入器層級與服務實例
 
-For more information, see [Hierarchical injectors](guide/di/hierarchical-dependency-injection).
+服務是注入器範圍內的單例，這意味著在給定的注入器中最多只會有一個服務實例。
 
-## More on NgModules
+Angular DI 具有 [階層式注入系統](/guide/di/hierarchical-dependency-injection)，這代表巢狀注入器可以建立自己的服務實例。
+每當 Angular 建立一個具有 `providers` 指定在 `@Component()` 中的元件的新實例時，它也會為該實例建立一個新的子注入器。
+類似地，當一個新的 NgModule 在執行時期被延遲載入時，Angular 可以為它建立一個注入器，並具有它自己的提供者。
+
+子模組和元件注入器彼此獨立，並建立其提供的服務的獨立實例。
+當 Angular 銷毀 NgModule 或元件實例時，它也會銷毀該注入器和該注入器的服務實例。
+
+如需更多資訊，請參閱 [階層式注入器](guide/di/hierarchical-dependency-injection)。
+
+## 更多有關 NgModules
 
 <docs-pill-row>
-  <docs-pill href="/guide/ngmodules/singleton-services" title="Singleton Services"/>
-  <docs-pill href="/guide/ngmodules/lazy-loading" title="Lazy Loading Modules"/>
-  <docs-pill href="/guide/di/dependency-injection-providers" title="Dependency providers"/>
-  <docs-pill href="/guide/ngmodules/faq" title="NgModule FAQ"/>
+  <docs-pill href="/guide/ngmodules/singleton-services" title="單例服務"/>
+  <docs-pill href="/guide/ngmodules/lazy-loading" title="延遲載入模組"/>
+  <docs-pill href="/guide/di/dependency-injection-providers" title="相依性提供者"/>
+  <docs-pill href="/guide/ngmodules/faq" title="NgModule 常見問題"/>
 </docs-pill-row>
+

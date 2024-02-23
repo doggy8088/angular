@@ -1,32 +1,32 @@
-<docs-decorative-header title="Kitchen sink" imgSrc="assets/images/components.svg"> <!-- markdownlint-disable-line -->
-This is a visual list of all custom components and styles for Angular.dev.
+<docs-decorative-header title="廚房水槽" imgSrc="assets/images/components.svg"> <!-- markdownlint-disable-line -->
+這是 Angular.dev 所有自訂元件和樣式的視覺清單。
 </docs-decorative-header>
 
-As a design system, this page contains visual and Markdown authoring guidance for:
+作為一個設計系統，此頁面包含以下內容的視覺和 Markdown 編寫指南：
 
-* Custom Angular docs elements: [`docs-card`](#cards), [`docs-callout`](#callouts), [`docs-pill`](#pills), and [`docs-steps`](#workflow)
-* Custom text elements: [alerts](#alerts)
-* Code examples: [`docs-code`](#code)
-* Built-in Markdown styled elements: links, lists, [headers](#headers), [horizontal lines](#horizontal-line-divider), [tables](#tables)
-* and more!
+* 自訂 Angular 文件元素：[`docs-card`](#cards)、[`docs-callout`](#callouts)、[`docs-pill`](#pills) 和 [`docs-steps`](#workflow)
+* 自訂文字元素：[警告](#alerts)
+* 程式碼範例：[`docs-code`](#code)
+* 內建 Markdown 風格元素：連結、清單、[標題](#headers)、[水平線分隔線](#horizontal-line-divider)、[表格](#tables)
+* 還有更多！
 
-Get ready to:
+準備：
 
-1. Write...
-2. great...
-3. docs!
+1. 寫...
+2. 偉大的...
+3. 文件！
 
-## Headers (h2)
+## 標題 (h2)
 
-### Smaller headers (h3)
+### 較小的標題 (h3)
 
-#### Even smaller (h4)
+#### 更小 (h4)
 
-##### Even more smaller (h5)
+##### 甚至更小 (h5)
 
-###### The smallest! (h6)
+###### 最小的！（h6）
 
-## Cards
+## 卡片
 
 <docs-card-container>
   <docs-card title="What is Angular?" link="Platform Overview" href="tutorials/first-app">
@@ -40,17 +40,17 @@ Get ready to:
   </docs-card>
 </docs-card-container>
 
-### `<docs-card>` Attributes
+### `<docs-card>` 屬性
 
-| Attributes               | Details                                           |
+| 屬性                    | 細節                                               |
 |:---                      |:---                                               |
-| `<docs-card-container>`  | All cards must be nested inside a container       |
-| `title`                  | Card title                                        |
-| card body contents       | Anything between `<docs-card>` and `</docs-card>` |
-| `link`                   | (Optional) Call to Action link text               |
-| `href`                   | (Optional) Call to Action link href               |
+| `<docs-card-container>`  | 所有卡片必須嵌套在容器內                               |
+| `title`                  | 卡片標題                                          |
+| 卡片主體內容              | `<docs-card>` 與 `</docs-card>` 之間的任何內容         |
+| `link`                   | （選用）呼叫動作連結文字                             |
+| `href`                   | （選用）呼叫動作連結 href                             |
 
-## Callouts
+## 說明文字
 
 <docs-callout title="Title of a callout that is helpful">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus metus blandit semper faucibus. Sed blandit diam quis tellus maximus, ac scelerisque ex egestas. Ut euismod lobortis mauris pretium iaculis. Quisque ullamcorper, elit ut lacinia blandit, magna sem finibus urna, vel suscipit tortor dolor id risus.
@@ -64,72 +64,72 @@ Get ready to:
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus metus blandit semper faucibus. Sed blandit diam quis tellus maximus, ac scelerisque ex egestas. Ut euismod lobortis mauris pretium iaculis. Quisque ullamcorper, elit ut lacinia blandit, magna sem finibus urna, vel suscipit tortor dolor id risus.
 </docs-callout>
 
-### `<docs-callout>` Attributes
+### `<docs-callout>` 屬性
 
-| Attributes                                     | Details                                                   |
+| 屬性                                         | 詳細資料                                                  |
 |:---                                            |:---                                                       |
-| `title`                                        | Callout title                                             |
-| card body contents                             | Anything between `<docs-callout>` and `</docs-callout>`   |
-| `helpful` (default) | `critical` | `important` | (Optional) Adds styling and icons based on severity level |
+| `title`                                        | 說明標題                                               |
+| 卡片主體內容                                 | 在 `<docs-callout>` 和 `</docs-callout>` 之間的任何內容 |
+| `helpful` (預設) | `critical` | `important` | (選用) 根據嚴重性等級新增樣式和圖示 |
 
-## Pills
+## 丸藥
 
-Pill rows are helpful as a sort of navigation with links to helpful resources.
+藥丸列有助於作為一種導航，其中包含指向有用資源的連結。
 
 <docs-pill-row>
-  <docs-pill href="#pill-row" title="Link"/>
-  <docs-pill href="#pill-row" title="Link"/>
-  <docs-pill href="#pill-row" title="Link"/>
-  <docs-pill href="#pill-row" title="Link"/>
-  <docs-pill href="#pill-row" title="Link"/>
-  <docs-pill href="#pill-row" title="Link"/>
+  <docs-pill href="#pill-row" title="連結"/>
+  <docs-pill href="#pill-row" title="連結"/>
+  <docs-pill href="#pill-row" title="連結"/>
+  <docs-pill href="#pill-row" title="連結"/>
+  <docs-pill href="#pill-row" title="連結"/>
+  <docs-pill href="#pill-row" title="連結"/>
 </docs-pill-row>
 
-### `<docs-pill>` Attributes
+### `<docs-pill>` 屬性
 
-| Attributes               | Details                                      |
+| 屬性               | 詳細資料                                      |
 |:---                      |:---                                          |
-| `<docs-pill-row`         | All pills must be nested inside a pill row   |
-| `title`                  | Pill text                                    |
-| `href`                   | Pill href                                    |
+| `<docs-pill-row`         | 所有藥丸都必須嵌套在藥丸列中   |
+| `title`                  | 藥丸文字                                    |
+| `href`                   | 藥丸超連結                                    |
 
-Pills may also be used inline by themselves, but we haven't built that out yet.
+藥丸也可以單獨內嵌使用，但我們尚未建立該功能。
 
-## Alerts
+## 警示
 
-Alerts are just special paragraphs. They are helpful to call out (not to be confused with call-out) something that's a bit more urgent. They gain font size from context and are available in many levels. Try not to use alerts to render too much content, but rather to enhance and call attention to surrounding content.
+警示只是一些特殊段落。它們有助於呼叫出（不要與呼叫混淆）一些更緊急的東西。它們從內容中獲得字體大小，並有許多級別。請勿嘗試使用警示來呈現太多內容，而應增強和引起對周圍內容的注意。
 
-Style alerts starting on a new line in Markdown using the format `SEVERITY_LEVEL` + `:` + `ALERT_TEXT`.
+Style 警告以新行的格式在 Markdown 中開始，使用格式 `嚴重性等級` + `:` + `警告文字`。
 
-Note: Use Note for ancillary/additional information that's not _essential_ to the main text.
+注意：將註解用於非主要文字的輔助/補充資訊。
 
-Tip: Use Tip to call out a specific task/action users can perform, or a fact that plays directly into a task/action.
+提示：使用提示來呼叫使用者可以執行的特定任務/動作，或直接影響任務/動作的事實。
 
-TODO: Use TODO for incomplete documentation that you plan to expand soon. You can also assign the TODO, e.g. TODO(emmatwersky): Text.
+TODO：使用 TODO 表示您計劃在不久的將來擴充套件的不完整文件。您也可以指定 TODO，例如 TODO(emmatwersky)：Text。
 
-QUESTION: Use Question to pose a question to the reader, kind of like a mini-quiz that they should be able to answer.
+QUESTION：使用 Question 向讀者提出問題，就像是一個迷你測驗，他們應該可以回答。
 
-Summary: Use Summary to provide a two- or three-sentence synopsis of the page or section content, so readers can figure out whether this is the right place for them.
+摘要：使用摘要提供兩到三句的頁面或區段內容概要，以便讀者了解這是不是他們要找的地方。
 
-TLDR: Use TL;DR (or TLDR) if you can provide the essential information about a page or section in a sentence or two. For example, TLDR: Rhubarb is a cat.
+TLDR：如果您可以用一兩句話提供關於頁面或章節的基本資訊，請使用 TL;DR (或 TLDR)。例如，TLDR：大黃是一隻貓。
 
-CRITICAL: Use Critical to call out potential bad stuff or alert the reader they ought to be careful before doing something. For example, Warning: Running `rm` with the `-f` option will delete write-protected files or directories without prompting you.
+CRITICAL：使用 Critical 來呼叫潛在的壞東西或警告讀者在做某事之前應該小心。例如，警告：以 `-f` 選項執行 `rm` 將刪除寫入保護的文件或目錄，而不會提示您。
 
-IMPORTANT: Use Important for information that's crucial to comprehending the text or to completing some task.
+重要：使用重要資訊來理解文字或完成某些任務。
 
-HELPFUL: Use Best practice to call out practices that are known to be successful or better than alternatives.
+有幫助的：使用最佳做法來呼叫出已知成功或優於其他替代做法的做法。
 
-Note: Heads up `developers`! Alerts _can_ have a [link](#alerts) and other nested styles (but try to **use this sparingly**)!.
+備註：各位`開發人員`，請注意！警示 _可以_ 有 [連結](#alerts) 和其他巢狀樣式（但請**盡量少用**）！
 
-## Code
+## 程式碼
 
-You can display `code` using the built in triple backtick:
+您可以使用內建的三個反引號顯示 `code`：
 
 ```ts
 example code
 ```
 
-Or using the `<docs-code>` element.
+或者使用 `<docs-code>` 元素。
 
 <docs-code header="Your first example" language="ts" linenums>
 import { Component } from '@angular/core';
@@ -259,9 +259,9 @@ Steps must start on a new line, and can contain `docs-code`s and other nested el
 <docs-step title="Install the Angular CLI">
   You use the Angular CLI to create projects, generate application and library code, and perform a variety of ongoing development tasks such as testing, bundling, and deployment.
 
-  To install the Angular CLI, open a terminal window and run the following command:
+To install the Angular CLI, open a terminal window and run the following command:
 
-  <docs-code language="shell">
+<docs-code language="shell">
     npm install -g @angular/cli
   </docs-code>
 </docs-step>
@@ -269,7 +269,7 @@ Steps must start on a new line, and can contain `docs-code`s and other nested el
 <docs-step title="Create a workspace and initial application">
   You develop apps in the context of an Angular workspace.
 
-  To create a new workspace and initial starter app:
+To create a new workspace and initial starter app:
 
 * Run the CLI command `ng new` and provide the name `my-app`, as shown here:
     <docs-code language="shell">
@@ -283,26 +283,28 @@ Steps must start on a new line, and can contain `docs-code`s and other nested el
   The CLI creates a new workspace and a simple Welcome app, ready to run.
 </docs-step>
 
+
 <docs-step title="Run the application">
   The Angular CLI includes a server, for you to build and serve your app locally.
 
-  1. Navigate to the workspace folder, such as `my-app`.
+1. Navigate to the workspace folder, such as `my-app`.
   2. Run the following command:
     <docs-code language="shell">
       cd my-app
       ng serve --open
     </docs-code>
 
-  The `ng serve` command launches the server, watches your files, and rebuilds the app as you make changes to those files.
 
-  The `--open` (or just `-o`) option automatically opens your browser to <http://localhost:4200/>.
+The `ng serve` command launches the server, watches your files, and rebuilds the app as you make changes to those files.
+
+The `--open` (or just `-o`) option automatically opens your browser to <http://localhost:4200/>.
   If your installation and setup was successful, you should see a page similar to the following.
 </docs-step>
 
 <docs-step title="Final step">
   That's all the docs components! Now:
 
-  <docs-pill-row>
+<docs-pill-row>
     <docs-pill href="#pill-row" title="Go"/>
     <docs-pill href="#pill-row" title="write"/>
     <docs-pill href="#pill-row" title="great"/>
