@@ -11,7 +11,7 @@
 
 ## 介面的概念預覽
 
-[接口](https://www.typescriptlang.org/docs/handbook/interfaces.html) 是專為您的應用程式所設計的客製化資料類型。
+[介面](https://www.typescriptlang.org/docs/handbook/interfaces.html) 是專為您的應用程式所設計的客製化資料類型。
 
 Angular 使用 TypeScript 來利用在強型別程式環境中工作的優勢。
 強型別檢查降低了應用程式中的一個元素將格式不正確的資料傳送給另一個元素的可能性。

@@ -182,7 +182,7 @@ export class AppComponent {
 }
 </docs-code>
 
-### 接口和 DI
+### 介面和 DI
 
 儘管 TypeScript `AppConfig` 介面支援類別內的分型，但 `AppConfig` 介面在 DI 中沒有任何作用。
 在 TypeScript 中，介面是設計時間的產物，沒有 DI 架構可以使用的執行時間表示法或令牌。
