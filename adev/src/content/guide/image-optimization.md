@@ -321,7 +321,7 @@ html
 | Imgix | `provideImgixLoader` | [文件](https://docs.imgix.com/) |
 | Netlify | `provideNetlifyLoader` | [文件](https://docs.netlify.com/image-cdn/overview/) |
 
-要使用 **通用加載器** 無需額外的程式碼更改。這是預設行為。
+要使用 **通用載入器** 無需額外的程式碼更改。這是預設行為。
 
 ### 內建載入器
 

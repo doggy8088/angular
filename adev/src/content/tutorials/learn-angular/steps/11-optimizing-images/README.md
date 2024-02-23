@@ -69,7 +69,7 @@ import { NgOptimizedImage } from '@angular/common';
 
 <docs-step title="優先處理重要圖像">
 
-加載效能最重要的最佳化之一是優先處理任何可能成為 ["LCP 元素"](https://web.dev/articles/optimize-lcp) 的圖像，這是頁面載入時螢幕上最大的圖形元素。若要最佳化您的載入時間，請務必將 `priority` 屬性新增至您的「英雄圖像」或您認為可能是 LCP 元素的任何其他圖像。
+載入效能最重要的最佳化之一是優先處理任何可能成為 ["LCP 元素"](https://web.dev/articles/optimize-lcp) 的圖像，這是頁面載入時螢幕上最大的圖形元素。若要最佳化您的載入時間，請務必將 `priority` 屬性新增至您的「英雄圖像」或您認為可能是 LCP 元素的任何其他圖像。
 
 ```ts
 <img ngSrc="www.example.com/image.png" height="600" width="800" priority />
@@ -100,4 +100,3 @@ providers: [
 將此指令新增至工作流程後，您的圖片現在會在 Angular 🎉 的協助下使用最佳實務來載入
 
 如果您想了解更多資訊，請查看 [`NgOptimizedImage`](guide/image-optimization) 的文件。繼續努力，讓我們接著來了解路由。
-

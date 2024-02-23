@@ -1,6 +1,6 @@
 # 延遲載入功能模組
 
-預設情況下，NgModules 會被急切加載。這表示當應用程式載入時，所有 NgModules 也會載入，無論它們是否立即需要。
+預設情況下，NgModules 會被急切載入。這表示當應用程式載入時，所有 NgModules 也會載入，無論它們是否立即需要。
 對於具有大量路由的大型應用程式，請考慮採用延遲載入，這是一種在需要時載入 NgModules 的設計模式。
 延遲載入有助於減小初始套件大小，進而有助於減少載入時間。
 
@@ -101,7 +101,7 @@ const routes: Routes = [
 <docs-callout title="基於字串的延遲載入">
 
 在 Angular 版本 8 中，`loadChildren` 路徑規範的字串語法已棄用，取而代之的是 `import()` 語法。
-您可以選擇使用基於字串的延遲加載 (`loadChildren: './path/to/module#Module'`)，方法是在您的 `tsconfig` 檔案中包含延遲加載的路由，其中包含編譯中的延遲加載檔案。
+您可以選擇使用基於字串的延遲載入 (`loadChildren: './path/to/module#Module'`)，方法是在您的 `tsconfig` 檔案中包含延遲載入的路由，其中包含編譯中的延遲載入檔案。
 
 預設情況下，Angular CLI 會產生包含更嚴格檔案的專案，供與 `import()` 語法搭配使用。
 
@@ -256,7 +256,7 @@ const routes: Routes = [
 ];
 </docs-code>
 
-### 驗證延遲加載
+### 驗證延遲載入
 
 您可以使用 Chrome 開發人員工具驗證模組是否確實是延遲載入。
 在 Chrome 中，按一下 Mac 上的 <kbd>⌘ Cmd</kbd>+<kbd>Option</kbd>+<kbd>i</kbd> 或 PC 上的 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>j</kbd> 開啟開發人員工具，然後前往「網路」索引標籤。
@@ -452,4 +452,4 @@ ngOnInit() {
 * [提供者](guide/ngmodules/providers)
 * [功能模組類型](guide/ngmodules/module-types)
 * [Angular 中的路由級別程式碼拆分](https://web.dev/route-level-code-splitting-in-angular)
-* [Angular 中的路線預加載策略](https://web.dev/route-preloading-in-angular)
+* [Angular 中的路線預載入策略](https://web.dev/route-preloading-in-angular)

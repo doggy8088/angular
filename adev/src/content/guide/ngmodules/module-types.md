@@ -99,7 +99,7 @@ Angular 的 `HttpClientModule` 是服務 NgModule 的一個好例子。
 
 ## 後續步驟
 
-如果您想管理 NgModule 加載以及依賴項和服務的使用，請參閱以下內容：
+如果您想管理 NgModule 載入以及依賴項和服務的使用，請參閱以下內容：
 
 * 如要瞭解如何在應用程式啟動時急切載入 NgModules，或路由器非同步延遲載入 NgModules，請參閱 [延遲載入功能模組](/guide/ngmodules/lazy-loading)
 * 如要瞭解如何為您的應用程式提供服務或其他相依性，請參閱 [為 NgModule 提供相依性](/guide/ngmodules/providers "為 NgModule 提供相依性")

@@ -38,7 +38,7 @@ CLI 專案現已設定好使用 Angular 服務工作者。
 此部分示範一個實際運作的服務工作者，
 使用一個範例應用程式。
 
-### 初始加載
+### 初始載入
 
 伺服器在埠 `8080` 上執行，請將您的瀏覽器指向 `http://localhost:8080`。
 您的應用程式應該會正常載入。
@@ -152,4 +152,3 @@ HELPFUL: 在「大小」欄位中，要求狀態為 `(ServiceWorker)`。
   <docs-pill href="ecosystem/service-workers/devops" title="Service Worker devops"/>
   <docs-pill href="ecosystem/service-workers/app-shell" title="App shell 模式"/>
 </docs-pill-row>
-
