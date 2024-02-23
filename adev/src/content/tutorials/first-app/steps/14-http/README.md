@@ -179,7 +179,7 @@ JSON Server 是用於建立模擬 REST API 的開源工具。您將使用它來�
 </docs-step>
 
 <docs-step title="更新元件以使用非同步呼叫至住房服務">
-伺服器現在會從 HTTP 要求讀取資料，但仰賴該服務的元件現在出現錯誤，因為這些元件已編程為使用同步版本的服務。
+伺服器現在會從 HTTP 要求讀取資料，但仰賴該服務的元件現在出現錯誤，因為這些元件已寫成使用同步版本的服務。
 
 1. 在 `src/app/home/home.component.ts` 中，更新 `constructor` 以使用 `getAllHousingLocations` 方法的新非同步版本。
 
