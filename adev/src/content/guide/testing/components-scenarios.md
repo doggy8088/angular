@@ -664,7 +664,7 @@ HELPFUL: 其他處理程序比較不寬容。
 你可以使用實際的 `DashboardComponent` 進行測試。
 但這樣可能需要大量的設定，尤其是當範本具有 `*ngFor` 重複器、其他元件、配置 HTML、其他繫結、注入多個服務的建構函式，而且它會立即開始與這些服務互動時。
 
-想像一下停用這些幹擾的努力，只是為了證明一個可以用像這樣的 *測試主機* 令人滿意地完成的觀點：
+想像一下停用這些干擾的努力，只是為了證明一個可以用像這樣的 *測試主機* 令人滿意地完成的觀點：
 
 <docs-code header="app/dashboard/dashboard-hero.component.spec.ts (test host)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="test-host"/>
 
@@ -1137,4 +1137,3 @@ providers?: any[];
 `TestBed` 提供類似的 `overrideDirective`、`overrideModule` 和 `overridePipe` 方法來深入挖掘並替換這些其他類別的部分。
 
 自行探索選項和組合。
-

@@ -279,7 +279,7 @@ Angular 將此指令轉換為主機元素周圍的 `<ng-template>`，
 
 ## 無 DOM 元素的指令寄存
 
-Angular `<ng-container>` 是一個分組元素，不會幹擾樣式或佈局，因為 Angular 沒有將它放入 DOM 中。
+Angular `<ng-container>` 是一個分組元素，不會干擾樣式或佈局，因為 Angular 沒有將它放入 DOM 中。
 
 當沒有單一元素可以主導指令時，使用 `<ng-container>`。
 
@@ -381,4 +381,3 @@ Angular 僅將選取的元素放入 DOM。
   <docs-pill href="guide/directives/structural-directives" title="結構指令"/>
   <docs-pill href="guide/directives/directive-composition-api" title="指令組合 API"/>
 </docs-pill-row>
-
