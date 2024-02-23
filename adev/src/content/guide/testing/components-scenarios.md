@@ -447,7 +447,7 @@ HELPFUL: 為了讓 `<canvas>` 元素在您的應用程式中支援 Zone.js，您
 
 在 `waitForAsync()` 或 `fakeAsync()` 函式中無法呼叫 `done()`，因為 `done 參數` 是 `未定義` 的。
 
-現在您有責任鏈接承諾、處理錯誤，並在適當的時刻調用 `done()`。
+現在您有責任鏈接承諾、處理錯誤，並在適當的時刻呼叫 `done()`。
 
 使用 `done()` 撰寫測試函式比 `waitForAsync()` 和 `fakeAsync()` 更為繁瑣，但當程式碼涉及 `intervalTimer()`（例如 `setInterval`）時，偶爾需要使用它。
 
