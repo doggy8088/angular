@@ -2,7 +2,7 @@
 
 本教學課程示範如何將搜尋功能新增至您的 Angular 應用程式。
 
-該應用程式將使用戶能夠搜索應用程式提供之數據，並僅顯示與輸入的詞彙相符的結果。
+該應用程式將使用戶能夠搜尋應用程式提供之數據，並僅顯示與輸入的詞彙相符的結果。
 
 <docs-video src="https://www.youtube.com/embed/5K10oYJ5Y-E?si=TiuNKx_teR9baO7k&amp;start=457"/>
 
