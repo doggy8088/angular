@@ -92,7 +92,7 @@ export class CustomSlider {
 ```
 
 **永遠優先使用 `host` 屬性，而非 `@HostBinding` 和 `@HostListener`。** 這些
-裝飾器僅存在於向後兼容性。
+裝飾器僅存在於向後相容性。
 
 ## 繫結衝突
 

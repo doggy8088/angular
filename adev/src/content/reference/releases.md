@@ -125,7 +125,7 @@ Angular 是許多套件、子專案和工具的集合。
 為了防止意外使用私人 API，並讓您清楚了解此處所述做法涵蓋的內容，我們文件化了什麼是和什麼不是我們公開的 API 表面。
 有關詳細資訊，請參閱 [Angular 的受支援公開 API 表面](https://github.com/angular/angular/blob/main/docs/PUBLIC_API.md "Angular 的受支援公開 API 表面")。
 
-為了保證 Angular 的向後兼容性，我們在合併任何變更之前都會執行一系列檢查：
+為了保證 Angular 的向後相容性，我們在合併任何變更之前都會執行一系列檢查：
 
 * 單元測試和整合測試
 * 比較變更前後公開 API 表面的類型定義
