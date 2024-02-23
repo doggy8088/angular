@@ -29,7 +29,7 @@ Angular 會根據您宣告變數的位置，將範本變數指派一個值：
 * 如果你在元件上宣告變數，則變數會參照元件實例。
 * 如果你在標準 HTML 標記上宣告變數，則變數會參照元素。
 * 如果你在 `<ng-template>` 元素上宣告變數，則變數會參照代表範本的 `TemplateRef` 實例。
-有關 `<ng-template>` 的更多資訊，請參閱 [結構性指令](guide/directives/structural-directives) 中的 [Angular 如何使用星號 `*` 語法](guide/directives/structural-directives#asterisk)。
+有關 `<ng-template>` 的更多資訊，請參閱 [結構型指令](guide/directives/structural-directives) 中的 [Angular 如何使用星號 `*` 語法](guide/directives/structural-directives#asterisk)。
 
 ## 指定名稱的變數
 
@@ -57,7 +57,7 @@ Angular 會根據您宣告變數的位置，將範本變數指派一個值：
 
 就像 JavaScript 或 TypeScript 程式碼中的變數，範本變數的範圍為宣告它們的範本。
 
-同樣地，結構性指令（如 `*ngIf` 和 `*ngFor`）或 `<ng-template>` 宣告會建立新的巢狀範本範圍，這很像 JavaScript 的控制流程語句，例如 `if` 和 `for` 會建立新的詞法範圍。你無法從結構性指令的邊界之外存取該結構性指令中的範本變數。
+同樣地，結構型指令（如 `*ngIf` 和 `*ngFor`）或 `<ng-template>` 宣告會建立新的巢狀範本範圍，這很像 JavaScript 的控制流程語句，例如 `if` 和 `for` 會建立新的詞法範圍。你無法從結構型指令的邊界之外存取該結構型指令中的範本變數。
 
 HELPFUL: 在範本中僅定義一次變數，因此執行時間值保持可預測性。
 

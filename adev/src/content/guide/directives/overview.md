@@ -134,12 +134,12 @@ HELPFUL: 當您撰寫 Angular 元件時，如果您根據 Angular 的[雙向繫�
 
 ## 內建結構指令
 
-結構性指令負責 HTML 佈局。
+結構型指令負責 HTML 佈局。
 它們塑造或重塑 DOM 的結構，通常是透過新增、移除和操作其附加的主機元素來達成。
 
-本節介紹最常見的內建結構性指令：
+本節介紹最常見的內建結構型指令：
 
-| 常見內建結構性指令 | 詳情 |
+| 常見內建結構型指令 | 詳情 |
 | :------------------------------------------------- | :--------------------------------------------------------------- |
 | [`NgIf`](#adding-or-removing-an-element-with-ngif) | 有條件地建立或處置來自範本的子檢視。 |
 | [`NgFor`](#listing-items-with-ngfor) | 重複一個節點以供清單中的每個項目使用。 |
@@ -213,7 +213,7 @@ null
 - 將 `"let item of items"` 轉換成圍繞主機元素的 `<ng-template>`
 - 對清單中的每個 `item` 重複 `<ng-template>`
 
-有關更多資訊，請參閱 [結構性指令速記](guide/directives/structural-directives#structural-directive-shorthand) 部分的 [結構性指令](guide/directives/structural-directives)。
+有關更多資訊，請參閱 [結構型指令速記](guide/directives/structural-directives#structural-directive-shorthand) 部分的 [結構型指令](guide/directives/structural-directives)。
 
 ### 重複元件檢視
 
@@ -231,7 +231,7 @@ null
 
 <docs-code header="src/app/app.component.html" path="adev/src/content/examples/built-in-directives/src/app/app.component.html" visibleRegion="NgFor-1-2"/>
 
-有關範本輸入變數的更多資訊，請參閱 [結構性指令簡寫](guide/directives/structural-directives#structural-directive-shorthand)。
+有關範本輸入變數的更多資訊，請參閱 [結構型指令簡寫](guide/directives/structural-directives#structural-directive-shorthand)。
 
 ### 取得 `*ngFor` 的 `index`
 
@@ -252,7 +252,7 @@ Angular 將此指令轉換為主機元素周圍的 `<ng-template>`，
 
 若要重複一個 HTML 區塊，當特定條件為 true 時，請在包裝 `*ngFor` 元素的容器元素上放置 `*ngIf`。
 
-有關更多資訊，請參閱 [每個元素一個結構性指令](guide/directives/structural-directives#one-structural-directive-per-element)。
+有關更多資訊，請參閱 [每個元素一個結構型指令](guide/directives/structural-directives#one-structural-directive-per-element)。
 
 ### 使用 `*ngFor` `trackBy` 追蹤項目
 
@@ -341,8 +341,8 @@ Angular 僅將選取的元素放入 DOM。
 | `NgSwitch` 指令 | 詳細資料                                                                                                                                                                |
 | :-------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `NgSwitch`            | 一個屬性指令，用來改變其同伴指令的行為。                                                                                                                             |
-| `NgSwitchCase`        | 當其綁定的值等於切換值時，將其元素加入 DOM，當其綁定的值不等於切換值時，將其元素移除的結構性指令。                                                               |
-| `NgSwitchDefault`     | 當沒有選取 `NgSwitchCase` 時，將其元素加入 DOM 的結構性指令。                                                                                                        |
+| `NgSwitchCase`        | 當其綁定的值等於切換值時，將其元素加入 DOM，當其綁定的值不等於切換值時，將其元素移除的結構型指令。                                                               |
+| `NgSwitchDefault`     | 當沒有選取 `NgSwitchCase` 時，將其元素加入 DOM 的結構型指令。                                                                                                        |
 
 若要使用指令，請將 `NgSwitch`、`NgSwitchCase` 和 `NgSwitchDefault` 新增至元件的 `imports` 清單。
 

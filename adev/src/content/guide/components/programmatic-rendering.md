@@ -7,7 +7,7 @@
 
 ## 使用 NgComponentOutlet
 
-NgComponentOutlet 是一個結構性指令，會在範本中動態呈現一個給定的元件。
+NgComponentOutlet 是一個結構型指令，會在範本中動態呈現一個給定的元件。
 
 ```ts
 @Component({ ... })
