@@ -602,7 +602,7 @@ HELPFUL: 這項小型測試展示 Angular 測試如何驗證元件的視覺呈�
 <docs-code path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="click-test"/>
 
 該元件的 `selected` 屬性傳回一個 `EventEmitter`，它看起來像是給消費者使用的 RxJS 同步 `Observable`。
-測試明確地訂閱它，就像主機元件隱式地訂閱一樣。
+測試明確地訂閱它，就像主機元件隱含地訂閱一樣。
 
 如果元件行為符合預期，點擊英雄元素應該會告知元件的 `selected` 屬性來發出 `hero` 物件。
 
@@ -916,7 +916,7 @@ Please call "TestBed.compileComponents" before your test.
 <docs-code avoid header="app/banner/banner-external.component.spec.ts (setup that fails)" path="adev/src/content/examples/testing/src/app/banner/banner-external.component.spec.ts" visibleRegion="setup-may-fail"/>
 
 請記得，應用程式尚未編譯。
-因此，當您呼叫 `createComponent()` 時，`TestBed` 會隱式編譯。
+因此，當您呼叫 `createComponent()` 時，`TestBed` 會隱含編譯。
 
 當原始碼在記憶體中時，這不是問題。
 但 `BannerComponent` 需要編譯器必須從檔案系統讀取的外部檔案，這是一個固有的*非同步*操作。

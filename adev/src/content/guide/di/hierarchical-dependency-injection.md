@@ -17,7 +17,7 @@ Angular 有兩個注射器層級：
 | 注入器階層 | 詳細 |
 |:--- |:--- |
 | `EnvironmentInjector` 階層 | 在此階層中使用 `@Injectable()` 或 `ApplicationConfig` 中的 `providers` 陣列來配置 `ElementInjector`。 |
-| `ElementInjector` 階層 | 在每個 DOM 元素中隱式建立。預設情況下，`ElementInjector` 為空，除非您在 `@Directive()` 或 `@Component()` 上的 `providers` 屬性中配置它。 |
+| `ElementInjector` 階層 | 在每個 DOM 元素中隱含建立。預設情況下，`ElementInjector` 為空，除非您在 `@Directive()` 或 `@Component()` 上的 `providers` 屬性中配置它。 |
 
 <docs-callout title="基於 NgModule 的應用程式">
 對於基於 `NgModule` 的應用程式，您可以使用 `@NgModule()` 或 `@Injectable()` 註解，透過 `ModuleInjector` 層級提供相依性。
@@ -129,7 +129,7 @@ providers: [
 
 ### `ElementInjector``
 
-Angular 為每個 DOM 元素隱式建立 `ElementInjector` 層級。
+Angular 為每個 DOM 元素隱含建立 `ElementInjector` 層級。
 
 在 `@Component()` 裝飾器中提供服務，使用其 `providers` 或 `viewProviders` 屬性配置 `ElementInjector`。
 例如，以下 `TestComponent` 透過提供服務配置 `ElementInjector`：
