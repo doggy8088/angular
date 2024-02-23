@@ -364,7 +364,7 @@ ng run builder-test:copy-package --destination=package-other.json
 ## 測試建構器
 
 為您的 Builder 使用整合測試，以便您可以使用 Architect 排程器建立一個背景，就像在這個 [範例](https://github.com/mgechev/cli-builders-demo) 中一樣。
-在 builder 原始碼目錄中，建立一個新的測試檔案 `my-builder.spec.ts`。測試會建立 `JsonSchemaRegistry`（用於 schema 驗證）、`TestingArchitectHost`（`ArchitectHost` 的內存實作）和 `Architect` 的新執行個體。
+在 builder 原始碼目錄中，建立一個新的測試檔案 `my-builder.spec.ts`。測試會建立 `JsonSchemaRegistry`（用於 schema 驗證）、`TestingArchitectHost`（`ArchitectHost` 的記憶體實作）和 `Architect` 的新執行個體。
 
 以下是一個執行複製檔案建構器的測試範例。
 測試使用建構器複製 `package.json` 檔案，並驗證複製檔案的內容與來源相同。
@@ -406,4 +406,3 @@ CLI Builder API 提供了一種方法，可透過使用 builder 來執行自訂�
 * 建構工具在 `angular.json` 設定檔中指定選項預設值，這些預設值可以被目標的替代設定覆寫，且可以進一步被命令列標記覆寫
 * Angular 團隊建議您使用整合測試來測試 Architect 建構工具。使用單元測試來驗證建構工具執行的邏輯。
 * 如果您的建構工具傳回一個 `Observable`，它應該在該 `Observable` 的結束邏輯中清除建構工具。
-
