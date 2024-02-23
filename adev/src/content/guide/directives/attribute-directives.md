@@ -134,7 +134,7 @@ HELPFUL: 處理常式委派給輔助方法 `highlight()`，將顏色設定在主
 如果沒有預設顏色繫結，預設顏色為紅色。
 當使用者選擇顏色時，選取的顏色會變成主動突顯顏色。
 
-<img alt="最終的亮點指令的動畫 gif，顯示紅色沒有約束力，以及默認顏色設定的紫羅蘭色。當用戶選擇顏色時，選擇具有優先權。" src="assets/content/images/guide/attribute-directives/highlight-directive-final-anim.gif">
+<img alt="最終的亮點指令的動畫 gif，顯示紅色沒有約束力，以及預設顏色設定的紫羅蘭色。當用戶選擇顏色時，選擇具有優先權。" src="assets/content/images/guide/attribute-directives/highlight-directive-final-anim.gif">
 
 ## 使用 `NgNonBindable` 停用 Angular 處理
 

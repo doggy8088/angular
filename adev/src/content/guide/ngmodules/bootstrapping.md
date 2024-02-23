@@ -2,7 +2,7 @@
 
 NgModule 描述應用程式部分如何結合在一起。
 每個應用程式至少有一個 Angular 模組，即 *根* 模組，必須存在才能在啟動時引導應用程式。
-根據慣例和默認情況，此 NgModule 名稱為 `AppModule`。
+根據慣例和預設情況，此 NgModule 名稱為 `AppModule`。
 
 當您使用 [Angular CLI](/tools/cli) `ng new` 命令來產生一個應用程式時，預設的 `AppModule` 看起來像以下：
 
