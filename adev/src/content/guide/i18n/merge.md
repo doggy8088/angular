@@ -107,7 +107,7 @@ HELPFUL：有關如何設定地區的更多資訊，請參閱 [為每個地區�
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="serve-french"/>
 
-對於生產構建，使用設定組合來執行兩個設定。
+對於生產建構，使用設定組合來執行兩個設定。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="build-production-french"/>
 

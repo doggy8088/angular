@@ -233,8 +233,8 @@ Angular CLI 使用 `tsconfig` 路徑告知建置系統到哪裡尋找程式庫�
 *增量建置* 功能可改善函式庫的開發體驗。
 每次變更檔案時，都會執行部分建置，並發出已修正的檔案。
 
-增量構建可以在您的開發環境中作為背景程序運行。
-要利用此功能，請將 `--watch` 標記新增到構建命令：
+增量建構可以在您的開發環境中作為背景程序運行。
+要利用此功能，請將 `--watch` 標記新增到建構命令：
 
 <docs-code language="shell">
 
@@ -344,4 +344,3 @@ Angular 連結器 Babel 外掛程式支援建置快取，這表示無論其他 n
 <docs-code header="webpack.config.mjs" path="adev/src/content/examples/angular-linker-plugin/webpack.config.mjs" visibleRegion="webpack-config"/>
 
 HELPFUL: Angular CLI 會自動整合連結器外掛程式，因此如果您的函式庫使用者使用 CLI，他們可以從 npm 安裝 Ivy 原生函式庫，而無需任何其他設定。
-

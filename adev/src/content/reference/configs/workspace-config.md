@@ -99,7 +99,7 @@ HELPFUL: 配置檔案的 `projects` 區段與工作區檔案結構不完全對�
 
 </docs-code>
 
-## 配置 CLI 構建器
+## 配置 CLI 建構器
 
 Architect 是 Angular CLI 用於執行複雜任務的工具，例如編譯和執行測試。
 Architect 是一個執行指定建構器以根據目標設定執行給定任務的外殼。
