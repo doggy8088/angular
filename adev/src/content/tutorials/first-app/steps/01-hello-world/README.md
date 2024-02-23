@@ -104,7 +104,7 @@
 
 1. 如果您已在步驟 1 中停止 `ng serve` 指令，請在 IDE 的 **終端機** 視窗中，再次執行 `ng serve`。
 1. 開啟您的瀏覽器並導航至 `localhost:4200`，並確認應用程式在沒有錯誤的情況下建置，並在應用程式的標題和內文中顯示 *Hello world*：
-    <img alt="顯示文字「Hello World」的頁面瀏覽器畫面" src="assets/content/images/tutorials/first-app/homes-app-lesson-01-browser.png">
+    <img alt="顯示文字「Hello World」的頁面瀏覽器畫面" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-lesson-01-browser.png">
 </docs-step>
 
 </docs-workflow>
@@ -118,4 +118,3 @@
   <docs-pill href="guide/components" title="Angular 元件"/>
   <docs-pill href="tools/cli" title="使用 Angular CLI 建立應用程式"/>
 </docs-pill-row>
-

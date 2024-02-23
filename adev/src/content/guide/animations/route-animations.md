@@ -21,7 +21,7 @@ Angular 路由器附帶高階動畫函式，讓你可以在路由變更時為檢
 這兩個元件檢視都是最上層檢視的子項，由 `AppComponent` 託管。
 在兩個路由之間導航時，實作一個路由器轉換動畫，將新檢視滑入右側，並滑出舊檢視。
 
-<img alt="動畫實際操作" width="440" src="assets/content/images/guide/animations/route-animation.gif">
+<img alt="動畫實際操作" width="440" src="https://angular.dev/assets/images/guide/animations/route-animation.gif">
 
 ## 路由設定
 

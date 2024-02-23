@@ -860,7 +860,7 @@ AppComponent 連結用以驗證如下：
 
 `HeroDetailComponent` 是一個簡單的檢視，包含標題、兩個英雄欄位和兩個按鈕。
 
-<img alt="HeroDetailComponent in action" src="assets/content/images/guide/testing/hero-detail.component.png">
+<img alt="HeroDetailComponent in action" src="https://angular.dev/assets/images/guide/testing/hero-detail.component.png">
 
 但即使在這種簡單形式中，也有很多範本複雜性。
 

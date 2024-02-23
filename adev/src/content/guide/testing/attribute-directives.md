@@ -28,7 +28,7 @@
 
 <docs-code header="app/shared/highlight.directive.spec.ts (TestComponent)" path="adev/src/content/examples/testing/src/app/shared/highlight.directive.spec.ts" visibleRegion="test-component"/>
 
-<img alt="HighlightDirective spec in action" src="assets/content/images/guide/testing/highlight-directive-spec.png">
+<img alt="HighlightDirective spec in action" src="https://angular.dev/assets/images/guide/testing/highlight-directive-spec.png">
 
 HELPFUL: `<input>` 案例將 `HighlightDirective` 繫結到輸入框中顏色的值名稱。
 初始值是單字「cyan」，應為輸入框的背景顏色。

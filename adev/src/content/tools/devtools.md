@@ -11,7 +11,7 @@ Angular DevTools 是提供 Angular 應用程式除錯和剖析功能的瀏覽器
 
 HELPFUL: Chrome 的新分頁不會執行已安裝的擴充功能，因此 Angular 分頁不會出現在 DevTools 中。請瀏覽其他任何頁面以檢視它。
 
-<img src="assets/content/images/guide/devtools/devtools.png" alt="Angular DevTools 概觀，顯示應用程式的元件樹。">
+<img src="https://angular.dev/assets/images/guide/devtools/devtools.png" alt="Angular DevTools 概觀，顯示應用程式的元件樹。">
 
 ## 開啟您的應用程式
 
@@ -22,7 +22,7 @@ HELPFUL: Chrome 的新分頁不會執行已安裝的擴充功能，因此 Angula
 | [元件](tools/devtools#components) | 讓您探索應用程式中的元件和指令，並預覽或編輯它們的狀態。                    |
 | [Profiler](tools/devtools#profiler)     | 讓您分析應用程式並了解在變更偵測執行期間的效能瓶頸是什麼。 |
 
-<img src="assets/content/images/guide/devtools/devtools-tabs.png" alt="Angular DevTools 上方的螢幕截圖，說明左上角的兩個索引標籤，一個標籤標示為「元件」，另一個標籤標示為「分析工具」。">
+<img src="https://angular.dev/assets/images/guide/devtools/devtools-tabs.png" alt="Angular DevTools 上方的螢幕截圖，說明左上角的兩個索引標籤，一個標籤標示為「元件」，另一個標籤標示為「分析工具」。">
 
 在 Angular DevTools 的右上角，您會找到在頁面上執行的 Angular 版本，以及該擴充功能的最新提交雜湊值。
 
@@ -49,14 +49,14 @@ HELPFUL: Chrome 的新分頁不會執行已安裝的擴充功能，因此 Angula
 
 元件樹顯示應用程式中 *元件與指令* 的層次關係。
 
-<img src="assets/content/images/guide/devtools/component-explorer.png" alt="「元件」標籤的螢幕截圖，顯示從應用程式根目錄開始的 Angular 元件和指令樹。">
+<img src="https://angular.dev/assets/images/guide/devtools/component-explorer.png" alt="「元件」標籤的螢幕截圖，顯示從應用程式根目錄開始的 Angular 元件和指令樹。">
 
 在元件瀏覽器中按一下個別元件或指令以選擇它們，並預覽其屬性。
 Angular DevTools 會在元件樹的右側顯示屬性和元資料。
 
 要按名稱查找元件或指令，請使用元件樹上方的搜尋方塊。
 
-<img src="assets/content/images/guide/devtools/search.png" alt="「元件」標籤的螢幕擷圖。位於標籤正下方的篩選器列正在搜尋「todo」，且名稱中含有「todo」的所有元件都會在樹狀結構中以醒目顏色標示。目前已選取「app-todos」，右側的側邊欄會顯示元件屬性的資訊。其中包含一節「@Output」欄位，以及另一節的其他屬性。">
+<img src="https://angular.dev/assets/images/guide/devtools/search.png" alt="「元件」標籤的螢幕擷圖。位於標籤正下方的篩選器列正在搜尋「todo」，且名稱中含有「todo」的所有元件都會在樹狀結構中以醒目顏色標示。目前已選取「app-todos」，右側的側邊欄會顯示元件屬性的資訊。其中包含一節「@Output」欄位，以及另一節的其他屬性。">
 
 ### 導覽至主機節點
 
@@ -68,7 +68,7 @@ Angular DevTools 會在 Chrome 中開啟「元素」標籤或在 Firefox 中開�
 對於元件，Angular DevTools 讓您在來源標籤 (Chrome) 和偵錯程式標籤 (Firefox) 中導航到元件定義。
 選擇特定元件後，按一下屬性檢視右上角的圖示：
 
-<img src="assets/content/images/guide/devtools/navigate-source.png" alt="「元件」標籤的螢幕截圖。右側的屬性檢視對元件可見，且滑鼠靜止在該檢視的右上角，位於 `<>` 圖示上方。鄰近的工具提示寫著「開啟元件來源」。">
+<img src="https://angular.dev/assets/images/guide/devtools/navigate-source.png" alt="「元件」標籤的螢幕截圖。右側的屬性檢視對元件可見，且滑鼠靜止在該檢視的右上角，位於 `<>` 圖示上方。鄰近的工具提示寫著「開啟元件來源」。">
 
 ### 更新屬性值
 
@@ -76,14 +76,14 @@ Angular DevTools 會在 Chrome 中開啟「元素」標籤或在 Firefox 中開�
 右鍵點擊屬性值，若此值類型有編輯功能，將會顯示文字輸入。
 輸入新值並按下 `Enter` 將此值套用到屬性。
 
-<img src="assets/content/images/guide/devtools/update-property.png" alt="「元件」標籤的螢幕截圖，元件的屬性檢視開啟。「@Input」名為「todo」，包含一個目前已選取的「標籤」屬性，且已手動更新為「買牛奶」值。">
+<img src="https://angular.dev/assets/images/guide/devtools/update-property.png" alt="「元件」標籤的螢幕截圖，元件的屬性檢視開啟。「@Input」名為「todo」，包含一個目前已選取的「標籤」屬性，且已手動更新為「買牛奶」值。">
 
 ### 在控制台中存取選取的元件或指令
 
 作為指令台的捷徑，Angular DevTools 提供最近選取的元件或指令的實例存取權。
 輸入 `$ng0` 以取得目前選取的元件或指令實例的參照，輸入 `$ng1` 則為先前選取的實例，輸入 `$ng2` 則為先前選取的實例，依此類推。
 
-<img src="assets/content/images/guide/devtools/access-console.png" alt="『Components』標籤的螢幕截圖，下方有瀏覽器控制台。在控制台中，使用者已輸入三個指令，`$ng0`、`$ng1` 和 `$ng2`，用來檢視最近選取的三個元素。在每個陳述式之後，控制台會印出不同的元件參考。">
+<img src="https://angular.dev/assets/images/guide/devtools/access-console.png" alt="『Components』標籤的螢幕截圖，下方有瀏覽器控制台。在控制台中，使用者已輸入三個指令，`$ng0`、`$ng1` 和 `$ng2`，用來檢視最近選取的三個元素。在每個陳述式之後，控制台會印出不同的元件參考。">
 
 ### 選擇指令或元件
 
@@ -91,13 +91,13 @@ Angular DevTools 會在 Chrome 中開啟「元素」標籤或在 Firefox 中開�
 按一下 Angular DevTools 中左上角的 ***檢查元素*** 圖示，並將滑鼠遊標懸停在頁面上的 DOM 元素上。
 此擴充功能會辨識相關聯的指令和/或元件，並讓您在「元件樹狀圖」中選取對應的元素。
 
-<img src="assets/content/images/guide/devtools/inspect-element.png" alt="截圖顯示「元件」標籤，其中顯示 Angular 待辦事項應用程式。在 Angular DevTools 的左上角，選取一個螢幕圖示，其中有一個滑鼠圖示。滑鼠停留在 Angular 應用程式 UI 中的待辦事項元素上。該元素以「`<TodoComponent>`」標籤突出顯示，並在相鄰的工具提示中顯示。">
+<img src="https://angular.dev/assets/images/guide/devtools/inspect-element.png" alt="截圖顯示「元件」標籤，其中顯示 Angular 待辦事項應用程式。在 Angular DevTools 的左上角，選取一個螢幕圖示，其中有一個滑鼠圖示。滑鼠停留在 Angular 應用程式 UI 中的待辦事項元素上。該元素以「`<TodoComponent>`」標籤突出顯示，並在相鄰的工具提示中顯示。">
 
 ## 分析你的應用程式
 
 **Profiler** 標籤讓您可視化 Angular 變更偵測的執行。這對於確定變更偵測何時以及如何影響應用程式的效能非常有用。
 
-<img src="assets/content/images/guide/devtools/profiler.png" alt="「Profiler」標籤的螢幕截圖，其中寫著「按一下播放按鈕以開始新的錄製，或上傳包含 Profiler 資料的 json 檔案。」在旁邊的是一個用於開始錄製新剖析的記錄按鈕，以及一個用於選擇現有剖析的檔案選擇器。">
+<img src="https://angular.dev/assets/images/guide/devtools/profiler.png" alt="「Profiler」標籤的螢幕截圖，其中寫著「按一下播放按鈕以開始新的錄製，或上傳包含 Profiler 資料的 json 檔案。」在旁邊的是一個用於開始錄製新剖析的記錄按鈕，以及一個用於選擇現有剖析的檔案選擇器。">
 
 **Profiler** 標籤讓您開始剖析目前的應用程式，或從先前的執行匯入現有的剖析。
 若要開始剖析您的應用程式，請將遊標懸停在 **Profiler** 標籤內左上角的圓圈上，然後按一下 **開始記錄**。
@@ -113,7 +113,7 @@ Angular DevTools 會在 Chrome 中開啟「元素」標籤或在 Firefox 中開�
 
 在記錄或匯入設定檔後，Angular DevTools 會顯示變更偵測週期的視覺化。
 
-<img src="assets/content/images/guide/devtools/default-profiler-view.png" alt="已記錄或上傳分析資料後『Profiler』標籤的螢幕截圖。其中顯示一個條形圖，說明各種變更偵測週期，還有一些文字寫著『選取一個長條預覽特定變更偵測週期』。">
+<img src="https://angular.dev/assets/images/guide/devtools/default-profiler-view.png" alt="已記錄或上傳分析資料後『Profiler』標籤的螢幕截圖。其中顯示一個條形圖，說明各種變更偵測週期，還有一些文字寫著『選取一個長條預覽特定變更偵測週期』。">
 
 序列中的每個長條代表應用程式中的變更偵測週期。
 長條越高，應用程式花在執行此週期中的變更偵測的時間就越長。
@@ -124,7 +124,7 @@ Angular DevTools 會在 Chrome 中開啟「元素」標籤或在 Firefox 中開�
 * 使用者體驗到的預估畫面更新率。
 * 觸發變更偵測的來源。
 
-<img src="assets/content/images/guide/devtools/profiler-selected-bar.png" alt="「Profiler」標籤的螢幕截圖。使用者已選取單一長條，且附近的下拉式功能表顯示「長條圖」，並在下方顯示第二個長條圖。新圖表有兩個長條佔據大部分空間，分別標示為「TodosComponent」和「NgForOf」。其他長條非常小，幾乎可以忽略不計。">
+<img src="https://angular.dev/assets/images/guide/devtools/profiler-selected-bar.png" alt="「Profiler」標籤的螢幕截圖。使用者已選取單一長條，且附近的下拉式功能表顯示「長條圖」，並在下方顯示第二個長條圖。新圖表有兩個長條佔據大部分空間，分別標示為「TodosComponent」和「NgForOf」。其他長條非常小，幾乎可以忽略不計。">
 
 ### 了解元件執行
 
@@ -132,11 +132,11 @@ Angular DevTools 會在 Chrome 中開啟「元素」標籤或在 Firefox 中開�
 
 此範例顯示 `NgForOf` 指令所花費的總時間，以及呼叫該指令的方法。
 
-<img src="assets/content/images/guide/devtools/directive-details.png" alt="螢幕截圖顯示已選取 `NgForOf` 列的「剖析器」標籤。`NgForOf` 的詳細檢視顯示在右側，其中列出「總花費時間：1.76 毫秒」。其中包括一行，將 `NgForOf` 列為指令，其 `ngDoCheck` 方法耗時 1.76 毫秒。還包括一個標記為「父層級」的清單，其中包含此指令的父元件。">
+<img src="https://angular.dev/assets/images/guide/devtools/directive-details.png" alt="螢幕截圖顯示已選取 `NgForOf` 列的「剖析器」標籤。`NgForOf` 的詳細檢視顯示在右側，其中列出「總花費時間：1.76 毫秒」。其中包括一行，將 `NgForOf` 列為指令，其 `ngDoCheck` 方法耗時 1.76 毫秒。還包括一個標記為「父層級」的清單，其中包含此指令的父元件。">
 
 ### 層級檢視
 
-<img src="assets/content/images/guide/devtools/flame-graph-view.png" alt="「Profiler」標籤的螢幕截圖。使用者已選取單一長條圖，現在附近的下拉式功能表顯示「火焰圖形」，下方顯示火焰圖形。火焰圖形從稱為「整個應用程式」和稱為「AppComponent」的列開始。在這些列下方，列開始分成多個項目，第三列從 `[RouterOutlet]` 和 `DemoAppComponent` 開始。幾層深處，一個儲存格以紅色突出顯示。">
+<img src="https://angular.dev/assets/images/guide/devtools/flame-graph-view.png" alt="「Profiler」標籤的螢幕截圖。使用者已選取單一長條圖，現在附近的下拉式功能表顯示「火焰圖形」，下方顯示火焰圖形。火焰圖形從稱為「整個應用程式」和稱為「AppComponent」的列開始。在這些列下方，列開始分成多個項目，第三列從 `[RouterOutlet]` 和 `DemoAppComponent` 開始。幾層深處，一個儲存格以紅色突出顯示。">
 
 您也可以在火焰圖狀檢視中視覺化變更偵測執行。
 
@@ -161,11 +161,11 @@ Angular DevTools 根據相對於花費最多時間進行渲染的圖塊的時間
 
 此檢視強調所有經過變更偵測的元件，並以灰色顯示未經過變更偵測的元件，例如未重新呈現的 `OnPush` 元件。
 
-<img src="assets/content/images/guide/devtools/debugging-onpush.png" alt="螢幕截圖顯示『Profiler』標籤，顯示變更偵測週期的火焰圖視覺化。現在已勾選標記為『僅顯示變更偵測』的核取方塊。火焰圖看起來與之前非常相似，但是元件的顏色已從橘色變更為藍色。數個標記為 `[RouterOutlet]` 的磁磚不再以任何顏色突顯。">
+<img src="https://angular.dev/assets/images/guide/devtools/debugging-onpush.png" alt="螢幕截圖顯示『Profiler』標籤，顯示變更偵測週期的火焰圖視覺化。現在已勾選標記為『僅顯示變更偵測』的核取方塊。火焰圖看起來與之前非常相似，但是元件的顏色已從橘色變更為藍色。數個標記為 `[RouterOutlet]` 的磁磚不再以任何顏色突顯。">
 
 ### 匯入與匯出錄音
 
 點擊已記錄分析工作階段右上角的 **儲存設定檔** 按鈕，以 JSON 格式將其匯出並儲存至磁碟。
 稍後，在分析工具的初始檢視中，點擊 **選擇檔案** 輸入，以匯入檔案。
 
-<img src="assets/content/images/guide/devtools/save-profile.png" alt="「Profiler」標籤的螢幕截圖，顯示變更偵測週期。在右側可見「儲存設定檔」按鈕。">
+<img src="https://angular.dev/assets/images/guide/devtools/save-profile.png" alt="「Profiler」標籤的螢幕截圖，顯示變更偵測週期。在右側可見「儲存設定檔」按鈕。">

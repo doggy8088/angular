@@ -82,7 +82,7 @@ Angular 應用程式圍繞著元件建構，這些元件是 Angular 的基本元
     應用程式中的 *Hello world* 應該從 `HomeComponent` 變更為 *home works!*。
 1. 檢查瀏覽器中的執行中應用程式，並確認應用程式已更新。
 
-    <img alt="顯示文字 'home works!' 的網頁瀏覽器畫面" src="assets/content/images/tutorials/first-app/homes-app-lesson-02-step-2.png">
+    <img alt="顯示文字 'home works!' 的網頁瀏覽器畫面" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-lesson-02-step-2.png">
 
 </docs-step>
 
@@ -111,7 +111,7 @@ Angular 應用程式圍繞著元件建構，這些元件是 Angular 的基本元
     您應該可以在應用程式中找到篩選查詢方塊和按鈕，而且它們應該套用樣式。
     在繼續執行下一個步驟之前，請修正任何錯誤。
 
-    <img alt="顯示標誌、篩選文字輸入方塊和搜尋按鈕的 homes-app 瀏覽器畫面" src="assets/content/images/tutorials/first-app/homes-app-lesson-02-step-3.png">
+    <img alt="顯示標誌、篩選文字輸入方塊和搜尋按鈕的 homes-app 瀏覽器畫面" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-lesson-02-step-3.png">
     </docs-step>
 
 </docs-workflow>
@@ -125,4 +125,3 @@ Summary: 在這個課程中，您為您的應用程式建立新的元件，並�
   <docs-pill href="api/core/Component" title="`Component` 參考"/>
   <docs-pill href="guide/components" title="Angular 元件概觀"/>
 </docs-pill-row>
-

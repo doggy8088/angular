@@ -36,7 +36,7 @@
     若要在範本中使用 `routerLink`，請新增 `RouterLink` 和 `RouterOutlet` 的檔案層級匯入，路徑為 '@angular/router'，然後更新元件 `imports` 陣列以包含 `RouterLink` 和 `RouterOutlet`。
 1. 在此階段，您可以確認路由是否在您的應用程式中運作。在瀏覽器中，重新整理首頁，然後按一下房屋地點的「了解更多」按鈕。
 
-    <img alt="顯示文字「details works!」的詳細資料頁面" src="assets/content/images/tutorials/first-app/homes-app-lesson-11-step-1.png">
+    <img alt="顯示文字「details works!」的詳細資料頁面" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-lesson-11-step-1.png">
 
 </docs-step>
 
@@ -97,7 +97,7 @@
 
 1. 在瀏覽器中重新整理頁面，並確認當您按一下特定住房位置的「了解更多」連結時，詳細資料頁面會根據所選項目資料顯示正確的資訊。
 
-    <img alt="列出房屋資訊的詳細資料頁面" src="assets/content/images/tutorials/first-app/homes-app-lesson-11-step-3.png">
+    <img alt="列出房屋資訊的詳細資料頁面" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-lesson-11-step-3.png">
 
 </docs-step>
 
@@ -131,4 +131,3 @@
   <docs-pill href="guide/routing/common-router-tasks" title="常見路由任務"/>
   <docs-pill href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining" title="選擇性鏈結運算子"/>
 </docs-pill-row>
-

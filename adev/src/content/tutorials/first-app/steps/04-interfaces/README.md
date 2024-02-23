@@ -80,7 +80,7 @@ TypeScript 編譯器會捕捉到此類型的錯誤，而且許多此類錯誤也
 
 1. 儲存變更並確認應用程式沒有任何錯誤。開啟瀏覽器並確認您的應用程式仍顯示訊息「housing-location works!」
 
-    <img alt="homes-app 的瀏覽器畫面，顯示標誌、篩選文字輸入方塊和搜尋按鈕，以及訊息「housing-location works!」" src="assets/content/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
+    <img alt="homes-app 的瀏覽器畫面，顯示標誌、篩選文字輸入方塊和搜尋按鈕，以及訊息「housing-location works!」" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
 
 1. 在繼續進行下一個步驟之前，請更正任何錯誤。
 </docs-step>

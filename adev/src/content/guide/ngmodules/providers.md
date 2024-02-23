@@ -82,7 +82,7 @@ export class UserService {
 
 使用 `providedIn: 'any'` 時，所有急切載入的模組都會共用單例實例；但延遲載入的模組各自會取得自己獨有的實例，如下圖所示。
 
-<img alt="any-provider-scope" class="left" src="assets/content/images/guide/providers/any-provider.svg">
+<img alt="any-provider-scope" class="left" src="https://angular.dev/assets/images/guide/providers/any-provider.svg">
 
 ## 使用元件限制提供者範圍
 

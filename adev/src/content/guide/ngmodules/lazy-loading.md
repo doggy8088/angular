@@ -158,7 +158,7 @@ ng serve
 
 然後前往 `localhost:4200`，您應該會看到「customer-app」和三個按鈕。
 
-<img alt="瀏覽器中的三個按鈕" src="assets/content/images/guide/modules/lazy-loading-three-buttons.png" width="300">
+<img alt="瀏覽器中的三個按鈕" src="https://angular.dev/assets/images/guide/modules/lazy-loading-three-buttons.png" width="300">
 
 這些按鈕有效運作，因為 Angular CLI 自動將功能模組的路由新增到 `app-routing.module.ts` 中的 `routes` 陣列。
 
@@ -261,17 +261,17 @@ const routes: Routes = [
 您可以使用 Chrome 開發人員工具驗證模組是否確實是延遲載入。
 在 Chrome 中，按一下 Mac 上的 <kbd>⌘ Cmd</kbd>+<kbd>Option</kbd>+<kbd>i</kbd> 或 PC 上的 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>j</kbd> 開啟開發人員工具，然後前往「網路」索引標籤。
 
-<img alt="延遲載入模組圖示" src="assets/content/images/guide/modules/lazy-loading-network-tab.png" width="600">
+<img alt="延遲載入模組圖示" src="https://angular.dev/assets/images/guide/modules/lazy-loading-network-tab.png" width="600">
 
 點擊「訂單」或「客戶」按鈕。
 如果您看到區塊出現，一切均已正確連接，且功能模組正在延遲載入。
 區塊應出現在「訂單」和「客戶」中，但每個只出現一次。
 
-<img alt="延遲載入模組圖表" src="assets/content/images/guide/modules/lazy-loading-chunk-arrow.png" width="600">
+<img alt="延遲載入模組圖表" src="https://angular.dev/assets/images/guide/modules/lazy-loading-chunk-arrow.png" width="600">
 
 如要再看一次，或在做出變更後測試，請按一下網路標籤左上角的帶有斜線的圓圈：
 
-<img alt="延遲載入模組圖" src="assets/content/images/guide/modules/lazy-loading-clear.gif" width="200">
+<img alt="延遲載入模組圖" src="https://angular.dev/assets/images/guide/modules/lazy-loading-clear.gif" width="200">
 
 然後使用 <kbd>⌘ Cmd</kbd>+<kbd>R</kbd> 或 <kbd>Ctrl</kbd>+<kbd>R</kbd> 重新載入，視您的平台而定。
 

@@ -883,7 +883,7 @@ Angular 相依性注入 \(DI\) 機制會根據該服務建構函式參數的宣�
 
 <a href="https://marketplace.visualstudio.com/items?itemName=johnpapa.Angular2">
 
-<img alt="使用擴充功能" src="assets/content/images/guide/styleguide/use-extension.gif">
+<img alt="使用擴充功能" src="https://angular.dev/assets/images/guide/styleguide/use-extension.gif">
 
 </a>
 

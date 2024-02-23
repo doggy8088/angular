@@ -74,7 +74,7 @@
 1. 確認應用程式建置時不會產生錯誤。
     在繼續進行下一個步驟之前，請更正任何錯誤。
 
-    <img alt="詳細資料頁面，其中有一個表單可申請住在這個地方" src="assets/content/images/tutorials/first-app/homes-app-lesson-12-step-3.png">
+    <img alt="詳細資料頁面，其中有一個表單可申請住在這個地方" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-lesson-12-step-3.png">
 
 </docs-step>
 
@@ -104,4 +104,3 @@
   <docs-pill href="guide/forms" title="Angular Forms"/>
   <docs-pill href="guide/templates/event-binding" title="事件處理"/>
 </docs-pill-row>
-

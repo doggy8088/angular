@@ -20,7 +20,7 @@ html
 
 事件繫結會偵聽按鈕的點擊事件，並在點擊發生時呼叫元件的 `onSave()` 方法。
 
-<img src='assets/content/images/guide/template-syntax/syntax-diagram.svg' alt="語法圖">
+<img src='https://angular.dev/assets/images/guide/template-syntax/syntax-diagram.svg' alt="語法圖">
 
 ### 確定事件目標
 

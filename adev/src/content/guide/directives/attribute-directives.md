@@ -63,7 +63,7 @@ HELPFUL: 處理常式委派給輔助方法 `highlight()`，將顏色設定在主
 
 當指標移至段落元素上時背景顏色出現，當指標移出時背景顏色消失。
 
-<img alt="第二個重點" src="assets/content/images/guide/attribute-directives/highlight-directive-anim.gif">
+<img alt="第二個重點" src="https://angular.dev/assets/images/guide/attribute-directives/highlight-directive-anim.gif">
 
 ## 將值傳遞至屬性指令
 
@@ -110,7 +110,7 @@ HELPFUL: 處理常式委派給輔助方法 `highlight()`，將顏色設定在主
 
 1. 執行您的應用程式，以驗證使用者可以使用無線電按鈕選擇顏色。
 
-    <img alt="根據使用者選擇的無線電按鈕，以動畫 GIF 呈現重新調整重點標示指令的變色效果" src="assets/content/images/guide/attribute-directives/highlight-directive-v2-anim.gif">
+    <img alt="根據使用者選擇的無線電按鈕，以動畫 GIF 呈現重新調整重點標示指令的變色效果" src="https://angular.dev/assets/images/guide/attribute-directives/highlight-directive-v2-anim.gif">
 
 ## 繫結至第二個屬性
 
@@ -134,7 +134,7 @@ HELPFUL: 處理常式委派給輔助方法 `highlight()`，將顏色設定在主
 如果沒有預設顏色繫結，預設顏色為紅色。
 當使用者選擇顏色時，選取的顏色會變成主動突顯顏色。
 
-<img alt="最終的亮點指令的動畫 gif，顯示紅色沒有約束力，以及預設顏色設定的紫羅蘭色。當用戶選擇顏色時，選擇具有優先權。" src="assets/content/images/guide/attribute-directives/highlight-directive-final-anim.gif">
+<img alt="最終的亮點指令的動畫 gif，顯示紅色沒有約束力，以及預設顏色設定的紫羅蘭色。當用戶選擇顏色時，選擇具有優先權。" src="https://angular.dev/assets/images/guide/attribute-directives/highlight-directive-final-anim.gif">
 
 ## 使用 `NgNonBindable` 停用 Angular 處理
 

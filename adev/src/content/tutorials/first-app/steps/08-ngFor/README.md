@@ -44,7 +44,7 @@
 1. 重新整理瀏覽器，並確認應用程式現在會顯示住房位置網格。
 
     <section class="lightbox">
-    <img alt="顯示標誌、篩選文字輸入方塊、搜尋按鈕和住房位置卡片網格的 homes-app 瀏覽器框架" src="assets/content/images/tutorials/first-app/homes-app-lesson-08-step-2.png">
+    <img alt="顯示標誌、篩選文字輸入方塊、搜尋按鈕和住房位置卡片網格的 homes-app 瀏覽器框架" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-lesson-08-step-2.png">
     </section>
 
 </docs-step>
@@ -62,4 +62,3 @@
   <docs-pill href="guide/directives#ngFor" title="ngFor 指南"/>
   <docs-pill href="api/common/NgFor" title="ngFor"/>
 </docs-pill-row>
-

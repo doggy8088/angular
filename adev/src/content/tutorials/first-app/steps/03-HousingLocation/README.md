@@ -70,11 +70,10 @@
 
 1. 儲存程式碼，回到瀏覽器並確認應用程式在沒有錯誤的情況下建置。您應該會在螢幕上找到訊息「housing-location works!」。在繼續進行下一步之前，請更正任何錯誤。
 
-    <img alt="顯示標誌、篩選文字輸入方塊和搜尋按鈕，以及訊息「housing-location works!」的 homes-app 瀏覽器框架" src="assets/content/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
+    <img alt="顯示標誌、篩選文字輸入方塊和搜尋按鈕，以及訊息「housing-location works!」的 homes-app 瀏覽器框架" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
 
 </docs-step>
 
 </docs-workflow>
 
 摘要：在本課程中，您為您的應用程式建立新的元件，並將它新增到應用程式的配置。
-

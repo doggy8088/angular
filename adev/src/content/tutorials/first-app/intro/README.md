@@ -32,7 +32,7 @@ HELPFUL: 喜歡影片嗎？我們還為本教學提供完整的 [YouTube 課程]
 本教學課程中的課程建立一個 Angular 應用程式，可列出出租房屋並顯示個別房屋的詳細資料。
 此應用程式使用許多 Angular 應用程式共通的功能。
 
-<img alt="英雄儀表板的輸出" src="assets/content/images/tutorials/first-app/homes-app-landing-page.png">
+<img alt="英雄儀表板的輸出" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-landing-page.png">
 
 ## 在地開發環境
 
@@ -77,4 +77,3 @@ Angular 需要一個 active LTS 或 maintenance LTS 版本的 Node。讓我們�
   <docs-pill href="/tools/cli/setup-local" title="設定本機環境和工作區"/>
   <docs-pill href="/cli" title="Angular CLI 參考"/>
 </docs-pill-row>
-

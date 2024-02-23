@@ -385,7 +385,7 @@ schematics blank --name=goodbye-world
 除了名稱和說明以外，每個示意圖都有一個 `factory` 屬性，用來識別示意圖的進入點。
 在範例中，您可以呼叫主檔案 `hello-world/index.ts` 中的 `helloWorld()` 函式，來呼叫示意圖的已定義功能。
 
-<img alt="overview" src="assets/content/images/guide/schematics/collection-files.gif">
+<img alt="overview" src="https://angular.dev/assets/images/guide/schematics/collection-files.gif">
 
 每個在集合中命名的原理圖都有以下主要部分。
 

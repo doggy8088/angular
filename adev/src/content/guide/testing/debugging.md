@@ -14,5 +14,4 @@ Debug 瀏覽器中的規格就像除錯應用程式一樣。
 1. 在測試中設定中斷點。
 1. 重新整理瀏覽器，並注意中斷點如何停止。
 
-<img alt="Karma 偵錯" src="assets/content/images/guide/testing/karma-1st-spec-debug.png">
-
+<img alt="Karma 偵錯" src="https://angular.dev/assets/images/guide/testing/karma-1st-spec-debug.png">

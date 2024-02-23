@@ -70,7 +70,7 @@
 
 1. 重新整理瀏覽器並確認當您在輸入文字後按一下「搜尋」按鈕時，您可以依城市搜尋房屋位置資料。
 
-<img alt="根據使用者輸入過濾的搜尋結果" src="assets/content/images/tutorials/first-app/homes-app-lesson-13-step-3.png">
+<img alt="根據使用者輸入過濾的搜尋結果" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-lesson-13-step-3.png">
 </docs-step>
 
 </docs-workflow>

@@ -57,7 +57,7 @@ HELPFUL：如果您不使用 HTTPS，則服務工作者只有在 `localhost` 上
 1. 前往 **網路** 標籤。
 1. 在 **限制速度** 下拉式功能表中選取 **離線**。
 
-<img alt="在「網路」標籤中選取「離線」選項" src="assets/content/images/guide/service-worker/offline-option.png">
+<img alt="在「網路」標籤中選取「離線」選項" src="https://angular.dev/assets/images/guide/service-worker/offline-option.png">
 
 現在應用程式無法訪問網路互動。
 
@@ -68,7 +68,7 @@ HELPFUL：如果您不使用 HTTPS，則服務工作者只有在 `localhost` 上
 
 請查看 Network 標籤以驗證服務工作者是否處於活動狀態。
 
-<img alt="請求標記為來自 ServiceWorker" src="assets/content/images/guide/service-worker/sw-active.png">
+<img alt="請求標記為來自 ServiceWorker" src="https://angular.dev/assets/images/guide/service-worker/sw-active.png">
 
 HELPFUL: 在「大小」欄位中，要求狀態為 `(ServiceWorker)`。
 這表示資源並未從網路載入。
@@ -120,7 +120,7 @@ HELPFUL: 在「大小」欄位中，要求狀態為 `(ServiceWorker)`。
 1. 在同個視窗中再次開啟 [http://localhost:8080](http://localhost:8080)。
     會發生什麼事？
 
-    <img alt="仍然顯示歡迎使用 Service Workers！" src="assets/content/images/guide/service-worker/welcome-msg-en.png">
+    <img alt="仍然顯示歡迎使用 Service Workers！" src="https://angular.dev/assets/images/guide/service-worker/welcome-msg-en.png">
 
     哪裡出錯了？
     _其實，什麼問題也沒有！_
@@ -137,7 +137,7 @@ HELPFUL: 在「大小」欄位中，要求狀態為 `(ServiceWorker)`。
 
 1. 更新頁面。
 
-    <img alt="文字已變更為 Bienvenue à app！" src="assets/content/images/guide/service-worker/welcome-msg-fr.png">
+    <img alt="文字已變更為 Bienvenue à app！" src="https://angular.dev/assets/images/guide/service-worker/welcome-msg-fr.png">
 
     服務工作者在**背景中**安裝了更新版本的應用程式，在下一次載入或重新載入頁面時，服務工作者就會切換到最新版本。
 

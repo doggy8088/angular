@@ -132,7 +132,7 @@
 
 下圖為最終呈現形式。
 
-<img alt="Dynamic-Form" src="assets/content/images/guide/dynamic-form/dynamic-form.png">
+<img alt="Dynamic-Form" src="https://angular.dev/assets/images/guide/dynamic-form/dynamic-form.png">
 
 ## 後續步驟
 

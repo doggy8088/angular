@@ -119,7 +119,7 @@ html
 
 以下為所有變體的實際操作，包括大寫版本：
 
-<img alt="NgModel 變化" src="assets/content/images/guide/built-in-directives/ng-model-anim.gif">
+<img alt="NgModel 變化" src="https://angular.dev/assets/images/guide/built-in-directives/ng-model-anim.gif">
 
 ### `NgModel` 及值存取器
 
@@ -275,7 +275,7 @@ Angular 將此指令轉換為主機元素周圍的 `<ng-template>`，
 - 沒有 `trackBy`，兩個按鈕都會觸發完整的 DOM 元素替換。
 - 使用 `trackBy`，只有變更 `id` 才會觸發元素替換。
 
-<img alt="Animation of trackBy" src="assets/content/images/guide/built-in-directives/ngfor-trackby.gif">
+<img alt="Animation of trackBy" src="https://angular.dev/assets/images/guide/built-in-directives/ngfor-trackby.gif">
 
 ## 無 DOM 元素的指令寄存
 
@@ -287,7 +287,7 @@ Angular `<ng-container>` 是一個分組元素，不會干擾樣式或佈局，�
 
 <docs-code header="src/app/app.component.html (ngif-ngcontainer)" path="adev/src/content/examples/structural-directives/src/app/app.component.html" visibleRegion="ngif-ngcontainer"/>
 
-<img alt="ngcontainer 段落具有適當樣式" src="assets/content/images/guide/structural-directives/good-paragraph.png">
+<img alt="ngcontainer 段落具有適當樣式" src="https://angular.dev/assets/images/guide/structural-directives/good-paragraph.png">
 
 1. 從 `FormsModule` 匯入 `ngModel` 指令。
 
@@ -297,7 +297,7 @@ Angular `<ng-container>` 是一個分組元素，不會干擾樣式或佈局，�
 
     <docs-code header="src/app/app.component.html (select-ngcontainer)" path="adev/src/content/examples/structural-directives/src/app/app.component.html" visibleRegion="select-ngcontainer"/>
 
-    <img alt="ngcontainer 選項正常運作" src="assets/content/images/guide/structural-directives/select-ngcontainer-anim.gif">
+    <img alt="ngcontainer 選項正常運作" src="https://angular.dev/assets/images/guide/structural-directives/select-ngcontainer-anim.gif">
 
 ## 使用 `NgSwitch` 切換案例
 
@@ -367,7 +367,7 @@ Angular 僅將選取的元素放入 DOM。
 
     <docs-code header="在每個子元件中，這裡是 StoutItemComponent" path="adev/src/content/examples/built-in-directives/src/app/item-switch.component.ts" visibleRegion="input"/>
 
-    <img alt="NgSwitch 的動畫" src="assets/content/images/guide/built-in-directives/ngswitch.gif">
+    <img alt="NgSwitch 的動畫" src="https://angular.dev/assets/images/guide/built-in-directives/ngswitch.gif">
 
 `Switch` 指令也可以與內建 HTML 元素和網頁元件一起使用。
 例如，您可以將 `<app-best-item>` 切換案例改用 `<div>`，如下所示。

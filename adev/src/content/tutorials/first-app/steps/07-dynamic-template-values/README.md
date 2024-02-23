@@ -37,7 +37,7 @@
 <docs-step title="確認變更已呈現在瀏覽器中">
 1.  儲存所有變更。
 1.  開啟瀏覽器並確認應用程式已呈現相片、城市和州範本資料。
-    <img alt="homes-app 的瀏覽器畫面，顯示標誌、篩選文字輸入方塊、搜尋按鈕和相同的住房位置 UI 卡片" src="assets/content/images/tutorials/first-app/homes-app-lesson-07-step-2.png">
+    <img alt="homes-app 的瀏覽器畫面，顯示標誌、篩選文字輸入方塊、搜尋按鈕和相同的住房位置 UI 卡片" src="https://angular.dev/assets/images/tutorials/first-app/homes-app-lesson-07-step-2.png">
 </docs-step>
 
 </docs-workflow>
@@ -57,4 +57,3 @@
   <docs-pill href="guide/templates/interpolation" title="範本語法"/>
   <docs-pill href="guide/templates/template-syntax" title="顯示帶有內插的值"/>
 </docs-pill-row>
-

@@ -162,7 +162,7 @@ html
 
 現在，除了預設呈現的標題外，`CustomerDashboardComponent` 範本也會呈現：
 
-<img alt="功能模組元件" src="assets/content/images/guide/ngmodules/feature-module.png">
+<img alt="功能模組元件" src="https://angular.dev/assets/images/guide/ngmodules/feature-module.png">
 
 ## 更多有關 NgModules
 

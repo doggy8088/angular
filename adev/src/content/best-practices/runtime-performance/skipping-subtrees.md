@@ -100,7 +100,7 @@ style search fill:#C1D5B0,color:#000
 
 舉個例子，如果 Angular 在 `MainComponent` 中處理事件，框架將在整個元件樹中執行變更偵測。Angular 會忽略根為 `LoginComponent` 的子樹，因為它有 `OnPush`，而且事件發生在其範圍之外。
 
-<img alt="從 OnPush 元件傳播變更偵測" src="assets/content/images/best-practices/runtime-performance/on-push-trigger.svg">
+<img alt="從 OnPush 元件傳播變更偵測" src="https://angular.dev/assets/images/best-practices/runtime-performance/on-push-trigger.svg">
 
 <!-- TODO(josephperrott): enable this mermaid chart -->
 

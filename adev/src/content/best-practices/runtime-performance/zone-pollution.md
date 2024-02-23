@@ -23,7 +23,7 @@ html
 
 您可以使用 Angular DevTools 偵測不必要的變更偵測呼叫。它們通常在 Profiler 的時間軸中以連續的長條出現，來源為 `setTimeout`、`setInterval`、`requestAnimationFrame` 或事件處理常式。當您的應用程式中對這些 API 的呼叫有限時，變更偵測呼叫通常是由第三方程式庫造成的。
 
-<img alt="Angular DevTools profiler preview showing Zone pollution" src="assets/content/images/best-practices/runtime-performance/zone-pollution.png">
+<img alt="Angular DevTools profiler preview showing Zone pollution" src="https://angular.dev/assets/images/best-practices/runtime-performance/zone-pollution.png">
 
 在上面的圖片中，有一系列變更偵測呼叫是由與元素關聯的事件處理常式觸發的。這是使用第三方、非原生 Angular 元件時常見的挑戰，這些元件不會變更 `NgZone` 的預設行為。
 

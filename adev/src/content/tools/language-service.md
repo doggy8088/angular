@@ -35,7 +35,7 @@ Angular 語言服務為程式碼編輯器提供一種在 Angular 範本中取得
 此範例顯示插補中的自動完成功能。
 在您輸入時，您可以按下 tab 鍵來完成。
 
-<img alt="自動完成功能" src="assets/content/images/guide/language-service/language-completion.gif">
+<img alt="自動完成功能" src="https://angular.dev/assets/images/guide/language-service/language-completion.gif">
 
 元素內也有補全功能。
 
@@ -46,14 +46,14 @@ Angular 語言服務為程式碼編輯器提供一種在 Angular 範本中取得
 Angular 語言服務可以預先警告您程式碼中的錯誤。
 在此範例中，Angular 不知道 `orders` 是什麼或它從何而來。
 
-<img alt="錯誤檢查" src="assets/content/images/guide/language-service/language-error.gif">
+<img alt="錯誤檢查" src="https://angular.dev/assets/images/guide/language-service/language-error.gif">
 
 ### 快速資訊與導覽
 
 快速資訊功能讓您將滑鼠懸停在元件、指令和模組上，以查看它們的來源。
 然後，您可以按一下「前往定義」或按 F12 直接前往定義。
 
-<img alt="navigation" src="assets/content/images/guide/language-service/language-navigation.gif">
+<img alt="navigation" src="https://angular.dev/assets/images/guide/language-service/language-navigation.gif">
 
 ## 編輯器中的 Angular 語言服務
 
@@ -171,4 +171,3 @@ HTML AST 只會告訴編譯器，有一些文字包含字元 "`{{data.---}}`"。
 
 * 如需有關實作的更深入資訊，請參閱 [Angular Language Service 來源](https://github.com/angular/angular/blob/main/packages/language-service/src)
 * 如需有關設計考量和意圖的更多資訊，請參閱 [此處的設計文件](https://github.com/angular/vscode-ng-language-service/wiki/Design)
-

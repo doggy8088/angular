@@ -35,7 +35,7 @@ TOTAL: 3 SUCCESS
 
 測試輸出使用 [Karma Jasmine HTML Reporter](https://github.com/dfederm/karma-jasmine-html-reporter) 顯示在瀏覽器中。
 
-<img alt="Jasmine HTML Reporter 在瀏覽器中" src="assets/content/images/guide/testing/initial-jasmine-html-reporter.png">
+<img alt="Jasmine HTML Reporter 在瀏覽器中" src="https://angular.dev/assets/images/guide/testing/initial-jasmine-html-reporter.png">
 
 點擊測試列可重新執行該測試，或點擊說明可重新執行選取測試群組（「測試套件」）中的測試。
 

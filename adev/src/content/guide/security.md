@@ -82,7 +82,7 @@ Angular 會清除 HTML、樣式和 URL 的不受信任值。清除資源 URL 不
 
 Angular 辨識值為不安全並自動清除它，這會移除 `script` 元素，但保留安全的內容，例如 `<b>` 元素。
 
-<img alt="螢幕截圖顯示內插和繫結的 HTML 值" src="assets/content/images/guide/security/binding-inner-html.png#small">
+<img alt="螢幕截圖顯示內插和繫結的 HTML 值" src="https://angular.dev/assets/images/guide/security/binding-inner-html.png#small">
 
 ### 直接使用 DOM API 和明確的 sanitization 呼叫
 
@@ -121,7 +121,7 @@ Angular 辨識值為不安全並自動清除它，這會移除 `script` 元素�
 
 <docs-code header="src/app/bypass-security.component.ts (trust-url)" path="adev/src/content/examples/security/src/app/bypass-security.component.ts" visibleRegion="trust-url"/>
 
-<img alt="截圖顯示從可信賴網址建立的警示框" src="assets/content/images/guide/security/bypass-security-component.png#medium">
+<img alt="截圖顯示從可信賴網址建立的警示框" src="https://angular.dev/assets/images/guide/security/bypass-security-component.png#medium">
 
 如果您需要將使用者輸入轉換為可信賴值，請使用元件方法。
 下列範本讓使用者輸入 YouTube 影片 ID 並在 `<iframe>` 中載入對應的影片。

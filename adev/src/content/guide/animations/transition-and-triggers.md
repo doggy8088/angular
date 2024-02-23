@@ -14,7 +14,7 @@
 
 例如，當元素的狀態從開啟變為其他任何狀態時，`open => *` 的轉場就會套用。
 
-<img alt="萬用字元狀態表達式" src="assets/content/images/guide/animations/wildcard-state-500.png">
+<img alt="萬用字元狀態表達式" src="https://angular.dev/assets/images/guide/animations/wildcard-state-500.png">
 
 以下是一個使用通配符狀態與先前使用 `open` 和 `closed` 狀態的範例的另一個程式碼範例。
 不需要定義每個狀態到狀態的轉換配對，任何轉換到 `closed` 需要 1 秒，任何轉換到 `open` 需要 0.5 秒。
@@ -33,7 +33,7 @@
 一般而言，當元素有多種可能變更的狀態時，請使用萬用字元狀態。
 如果按鈕可以從 `open` 變更為 `closed` 或類似 `inProgress` 的狀態，使用萬用字元狀態可以減少所需的編碼量。
 
-<img alt="3 種狀態的萬用字元狀態" src="assets/content/images/guide/animations/wildcard-3-states.png">
+<img alt="3 種狀態的萬用字元狀態" src="https://angular.dev/assets/images/guide/animations/wildcard-3-states.png">
 
 <docs-code header="src/app/open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="trigger-transition"/>
 
@@ -212,7 +212,7 @@ Callbacks 可用作除錯工具，例如與 `console.warn()` 結合使用，以�
 Angular 的 `keyframe()` 函式允許在單一計時段內進行多個樣式變更。
 例如，按鈕除了淡入淡出外，還可以在 2 秒的時間內變更顏色多次。
 
-<img alt="關鍵影格" src="assets/content/images/guide/animations/keyframes-500.png">
+<img alt="關鍵影格" src="https://angular.dev/assets/images/guide/animations/keyframes-500.png">
 
 這個顏色的變化程式碼可能看起來像這樣。
 
@@ -228,7 +228,7 @@ Angular 的 `keyframe()` 函式允許在單一計時段內進行多個樣式變�
 例如，三個沒有預定義偏移的關鍵影格會收到 0、0.5 和 1 的偏移。
 在前面的範例中為中間的轉場指定 0.8 的偏移可能看起來像這樣。
 
-<img alt="具有偏移量的關鍵影格" src="assets/content/images/guide/animations/keyframes-offset-500.png">
+<img alt="具有偏移量的關鍵影格" src="https://angular.dev/assets/images/guide/animations/keyframes-offset-500.png">
 
 具有指定偏移量的程式碼如下。
 
@@ -245,7 +245,7 @@ Angular 的 `keyframe()` 函式允許在單一計時段內進行多個樣式變�
 * 原始的 `open` 和 `closed` 狀態，在 1 秒的時間內，高度、顏色和透明度發生原始的變化
 * 在中間插入一個關鍵影格序列，導致按鈕在同一 1 秒時間內看起來不規則地脈動
 
-<img alt="不規則搏動的關鍵影格" src="assets/content/images/guide/animations/keyframes-pulsation.png">
+<img alt="不規則搏動的關鍵影格" src="https://angular.dev/assets/images/guide/animations/keyframes-pulsation.png">
 
 此動畫的程式碼片段可能會如下所示。
 
