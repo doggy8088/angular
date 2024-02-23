@@ -4,15 +4,15 @@
 
 Hydration是將伺服器端渲染的應用程式還原到客戶端上的程序。這包括重用伺服器渲染的 DOM 結構、持久化應用程式狀態、傳輸伺服器已擷取的應用程式資料，以及其他程序。
 
-## 為什麼補水很重要？
+## 為什麼 Hydration 很重要？
 
-水合改善應用程式效能，避免重新建立 DOM 節點的額外工作。相反地，Angular 會嘗試在執行階段將現有的 DOM 元素與應用程式結構相匹配，並在可能的情況下重複使用 DOM 節點。這會帶來效能改善，可以使用 [核心網路生命週期 (CWV)](https://web.dev/learn-core-web-vitals/) 統計數據加以衡量，例如減少首次輸入延遲 ([FID](https://web.dev/fid/)) 和最大內容繪製 ([LCP](https://web.dev/lcp/))，以及累計版面配置變更 ([CLS](https://web.dev/cls/))。改善這些數值也會影響 SEO 效能等事項。
+Hydration 改善應用程式效能，避免重新建立 DOM 節點的額外工作。相反地，Angular 會嘗試在執行階段將現有的 DOM 元素與應用程式結構相匹配，並在可能的情況下重複使用 DOM 節點。這會帶來效能改善，可以使用 [核心網路生命週期 (CWV)](https://web.dev/learn-core-web-vitals/) 統計數據加以衡量，例如減少首次輸入延遲 ([FID](https://web.dev/fid/)) 和最大內容繪製 ([LCP](https://web.dev/lcp/))，以及累計版面配置變更 ([CLS](https://web.dev/cls/))。改善這些數值也會影響 SEO 效能等事項。
 
-在未啟用水合的情況下，伺服器端渲染的 Angular 應用程式會銷毀並重新渲染應用程式的 DOM，這可能會導致 UI 閃爍。這種重新渲染會對 [核心網路指標](https://web.dev/learn-core-web-vitals/)，例如 [LCP](https://web.dev/lcp/)，產生負面影響，並導致版面轉移。啟用水合可讓現有的 DOM 重複使用，並防止閃爍。
+在未啟用 Hydration 的情況下，伺服器端渲染的 Angular 應用程式會銷毀並重新渲染應用程式的 DOM，這可能會導致 UI 閃爍。這種重新渲染會對 [核心網路指標](https://web.dev/learn-core-web-vitals/)，例如 [LCP](https://web.dev/lcp/)，產生負面影響，並導致版面轉移。啟用 Hydration 可讓現有的 DOM 重複使用，並防止閃爍。
 
 ## 如何在 Angular 中啟用 hydration
 
-在您開始水合之前，您必須具備伺服器端渲染 (SSR) 應用程式。請先遵循 [Angular SSR 指南](/guide/ssr) 以啟用伺服器端渲染。一旦 SSR 與您的應用程式一起運作，您可以訪問您的主要應用程式元件或模組並從 `@angular/platform-browser` 匯入 `provideClientHydration` 以啟用水合。然後，您會將該提供者新增至您的應用程式開機提供者清單。
+在您開始 Hydration 之前，您必須具備伺服器端渲染 (SSR) 應用程式。請先遵循 [Angular SSR 指南](/guide/ssr) 以啟用伺服器端渲染。一旦 SSR 與您的應用程式一起運作，您可以訪問您的主要應用程式元件或模組並從 `@angular/platform-browser` 匯入 `provideClientHydration` 以啟用 Hydration。然後，您會將該提供者新增至您的應用程式開機提供者清單。
 
 ```typescript
 import {
@@ -57,15 +57,15 @@ Hydration會對您的應用程式施加一些限制，而在未啟用Hydration�
 
 重要：伺服器端呈現操作所產生的 HTML **不得** 在伺服器和用戶端之間變更。
 
-如果伺服器與客戶端 DOM 樹結構之間不匹配，水合程序將會在嘗試將預期內容與實際出現在 DOM 中的內容配對時遇到問題。使用原生 DOM API 進行直接 DOM 操作的元件是最常見的罪魁禍首。
+如果伺服器與客戶端 DOM 樹結構之間不匹配，Hydration 程序將會在嘗試將預期內容與實際出現在 DOM 中的內容配對時遇到問題。使用原生 DOM API 進行直接 DOM 操作的元件是最常見的罪魁禍首。
 
 ### 直接操作 DOM
 
-如果您有使用原生 DOM API 或使用 `innerHTML` 或 `outerHTML` 操作 DOM 的元件，則水合程序會遇到錯誤。DOM 操作會造成問題的具體情況包括存取 `document`、查詢特定元素，以及使用 `appendChild` 注入其他節點。分離 DOM 節點並將它們移至其他位置也會造成錯誤。
+如果您有使用原生 DOM API 或使用 `innerHTML` 或 `outerHTML` 操作 DOM 的元件，則 Hydration 程序會遇到錯誤。DOM 操作會造成問題的具體情況包括存取 `document`、查詢特定元素，以及使用 `appendChild` 注入其他節點。分離 DOM 節點並將它們移至其他位置也會造成錯誤。
 
-這是因為 Angular 不知道這些 DOM 變更，也無法在水合過程中解決這些變更。Angular 會預期某種結構，但它在嘗試水合時會遇到不同的結構。這種不匹配會導致水合失敗並拋出 DOM 不匹配錯誤 (請參閱以下內容 [#errors])。
+這是因為 Angular 不知道這些 DOM 變更，也無法在 Hydration 過程中解決這些變更。Angular 會預期某種結構，但它在嘗試 Hydration 時會遇到不同的結構。這種不匹配會導致 Hydration 失敗並拋出 DOM 不匹配錯誤 (請參閱以下內容 [#errors])。
 
-最好重構您的元件以避免此類型的 DOM 處理。如果您能做到，請嘗試使用 Angular API 來執行這項工作。如果您無法重構此行為，請使用 `ngSkipHydration` 屬性（[如下所述](#how-to-skip-hydration-for-particular-components)），直到您可以重構為支援水合的解決方案。
+最好重構您的元件以避免此類型的 DOM 處理。如果您能做到，請嘗試使用 Angular API 來執行這項工作。如果您無法重構此行為，請使用 `ngSkipHydration` 屬性（[如下所述](#how-to-skip-hydration-for-particular-components)），直到您可以重構為支援 Hydration 的解決方案。
 
 ### 有效的 HTML 結構
 
@@ -96,11 +96,11 @@ Hydration 依賴來自 Zone.js 在應用程式內部變為穩定時的訊號，�
 
 ## 錯誤
 
-您可能會遇到多種水合相關錯誤，範圍從節點不匹配到在無效主機節點上使用 `ngSkipHydration` 的情況。最常發生的錯誤案例是，由於使用原生 API 直接操作 DOM 導致水合無法在伺服器呈現的用戶端上找到或匹配預期的 DOM 樹狀結構。您可能會遇到此類錯誤的另一種情況前面在 [有效 HTML 結構](#valid-html-structure) 部分中提到過。因此，請務必確認範本中的 HTML 使用有效結構，這樣就能避免該錯誤案例。
+您可能會遇到多種 Hydration 相關錯誤，範圍從節點不匹配到在無效主機節點上使用 `ngSkipHydration` 的情況。最常發生的錯誤案例是，由於使用原生 API 直接操作 DOM 導致 Hydration 無法在伺服器呈現的用戶端上找到或匹配預期的 DOM 樹狀結構。您可能會遇到此類錯誤的另一種情況前面在 [有效 HTML 結構](#valid-html-structure) 部分中提到過。因此，請務必確認範本中的 HTML 使用有效結構，這樣就能避免該錯誤案例。
 
 有關Hydration相關錯誤的完整參考，請參閱 [錯誤參考指南](/errors)。
 
-## 如何略過特定元件的補水
+## 如何略過特定元件的 Hydration
 
 有些元件可能無法適當地與啟用的水化一起運作，原因是某些上述問題，例如 [直接 DOM 操作](#direct-dom-manipulation)。作為解決方法，您可以將 `ngSkipHydration` 屬性新增到元件標籤中，以便略過對整個元件進行水化。
 
@@ -128,9 +128,9 @@ HELPFUL: 這將修正渲染問題，但這表示對於此元件（及其子項�
 
 ## I18N
 
-我們尚未支援國際化與水合，但支援即將推出。
-目前，Angular 會略過使用 i18n 區塊的元件的水合，實際上是從頭重新呈現這些元件。
+我們尚未支援國際化與 Hydration，但支援即將推出。
+目前，Angular 會略過使用 i18n 區塊的元件的 Hydration，實際上是從頭重新呈現這些元件。
 
 ## 使用 DOM 操作的第三方函式庫
 
-有許多第三方程式庫仰賴 DOM 處理才能進行渲染。D3 圖表就是一個很好的例子。這些程式庫在沒有水合的情況下也可以運作，但當啟用水合時，它們可能會導致 DOM 不匹配錯誤。目前，如果您在使用其中一個程式庫時遇到 DOM 不匹配錯誤，您可以將 `ngSkipHydration` 屬性新增到使用該程式庫進行渲染的元件中。
+有許多第三方程式庫仰賴 DOM 處理才能進行渲染。D3 圖表就是一個很好的例子。這些程式庫在沒有 Hydration 的情況下也可以運作，但當啟用 Hydration 時，它們可能會導致 DOM 不匹配錯誤。目前，如果您在使用其中一個程式庫時遇到 DOM 不匹配錯誤，您可以將 `ngSkipHydration` 屬性新增到使用該程式庫進行渲染的元件中。
