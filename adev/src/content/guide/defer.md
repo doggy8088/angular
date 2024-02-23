@@ -280,7 +280,7 @@ it('should render a defer block in different states', async () => {
 });
 ```
 
-## 服務器端渲染 (SSR) 和靜態網站產生 (SSG) 的行為
+## 伺服器端渲染 (SSR) 和靜態網站產生 (SSG) 的行為
 
 當在伺服器上呈現應用程式（使用 SSR 或 SSG），遞延區塊總是會呈現其 `@placeholder`（或如果沒有指定 placeholder，則不會呈現任何內容）。觸發器在伺服器上會被忽略。
 
