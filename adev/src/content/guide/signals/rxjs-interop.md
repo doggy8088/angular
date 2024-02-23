@@ -84,7 +84,7 @@ export class SearchResults {
 
 ### `toObservable` 的時機
 
-`toObservable` 使用效應來追蹤 `ReplaySubject` 中信號的值。在訂閱時，第一個值（如果有）可能會同步發出，而所有後續值都將是異步的。
+`toObservable` 使用效應來追蹤 `ReplaySubject` 中信號的值。在訂閱時，第一個值（如果有）可能會同步發出，而所有後續值都將是非同步的。
 
 與可觀察的物件不同，訊號永遠不會提供同步的變更通知。即使您多次更新訊號的值，`toObservable` 僅會在訊號穩定後才發出該值。
 
