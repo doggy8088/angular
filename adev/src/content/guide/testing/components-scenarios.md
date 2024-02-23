@@ -529,7 +529,7 @@ Marble 測試使用測試排程器來模擬同步測試中時間的流逝。
 每個符號 \(`-`, `x`, `|`, `#`\) 標示一個框架的經過。
 
 *冷* observable 直到您訂閱它才產生值。
-您的應用程序 observable 大多是冷的。
+您的應用程式 observable 大多是冷的。
 所有 [*HttpClient*](guide/http) 方法都會傳回冷的 observable。
 
 *熱門* 可觀察物件在您訂閱之前已經產生值。

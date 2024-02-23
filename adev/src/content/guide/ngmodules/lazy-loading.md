@@ -302,7 +302,7 @@ Angular CLI 也會將 `RouterModule.forChild(routes)` 新增至功能路由模�
 
 為了啟用所有延遲載入模組和獨立元件的預載，請從 Angular `router` 匯入 `PreloadAllModules` 標記。
 
-### 基於模組的應用程序
+### 基於模組的應用程式
 
 <docs-code header="AppRoutingModule (excerpt)" language="typescript">
 

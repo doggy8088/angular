@@ -22,10 +22,10 @@ class HeroService {}
 下一步是通過提供它來使其在 DI 中可用。
 依賴關係可以在多個地方提供：
 
-* [**首選：在應用程序根級別使用 `providedIn`。**](#preferred-at-the-application-root-level-using-providedin)
+* [**首選：在應用程式根級別使用 `providedIn`。**](#preferred-at-the-application-root-level-using-providedin)
 * [在元件級別。](#at-the-component-level)
-* [在應用程序根級別使用 `ApplicationConfig`。](#at-application-root-level-using-applicationconfig)
-* [`NgModule` 基礎的應用程序。](#ngmodule-based-applications)
+* [在應用程式根級別使用 `ApplicationConfig`。](#at-application-root-level-using-applicationconfig)
+* [`NgModule` 基礎的應用程式。](#ngmodule-based-applications)
 
 ### **建議**: 在應用程式根目錄層級使用 `providedIn`
 
@@ -64,7 +64,7 @@ class HeroListComponent {}
 
 註解：宣告像這樣的服務會導致 `HeroService` 一直包含在您的應用程式中，即使該服務未使用。
 
-### 在應用程序根級別使用 `ApplicationConfig`
+### 在應用程式根級別使用 `ApplicationConfig`
 
 您可以在 `ApplicationConfig` 的 `providers` 欄位中（傳遞給 `bootstrapApplication` 函數）提供服務或其他在應用程式層級的 `Injectable`。
 

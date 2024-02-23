@@ -65,7 +65,7 @@ Angular 可以快速地判斷是否可以略過執行管線和更新檢視。
     <docs-code header="src/app/flying-heroes.pipe.ts" path="adev/src/content/examples/pipes/src/app/flying-heroes.pipe.ts" visibleRegion="pure"/>
 </docs-code-multifile>
 
-應用程序現在顯示出意外的行為：當使用者新增會飛的英雄時，沒有任何英雄會出現在「會飛的英雄」底下。
+應用程式現在顯示出意外的行為：當使用者新增會飛的英雄時，沒有任何英雄會出現在「會飛的英雄」底下。
 這發生是因為新增英雄的程式碼會將其推入用作 `flyingHeroes` 管道輸入的 `heroes` 陣列。
 
 <docs-code header="src/app/flying-heroes.component.ts" path="adev/src/content/examples/pipes/src/app/flying-heroes.component.ts" visibleRegion="push"/>
@@ -112,4 +112,3 @@ Angular 在每次偵測到變更時（例如每次擊鍵或滑鼠事件）執行
 如以下程式碼所示，只有範本中的管線會改變。
 
 <docs-code header="src/app/flying-heroes-impure.component.html (excerpt)" path="adev/src/content/examples/pipes/src/app/flying-heroes-impure.component.html" visibleRegion="template-flying-heroes"/>
-

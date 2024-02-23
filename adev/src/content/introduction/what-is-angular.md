@@ -34,7 +34,7 @@ Angular 是個讓開發人員能建立快速、可靠應用程式的網頁框架
   </docs-card>
 </docs-card-container>
 
-## 比以往更快地開發應用程序
+## 比以往更快地開發應用程式
 
 <docs-card-container>
   <docs-card title="使用 Angular CLI 輕鬆建置、服務、測試、部署" href="tools/cli" link="Angular CLI">

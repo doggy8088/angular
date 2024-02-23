@@ -93,7 +93,7 @@ Angular DevTools 會在 Chrome 中開啟「元素」標籤或在 Firefox 中開�
 
 <img src="assets/content/images/guide/devtools/inspect-element.png" alt="截圖顯示「元件」標籤，其中顯示 Angular 待辦事項應用程式。在 Angular DevTools 的左上角，選取一個螢幕圖示，其中有一個滑鼠圖示。滑鼠停留在 Angular 應用程式 UI 中的待辦事項元素上。該元素以「`<TodoComponent>`」標籤突出顯示，並在相鄰的工具提示中顯示。">
 
-## 分析你的應用程序
+## 分析你的應用程式
 
 **Profiler** 標籤讓您可視化 Angular 變更偵測的執行。這對於確定變更偵測何時以及如何影響應用程式的效能非常有用。
 

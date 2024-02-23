@@ -72,7 +72,7 @@ export class ItemService {
 
 在 `root` 上方還有兩個注入器，一個額外的 `EnvironmentInjector` 和 `NullInjector()`。
 
-考慮 Angular 如何在 `main.ts` 中使用以下內容引導應用程序：
+考慮 Angular 如何在 `main.ts` 中使用以下內容引導應用程式：
 
 <docs-code language="javascript">
 bootstrapApplication(AppComponent, appConfig);

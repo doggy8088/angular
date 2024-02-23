@@ -117,7 +117,7 @@
     ts
     providers: [provideRouter(routes)]
 
-對於基於 `NgModule` 的應用程序，請將 `provideRouter` 放在 `AppModule` 的 `providers` 清單中，或放在應用程序中傳遞給 `bootstrapModule` 的任何模組中。
+對於基於 `NgModule` 的應用程式，請將 `provideRouter` 放在 `AppModule` 的 `providers` 清單中，或放在應用程式中傳遞給 `bootstrapModule` 的任何模組中。
 
 ## 使用 `router-outlet` 更新元件
 
@@ -221,7 +221,7 @@ http://localhost:4200/heroes-list
     | `redirectTo` | 這個屬性指示 Angular 從空路徑重新導向到 `heroes-list` 路徑。                                                                                                                                                       |
     | `pathMatch`  | 這個屬性指示 Angular 要比對多少的網址。對於本教學課程，你應該將這個屬性設定為 `full`。當路徑為空字串時，建議使用此策略。有關此屬性的更多資訊，請參閱 [Route API 文件](api/router/Route)。 |
 
-現在當你開啟你的應用程序時，它會預設顯示 `heroes-list` 元件。
+現在當你開啟你的應用程式時，它會預設顯示 `heroes-list` 元件。
 
 ## 404 頁面新增
 

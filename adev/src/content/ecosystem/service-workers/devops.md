@@ -3,7 +3,7 @@
 此頁面是使用 Angular 服務工作程序來部署和支援生產應用程式的參考。
 它解釋了 Angular 服務工作程序如何融入較大的生產環境、服務工作程序在各種情況下的行為，以及可用資源和故障保護。
 
-## Service worker 和應用程序資源的快取
+## Service worker 和應用程式資源的快取
 
 將 Angular 服務工作者想像成安裝在最終使用者網路瀏覽器中的前進快取或內容傳遞網路 (CDN) 邊緣。
 服務工作者會回應 Angular 應用程式針對資源或數據提出的要求，從本機快取中回應，無需等待網路。
@@ -370,4 +370,3 @@ IMPORTANT: Service workers 不會在重新導向後運作。
   <docs-pill href="ecosystem/service-workers/config" title="設定檔案"/>
   <docs-pill href="ecosystem/service-workers/communications" title="與 Service Worker 溝通"/>
 </docs-pill-row>
-
