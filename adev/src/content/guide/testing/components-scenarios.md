@@ -918,7 +918,7 @@ Please call "TestBed.compileComponents" before your test.
 請記得，應用程式尚未編譯。
 因此，當您呼叫 `createComponent()` 時，`TestBed` 會隱式編譯。
 
-當源程式碼在記憶體中時，這不是問題。
+當原始碼在記憶體中時，這不是問題。
 但 `BannerComponent` 需要編譯器必須從檔案系統讀取的外部檔案，這是一個固有的*異步*操作。
 
 如果允許 `TestBed` 繼續進行，測試將會在編譯器完成之前運行並神秘地失敗。
