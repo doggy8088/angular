@@ -430,7 +430,7 @@ my.component.ts.MyComponent.html(1,1): : Property 'addresss' does not exist on t
 
 </docs-code>
 
-錯誤訊息中報告的文件名稱 `my.component.ts.MyComponent.html` 是範本編譯器生成的一個合成檔案，其中包含 `MyComponent` 類別範本的內容。
+錯誤訊息中報告的文件名稱 `my.component.ts.MyComponent.html` 是範本編譯器產生的一個合成檔案，其中包含 `MyComponent` 類別範本的內容。
 編譯器絕不會將此檔案寫入磁碟中。
 行號和欄號是相對於 `@Component` 註解中的範本字串，在本例中為 `MyComponent`。
 如果元件使用 `templateUrl` 而不是 `template`，則錯誤會報告在 `templateUrl` 參照的 HTML 檔案中，而不是合成檔案中。
@@ -516,4 +516,3 @@ setData(person: Person, address: Address) {
 }
 
 </docs-code>
-

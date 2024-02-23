@@ -30,7 +30,7 @@ CLI 會自動附加 `Component`，因此如果您寫 `first-component`，您的�
 
 <docs-callout title="`base href`">
 
-本指南適用於 CLI 生成的 Angular 應用程式。
+本指南適用於 CLI 產生的 Angular 應用程式。
 
 </docs-callout>
 

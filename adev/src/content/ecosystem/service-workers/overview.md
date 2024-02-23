@@ -44,7 +44,7 @@ Angular 的服務工作者旨在優化最終用戶在速度慢或不可靠的網
 為了支援這些行為，Angular service worker 會從伺服器載入一個 *manifest* 檔案。
 檔案稱為 `ngsw.json`（不要與 [web app manifest](https://developer.mozilla.org/docs/Web/Manifest) 混淆），描述要快取的資源，並包含每個檔案內容的雜湊值。
 當應用程式的更新已部署時，宣告變更的內容，通知 service worker 應下載並快取新版本的應用程式。
-此宣告會從 CLI 生成的組態檔 `ngsw-config.json` 產生。
+此宣告會從 CLI 產生的組態檔 `ngsw-config.json` 產生。
 
 安裝 Angular 服務工作者和 [執行 Angular CLI 指令](ecosystem/service-workers/getting-started#adding-a-service-worker-to-your-project) 一樣簡單。
 除了向瀏覽器註冊 Angular 服務工作者之外，這也會讓幾個可用於注入的服務與服務工作者互動，並可被用來控制它。
@@ -106,4 +106,3 @@ IE 和 Opera Mini 等瀏覽器不支援服務工作者。
 ## 下一步
 
 若要開始使用 Angular 服務工作者，請參閱 [服務工作者入門](ecosystem/service-workers/getting-started)。
-

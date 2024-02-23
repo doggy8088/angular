@@ -33,7 +33,7 @@ Angular 團隊認為這兩個選項都很穩定，並提供完整的支援。
 
 ### 使用 `browser-esbuild` builder
 
-在 Angular CLI 生成的應用程式中，`@angular-devkit/build-angular` 套件內提供一個名為 `browser-esbuild` 的建構工具。
+在 Angular CLI 產生的應用程式中，`@angular-devkit/build-angular` 套件內提供一個名為 `browser-esbuild` 的建構工具。
 您可以針對使用 `browser` 建構工具的應用程式嘗試新的建構系統。
 如果使用自訂建構工具，請參閱該建構工具的文件，以了解可能的遷移選項。
 
@@ -63,7 +63,7 @@ Angular 團隊認為這兩個選項都很穩定，並提供完整的支援。
 
 ### 使用 `application` 建構函數
 
-在 Angular CLI 生成的應用程式中，`@angular-devkit/build-angular` 套件中也有一個名為 `application` 的建構器。
+在 Angular CLI 產生的應用程式中，`@angular-devkit/build-angular` 套件中也有一個名為 `application` 的建構器。
 這個建構器是所有透過 `ng new` 建立的新應用程式的預設建構器。
 
 以下是在 `angular.json` 中通常會找到的應用程式範例：
@@ -246,4 +246,3 @@ Web Workers 可使用與 `browser` 建構函式支援的相同語法 (`new Worke
 在 [GitHub](https://github.com/angular/angular-cli/issues) 上報告問題和功能請求。
 
 如有可能，請提供一個最小的重現範例，以幫助團隊解決問題。
-

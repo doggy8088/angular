@@ -13,8 +13,8 @@ Angular CLI 包含四個通常用作 `build` 目標的建構器：
 | `@angular-devkit/build-angular:application`     | 使用 [esbuild](https://esbuild.github.io/) 建置包含客戶端套件、Node 伺服器和建置時間預先呈現路由的應用程式。                                                                   |
 | `@angular-devkit/build-angular:ng-packagr`      | 建置符合 [Angular 套件格式](tools/libraries/angular-package-format) 的 Angular 函式庫。                                                                           |
 
-由 `ng new` 生成的應用程式預設使用 `@angular-devkit/build-angular:application`。
-由 `ng generate library` 生成的函式庫預設使用 `@angular-devkit/build-angular:ng-packagr`。
+由 `ng new` 產生的應用程式預設使用 `@angular-devkit/build-angular:application`。
+由 `ng generate library` 產生的函式庫預設使用 `@angular-devkit/build-angular:ng-packagr`。
 
 您可以透過查詢該項目的 `build` 目標來確定正在為特定項目使用哪個建構器。
 
@@ -152,4 +152,3 @@ Firefox ESR
 您應該只減少此清單中的瀏覽器或版本集合。
 
 HELPFUL：使用 [browsersl.ist](https://browsersl.ist) 顯示與 `browserslist` 查詢相容的瀏覽器。
-

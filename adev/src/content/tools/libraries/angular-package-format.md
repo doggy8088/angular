@@ -26,21 +26,21 @@ Angular 分發格式支援所有常用的開發工具和工作流程，並強調
 
 ```markdown
 node_modules/@angular/core
-├── README.md  
-├── package.json  
-├── index.d.ts  
-├── esm2022  
+├── README.md
+├── package.json
+├── index.d.ts
+├── esm2022
 │   ├── core.mjs
 │   ├── index.mjs
 │   ├── public_api.mjs
-│   └── testing  
-├── fesm2022  
+│   └── testing
+├── fesm2022
 │   ├── core.mjs
 │   ├── core.mjs.map
 │   ├── testing.mjs
 │   └── testing.mjs.map
-└── testing  
-    └── index.d.ts  
+└── testing
+    └── index.d.ts
 ```
 
 下列表格描述在 `node_modules/@angular/core` 下的文件佈局，並附註說明檔案和目錄的目的：
@@ -399,5 +399,4 @@ Angular 的 Ahead of Time 編譯器。
 
 ### 壓平的類型定義
 
-從 [API Extractor](https://api-extractor.com) 生成的 TypeScript 定義組合。
-
+從 [API Extractor](https://api-extractor.com) 產生的 TypeScript 定義組合。

@@ -54,7 +54,7 @@ export class CustomerDashboardModule { }
 </docs-code>
 
 NgModule 的結構不論是根模組或功能模組都相同。
-在 CLI 生成的功能模組中，檔案最上方有兩個 JavaScript 匯入陳述式：第一個匯入 `NgModule`，與根模組類似，它讓您可以使用 `@NgModule` 裝飾器；第二個匯入 `CommonModule`，它提供了許多常見的指令，例如 `ngIf` 和 `ngFor`。
+在 CLI 產生的功能模組中，檔案最上方有兩個 JavaScript 匯入陳述式：第一個匯入 `NgModule`，與根模組類似，它讓您可以使用 `@NgModule` 裝飾器；第二個匯入 `CommonModule`，它提供了許多常見的指令，例如 `ngIf` 和 `ngFor`。
 
 備註：功能模組匯入 `CommonModule` 而非 `BrowserModule`，後者僅在根模組中匯入一次。
 `CommonModule` 只包含資訊，用於大多數範本中所需的常見指令，例如 `ngIf` 和 `ngFor`，而 `BrowserModule` 則為瀏覽器設定 Angular 應用程式，這只需要執行一次。

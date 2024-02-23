@@ -370,7 +370,7 @@ schematics blank --name=goodbye-world
 * `schematics` 屬性列出屬於此集合的已命名架構。
     每個架構都有純文字說明，並指向主檔案中的已生成輸入函數。
 
-* `factory` 屬性指向已生成的輸入函數。
+* `factory` 屬性指向已產生的輸入函數。
     在此範例中，您可以透過呼叫 `helloWorld()` 工廠函數來呼叫 `hello-world` 架構。
 
 * 選擇性的 `schema` 屬性指向定義架構可用的命令列選項的 JSON 架構檔案。

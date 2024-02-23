@@ -122,8 +122,8 @@ ng generate library my-lib
 
 ### 多重專案檔案結構
 
-第一個明確生成的應用程式會和工作空間中的所有其他專案一起進入 `projects` 資料夾。
-新生成的程式庫也會新增至 `projects` 底下。
+第一個明確產生的應用程式會和工作空間中的所有其他專案一起進入 `projects` 資料夾。
+新產生的程式庫也會新增至 `projects` 底下。
 當你以這種方式建立專案時，工作空間的檔案結構會與 [工作空間設定檔](reference/configs/workspace-config) `angular.json` 的結構完全一致。
 
 ```markdown
