@@ -93,7 +93,7 @@ Angular 的 `HttpClientModule` 是服務 NgModule 的一個好例子。
 將常用的指令、管道和元件放入一個 NgModule，通常命名為 `SharedModule`，然後在應用程式的其他部分需要時匯入該 NgModule。
 可以在網域 NgModule 中匯入共用 NgModule，包括 [延遲載入的 NgModule](/guide/ngmodules/lazy-loading "延遲載入 NgModule")。
 
-注意：共用的 NgModules 不應包含提供者，其匯入或重新導出的任何 NgModules 也不應包含提供者。
+注意：共用的 NgModules 不應包含提供者，其匯入或重新匯出的任何 NgModules 也不應包含提供者。
 
 如要了解如何使用共用模組來組織和簡化您的程式碼，請參閱 [應用程式中的共用 NgModules](/guide/ngmodules/sharing "應用程式中的共用 NgModules")。
 

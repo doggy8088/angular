@@ -147,7 +147,7 @@ let = "let" :local "=" :export ";"?
 | `prefix`     | HTML 屬性鍵                                        |
 | `key`        | HTML 屬性鍵                                        |
 | `local`      | 範本中使用的區域變數名稱                             |
-| `export`     | 指令在給定名稱下導出的值                             |
+| `export`     | 指令在給定名稱下匯出的值                             |
 | `expression` | 標準的 Angular 運算式                                |
 
 ### Angular 如何轉換簡寫

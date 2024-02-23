@@ -38,7 +38,7 @@ export class SharedModule { }
 * 它宣告並匯出工具管道、指令和元件類別
 * 它重新匯出 `CommonModule` 和 `FormsModule`
 
-藉由重新導出 `CommonModule` 和 `FormsModule`，任何匯入此 `SharedModule` 的其他模組，都能存取 `CommonModule` 的指令，例如 `NgIf` 和 `NgFor`，並能以 `FormsModule` 中的指令 `[(ngModel)]` 繫結至元件屬性。
+藉由重新匯出 `CommonModule` 和 `FormsModule`，任何匯入此 `SharedModule` 的其他模組，都能存取 `CommonModule` 的指令，例如 `NgIf` 和 `NgFor`，並能以 `FormsModule` 中的指令 `[(ngModel)]` 繫結至元件屬性。
 
 即使由 `SharedModule` 宣告的元件可能不會與 `[(ngModel)]` 繫結，而且 `SharedModule` 可能不需要匯入 `FormsModule`，`SharedModule` 仍然可以匯出 `FormsModule`，而不用將它列在 `imports` 之中。
 這樣您可以讓其他模組存取 `FormsModule`，而不用讓它自己可用。

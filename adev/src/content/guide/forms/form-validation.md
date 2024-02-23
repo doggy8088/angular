@@ -10,8 +10,8 @@ Angular 使用指令將這些屬性與架構中的驗證器函式相符。
 
 每次表單控制項的值變更時，Angular 會執行驗證並產生驗證錯誤清單，清單會導致 `INVALID` 狀態，或產生 null，導致 VALID 狀態。
 
-然後，您可以通過將 `ngModel` 導出到本地範本變數來檢查控制項的狀態。
-以下範例將 `NgModel` 導出到稱為 `name` 的變數：
+然後，您可以通過將 `ngModel` 匯出到本地範本變數來檢查控制項的狀態。
+以下範例將 `NgModel` 匯出到稱為 `name` 的變數：
 
 <docs-code header="template/actor-form-template.component.html (name)" path="adev/src/content/examples/form-validation/src/app/template/actor-form-template.component.html" visibleRegion="name-with-error-msg"/>
 

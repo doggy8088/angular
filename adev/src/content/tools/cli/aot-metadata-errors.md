@@ -25,11 +25,11 @@ const prop = typeof Fooish; // typeof is not valid in metadata
 
 寫入 Angular 元數據時，請堅持使用編譯器的 [受限表達式語法](tools/cli/aot-compiler#expression-syntax) 來避免此錯誤，並小心新的或不尋常的 TypeScript 功能。
 
-## 參考當地 (非導出的) 符號
+## 參考當地 (非匯出的) 符號
 
-有用的：參考本地（未導出）符號「符號名稱」。請考慮導出符號。
+有用的：參考本地（未匯出）符號「符號名稱」。請考慮匯出符號。
 
-編譯器遇到對本地定義的符號的參考，而該符號未導出或未初始化。
+編譯器遇到對本地定義的符號的參考，而該符號未匯出或未初始化。
 
 以下是一個 `provider` 的問題範例。
 
@@ -49,7 +49,7 @@ export class MyComponent {}
 
 </docs-code>
 
-編譯器會自動建立元件工廠，其中包括 `useValue` 提供者程式碼，在一個獨立的模組中。*該* 工廠模組無法回溯到 *這個* 來源模組來存取本地的（未導出的）`foo` 變數。
+編譯器會自動建立元件工廠，其中包括 `useValue` 提供者程式碼，在一個獨立的模組中。*該* 工廠模組無法回溯到 *這個* 來源模組來存取本地的（未匯出的）`foo` 變數。
 
 您可以通過初始化 `foo` 來修復此問題。
 
@@ -81,7 +81,7 @@ export let foo: number; // exported
 export class MyComponent {}
 </docs-code>
 
-將 `export` 加入通常適用於在元數據中引用的變數，例如 `providers` 和 `animations`，因為編譯器可以在這些表達式中產生導出變數的 *參照*。它不需要那些變數的 *值*。
+將 `export` 加入通常適用於在元數據中引用的變數，例如 `providers` 和 `animations`，因為編譯器可以在這些表達式中產生匯出變數的 *參照*。它不需要那些變數的 *值*。
 
 當編譯器需要*實際值*來產生程式碼時，加入 `export` 不起作用。
 例如，它不適用於 `template` 屬性。
@@ -158,12 +158,12 @@ export class MyComponent {}
 
 </docs-code>
 
-## 參照未導出的類別
+## 參照未匯出的類別
 
 HELPFUL: *參照未匯出的類別`<class name>`.*
 *考慮匯出該類別。*
 
-Metadata 參照未導出的類別。
+Metadata 參照未匯出的類別。
 
 例如，您可能已定義一個類別並將它用作提供者陣列中的注入令牌，但忽視匯出該類別。
 
@@ -196,11 +196,11 @@ export abstract class MyStrategy { }
 
 </docs-code>
 
-## 參照非導出的函式
+## 參照非匯出的函式
 
 HELPFUL: *Metadata 參照未匯出的函式。*
 
-例如，您可能已將提供者的 `useFactory` 屬性設定為您忽略導出的本地定義函式。
+例如，您可能已將提供者的 `useFactory` 屬性設定為您忽略匯出的本地定義函式。
 
 <docs-code language="typescript">
 

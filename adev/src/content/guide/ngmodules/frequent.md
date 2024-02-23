@@ -45,8 +45,8 @@ export class AppModule { }
 
 ## `BrowserModule` 和 `CommonModule`
 
-`BrowserModule` 重新導出 `CommonModule`，它公開許多常見指令，例如 `ngIf` 和 `ngFor`。
-由於重新導出，這些指令可供任何匯入瀏覽器模組的模組使用。
+`BrowserModule` 重新匯出 `CommonModule`，它公開許多常見指令，例如 `ngIf` 和 `ngFor`。
+由於重新匯出，這些指令可供任何匯入瀏覽器模組的模組使用。
 
 對於在瀏覽器中執行的應用程式，請在根 `AppModule` 中匯入 `BrowserModule`，因為它提供在瀏覽器中啟動和呈現應用程式所必需的服務。
 

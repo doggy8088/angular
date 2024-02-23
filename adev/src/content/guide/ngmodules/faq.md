@@ -120,8 +120,8 @@ NgModules 甚至可以匯出它沒有匯入的模組。
 
 NgModules 是一種很棒的方式，可以有選擇地從其他 NgModules 聚合類別，並將它們重新匯出到一個整合的便利模組中。
 
-NgModule 可以重新導出整個 NgModules，實際上會重新導出所有導出的類別。
-Angular 自身的 `BrowserModule` 像這樣導出幾個 NgModules：
+NgModule 可以重新匯出整個 NgModules，實際上會重新匯出所有匯出的類別。
+Angular 自身的 `BrowserModule` 像這樣匯出幾個 NgModules：
 
 <docs-code language="typescript">
 
@@ -359,10 +359,10 @@ export class GreetingModule {
 `SharedModule` 是 `NgModule` 的慣用名稱，其中包含您在應用程式中到處使用的元件、指令和管道。
 此模組應完全由 `declarations` 組成，其中大部分會被匯出。
 
-`SharedModule` 可以重新導出其他小工具模組，例如 `CommonModule`、`FormsModule` 和含有您最廣泛使用的 UI 控制項的 NgModules。
+`SharedModule` 可以重新匯出其他小工具模組，例如 `CommonModule`、`FormsModule` 和含有您最廣泛使用的 UI 控制項的 NgModules。
 
 出於先前 [解釋過的原因](#why-is-it-bad-if-a-shared-module-provides-a-service-to-a-lazy-loaded-module?)，`SharedModule` 不應具有 `providers`。
-其匯入或重新導出的模組也不應具有 `providers`。
+其匯入或重新匯出的模組也不應具有 `providers`。
 
 在您的 *特色* 模組中匯入 `SharedModule`。
 
@@ -385,7 +385,7 @@ export class GreetingModule {
 Angular 的 NgModule 是帶有 `@NgModule` 裝飾器的類別 &mdash;JavaScript 模組不必帶有 `@NgModule` 裝飾器。
 Angular 的 `NgModule` 具有 `imports` 和 `exports`，它們具有類似的用途。
 
-您可以*匯入*其他 NgModules，以便在元件範本中使用其導出的類別。
+您可以*匯入*其他 NgModules，以便在元件範本中使用其匯出的類別。
 您可以*匯出*此 NgModule 的類別，以便可以匯入並由*其他* NgModules 的元件使用。
 
 如需詳細資訊，請參閱 [JavaScript 模組與 NgModules](guide/ngmodules/vs-jsmodule)。
