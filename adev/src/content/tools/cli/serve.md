@@ -33,7 +33,7 @@
 
 ## 代理到後端伺服器
 
-使用 [代理支持](https://webpack.js.org/configuration/dev-server/#devserverproxy) 將特定 URL 轉移至後端伺服器，方法是將檔案傳遞給 `--proxy-config` 建置選項。
+使用 [代理支援](https://webpack.js.org/configuration/dev-server/#devserverproxy) 將特定 URL 轉移至後端伺服器，方法是將檔案傳遞給 `--proxy-config` 建置選項。
 例如，若要將所有對 `http://localhost:4200/api` 的呼叫轉移至執行於 `http://localhost:3000/api` 的伺服器，請執行下列步驟。
 
 1. 在專案的 `src/` 資料夾中建立 `proxy.conf.json` 檔案。
@@ -85,4 +85,3 @@ NOTE：如果您編輯代理設定檔，您必須重新啟動 `ng serve` 程序�
 如果您使用代理程式鎖定 `localhost` URL 時收到 `ECONNREFUSED` 錯誤，您可以透過將目標從 `http://localhost:<port>` 更新為 `http://127.0.0.1:<port>` 來修正此問題。
 
 請參閱 [http-proxy-middleware 文件](https://github.com/chimurai/http-proxy-middleware#nodejs-17-econnrefused-issue-with-ipv6-and-localhost-705) 以獲取更多資訊。
-
