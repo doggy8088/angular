@@ -190,7 +190,7 @@ const routes: Routes = [
 最後一個項目定義了預設路由。
 空路徑符合任何與先前路徑不符的內容。
 
-### 在功能模塊內
+### 在功能模組內
 
 接下來，請看看 `customers.module.ts` 檔案。
 如果您使用 Angular CLI 並且依照此頁面中概述的步驟進行，您無須在此處執行任何操作。
@@ -243,7 +243,7 @@ export class CustomersRoutingModule { }
 此處的 `path` 設為空字串，因為 `AppRoutingModule` 中的路徑已設為 `customers`，因此 `CustomersRoutingModule` 中的這個路由已在 `customers` 的內容中。
 此路由模組中的每個路由都是子路由。
 
-其他功能模塊的路由模塊配置類似。
+其他功能模組的路由模組配置類似。
 
 <docs-code header="src/app/orders/orders-routing.module.ts (excerpt)" language="typescript">
 import { OrdersComponent } from './orders.component';
@@ -302,7 +302,7 @@ Angular CLI 也會將 `RouterModule.forChild(routes)` 新增至功能路由模�
 
 為了啟用所有延遲載入模組和獨立元件的預載，請從 Angular `router` 匯入 `PreloadAllModules` 標記。
 
-### 基於模塊的應用程序
+### 基於模組的應用程序
 
 <docs-code header="AppRoutingModule (excerpt)" language="typescript">
 

@@ -427,7 +427,7 @@ HELPFUL：儘管專用資料夾中的元件廣受歡迎，但小型應用程式�
 
 <docs-code path="adev/src/content/examples/styleguide/src/04-08/app/app.module.ts" language="typescript" visibleRegion="example" header="app/app.module.ts"/>
 
-### 功能模塊
+### 功能模組
 
 #### 樣式 04-09
 

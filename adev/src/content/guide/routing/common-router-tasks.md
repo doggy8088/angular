@@ -47,7 +47,7 @@ import {SecondComponent} from './second/second.component';
 
 ## 定義基本路由
 
-建立路線有三個基本構建模塊。
+建立路線有三個基本構建模組。
 
 將路由匯入 `app.config.ts` 並將其新增至 `provideRouter` 函數。以下是在 CLI 中使用的預設 `ApplicationConfig`。
 
