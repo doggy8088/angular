@@ -7,7 +7,7 @@ Angular 是個讓開發人員能建立快速、可靠應用程式的網頁框架
 
 由 Google 專屬團隊維護，Angular 提供一套廣泛的工具、API 和函式庫，以簡化和精簡您的開發工作流程。Angular 為您提供一個穩固的平台，可讓您建立快速、可靠的應用程式，而且隨著團隊規模和程式碼庫大小的增加，應用程式也能夠擴充。
 
-**想看一些程式碼嗎？**跳到我們的 [Essentials](essentials) 快速瀏覽一下
+**想看一些程式碼嗎？** 跳到我們的 [Essentials](essentials) 快速瀏覽一下
 在使用 Angular 時的情況，或者在 [Tutorial](tutorials/learn-angular) 中開始，如果您
 喜歡按照逐步指示操作。
 
