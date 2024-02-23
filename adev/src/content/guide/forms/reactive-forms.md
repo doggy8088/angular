@@ -13,7 +13,7 @@
 串流的任何使用者都可以安全地操作該資料。
 
 Reactive 表單與 [範本驅動表單](guide/forms/template-driven-forms) 在不同的方式上有差異。
-Reactive 表單提供同步存取資料模型、具有可觀察運算符的不變性，以及透過可觀察串流進行變更追蹤。
+Reactive 表單提供同步存取資料模型、具有可觀察運算子的不變性，以及透過可觀察串流進行變更追蹤。
 
 Template-driven forms 讓直接存取修改範本中的資料，但相較於 reactive forms 較不明確，因為它們依賴嵌入範本中的指令，以及可變資料來非同步追蹤變更。
 請參閱 [Forms Overview](guide/forms) 以詳細比較這兩種範式。

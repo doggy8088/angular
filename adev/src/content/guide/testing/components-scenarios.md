@@ -867,7 +867,7 @@ AppComponent 連結用以驗證如下：
 <docs-code
   path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.html" header="app/hero/hero-detail.component.html"/>
 
-測試元件所需的運算符 &hellip;
+測試元件所需的運算子 &hellip;
 
 * 在英雄出現之前等待元素出現在 DOM 中
 * 對標題文字的參照
