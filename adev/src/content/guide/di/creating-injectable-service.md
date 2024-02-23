@@ -106,19 +106,19 @@ export class HeroService {
 
 在 Angular 中，您可以通過以下幾種方式來注入服務：
 
-* 使用構造函式注入
+* 使用建構函式注入
 * 使用屬性注入
 * 使用方法注入
 
-### 構造函式注入
+### 建構函式注入
 
-構造函式注入是最常見的注入方式。在構造函式中，您可以指定要注入的服務。例如：
+建構函式注入是最常見的注入方式。在建構函式中，您可以指定要注入的服務。例如：
 
 typescript
 export class MyComponent {
   constructor(private myService: MyService) {}
 }
-在這個例子中，`MyComponent` 的構造函式接受一個 `MyService` 的參數。這意味著當 `MyComponent` 被建立時，Angular 會自動將一個 `MyService` 的實例注入到 `myService` 參數中。
+在這個例子中，`MyComponent` 的建構函式接受一個 `MyService` 的參數。這意味著當 `MyComponent` 被建立時，Angular 會自動將一個 `MyService` 的實例注入到 `myService` 參數中。
 
 ### 屬性注入
 
@@ -164,7 +164,7 @@ export class MyComponent {
 
 服務注入是一種將依賴項傳遞給類別的過程。它允許類別鬆散耦合，並且更容易測試。在 Angular 中，您可以通過以下幾種方式來注入服務：
 
-* 使用構造函式注入
+* 使用建構函式注入
 * 使用屬性注入
 * 使用方法注入
 
