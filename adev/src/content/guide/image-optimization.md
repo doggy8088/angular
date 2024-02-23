@@ -14,7 +14,7 @@
 
 * 使用 [圖像 CDN URL 套用圖像最佳化](https://web.dev/image-cdns/#how-image-cdns-use-urls-to-indicate-optimization-options)
 * 要求 `width` 和 `height` 以防止佈局位移
-* 如果 `width` 或 `height` 設置不正確，則發出警告
+* 如果 `width` 或 `height` 設定不正確，則發出警告
 * 如果渲染時圖像在視覺上會失真，則發出警告
 
 **注意：雖然 `NgOptimizedImage` 指令在 Angular 版本 15 中成為穩定功能，但它已反向移植，並在版本 13.4.0 和 14.3.0 中作為穩定功能提供。**
@@ -218,7 +218,7 @@ providers: [
 
 如果您的圖像應具有響應性（即根據視窗大小縮放），那麼您將需要定義[`sizes` 屬性](https://developer.mozilla.org/zh-TW/docs/Web/API/HTMLImageElement/sizes)來產生 `srcset`。
 
-如果您之前沒有使用過 `sizes`，一個好的開始做法是根據視窗寬度設置。例如，如果您的 CSS 導致圖像填滿視窗寬度的 100%，請將 `sizes` 設置為 `100vw`，瀏覽器會在 `srcset` 中選擇最接近視窗寬度的圖像（在考量像素密度之後）。如果您的圖像可能只佔螢幕的一半（例如：在側邊欄中），請將 `sizes` 設置為 `50vw`，以確保瀏覽器選擇較小的圖像。以此類推。
+如果您之前沒有使用過 `sizes`，一個好的開始做法是根據視窗寬度設定。例如，如果您的 CSS 導致圖像填滿視窗寬度的 100%，請將 `sizes` 設定為 `100vw`，瀏覽器會在 `srcset` 中選擇最接近視窗寬度的圖像（在考量像素密度之後）。如果您的圖像可能只佔螢幕的一半（例如：在側邊欄中），請將 `sizes` 設定為 `50vw`，以確保瀏覽器選擇較小的圖像。以此類推。
 
 如果您發現以上內容未涵蓋您想要的圖片行為，請參閱 [進階大小值](#進階大小值) 文件。
 

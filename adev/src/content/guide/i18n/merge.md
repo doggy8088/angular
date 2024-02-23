@@ -67,7 +67,7 @@ CLI 也會透過將地區新增到已設定的 `baseHref` 中，調整應用程�
 將 `"localize"` 屬性設定為共享配置，以有效繼承所有配置。
 另外，設定該屬性可覆寫其他配置。
 
-### `angular.json` 包含來自建置範例的所有區域設置
+### `angular.json` 包含來自建置範例的所有區域設定
 
 以下範例顯示在 [`angular.json`][AioGuideWorkspaceConfig] 工作區建置設定檔中，將 `"localize"` 選項設定為 `true`，以便建置建置設定中定義的所有地區設定。
 

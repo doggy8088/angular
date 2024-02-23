@@ -2,7 +2,7 @@
 
 當你想程式化地管理你的表單，而不是純粹依賴範本，反應式表單就是解答。
 
-在這個活動中，您將學習如何設置反應式表單。
+在這個活動中，您將學習如何設定反應式表單。
 
 <hr>
 
@@ -121,4 +121,3 @@ Angular has an event handler for this specific purpose called `ngSubmit`. Update
 就這樣，您已經知道如何在 Angular 中使用反應表單了。
 
 這項活動做得很好。繼續學習表單驗證。
-

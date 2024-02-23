@@ -228,7 +228,7 @@ const routes: Routes = [
 最後一個具有 `path` 的 `**` 路由是一個萬用字元路由。
 如果請求的 URL 與清單中較早的路徑都不相符，路由器會選擇此路由，並將使用者傳送至 `PageNotFoundComponent`。
 
-## 設置重新導向
+## 設定重新導向
 
 要設定重新導向，請設定一條路徑，其中包含您要重新導向的 `path`、您要重新導向的 `component`，以及一個 `pathMatch` 值，用於告知路由器如何比對 URL。
 

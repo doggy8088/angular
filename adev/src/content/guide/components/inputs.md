@@ -149,7 +149,7 @@ private internalValue = 0;
 }
 </docs-code>
 
-您可以僅定義一個公共設置器來建立一個 _寫入專用_ 輸入：
+您可以僅定義一個公共設定器來建立一個 _寫入專用_ 輸入：
 
 <docs-code language="ts">
 export class CustomSlider {

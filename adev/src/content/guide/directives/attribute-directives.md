@@ -134,7 +134,7 @@ HELPFUL: 處理常式委派給輔助方法 `highlight()`，將顏色設定在主
 如果沒有預設顏色繫結，預設顏色為紅色。
 當使用者選擇顏色時，選取的顏色會變成主動突顯顏色。
 
-<img alt="最終的亮點指令的動畫 gif，顯示紅色沒有約束力，以及默認顏色設置的紫羅蘭色。當用戶選擇顏色時，選擇具有優先權。" src="assets/content/images/guide/attribute-directives/highlight-directive-final-anim.gif">
+<img alt="最終的亮點指令的動畫 gif，顯示紅色沒有約束力，以及默認顏色設定的紫羅蘭色。當用戶選擇顏色時，選擇具有優先權。" src="assets/content/images/guide/attribute-directives/highlight-directive-final-anim.gif">
 
 ## 使用 `NgNonBindable` 停用 Angular 處理
 
@@ -157,4 +157,3 @@ html
 <docs-code header="src/app/app.component.html" linenums="false" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" visibleRegion="ngNonBindable-with-directive"/>
 
 如果你將 `ngNonBindable` 套用到父元素，Angular 會停用該元素子元素的插補和任何類型的繫結，例如屬性繫結或事件繫結。
-
