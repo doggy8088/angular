@@ -51,7 +51,7 @@ const doubleCount: Signal<number> = computed(() => count() * 2);
 
 #### 計算信號是延遲評估和備忘的
 
-`doubleCount` 的派生函式並不會在您第一次讀取 `doubleCount` 時執行以計算其值。計算出的值隨後會被快取，如果您再次讀取 `doubleCount`，它將會傳回快取值而不會重新計算。
+`doubleCount` 的衍生函式並不會在您第一次讀取 `doubleCount` 時執行以計算其值。計算出的值隨後會被快取，如果您再次讀取 `doubleCount`，它將會傳回快取值而不會重新計算。
 
 如果您之後變更 `count`，Angular 知道 `doubleCount` 的快取值不再有效，且下次您讀取 `doubleCount` 時，其新值會被計算出來。
 
