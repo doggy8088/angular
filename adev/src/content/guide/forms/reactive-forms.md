@@ -152,7 +152,7 @@ ng generate component ProfileEditor
 </docs-step>
 
 <docs-step title="儲存表單資料">
-`ProfileEditor` 元件接受使用者的輸入，但在實際情況下，您想擷取表單值，並讓元件外部可以進一步處理。`FormGroup` 指令會監聽 `form` 元素發出的 `submit` 事件，並發出 `ngSubmit` 事件，您可以將其繫結到回呼函數。使用 `onSubmit()` 回呼方法將 `ngSubmit` 事件監聽器新增到 `form` 標籤。
+`ProfileEditor` 元件接受使用者的輸入，但在實際情況下，您想擷取表單值，並讓元件外部可以進一步處理。`FormGroup` 指令會監聽 `form` 元素發出的 `submit` 事件，並發出 `ngSubmit` 事件，您可以將其繫結到回呼函式。使用 `onSubmit()` 回呼方法將 `ngSubmit` 事件監聽器新增到 `form` 標籤。
 
 <docs-code header="src/app/profile-editor/profile-editor.component.html (submit event)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.html" visibleRegion="ng-submit"/>
 
@@ -260,7 +260,7 @@ ng generate component ProfileEditor
 </docs-step>
 
 <docs-step title="注入 FormBuilder 服務">
-`FormBuilder` 服務是與反應式表單模組一起提供的可注入提供者。將此相依項新增至元件建構函數，以注入此相依項。
+`FormBuilder` 服務是與反應式表單模組一起提供的可注入提供者。將此相依項新增至元件建構函式，以注入此相依項。
 
 <docs-code header="src/app/profile-editor/profile-editor.component.ts (constructor)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.2.ts" visibleRegion="inject-form-builder"/>
 

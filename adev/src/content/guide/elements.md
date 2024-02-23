@@ -26,7 +26,7 @@ npm install @angular/elements --save
 
 ### 運作方式###
 
-`createCustomElement()` 函數將元件轉換為可向瀏覽器註冊為自訂元素的類別。
+`createCustomElement()` 函式將元件轉換為可向瀏覽器註冊為自訂元素的類別。
 將設定好的類別向瀏覽器的自訂元素註冊表註冊後，即可直接在內容中將新元素當成內建 HTML 元素使用，並將其新增至 DOM 中：
 
 <docs-code language="html">
@@ -41,12 +41,12 @@ npm install @angular/elements --save
 
 ## 將元件轉換為自訂元素
 
-Angular 提供 `createCustomElement()` 函數，用於將 Angular 元件連同其相依項轉換為自訂元素。
+Angular 提供 `createCustomElement()` 函式，用於將 Angular 元件連同其相依項轉換為自訂元素。
 
 轉換程序實作 `NgElementConstructor` 介面，並建立設定為產生元件的自我開機執行個體的建構函式類別。
 
-使用瀏覽器的原生 [`customElements.define()`](https://developer.mozilla.org/docs/Web/API/CustomElementRegistry/define) 函數，以註冊已設定的建構函數及其關聯的客製元素標記至瀏覽器的 [`CustomElementRegistry`](https://developer.mozilla.org/docs/Web/API/CustomElementRegistry)。
-當瀏覽器遇到已註冊元素的標記時，它會使用建構函數來建立客製元素實例。
+使用瀏覽器的原生 [`customElements.define()`](https://developer.mozilla.org/docs/Web/API/CustomElementRegistry/define) 函式，以註冊已設定的建構函式及其關聯的客製元素標記至瀏覽器的 [`CustomElementRegistry`](https://developer.mozilla.org/docs/Web/API/CustomElementRegistry)。
+當瀏覽器遇到已註冊元素的標記時，它會使用建構函式來建立客製元素實例。
 
 IMPORTANT: 請避免使用元件選取器作為自訂元素標記名稱。
 這可能會導致意外行為，因為 Angular 會為單一 DOM 元素建立兩個元件執行個體：

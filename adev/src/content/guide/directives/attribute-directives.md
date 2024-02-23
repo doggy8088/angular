@@ -39,7 +39,7 @@
 
     <docs-code header="src/app/app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.1.html" visibleRegion="applied"/>
 
-Angular 建立一個 `HighlightDirective` 類別的實例，並在指令的建構函數中注入對 `<p>` 元素的參照，這會將 `<p>` 元素的背景樣式設定為黃色。
+Angular 建立一個 `HighlightDirective` 類別的實例，並在指令的建構函式中注入對 `<p>` 元素的參照，這會將 `<p>` 元素的背景樣式設定為黃色。
 
 ## 處理使用者事件
 

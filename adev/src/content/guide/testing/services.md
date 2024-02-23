@@ -22,7 +22,7 @@ MasterService 是一個簡單的範例：
 
 <docs-code header="app/demo/demo.spec.ts" path="adev/src/content/examples/testing/src/app/demo/demo.spec.ts" visibleRegion="MasterService"/>
 
-第一次測試以 `new` 建立 `ValueService` 並將它傳遞給 `MasterService` 建構函數。
+第一次測試以 `new` 建立 `ValueService` 並將它傳遞給 `MasterService` 建構函式。
 
 然而，注入實際服務很少能順利運作，因為大多數依賴服務都很難建立和控制。
 
@@ -62,9 +62,9 @@ html
 如果該依賴服務具有其自己的依賴項，DI 也會尋找或建立它們。
 
 身為服務 *消費者*，您不必擔心任何這方面的事情。
-您不必擔心建構函數參數的順序或它們的建立方式。
+您不必擔心建構函式參數的順序或它們的建立方式。
 
-作為一個服務 *測試人員*，您至少必須考慮服務依賴項的第一個層級，但當您使用 `TestBed` 測試工具來提供和建立服務時，*可以* 讓 Angular DI 執行服務建立並處理建構函數參數順序。
+作為一個服務 *測試人員*，您至少必須考慮服務依賴項的第一個層級，但當您使用 `TestBed` 測試工具來提供和建立服務時，*可以* 讓 Angular DI 執行服務建立並處理建構函式參數順序。
 
 ## Angular `TestBed`
 
@@ -80,7 +80,7 @@ html
 然後透過呼叫 `TestBed.inject()` 並以服務類別作為參數，將它注入測試中。
 
 HELPFUL: 從 Angular 版本 9 開始，`TestBed.get()` 已棄用。
-為了盡量減少重大變更，Angular 引進一個新的函數 `TestBed.inject()`，你應該改用這個函數。
+為了盡量減少重大變更，Angular 引進一個新的函式 `TestBed.inject()`，你應該改用這個函式。
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/demo.testbed.spec.ts" visibleRegion="value-service-inject-it"/>
 
@@ -106,11 +106,11 @@ HELPFUL: 從 Angular 版本 9 開始，`TestBed.get()` 已棄用。
 
 以下是如何用這種風格重寫其中一個 `MasterService` 測試。
 
-開始時，將可重複使用的準備程式碼放在 *setup* 函數中，而不是 `beforeEach()`。
+開始時，將可重複使用的準備程式碼放在 *setup* 函式中，而不是 `beforeEach()`。
 
 <docs-code header="app/demo/demo.spec.ts (setup)" path="adev/src/content/examples/testing/src/app/demo/demo.spec.ts" visibleRegion="no-before-each-setup"/>
 
-`setup()` 函數傳回一個物件文字，其中包含測試可能會參考的變數，例如 `masterService`。
+`setup()` 函式傳回一個物件文字，其中包含測試可能會參考的變數，例如 `masterService`。
 您不要在 `describe()` 的主體中定義 *半全域* 變數\(例如，`let masterService: MasterService`\)。
 
 然後每個測試在第一行都會呼叫 `setup()`，然後再繼續執行操作測試主體和斷言預期的步驟。

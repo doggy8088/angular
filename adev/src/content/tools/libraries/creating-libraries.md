@@ -269,8 +269,8 @@ TypeScript 路徑對映*不應*指向函式庫原始碼 `.ts` 檔案。
 
 ## 確保程式庫版本相容性
 
-用於建構應用程式的 Angular 版本應始終與用於建構任何其相依函數庫的 Angular 版本相同或更高。
-例如，如果您有一個使用 Angular 版本 13 的函數庫，則依賴該函數庫的應用程式應使用 Angular 版本 13 或更高版本。
+用於建構應用程式的 Angular 版本應始終與用於建構任何其相依函式庫的 Angular 版本相同或更高。
+例如，如果您有一個使用 Angular 版本 13 的函式庫，則依賴該函式庫的應用程式應使用 Angular 版本 13 或更高版本。
 Angular 不支援使用較早的應用程式版本。
 
 如果您想要將您的程式庫發佈到 npm，請透過在 `tsconfig.prod.json` 中設定 `"compilationMode": "partial"` 來編譯部分 Ivy 程式碼。

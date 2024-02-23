@@ -267,13 +267,13 @@ HELPFUL: 有關複數類別的更多資訊，請參閱 [UnicodeCldrIndexCldrSpec
 <docs-callout header='背景：有些地區可能不支援某些複數化類別'>
 
 許多地區設定不支援部分複數型態類別。
-預設地區設定 \(`en-US`\) 使用非常簡單的 `plural()` 函數，而不支援 `few` 複數型態類別。
-另一個具有簡單 `plural()` 函數的地區設定是 `es`。
-以下程式碼範例顯示 [en-US `plural()`][GithubAngularAngularBlobEcffc3557fe1bff9718c01277498e877ca44588dPackagesCoreSrcI18nLocaleEnTsL14L18] 函數。
+預設地區設定 \(`en-US`\) 使用非常簡單的 `plural()` 函式，而不支援 `few` 複數型態類別。
+另一個具有簡單 `plural()` 函式的地區設定是 `es`。
+以下程式碼範例顯示 [en-US `plural()`][GithubAngularAngularBlobEcffc3557fe1bff9718c01277498e877ca44588dPackagesCoreSrcI18nLocaleEnTsL14L18] 函式。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/locale_plural_function.ts" class="no-box" hideCopy/>
 
-`plural()` 函數僅回傳 1（`one`）或 5（`other`）。
+`plural()` 函式僅回傳 1（`one`）或 5（`other`）。
 `few` 類別從不匹配。
 
 </docs-callout>

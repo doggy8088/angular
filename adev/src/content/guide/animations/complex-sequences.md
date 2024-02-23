@@ -4,7 +4,7 @@
 Angular 也讓您可以對協調的順序進行動畫處理，例如當整個網格或元素清單進入和離開頁面時。
 您可以選擇同時執行多個動畫，或按順序執行離散動畫，一個接一個。
 
-控制複雜動畫序列的函數為：
+控制複雜動畫序列的函式為：
 
 | 功能                         | 詳細資料 |
 |:---                               |:---     |
@@ -13,9 +13,9 @@ Angular 也讓您可以對協調的順序進行動畫處理，例如當整個網
 | [`group()`](api/animations/group) | 並行執行多個動畫步驟。 |
 | `sequence()`                      | 依序執行動畫步驟。 |
 
-## query() 函數
+## query() 函式
 
-最複雜的動畫仰賴 `query()` 函數來尋找子元素並對其套用動畫，以下是此類動畫的基本範例：
+最複雜的動畫仰賴 `query()` 函式來尋找子元素並對其套用動畫，以下是此類動畫的基本範例：
 
 | 範例                               | 詳細資料 |
 |:---                                    |:---     |
@@ -39,11 +39,11 @@ Angular 也讓您可以對協調的順序進行動畫處理，例如當整個網
 
 </docs-callout>
 
-## 使用 query() 和 stagger() 函數動畫多個元素
+## 使用 query() 和 stagger() 函式動畫多個元素
 
-在通過 `query()` 查詢子元素後，`stagger()` 函數可讓您定義每個查詢項目之間的定時間隔，並以延遲方式為元素添加動畫效果。
+在通過 `query()` 查詢子元素後，`stagger()` 函式可讓您定義每個查詢項目之間的定時間隔，並以延遲方式為元素添加動畫效果。
 
-以下範例示範如何使用 `query()` 和 `stagger()` 函數，以動畫方式加入清單 \(英雄\) 並逐一顯示，並以些微延遲，由上至下。
+以下範例示範如何使用 `query()` 和 `stagger()` 函式，以動畫方式加入清單 \(英雄\) 並逐一顯示，並以些微延遲，由上至下。
 
 * 使用 `query()` 來尋找符合特定標準的進入頁面的元素
 * 對於這些元素的每個元素，使用 `style()` 來設定元素的相同初始樣式。
@@ -54,14 +54,14 @@ Angular 也讓您可以對協調的順序進行動畫處理，例如當整個網
 
 <docs-code header="src/app/hero-list-page.component.ts" path="adev/src/content/examples/animations/src/app/hero-list-page.component.ts" visibleRegion="page-animations"/>
 
-## 平行動畫使用 group() 函數
+## 平行動畫使用 group() 函式
 
 你已經看過如何在每個連續動畫之間加入延遲。
 但你可能也想設定同時發生的動畫。
-例如，你可能想對同一個元素的兩個 CSS 屬性做動畫，但對每個屬性使用不同的 `easing` 函數。
-針對這種情況，你可以使用動畫 [`group()`](api/animations/group) 函數。
+例如，你可能想對同一個元素的兩個 CSS 屬性做動畫，但對每個屬性使用不同的 `easing` 函式。
+針對這種情況，你可以使用動畫 [`group()`](api/animations/group) 函式。
 
-HELPFUL: [`group()`](api/animations/group) 函數用於將動畫 *步驟* 分組，而不是動畫元素。
+HELPFUL: [`group()`](api/animations/group) 函式用於將動畫 *步驟* 分組，而不是動畫元素。
 
 以下範例在 `:enter` 和 `:leave` 中同時使用 [`group()`](api/animations/group)，以取得兩種不同的計時設定，因此可以同時對同一個元素套用兩個獨立的動畫。
 
@@ -72,8 +72,8 @@ HELPFUL: [`group()`](api/animations/group) 函數用於將動畫 *步驟* 分組
 複雜的動畫可以同時執行很多事情。
 但如果你想要建立一個涉及多個動畫、一個接一個發生的動畫，該怎麼辦？先前你使用 [`group()`](api/animations/group) 在同一時間執行多個動畫，平行執行。
 
-另一個名為 `sequence()` 的函數可讓您依序執行這些動畫。
-在 `sequence()` 內，動畫步驟包含 `style()` 或 `animate()` 函數呼叫。
+另一個名為 `sequence()` 的函式可讓您依序執行這些動畫。
+在 `sequence()` 內，動畫步驟包含 `style()` 或 `animate()` 函式呼叫。
 
 * 使用 `style()` 立即套用提供的造型資料。
 * 使用 `animate()` 在給定的時間間隔內套用造型資料。
@@ -128,8 +128,8 @@ Angular 動畫基於元件 DOM 結構，並不直接考慮 [檢視封裝](/guide
 
 ## 動畫序列摘要
 
-Angular 用於多個元素動畫的函數以 `query()` 開始，用於尋找內部元素；例如，收集 `<div>` 中的所有圖像。
-其餘函數 `stagger()`, [`group()`](api/animations/group) 和 `sequence()`，應用級聯或讓您控制多個動畫步驟的應用方式。
+Angular 用於多個元素動畫的函式以 `query()` 開始，用於尋找內部元素；例如，收集 `<div>` 中的所有圖像。
+其餘函式 `stagger()`, [`group()`](api/animations/group) 和 `sequence()`，應用級聯或讓您控制多個動畫步驟的應用方式。
 
 ## 更多關於 Angular 動畫
 

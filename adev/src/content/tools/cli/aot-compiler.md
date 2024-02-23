@@ -48,10 +48,10 @@ AOT 編譯器的主要缺點是它會增加應用程式的建構時間。這是�
 總體而言，AOT 編譯器是一種提高應用程式啟動速度和安全性的好方法。但是，它也會增加應用程式的建構時間。因此，在決定是否使用 AOT 編譯器時，你需要權衡利弊。
 
 Angular AOT 編譯器提取 **元數據** 來解釋 Angular 應該管理的應用程式部分。
-您可以在 **裝飾器**（例如 `@Component()` 和 `@Input()`) 中明確指定元數據，或者在已裝飾類別的建構函數宣告中隱含指定元數據。
+您可以在 **裝飾器**（例如 `@Component()` 和 `@Input()`) 中明確指定元數據，或者在已裝飾類別的建構函式宣告中隱含指定元數據。
 元數據會告訴 Angular 如何建構應用程式類別的執行個體，以及在執行階段與它們互動。
 
-在以下範例中，`@Component()` 元資料物件和類別建構函數會告知 Angular 如何建立和顯示 `TypicalComponent` 的執行個體。
+在以下範例中，`@Component()` 元資料物件和類別建構函式會告知 Angular 如何建立和顯示 `TypicalComponent` 的執行個體。
 
 <docs-code language="typescript">
 
@@ -147,10 +147,10 @@ HELPFUL：如果您希望 `ngc` 立即報告語法錯誤，而不是產生包含
 
 Angular 函式庫有這個選項可以確保所有的 Angular `.metadata.json` 檔案都是乾淨的，在建立您自己的函式庫時，最好也這麼做。
 
-### 沒有箭頭函數
+### 沒有箭頭函式
 
-AOT 編譯器不支援 [函數表達式](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/function)
-和 [箭頭函數](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Functions/Arrow_functions)，又稱為 *lambda* 函數。
+AOT 編譯器不支援 [函式表達式](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/function)
+和 [箭頭函式](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Functions/Arrow_functions)，又稱為 *lambda* 函式。
 
 考慮以下元件裝飾器：
 
@@ -163,9 +163,9 @@ AOT 編譯器不支援 [函數表達式](https://developer.mozilla.org/docs/Web/
 
 </docs-code>
 
-AOT 蒐集器不支援在元資料表達式中使用箭頭函數 `() => new Server()`。
-它會在函數所在的位置產生一個錯誤節點。
-當編譯器稍後解釋這個節點時，它會回報一個錯誤，建議您將箭頭函數轉換成「已匯出的函數」。
+AOT 蒐集器不支援在元資料表達式中使用箭頭函式 `() => new Server()`。
+它會在函式所在的位置產生一個錯誤節點。
+當編譯器稍後解釋這個節點時，它會回報一個錯誤，建議您將箭頭函式轉換成「已匯出的函式」。
 
 您可以透過轉換成以下內容來修正錯誤：
 
@@ -298,12 +298,12 @@ export class HeroComponent {
 
 * 資料繫結屬性也必須是公開或受保護的
 
-### 支持的類別和函數
+### 支持的類別和函式
 
-只要語法有效，收集器可以表示函數呼叫或使用 `new` 建立物件。
-然而，編譯器之後可能會拒絕產生呼叫 *特定* 函數或建立 *特定* 物件。
+只要語法有效，收集器可以表示函式呼叫或使用 `new` 建立物件。
+然而，編譯器之後可能會拒絕產生呼叫 *特定* 函式或建立 *特定* 物件。
 
-編譯器只能建立某些類別的實例，只支援核心裝飾器，而且只支援呼叫會傳回表達式的巨集（函數或靜態方法）。
+編譯器只能建立某些類別的實例，只支援核心裝飾器，而且只支援呼叫會傳回表達式的巨集（函式或靜態方法）。
 
 | 編譯器動作      | 詳細資料 |
 |:---                  |:---     |
@@ -311,12 +311,12 @@ export class HeroComponent {
 | 支援的裝飾器 | 編譯器僅支援 [`@angular/core` 模組中 Angular 裝飾器](api/core#decorators) 的元資料。                                   |
 | 函式呼叫       | 工廠函式必須是已匯出的命名函式。AOT 編譯器不支援工廠函式的 lambda 運算式（「箭頭函式」）。 |
 
-### 函數和靜態方法呼叫
+### 函式和靜態方法呼叫
 
-收集器接受任何包含單一 `return` 語句的函數或靜態方法。
-然而，編譯器僅支援函數或靜態方法形式的巨集，這些函數或靜態方法會傳回一個 *表達式*。
+收集器接受任何包含單一 `return` 語句的函式或靜態方法。
+然而，編譯器僅支援函式或靜態方法形式的巨集，這些函式或靜態方法會傳回一個 *表達式*。
 
-例如，考慮以下函數：
+例如，考慮以下函式：
 
 <docs-code language="typescript">
 

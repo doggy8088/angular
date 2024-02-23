@@ -94,7 +94,7 @@ Angular DI 知道如何建構 `UserService` 依賴項，因為它已在上方配
 
 ### 工廠提供者：useFactory
 
-`useFactory` 提供者金鑰讓您可以透過呼叫工廠函數來建立依賴項物件。
+`useFactory` 提供者金鑰讓您可以透過呼叫工廠函式來建立依賴項物件。
 透過此方法，您可以基於 DI 和應用程式其他位置中可用的資訊來建立動態值。
 
 在以下範例中，只有經過授權的使用者才能在 `HeroService` 中看到秘密英雄。
@@ -125,8 +125,8 @@ const heroServiceFactory = (logger: Logger, userService: UserService) =>
   new HeroService(logger, userService.user.isAuthorized);
 </docs-code>
 
-工廠函數可存取 `UserService`。
-您將 `Logger` 和 `UserService` 都注入到工廠提供者中，以便注入器可以將它們傳遞給工廠函數。
+工廠函式可存取 `UserService`。
+您將 `Logger` 和 `UserService` 都注入到工廠提供者中，以便注入器可以將它們傳遞給工廠函式。
 
 <docs-code header="src/app/heroes/hero.service.provider.ts" language="typescript"
            highlight="[3,4]">
@@ -137,10 +137,10 @@ export const heroServiceProvider = {
 };
 </docs-code>
 
-- `useFactory` 欄位指定提供者是一個工廠函數，其實作為 `heroServiceFactory`。
+- `useFactory` 欄位指定提供者是一個工廠函式，其實作為 `heroServiceFactory`。
 - `deps` 屬性是一個提供者權杖陣列。
 `Logger` 和 `UserService` 類別作為它們自己的類別提供者的權杖。
-注入器解析這些權杖，並根據指定的順序將對應的服務注入到匹配的 `heroServiceFactory` 工廠函數參數中。
+注入器解析這些權杖，並根據指定的順序將對應的服務注入到匹配的 `heroServiceFactory` 工廠函式參數中。
 
 將工廠提供者捕獲到匯出的變數 `heroServiceProvider` 中，使工廠提供者可重複使用。
 

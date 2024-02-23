@@ -21,7 +21,7 @@ class PetCareDashboardComponent {
 
 <docs-step title="注入 `CarService`">
 
-在 `app.component.ts` 中，使用 `inject()` 函數注入 `CarService` 並將其指定給名為 `carService` 的屬性
+在 `app.component.ts` 中，使用 `inject()` 函式注入 `CarService` 並將其指定給名為 `carService` 的屬性
 
 注意：注意屬性 `carService` 和類別 `CarService` 之間的差異。
 
@@ -31,7 +31,7 @@ class PetCareDashboardComponent {
 
 呼叫 `inject(CarService)` 為您提供了 `CarService` 的實例，您可以在應用程式中使用它，並儲存在 `carService` 屬性中。
 
-在 `AppComponent` 的 `constructor` 函數中，加入以下實作：
+在 `AppComponent` 的 `constructor` 函式中，加入以下實作：
 
 ```ts
 constructor() {

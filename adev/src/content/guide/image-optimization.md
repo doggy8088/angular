@@ -343,7 +343,7 @@ providers: [
 
 ### 自訂載入器
 
-若要使用**自訂載入器**，請將載入器函數提供為 `IMAGE_LOADER` DI 程式碼的數值。在以下範例中，自訂載入器函數傳回以 `https://example.com` 開頭的 URL，其中包含 `src` 和 `width` 作為 URL 參數。
+若要使用**自訂載入器**，請將載入器函式提供為 `IMAGE_LOADER` DI 程式碼的數值。在以下範例中，自訂載入器函式傳回以 `https://example.com` 開頭的 URL，其中包含 `src` 和 `width` 作為 URL 參數。
 
 <docs-code language="typescript">
 providers: [
@@ -356,7 +356,7 @@ providers: [
 ],
 </docs-code>
 
-`NgOptimizedImage` 指令的載入器函數需要一個物件，其型別為 `ImageLoaderConfig`（來自 `@angular/common`），作為其引數，並傳回影像資源的絕對 URL。`ImageLoaderConfig` 物件包含 `src` 屬性，以及選用的 `width` 和 `loaderParams` 屬性。
+`NgOptimizedImage` 指令的載入器函式需要一個物件，其型別為 `ImageLoaderConfig`（來自 `@angular/common`），作為其引數，並傳回影像資源的絕對 URL。`ImageLoaderConfig` 物件包含 `src` 屬性，以及選用的 `width` 和 `loaderParams` 屬性。
 
 注意：即使可能並不總是存在 `width` 屬性，自訂載入器必須使用它來支援以各種寬度要求影像，才能讓 `ngSrcset` 正常運作。
 
@@ -368,7 +368,7 @@ providers: [
 
 ### 範例自訂載入器
 
-以下顯示自訂載入器函數的範例。此範例函數會連結 `src` 和 `width`，並使用 `loaderParams` 來控制圓角的客製 CDN 功能：
+以下顯示自訂載入器函式的範例。此範例函式會連結 `src` 和 `width`，並使用 `loaderParams` 來控制圓角的客製 CDN 功能：
 
 <docs-code language="typescript">
 const myCustomLoader = (config: ImageLoaderConfig) => {

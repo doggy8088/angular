@@ -8,13 +8,13 @@ Angular Signals 是一個系統，它詳細追蹤應用程式中您的狀態如�
 
 A **訊號**是環繞在值周圍的包裝器，當該值變更時，會通知有興趣的消費者。訊號可以包含任何值，從基本類型到複雜的資料結構。
 
-你可以透過呼叫訊號的 getter 函數來讀取訊號的值，這讓 Angular 能追蹤訊號的使用位置。
+你可以透過呼叫訊號的 getter 函式來讀取訊號的值，這讓 Angular 能追蹤訊號的使用位置。
 
 信號可以是 _可寫_ 或 _唯讀_。
 
 ### 可寫入訊號
 
-可寫入的信號提供了一種 API，用於直接更新其值。您可以透過使用信號的初始值呼叫 `signal` 函數來建立可寫入的信號：
+可寫入的信號提供了一種 API，用於直接更新其值。您可以透過使用信號的初始值呼叫 `signal` 函式來建立可寫入的信號：
 
 ```ts
 const count = signal(0);
@@ -40,7 +40,7 @@ count.update(value => value + 1);
 
 ### 計算訊號
 
-**計算信號** 是唯讀信號，其值來自其他信號。您可以使用 `computed` 函數並指定推導來定義計算信號：
+**計算信號** 是唯讀信號，其值來自其他信號。您可以使用 `computed` 函式並指定推導來定義計算信號：
 
 ```typescript
 const count: WritableSignal<number> = signal(0);
@@ -51,7 +51,7 @@ const doubleCount: Signal<number> = computed(() => count() * 2);
 
 #### 計算信號是延遲評估和備忘的
 
-`doubleCount` 的派生函數並不會在您第一次讀取 `doubleCount` 時執行以計算其值。計算出的值隨後會被快取，如果您再次讀取 `doubleCount`，它將會傳回快取值而不會重新計算。
+`doubleCount` 的派生函式並不會在您第一次讀取 `doubleCount` 時執行以計算其值。計算出的值隨後會被快取，如果您再次讀取 `doubleCount`，它將會傳回快取值而不會重新計算。
 
 如果您之後變更 `count`，Angular 知道 `doubleCount` 的快取值不再有效，且下次您讀取 `doubleCount` 時，其新值會被計算出來。
 
@@ -85,7 +85,7 @@ const conditionalCount = computed(() => {
 
 當你讀取 `conditionalCount` 時，如果 `showCount` 是 `false`，則會傳回「這裡沒有東西可看！」訊息，_不_ 會讀取 `count` 信號。這表示如果你稍後更新 `count`，_不會_ 導致 `conditionalCount` 重新計算。
 
-如果你將 `showCount` 設為 `true`，然後再次讀取 `conditionalCount`，衍生函數就會重新執行並執行 `showCount` 為 `true` 的分支，傳回顯示 `count` 值的訊息。變更 `count` 然後會使 `conditionalCount` 的快取值失效。
+如果你將 `showCount` 設為 `true`，然後再次讀取 `conditionalCount`，衍生函式就會重新執行並執行 `showCount` 為 `true` 的分支，傳回顯示 `count` 值的訊息。變更 `count` 然後會使 `conditionalCount` 的快取值失效。
 
 請注意，在推導過程中，依賴項可以被移除，也可以被添加。如果您稍後將 `showCount` 設回 `false`，那麼 `count` 將不再被視為 `conditionalCount` 的依賴項。
 
@@ -95,7 +95,7 @@ const conditionalCount = computed(() => {
 
 ## 效果##
 
-訊號之所以有用，是因為當訊號變更時，會通知有興趣的消費者。**效果** 是當一個或多個訊號值變更時執行之操作。您可以使用 `effect` 函數建立效果：
+訊號之所以有用，是因為當訊號變更時，會通知有興趣的消費者。**效果** 是當一個或多個訊號值變更時執行之操作。您可以使用 `effect` 函式建立效果：
 
 ```ts
 effect(() => {
@@ -126,7 +126,7 @@ effect(() => {
 
 ### 注入背景
 
-預設情況下，你只能在 [注入內容](guide/di/dependency-injection-context)（你可以存取 `inject` 函數）中建立 `effect()`。滿足此需求最簡單的方法是在元件、指令或服務 `constructor` 中呼叫 `effect`：
+預設情況下，你只能在 [注入內容](guide/di/dependency-injection-context)（你可以存取 `inject` 函式）中建立 `effect()`。滿足此需求最簡單的方法是在元件、指令或服務 `constructor` 中呼叫 `effect`：
 
 ```ts
 @Component({...})
@@ -154,7 +154,7 @@ export class EffectiveCounterComponent {
 }
 ```
 
-如要在建構函數之外建立效果，您可以透過選項將 `Injector` 傳遞給 `effect`：
+如要在建構函式之外建立效果，您可以透過選項將 `Injector` 傳遞給 `effect`：
 
 ```ts
 @Component({...})
@@ -178,7 +178,7 @@ export class EffectiveCounterComponent {
 
 ## 進階主題
 
-### 訊號相等函數
+### 訊號相等函式
 
 在建立一個訊號時，您可以選擇性地提供一個等號函式，它將用於檢查新值是否真的與前一個值不同。
 
@@ -193,13 +193,13 @@ const data = signal(['test'], {equal: _.isEqual});
 data.set(['test']);
 ```
 
-等號函數可以同時提供給可寫入和計算訊號。
+等號函式可以同時提供給可寫入和計算訊號。
 
 HELPFUL: 預設信號使用引用相等（`===` 比較）。
 
 ### 閱讀時不追蹤依賴關係
 
-在罕見的情況下，您可能想執行一段可能會讀取反應式函數（例如 `computed` 或 `effect`）中的信號的程式碼，而 _不_ 建立依賴性。
+在罕見的情況下，您可能想執行一段可能會讀取反應式函式（例如 `computed` 或 `effect`）中的信號的程式碼，而 _不_ 建立依賴性。
 
 例如，假設當 `currentUser` 變更時，`counter` 的值應該被記錄下來。您可以建立一個 `effect` 來讀取兩個訊號：
 
@@ -232,9 +232,9 @@ effect(() => {
 });
 ```
 
-### 效應清理函數
+### 效應清理函式
 
-效果可能會啟動長時間運作，如果效果被終止或在第一個運作完成前再次執行，您應取消。當您建立效果時，您的函數可以選擇接受一個 `onCleanup` 函數作為其第一個參數。這個 `onCleanup` 函數讓您可以註冊一個回呼，在效果的下一次執行開始之前或效果被終止時呼叫。
+效果可能會啟動長時間運作，如果效果被終止或在第一個運作完成前再次執行，您應取消。當您建立效果時，您的函式可以選擇接受一個 `onCleanup` 函式作為其第一個參數。這個 `onCleanup` 函式讓您可以註冊一個回呼，在效果的下一次執行開始之前或效果被終止時呼叫。
 
 ```ts
 effect((onCleanup) => {

@@ -402,7 +402,7 @@ import { CrisisDetailResolverService } from './crisis-detail-resolver.service';
 }
 </docs-code>
 
-在元件的建構函數中，注入一個代表目前路由的 `ActivatedRoute` 類別實例。
+在元件的建構函式中，注入一個代表目前路由的 `ActivatedRoute` 類別實例。
 
 <docs-code header="Component's constructor (excerpt)">
 import { ActivatedRoute } from '@angular/router';

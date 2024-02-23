@@ -15,7 +15,7 @@ export class ProfilePhoto {
 
 `nativeElement` 屬性參照主機 [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) 實例。
 
-你可以使用 Angular 的 `afterRender` 和 `afterNextRender` 函數來註冊一個 **渲染回呼**，當 Angular 完成頁面的渲染時執行。
+你可以使用 Angular 的 `afterRender` 和 `afterNextRender` 函式來註冊一個 **渲染回呼**，當 Angular 完成頁面的渲染時執行。
 
 ```ts
 @Component({...})
@@ -35,7 +35,7 @@ export class ProfilePhoto {
 
 **回呼函式在伺服器端渲染或建構時間預先渲染期間從不執行。**
 
-**切勿直接處理其他 Angular 生命週期掛鉤內的 DOM**。Angular 不保證元件的 DOM 在回呼函數以外的任何地方都已完全呈現。
+**切勿直接處理其他 Angular 生命週期掛鉤內的 DOM**。Angular 不保證元件的 DOM 在回呼函式以外的任何地方都已完全呈現。
 此外，在其他生命週期掛鉤期間讀取或修改 DOM 可能會造成 [版面重排](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing)，進而對網頁效能造成負面影響。
 
 ## 使用元件的渲染器

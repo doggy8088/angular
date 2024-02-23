@@ -61,7 +61,7 @@ Angular 團隊認為這兩個選項都很穩定，並提供完整的支援。
 ...
 </docs-code>
 
-### 使用 `application` 建構函數
+### 使用 `application` 建構函式
 
 在 Angular CLI 產生的應用程式中，`@angular-devkit/build-angular` 套件中也有一個名為 `application` 的建構器。
 這個建構器是所有透過 `ng new` 建立的新應用程式的預設建構器。
@@ -107,7 +107,7 @@ Angular 團隊認為這兩個選項都很穩定，並提供完整的支援。
 對於新的 SSR 應用程式，[Angular SSR 指南](guide/ssr) 提供有關將 SSR 新增到應用程式的設定程序的其他資訊。
 
 對於已經使用 SSR 的應用程式，需要額外調整以更新應用程式伺服器，以支援新的整合 SSR 功能。
-`application` 建構函數現在為所有下列預先存在的建構函數提供整合功能：
+`application` 建構函式現在為所有下列預先存在的建構函式提供整合功能：
 
 - `app-shell`
 - `prerender`

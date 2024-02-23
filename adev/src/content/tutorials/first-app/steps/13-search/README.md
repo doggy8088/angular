@@ -47,7 +47,7 @@
         &lt;button class="primary" type="button" (click)="filterResults(filter.value)"&gt;搜尋&lt;/button&gt;
     </docs-code>
 
-    透過繫結至 `button` 元素上的 `click` 事件，您可以呼叫 `filterResults` 函式。函數的引數是 `filter` 範本變數的 `value` 屬性。特別是 `input` HTML 元素的 `.value` 屬性。
+    透過繫結至 `button` 元素上的 `click` 事件，您可以呼叫 `filterResults` 函式。函式的引數是 `filter` 範本變數的 `value` 屬性。特別是 `input` HTML 元素的 `.value` 屬性。
 
 1. 最後一個範本更新是針對 `ngFor` 指令。更新 `ngFor` 值以遍歷 `filteredLocationList` 陣列中的值。
 
@@ -57,14 +57,14 @@
 
 </docs-step>
 
-<docs-step title="實作事件處理函數">
-範本已更新，以將 `filterResults` 函數繫結至 `click` 事件。接下來，您的任務是實作 `HomeComponent` 類別中的 `filterResults` 函數。
+<docs-step title="實作事件處理函式">
+範本已更新，以將 `filterResults` 函式繫結至 `click` 事件。接下來，您的任務是實作 `HomeComponent` 類別中的 `filterResults` 函式。
 
-1. 更新 `HomeComponent` 類別以包含 `filterResults` 函數的實作。
+1. 更新 `HomeComponent` 類別以包含 `filterResults` 函式的實作。
 
-    <docs-code header="新增 filterResults 函數實作" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.component.ts" visibleLines="[41,45]"/>
+    <docs-code header="新增 filterResults 函式實作" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.component.ts" visibleLines="[41,45]"/>
 
-    此函數使用 `String` `filter` 函數來比較 `text` 參數的值與 `housingLocation.city` 屬性。您可以更新此函數以比對任何屬性或多個屬性以進行有趣的練習。
+    此函式使用 `String` `filter` 函式來比較 `text` 參數的值與 `housingLocation.city` 屬性。您可以更新此函式以比對任何屬性或多個屬性以進行有趣的練習。
 
 1. 儲存您的程式碼。
 
@@ -83,4 +83,3 @@
   <docs-pill href="guide/templates" title="模板變數"/>
   <docs-pill href="guide/templates/event-binding" title="事件處理"/>
 </docs-pill-row>
-

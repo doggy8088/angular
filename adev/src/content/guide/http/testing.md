@@ -97,14 +97,14 @@ foreach (const req of allGetRequests) {
 
 ## 進階比對
 
-所有匹配函數都接受一個謂詞函數來進行自訂的匹配邏輯：
+所有匹配函式都接受一個謂詞函式來進行自訂的匹配邏輯：
 
 <docs-code language="ts">
 // Look for one request that has a request body.
 const requestsWithBody = httpTesting.expectOne(req => req.body !== null);
 </docs-code>
 
-`expectNone` 函數聲稱沒有要求符合既定準則。
+`expectNone` 函式聲稱沒有要求符合既定準則。
 
 <docs-code language="ts">
 // Assert that no mutation requests have been issued.
@@ -136,4 +136,3 @@ req.error(new ProgressEvent('network error!'));
 
 // Assert that the application successfully handled the network error.
 </docs-code>
-

@@ -46,7 +46,7 @@ export class CalculatorService {
 當您想在元件中使用服務時，您需要：
 
 1. 匯入服務
-2. 宣告一個服務被注入的類別欄位。將類別欄位指定給內建函數 `inject` 的呼叫結果，該函數會建立服務
+2. 宣告一個服務被注入的類別欄位。將類別欄位指定給內建函式 `inject` 的呼叫結果，該函式會建立服務
 
 以下是在 `Receipt` 元件中可能看到的內容：
 
@@ -65,7 +65,7 @@ export class Receipt {
 }
 ```
 
-在此範例中，`CalculatorService` 透過呼叫 Angular 函數 `inject` 並將服務傳入，來進行使用。
+在此範例中，`CalculatorService` 透過呼叫 Angular 函式 `inject` 並將服務傳入，來進行使用。
 
 ## 下一步
 

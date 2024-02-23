@@ -268,7 +268,7 @@ HELPFUL: 元件的 `quote` 屬性的值會通過 `AsyncPipe`。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="error-test"/>
 
-HELPFUL: `it()` 函數接收以下形式的參數。
+HELPFUL: `it()` 函式接收以下形式的參數。
 
 <docs-code language="javascript">
 
@@ -276,32 +276,32 @@ fakeAsync(() =&gt; { /*test body*/ })
 
 </docs-code>
 
-`fakeAsync()` 函數會在特殊的 `fakeAsync 測試區域` 中執行測試主體，進而讓線性程式碼風格成為可能。
+`fakeAsync()` 函式會在特殊的 `fakeAsync 測試區域` 中執行測試主體，進而讓線性程式碼風格成為可能。
 測試主體看起來是同步的。
 沒有巢狀語法（例如 `Promise.then()`）會中斷控制流程。
 
-HELPFUL: 限制：如果測試主體呼叫 `XMLHttpRequest` \(XHR\) 的話，`fakeAsync()` 函數將無法運作。
+HELPFUL: 限制：如果測試主體呼叫 `XMLHttpRequest` \(XHR\) 的話，`fakeAsync()` 函式將無法運作。
 測試中的 XHR 呼叫很少見，但如果您需要呼叫 XHR，請參閱 [`waitForAsync()`](#waitForAsync) 部分。
 
-### `tick()` 函數
+### `tick()` 函式
 
 您必須呼叫 [tick()](api/core/testing/tick) 以推進虛擬時鐘。
 
 呼叫 [tick()](api/core/testing/tick) 模擬時間經過，直到所有待處理的非同步活動結束。
 在這個案例中，它會等待錯誤處理程序的 `setTimeout()`。
 
-`[tick()]` (api/core/testing/tick) 函數接受 `millis` 和 `tickOptions` 作為參數。`millis` 參數指定虛擬時鐘前進的量，如果未提供，則預設為 `0`。
+`[tick()]` (api/core/testing/tick) 函式接受 `millis` 和 `tickOptions` 作為參數。`millis` 參數指定虛擬時鐘前進的量，如果未提供，則預設為 `0`。
 例如，如果在 `fakeAsync()` 測試中有 `setTimeout(fn, 100)`，則需要使用 `tick(100)` 來觸發 fn 回呼。
 可選的 `tickOptions` 參數有一個名為 `processNewMacroTasksSynchronously` 的屬性。`processNewMacroTasksSynchronously` 屬性表示在計時時是否呼叫新產生的巨集任務，預設為 `true`。
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/async-helper.spec.ts" visibleRegion="fake-async-test-tick"/>
 
-[tick()](api/core/testing/tick) 函數是您使用 `TestBed` 匯入的 Angular 測試工具之一。
+[tick()](api/core/testing/tick) 函式是您使用 `TestBed` 匯入的 Angular 測試工具之一。
 它是 `fakeAsync()` 的搭檔，您只能在 `fakeAsync()` 主體中呼叫它。
 
 ### tickOptions
 
-在此範例中，您有一個新的巨集任務，即巢狀 `setTimeout` 函數。預設情況下，當 `tick` 為 setTimeout 時，`outside` 和 `nested` 都會觸發。
+在此範例中，您有一個新的巨集任務，即巢狀 `setTimeout` 函式。預設情況下，當 `tick` 為 setTimeout 時，`outside` 和 `nested` 都會觸發。
 
 <docs-code path="adev/src/content/examples/testing/src/app/demo/async-helper.spec.ts" visibleRegion="fake-async-test-tick-new-macro-task-sync"/>
 
@@ -375,21 +375,21 @@ HELPFUL: 為了讓 `<canvas>` 元素在您的應用程式中支援 Zone.js，您
 實際服務會將請求發送到遠端伺服器。
 伺服器需要時間來回應，而且回應肯定不會像前兩個測試那樣立即可用。
 
-如果像這樣從 `getQuote()` 間諜函數回傳一個非同步可觀察物件，您的測試將更忠實地反映真實世界。
+如果像這樣從 `getQuote()` 間諜函式回傳一個非同步可觀察物件，您的測試將更忠實地反映真實世界。
 
 <docs-code path="adev/src/content/examples/testing/src/app/twain/twain.component.spec.ts" visibleRegion="async-setup"/>
 
 ### 非同步 observable 輔助程式
 
 非同步 observable 是由 `asyncData` 輔助程式產生的。
-`asyncData` 輔助程式是一個公用函數，您必須自行撰寫，或是從範例程式碼複製這個。
+`asyncData` 輔助程式是一個公用函式，您必須自行撰寫，或是從範例程式碼複製這個。
 
 <docs-code header="testing/async-observable-helpers.ts" path="adev/src/content/examples/testing/src/testing/async-observable-helpers.ts" visibleRegion="async-data"/>
 
 此輔助工具的可觀察目標會在 JavaScript 引擎的下一輪發出 `data` 值。
 
 [RxJS `defer()` 運算子](http://reactivex.io/documentation/operators/defer.html) 傳回一個可觀察物。
-它採用一個工廠函數，該函數傳回一個承諾或一個可觀察物。
+它採用一個工廠函式，該函式傳回一個承諾或一個可觀察物。
 當某些東西訂閱 *defer* 的可觀察物時，它會將訂閱者新增到使用該工廠建立的新可觀察物。
 
 `defer()` 運算子將 `Promise.resolve()` 轉換為一個新的可觀察對象，像 `HttpClient` 一樣發射一次並完成。
@@ -445,11 +445,11 @@ HELPFUL: 為了讓 `<canvas>` 元素在您的應用程式中支援 Zone.js，您
 
 儘管 `waitForAsync()` 和 `fakeAsync()` 函式極大地簡化了 Angular 非同步測試，您仍可退而求其次，使用傳統技術，並將 `it` 傳遞給一個函式，該函式接受 [`done` 回呼](https://jasmine.github.io/2.0/introduction.html#section-Asynchronous_Support)。
 
-在 `waitForAsync()` 或 `fakeAsync()` 函數中無法呼叫 `done()`，因為 `done 參數` 是 `未定義` 的。
+在 `waitForAsync()` 或 `fakeAsync()` 函式中無法呼叫 `done()`，因為 `done 參數` 是 `未定義` 的。
 
 現在您有責任鏈接承諾、處理錯誤，並在適當的時刻調用 `done()`。
 
-使用 `done()` 撰寫測試函數比 `waitForAsync()` 和 `fakeAsync()` 更為繁瑣，但當程式碼涉及 `intervalTimer()`（例如 `setInterval`）時，偶爾需要使用它。
+使用 `done()` 撰寫測試函式比 `waitForAsync()` 和 `fakeAsync()` 更為繁瑣，但當程式碼涉及 `intervalTimer()`（例如 `setInterval`）時，偶爾需要使用它。
 
 以下是兩個使用 `done()` 編寫的先前測試版本。
 第一個訂閱了元件的 `quote` 屬性公開給範本的 `Observable`。
@@ -469,7 +469,7 @@ RxJS `last()` 算子會在完成之前發出可觀察的最後一個值，這將
 
 之前的 `TwainComponent` 測試模擬了來自 `TwainService` 的非同步 observable 回應，使用 `asyncData` 和 `asyncError` 工具。
 
-這些是可以自行撰寫的簡單函數。
+這些是可以自行撰寫的簡單函式。
 很遺憾，它們對於許多常見的情況來說過於簡單。
 可觀察物通常會發出多次，可能經過一段時間的延遲。
 元件可能會協調多個可觀察物，這些可觀察物具有重疊的數值和錯誤序列。
@@ -567,7 +567,7 @@ RxJS marble 測試是一個豐富的主題，超出了本指南的範圍。
 * 測試它如同獨立元件
 * 測試它如同 `DashboardComponent` 的替代品使用
 
-快速瀏覽 `DashboardComponent` 建構函數會阻止第一種方法：
+快速瀏覽 `DashboardComponent` 建構函式會阻止第一種方法：
 
 <docs-code header="app/dashboard/dashboard.component.ts (constructor)" path="adev/src/content/examples/testing/src/app/dashboard/dashboard.component.ts" visibleRegion="ctor"/>
 
@@ -635,11 +635,11 @@ HELPFUL: 其他處理程序比較不寬容。
 
 <docs-code path="adev/src/content/examples/testing/src/app/dashboard/dashboard-hero.component.spec.ts" visibleRegion="click-test-2"/>
 
-### `click()` 輔助函數
+### `click()` 輔助函式
 
 點擊按鈕、錨點或任意 HTML 元素是常見的測試任務。
 
-藉由將 *click-triggering* 程序封裝在以下 `click()` 函數等輔助函數中，使之具有一致性且簡單明瞭：
+藉由將 *click-triggering* 程序封裝在以下 `click()` 函式等輔助函式中，使之具有一致性且簡單明瞭：
 
 <docs-code header="testing/index.ts (click helper)" path="adev/src/content/examples/testing/src/testing/index.ts" visibleRegion="click-event"/>
 
@@ -647,10 +647,10 @@ HELPFUL: 其他處理程序比較不寬容。
 如果您願意，可以將自訂的事件物件當成第二個參數傳遞。
 預設值是部分 [左鍵滑鼠事件物件](https://developer.mozilla.org/docs/Web/API/MouseEvent/button)，許多處理程式都接受它，包括 `RouterLink` 指令。
 
-重要：`click()` 輔助函數 **並非** Angular 測試實用工具之一。
-這是由 *本指南的範例程式碼* 定義的函數。
+重要：`click()` 輔助函式 **並非** Angular 測試實用工具之一。
+這是由 *本指南的範例程式碼* 定義的函式。
 所有範例測試都會使用它。
-如果您喜歡它，請將它新增到您自己的輔助函數集合中。
+如果您喜歡它，請將它新增到您自己的輔助函式集合中。
 
 以下為使用點擊輔助工具，重寫的前一個測試。
 
@@ -730,7 +730,7 @@ Angular 提供測試助手，以減少樣板程式碼，並更有效地測試依
 `Router` 將該 URL 比對到 `HeroDetailComponent` 的路由。
 它會建立一個包含路由資訊的 `ActivatedRoute` 物件，並將它注入 `HeroDetailComponent` 的新執行個體。
 
-以下是 `HeroDetailComponent` 建構函數：
+以下是 `HeroDetailComponent` 建構函式：
 
 <docs-code header="app/hero/hero-detail.component.ts (constructor)" path="adev/src/content/examples/testing/src/app/hero/hero-detail.component.ts" visibleRegion="ctor"/>
 
@@ -927,9 +927,9 @@ Please call "TestBed.compileComponents" before your test.
 
 ### `compileComponents()` 是非同步的
 
-您必須在非同步測試函數中呼叫 `compileComponents()`。
+您必須在非同步測試函式中呼叫 `compileComponents()`。
 
-CRITICAL: 如果你忽略讓測試函數變成非同步（例如，忘記使用 `waitForAsync()` 如說明所示），你將看到此錯誤訊息
+CRITICAL: 如果你忽略讓測試函式變成非同步（例如，忘記使用 `waitForAsync()` 如說明所示），你將看到此錯誤訊息
 
 <docs-code hideCopy language="shell">
 
@@ -937,9 +937,9 @@ Error: ViewDestroyedError: Attempt to use a destroyed view
 
 </docs-code>
 
-一個典型的方法是將設定邏輯分為兩個獨立的 `beforeEach()` 函數：
+一個典型的方法是將設定邏輯分為兩個獨立的 `beforeEach()` 函式：
 
-| 函數                   | 詳細資料                      |
+| 函式                   | 詳細資料                      |
 | :-------------------------- | :--------------------------- |
 | 非同步 `beforeEach()` | 編譯元件      |
 | 同步 `beforeEach()`  | 執行其餘的設定 |
@@ -976,7 +976,7 @@ Error: ViewDestroyedError: Attempt to use a destroyed view
 
 ### 整合設定
 
-你可以將兩個 `beforeEach()` 函數合併成單一的非同步 `beforeEach()`。
+你可以將兩個 `beforeEach()` 函式合併成單一的非同步 `beforeEach()`。
 
 `compileComponents()` 方法會傳回一個 Promise，以便您可以在編譯 *之後* 執行同步設定工作，方法是在 `await` 關鍵字之後移動同步程式碼，Promise 已解析。
 
@@ -1005,7 +1005,7 @@ DashboardComponent 很簡單。
 儘管 `HeroDetailComponent` 體積小而且結構簡單，但仍需要許多協助。
 除了它從預設測試模組 `CommonModule` 收到的支援之外，它還需要：
 
-* `NgModel` 及 `FormsModule` 中的相關函數，以啟用雙向資料繫結
+* `NgModel` 及 `FormsModule` 中的相關函式，以啟用雙向資料繫結
 * `shared` 資料夾中的 `TitleCasePipe`
 * 路由器服務
 * 英雄資料存取服務

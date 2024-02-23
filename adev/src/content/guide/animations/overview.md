@@ -28,7 +28,7 @@ W3C 在其 [CSS Transitions](https://www.w3.org/TR/css-transitions-1) 頁面上�
 
 <docs-workflow>
 <docs-step title="啟用動畫模組">
-從 `@angular/platform-browser/animations/async` 導入 `provideAnimationsAsync`，並將它新增至 `bootstrapApplication` 函數呼叫的提供者清單中。
+從 `@angular/platform-browser/animations/async` 導入 `provideAnimationsAsync`，並將它新增至 `bootstrapApplication` 函式呼叫的提供者清單中。
 
 <docs-code header="Enabling Animations" language="ts" linenums>
 bootstrapApplication(AppComponent, {
@@ -87,14 +87,14 @@ ng g component open-close
 
 ### 動畫狀態和樣式
 
-使用 Angular 的 [`state()`](api/animations/state) 函數來定義不同狀態，以便在每個轉換結束時呼叫。
-此函數採用兩個參數：
-一個唯一名稱，例如 `open` 或 `closed`，以及一個 `style()` 函數。
+使用 Angular 的 [`state()`](api/animations/state) 函式來定義不同狀態，以便在每個轉換結束時呼叫。
+此函式採用兩個參數：
+一個唯一名稱，例如 `open` 或 `closed`，以及一個 `style()` 函式。
 
-使用 `style()` 函數定義要與給定狀態名稱關聯的樣式集。
+使用 `style()` 函式定義要與給定狀態名稱關聯的樣式集。
 您必須使用 *camelCase* 表示包含破折號的樣式屬性，例如 `backgroundColor`，或用引號將其括起來，例如 `'background-color'`。
 
-讓我們看看 Angular 的 [`state()`](api/animations/state) 函數如何與 `style⁣­(⁠)` 函數搭配使用來設定 CSS 樣式屬性。
+讓我們看看 Angular 的 [`state()`](api/animations/state) 函式如何與 `style⁣­(⁠)` 函式搭配使用來設定 CSS 樣式屬性。
 在此程式碼片段中，將多個樣式屬性同時設定給狀態。
 在 `open` 狀態中，按鈕的高度為 200 像素、不透明度為 1，且背景顏色為黃色。
 
@@ -110,16 +110,16 @@ ng g component open-close
 但是，在沒有進一步調整的情況下，按鈕會立即轉換，沒有漸變、沒有縮小或其他可見的指標來表示正在發生變化。
 
 為了讓變更不那麼突然，您需要定義動畫 *transition* 來指定在一段時間內一個狀態與另一個狀態之間發生的變更。
-`transition()` 函數接受兩個參數：
+`transition()` 函式接受兩個參數：
 第一個參數接受定義兩個過渡狀態之間方向的表達式，第二個參數接受一個或一系列 `animate()` 步驟。
 
-使用 `animate()` 函數定義轉換的長度、延遲和緩衝，並指定樣式函數來定義轉換發生期間的樣式。
-使用 `animate()` 函數來定義多步驟動畫的 `keyframes()` 函數。
-這些定義放在 `animate()` 函數的第二個參數中。
+使用 `animate()` 函式定義轉換的長度、延遲和緩衝，並指定樣式函式來定義轉換發生期間的樣式。
+使用 `animate()` 函式來定義多步驟動畫的 `keyframes()` 函式。
+這些定義放在 `animate()` 函式的第二個參數中。
 
 #### 動畫資訊：持續時間、延遲和緩和
 
-`animate()` 函數（過渡函數的第二個參數）接受 `timings` 和 `styles` 輸入參數。
+`animate()` 函式（過渡函式的第二個參數）接受 `timings` 和 `styles` 輸入參數。
 
 `timings` 參數會取一個數字或一個由三個部分定義的字串。
 
@@ -186,7 +186,7 @@ HELPFUL: 參閱 Material Design 網站關於 [自然緩衝曲線](https://materi
 
 <docs-code header="src/app/open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="transition2"/>
 
-HELPFUL: 有關在 [`state`](api/animations/state) 和 `transition` 函數中使用樣式的其他說明。
+HELPFUL: 有關在 [`state`](api/animations/state) 和 `transition` 函式中使用樣式的其他說明。
 
 * 使用 [`state()`](api/animations/state) 定義在每個轉換結束時套用的樣式，它們會在動畫完成後持續存在
 * 使用 `transition()` 定義中間樣式，在動畫期間創造出移動的錯覺
@@ -202,16 +202,16 @@ HELPFUL: 有關在 [`state`](api/animations/state) 和 `transition` 函數中使
 ### 觸發動畫
 
 動畫需要一個 *觸發器*，以便知道何時開始。
-`trigger()` 函數會收集狀態和轉換，並為動畫提供一個名稱，以便您可以將其附加到 HTML 範本中的觸發元素。
+`trigger()` 函式會收集狀態和轉換，並為動畫提供一個名稱，以便您可以將其附加到 HTML 範本中的觸發元素。
 
-`trigger()` 函數描述要監控變化的屬性名稱。
+`trigger()` 函式描述要監控變化的屬性名稱。
 當變更發生時，觸發器會啟動其定義中包含的動作。
-這些動作可以是轉換或其他函數，我們稍後會看到。
+這些動作可以是轉換或其他函式，我們稍後會看到。
 
 在此範例中，我們將觸發器命名為 `openClose`，並將其附加到 `button` 元素。
 觸發器描述開啟和關閉狀態，以及兩個轉換的時間。
 
-HELPFUL: 在每次 `trigger()` 函數呼叫中，元素在任何給定時間只能處於一種狀態。
+HELPFUL: 在每次 `trigger()` 函式呼叫中，元素在任何給定時間只能處於一種狀態。
 然而，多個觸發器可以同時處於活動狀態。
 
 ### 定義動畫並將其附加到 HTML 範本
@@ -269,9 +269,9 @@ HELPFUL: 在元件檔案中，將定義動畫的觸發器設定為 `@Component()
 
 | 功能名稱                               | 作用                                                                                                                                                                                                 |
 |:---                               |:---                                                                                                                                                                                                         |
-| `trigger()`                       | 啟動動畫，並作為所有其他動畫函數呼叫的容器。HTML 範本繫結至 `triggerName`。使用第一個參數宣告唯一的觸發器名稱。使用陣列語法。                                                               |
+| `trigger()`                       | 啟動動畫，並作為所有其他動畫函式呼叫的容器。HTML 範本繫結至 `triggerName`。使用第一個參數宣告唯一的觸發器名稱。使用陣列語法。                                                               |
 | `style()`                         | 定義動畫中要使用的 CSS 樣式。控制動畫期間 HTML 元素的視覺外觀。使用物件語法。                                                                                                                            |
-| [`state()`](api/animations/state) | 建立 CSS 樣式的命名集合，應該在成功轉換至指定狀態時套用。然後可以在其他動畫函數中按名稱參照狀態。                                                                                                 |
+| [`state()`](api/animations/state) | 建立 CSS 樣式的命名集合，應該在成功轉換至指定狀態時套用。然後可以在其他動畫函式中按名稱參照狀態。                                                                                                 |
 | `animate()`                       | 指定轉換的時間資訊。`delay` 和 `easing` 的選用值。可以在其中包含 `style()` 呼叫。                                                                                                                 |
 | `transition()`                    | 定義兩個命名狀態之間的動畫順序。使用陣列語法。                                                                                                                                                             |
 | `keyframes()`                     | 允許在指定的時間間隔內，在樣式之間進行順序變更。在 `animate()` 中使用。可以在每個 `keyframe()` 中包含多個 `style()` 呼叫。使用陣列語法。                                             |
@@ -297,4 +297,3 @@ HELPFUL: 看看這個 [簡報](https://www.youtube.com/watch?v=rnTK9meY5us)，20
   <docs-pill href="guide/animations/reusable-animations" title="可重複使用的動畫"/>
   <docs-pill href="guide/animations/route-animations" title="路由轉場動畫"/>
 </docs-pill-row>
-

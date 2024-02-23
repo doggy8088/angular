@@ -1,6 +1,6 @@
 # 建立可注入服務
 
-服務是廣泛的類別，包含應用程式所需的任何值、函數或功能。
+服務是廣泛的類別，包含應用程式所需的任何值、函式或功能。
 服務通常是具有狹隘、定義完善的目的的類別。
 元件是可使用 DI 的類別類型之一。
 
@@ -106,19 +106,19 @@ export class HeroService {
 
 在 Angular 中，您可以通過以下幾種方式來注入服務：
 
-* 使用構造函數注入
+* 使用構造函式注入
 * 使用屬性注入
 * 使用方法注入
 
-### 構造函數注入
+### 構造函式注入
 
-構造函數注入是最常見的注入方式。在構造函數中，您可以指定要注入的服務。例如：
+構造函式注入是最常見的注入方式。在構造函式中，您可以指定要注入的服務。例如：
 
 typescript
 export class MyComponent {
   constructor(private myService: MyService) {}
 }
-在這個例子中，`MyComponent` 的構造函數接受一個 `MyService` 的參數。這意味著當 `MyComponent` 被建立時，Angular 會自動將一個 `MyService` 的實例注入到 `myService` 參數中。
+在這個例子中，`MyComponent` 的構造函式接受一個 `MyService` 的參數。這意味著當 `MyComponent` 被建立時，Angular 會自動將一個 `MyService` 的實例注入到 `myService` 參數中。
 
 ### 屬性注入
 
@@ -164,7 +164,7 @@ export class MyComponent {
 
 服務注入是一種將依賴項傳遞給類別的過程。它允許類別鬆散耦合，並且更容易測試。在 Angular 中，您可以通過以下幾種方式來注入服務：
 
-* 使用構造函數注入
+* 使用構造函式注入
 * 使用屬性注入
 * 使用方法注入
 
@@ -181,9 +181,9 @@ export class MyComponent {
 
 總體而言，服務注入是一種非常有用的技術，可以讓您的程式碼更鬆散耦合、更容易測試和更可重用。
 
-若要將服務注入為元件的相依性，您可以使用元件的 `constructor()`，並提供具有相依性類型的建構函數參數。
+若要將服務注入為元件的相依性，您可以使用元件的 `constructor()`，並提供具有相依性類型的建構函式參數。
 
-以下範例在 `HeroListComponent` 建構函數中指定 `HeroService`。
+以下範例在 `HeroListComponent` 建構函式中指定 `HeroService`。
 `heroService` 的類型是 `HeroService`。
 Angular 將 `HeroService` 類型識別為相依性，因為該類別先前已使用 `@Injectable` 裝飾器進行註解。
 

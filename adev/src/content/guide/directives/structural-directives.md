@@ -73,7 +73,7 @@ ng generate directive select
 Angular 建立指令類別，並指定 CSS 選擇器 `[select]`，以在範本中識別指令。
 </docs-step>
 <docs-step title="使指令具有結構">
-匯入 `TemplateRef` 和 `ViewContainerRef`。在指令建構函數中注入 `TemplateRef` 和 `ViewContainerRef` 作為私人變數。
+匯入 `TemplateRef` 和 `ViewContainerRef`。在指令建構函式中注入 `TemplateRef` 和 `ViewContainerRef` 作為私人變數。
 
 ```ts
 import {Directive, TemplateRef, ViewContainerRef} from '@angular/core';
@@ -189,10 +189,10 @@ Angular 將結構指令簡寫轉換為正常的繫結語法，如下：
 
 輸入防護具中可能有兩種狹窄：
 
-* 根據 TypeScript 型別斷言函數縮小輸入表達式。
+* 根據 TypeScript 型別斷言函式縮小輸入表達式。
 * 根據其真假值縮小輸入表達式。
 
-要藉由定義類型斷言函數來縮小輸入表達式：
+要藉由定義類型斷言函式來縮小輸入表達式：
 
 ```ts
 // This directive only renders its template if the actor is a user.
@@ -212,7 +212,7 @@ class ActorIsUser {
 
 在範本內進行型別檢查時，會將 `ngTemplateGuard_actor` 斷言套用至輸入所繫結的表達式。
 
-某些指令僅在輸入為真時才呈現其範本。無法在類型斷言函數中捕捉到真值的完整語義，因此可以使用文字類型 `'binding'` 來向範本類型檢查器發出訊號，表示應該將繫結表達式本身用作防護：
+某些指令僅在輸入為真時才呈現其範本。無法在類型斷言函式中捕捉到真值的完整語義，因此可以使用文字類型 `'binding'` 來向範本類型檢查器發出訊號，表示應該將繫結表達式本身用作防護：
 
 ```ts
 @Directive(...)
@@ -227,7 +227,7 @@ class CustomIf {
 
 ### 鍵入指令的內容
 
-如果結構指令提供一個給實例化範本的內容，您可以透過提供靜態的 `ngTemplateContextGuard` 類型斷言函數，在範本內適當地輸入它。此函數可以使用指令的類型來推導內容的類型，這在指令的類型是泛型時非常有用。
+如果結構指令提供一個給實例化範本的內容，您可以透過提供靜態的 `ngTemplateContextGuard` 類型斷言函式，在範本內適當地輸入它。此函式可以使用指令的類型來推導內容的類型，這在指令的類型是泛型時非常有用。
 
 對於上面所描述的 `SelectDirective`，您可以實作一個 `ngTemplateContextGuard` 來正確指定資料類型，即使資料來源是泛型的。
 

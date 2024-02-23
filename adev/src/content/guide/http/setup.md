@@ -4,7 +4,7 @@
 
 ## 透過相依性注入提供 `HttpClient`
 
-`HttpClient` 是使用 `provideHttpClient` 輔助函數提供的，大多數應用程式會將其包含在 `app.config.ts` 的應用程式 `providers` 中。
+`HttpClient` 是使用 `provideHttpClient` 輔助函式提供的，大多數應用程式會將其包含在 `app.config.ts` 的應用程式 `providers` 中。
 
 <docs-code language="ts">
 export const appConfig: ApplicationConfig = {
@@ -59,7 +59,7 @@ export const appConfig: ApplicationConfig = {
 
 ### `withInterceptors(...)``
 
-`withInterceptors` 配置一組攔截器函數，這些函數會處理透過 `HttpClient` 進行的請求。請參閱 [攔截器指南](guide/http/interceptors) 以了解更多資訊。
+`withInterceptors` 配置一組攔截器函式，這些函式會處理透過 `HttpClient` 進行的請求。請參閱 [攔截器指南](guide/http/interceptors) 以了解更多資訊。
 
 ### `withInterceptorsFromDi()`
 
@@ -93,7 +93,7 @@ HELPFUL: 盡可能使用 [CORS](https://developer.mozilla.org/zh-TW/docs/Web/HTT
 
 某些應用程式可能會使用基於 NgModules 的舊 API 來配置 `HttpClient`。
 
-下表列出 `@angular/common/http` 提供的 NgModules，以及它們與上述提供者組態函數的關聯。
+下表列出 `@angular/common/http` 提供的 NgModules，以及它們與上述提供者組態函式的關聯。
 
 | **NgModule** | 等同於 `provideHttpClient()` |
 | - | - |

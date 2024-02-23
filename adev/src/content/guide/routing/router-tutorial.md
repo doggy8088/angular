@@ -103,8 +103,8 @@
 ## 從 `@angular/router` 匯入 `provideRouter`
 
 路由可讓您根據 URL 路徑顯示應用程式的特定檢視。
-若要將此功能新增至範例應用程式，您需要更新 `app.config.ts` 檔案以使用路由器提供者函數 `provideRouter`。
-您從 `@angular/router` 匯入此提供者函數。
+若要將此功能新增至範例應用程式，您需要更新 `app.config.ts` 檔案以使用路由器提供者函式 `provideRouter`。
+您從 `@angular/router` 匯入此提供者函式。
 
 1. 從程式碼編輯器中，開啟 `app.config.ts` 檔案。
 1. 加入以下匯入陳述式：

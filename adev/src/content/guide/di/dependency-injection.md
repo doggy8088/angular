@@ -66,7 +66,7 @@ class HeroListComponent {}
 
 ### 在應用程式根級別使用 `ApplicationConfig`
 
-您可以在 `ApplicationConfig` 的 `providers` 欄位中（傳遞給 `bootstrapApplication` 函數）提供服務或其他在應用程式層級的 `Injectable`。
+您可以在 `ApplicationConfig` 的 `providers` 欄位中（傳遞給 `bootstrapApplication` 函式）提供服務或其他在應用程式層級的 `Injectable`。
 
 在以下範例中，`HeroService` 可供所有元件、指令和管道使用。
 
@@ -97,7 +97,7 @@ bootstrapApplication(AppComponent, appConfig)
 
 ## 注入/使用依賴項
 
-注入依賴項最常見的方式是在類別建構函數中宣告它。當 Angular 建立一個元件、指令或管線類別的新執行個體時，它會藉由檢視建構函數參數類型來判斷該類別需要哪些服務或其他依賴項。例如，如果 `HeroListComponent` 需要 `HeroService`，則建構函數可以像這樣：
+注入依賴項最常見的方式是在類別建構函式中宣告它。當 Angular 建立一個元件、指令或管線類別的新執行個體時，它會藉由檢視建構函式參數類型來判斷該類別需要哪些服務或其他依賴項。例如，如果 `HeroListComponent` 需要 `HeroService`，則建構函式可以像這樣：
 
 <docs-code language="typescript" highlight="[3]">
 @Component({ … })
@@ -117,7 +117,7 @@ class HeroListComponent {
 
 當 Angular 發現某個元件依賴於某個服務時，它會先檢查注入器是否有該服務的任何現有實例。如果請求的服務實例尚未存在，則注入器會使用已註冊的提供者建立一個，並在將服務傳回 Angular 之前將其新增到注入器中。
 
-當所有請求的服務都已解析並回傳，Angular 可以使用那些服務作為參數，來呼叫元件的建構函數。
+當所有請求的服務都已解析並回傳，Angular 可以使用那些服務作為參數，來呼叫元件的建構函式。
 
 <!-- TODO(josephperrott): enable this mermaid chart -->
 

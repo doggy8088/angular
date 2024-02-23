@@ -38,36 +38,36 @@ HELPFUL: 為了防止驗證器在使用者有機會編輯表單之前顯示錯�
 ## 在反應式表單中驗證輸入
 
 在反應式表單中，真實來源是元件類別。
-您不是透過範本中的屬性來新增驗證器，而是將驗證器函數直接新增到元件類別中的表單控制模型。
-然後，每當控制項的值變更時，Angular 會呼叫這些函數。
+您不是透過範本中的屬性來新增驗證器，而是將驗證器函式直接新增到元件類別中的表單控制模型。
+然後，每當控制項的值變更時，Angular 會呼叫這些函式。
 
-### 驗證器函數
+### 驗證器函式
 
-驗證器函數可以同步或非同步。
+驗證器函式可以同步或非同步。
 
 | 校驗器類型 | 詳細資料 |
 |:--- |:--- |
-| 同步驗證器 | 同步函數，會取得控制項實例並立即傳回一組驗證錯誤或 `null`。在實例化 `FormControl` 時，將這些函數作為第二個參數傳入。 |
-| 非同步驗證器 | 非同步函數，會取得控制項實例並傳回 Promise 或 Observable，稍後會發出一組驗證錯誤或 `null`。在實例化 `FormControl` 時，將這些函數作為第三個參數傳入。 |
+| 同步驗證器 | 同步函式，會取得控制項實例並立即傳回一組驗證錯誤或 `null`。在實例化 `FormControl` 時，將這些函式作為第二個參數傳入。 |
+| 非同步驗證器 | 非同步函式，會取得控制項實例並傳回 Promise 或 Observable，稍後會發出一組驗證錯誤或 `null`。在實例化 `FormControl` 時，將這些函式作為第三個參數傳入。 |
 
 基於效能原因，Angular 僅在所有同步驗證器通過時才執行非同步驗證器。
 每個驗證器都必須完成後，才會設定錯誤。
 
-### 內建驗證函數
+### 內建驗證函式
 
 您可以選擇 [撰寫您自己的驗證程式函式](#defining-custom-validators)，也可以使用一些 Angular 的內建驗證程式。
 
-與範本驅動表單中的屬性相同的內建驗證器，例如 `required` 和 `minlength`，都可做為 `Validators` 類別的函數加以使用。
+與範本驅動表單中的屬性相同的內建驗證器，例如 `required` 和 `minlength`，都可做為 `Validators` 類別的函式加以使用。
 如需內建驗證器的完整清單，請參閱 [Validators](api/forms/Validators) API 參考。
 
-若要將演員表單更新為反應式表單，請使用一些內建驗證器 &mdash; 這次以函數形式，如下面的範例。
+若要將演員表單更新為反應式表單，請使用一些內建驗證器 &mdash; 這次以函式形式，如下面的範例。
 
 <docs-code header="reactive/actor-form-reactive.component.ts (validator functions)" path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.1.ts" visibleRegion="form-group"/>
 
 在此範例中，`name` 控制項設定了兩個內建驗證器 &mdash;`Validators.required` 和 `Validators.minLength(4)`&mdash; 和一個自訂驗證器 `forbiddenNameValidator`。
 
 所有這些驗證器都是同步的，因此它們作為第二個參數傳遞。
-請注意，您可以通過將函數作為陣列傳遞來支援多個驗證器。
+請注意，您可以通過將函式作為陣列傳遞來支援多個驗證器。
 
 此範例也加入了幾個 getter 方法。
 在一個反應式表單中，您可以隨時透過其父群組的 `get` 方法存取任何表單控制項，但有時將 getter 定義為範本的簡寫會很有用。
@@ -84,18 +84,18 @@ HELPFUL: 為了防止驗證器在使用者有機會編輯表單之前顯示錯�
 
 內建的驗證器並不總能符合您的應用程式的確切用例，因此您有時需要建立自訂驗證器。
 
-考慮前一個範例中的 `forbiddenNameValidator` 函數。
-以下是該函數的定義範例。
+考慮前一個範例中的 `forbiddenNameValidator` 函式。
+以下是該函式的定義範例。
 
 <docs-code header="shared/forbidden-name.directive.ts (forbiddenNameValidator)" path="adev/src/content/examples/form-validation/src/app/shared/forbidden-name.directive.ts" visibleRegion="custom-validator"/>
 
-該函數是一個工廠，用於採用正規表達式來檢測一個*特定*的禁止名稱並返回一個驗證器函數。
+該函式是一個工廠，用於採用正規表達式來檢測一個*特定*的禁止名稱並返回一個驗證器函式。
 
 在此範例中，禁止使用的名稱是「bob」，因此驗證器會拒絕任何包含「bob」的演出者名稱。
 在其他地方，它可能會拒絕「alice」或任何符合設定正規表達式名稱。
 
-`forbiddenNameValidator` 工廠回傳已設定的驗證函數。
-該函數採用 Angular 控制物件，並回傳 *null*（如果控制值有效）*或* 驗證錯誤物件。
+`forbiddenNameValidator` 工廠回傳已設定的驗證函式。
+該函式採用 Angular 控制物件，並回傳 *null*（如果控制值有效）*或* 驗證錯誤物件。
 驗證錯誤物件通常會有一個屬性，其名稱為驗證金鑰，`'forbiddenName'`，其值是您可以插入錯誤訊息的任意值字典，`{name}`。
 
 自訂非同步驗證器類似於同步驗證器，但它們必須返回一個 Promise 或稍後發出 null 或驗證錯誤物件的可觀察物。
@@ -231,12 +231,12 @@ const actorForm = new FormGroup({
 
 這在範本驅動和反應式表單中都是一樣的。
 
-## 建立非同步驗證函數
+## 建立非同步驗證函式
 
 非同步驗證器實作 `AsyncValidatorFn` 和 `AsyncValidator` 介面。
 這些與其同步對應項目非常相似，有以下差異。
 
-* `validate()` 函數必須傳回 Promise 或可觀察物，
+* `validate()` 函式必須傳回 Promise 或可觀察物，
 * 傳回的可觀察物必須是有限的，意即它必須在某個時間點完成。
 若要將無限可觀察物轉換為有限可觀察物，請透過篩選運算子（例如 `first`、`last`、`take` 或 `takeUntil`）將可觀察物傳遞。
 
@@ -266,7 +266,7 @@ const actorForm = new FormGroup({
 
 <docs-code path="adev/src/content/examples/form-validation/src/app/shared/role.directive.ts" visibleRegion="async-validator"/>
 
-建構函數注入 `ActorsService`，該服務定義下列介面。
+建構函式注入 `ActorsService`，該服務定義下列介面。
 
 <docs-code language="typescript">
 interface ActorsService {
@@ -297,10 +297,10 @@ interface ActorsService {
 
 <docs-code path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.2.ts" visibleRegion="async-validator-inject"/>
 
-然後，將驗證函數直接傳遞給 `FormControl` 以套用它。
+然後，將驗證函式直接傳遞給 `FormControl` 以套用它。
 
-在以下範例中，`UnambiguousRoleValidator` 的 `validate` 函數套用至 `roleControl`，方法是將它傳遞至控制項的 `asyncValidators` 選項並將它繫結至已注入至 `ActorFormReactiveComponent` 的 `UnambiguousRoleValidator` 實例。
-`asyncValidators` 的值可以是單一非同步驗證函數，或函數陣列。
+在以下範例中，`UnambiguousRoleValidator` 的 `validate` 函式套用至 `roleControl`，方法是將它傳遞至控制項的 `asyncValidators` 選項並將它繫結至已注入至 `ActorFormReactiveComponent` 的 `UnambiguousRoleValidator` 實例。
+`asyncValidators` 的值可以是單一非同步驗證函式，或函式陣列。
 若要進一步了解 `FormControl` 選項，請參閱 [AbstractControlOptions](api/forms/AbstractControlOptions) API 參考。
 
 <docs-code path="adev/src/content/examples/form-validation/src/app/reactive/actor-form-reactive.component.2.ts" visibleRegion="async-validator-usage"/>
@@ -309,7 +309,7 @@ interface ActorsService {
 
 若要在範本驅動表單中使用非同步驗證器，請建立新的指令並在該指令上註冊 `NG_ASYNC_VALIDATORS` 提供者。
 
-在以下範例中，指令注入包含實際驗證邏輯的 `UniqueRoleValidator` 類別，並在驗證應該發生時由 Angular 觸發的 `validate` 函數中呼叫它。
+在以下範例中，指令注入包含實際驗證邏輯的 `UniqueRoleValidator` 類別，並在驗證應該發生時由 Angular 觸發的 `validate` 函式中呼叫它。
 
 <docs-code path="adev/src/content/examples/form-validation/src/app/shared/role.directive.ts" visibleRegion="async-validator-directive"/>
 
@@ -340,6 +340,6 @@ new FormControl('', {updateOn: 'blur'});
 
 ## 與原生 HTML 表單驗證的互動
 
-預設情況下，Angular 會在封閉的 `<form>` 上加入 `novalidate` 屬性來停用 [原生 HTML 表單驗證](https://developer.mozilla.org/docs/Web/Guide/HTML/Constraint_validation)，並使用指令將這些屬性與架構中的驗證函數進行比對。
+預設情況下，Angular 會在封閉的 `<form>` 上加入 `novalidate` 屬性來停用 [原生 HTML 表單驗證](https://developer.mozilla.org/docs/Web/Guide/HTML/Constraint_validation)，並使用指令將這些屬性與架構中的驗證函式進行比對。
 如果您想要在基於 Angular 的驗證中 **結合** 使用原生驗證，您可以使用 `ngNativeValidate` 指令重新啟用它。
 有關詳細資訊，請參閱 [API 文件](api/forms/NgForm#native-dom-validation-ui)。

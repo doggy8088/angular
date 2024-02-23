@@ -104,7 +104,7 @@ interface User {
 
 在出現像這些的誤判時，有幾個選項：
 
-* 在某些情況下使用 `$any()` 類型轉換函數，以選擇不對表達式的一部分進行類型檢查
+* 在某些情況下使用 `$any()` 類型轉換函式，以選擇不對表達式的一部分進行類型檢查
 * 在應用的 TypeScript 組態檔案 `tsconfig.json` 中設定 `strictTemplates: false`，以完全停用嚴格檢查
 * 設定 *嚴格性標誌* 為 `false`，以個別停用某些類型檢查操作，同時在其他方面保持嚴格性
 * 如果你想要同時使用 `strictTemplates` 和 `strictNullChecks`，請使用 `strictNullInputTypes` 特別針對輸入繫結選擇不進行嚴格的 null 類型檢查
@@ -172,7 +172,7 @@ export class AppComponent {
 TypeScript 根據其類型系統檢查指定，遵守在應用程式中配置的旗標，例如 `strictNullChecks`。
 
 透過提供更詳細的範本類型檢查器範本類型需求，避免執行時期類型錯誤。
-透過在指令定義中提供範本防護函數，讓您自己的指令的輸入類型需求盡可能具體。
+透過在指令定義中提供範本防護函式，讓您自己的指令的輸入類型需求盡可能具體。
 請參閱本指南中的 [改進自訂指令的範本類型檢查](guide/directives/structural-directives#directive-type-checks)。
 
 ### 嚴格的 null 檢查
@@ -323,7 +323,7 @@ static ngAcceptInputType_disabled: boolean&verbar;'';
 
 ## 使用 `$any()` 關閉類型檢查`
 
-透過將繫結表達式包圍在對 `$any()` 偽函數的呼叫中，以停用繫結表達式的檢查。
+透過將繫結表達式包圍在對 `$any()` 偽函式的呼叫中，以停用繫結表達式的檢查。
 編譯器將其視為對 `any` 類型的轉換，就像在 TypeScript 中使用 `<any>` 或 `as any` 轉換時一樣。
 
 在以下範例中，將 `person` 導向 `any` 類型可以抑制錯誤 `Property address does not exist`。
@@ -339,4 +339,3 @@ class MyComponent {
 }
 
 </docs-code>
-

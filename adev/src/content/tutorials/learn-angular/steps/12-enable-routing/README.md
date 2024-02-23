@@ -27,9 +27,9 @@ export const routes: Routes = [];
 
 在 `app.config.ts` 中，以下列步驟將應用程式設定為 Angular Router：
 
-1. 從 `@angular/router` 匯入 `provideRouter` 函數。
+1. 從 `@angular/router` 匯入 `provideRouter` 函式。
 1. 從 `./app.routes.ts` 匯入 `routes`。
-1. 在 `providers` 陣列中呼叫 `provideRouter` 函數，並將 `routes` 傳入作為參數。
+1. 在 `providers` 陣列中呼叫 `provideRouter` 函式，並將 `routes` 傳入作為參數。
 
 <docs-code language="ts" highlight="[2,3,6]">
 import {ApplicationConfig} from '@angular/core';
@@ -75,4 +75,3 @@ export class AppComponent {}
 您的應用程式現在已設定好使用 Angular Router。幹得好！ 🙌
 
 保持動力，學習為我們的應用程式定義路由的下一步。
-

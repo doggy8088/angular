@@ -16,9 +16,9 @@ html
   如果變更偵測呼叫不必要，則可以通過以下方式進行優化：
 </p>
 <ul>
-  <li>使用 ChangeDetectorRef.detach() 函數來分離檢測器。</li>
-  <li>使用 ChangeDetectorRef.detectChanges() 函數手動觸發變更偵測。</li>
-  <li>使用 ChangeDetectorRef.markForCheck() 函數標記檢測器以便在下次變更偵測週期中進行檢查。</li>
+  <li>使用 ChangeDetectorRef.detach() 函式來分離檢測器。</li>
+  <li>使用 ChangeDetectorRef.detectChanges() 函式手動觸發變更偵測。</li>
+  <li>使用 ChangeDetectorRef.markForCheck() 函式標記檢測器以便在下次變更偵測週期中進行檢查。</li>
 </ul>
 
 您可以使用 Angular DevTools 偵測不必要的變更偵測呼叫。它們通常在 Profiler 的時間軸中以連續的長條出現，來源為 `setTimeout`、`setInterval`、`requestAnimationFrame` 或事件處理常式。當您的應用程式中對這些 API 的呼叫有限時，變更偵測呼叫通常是由第三方程式庫造成的。
@@ -87,4 +87,3 @@ ngOnInit() {
 在 `runOutsideAngular` 內執行 `Plotly.newPlot('chart', data);` 指示框架不應在初始化邏輯預定的任務執行後執行變更偵測。
 
 例如，如果 `Plotly.newPlot('chart', data)` 將事件監聽器新增到 DOM 元素，則 Angular 在其處理程序執行後不會執行變更偵測。
-

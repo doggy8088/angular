@@ -75,7 +75,7 @@ class LibCardComponent {
 有兩種情況可能會發生這種問題。
 
 * 令牌用於 [內容查詢](/guide/components/queries#content-queries) 的值位置。
-* 令牌用作建構函數注入的類型規範。
+* 令牌用作建構函式注入的類型規範。
 
 在以下範例中，`OtherComponent` 令牌的兩個用法都會導致保留 `OtherComponent`，防止在未使用的狀況下被樹狀搖晃。
 

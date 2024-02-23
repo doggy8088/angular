@@ -6,7 +6,7 @@ Angular 的 `@angular/core/rxjs-interop` 套件提供了有用的工具，可將
 
 ## `toSignal`
 
-使用 `toSignal` 函數來建立一個信號，用於追蹤 Observable 的值。它的行為與範本中的 `async` 管道類似，但更靈活，可以在應用程式的任何地方使用。
+使用 `toSignal` 函式來建立一個信號，用於追蹤 Observable 的值。它的行為與範本中的 `async` 管道類似，但更靈活，可以在應用程式的任何地方使用。
 
 ```ts
 import { Component } from '@angular/core';
@@ -98,4 +98,3 @@ mySignal.set(3);
 ```
 
 在這裡，只有最後一個值 (3) 會被記錄。
-

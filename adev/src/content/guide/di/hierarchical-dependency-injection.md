@@ -84,7 +84,7 @@ bootstrapApplication(AppComponent, appConfig);
 `platformBrowserDynamic()` 方法會建立由 `PlatformModule` 配置的注入器，其中包含特定於平台的相依性。
 這允許多個應用程式共用一個平台配置。
 例如，不論您執行多少個應用程式，瀏覽器只有一個 URL 列。
-您可以使用 `platformBrowser()` 函數提供 `extraProviders` 來在平台層級配置其他特定於平台的提供者。
+您可以使用 `platformBrowser()` 函式提供 `extraProviders` 來在平台層級配置其他特定於平台的提供者。
 
 層級中的下一個父注入器是 `NullInjector()`，它是樹的頂端。
 如果您已經沿著樹向上到達頂端以致於您在 `NullInjector()` 中尋找服務，除非您使用了 `@Optional()`，否則您會收到錯誤，因為最終一切都會在 `NullInjector()` 結束，它會傳回錯誤，或者在 `@Optional()` 的情況下，傳回 `null`。
@@ -180,7 +180,7 @@ Angular 就不會尋找同一服務的另一個提供者。
 ## 解析度修改器
 
 `Angular` 的解析行為可以使用 `@Optional()`, `@Self()`, `@SkipSelf()` 和 `@Host()` 來修改。
-從 `@angular/core` 匯入每一個，並在元件類別建構函數或注入服務時在 `inject` 組態中使用每一個。
+從 `@angular/core` 匯入每一個，並在元件類別建構函式或注入服務時在 `inject` 組態中使用每一個。
 
 ### 修飾詞類型
 
@@ -309,7 +309,7 @@ export class HostComponent {
 }
 </docs-code>
 
-由於 `HostComponent` 在其建構函數中具有 `@Host()`，不論 `HostComponent` 的父級可能具有什麼 `flower.emoji` 值，`HostComponent` 都會使用鬱金香 &#x1F337;。
+由於 `HostComponent` 在其建構函式中具有 `@Host()`，不論 `HostComponent` 的父級可能具有什麼 `flower.emoji` 值，`HostComponent` 都會使用鬱金香 &#x1F337;。
 
 ## 範本的邏輯結構
 
@@ -863,7 +863,7 @@ Emoji from FlowerService: &#x1F33A;
 請記住，`<app-child>` 在 `viewProviders` 陣列中提供 `AnimalService`，其值為 dog &#x1F436;。
 由於注入器只需要在 `<app-child>` 的 `ElementInjector` 中尋找 `AnimalService`，因此它永遠不會看到 whale &#x1F433;。
 
-如在 `FlowerService` 範例中，如果在 `AnimalService` 的建構函數中加入 `@SkipSelf()`，注入器將不會在當前 `<app-child>` 的 `ElementInjector` 中尋找 `AnimalService`。
+如在 `FlowerService` 範例中，如果在 `AnimalService` 的建構函式中加入 `@SkipSelf()`，注入器將不會在當前 `<app-child>` 的 `ElementInjector` 中尋找 `AnimalService`。
 相反地，注入器將從 `<app-root>` `ElementInjector` 開始。
 
 <docs-code language="typescript" highlight="[6]">
@@ -901,7 +901,7 @@ Emoji from FlowerService: &#x1F33A;
 
 如果你只為 `AnimalService` 的注入使用 `@Host()`，結果是狗 &#x1F436; 因為注入器在 `<app-child>` `<#VIEW>` 本身中找到 `AnimalService`。
 `ChildComponent` 設定 `viewProviders`，以便將狗的表情符號提供為 `AnimalService` 值。
-你也可以在建構函數中看到 `@Host()`：
+你也可以在建構函式中看到 `@Host()`：
 
 <docs-code language="typescript" highlight="[[6],[10]]">
 @Component({

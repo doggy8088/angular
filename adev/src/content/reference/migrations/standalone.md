@@ -283,5 +283,4 @@ bootstrapApplication(AppComponent).catch(e => console.error(e));
 由於遷移的大小和複雜性，有部分情況是示意圖無法處理的：
 
 * 由於單元測試並非提前 (AoT) 編譯，在單元測試中新增至元件的 `imports` 可能並不完全正確。
-* 此綱要依賴直接呼叫 Angular API。此綱要無法辨識 Angular API 周圍的客製化包裝器。例如，如果在那裡定義包裝 `TestBed.configureTestingModule` 的客製化 `customConfigureTestModule` 函數，它所宣告的元件可能無法被辨識。
-
+* 此綱要依賴直接呼叫 Angular API。此綱要無法辨識 Angular API 周圍的客製化包裝器。例如，如果在那裡定義包裝 `TestBed.configureTestingModule` 的客製化 `customConfigureTestModule` 函式，它所宣告的元件可能無法被辨識。

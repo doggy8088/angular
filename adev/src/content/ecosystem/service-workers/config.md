@@ -149,7 +149,7 @@ interface AssetGroup {
 #### `cacheQueryOptions`
 
 這些選項用於修改要求的配對行為。
-它們傳遞給瀏覽器的 `Cache#match` 函數。
+它們傳遞給瀏覽器的 `Cache#match` 函式。
 有關詳細資訊，請參閱 [MDN](https://developer.mozilla.org/docs/Web/API/Cache/match)。
 目前，僅支援以下選項：
 
@@ -374,4 +374,3 @@ HELPFUL: 若要設定是否透過網路傳送導覽要求，請參閱 [navigatio
 | `'freshness'`   | 將要求傳遞到網路，並在離線時改回 `performance` 行為。當伺服器使用 `3xx` HTTP 重新導向狀態碼將導覽要求重新導向到其他地方時，此值很有用。使用此值的原因包括：<ul> <li>在應用程式不處理驗證時重新導向到驗證網站 </li> <li>重新導向特定 URL，以避免在網站重新設計後中斷現有連結/書籤 </li> <li>在頁面暫時停用時重新導向到其他網站，例如伺服器狀態頁面 </li> </ul> |
 
 重要：`freshness` 策略通常會導致向伺服器發出更多請求，這可能會增加回應延遲。建議您盡可能使用預設效能策略。
-

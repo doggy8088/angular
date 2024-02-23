@@ -32,7 +32,7 @@ TypeScript 組態可以使用 `extends` 屬性從另一個檔案繼承設定。
 
 * 預設情況下，編譯器會使用類別中的靜態欄位取代裝飾器，這允許進階樹狀搖晃器 (例如 [Closure compiler](https://github.com/google/closure-compiler)) 移除未使用的類別
 * `decorators` 值會保留裝飾器，這可以加快編譯速度。
-    TypeScript 會呼叫 `__decorate` 輔助函數。
+    TypeScript 會呼叫 `__decorate` 輔助函式。
     使用 `--emitDecoratorMetadata` 以進行執行時期反射。
 
     有用的：產生的程式碼無法正確地進行樹狀搖晃。
@@ -199,7 +199,7 @@ Angular 社群不建議將 `--outFile` 與 Angular 搭配使用。
 ### `strictInjectionParameters`
 
 當為 `true` 時，會針對無法判斷插入類型的提供的參數報告錯誤。
-當為 `false` 時，無法解析其類型的已標記為 `@Injectable` 類別的建構函數參數會產生警告。
+當為 `false` 時，無法解析其類型的已標記為 `@Injectable` 類別的建構函式參數會產生警告。
 建議的值為 `true`，但預設值為 `false`。
 
 當您使用 Angular CLI 指令 `ng new --strict` 時，它會在建立的專案設定中設為 `true`。

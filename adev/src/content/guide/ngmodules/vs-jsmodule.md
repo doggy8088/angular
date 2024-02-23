@@ -24,7 +24,7 @@ import { AppComponent } from './app.component';
 </docs-code>
 
 每個模組都有自己的頂級範圍。
-換句話說，模組中的頂級變數和函數在其他腳本或模組中看不到。
+換句話說，模組中的頂級變數和函式在其他腳本或模組中看不到。
 
 ## NgModules：具有用於編譯的元數據的類別
 

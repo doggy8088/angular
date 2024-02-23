@@ -102,7 +102,7 @@ ng generate component banner --inline-template --inline-style --module app
 
 <docs-code header="app/banner/banner-external.component.spec.ts (initial)" path="adev/src/content/examples/testing/src/app/banner/banner-initial.component.spec.ts" visibleRegion="v1"/>
 
-HELPFUL: 因為 `compileComponents` 是非同步的，因此它使用從 `@angular/core/testing` 匯入的 [`waitForAsync`](api/core/testing/waitForAsync) 實用函數。
+HELPFUL: 因為 `compileComponents` 是非同步的，因此它使用從 `@angular/core/testing` 匯入的 [`waitForAsync`](api/core/testing/waitForAsync) 實用函式。
 
 有關更多詳細資訊，請參閱 [waitForAsync](guide/testing/components-scenarios#waitForAsync) 部分。
 
@@ -217,7 +217,7 @@ Angular 沒有建立 HTML 元素樹，而是建立一個 `DebugElement` 樹來�
 如果它不支援 `querySelector`，則先前的測試可能會失敗。
 
 `DebugElement` 提供適用於所有支援平台的查詢方法。
-這些查詢方法採用一個 *謂詞* 函數，當 `DebugElement` 樹中的節點符合選擇條件時，該函數會傳回 `true`。
+這些查詢方法採用一個 *謂詞* 函式，當 `DebugElement` 樹中的節點符合選擇條件時，該函式會傳回 `true`。
 
 您可以藉助從運行時平台的庫匯入的 `By` 類別來建立 *謂詞*。
 這是瀏覽器平台的 `By` 匯入：

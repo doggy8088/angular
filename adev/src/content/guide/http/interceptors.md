@@ -8,7 +8,7 @@ TLDR：攔截器是中介軟體，可將重試、快取、記錄和驗證等常�
 
 ## Interceptors
 
-攔截器通常是您可以為每個請求執行的函數，並且具有廣泛的功能來影響請求和回應的內容和整體流程。您可以安裝多個攔截器，它們形成一個攔截器鏈，其中每個攔截器在將請求或回應轉發到鏈中的下一個攔截器之前對其進行處理。
+攔截器通常是您可以為每個請求執行的函式，並且具有廣泛的功能來影響請求和回應的內容和整體流程。您可以安裝多個攔截器，它們形成一個攔截器鏈，其中每個攔截器在將請求或回應轉發到鏈中的下一個攔截器之前對其進行處理。
 
 您可以使用攔截器來實現各種常見模式，例如：
 
@@ -24,7 +24,7 @@ TLDR：攔截器是中介軟體，可將重試、快取、記錄和驗證等常�
 
 ## 定義攔截器
 
-攔截器的基本形式是一個函數，它接收傳出的 `HttpRequest` 和一個表示攔截器鏈中下一個處理步驟的 `next` 函數。
+攔截器的基本形式是一個函式，它接收傳出的 `HttpRequest` 和一個表示攔截器鏈中下一個處理步驟的 `next` 函式。
 
 例如，此 `loggingInterceptor` 會在轉發請求之前將傳出請求 URL 記錄到 `console.log`：
 
@@ -116,7 +116,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
 export const CACHING_ENABLED = new HttpContextToken<boolean>(() => true);
 </docs-code>
 
-提供的函數為尚未明確設定值的要求建立令牌的預設值。使用函數可確保如果令牌的值是物件或陣列，每個要求都會取得它自己的執行個體。
+提供的函式為尚未明確設定值的要求建立令牌的預設值。使用函式可確保如果令牌的值是物件或陣列，每個要求都會取得它自己的執行個體。
 
 ### 在攔截器中讀取 token
 
@@ -156,7 +156,7 @@ Interceptors 可以從請求的 `HttpContext` 讀取這些值。
 
 Interceptors 不需要呼叫 `next`。他們也可以選擇通過其他機制來建構回應，例如從快取或通過備用機制發送請求。
 
-可以使用 `HttpResponse` 建構函數建立回應：
+可以使用 `HttpResponse` 建構函式建立回應：
 
 <docs-code language="ts">
 const resp = new HttpResponse({

@@ -135,7 +135,7 @@ export class UserProfile {
 }
 ```
 
-您可以將 `DestroyRef` 實例傳遞給元件外部的函數或類別。如果您有其他程式碼應該在元件被銷毀時執行一些清理行為時，請使用此模式。
+您可以將 `DestroyRef` 實例傳遞給元件外部的函式或類別。如果您有其他程式碼應該在元件被銷毀時執行一些清理行為時，請使用此模式。
 
 您也可以使用 `DestroyRef` 將設定程式碼放在靠近清理程式碼的位置，而非將所有清理程式碼放入 `ngOnDestroy` 方法。
 
@@ -184,11 +184,11 @@ _內容_) 都已檢查是否有變更時每次執行。
 
 ### afterRender 和 afterNextRender
 
-`afterRender` 和 `afterNextRender` 函數讓您註冊 **渲染回呼**，以便在 Angular 將 _所有元件_ 渲染到 DOM 中之後執行。
+`afterRender` 和 `afterNextRender` 函式讓您註冊 **渲染回呼**，以便在 Angular 將 _所有元件_ 渲染到 DOM 中之後執行。
 
-這些函數與本指南中描述的其他生命週期掛勾不同。它們不是類別方法，而是接受回呼的獨立函數。render 回呼的執行未繫結到任何特定元件實體，而是一個應用程式範圍的掛勾。
+這些函式與本指南中描述的其他生命週期掛勾不同。它們不是類別方法，而是接受回呼的獨立函式。render 回呼的執行未繫結到任何特定元件實體，而是一個應用程式範圍的掛勾。
 
-`afterRender` 和 `afterNextRender` 必須在 [注入內容](guide/di/dependency-injection-context) 中呼叫，通常是元件的建構函數。
+`afterRender` 和 `afterNextRender` 必須在 [注入內容](guide/di/dependency-injection-context) 中呼叫，通常是元件的建構函式。
 
 您可以使用渲染回呼來執行手動 DOM 操作。
 請參閱 [使用 DOM API](guide/components/dom-apis) 以獲得有關在 Angular 中使用 DOM 的指導。

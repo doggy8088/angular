@@ -160,7 +160,7 @@ JSON Server 是用於建立模擬 REST API 的開源工具。您將使用它來�
 
         這段程式碼會在檔案的其餘部分產生錯誤，因為它依賴 `housingLocationList` 屬性。我們接下來會更新服務方法。
 
-    1. 更新 `getAllHousingLocations` 函數，以呼叫您設定的網路伺服器。
+    1. 更新 `getAllHousingLocations` 函式，以呼叫您設定的網路伺服器。
 
         <docs-code header="" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[12,14]"/>
 
@@ -168,7 +168,7 @@ JSON Server 是用於建立模擬 REST API 的開源工具。您將使用它來�
 
         說明：在此範例中，程式碼使用 `fetch`。對於更進階的使用案例，請考慮使用 Angular 提供的 `HttpClient`。
 
-    1. 更新 `getHousingLocationsById` 函數，以呼叫您設定的網路伺服器。
+    1. 更新 `getHousingLocationsById` 函式，以呼叫您設定的網路伺服器。
 
         <docs-code header="" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[16,19]"/>
 

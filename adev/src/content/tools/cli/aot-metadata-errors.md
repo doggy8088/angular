@@ -196,11 +196,11 @@ export abstract class MyStrategy { }
 
 </docs-code>
 
-## 參照非導出的函數
+## 參照非導出的函式
 
-HELPFUL: *Metadata 參照未匯出的函數。*
+HELPFUL: *Metadata 參照未匯出的函式。*
 
-例如，您可能已將提供者的 `useFactory` 屬性設定為您忽略導出的本地定義函數。
+例如，您可能已將提供者的 `useFactory` 屬性設定為您忽略導出的本地定義函式。
 
 <docs-code language="typescript">
 
@@ -231,9 +231,9 @@ export function myStrategy() { &hellip; }
 
 </docs-code>
 
-## 函數呼叫不受支援
+## 函式呼叫不受支援
 
-HELPFUL: *函數呼叫不受支援。請考慮使用參考已匯出的函數來取代函數或 lambda。*
+HELPFUL: *函式呼叫不受支援。請考慮使用參考已匯出的函式來取代函式或 lambda。*
 
 編譯器目前不支援 [函式表達式或 lambda 函式](tools/cli/aot-compiler#function-expression)。
 例如，您無法將提供者的 `useFactory` 設為匿名函式或箭頭函式，如下所示。
@@ -250,7 +250,7 @@ HELPFUL: *函數呼叫不受支援。請考慮使用參考已匯出的函數來�
 
 </docs-code>
 
-如果您在提供者的 `useValue` 中呼叫函數或方法，也會發生這個錯誤。
+如果您在提供者的 `useValue` 中呼叫函式或方法，也會發生這個錯誤。
 
 <docs-code language="typescript">
 
@@ -265,7 +265,7 @@ import { calculateValue } from './utilities';
 
 </docs-code>
 
-若要修正此錯誤，請從模組匯出函數，並在 `useFactory` 提供者中參照該函數。
+若要修正此錯誤，請從模組匯出函式，並在 `useFactory` 提供者中參照該函式。
 
 <docs-code language="typescript">
 
@@ -333,7 +333,7 @@ import { configuration } from './configuration';
 這可能會在您參考環境類型時發生。
 例如，`Window` 類型是宣告在全域 `.d.ts` 檔案中的環境類型。
 
-如果您在元件建構函數中參照它，則會出現錯誤，編譯器必須靜態分析。
+如果您在元件建構函式中參照它，則會出現錯誤，編譯器必須靜態分析。
 
 <docs-code language="typescript">
 
@@ -355,8 +355,8 @@ Angular 編譯器不瞭解您忽略匯入或匯出的類型。
 如果您必須注入一個環境類型的實例，您可以按照四個步驟來解決這個問題：
 
 1. 為 ambient 類型的實例建立注入令牌。
-1. 建立返回該實例的工廠函數。
-1. 使用該工廠函數加入 `useFactory` 提供者。
+1. 建立返回該實例的工廠函式。
+1. 使用該工廠函式加入 `useFactory` 提供者。
 1. 使用 `@Inject` 來注入實例。
 
 以下是一個說明性的範例。
@@ -463,7 +463,7 @@ const raw = String.raw`A tagged template &dollar;{expression} string`;
 
 </docs-code>
 
-[`String.raw()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/raw) 是 JavaScript ES2015 原生的 *標籤函數*。
+[`String.raw()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/raw) 是 JavaScript ES2015 原生的 *標籤函式*。
 
 AOT 編譯器不支援標記範本表達式；請避免在元數據表達式中使用它們。
 

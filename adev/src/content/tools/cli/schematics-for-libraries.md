@@ -20,7 +20,7 @@
     * `$schema` 路徑是相對於 Angular Devkit 集合架構。
     * `schematics` 物件描述了屬於此集合的命名原理圖。
     * 第一個條目是針對名為 `ng-add` 的原理圖。
-        它包含描述，並指向在執行原理圖時所呼叫的工廠函數。
+        它包含描述，並指向在執行原理圖時所呼叫的工廠函式。
 
 1. 在您的程式庫專案的 `package.json` 檔案中，新增一個「schematics」條目，並附上您的架構檔案路徑。
     Angular CLI 在執行指令時，會使用此條目來在您的集合中尋找命名原理圖。
@@ -37,7 +37,7 @@
 
 1. 前往 `<lib-root>/schematics/ng-add` 資料夾。
 1. 建立主檔案 `index.ts`。
-1. 開啟 `index.ts` 並新增您的 schematic 工廠函數的原始碼。
+1. 開啟 `index.ts` 並新增您的 schematic 工廠函式的原始碼。
 
     <docs-code header="projects/my-lib/schematics/ng-add/index.ts (ng-add 規則工廠)" path="adev/src/content/examples/schematics-for-libraries/projects/my-lib/schematics/ng-add/index.ts"/>
 
@@ -143,7 +143,7 @@ ng generate my-lib:my-service
 1. 在 `schematics/my-service/` 資料夾內建立 `files/` 資料夾。
 1. 建立一個名為 `__name@dasherize__.service.ts.template` 的檔案，用於定義用於產生檔案的範本。
 
-    此範本會產生一個服務，其中已將 Angular 的 `HttpClient` 注入其建構函數中。
+    此範本會產生一個服務，其中已將 Angular 的 `HttpClient` 注入其建構函式中。
 
     <docs-code lang="typescript" header="projects/my-lib/schematics/my-service/files/__name@dasherize__.service.ts.template (Schematic Template)">
 
@@ -159,14 +159,14 @@ ng generate my-lib:my-service
 
     </docs-code>
 
-    * `classify` 和 `dasherize` 方法是您的架構用於轉換您的來源範本和檔案名稱的工具函數。
+    * `classify` 和 `dasherize` 方法是您的架構用於轉換您的來源範本和檔案名稱的工具函式。
 
-    * `name` 提供為您的工廠函數的屬性。
+    * `name` 提供為您的工廠函式的屬性。
         它與您在架構中定義的 `name` 相同。
 
-### 加入工廠函數
+### 加入工廠函式
 
-現在，既然您已將基礎架構就定位，您可以定義執行您在使用者專案中所需修改的主函數。
+現在，既然您已將基礎架構就定位，您可以定義執行您在使用者專案中所需修改的主函式。
 
 Schematics 框架提供一個檔案範本系統，它同時支援路徑和內容範本。
 系統在輸入 `Tree` 中載入檔案或路徑內定義的預留位置上運行。
@@ -174,9 +174,9 @@ Schematics 框架提供一個檔案範本系統，它同時支援路徑和內容
 
 有關這些數據結構和語法的詳細資訊，請參閱 [Schematics README](https://github.com/angular/angular-cli/blob/main/packages/angular_devkit/schematics/README.md)。
 
-1. 建立主檔案 `index.ts`，並加入您的指令工廠函數的原始碼。
+1. 建立主檔案 `index.ts`，並加入您的指令工廠函式的原始碼。
 1. 首先，匯入您需要使用的指令定義。
-    指令架構提供了許多工具函數來建立和使用規則，以便在執行指令時使用。
+    指令架構提供了許多工具函式來建立和使用規則，以便在執行指令時使用。
 
     <docs-code header="projects/my-lib/schematics/my-service/index.ts (匯入)" path="adev/src/content/examples/schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" visibleRegion="schematics-imports"/>
 
@@ -199,14 +199,14 @@ Schematics 框架提供一個檔案範本系統，它同時支援路徑和內容
 使用者可以在命令列上指定專案，或讓它預設。
 在任一種情況下，您的程式碼都需要辨識這個示意圖套用的特定專案，以便您能從專案設定中擷取資訊。
 
-利用傳遞到工廠函數的 `Tree` 物件執行此操作。
+利用傳遞到工廠函式的 `Tree` 物件執行此操作。
 `Tree` 方法可讓您存取工作區中的完整檔案樹，讓您在執行 Schematics 期間讀取和寫入檔案。
 
 ### 取得專案設定檔
 
 1. 若要判斷目的地專案，請使用 `workspaces.readWorkspace` 方法來讀取工作區設定檔 `angular.json` 的內容。
     要使用 `workspaces.readWorkspace`，您需要從 `Tree` 建立 `workspaces.WorkspaceHost`。
-    將下列程式碼新增至您的工廠函數。
+    將下列程式碼新增至您的工廠函式。
 
     <docs-code header="projects/my-lib/schematics/my-service/index.ts (Schema Import)" path="adev/src/content/examples/schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" visibleRegion="workspace"/>
 
@@ -250,7 +250,7 @@ Schematics 框架提供一個檔案範本系統，它同時支援路徑和內容
     `chain()` 方法讓您可以將多個規則合併成單一規則，以便您能在單一示意圖中執行多個操作。
     在這裡，您只會將範本規則與示意圖執行的任何程式碼合併。
 
-請參閱以下示意規則函數的完整範例。
+請參閱以下示意規則函式的完整範例。
 
 <docs-code header="projects/my-lib/schematics/my-service/index.ts" path="adev/src/content/examples/schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts"/>
 

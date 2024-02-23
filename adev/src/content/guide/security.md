@@ -93,7 +93,7 @@ Angular 辨識值為不安全並自動清除它，這會移除 `script` 元素�
 
 對於無法避免此情況，請使用內建的 Angular 清理功能。
 使用 [DomSanitizer.sanitize](api/platform-browser/DomSanitizer#sanitize) 方法和適當的 `SecurityContext` 清理不受信任的值。
-該函數也接受使用 `bypassSecurityTrust` &hellip; 函數標記為可信任的值，並且不會清理它們，如 [以下所述](#trusting-safe-values)。
+該函式也接受使用 `bypassSecurityTrust` &hellip; 函式標記為可信任的值，並且不會清理它們，如 [以下所述](#trusting-safe-values)。
 
 ### 信任安全值
 
@@ -312,7 +312,7 @@ Angular 的 `HttpClient` 內建支援此技巧的用戶端端。
 ### 跨網站腳本包含 (XSSI)
 
 跨網站指令碼包含，也稱為 JSON 漏洞，允許攻擊者的網站從 JSON API 讀取資料。
-此攻擊適用於舊版瀏覽器，方法是覆寫內建的 JavaScript 物件建構函數，然後使用 `<script>` 標籤包含 API URL。
+此攻擊適用於舊版瀏覽器，方法是覆寫內建的 JavaScript 物件建構函式，然後使用 `<script>` 標籤包含 API URL。
 
 只有當回傳的 JSON 可用 JavaScript 執行時，此攻擊才會成功。
 伺服器可以透過加入字首至所有 JSON 回應，以使其無法執行，依慣例，使用廣為人知的字串 `")]}',\n"` 來防止攻擊。

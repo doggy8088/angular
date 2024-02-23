@@ -20,9 +20,9 @@
 為了維護應用程式的完整性，Angular service worker 將所有檔案分組至一個版本中。
 分組至一個版本的檔案通常包括 HTML、JS 和 CSS 檔案。
 這些檔案的分組對於完整性來說是必要的，因為 HTML、JS 和 CSS 檔案經常相互參照並取決於特定內容。
-例如，`index.html` 檔案可能有一個參照 `bundle.js` 的 `<script>` 標籤，並且可能嘗試從該指令碼內呼叫函數 `startApp()`。
+例如，`index.html` 檔案可能有一個參照 `bundle.js` 的 `<script>` 標籤，並且可能嘗試從該指令碼內呼叫函式 `startApp()`。
 每次提供此版本的 `index.html` 時，都必須提供對應的 `bundle.js`。
-例如，假設 `startApp()` 函數在兩個檔案中都重新命名為 `runApp()`。
+例如，假設 `startApp()` 函式在兩個檔案中都重新命名為 `runApp()`。
 在這種情況下，提供舊的 `index.html`（呼叫 `startApp()`）以及定義 `runApp()` 的新組合並不有效。
 
 此檔案完整性在延遲載入時尤其重要。

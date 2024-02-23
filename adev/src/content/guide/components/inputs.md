@@ -46,7 +46,7 @@ export class CustomSlider {
 
 ### 輸入轉換
 
-您可以指定一個 `transform` 函數，在 Angular 設定輸入值時變更該值。
+您可以指定一個 `transform` 函式，在 Angular 設定輸入值時變更該值。
 
 <docs-code language="ts" highlight="[6]">
 @Component({
@@ -70,13 +70,13 @@ function trimString(value: string | undefined) {
 
 輸入轉換最常見的用例是接受範本中更廣泛的值類型，通常包括 `null` 和 `undefined`。
 
-**輸入轉換函數在建置時必須可以靜態分析。**您無法有條件地或作為表達式評估的結果來設定轉換函數。
+**輸入轉換函式在建置時必須可以靜態分析。**您無法有條件地或作為表達式評估的結果來設定轉換函式。
 
-**輸入轉換函數應始終為 [純函數](https://en.wikipedia.org/wiki/Pure_function)。**依賴於轉換函數之外的狀態可能會導致行為無法預測。
+**輸入轉換函式應始終為 [純函式](https://en.wikipedia.org/wiki/Pure_function)。**依賴於轉換函式之外的狀態可能會導致行為無法預測。
 
 #### 類型檢查
 
-當您指定輸入轉換時，轉換函數參數的類型決定了可以在範本中設定為輸入的值的類型。
+當您指定輸入轉換時，轉換函式參數的類型決定了可以在範本中設定為輸入的值的類型。
 
 <docs-code language="ts">
 @Component({...})
@@ -93,7 +93,7 @@ function appendPx(value: number) {
 
 #### 內建轉換
 
-Angular 包含兩種內建的轉換函數，適用於兩個最常見的場景：將值強制轉換為布林值和數字。
+Angular 包含兩種內建的轉換函式，適用於兩個最常見的場景：將值強制轉換為布林值和數字。
 
 <docs-code language="ts">
 import {Component, Input, booleanAttribute, numberAttribute} from '@angular/core';

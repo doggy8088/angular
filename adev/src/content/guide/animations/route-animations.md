@@ -27,7 +27,7 @@ Angular 路由器附帶高階動畫函式，讓你可以在路由變更時為檢
 
 要開始，請設定一組路由。此路由配置告訴路由器如何導航。
 
-建立一個 `Routes` 陣列來定義一組路由。將路由加入 `provideRouter` 函數中，在 `main.ts` 的 `bootstrapApplication` 函數呼叫的提供者陣列中。
+建立一個 `Routes` 陣列來定義一組路由。將路由加入 `provideRouter` 函式中，在 `main.ts` 的 `bootstrapApplication` 函式呼叫的提供者陣列中。
 
 ```ts
 bootstrapApplication(AppComponent, {
@@ -121,10 +121,10 @@ HELPFUL: 轉換狀態必須與在路徑設定中定義的 `data` 屬性值相符
 
 1. `query(':enter', style({ left: '-100%' }))` 匹配新增的檢視，並透過將其定位在最左邊來隱藏新增的檢視。
 1. 對即將離開的檢視呼叫 `animateChild()`，以執行其子動畫。
-1. 使用 [`group()`](api/animations/group) 函數使內部動畫並行執行。
-1. 在 [`group()`](api/animations/group) 函數中：
+1. 使用 [`group()`](api/animations/group) 函式使內部動畫並行執行。
+1. 在 [`group()`](api/animations/group) 函式中：
     1. 查詢已移除的檢視並讓它動畫化，使其遠遠滑動到右邊。
-    1. 透過為檢視加入緩衝函數和持續時間，讓新檢視滑入。
+    1. 透過為檢視加入緩衝函式和持續時間，讓新檢視滑入。
 
         此動畫會讓 `about` 檢視從左側滑入。
 

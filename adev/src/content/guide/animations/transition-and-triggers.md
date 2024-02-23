@@ -5,7 +5,7 @@
 
 ## 預定義狀態和萬用字元比對
 
-在 Angular 中，過渡狀態可透過 [`state()`](api/animations/state) 函數明確定義，或使用預先定義的 `*` 萬用字元和 `void` 狀態。
+在 Angular 中，過渡狀態可透過 [`state()`](api/animations/state) 函式明確定義，或使用預先定義的 `*` 萬用字元和 `void` 狀態。
 
 ### 萬用字元狀態
 
@@ -81,7 +81,7 @@
 ## 別名 :enter 和 :leave
 
 `:enter` 和 `:leave` 是 `void => *` 和 `* => void` 轉場的別名。
-這些別名被多個動畫函數使用。
+這些別名被多個動畫函式使用。
 
 <docs-code hideCopy language="typescript">
 
@@ -113,7 +113,7 @@ HTML 範本包含以下程式碼。
 
 ## 轉換 :increment 和 :decrement
 
-`transition()`函數採用其他選擇器值，`:increment`和`:decrement`。
+`transition()`函式採用其他選擇器值，`:increment`和`:decrement`。
 當數值增加或減少時，使用這些值啟動轉換。
 
 HELPFUL: 以下範例使用 `query()` 和 `stagger()` 方法。
@@ -144,7 +144,7 @@ HELPFUL: 以下範例使用 `query()` 和 `stagger()` 方法。
 ### 父子動畫
 
 每次在 Angular 中觸發動畫時，父動畫始終具有優先權，而子動畫則會被阻止。
-若要執行子動畫，父動畫必須查詢包含子動畫的每個元素。然後，它會使用 [`animateChild()`](api/animations/animateChild) 函數讓動畫執行。
+若要執行子動畫，父動畫必須查詢包含子動畫的每個元素。然後，它會使用 [`animateChild()`](api/animations/animateChild) 函式讓動畫執行。
 
 #### 在 HTML 元素上停用動畫
 
@@ -165,12 +165,12 @@ HELPFUL: 以下範例使用 `query()` 和 `stagger()` 方法。
 
 選擇性子動畫仍然可以在已停用的父項中以以下其中一種方式執行：
 
-* 父動畫可以使用 [`query()`](api/animations/query) 函數來收集位於 HTML 範本停用區域的內部元素。
+* 父動畫可以使用 [`query()`](api/animations/query) 函式來收集位於 HTML 範本停用區域的內部元素。
     這些元素仍然可以動畫。
 
 <!-- vale on -->
 
-* 子動畫可以被父動畫查詢，然後稍後用 `animateChild()` 函數動畫化
+* 子動畫可以被父動畫查詢，然後稍後用 `animateChild()` 函式動畫化
 
 #### 停用所有動畫
 
@@ -182,7 +182,7 @@ HELPFUL: 在端對端 (E2E) 測試期間，停用動畫在應用程式中很有�
 
 ## 動畫回呼函式
 
-動畫 `trigger()` 函數在開始和結束時會發出 *回呼*。
+動畫 `trigger()` 函式在開始和結束時會發出 *回呼*。
 以下範例具有包含 `openClose` 觸發器的元件。
 
 <docs-code header="src/app/open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="events1"/>
@@ -209,7 +209,7 @@ Callbacks 可用作除錯工具，例如與 `console.warn()` 結合使用，以�
 
 要建立以多個步驟順序執行的動畫，請使用 *關鍵影格*。
 
-Angular 的 `keyframe()` 函數允許在單一計時段內進行多個樣式變更。
+Angular 的 `keyframe()` 函式允許在單一計時段內進行多個樣式變更。
 例如，按鈕除了淡入淡出外，還可以在 2 秒的時間內變更顏色多次。
 
 <img alt="關鍵影格" src="assets/content/images/guide/animations/keyframes-500.png">
@@ -288,7 +288,7 @@ HELPFUL: 字串 `"50"` 相反地不會被視為有效\)。
 
 ### 關鍵影格摘要
 
-Angular 中的 `keyframes()` 函數允許您在單一轉換中指定多種中間樣式。可使用一個選用的 `offset` 來定義每個樣式變更應該在哪個動畫點發生。
+Angular 中的 `keyframes()` 函式允許您在單一轉換中指定多種中間樣式。可使用一個選用的 `offset` 來定義每個樣式變更應該在哪個動畫點發生。
 
 ## 更多關於 Angular 動畫
 

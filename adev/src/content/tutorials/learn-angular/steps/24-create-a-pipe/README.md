@@ -44,9 +44,9 @@ StarPipe 接受字串值，並回傳一個在字串周圍加上星號的字串�
 
 </docs-step>
 
-<docs-step title="實作 `transform` 函數">
+<docs-step title="實作 `transform` 函式">
 
-現在 `ReversePipe` 類別是一個管道。更新 `transform` 函數以新增反轉邏輯：
+現在 `ReversePipe` 類別是一個管道。更新 `transform` 函式以新增反轉邏輯：
 
 <docs-code language="ts" highlight="[3,4,5,6,7,8,9]">
 export class ReversePipe implements PipeTransform {
@@ -80,4 +80,3 @@ export class ReversePipe implements PipeTransform {
 </docs-workflow>
 
 就這樣完成了。恭喜你完成這項活動。現在你已經知道如何使用管道，甚至如何實作你自己的自訂管道。
-

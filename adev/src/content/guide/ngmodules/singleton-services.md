@@ -150,7 +150,7 @@ import { GreetingModule } from './greeting/greeting.module';
 只有根 `AppModule` 應該導入 `GreetingModule`。
 如果延遲載入的模組也導入它，應用程式可能會產生服務的 [多個實例](guide/ngmodules/faq#why-is-it-bad-if-a-shared-module-provides-a-service-to-a-lazy-loaded-module?)。
 
-為避免延遲載入的模組重新匯入 `GreetingModule`，請新增以下 `GreetingModule` 建構函數。
+為避免延遲載入的模組重新匯入 `GreetingModule`，請新增以下 `GreetingModule` 建構函式。
 
 <docs-code header="src/app/greeting/greeting.module.ts" language="typescript">
   constructor(@Optional() @SkipSelf() parentModule?: GreetingModule) {
@@ -161,12 +161,12 @@ import { GreetingModule } from './greeting/greeting.module';
   }
 </docs-code>
 
-建構函數指示 Angular 將 `GreetingModule` 注入自身。
+建構函式指示 Angular 將 `GreetingModule` 注入自身。
 如果 Angular 在 *目前的* 注入器中尋找 `GreetingModule`，注入就會是循環的，但 `@SkipSelf()` 裝飾器的意思是「在父級注入器中尋找 `GreetingModule`，在注入器階層中位於我的上方」。
 
 預設情況下，注射器在找不到所要求的提供者時會擲出錯誤。
 `@Optional()` 裝飾器表示找不到服務是正常的。
-注射器會傳回 `null`，`parentModule` 參數為 `null`，建構函數會順利結束。
+注射器會傳回 `null`，`parentModule` 參數為 `null`，建構函式會順利結束。
 
 如果您將 `GreetingModule` 不正確地匯入到延遲載入的模組，例如 `CustomersModule`，那又是另一回事。
 

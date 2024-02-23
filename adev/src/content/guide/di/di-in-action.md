@@ -32,8 +32,8 @@ set(key: string, value: string) {
 }
 </docs-code>
 
-`factory` 函數傳回附加到瀏覽器視窗物件的 `localStorage` 屬性。
-`Inject` 裝飾器是建構函數參數，用於指定依賴關係的客製化提供者。
+`factory` 函式傳回附加到瀏覽器視窗物件的 `localStorage` 屬性。
+`Inject` 裝飾器是建構函式參數，用於指定依賴關係的客製化提供者。
 
 這個自訂提供者現在可在測試期間被模擬 `localStorage` API 覆寫，而不會與實際瀏覽器 API 互動。
 
@@ -88,11 +88,11 @@ html
 例如，當類別「A」引用類別「B」，而「B」引用「A」時。
 其中之一必須先定義。
 
-Angular `forwardRef()` 函數建立一個 *間接* 參考，讓 Angular 能在稍後解析。
+Angular `forwardRef()` 函式建立一個 *間接* 參考，讓 Angular 能在稍後解析。
 
 當一個類別對 *它自己進行參照* 時，你會面臨類似的問題。
 例如在它的 `providers` 陣列中。
-`providers` 陣列是 `@Component()` 裝飾器函數的一個屬性，它必須出現在類別定義之前。
+`providers` 陣列是 `@Component()` 裝飾器函式的一個屬性，它必須出現在類別定義之前。
 你可以使用 `forwardRef` 來中斷這種循環參照。
 
 <docs-code header="app.component.ts" language="typescript" highlight="[4]">

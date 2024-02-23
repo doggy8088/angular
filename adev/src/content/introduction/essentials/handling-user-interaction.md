@@ -6,7 +6,7 @@
 
 ## 事件處理
 
-您可以透過以下方式將事件處理函數新增至元素：
+您可以透過以下方式將事件處理函式新增至元素：
 
 1. 在括號內新增一個帶有事件名稱的屬性
 2. 指定當事件觸發時要執行的 JavaScript 語句
@@ -15,7 +15,7 @@
 <button (click)="save()">Save</button>
 ```
 
-例如，如果我們想建立一個按鈕，當 `click` 事件觸發時會執行 `transformText` 函數，它會看起來像以下內容：
+例如，如果我們想建立一個按鈕，當 `click` 事件觸發時會執行 `transformText` 函式，它會看起來像以下內容：
 
 ```ts
 // text-transformer.component.ts
@@ -43,7 +43,7 @@ export class TextTransformer {
 
 ### $event
 
-如果你需要存取 [event](https://developer.mozilla.org/en-US/docs/Web/API/Event) 物件，Angular 提供一個隱含的 `$event` 變數，你可以將它傳遞給函數：
+如果你需要存取 [event](https://developer.mozilla.org/en-US/docs/Web/API/Event) 物件，Angular 提供一個隱含的 `$event` 變數，你可以將它傳遞給函式：
 
 ```html
 <button (click)="createUser($event)">Submit</button>
@@ -54,4 +54,3 @@ export class TextTransformer {
 <docs-pill-row>
   <docs-pill title="分享邏輯" href="essentials/sharing-logic" />
 </docs-pill-row>
-

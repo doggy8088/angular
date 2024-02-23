@@ -16,7 +16,7 @@
 
 ### Angular 服務
 
-*Angular 服務*提供一種方法，讓您可以區分 Angular 應用程式資料和函數，以便應用程式中的多個元件可以使用。
+*Angular 服務*提供一種方法，讓您可以區分 Angular 應用程式資料和函式，以便應用程式中的多個元件可以使用。
 若要讓多個元件使用，服務必須設為 *可注入*。
 可注入且元件使用的服務會成為該元件的相依性。
 元件依賴於這些服務，沒有這些服務就無法運作。
@@ -75,7 +75,7 @@
 
 在 IDE 的 **編輯** 窗格中，在 `src/app/home/home.component.ts` 中：
 
-1. 在 `src/app/home/home.component.ts` 的頂端，將 `inject` 加入從 `@angular/core` 匯入的項目。這會將 `inject` 函數匯入至 `HomeComponent` 類別。
+1. 在 `src/app/home/home.component.ts` 的頂端，將 `inject` 加入從 `@angular/core` 匯入的項目。這會將 `inject` 函式匯入至 `HomeComponent` 類別。
 
     <docs-code header="更新至 src/app/home/home.component.ts" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/home/home.component.ts" visibleLines="[1]"/>
 
@@ -85,7 +85,7 @@
 
 1. 從 `HomeComponent` 中，刪除 `housingLocationList` 陣列項目，並將 `housingLocationList` 指定為空陣列 (`[]`) 的值。在幾個步驟中，您會更新程式碼以從 `HousingService` 中提取資料。
 
-1. 在 `HomeComponent` 中，新增以下程式碼以注入新的服務並初始化應用程式的資料。`constructor` 是在建立此元件時執行的第一個函數。`constructor` 中的程式碼會將 `housingLocationList` 指定為從呼叫 `getAllHousingLocations` 回傳的值。
+1. 在 `HomeComponent` 中，新增以下程式碼以注入新的服務並初始化應用程式的資料。`constructor` 是在建立此元件時執行的第一個函式。`constructor` 中的程式碼會將 `housingLocationList` 指定為從呼叫 `getAllHousingLocations` 回傳的值。
 
     <docs-code header="在 src/app/home/home.component.ts 中從服務初始化資料" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/home/home.component.ts" visibleLines="[31,36]"/>
 

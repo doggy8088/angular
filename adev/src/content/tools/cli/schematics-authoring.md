@@ -19,7 +19,7 @@ schematics 的公開 API 定義代表基本概念的類別。
     `Tree` 資料結構包含一個 *基本值*（一組已存在的檔案）和一個 *暫存區*（要套用到基本值的一系列變更）。
     當進行修改時，您並未實際變更基本值，而是將這些修改新增到暫存區。
 
-* `Rule` 物件定義一個函數，該函數會採用 `Tree`，套用轉換，並傳回新的 `Tree`。
+* `Rule` 物件定義一個函式，該函式會採用 `Tree`，套用轉換，並傳回新的 `Tree`。
     架構的 main 檔案 `index.ts` 定義了一組規則，這些規則會實作架構的邏輯。
 
 * 轉換以 `Action` 表示。
@@ -35,8 +35,8 @@ schematics 的公開 API 定義代表基本概念的類別。
 
 ### 定義規則和動作
 
-當您使用 [Schematics CLI](#cli) 建立新的空白示意圖時，產生的輸入函數是一個 *規則工廠*。
-`RuleFactory` 物件定義一個建立 `Rule` 的高階函數。
+當您使用 [Schematics CLI](#cli) 建立新的空白示意圖時，產生的輸入函式是一個 *規則工廠*。
+`RuleFactory` 物件定義一個建立 `Rule` 的高階函式。
 
 <docs-code header="index.ts" language="typescript">
 
@@ -343,13 +343,13 @@ schematics blank --name=goodbye-world
 </docs-code>
 
 此指令會在您的集合中產生新的命名示意圖，包含一個主 `index.ts` 檔案及其相關測試規範。
-它也會將新示意圖的名稱、說明和工廠函數新增到 `collection.json` 檔案中的集合架構。
+它也會將新示意圖的名稱、說明和工廠函式新增到 `collection.json` 檔案中的集合架構。
 
 ## 收藏內容
 
 根專案資料夾的頂層包含組態檔、`node_modules` 資料夾和 `src/` 資料夾。
 `src/` 資料夾包含該組合中命名範例的子資料夾，以及描述收集到的範例的結構 `collection.json`。
-每個範例都建立名稱、說明和工廠函數。
+每個範例都建立名稱、說明和工廠函式。
 
 <docs-code language="json">
 
@@ -368,10 +368,10 @@ schematics blank --name=goodbye-world
 
 * `$schema` 屬性指定 CLI 用於驗證的架構。
 * `schematics` 屬性列出屬於此集合的已命名架構。
-    每個架構都有純文字說明，並指向主檔案中的已自動建立的輸入函數。
+    每個架構都有純文字說明，並指向主檔案中的已自動建立的輸入函式。
 
-* `factory` 屬性指向已產生的輸入函數。
-    在此範例中，您可以透過呼叫 `helloWorld()` 工廠函數來呼叫 `hello-world` 架構。
+* `factory` 屬性指向已產生的輸入函式。
+    在此範例中，您可以透過呼叫 `helloWorld()` 工廠函式來呼叫 `hello-world` 架構。
 
 * 選擇性的 `schema` 屬性指向定義架構可用的命令列選項的 JSON 架構檔案。
 * 選擇性的 `aliases` 陣列指定一個或多個可被用來呼叫架構的字串。
@@ -383,7 +383,7 @@ schematics blank --name=goodbye-world
 當您將一個新的命名 schematic 新增到這個集合時，它會自動新增到 `collection.json` schema 中。
 
 除了名稱和說明以外，每個示意圖都有一個 `factory` 屬性，用來識別示意圖的進入點。
-在範例中，您可以呼叫主檔案 `hello-world/index.ts` 中的 `helloWorld()` 函數，來呼叫示意圖的已定義功能。
+在範例中，您可以呼叫主檔案 `hello-world/index.ts` 中的 `helloWorld()` 函式，來呼叫示意圖的已定義功能。
 
 <img alt="overview" src="assets/content/images/guide/schematics/collection-files.gif">
 

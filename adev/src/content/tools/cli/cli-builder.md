@@ -10,8 +10,8 @@
 
 ## CLI 建構器
 
-內部 Architect 工具將工作委託給稱為「建構函數」的處理函數。
-建構函數處理函數會收到兩個引數：
+內部 Architect 工具將工作委託給稱為「建構函式」的處理函式。
+建構函式處理函式會收到兩個引數：
 
 | 參數  | 類型             |
 |:---       |:---              |
@@ -22,9 +22,9 @@
 
 * `options` 物件是由 CLI 使用者選項與組態提供，而 `context` 物件則由 CLI Builder API 自動提供。
 * 除了上下文資訊之外，`context` 物件也提供存取排程方法 `context.scheduleTarget()`。
-    排程器使用指定的目標組態執行 builder 處理函數。
+    排程器使用指定的目標組態執行 builder 處理函式。
 
-建構器處理函數可以是同步（傳回值）、非同步（傳回 `Promise`）或監看並傳回多個值（傳回 `Observable`）。
+建構器處理函式可以是同步（傳回值）、非同步（傳回 `Promise`）或監看並傳回多個值（傳回 `Observable`）。
 傳回值必須永遠是 `BuilderOutput` 類型。
 此物件包含一個布林 `success` 欄位和一個可以包含錯誤訊息的選用 `error` 欄位。
 
@@ -51,12 +51,12 @@ Angular 提供了一些建構器，CLI 使用這些建構器來執行 `ng build`
 ## 建立一個 builder
 
 作為範例，建立一個將檔案複製到新位置的建構器。
-若要建立建構器，請使用 `createBuilder()` CLI 建構器函數，並傳回 `Promise<BuilderOutput>` 物件。
+若要建立建構器，請使用 `createBuilder()` CLI 建構器函式，並傳回 `Promise<BuilderOutput>` 物件。
 
 <docs-code header="src/my-builder.ts (builder skeleton)" path="adev/src/content/examples/cli-builder/src/my-builder.ts" visibleRegion="builder-skeleton"/>
 
 現在讓我們添加一些邏輯於其中。
-以下程式碼從使用者選項中擷取來源和目的地檔案路徑，並將檔案從來源複製到目的地（使用內建 NodeJS `copyFile()` 函數的 [Promise 版本](https://nodejs.org/api/fs.html#fs_fspromises_copyfile_src_dest_mode)）。
+以下程式碼從使用者選項中擷取來源和目的地檔案路徑，並將檔案從來源複製到目的地（使用內建 NodeJS `copyFile()` 函式的 [Promise 版本](https://nodejs.org/api/fs.html#fs_fspromises_copyfile_src_dest_mode)）。
 如果複製操作失敗，它會傳回一個包含關於底層問題訊息的錯誤。
 
 <docs-code header="src/my-builder.ts (builder)" path="adev/src/content/examples/cli-builder/src/my-builder.ts" visibleRegion="builder"/>
@@ -80,7 +80,7 @@ CLI Builder API 包含進度和狀態報告工具，可以為某些函式和介�
 總計可以是任何數字。例如，如果您知道要處理多少個檔案，總計可以是檔案數目，而目前則應該是到目前為止已處理的數目。
 除非您傳入新的字串值，否則狀態字串不變。
 
-在我們的範例中，複製作業不是已完成就是仍在執行，所以不需要進度報告，但您可以報告狀態，以便呼叫我們建構函數的父建構函數知道正在發生什麼事。
+在我們的範例中，複製作業不是已完成就是仍在執行，所以不需要進度報告，但您可以報告狀態，以便呼叫我們建構函式的父建構函式知道正在發生什麼事。
 使用 `context.reportStatus()` 方法來產生任何長度的狀態字串。
 
 HELPFUL: 無法保證會完整顯示長字串；它可能會被裁剪以符合顯示它的 UI。
@@ -97,7 +97,7 @@ HELPFUL: 無法保證會完整顯示長字串；它可能會被裁剪以符合�
 ### 輸入驗證
 
 您在與該建構函式相關聯的 JSON 架構中定義建構函式輸入。
-類似於架構，Architect 工具將解析的輸入值收集到 `options` 物件中，並在將其傳遞給建構函式函數之前根據架構驗證其類型。
+類似於架構，Architect 工具將解析的輸入值收集到 `options` 物件中，並在將其傳遞給建構函式函式之前根據架構驗證其類型。
 
 對於我們的範例建構函式，`options` 應為一個具有兩個鍵值的 `JsonObject`：
 一個 `source` 和一個 `destination`，它們都是字串。
@@ -234,15 +234,15 @@ project:target[:configuration]
 | 設定檔 | （選用）`angular.json` 檔案中定義的指定目標的特定設定檔覆寫名稱。                                   |
 
 如果您的建構器呼叫其他建構器，可能需要讀取已傳遞的 target 字串。
-使用 `@angular-devkit/architect` 中的 `targetFromTargetString()` 實用程式函數，將此字串解析成物件。
+使用 `@angular-devkit/architect` 中的 `targetFromTargetString()` 實用程式函式，將此字串解析成物件。
 
 ## 時間表和執行
 
 Architect 非同步執行 Builder。
 若要呼叫 Builder，您必須在所有設定解析完成時安排要執行的任務。
 
-建構函數不會執行，直到排程器回傳 `BuilderRun` 控制物件。
-CLI 通常透過呼叫 `context.scheduleTarget()` 函數來排程工作，然後使用 `angular.json` 檔案中的目標定義來解析輸入選項。
+建構函式不會執行，直到排程器回傳 `BuilderRun` 控制物件。
+CLI 通常透過呼叫 `context.scheduleTarget()` 函式來排程工作，然後使用 `angular.json` 檔案中的目標定義來解析輸入選項。
 
 Architect 會透過採用預設選項物件、覆寫組態中的值，然後進一步覆寫傳遞給 `context.scheduleTarget()` 的覆寫物件，來為給定目標解析輸入選項。
 對於 Angular CLI，覆寫物件是從命令列參數建構而來。
@@ -379,13 +379,13 @@ HELPFUL：在儲存庫中執行此測試時，您需要[`ts-node`](https://githu
 大多數 builder 執行一次並回傳。然而，此行為與監控變更的 builder（例如 devserver）並不完全相容。
 Architect 可以支援監控模式，但有一些事項要注意。
 
-* 要與監看模式搭配使用，建構函數應該回傳一個 `Observable`。
-    Architect 會訂閱 `Observable` 直到它完成，並且如果建構函數使用相同參數再次排程，可能會重複使用它。
+* 要與監看模式搭配使用，建構函式應該回傳一個 `Observable`。
+    Architect 會訂閱 `Observable` 直到它完成，並且如果建構函式使用相同參數再次排程，可能會重複使用它。
 
-* 建構函數應該在每次執行後發出一個 `BuilderOutput` 物件。
+* 建構函式應該在每次執行後發出一個 `BuilderOutput` 物件。
     執行後，它可以進入監看模式，由外部事件觸發。
-    如果事件觸發它重新啟動，建構函數應該執行 `context.reportRunning()` 函數，以告訴 Architect 它正在再次執行。
-    這會防止 Architect 在排程另一個執行時停止建構函數。
+    如果事件觸發它重新啟動，建構函式應該執行 `context.reportRunning()` 函式，以告訴 Architect 它正在再次執行。
+    這會防止 Architect 在排程另一個執行時停止建構函式。
 
 當您的建構器呼叫 `BuilderRun.stop()` 退出監控模式時，Architect 會取消訂閱建構器的 `Observable` 並呼叫建構器的清除邏輯以進行清理。
 此行為還允許停止並清理長時間執行的建構。

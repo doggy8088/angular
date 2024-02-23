@@ -49,7 +49,7 @@ import {SecondComponent} from './second/second.component';
 
 建立路線有三個基本建構模組。
 
-將路由匯入 `app.config.ts` 並將其新增至 `provideRouter` 函數。以下是在 CLI 中使用的預設 `ApplicationConfig`。
+將路由匯入 `app.config.ts` 並將其新增至 `provideRouter` 函式。以下是在 CLI 中使用的預設 `ApplicationConfig`。
 
 <docs-code language="ts">
 
@@ -428,7 +428,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
 ```
 
-在元件類別的建構函數中注入 `ActivatedRoute` 和 `Router`，讓此元件可以使用它們：
+在元件類別的建構函式中注入 `ActivatedRoute` 和 `Router`，讓此元件可以使用它們：
 
 ```ts
 hero$: Observable<Hero>;
@@ -602,7 +602,7 @@ localhost:3002/src/#/crisis-center
 | `PathLocationStrategy` | 預設的「HTML5 pushState」樣式。 |
 | `HashLocationStrategy` | 「雜湊 URL」樣式。                |
 
-`RouterModule.forRoot()` 函數會將 `LocationStrategy` 設為 `PathLocationStrategy`，使其成為預設策略。
+`RouterModule.forRoot()` 函式會將 `LocationStrategy` 設為 `PathLocationStrategy`，使其成為預設策略。
 您也可以在引導程序期間以覆寫的方式切換至 `HashLocationStrategy`。
 
 HELPFUL: 有關提供者和引導程序的更多資訊，請參閱 [相依性注入](guide/di/dependency-injection-providers)。

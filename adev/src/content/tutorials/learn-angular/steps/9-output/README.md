@@ -32,7 +32,7 @@ class ChildComponent {
 }
 </docs-code>
 
-`emit` 函數會產生與 `EventEmitter` 實例相同類型的事件。
+`emit` 函式會產生與 `EventEmitter` 實例相同類型的事件。
 
 好的，輪到您來試試看了。請按照下列任務完成程式碼：
 
@@ -69,4 +69,3 @@ addItem() {
 哇，到此你已經完成元件基本知識 - 令 人印象深刻 👏
 
 繼續學習以解鎖更多 Angular 的優異功能。
-

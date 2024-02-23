@@ -43,8 +43,8 @@ Angular 會在使用者新增英雄時更新顯示。
 預設情況下，管道定義為「純粹」，以便 Angular 僅在偵測到輸入值或參數的「純粹變更」時才執行管道。
 純粹變更不是變更基本輸入值（例如 `String`、`Number`、`Boolean` 或 `Symbol`），就是變更物件參考（例如 `Date`、`Array`、`Function` 或 `Object`）。
 
-純函數必須使用純函數，它是一個處理輸入並傳回值而沒有副作用的函數。
-換句話說，給定相同的輸入，純函數應該總是傳回相同的輸出。
+純函式必須使用純函式，它是一個處理輸入並傳回值而沒有副作用的函式。
+換句話說，給定相同的輸入，純函式應該總是傳回相同的輸出。
 
 使用純粹的管線時，Angular 會忽略物件和陣列內的變更，因為檢查基本值或物件參考的速度比對物件內部的差異執行深入檢查快很多。
 Angular 可以快速地判斷是否可以略過執行管線和更新檢視。
@@ -104,7 +104,7 @@ Angular 在每次偵測到變更時（例如每次擊鍵或滑鼠事件）執行
     <docs-code header="src/app/flying-heroes.pipe.ts (FlyingHeroesPipe)" path="adev/src/content/examples/pipes/src/app/flying-heroes.pipe.ts" visibleRegion="pure"/>
 </docs-code-multifile>
 
-`FlyingHeroesImpurePipe` 是個不純管道的合理候選，因為 `transform` 函數簡單且快速：
+`FlyingHeroesImpurePipe` 是個不純管道的合理候選，因為 `transform` 函式簡單且快速：
 
 <docs-code header="src/app/flying-heroes.pipe.ts (filter)" path="adev/src/content/examples/pipes/src/app/flying-heroes.pipe.ts" visibleRegion="filter"/>
 

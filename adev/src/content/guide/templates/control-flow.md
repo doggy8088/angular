@@ -126,11 +126,10 @@ Angular 模板支援 *控制流程區塊*，讓你可以有條件地顯示、隱
 * 使用新的最佳化演算法計算最少數量的 DOM 操作，以響應集合的變更，而不是 Angular 的可自定義比較實作（`IterableDiffer`）；
 * 支援 `@empty` 區塊。
 
-`track` 設定取代了 `NgFor` 的 `trackBy` 函數概念。由於 `@for` 是內建的，因此我們可以提供比傳遞 `trackBy` 函數更好的體驗，並直接使用代表鍵的表達式。可以透過呼叫 `trackBy` 函數，從 `trackBy` 遷移到 `track`：
+`track` 設定取代了 `NgFor` 的 `trackBy` 函式概念。由於 `@for` 是內建的，因此我們可以提供比傳遞 `trackBy` 函式更好的體驗，並直接使用代表鍵的表達式。可以透過呼叫 `trackBy` 函式，從 `trackBy` 遷移到 `track`：
 
 ```html
 @for (item of items; track itemId($index, item)) {
   {{ item.name }}
 }
 ```
-
