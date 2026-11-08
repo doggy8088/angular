@@ -160,8 +160,8 @@ NOTE: `multiExpandable` 輸入的預設值為 `true`。如果你想要單一展�
 
 ## 測試
 
-Angular Aria 提供元件 harness，可用來測試手風琴元件。
-以下範例示範如何在元件測試中使用這些 harness：
+Angular Aria 提供元件測試工具，可用來測試手風琴元件。
+以下範例示範如何在元件測試中使用這些元件測試工具：
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';

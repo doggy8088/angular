@@ -166,7 +166,7 @@ Angular Aria 可以與以訊號為基礎的 [Signal Forms](guide/forms/signals/o
 ## 測試
 
 自動完成模式可以使用 `@angular/aria/combobox/testing` 的 `ComboboxHarness` 與 `@angular/aria/listbox/testing` 的 `ListboxHarness` 組合來測試。
-以下範例示範如何使用這些 harness 測試自動完成元件：
+以下範例示範如何使用這些元件測試工具測試自動完成元件：
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';

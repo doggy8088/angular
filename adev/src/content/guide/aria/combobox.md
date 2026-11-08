@@ -194,7 +194,7 @@ Combobox 可以與二維格線協調，建立無障礙的日期選擇器。使�
 ## 測試
 
 Angular Aria 提供 `ComboboxHarness`，可用來測試 combobox 元件。
-以下範例示範如何在元件測試中使用這個 harness：
+以下範例示範如何在元件測試中使用這個元件測試工具：
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';

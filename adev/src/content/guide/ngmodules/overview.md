@@ -112,7 +112,7 @@ export class CustomMenuModule {}
 
 TIP: 有關依賴注入與提供者的資訊，請參閱[依賴注入指南](guide/di)。
 
-`NgModule` 可以為注入的相依性指定 `providers`。這些提供者可供下列對象使用：
+`NgModule` 可以為注入的相依性指定 `providers`。這些提供者可供下列目標使用：
 
 - 任何匯入該 NgModule 的獨立元件、指令或管道，以及
 - 任何匯入該 NgModule 的其他 NgModule 的 `declarations` 與 `providers`。

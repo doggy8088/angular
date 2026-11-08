@@ -282,8 +282,8 @@ Internet Explorer 11（IE11）一直妨礙 Angular 利用 Web 平台的一些現
 <docs-card title="以翻新的入門文件改善開發者上手體驗" link="2021 年第 1 季完成" href="tutorials">
 我們將重新定義使用者的學習歷程，並翻新入門文件。我們將清楚說明 Angular 的好處、如何探索其能力，並提供指引，讓開發者能在盡可能短的時間內熟練使用這個框架。
 </docs-card>
-<docs-card title="擴充元件測試台最佳實務" link="2021 年第 1 季完成" href="https://material.angular.dev/guide/using-component-harnesses">
-Angular CDK 在版本 9 中為 Angular 引入了元件測試台（component test harness）的概念。測試台讓元件作者能建立受支援的 API，用於測試元件互動。我們正在持續改善這套測試台基礎設施，並釐清使用測試台的最佳實務。我們也正努力推動 Google 內部更廣泛地採用測試台。
+<docs-card title="擴充元件測試工具最佳實務" link="2021 年第 1 季完成" href="https://material.angular.dev/guide/using-component-harnesses">
+Angular CDK 在版本 9 中為 Angular 引入了元件測試工具（component test harness）的概念。元件測試工具讓元件作者能建立受支援的 API，用於測試元件互動。我們正在持續改善這套元件測試工具基礎設施，並釐清使用元件測試工具的最佳實務。我們也正努力推動 Google 內部更廣泛地採用元件測試工具。
 </docs-card>
 <docs-card title="撰寫內容投影指南" link="2021 年第 2 季完成" href="https://angular.io/docs">
 內容投影是 Angular 的核心概念，但在文件中沒有得到它應得的份量。作為這個專案的一部分，我們希望找出內容投影的核心使用情境與概念，並將它們記錄下來。
