@@ -57,7 +57,7 @@ export class ProfilePhoto {}
 
 ## 使用元件
 
-### 在 `@Component` 裝飾器中匯入
+### 在 `@Component` 裝飾器中匯入 {#imports-in-the-component-decorator}
 
 若要使用某個元件、[指令](guide/directives)或[管道](guide/templates/pipes)，你必須將它加入 `@Component` 裝飾器的 `imports` 陣列：
 

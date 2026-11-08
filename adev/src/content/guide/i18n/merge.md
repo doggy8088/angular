@@ -44,7 +44,7 @@ HELPFUL: 也可以選擇[只為單一地區設定套用特定建置選項][Guide
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" region="locale-config"/>
 
-## 為每個地區設定產生應用程式變體
+## 為每個地區設定產生應用程式變體 {#generate-application-variants-for-each-locale}
 
 若要在建置設定中使用你的地區設定定義，請使用 [`angular.json`][GuideWorkspaceConfig] 工作區建置設定檔中的 `"localize"` 選項，告訴 CLI 要為建置設定產生哪些地區設定。
 
@@ -74,7 +74,7 @@ CLI 也會將地區設定加入設定好的 `baseHref`，調整應用程式每�
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" region="build-localize-true"/>
 
-## 從命令列建置
+## 從命令列建置 {#build-from-the-command-line}
 
 另外，搭配你現有的 `production` 設定，使用 [`ng build`][CliBuild] 指令的 `--localize` 選項。
 CLI 會建置建置設定中定義的所有地區設定。
@@ -84,7 +84,7 @@ HELPFUL: 關於如何設定地區設定的更多資訊，請見[為每個地區�
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" region="build-localize"/>
 
-## 只為單一地區設定套用特定建置選項
+## 只為單一地區設定套用特定建置選項 {#apply-specific-build-options-for-just-one-locale}
 
 若要只對單一地區設定套用特定建置選項，請指定單一地區設定，建立自訂的地區設定專屬設定。
 

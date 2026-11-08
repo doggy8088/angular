@@ -46,7 +46,7 @@
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" region="extract-i18n-output-path"/>
 
-### 變更來源語言檔案的格式
+### 變更來源語言檔案的格式 {#change-the-source-language-file-format}
 
 `extract-i18n` 指令可以建立下列翻譯格式的檔案。
 

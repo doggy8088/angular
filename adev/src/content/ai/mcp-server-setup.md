@@ -6,7 +6,7 @@ Angular CLI 包含一個 Model Context Protocol（MCP）server，讓 AI 助理�
   如果你的主機環境支援自訂 Agent Skills（例如 Antigravity），你可以把 Angular CLI MCP server 與官方的 [Angular AI Skills](https://angular.dev/ai/agent-skills) 結合使用。技能為代理提供深度的指令層級指引與程式碼標準，MCP server 則提供執行這些指引的動作工具（例如編譯、執行測試與分析工作區），兩者結合即成為完整且強大的開發代理。
 </docs-callout>
 
-## 開始使用
+## 開始使用 {#get-started}
 
 若要使用 MCP server，你需要設定你的主機環境（IDE 或 CLI）來執行 `npx @angular/cli mcp`。
 

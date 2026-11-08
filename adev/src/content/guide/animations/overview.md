@@ -18,7 +18,7 @@ Angular 的動畫系統建構在 CSS 功能之上，也就是說，凡是瀏覽�
 這包括位置、大小、transform、顏色、邊框等等。
 W3C 在其 [CSS Transitions](https://www.w3.org/TR/css-transitions-1) 頁面上維護了一份可動畫化屬性的清單。
 
-## 關於本指南
+## 關於本指南 {#about-this-guide}
 
 本指南涵蓋 Angular 動畫的基本功能，帶你開始把 Angular 動畫加到專案中。
 
@@ -253,7 +253,7 @@ HELPFUL: 在元件檔案中，把定義動畫的觸發器設為 `@Component()` �
 
 關於 Angular 動畫的進階功能，請見「動畫」章節，從[轉場與觸發器](guide/legacy-animations/transition-and-triggers)的進階技巧開始。
 
-## 動畫 API 總覽
+## 動畫 API 總覽 {#animations-api-summary}
 
 `@angular/animations` 模組提供的函式式 API，提供了一套領域專用語言（DSL），用來在 Angular 應用程式中建立與控制動畫。
 核心函式與相關資料結構的完整清單與語法細節，請見 [API 參考文件](api?package=angular_animations&status=8)。

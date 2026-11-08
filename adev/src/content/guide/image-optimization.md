@@ -55,7 +55,7 @@ imports: [
 
 如果你使用的是[內建的第三方載入器](#built-in-loaders)，請務必從 `src` 中省略基礎 URL 路徑，因為載入器會自動將它加在前面。
 </docs-step>
-<docs-step title="將圖片標記為 `priority`">
+<docs-step title="將圖片標記為 `priority` {#mark-images-as-priority}">
 務必將頁面上的 [LCP 圖片](https://web.dev/lcp/#what-elements-are-considered) 標記為 `priority`，讓它優先載入。
 
 ```html

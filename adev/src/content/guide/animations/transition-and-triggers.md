@@ -80,7 +80,7 @@ IMPORTANT: `@angular/animations` 套件現已棄用。Angular 團隊建議所有
 
 在前面的程式碼中，當 HTML 元素尚未附加到檢視上時，你套用了 `void` 狀態。
 
-## 別名 :enter 與 :leave
+## 別名 :enter 與 :leave {#aliases-enter-and-leave}
 
 `:enter` 與 `:leave` 分別是 `void => *` 與 `* => void` 轉場的別名。
 有幾個動畫函式會用到這些別名。

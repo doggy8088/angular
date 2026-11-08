@@ -127,7 +127,7 @@ mySignal.set(3);
 
 在這裡，只有最後的值（3）會被記錄下來。
 
-## 使用 `rxResource` 處理非同步資料
+## 使用 `rxResource` 處理非同步資料 {#using-rxresource-for-async-data}
 
 Angular 的 [`resource` 函式](/guide/signals/resource)讓你把非同步資料納入應用程式以訊號為基礎的程式碼。在這個模式之上，`rxResource` 讓你定義一個 resource，其資料來源以 RxJS `Observable` 表示。`rxResource` 不接受 `loader` 函式，而是接受一個回傳 RxJS `Observable` 的 `stream` 函式。
 

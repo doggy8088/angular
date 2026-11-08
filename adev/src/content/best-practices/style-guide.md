@@ -90,7 +90,7 @@ src/
 
 ## 元件與指令
 
-### 選擇元件選擇器
+### 選擇元件選擇器 {#choosing-component-selectors}
 
 詳情請參閱[元件指南中關於選擇元件選擇器的說明](guide/components/selectors#choosing-a-selector)。
 

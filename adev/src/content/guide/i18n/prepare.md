@@ -6,7 +6,7 @@
 - 使用 `i18n-` 屬性標記元件範本中的屬性文字字串
 - 使用 `$localize` 標記訊息字串標記元件程式碼中的文字字串
 
-## 標記元件範本中的文字
+## 標記元件範本中的文字 {#mark-text-in-component-template}
 
 在元件範本中，i18n 中繼資料就是 `i18n` 屬性的值。
 
@@ -171,7 +171,7 @@ $localize`:An introduction header for this sample:Hello i18n!`;
 譯者也可能需要知道文字訊息在這個特定應用程式上下文中的意義或意圖，才能將它以與其他相同意義文字一致的方式翻譯。
 讓 `i18n` 屬性值以_意義_開頭，並以 `|` 字元將它與_說明_分隔：`{meaning}|{description}`。
 
-#### `h1` 範例
+#### `h1` 範例 {#h1-example}
 
 例如，你可能想指定 `<h1>` 標籤是網站標題，需要以相同方式翻譯，不論它是用作標題，還是在另一段文字中被參照。
 
@@ -230,7 +230,7 @@ ICU 子句定義了條件文字的型別。
 
 HELPFUL: ICU 子句遵循 [CLDR 複數規則][UnicodeCldrIndexCldrSpecPluralRules] 中指定的 [ICU Message Format][GithubUnicodeOrgIcuUserguideFormatParseMessages]。
 
-### 標記複數
+### 標記複數 {#mark-plurals}
 
 不同語言有不同的複數規則，增加了翻譯的難度。
 由於其他地區設定表達基數的方式不同，你可能需要設定與英文不一致的複數類別。
@@ -320,7 +320,7 @@ updated one minute ago
 
 `{{minutes}}` 是一種[插值](guide/templates/binding#render-dynamic-text-with-text-interpolation)。
 
-### 標記替代項與巢狀運算式
+### 標記替代項與巢狀運算式 {#mark-alternates-and-nested-expressions}
 
 `select` 子句依你定義的字串值，標記替代文字的選項。
 

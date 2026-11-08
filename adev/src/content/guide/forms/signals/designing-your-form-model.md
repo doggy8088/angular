@@ -107,7 +107,7 @@ interface BeverageOrderFormModel {
 }
 ```
 
-### 避免 `undefined`
+### 避免 `undefined` {#avoid-undefined}
 
 表單模型不可以包含 `undefined` 的值或屬性。在 Signal Forms 中，表單的結構是從模型的結構推導出來的，而 `undefined` 表示的是「欄位不存在」，而不是值為空的欄位。這也表示你必須避免可選欄位（例如 `{property?: string}`），因為它們隱含允許 `undefined`。
 
@@ -295,7 +295,7 @@ Username: <input [formField]="userForm.username" /> Location:
 
 這裡的 `<location-picker>` 會取用並產生整個 `Location` 物件（或 `null`），不會存取 `userForm.location.lat` 或 `userForm.location.lng`。因此，`location` 可以安全地擁有動態形狀，不違反模型驅動表單的原則。
 
-## 在表單模型與領域模型之間轉換
+## 在表單模型與領域模型之間轉換 {#translating-between-form-model-and-domain-model}
 
 既然表單模型與領域模型以不同方式表示同一個概念，我們就需要有方法在這兩種表示法之間轉換。想把系統中既有的資料呈現給使用者填表時，我們需要把它從領域模型的表示法轉換為表單模型的表示法。反過來，想儲存使用者的修改時，則需要把資料從表單模型的表示法轉換回領域模型的表示法。
 

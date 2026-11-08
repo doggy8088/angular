@@ -55,7 +55,7 @@ NOTE: 在同一個元素上使用多個關鍵影格動畫或轉場屬性時，An
     <docs-code header="leave-binding.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-binding.css"/>
 </docs-code-multifile>
 
-### 元素移除順序
+### 元素移除順序 {#element-removal-order}
 
 `animate.leave` 動畫如何執行、何時發生，其中有些細微差別。當 `animate.leave` 放在正被移除的元素上時，它會生效；而若 `animate.leave` 放在被移除元素的*後代*元素上、且位於同一個元件範本內，這些子元素的 `animate.leave` 動畫會在父節點從 DOM 移除*之前*先執行。這能確保你可以放心地讓子元素以動畫離場，父節點不會提早消失。
 
