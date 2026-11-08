@@ -95,47 +95,47 @@ const serverConfig: ApplicationConfig = {
 
 每種渲染模式都有不同的優點與缺點。你可以依應用程式的具體需求選擇渲染模式。
 
-##### Client-side rendering (CSR)
+##### 用戶端渲染（CSR）
 
-Client-side rendering has the simplest development model, as you can write code that assumes it always runs in a web browser. This lets you use a wide range of client-side libraries that also assume they run in a browser.
+用戶端渲染的開發模型最簡單，因為你可以假設程式碼總是在網頁瀏覽器中執行來撰寫它。這讓你能使用各種同樣假設自己在瀏覽器中執行的用戶端函式庫。
 
-Client-side rendering generally has worse performance than other rendering modes, as it must download, parse, and execute your page's JavaScript before the user can see any rendered content. If your page fetches more data from the server as it renders, users also have to wait for those additional requests before they can view the complete content.
+用戶端渲染的效能通常比其他渲染模式差，因為它必須先下載、解析並執行頁面的 JavaScript，使用者才能看到任何渲染出的內容。如果你的頁面在渲染時還要從伺服器擷取更多資料，使用者還必須等待這些額外請求完成，才能看到完整內容。
 
-If your page is indexed by search crawlers, client-side rendering may negatively affect search engine optimization (SEO), as search crawlers have limits to how much JavaScript they execute when indexing a page.
+如果你的頁面會被搜尋爬蟲建立索引，用戶端渲染可能對搜尋引擎最佳化（SEO）產生負面影響，因為搜尋爬蟲在索引頁面時能執行的 JavaScript 量有其限制。
 
-When client-side rendering, the server does not need to do any work to render a page beyond serving static JavaScript assets. You may consider this factor if server cost is a concern.
+採用用戶端渲染時，伺服器除了提供靜態 JavaScript 資源外，不需要做任何渲染頁面的工作。如果伺服器成本是考量因素，你可以將這一點納入評估。
 
-Applications that support installable, offline experiences with [service workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) can rely on client-side rendering without needing to communicate with a server.
+支援可安裝、離線體驗並搭配 [service workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) 的應用程式，可以仰賴用戶端渲染，而不需要與伺服器通訊。
 
-##### Server-side rendering (SSR)
+##### 伺服器端渲染（SSR）
 
-Server-side rendering offers faster page loads than client-side rendering. Instead of waiting for JavaScript to download and run, the server directly renders an HTML document upon receiving a request from the browser. The user experiences only the latency necessary for the server to fetch data and render the requested page. This mode also eliminates the need for additional network requests from the browser, as your code can fetch data during rendering on the server.
+伺服器端渲染的頁面載入速度比用戶端渲染快。伺服器在收到瀏覽器的請求後會直接渲染 HTML 文件，不需要等待 JavaScript 下載並執行。使用者只需經歷伺服器擷取資料並渲染所請求頁面所需的延遲。這種模式也省去了瀏覽器發出額外網路請求的需要，因為你的程式碼可以在伺服器上渲染時擷取資料。
 
-Server-side rendering generally has excellent search engine optimization (SEO), as search crawlers receive a fully rendered HTML document.
+伺服器端渲染通常有出色的搜尋引擎最佳化（SEO）表現，因為搜尋爬蟲收到的是完整渲染的 HTML 文件。
 
-Server-side rendering requires you to author code that does not strictly depend on browser APIs and limits your selection of JavaScript libraries that assume they run in a browser.
+伺服器端渲染要求你撰寫不嚴格依賴瀏覽器 API 的程式碼，也限制了你對那些假設自己在瀏覽器中執行的 JavaScript 函式庫的選擇。
 
-When server-side rendering, your server runs Angular to produce an HTML response for every request which may increase server hosting costs.
+採用伺服器端渲染時，你的伺服器會為每個請求執行 Angular 來產生 HTML 回應，這可能增加伺服器託管成本。
 
-##### Build-time prerendering
+##### 建置時預先渲染
 
-Prerendering offers faster page loads than both client-side rendering and server-side rendering. Because prerendering creates HTML documents at _build-time_, the server can directly respond to requests with the static HTML document without any additional work.
+預先渲染的頁面載入速度比用戶端渲染和伺服器端渲染都快。因為預先渲染是在_建置時_建立 HTML 文件，伺服器可以直接以靜態 HTML 文件回應請求，不需要任何額外工作。
 
-Prerendering requires that all information necessary to render a page is available at _build-time_. This means that prerendered pages cannot include any data to the specific user loading the page. Prerendering is primarily useful for pages that are the same for all users of your application.
+預先渲染要求渲染頁面所需的所有資訊在_建置時_都已備齊。這表示預先渲染的頁面不能包含針對載入頁面的特定使用者的任何資料。預先渲染主要適用於對應用程式所有使用者都相同的頁面。
 
-Because prerendering occurs at build-time, it may add significant time to your production builds. Using [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') to produce a large number of HTML documents may affect the total file size of your deployments, and thus lead to slower deployments.
+因為預先渲染發生在建置時，它可能大幅增加正式建置的時間。使用 [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') 產生大量 HTML 文件，可能影響部署的總檔案大小，進而導致部署變慢。
 
-Prerendering generally has excellent search engine optimization (SEO), as search crawlers receive a fully rendered HTML document.
+預先渲染通常有出色的搜尋引擎最佳化（SEO）表現，因為搜尋爬蟲收到的是完整渲染的 HTML 文件。
 
-Prerendering requires you to author code that does not strictly depend on browser APIs and limits your selection of JavaScript libraries that assume they run in a browser.
+預先渲染要求你撰寫不嚴格依賴瀏覽器 API 的程式碼，也限制了你對那些假設自己在瀏覽器中執行的 JavaScript 函式庫的選擇。
 
-Prerendering incurs extremely little overhead per server request, as your server responds with static HTML documents. Static files are also easily cached by Content Delivery Networks (CDNs), browsers, and intermediate caching layers for even faster subsequent page loads. Fully static sites can also be deployed solely through a CDN or static file server, eliminating the need to maintain a custom server runtime for your application. This enhances scalability by offloading work from an application web server, making it particularly beneficial for high-traffic applications.
+預先渲染對每個伺服器請求產生的額外負擔極低，因為你的伺服器是以靜態 HTML 文件回應。靜態檔案也很容易被內容傳遞網路（CDN）、瀏覽器與中間快取層快取，讓後續的頁面載入更快。完全靜態的網站也可以僅透過 CDN 或靜態檔案伺服器部署，不需要為你的應用程式維護自訂的伺服器執行環境。這能將工作從應用程式的 Web 伺服器卸載，從而提升可擴展性，對高流量應用程式特別有益。
 
-NOTE: When using Angular service worker, the first request is server-rendered, but all subsequent requests are handled by the service worker and rendered client-side.
+NOTE: 使用 Angular service worker 時，第一個請求由伺服器渲染，但後續所有請求都由 service worker 處理並在用戶端渲染。
 
-### Setting headers and status codes
+### 設定標頭與狀態碼
 
-You can set custom headers and status codes for individual server routes using the `headers` and `status` properties in the `ServerRoute` configuration.
+你可以使用 `ServerRoute` 設定中的 `headers` 與 `status` 屬性，為個別伺服器路由設定自訂標頭與狀態碼。
 
 ```typescript {header: "app.routes.server.ts"}
 import {RenderMode, ServerRoute} from '@angular/ssr';
@@ -153,29 +153,29 @@ export const serverRoutes: ServerRoute[] = [
 ];
 ```
 
-### Redirects
+### 重新導向
 
-Angular handles redirects specified by the [`redirectTo`](api/router/Route#redirectTo 'API reference') property in route configurations, differently on the server-side.
+對於路由設定中以 [`redirectTo`](api/router/Route#redirectTo 'API reference') 屬性指定的重新導向，Angular 在伺服器端的處理方式有所不同。
 
-**Server-Side Rendering (SSR)**
-Redirects are performed using standard HTTP redirects (e.g., 301, 302) within the server-side rendering process.
+**伺服器端渲染（SSR）**
+重新導向是在伺服器端渲染過程中，使用標準的 HTTP 重新導向（例如 301、302）來執行。
 
-**Prerendering (SSG)**
-Redirects are implemented as "soft redirects" using [`<meta http-equiv="refresh">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#refresh) tags in the prerendered HTML.
+**預先渲染（SSG）**
+重新導向是以「軟重新導向」的方式實作，在預先渲染的 HTML 中使用 [`<meta http-equiv="refresh">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#refresh) 標籤。
 
-### Customizing build-time prerendering (SSG)
+### 自訂建置時預先渲染（SSG）
 
-When using [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference'), you can specify several configuration options to customize the prerendering and serving process.
+使用 [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference') 時，你可以指定數個設定選項，來自訂預先渲染與提供的流程。
 
-#### Parameterized routes
+#### 參數化路由
 
-For each route with [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference'), you can specify a [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') function. This function lets you control which specific parameters produce separate prerendered documents.
+對於每條使用 [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference') 的路由，你可以指定一個 [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') 函式。這個函式讓你控制哪些具體參數會產生各自獨立的預先渲染文件。
 
-The [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') function returns a `Promise` that resolves to an array of objects. Each object is a key-value map of route parameter name to value. For example, if you define a route like `post/:id`, `getPrerenderParams ` could return the array `[{id: '123'}, {id: '456'}]`, and thus render separate documents for `post/123` and `post/456`.
+[`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') 函式會傳回一個 `Promise`，其解析結果是一個物件陣列。每個物件是路由參數名稱與值的鍵值對應。例如，如果你定義了像 `post/:id` 這樣的路由，`getPrerenderParams ` 可以傳回陣列 `[{id: '123'}, {id: '456'}]`，從而為 `post/123` 與 `post/456` 分別渲染文件。
 
-The body of [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') can use Angular's [`inject`](api/core/inject 'API reference') function to inject dependencies and perform any work to determine which routes to prerender. This typically includes making requests to fetch data to construct the array of parameter values.
+[`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') 的主體可以使用 Angular 的 [`inject`](api/core/inject 'API reference') 函式來注入依賴，並執行任何用來決定要預先渲染哪些路由的工作。這通常包括發出請求來擷取資料，以建構參數值陣列。
 
-You can also use this function with catch-all routes (e.g., `/**`), where the parameter name will be `"**"` and the return value will be the segments of the path, such as `foo/bar`. These can be combined with other parameters (e.g., `/post/:id/**`) to handle more complex route configuration.
+你也可以將這個函式用於 catch-all 路由（例如 `/**`），其中參數名稱會是 `"**"`，傳回值會是路徑的區段，例如 `foo/bar`。這些可以與其他參數結合（例如 `/post/:id/**`），以處理更複雜的路由設定。
 
 ```ts {header: "app.routes.server.ts"}
 import {RenderMode, ServerRoute} from '@angular/ssr';
@@ -205,19 +205,19 @@ export const serverRoutes: ServerRoute[] = [
 ];
 ```
 
-Because [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') exclusively applies to [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference'), this function always runs at _build-time_. `getPrerenderParams` must not rely on any browser-specific or server-specific APIs for data.
+由於 [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') 專門適用於 [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference')，這個函式總是在_建置時_執行。`getPrerenderParams` 不得依賴任何瀏覽器專屬或伺服器專屬的 API 來取得資料。
 
-IMPORTANT: When using [`inject`](api/core/inject 'API reference') inside `getPrerenderParams`, please remember that `inject` must be used synchronously. It cannot be invoked within asynchronous callbacks or following any `await` statements. For more information, refer to `runInInjectionContext`.
+IMPORTANT: 在 `getPrerenderParams` 內使用 [`inject`](api/core/inject 'API reference') 時，請記住 `inject` 必須以同步方式使用。它不能在非同步回呼中、或在任何 `await` 陳述式之後被呼叫。更多資訊請參閱 `runInInjectionContext`。
 
-#### Fallback strategies
+#### 後備策略
 
-When using [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference') mode, you can specify a fallback strategy to handle requests for paths that haven't been prerendered.
+使用 [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference') 模式時，你可以指定一個後備策略，來處理尚未預先渲染之路徑的請求。
 
-The available fallback strategies are:
+可用的後備策略有：
 
-- **Server:** Falls back to server-side rendering. This is the **default** behavior if no `fallback` property is specified.
-- **Client:** Falls back to client-side rendering.
-- **None:** No fallback. Angular will not handle requests for paths that are not prerendered.
+- **Server**：後備為伺服器端渲染。如果沒有指定 `fallback` 屬性，這就是**預設**行為。
+- **Client**：後備為用戶端渲染。
+- **None**：不做後備。Angular 不會處理未預先渲染之路徑的請求。
 
 ```ts {header: "app.routes.server.ts"}
 import {RenderMode, PrerenderFallback, ServerRoute} from '@angular/ssr';
@@ -237,11 +237,11 @@ export const serverRoutes: ServerRoute[] = [
 ];
 ```
 
-## Authoring server-compatible components
+## 撰寫與伺服器相容的元件
 
-Some common browser APIs and capabilities might not be available on the server. Applications cannot make use of browser-specific global objects like `window`, `document`, `navigator`, or `location` as well as certain properties of `HTMLElement`.
+某些常見的瀏覽器 API 與功能在伺服器上可能無法使用。應用程式無法使用 `window`、`document`、`navigator` 或 `location` 等瀏覽器專屬的全域物件，以及 `HTMLElement` 的某些屬性。
 
-In general, code which relies on browser-specific symbols should only be executed in the browser, not on the server. This can be enforced through the `afterEveryRender` and `afterNextRender` lifecycle hooks. These are only executed on the browser and skipped on the server.
+一般而言，依賴瀏覽器專屬符號的程式碼應該只在瀏覽器中執行，不要在伺服器上執行。這可以透過 `afterEveryRender` 與 `afterNextRender` 生命週期鉤子來強制達成。這些鉤子只在瀏覽器中執行，在伺服器上會被略過。
 
 ```angular-ts
 import {Component, ElementRef, viewChild, afterNextRender} from '@angular/core';
@@ -262,20 +262,20 @@ export class MyComponent {
 }
 ```
 
-NOTE: Prefer [platform-specific providers](guide/ssr#providing-platform-specific-implementations) over runtime checks with `isPlatformBrowser` or `isPlatformServer`.
+NOTE: 請優先使用[平台專屬的提供者](guide/ssr#providing-platform-specific-implementations)，而不是以 `isPlatformBrowser` 或 `isPlatformServer` 做執行階段檢查。
 
-IMPORTANT: Avoid using `isPlatformBrowser` in templates with `@if` or other conditionals to render different content on server and client. This causes hydration mismatches and layout shifts, negatively impacting user experience and [Core Web Vitals](https://web.dev/learn-core-web-vitals/). Instead, use `afterNextRender` for browser-specific initialization and keep rendered content consistent across platforms.
+IMPORTANT: 避免在範本中使用 `isPlatformBrowser` 搭配 `@if` 或其他條件式，來在伺服器與用戶端渲染不同內容。這會造成水合不一致與版面位移，對使用者體驗與 [Core Web Vitals](https://web.dev/learn-core-web-vitals/) 產生負面影響。請改用 `afterNextRender` 進行瀏覽器專屬的初始化，並讓渲染出的內容在各平台上保持一致。
 
-## Setting providers on the server
+## 在伺服器上設定提供者
 
-On the server side, top level provider values are set once when the application code is initially parsed and evaluated.
-This means that providers configured with `useValue` will keep their value across multiple requests, until the server application is restarted.
+在伺服器端，頂層提供者的值會在應用程式程式碼初次解析與求值時設定一次。
+這表示以 `useValue` 設定的提供者會在多個請求之間保持其值，直到伺服器應用程式重新啟動為止。
 
-If you want to generate a new value for each request, use a factory provider with `useFactory`. The factory function will run for every incoming request, ensuring that a new value is created and assigned to the token each time.
+如果你想為每個請求產生新值，請使用帶有 `useFactory` 的工廠提供者。工廠函式會為每個傳入的請求執行，確保每次都建立新值並指派給該 token。
 
-## Providing platform-specific implementations
+## 提供平台專屬的實作
 
-When your application needs different behavior on the browser and server, provide separate service implementations for each platform. This approach centralizes platform logic in dedicated services.
+當你的應用程式在瀏覽器與伺服器上需要不同行為時，請為每個平台提供分開的服務實作。這種做法能把平台邏輯集中在專屬的服務中。
 
 ```ts
 export abstract class AnalyticsService {
@@ -283,7 +283,7 @@ export abstract class AnalyticsService {
 }
 ```
 
-Create the browser implementation:
+建立瀏覽器端的實作：
 
 ```ts
 @Injectable()
@@ -294,7 +294,7 @@ export class BrowserAnalyticsService implements AnalyticsService {
 }
 ```
 
-Create the server implementation:
+建立伺服器端的實作：
 
 ```ts
 @Injectable()
@@ -305,7 +305,7 @@ export class ServerAnalyticsService implements AnalyticsService {
 }
 ```
 
-Register the browser implementation in your main application configuration:
+在你的主應用程式設定中註冊瀏覽器端的實作：
 
 ```ts {header: "app.config.ts"}
 export const appConfig: ApplicationConfig = {
@@ -313,7 +313,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-Override with the server implementation in your server configuration:
+在你的伺服器設定中以伺服器端的實作覆寫：
 
 ```ts {header: "app.config.server.ts"}
 const serverConfig: ApplicationConfig = {
@@ -321,7 +321,7 @@ const serverConfig: ApplicationConfig = {
 };
 ```
 
-Inject and use the service in your components:
+在你的元件中注入並使用該服務：
 
 ```ts
 @Component(/* ... */)

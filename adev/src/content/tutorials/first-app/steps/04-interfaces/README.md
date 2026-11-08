@@ -1,33 +1,33 @@
-# Creating an interface
+# 建立介面
 
-This tutorial lesson demonstrates how to create an interface and include it in a component of your app.
+本教學課程示範如何建立介面，並將它用在應用程式的元件中。
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=YkFSeUeV8Ixtz8pm"/>
 
-## What you'll learn
+## 你將學到什麼
 
-- Your app has a new interface that it can use as a data type.
-- Your app has an instance of the new interface with sample data.
+- 你的應用程式有了一個新介面，可以用來作為資料型別。
+- 你的應用程式有了新介面的一個實例，並帶有範例資料。
 
-## Conceptual preview of interfaces
+## 介面概念預覽
 
-[Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html) are custom data types for your app.
+[介面](https://www.typescriptlang.org/docs/handbook/interfaces.html)是你的應用程式自訂的資料型別。
 
-Angular uses TypeScript to take advantage of working in a strongly typed programming environment.
-Strong type checking reduces the likelihood of one element in your app sending incorrectly formatted data to another.
-Such type-mismatch errors are caught by the TypeScript compiler and many such errors can also be caught in your IDE.
+Angular 使用 TypeScript，藉此善用強型別程式設計環境。
+強型別檢查能降低應用程式中某個元素把格式不正確的資料傳給另一個元素的可能性。
+這類型別不符的錯誤會被 TypeScript 編譯器抓出來，其中許多錯誤也能在你的 IDE 中被發現。
 
-In this lesson, you'll create an interface to define properties that represent data about a single housing location.
+在這一課中，你會建立一個介面，定義代表單一房屋地點資料的屬性。
 
 <docs-workflow>
 
-<docs-step title="Create a new Angular interface">
-This step creates a new interface in your app.
+<docs-step title="建立新的 Angular 介面">
+這個步驟會在你的應用程式中建立一個新介面。
 
-In the **Terminal** pane of your IDE:
+在 IDE 的 **Terminal** 窗格中：
 
-1. In your project directory, navigate to the `first-app` directory.
-1. In the `first-app` directory, run this command to create the new interface.
+1. 在你的專案目錄中，進入 `first-app` 目錄。
+1. 在 `first-app` 目錄中，執行下列指令，建立新介面。
 
    ```shell
 
@@ -35,63 +35,63 @@ In the **Terminal** pane of your IDE:
 
    ```
 
-1. Run `ng serve` to build the app and serve it to `http://localhost:4200`.
-1. In a browser, open `http://localhost:4200` to see your app.
-1. Confirm that the app builds without error.
-   Correct any errors before you continue to the next step.
+1. 執行 `ng serve`，建置應用程式並將它提供到 `http://localhost:4200`。
+1. 在瀏覽器中開啟 `http://localhost:4200`，查看你的應用程式。
+1. 確認應用程式建置時沒有錯誤。
+   繼續下一步之前，請先修正任何錯誤。
    </docs-step>
 
-<docs-step title="Add properties to the new interface">
-This step adds the properties to the interface that your app needs to represent a housing location.
+<docs-step title="為新介面加入屬性">
+這個步驟會為介面加入你的應用程式用來代表房屋地點所需的屬性。
 
-1.  In the **Terminal** pane of your IDE, start the `ng serve` command, if it isn't already running, to build the app and serve it to `http://localhost:4200`.
-1.  In the **Edit** pane of your IDE, open the `src/app/housinglocation.ts` file.
-1.  In `housinglocation.ts`, replace the default content with the following code to make your new interface to match this example.
+1.  在 IDE 的 **Terminal** 窗格中，如果 `ng serve` 指令尚未執行，請啟動它，建置應用程式並將它提供到 `http://localhost:4200`。
+1.  在 IDE 的 **Edit** 窗格中，開啟 `src/app/housinglocation.ts` 檔案。
+1.  在 `housinglocation.ts` 中，用下列程式碼取代預設內容，讓你的新介面和這個範例一致。
 
-      <docs-code header="Update src/app/housinglocation.ts to match this code" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/housinglocation.ts" visibleLines="[1,10]" />
+      <docs-code header="更新 src/app/housinglocation.ts，使其與這段程式碼一致" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/housinglocation.ts" visibleLines="[1,10]" />
 
-1.  Save your changes and confirm the app does not display any errors. Correct any errors before you continue to the next step.
+1.  儲存你的變更，確認應用程式沒有顯示任何錯誤。繼續下一步之前，請先修正任何錯誤。
 
-At this point, you've defined an interface that represents data about a housing location including an `id`, `name`, and location information.
+到目前為止，你已經定義了一個代表房屋地點資料的介面，包含 `id`、`name` 與地點資訊。
 </docs-step>
 
-<docs-step title="Create a test house for your app">
-You have an interface, but you aren't using it yet.
+<docs-step title="為你的應用程式建立一間測試房屋">
+你已經有了介面，但還沒有使用它。
 
-In this step, you create an instance of the interface and assign some sample data to it.
-You won't see this sample data appear in your app yet.
-There are a few more lessons to complete before that happens.
+在這個步驟中，你會建立介面的一個實例，並為它指派一些範例資料。
+目前你還不會在應用程式中看到這些範例資料出現。
+還要再完成幾課，才會看到它。
 
-1.  In the **Terminal** pane of your IDE, run the `ng serve` command, if it isn't already running, to build the app and serve your app to `http://localhost:4200`.
-1.  In the **Edit** pane of your IDE, open `src/app/home/home.ts`.
-1.  In `src/app/home/home.ts`, add this import statement after the existing `import` statements so that `Home` can use the new interface.
+1.  在 IDE 的 **Terminal** 窗格中，如果 `ng serve` 指令尚未執行，請執行它，建置應用程式並將它提供到 `http://localhost:4200`。
+1.  在 IDE 的 **Edit** 窗格中，開啟 `src/app/home/home.ts`。
+1.  在 `src/app/home/home.ts` 中，在現有的 `import` 陳述式之後加入這段匯入陳述式，讓 `Home` 可以使用新介面。
 
-      <docs-code language="angular-ts" header="Import Home in src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[3]"/>
+      <docs-code language="angular-ts" header="在 src/app/home/home.ts 中匯入 Home" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[3]"/>
 
-1.  In `src/app/home/home.ts`, replace the empty `export class Home {}` definition with this code to create a single instance of the new interface in the component.
+1.  在 `src/app/home/home.ts` 中，用下列程式碼取代空白的 `export class Home {}` 定義，在元件中建立新介面的一個實例。
 
-      <docs-code language="angular-ts" header="Add sample data to src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[21,34]"/>
+      <docs-code language="angular-ts" header="將範例資料加入 src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[21,34]"/>
 
-1.  Confirm that your `home.ts` file matches this example.
+1.  確認你的 `home.ts` 檔案與這個範例一致。
 
       <docs-code language="angular-ts" header="src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/05-inputs/src/app/home/home.ts" visibleLines="[1,34]" />
 
-    By adding the `housingLocation` property of type `HousingLocation` to the `Home` class, we're able to confirm that the data matches the description of the interface. If the data didn't satisfy the description of the interface, the IDE has enough information to give us helpful errors.
+    透過為 `Home` 類別加入型別為 `HousingLocation` 的 `housingLocation` 屬性，我們就能確認資料符合介面的描述。如果資料不符合介面的描述，IDE 有足夠的資訊能給我們有幫助的錯誤提示。
 
-1.  Save your changes and confirm the app does not have any errors. Open the browser and confirm that your application still displays the message "housing-location works!"
+1.  儲存你的變更，確認應用程式沒有任何錯誤。開啟瀏覽器，確認你的應用程式仍然顯示「housing-location works!」訊息。
 
-      <img alt="browser frame of homes-app displaying logo, filter text input box and search button and the message 'housing-location works!'" src="assets/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
+      <img alt="homes-app 的瀏覽器畫面，顯示標誌、篩選文字輸入框、搜尋按鈕與「housing-location works!」訊息" src="assets/images/tutorials/first-app/homes-app-lesson-03-step-2.png">
 
-1.  Correct any errors before you continue to the next step.
+1.  繼續下一步之前，請先修正任何錯誤。
     </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you created an interface that created a new data type for your app.
-This new data type makes it possible for you to specify where `HousingLocation` data is required.
-This new data type also makes it possible for your IDE and the TypeScript compiler can ensure that `HousingLocation` data is used where it's required.
+SUMMARY: 在這一課中，你建立了一個介面，為你的應用程式建立了新的資料型別。
+有了這個新資料型別，你就能指定哪些地方需要 `HousingLocation` 資料。
+這個新資料型別也能讓你的 IDE 與 TypeScript 編譯器確保 `HousingLocation` 資料被用在需要它的地方。
 
-For more information about the topics covered in this lesson, visit:
+如需本課所涵蓋主題的更多資訊，請造訪：
 
 <docs-pill-row>
   <docs-pill href="cli/generate/interface" title="ng generate interface"/>
