@@ -1,16 +1,16 @@
-# Variables in templates
+# 範本中的變數
 
-Angular has two types of variable declarations in templates: local template variables and template reference variables.
+Angular 在範本中有兩種變數宣告：區域範本變數與範本參照變數。
 
-HELPFUL: In this guide, “template” does not mean the entire HTML template file. It refers only to a specific template construct or expression within the file.
+HELPFUL: 在本指南中，「範本」並不是指整個 HTML 範本檔案。它只指檔案中某個特定的範本結構或運算式。
 
-## Local template variables with `@let`
+## 使用 `@let` 的區域範本變數
 
-Angular's `@let` syntax allows you to define a local variable and re-use it across a template, similar to the [JavaScript `let` syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let).
+Angular 的 `@let` 語法讓你能定義一個區域變數，並在整個範本中重複使用它，類似 [JavaScript `let` 語法](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)。
 
-### Using `@let`
+### 使用 `@let`
 
-Use `@let` to declare a variable whose value is based on the result of a template expression. Angular automatically keeps the variable's value up-to-date with the given expression, similar to [bindings](/guide/templates/binding).
+使用 `@let` 宣告一個變數，其值以範本運算式的結果為基礎。Angular 會自動讓變數的值隨著給定的運算式保持最新，類似[繫結](/guide/templates/binding)。
 
 ```angular-html
 @let name = user.name;
@@ -24,11 +24,11 @@ Use `@let` to declare a variable whose value is based on the result of a templat
   'Ut enim ad minim veniam...';
 ```
 
-Each `@let` block can declare exactly one variable. You cannot declare multiple variables in the same block with a comma.
+每個 `@let` 區塊只能宣告一個變數。你不能在同一個區塊中用逗號宣告多個變數。
 
-### Referencing the value of `@let`
+### 參照 `@let` 的值
 
-Once you've declared a variable with `@let`, you can reuse it in the same template:
+用 `@let` 宣告變數之後，你可以在同一個範本中重複使用它：
 
 ```angular-html
 @let user = user$ | async;
@@ -47,9 +47,9 @@ Once you've declared a variable with `@let`, you can reuse it in the same templa
 }
 ```
 
-### Assignability
+### 可指派性
 
-A key difference between `@let` and JavaScript's `let` is that `@let` cannot be reassigned after declaration. However, Angular automatically keeps the variable's value up-to-date with the given expression.
+`@let` 與 JavaScript 的 `let` 之間的一個關鍵差異是，`@let` 在宣告之後不能重新指派。不過，Angular 會自動讓變數的值隨著給定的運算式保持最新。
 
 ```angular-html
 @let value = 1;
@@ -58,11 +58,11 @@ A key difference between `@let` and JavaScript's `let` is that `@let` cannot be 
 <button (click)="value = value + 1">Increment the value</button>
 ```
 
-### Variable scope
+### 變數範圍
 
-`@let` declarations are scoped to the current view and its descendants. Angular creates a new view at component boundaries and wherever a template might contain dynamic content, such as control flow blocks, `@defer` blocks, or structural directives.
+`@let` 宣告的範圍限於目前檢視及其後代。Angular 會在元件邊界，以及範本中可能包含動態內容的任何地方建立新檢視，例如控制流程區塊、`@defer` 區塊或結構指令。
 
-Since `@let` declarations are not hoisted, they **cannot** be accessed by parent views or siblings:
+由於 `@let` 宣告不會被提升（hoist），它們**無法**被父檢視或同層檢視存取：
 
 ```angular-html
 @let topLevel = value;
@@ -92,50 +92,50 @@ Since `@let` declarations are not hoisted, they **cannot** be accessed by parent
 {{ nested }}
 ```
 
-### Full syntax
+### 完整語法
 
-The `@let` syntax is formally defined as:
+`@let` 語法的正式定義如下：
 
-- The `@let` keyword.
-- Followed by one or more whitespaces, not including new lines.
-- Followed by a valid JavaScript name and zero or more whitespaces.
-- Followed by the = symbol and zero or more whitespaces.
-- Followed by an Angular expression which can be multi-line.
-- Terminated by the `;` symbol.
+- `@let` 關鍵字。
+- 接著一個或多個空白字元，不包括換行。
+- 接著一個有效的 JavaScript 名稱與零個或多個空白字元。
+- 接著 = 符號與零個或多個空白字元。
+- 接著一個 Angular 運算式，可以跨多行。
+- 以 `;` 符號結尾。
 
-## Template reference variables
+## 範本參照變數
 
-Template reference variables give you a way to declare a variable that references a value from an element in your template.
+範本參照變數讓你能宣告一個變數，用來參照範本中某個元素的值。
 
-A template reference variable can refer to the following:
+範本參照變數可以參照以下項目：
 
-- a DOM element within a template (including [custom elements](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements))
-- an Angular component or directive
-- a [TemplateRef](/api/core/TemplateRef) from an [ng-template](/api/core/ng-template)
+- 範本中的 DOM 元素（包括[自訂元素](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements)）
+- Angular 元件或指令
+- 來自 [ng-template](/api/core/ng-template) 的 [TemplateRef](/api/core/TemplateRef)
 
-You can use template reference variables to read information from one part of the template in another part of the same template.
+你可以使用範本參照變數，在同一個範本中，從某個部分讀取資訊並用於另一個部分。
 
-### Declaring a template reference variable
+### 宣告範本參照變數
 
-You can declare a variable on an element in a template by adding an attribute that starts with the hash character (`#`) followed by the variable name.
+你可以在範本中的元素上加入一個以井字字元（`#`）開頭、後接變數名稱的屬性，來宣告變數。
 
 ```angular-html
 <!-- Create a template reference variable named "taskInput", referring to the HTMLInputElement. -->
 <input #taskInput placeholder="Enter task name" />
 ```
 
-### Assigning values to template reference variables
+### 將值指派給範本參照變數
 
-Angular assigns a value to template variables based on the element on which the variable is declared.
+Angular 會根據變數宣告所在的元素，將值指派給範本變數。
 
-If you declare the variable on a Angular component, the variable refers to the component instance.
+如果你在 Angular 元件上宣告變數，該變數會參照該元件執行個體。
 
 ```angular-html
 <!-- The `startDate` variable is assigned the instance of `MyDatepicker`. -->
 <my-datepicker #startDate />
 ```
 
-If you declare the variable on an `<ng-template>` element, the variable refers to a TemplateRef instance which represents the template. For more information, see [How Angular uses the asterisk, \*, syntax](/guide/directives/structural-directives#structural-directive-shorthand) in [Structural directives](/guide/directives/structural-directives).
+如果你在 `<ng-template>` 元素上宣告變數，該變數會參照代表該範本的 TemplateRef 執行個體。詳情請參閱[結構指令](/guide/directives/structural-directives)中的[Angular 如何使用星號 \* 語法](/guide/directives/structural-directives#structural-directive-shorthand)。
 
 ```angular-html
 <!-- The `myFragment` variable is assigned the `TemplateRef` instance corresponding to this template fragment. -->
@@ -144,16 +144,16 @@ If you declare the variable on an `<ng-template>` element, the variable refers t
 </ng-template>
 ```
 
-If you declare the variable on any other displayed element, the variable refers to the `HTMLElement` instance.
+如果你在任何其他顯示元素上宣告變數，該變數會參照 `HTMLElement` 執行個體。
 
 ```angular-html
 <!-- The "taskInput" variable refers to the HTMLInputElement instance. -->
 <input #taskInput placeholder="Enter task name" />
 ```
 
-#### Assigning a reference to an Angular directive
+#### 將參照指派給 Angular 指令
 
-Angular directives may have an `exportAs` property that defines a name by which the directive can be referenced in a template:
+Angular 指令可能有一個 `exportAs` 屬性，定義該指令在範本中可被參照的名稱：
 
 ```angular-ts
 @Directive({
@@ -165,20 +165,20 @@ export class DropZone {
 }
 ```
 
-When you declare a template variable on an element, you can assign that variable a directive instance by specifying this `exportAs` name:
+當你在元素上宣告範本變數時，可以指定這個 `exportAs` 名稱，將該變數指派為指令執行個體：
 
 ```angular-html
 <!-- The `firstZone` variable refers to the `DropZone` directive instance. -->
 <section dropZone #firstZone="dropZone">...</section>
 ```
 
-You cannot refer to a directive that does not specify an `exportAs` name.
+你不能參照沒有指定 `exportAs` 名稱的指令。
 
-### Using template reference variables with queries
+### 搭配查詢使用範本參照變數
 
-In addition to using template variables to read values from another part of the same template, you can also use this style of variable declaration to "mark" an element for [component and directive queries](/guide/components/queries).
+除了使用範本變數從同一個範本的其他部分讀取值之外，你也可以使用這種變數宣告方式，「標記」某個元素，以供[元件與指令查詢](/guide/components/queries)使用。
 
-When you want to query for a specific element in a template, you can declare a template variable on that element and then query for the element based on the variable name.
+當你想查詢範本中的特定元素時，你可以在該元素上宣告範本變數，然後根據變數名稱查詢該元素。
 
 ```angular-html
 <input #description value="Original description" />
@@ -195,21 +195,21 @@ export class AppComponent {
 }
 ```
 
-See [Referencing children with queries](/guide/components/queries) for more information on queries.
+若要了解查詢的更多資訊，請參閱[使用查詢參照子項](/guide/components/queries)。
 
-### Template variable scope
+### 範本變數範圍
 
-Just like variables in JavaScript or TypeScript code, template variables are scoped to the template that declares them.
+就像 JavaScript 或 TypeScript 程式碼中的變數一樣，範本變數的範圍限於宣告它們的範本。
 
-Similarly, [control flow blocks](guide/templates/control-flow) like `@if` and `@for`, [structural directives](guide/directives/structural-directives), and `<ng-template>` declarations create a new nested template scope, much like JavaScript's control flow statements like `if` and `for` create new lexical scopes. You cannot access template variables within one of these nested templates from outside of its boundaries.
+同樣地，像 `@if` 與 `@for` 這類[控制流程區塊](guide/templates/control-flow)、[結構指令](guide/directives/structural-directives)與 `<ng-template>` 宣告都會建立一個新的巢狀範本範圍，很像 JavaScript 的 `if` 與 `for` 這類控制流程敘述會建立新的語彙範圍。你不能從這些巢狀範本的邊界之外，存取其中的範本變數。
 
-HELPFUL: Define a variable only once in the template so the runtime value remains predictable.
+HELPFUL: 在範本中只定義變數一次，讓執行階段的值保持可預測。
 
-#### Accessing in a nested template
+#### 在巢狀範本中存取
 
-An inner template can access template variables that the outer template defines.
+內層範本可以存取外層範本定義的範本變數。
 
-In the following example, changing the text in the `<input>` changes the value in the `<span>` because Angular immediately updates changes through the template variable, `ref1`.
+在以下範例中，變更 `<input>` 中的文字會變更 `<span>` 中的值，因為 Angular 會透過範本變數 `ref1` 立即更新變更。
 
 ```angular-html
 <input #ref1 type="text" [(ngModel)]="firstExample" />
@@ -219,9 +219,9 @@ In the following example, changing the text in the `<input>` changes the value i
 }
 ```
 
-In this case, the `@if` block creates a new template scope, which includes the `ref1` variable from its parent scope.
+在這個情況下，`@if` 區塊會建立一個新的範本範圍，其中包含來自父範圍的 `ref1` 變數。
 
-However, accessing a template variable from a child scope in the parent template doesn't work:
+不過，從父範本存取子範圍中的範本變數並不可行：
 
 ```angular-html {avoid}
 @if (true) {
@@ -231,4 +231,4 @@ However, accessing a template variable from a child scope in the parent template
 <span>Value: {{ ref2?.value }}</span>
 ```
 
-Here, `ref2` is declared in the child scope created by `@if`, and is not accessible from the parent template.
+在這裡，`ref2` 是在 `@if` 建立的子範圍中宣告的，無法從父範本存取。

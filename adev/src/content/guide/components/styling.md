@@ -1,8 +1,8 @@
-# Styling components
+# 元件樣式
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先讀該指南。
 
-Components can optionally include CSS styles that apply to that component's DOM:
+元件可以選擇性地包含套用到該元件 DOM 的 CSS 樣式：
 
 ```angular-ts {highlight:[4]}
 @Component({
@@ -17,7 +17,7 @@ Components can optionally include CSS styles that apply to that component's DOM:
 export class ProfilePhoto {}
 ```
 
-You can also choose to write your styles in separate files:
+你也可以選擇將樣式寫在獨立的檔案中：
 
 ```angular-ts {highlight:[4]}
 @Component({
@@ -28,20 +28,13 @@ You can also choose to write your styles in separate files:
 export class ProfilePhoto {}
 ```
 
-When Angular compiles your component, these styles are emitted with your component's JavaScript
-output. This means that component styles participate in the JavaScript module system. When you
-render an Angular component, the framework automatically includes its associated styles, even when
-lazy-loading a component.
+當 Angular 編譯你的元件時，這些樣式會隨該元件的 JavaScript 輸出一併產生。這表示元件樣式會參與 JavaScript 模組系統。當你渲染 Angular 元件時，框架會自動包含其關聯的樣式，即使是延遲載入的元件也一樣。
 
-Angular works with any tool that outputs CSS,
-including [Sass](https://sass-lang.com), [Less](https://lesscss.org),
-and [Stylus](https://stylus-lang.com).
+Angular 可搭配任何輸出 CSS 的工具，包括 [Sass](https://sass-lang.com)、[Less](https://lesscss.org) 與 [Stylus](https://stylus-lang.com)。
 
-## Style scoping
+## 樣式作用域
 
-Every component has a **view encapsulation** setting that determines how the framework scopes a
-component's styles. There are four view encapsulation modes: `Emulated`, `ShadowDom`, `ExperimentalIsolatedShadowDom`, and `None`.
-You can specify the mode in the `@Component` decorator:
+每個元件都有一個**檢視封裝**設定，決定框架如何界定元件樣式的作用域。共有四種檢視封裝模式：`Emulated`、`ShadowDom`、`ExperimentalIsolatedShadowDom` 與 `None`。你可以在 `@Component` 裝飾器中指定模式：
 
 ```angular-ts {highlight:[3]}
 @Component({
@@ -53,108 +46,67 @@ export class ProfilePhoto { }
 
 ### ViewEncapsulation.Emulated
 
-By default, Angular uses emulated encapsulation so that a component's styles only apply to elements
-defined in that component's template. In this mode, the framework generates a unique HTML attribute
-for each component instance, adds that attribute to elements in the component's template, and
-inserts that attribute into the CSS selectors defined in your component's styles.
+依預設，Angular 使用模擬封裝，讓元件的樣式只套用到在該元件範本中定義的元素。在此模式下，框架會為每個元件實例產生一個唯一的 HTML 屬性，將該屬性加到元件範本中的元素上，並將該屬性插入你在元件樣式中定義的 CSS 選擇器中。
 
-This mode ensures that a component's styles do not leak out and affect other components. However,
-global styles defined outside of a component may still affect elements inside a component with
-emulated encapsulation.
+這種模式可確保元件的樣式不會外洩而影響其他元件。然而，在元件之外定義的全域樣式，仍可能影響採用模擬封裝之元件內的元素。
 
-In emulated mode, Angular supports
-the [`:host`](https://developer.mozilla.org/docs/Web/CSS/:host) pseudo-class.
-While the [`:host-context()`](https://developer.mozilla.org/docs/Web/CSS/:host-context) pseudo-class
-is deprecated in modern browsers, Angular's compiler provides full support for it. Both pseudo-classes
-can be used without relying on native
-[Shadow DOM](https://developer.mozilla.org/docs/Web/Web_Components/Using_shadow_DOM).
-During compilation, the framework transforms these pseudo classes into attributes so it doesn't
-comply with these native pseudo classes' rules at runtime (e.g. browser compatibility, specificity). Angular's
-emulated encapsulation mode does not support any other pseudo classes related to Shadow DOM, such
-as `::shadow` or `::part`.
+在模擬模式下，Angular 支援 [`:host`](https://developer.mozilla.org/docs/Web/CSS/:host) 偽類別。雖然 [`:host-context()`](https://developer.mozilla.org/docs/Web/CSS/:host-context) 偽類別在現代瀏覽器中已被棄用，Angular 的編譯器仍完整支援它。這兩個偽類別都可以在不依賴原生 [Shadow DOM](https://developer.mozilla.org/docs/Web/Web_Components/Using_shadow_DOM) 的情況下使用。在編譯期間，框架會將這些偽類別轉換為屬性，因此在執行時期並不遵循這些原生偽類別的規則（例如瀏覽器相容性、特異性）。Angular 的模擬封裝模式不支援任何其他與 Shadow DOM 相關的偽類別，例如 `::shadow` 或 `::part`。
 
 #### `::ng-deep`
 
-Angular's emulated encapsulation mode supports a custom pseudo class, `::ng-deep`.
-**The Angular team strongly discourages new use of `::ng-deep`**. These APIs remain
-exclusively for backwards compatibility.
+Angular 的模擬封裝模式支援一個自訂偽類別 `::ng-deep`。**Angular 團隊強烈不建議新程式碼使用 `::ng-deep`**。這些 API 僅為向後相容而保留。
 
-When a selector contains `::ng-deep`, Angular stops applying view-encapsulation boundaries after that point in the selector. Any part of the selector that follows `::ng-deep` can match elements outside the component’s template.
+當選擇器包含 `::ng-deep` 時，Angular 會在選擇器的該位置之後，停止套用檢視封裝邊界。選擇器中位於 `::ng-deep` 之後的任何部分，都可以比對到元件範本之外的元素。
 
-For example:
+例如：
 
-- a CSS rule selector like `p a`, using the emulated encapsulation, will match `<a>` elements that are descendants of a `<p>` element,
-  both being within the component's own template.
+- 像 `p a` 這樣的 CSS 規則選擇器，在模擬封裝下，會比對到作為 `<p>` 元素後代的 `<a>` 元素，兩者都位於元件自身的範本內。
 
-- A selector like `::ng-deep p a` will match `<a>` elements anywhere in the application, descendants of a `<p>` element anywhere in the application.
+- 像 `::ng-deep p a` 這樣的選擇器，會比對到應用程式中任何位置、作為應用程式中任何 `<p>` 元素後代的 `<a>` 元素。
 
-  That effectively makes it behave like a global style.
+  這實際上讓它表現得像全域樣式。
 
-- In `p ::ng-deep a`, Angular requires the `<p>` element to come from the component's own template, but the `<a>` element may be anywhere in the application.
+- 在 `p ::ng-deep a` 中，Angular 要求 `<p>` 元素必須來自元件自身的範本，但 `<a>` 元素可以位於應用程式中的任何位置。
 
-  So, in effect, the `<a>` element may be in the component's template, or in any of its projected or child content.
+  因此，實際上，`<a>` 元素可能位於元件的範本中，或其任何投射內容或子內容中。
 
-- With `:host ::ng-deep p a`, both the `<a>` and `<p>` elements must be descendants of the component's host element.
+- 使用 `:host ::ng-deep p a` 時，`<a>` 與 `<p>` 元素都必須是元件 host 元素的後代。
 
-  They can come from the component's template or the views of its child components, but not elsewhere in the app.
+  它們可以來自元件的範本或其子元件的檢視，但不能來自應用程式中的其他位置。
 
 ### ViewEncapsulation.ShadowDom
 
-This mode scopes styles within a component by
-using [the web standard Shadow DOM API](https://developer.mozilla.org/docs/Web/Web_Components/Using_shadow_DOM).
-When enabling this mode, Angular attaches a shadow root to the component's host element and renders
-the component's template and styles into the corresponding shadow tree.
+此模式透過使用 [Web 標準的 Shadow DOM API](https://developer.mozilla.org/docs/Web/Web_Components/Using_shadow_DOM)，將樣式的作用域限定在元件內。啟用此模式時，Angular 會將一個 shadow root 附加到元件的 host 元素上，並將元件的範本與樣式渲染至對應的 shadow tree 中。
 
-Styles inside the shadow tree cannot affect elements outside of that shadow tree.
+shadow tree 內的樣式無法影響該 shadow tree 之外的元素。
 
-Enabling `ShadowDom` encapsulation, however, impacts more than style scoping. Rendering the
-component in a shadow tree affects event propagation, interaction
-with [the `<slot>` API](https://developer.mozilla.org/docs/Web/Web_Components/Using_templates_and_slots),
-and how browser developer tools show elements. Always understand the full implications of using
-Shadow DOM in your application before enabling this option.
+然而，啟用 `ShadowDom` 封裝的影響不只是樣式作用域。將元件渲染在 shadow tree 中，會影響事件傳播、與 [`<slot>` API](https://developer.mozilla.org/docs/Web/Web_Components/Using_templates_and_slots) 的互動，以及瀏覽器開發者工具顯示元素的方式。在你的應用程式中啟用此選項之前，請務必充分了解使用 Shadow DOM 的完整影響。
 
 ### ViewEncapsulation.ExperimentalIsolatedShadowDom
 
-Behaves as above, except this mode strictly guarantees that _only_ that component's styles apply to elements in the
-component's template. Global styles cannot affect elements in a shadow tree and styles inside the
-shadow tree cannot affect elements outside of that shadow tree.
+行為與上述相同，但此模式嚴格保證_只有_該元件的樣式會套用到元件範本中的元素。全域樣式無法影響 shadow tree 中的元素，shadow tree 內的樣式也無法影響該 shadow tree 之外的元素。
 
 ### ViewEncapsulation.None
 
-This mode disables all style encapsulation for the component. Any styles associated with the
-component behave as global styles.
+此模式會停用元件的所有樣式封裝。與元件關聯的任何樣式都會表現得像全域樣式。
 
-NOTE: In `Emulated` and `ShadowDom` modes, Angular doesn't 100% guarantee that your component's styles will always override styles coming from outside it.
-It is assumed that these styles have the same specificity as your component's styles in case of collision.
+NOTE: 在 `Emulated` 與 `ShadowDom` 模式下，Angular 並不 100% 保證你的元件樣式永遠會覆寫來自外部的樣式。在發生衝突時，會假設這些樣式與你的元件樣式具有相同的特異性。
 
-## Defining styles in templates
+## 在範本中定義樣式
 
-You can use the `<style>` element in a component's template to define additional styles. The
-component's view encapsulation mode applies to styles defined this way.
+你可以在元件的範本中使用 `<style>` 元素來定義額外的樣式。元件的檢視封裝模式會套用到以這種方式定義的樣式。
 
-Angular does not support bindings inside of style elements.
+Angular 不支援在 style 元素內使用繫結。
 
-## Referencing external style files
+## 參照外部樣式檔案
 
-Component templates can
-use [the `<link>` element](https://developer.mozilla.org/docs/Web/HTML/Element/link) to
-reference CSS files. Additionally, your CSS may
-use [the `@import`at-rule](https://developer.mozilla.org/docs/Web/CSS/@import) to reference
-CSS files. Angular treats these references as _external_ styles. External styles are not affected by
-emulated view encapsulation.
+元件範本可以使用 [`<link>` 元素](https://developer.mozilla.org/docs/Web/HTML/Element/link) 來參照 CSS 檔案。此外，你的 CSS 可以使用 [`@import` at-rule](https://developer.mozilla.org/docs/Web/CSS/@import) 來參照 CSS 檔案。Angular 將這些參照視為_外部_樣式。外部樣式不受模擬檢視封裝的影響。
 
-## Namespacing CSS custom properties
+## 為 CSS 自訂屬性加上命名空間
 
-Angular can add a prefix to the CSS custom properties (also called CSS variables) that your
-component styles declare and read. Custom properties inherit down the DOM tree, so when something
-outside your application defines a custom property such as `--primary-color` on an ancestor
-element, your components read that value. This matters when your application shares a page with another
-application or with markup you do not control. Angular does not namespace custom properties until
-you ask it to, and an application that owns its page does not need namespacing.
+Angular 可以為你的元件樣式所宣告與讀取的 CSS 自訂屬性（也稱為 CSS 變數）加上前綴。自訂屬性會沿著 DOM 樹向下繼承，因此當你應用程式之外的某個東西在祖先元素上定義了如 `--primary-color` 這樣的自訂屬性時，你的元件會讀到該值。當你的應用程式與另一個應用程式、或你無法控制的標記共用同一個頁面時，這一點就很重要。在你要求之前，Angular 不會為自訂屬性加上命名空間，而擁有自己頁面的應用程式不需要命名空間。
 
-To scope the custom properties in your component styles to your application, add
-[`provideCssVarNamespacing`](api/platform-browser/provideCssVarNamespacing) to your application's
-providers. It uses the application's [`APP_ID`](api/core/APP_ID) as the namespace:
+若要將你元件樣式中自訂屬性的作用域限定在你的應用程式，請將 [`provideCssVarNamespacing`](api/platform-browser/provideCssVarNamespacing) 加到應用程式的 providers 中。它會使用應用程式的 [`APP_ID`](api/core/APP_ID) 作為命名空間：
 
 ```ts {header: "app.config.ts"}
 import {APP_ID, ApplicationConfig} from '@angular/core';
@@ -165,55 +117,28 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-Angular prefixes the custom properties in your component styles with that namespace followed by an
-underscore, so `--primary-color` becomes `--my-app_primary-color`. The prefix applies to
-declarations, `var()` references, `@property` rules, and style bindings such as
-`[style.--primary-color]`, including the style bindings a component declares in its `host` object.
+Angular 會為你元件樣式中的自訂屬性加上該命名空間，後面接著一個底線，因此 `--primary-color` 會變成 `--my-app_primary-color`。這個前綴會套用到宣告、`var()` 參照、`@property` 規則，以及像 `[style.--primary-color]` 這樣的樣式繫結，包括元件在其 `host` 物件中宣告的樣式繫結。
 
-`APP_ID` is `ng` unless you set it, so give each application on the page its own `APP_ID`.
-Otherwise, the applications share a prefix and collide again. To use a namespace that differs from
-the application id, pass it to `provideCssVarNamespacing`. Angular appends the underscore itself:
-`provideCssVarNamespacing('my-app_')` produces `--my-app__primary-color`.
+除非你另行設定，`APP_ID` 的值為 `ng`，因此請為頁面上的每個應用程式指定各自的 `APP_ID`。否則，這些應用程式會共用同一個前綴，再次發生衝突。若要使用與應用程式 id 不同的命名空間，請將它傳給 `provideCssVarNamespacing`。Angular 會自行附加底線：`provideCssVarNamespacing('my-app_')` 會產生 `--my-app__primary-color`。
 
-Angular namespaces the styles it compiles into a component: the `styles` and `styleUrl` of the
-component, the styles you [write in a `<style>` element](#defining-styles-in-templates) in its
-template, stylesheets its template references with a relative `<link rel="stylesheet">`, and
-the styles of a component that uses `ViewEncapsulation.None`. Angular does not namespace a stylesheet the browser
-loads at runtime, such as a global stylesheet your build configuration lists or an
-[external style](#referencing-external-style-files) that your build does not inline.
+Angular 會為它編譯進元件的樣式加上命名空間：元件的 `styles` 與 `styleUrl`、你在範本的 [`<style>` 元素](#defining-styles-in-templates) 中撰寫的樣式、其範本以相對路徑 `<link rel="stylesheet">` 參照的樣式表，以及使用 `ViewEncapsulation.None` 之元件的樣式。Angular 不會為瀏覽器在執行時期載入的樣式表加上命名空間，例如你的建置設定所列出的全域樣式表，或你的建置未內嵌的[外部樣式](#referencing-external-style-files)。
 
-Namespacing applies to every component Angular compiles, including the components of the libraries
-you install. When a library's styles read a custom property that a global stylesheet defines, such
-as the properties of a theme, the reference no longer matches, the browser uses the `var()`
-fallback if there is one or otherwise
-[the property's inherited or initial value](https://www.w3.org/TR/css-variables-1/#invalid-variables),
-and nothing reports an error. Before you enable namespacing in an
-existing application, review the custom properties that cross between your global stylesheets and
-your components.
+命名空間會套用到 Angular 所編譯的每個元件，包括你所安裝之程式庫的元件。當程式庫的樣式讀取由全域樣式表定義的自訂屬性（例如佈景主題的屬性）時，該參照就不再相符，瀏覽器會使用 `var()` 的備援值（如果有的話），否則使用[該屬性的繼承值或初始值](https://www.w3.org/TR/css-variables-1/#invalid-variables)，而且不會有任何錯誤回報。在為現有應用程式啟用命名空間之前，請先檢視在你的全域樣式表與元件之間跨越使用的自訂屬性。
 
-IMPORTANT: Angular rewrites custom property names only in the styles and bindings it compiles.
-Everywhere else keeps the name you write, and nothing reports the mismatch.
+IMPORTANT: Angular 只會在其所編譯的樣式與繫結中重寫自訂屬性名稱。其他所有地方都保留你所寫的名稱，而且不會回報不一致的情況。
 
-Angular does not rewrite the name in:
+Angular 不會在以下地方重寫名稱：
 
-- Static style attributes, such as `style="--primary-color: red"`, including the `style` entry of a
-  component's `host` object.
-- Object and string style bindings, such as `[style]="{'--primary-color': color}"`,
-  `[style]="'--primary-color: red'"` and `ngStyle`, including the `[style]` entry of a component's
-  `host` object.
-- Custom property names inside a binding's value, such as
-  `[style.border-color]="'var(--primary-color)'"`.
-- Calls to `Renderer2.setStyle`.
+- 靜態 style 屬性，例如 `style="--primary-color: red"`，包括元件 `host` 物件中的 `style` 項目。
+- 物件與字串樣式繫結，例如 `[style]="{'--primary-color': color}"`、`[style]="'--primary-color: red'"` 與 `ngStyle`，包括元件 `host` 物件中的 `[style]` 項目。
+- 繫結值內部的自訂屬性名稱，例如 `[style.border-color]="'var(--primary-color)'"`。
+- 對 `Renderer2.setStyle` 的呼叫。
 
-Each of these produces a property that your namespaced styles no longer read. Namespace those
-names yourself, as described in
-[Using namespaced properties in TypeScript](#using-namespaced-properties-in-typescript).
+這些都會產生一個你的已命名空間樣式不再讀取的屬性。請自行為這些名稱加上命名空間，方法如[在 TypeScript 中使用已命名空間的屬性](#using-namespaced-properties-in-typescript)所述。
 
-### Opting out of namespacing
+### 退出命名空間處理
 
-To declare or read a custom property that Angular does not namespace, such as one defined in a
-global stylesheet, prefix its name with `--global--`. Angular removes `--global` and leaves the
-remaining `--` and the rest of the name unchanged:
+若要宣告或讀取 Angular 不會加上命名空間的自訂屬性，例如在全域樣式表中定義的屬性，請在其名稱前加上 `--global--`。Angular 會移除 `--global`，並保留其後的 `--` 與名稱的其餘部分不變：
 
 ```css
 :host {
@@ -223,17 +148,11 @@ remaining `--` and the rest of the name unchanged:
 }
 ```
 
-Write two hyphens after `global`. A single hyphen, as in `--global-brand-color`, does not opt out,
-and Angular namespaces that name like any other. Avoid names that start with `--global-` followed
-by anything but a second hyphen; a future major version is planned to reject them at build time.
-Angular removes `--global` in every application, including applications that never configure a
-namespace.
+在 `global` 之後要寫兩個連字號。單一個連字號，例如 `--global-brand-color`，並不會退出命名空間處理，Angular 會像處理任何其他名稱一樣為該名稱加上命名空間。請避免使用以 `--global-` 開頭、其後不是第二個連字號的名稱；未來的重大版本預計會在建置時拒絕這類名稱。Angular 會在每個應用程式中移除 `--global`，包括從未設定命名空間的應用程式。
 
-### Using namespaced properties in TypeScript
+### 在 TypeScript 中使用已命名空間的屬性
 
-Prefer a style binding such as `[style.--primary-color]`, which Angular namespaces for you. When
-you go through a DOM API instead, pass the name you wrote in your styles to
-[`CssVarNamespacer`](api/platform-browser/CssVarNamespacer), including the leading `--`:
+優先使用像 `[style.--primary-color]` 這樣的樣式繫結，Angular 會為你加上命名空間。當你改透過 DOM API 操作時，請將你在樣式中所寫的名稱（包括開頭的 `--`）傳給 [`CssVarNamespacer`](api/platform-browser/CssVarNamespacer)：
 
 ```angular-ts {header: "profile-photo.ts"}
 import {Component, ElementRef, inject} from '@angular/core';
@@ -258,6 +177,4 @@ export class ProfilePhoto {
 }
 ```
 
-Use the plain name for a property you declared with `--global--`, since Angular never namespaces
-those. For everything else, `namespace` returns the name unchanged when an application configures
-no namespace, so a library can call it for the custom properties its own styles declare.
+對於你以 `--global--` 宣告的屬性，請使用其純名稱，因為 Angular 永遠不會為它們加上命名空間。對於其他所有屬性，當應用程式未設定命名空間時，`namespace` 會原封不動地傳回該名稱，因此程式庫可以為其自身樣式所宣告的自訂屬性呼叫它。

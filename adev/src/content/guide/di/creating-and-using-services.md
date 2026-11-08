@@ -1,20 +1,20 @@
-# Creating and using services
+# 建立與使用服務
 
-Services are reusable pieces of code that you can share across your Angular application. You commonly use them to handle data fetching, business logic, or other functionality that multiple components need to access.
+服務是可重用的程式碼片段，你可以在整個 Angular 應用程式中共用。你通常會用它們來處理資料擷取、業務邏輯，或其他多個元件需要存取的功能。
 
-## Creating a service
+## 建立服務
 
-You can create a service using the [Angular CLI](tools/cli) with the following command:
+你可以使用 [Angular CLI](tools/cli)，以下列指令建立服務：
 
 ```bash
 ng generate service CUSTOM_NAME
 ```
 
-This command creates a dedicated `CUSTOM_NAME.ts` file in your `src` directory.
+這個指令會在你的 `src` 目錄中，建立一個專屬的 `CUSTOM_NAME.ts` 檔案。
 
-You can also manually create a service by adding the `@Service()` decorator to a TypeScript class. This tells Angular that you can use the class as an injectable dependency.
+你也可以透過為 TypeScript 類別加上 `@Service()` 裝飾器，來手動建立服務。這告訴 Angular，你可以將該類別用作可注入的依賴。
 
-The following example defines a service that allows users to add and retrieve data:
+以下範例定義了一個服務，讓使用者新增與擷取資料：
 
 ```ts {header: "src/app/basic-data-store.ts"}
 import {Service} from '@angular/core';
@@ -33,36 +33,36 @@ export class BasicDataStore {
 }
 ```
 
-## How services become available
+## 服務如何變得可用
 
-Services are provisioned at the root level by default. When a service is provided globally, Angular guarantees three main benefits:
+服務依預設在根層級提供。當服務在全域提供時，Angular 保證以下三個主要好處：
 
-- **Singleton Instance:** Creates a single, shared instance for the entire application.
-- **Global Availability:** Automatically accessible anywhere without manual provider registration.
-- **Tree-shakability:** Ensures the service is excluded from the final production bundle if your code never explicitly uses it.
+- **單例實例**：為整個應用程式建立單一、共用的實例。
+- **全域可用**：在任何地方自動可存取，無需手動註冊提供者。
+- **可搖樹優化**（tree-shaking）：確保若你的程式碼從未明確使用該服務，最終的生產 bundle 就不會包含它。
 
-### Using the `@Service` vs `@Injectable` decorator
+### 使用 `@Service` 與 `@Injectable` 裝飾器的比較
 
-The `@Service` decorator serves as a modern, ergonomic shorthand for the traditional `@Injectable({ providedIn: 'root' })` syntax.
+`@Service` 裝飾器是傳統 `@Injectable({ providedIn: 'root' })` 寫法的現代、符合人體工學的簡寫。
 
-Use this quick reference to decide which decorator fits your scenario:
+請使用這份快速參考，決定哪個裝飾器適合你的情境：
 
-| Feature / Requirement                         | `@Service` | `@Injectable`                           |
+| 功能／需求                                    | `@Service` | `@Injectable`                           |
 | --------------------------------------------- | ---------- | --------------------------------------- |
-| **`inject()` function support**               | Yes        | Yes                                     |
-| **Constructor-based DI**                      | ❌ No      | Yes                                     |
-| **Implicit root singleton provider**          | Yes        | ❌ No (requires `{providedIn: 'root'}`) |
-| **Advanced provider keys (`useClass`, etc.)** | ❌ No      | Yes                                     |
-| **Custom initialization factories**           | Yes        | Yes                                     |
-| **Non-root scopes (`platform`, etc.)**        | ❌ No      | Yes                                     |
+| **`inject()` 函式支援**                       | 是         | 是                                      |
+| **以建構子進行依賴注入**                      | ❌ 否      | 是                                      |
+| **隱含的根層級單例提供者**                    | 是         | ❌ 否（需要 `{providedIn: 'root'}`）    |
+| **進階提供者設定鍵**（`useClass` 等）         | ❌ 否      | 是                                      |
+| **自訂初始化工廠**                            | 是         | 是                                      |
+| **非根層級作用域**（`platform` 等）           | ❌ 否      | 是                                      |
 
-### Replacing the implementation with a factory
+### 以工廠取代實作
 
-If you need to control how the singleton is created, for example, to swap in a different implementation depending on the environment, pass a `factory` function.
+如果你需要控制單例的建立方式，例如依據環境換上不同的實作，請傳入一個 `factory` 函式。
 
-The factory runs in an [injection context](guide/di/dependency-injection-context), so you can use [`inject()`](api/core/inject) inside it to read other dependencies.
+這個工廠會在[注入情境](guide/di/dependency-injection-context)中執行，因此你可以在其中使用 [`inject()`](api/core/inject) 來讀取其他依賴。
 
-The following `Analytics` service is a no-op locally so events don't pollute the console during development. In production, the factory reads an `ANALYTICS_ENABLED` token and returns a `GoogleAnalytics` subclass that forwards events to the real tracker:
+以下的 `Analytics` 服務在本機不執行任何動作（no-op），以免事件在開發期間污染主控台。在生產環境中，工廠會讀取一個 `ANALYTICS_ENABLED` token，並傳回一個 `GoogleAnalytics` 子類別，將事件轉送到真正的追蹤器：
 
 ```ts {header: "src/app/analytics.ts"}
 import {inject, InjectionToken, Service} from '@angular/core';
@@ -84,11 +84,11 @@ class GoogleAnalytics extends Analytics {
 }
 ```
 
-NOTE: The `factory` option replaces the `useClass`, `useValue`, `useExisting`, and `useFactory` options of `@Injectable`. If you need any of those, keep using `@Injectable`.
+NOTE: `factory` 選項取代了 `@Injectable` 的 `useClass`、`useValue`、`useExisting` 與 `useFactory` 選項。如果你需要其中任何一項，請繼續使用 `@Injectable`。
 
-### Opting out of automatic provisioning
+### 退出自動提供
 
-By default, `@Service` provides the class at the root injector. If you want to provide it manually, for example, to scope it to a specific route or component, set `autoProvided: false`:
+依預設，`@Service` 會在根 injector 提供該類別。如果你想手動提供它，例如將其作用域限定於特定路由或元件，請設定 `autoProvided: false`：
 
 ```ts {header: "src/app/analytics-logger.ts"}
 import {Service} from '@angular/core';
@@ -101,21 +101,21 @@ export class AnalyticsLogger {
 }
 ```
 
-You are then responsible for adding the service to a `providers` array, just like with a plain `@Injectable()`:
+接著你需要負責將該服務加到 `providers` 陣列中，就像使用一般的 `@Injectable()` 一樣：
 
-### When to use `@Service` vs `@Injectable`
+### 何時使用 `@Service`、何時使用 `@Injectable`
 
-Reach for `@Service` when you are creating a new singleton class that uses `inject()` for its dependencies. Keep using `@Injectable` when you need any of the following:
+當你在建立一個使用 `inject()` 取得其依賴的新單例類別時，請使用 `@Service`。當你需要以下任何一項時，請繼續使用 `@Injectable`：
 
-- **Constructor-based dependency injection.** `@Service` only supports the [`inject()`](api/core/inject) function.
-- **Advanced provider configuration** such as `useClass`, `useValue`, `useExisting`, or `useFactory`. `@Service` exposes a single `factory` option instead.
-- **Non-root scopes** such as `providedIn: 'platform'`.
+- **以建構子進行依賴注入**：`@Service` 只支援 [`inject()`](api/core/inject) 函式。
+- **進階提供者設定**：例如 `useClass`、`useValue`、`useExisting` 或 `useFactory`。`@Service` 改為提供單一的 `factory` 選項。
+- **非根層級作用域**：例如 `providedIn: 'platform'`。
 
-## Injecting a service
+## 注入服務
 
-Once you've created a service with `providedIn: 'root'`, you can inject it anywhere in your application using the `inject()` function from `@angular/core`.
+一旦你以 `providedIn: 'root'` 建立了服務，你就可以使用 `@angular/core` 的 `inject()` 函式，在應用程式中的任何地方注入它。
 
-### Injecting into a component
+### 注入到元件中
 
 ```angular-ts
 import {Component, inject} from '@angular/core';
@@ -135,7 +135,7 @@ export class Example {
 }
 ```
 
-### Injecting into another service
+### 注入到另一個服務中
 
 ```ts
 import {inject, Service} from '@angular/core';
@@ -156,13 +156,13 @@ export class BasicDataStore {
 }
 ```
 
-## Next steps
+## 後續步驟
 
-While `providedIn: 'root'` covers most use cases, Angular also provides additional ways you can configure services for more specialized scenarios:
+雖然 `providedIn: 'root'` 涵蓋了大多數使用情境，Angular 也提供其他方式，讓你為更特殊的情境設定服務：
 
-- **Component-specific instances** - When components need their own isolated service instances
-- **Manual configuration** - For services that require runtime configuration
-- **Factory providers** - For dynamic service creation based on runtime conditions
-- **Value providers** - For providing configuration objects or constants
+- **元件專屬實例**：當元件需要各自獨立的服務實例時
+- **手動設定**：適用於需要執行階段設定的服務
+- **工廠提供者**：依據執行階段條件動態建立服務
+- **值提供者**：提供設定物件或常數
 
-You can learn more about these advanced patterns in the next guide: [defining dependency providers](/guide/di/defining-dependency-providers).
+你可以在下一篇指南中進一步了解這些進階模式：[定義依賴提供者](/guide/di/defining-dependency-providers)。

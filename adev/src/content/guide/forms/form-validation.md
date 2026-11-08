@@ -77,7 +77,7 @@ HELPFUL: 為了避免驗證器在使用者還來不及編輯表單前就顯示�
 
 這個表單與範本驅動版本的不同之處，在於它不再匯出任何指令，而是使用元件類別中定義的 `name` getter。
 
-請注意，範本中仍然保留了 `required` 屬性。雖然它對驗證而言並非必要，但為了無障礙（accessibility）的目的，應該將它保留。
+請注意，範本中仍然保留了 `required` 屬性。雖然它對驗證而言並非必要，但為了無障礙的目的，應該將它保留。
 
 ## 定義自訂驗證器
 
@@ -88,13 +88,13 @@ HELPFUL: 為了避免驗證器在使用者還來不及編輯表單前就顯示�
 
 <docs-code header="forbidden-name.directive.ts (forbiddenNameValidator)" path="adev/src/content/examples/form-validation/src/app/shared/forbidden-name.directive.ts" region="custom-validator"/>
 
-這個函式是一個工廠函式，它接受一個正規表示式，用來偵測_特定_的禁止名稱，並回傳一個驗證器函式。
+這個函式是一個工廠函式，它接受一個正規表示式，用來偵測特定的禁止名稱，並回傳一個驗證器函式。
 
 在這個範例中，禁止名稱是 "bob"，因此驗證器會拒絕任何包含 "bob" 的演員姓名。
 在其他地方，它也可以拒絕 "alice"，或任何符合所設定正規表示式的名稱。
 
 `forbiddenNameValidator` 工廠函式會回傳設定好的驗證器函式。
-該函式接受一個 Angular 控制項物件，並回傳 null（若控制項的值有效）_或_一個驗證錯誤物件。
+該函式接受一個 Angular 控制項物件，並回傳 null（若控制項的值有效）或一個驗證錯誤物件。
 驗證錯誤物件通常有一個屬性，其名稱就是驗證鍵 `'forbiddenName'`，其值則是一個任意的字典，你可以把這些值插入錯誤訊息中，例如 `{name}`。
 
 自訂非同步驗證器與同步驗證器相似，但它們必須改為回傳一個 Promise 或 observable，稍後發出 null 或驗證錯誤物件。
@@ -127,7 +127,7 @@ Angular 之所以能辨識這個指令在驗證流程中的角色，是因為該
 <docs-code header="actor-form-template.component.html (forbidden-name-input)" path="adev/src/content/examples/form-validation/src/app/template/actor-form-template.component.html" region="name-input"/>
 
 HELPFUL: 請注意，自訂驗證指令是用 `useExisting` 而不是 `useClass` 來實例化的。
-註冊的驗證器必須是 `ForbiddenValidatorDirective` 的_這個實例_——也就是表單中那個實例，其 `forbiddenName` 屬性繫結到 "bob"。
+註冊的驗證器必須是 `ForbiddenValidatorDirective` 的這個實例——也就是表單中那個實例，其 `forbiddenName` 屬性繫結到 "bob"。
 
 如果你把 `useExisting` 換成 `useClass`，註冊的就會是一個新的類別實例，而它並沒有 `forbiddenName`。
 
@@ -345,7 +345,7 @@ Angular 在 `AbstractControl` 上提供了數個方法，讓你在執行階段�
 ### 新增與移除驗證器
 
 [`addValidators`](api/forms/AbstractControl#addValidators) 與 [`removeValidators`](api/forms/AbstractControl#removeValidators) 方法讓你可以在初始化之後修改控制項的驗證器。
-Angular 以參考（reference）來比對驗證器，因此你傳給 `removeValidators` 的函式，必須與你傳給 `addValidators` 的是同一個函式。
+Angular 以參考來比對驗證器，因此你傳給 `removeValidators` 的函式，必須與你傳給 `addValidators` 的是同一個函式。
 
 ```ts
 private readonly usPostalCode = Validators.pattern(/^\d{5}$/);

@@ -1,37 +1,37 @@
-# Form submission
+# 表單送出
 
-When a user submits a form, your application typically needs to handle multiple concerns at once: surfacing validation errors, preventing duplicate submission, sending data to a server, and much more. Handling each of these manually can be tedious and prone to error.
+當使用者送出表單時，你的應用程式通常需要同時處理多項工作：呈現驗證錯誤、防止重複送出、把資料傳送到伺服器等等。手動逐一處理這些工作既繁瑣又容易出錯。
 
-Signal Forms provides a `submit()` function that helps you manage the form submission lifecycle. This guide walks through how to use it.
+Signal Forms 提供了 `submit()` 函式，協助你管理表單送出的生命週期。本指南將逐步說明如何使用它。
 
-## What does `submit()` do?
+## `submit()` 做了什麼？
 
-The `submit()` function runs through a specific sequence:
+`submit()` 函式會依特定順序執行：
 
-1. **Mark interactive fields as touched** — Fields that display errors only after being touched will now show their validation errors. Hidden, disabled, and readonly fields are skipped.
-1. **Check validation** — If any validation rules have failed, submission stops and the `action` function does not run.
-1. **Run the action** — The `action` function executes with the form's current value. While it runs, `submitting()` returns `true`.
-1. **Handle the result** — If the action returns errors, they are routed to their target fields. If it returns nothing, the submission is treated as successful.
+1. **把可互動欄位標記為已觸碰**——只在被觸碰後才顯示錯誤的欄位，現在會顯示它們的驗證錯誤。隱藏、停用與唯讀欄位會被略過。
+1. **檢查驗證**——若有任何驗證規則失敗，送出就會停止，`action` 函式不會執行。
+1. **執行 action**——`action` 函式會以表單的目前值執行。執行期間，`submitting()` 會回傳 `true`。
+1. **處理結果**——若 action 回傳錯誤，這些錯誤會被導向它們的目標欄位；若什麼都不回傳，這次送出就視為成功。
 
-The `submit()` function returns a `Promise<boolean>` that resolves to `true` when the action completes without errors, and `false` when validation fails, the action returns errors, or a submission is already in progress. If the action throws, the promise rejects with that error.
+`submit()` 函式會回傳一個 `Promise<boolean>`：當 action 無錯誤地完成時解析為 `true`；當驗證失敗、action 回傳錯誤，或已有送出進行中時，解析為 `false`。若 action 擲出例外，這個 promise 會以該錯誤拒絕（reject）。
 
-## Setting up form submission with `FormRoot`
+## 用 `FormRoot` 設定表單送出
 
-The most common way to use the `submit()` function is through the `FormRoot` directive.
+使用 `submit()` 函式最常見的方式，是透過 `FormRoot` 指令。
 
-The `FormRoot` directive handles three things automatically when bound to a `<form>` element:
+`FormRoot` 指令繫結到 `<form>` 元素時，會自動處理三件事：
 
-1. **Sets [`novalidate`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/form#novalidate)** — Disables the browser's built-in validation so Signal Forms manages validation instead
-1. **Prevents default** — Stops the browser from navigating on form submission
-1. **Calls `submit()`** — Triggers the submission flow when the user submits the form, if the form was created with a `submission` option
+1. **設定 [`novalidate`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/form#novalidate)**——停用瀏覽器內建的驗證，改由 Signal Forms 管理驗證
+1. **防止預設行為**——阻止瀏覽器在表單送出時導頁
+1. **呼叫 `submit()`**——當使用者送出表單時，若表單建立時有帶 `submission` 選項，就觸發送出流程
 
-NOTE: The `FormRoot` directive sets the `novalidate` attribute on the `form` element automatically. You do not need to add it manually when using `FormRoot`.
+NOTE: `FormRoot` 指令會自動在 `form` 元素上設定 `novalidate` 屬性。使用 `FormRoot` 時，你不需要手動加上它。
 
-`FormRoot` handles the submission event, but you still need to tell it _what to do_ with the form data. That requires three things:
+`FormRoot` 會處理送出事件，但你還是需要告訴它該拿表單資料_做什麼_。這需要三件事：
 
-1. Bind your form to the `FormRoot` directive
-1. Pass a `submission` option to the `form()` function
-1. Define an `action` function within the `submission` option that manages the submitted data
+1. 把你的表單繫結到 `FormRoot` 指令
+1. 把 `submission` 選項傳給 `form()` 函式
+1. 在 `submission` 選項中定義一個 `action` 函式，負責管理送出的資料
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -82,13 +82,13 @@ export class Contact {
 }
 ```
 
-The `action` function runs only when no validation rules have failed. By default, pending async validators do not block submission (see [Controlling validation gating](#controlling-validation-gating-with-ignorevalidators) for more details). The action receives the field tree and a `detail` object with `root` and `submitted` field trees, which is useful when submitting a sub-form.
+只有在沒有任何驗證規則失敗時，`action` 函式才會執行。依預設，尚待處理的非同步驗證器不會阻擋送出（詳情請參閱[控制驗證閘門](#controlling-validation-gating-with-ignorevalidators)）。action 會收到欄位樹，以及一個帶有 `root` 與 `submitted` 欄位樹的 `detail` 物件，這在送出子表單時很有用。
 
-After validation passes, the action itself may still fail due to scenarios such as a network error or duplicate entry. In those cases, you can surface the failure by returning the error(s). On the other hand, to indicate success, you only need to return `null` or `undefined`, or call an empty `return`.
+驗證通過之後，action 本身仍可能因網路錯誤或重複輸入等情境而失敗。遇到這種情況，你可以回傳錯誤，把失敗呈現出來。反之，若要表示成功，你只需要回傳 `null` 或 `undefined`，或執行一個空的 `return`。
 
-## Showing submission state with `submitting()`
+## 用 `submitting()` 顯示送出狀態
 
-When you need to track whether the form is in the process of submitting, Signal Forms provides a `submitting()` signal that returns `true` while the `action` function is running. Use it to show loading indicators or disable the submit button to prevent duplicate submissions.
+當你需要追蹤表單是否正在送出時，Signal Forms 提供了 `submitting()` 訊號，它會在 `action` 函式執行期間回傳 `true`。用它來顯示載入指示，或停用送出按鈕以防止重複送出。
 
 ```angular-html
 <button type="submit" [disabled]="contactForm().submitting()">
@@ -100,17 +100,17 @@ When you need to track whether the form is in the process of submitting, Signal 
 </button>
 ```
 
-Once the `action` function succeeds or returns an error, the `submitting()` signal automatically resets back to `false`.
+一旦 `action` 函式成功或回傳錯誤，`submitting()` 訊號就會自動重設回 `false`。
 
-## Managing submission errors
+## 管理送出錯誤
 
-### Server errors
+### 伺服器錯誤
 
-When your `action` function communicates with a server, the server may return errors that need to appear on specific fields. Return these errors from the `action` to route them to their target fields.
+當你的 `action` 函式與伺服器通訊時，伺服器可能回傳需要出現在特定欄位上的錯誤。把這些錯誤從 `action` 回傳，它們就會被導向目標欄位。
 
-#### Errors on the submitted field
+#### 送出欄位上的錯誤
 
-By default, errors returned from the `action` are assigned to the submitted field (the field tree you passed to `submit()`):
+依預設，從 `action` 回傳的錯誤會被指派給送出的欄位（也就是你傳給 `submit()` 的欄位樹）：
 
 ```ts
 action: async (field) => {
@@ -121,9 +121,9 @@ action: async (field) => {
 };
 ```
 
-#### Errors on specific fields
+#### 特定欄位上的錯誤
 
-When you want to route an error to a specific field, include a `fieldTree` property pointing to that field:
+當你想把錯誤導向特定欄位時，請加入一個指向該欄位的 `fieldTree` 屬性：
 
 ```ts
 action: async (field) => {
@@ -134,9 +134,9 @@ action: async (field) => {
 };
 ```
 
-#### Multiple errors
+#### 多個錯誤
 
-When you want to report errors on multiple fields, return an array:
+當你想在多個欄位上回報錯誤時，請回傳一個陣列：
 
 ```ts
 action: async (field) => {
@@ -151,17 +151,17 @@ action: async (field) => {
 };
 ```
 
-### Auto-clearing submission errors
+### 自動清除送出錯誤
 
-Submission errors clear automatically when the user edits the field. If the `action` returns an error on the email field, that error disappears as soon as the user changes the email value.
+當使用者編輯欄位時，送出錯誤會自動清除。若 `action` 在 email 欄位上回傳錯誤，使用者一變更 email 值，該錯誤就會消失。
 
-This differs from validation errors, which recompute reactively. Validation rules run again on each change and may produce the same error. Submission errors are one-time results from the server — once cleared, they do not reappear unless the form is submitted again.
+這與驗證錯誤不同，驗證錯誤會以反應式方式重新計算。驗證規則會在每次變更時再次執行，並可能產生相同的錯誤。送出錯誤則是來自伺服器的一次性結果——一旦清除，除非再次送出表單，否則不會重現。
 
-TIP: Submission errors appear alongside validation errors in the field's `errors()` signal. For guidance on displaying errors in your template, see the [Field State Management guide](guide/forms/signals/field-state-management).
+TIP: 送出錯誤會與驗證錯誤一起出現在欄位的 `errors()` 訊號中。若要在範本中顯示錯誤，請參閱[欄位狀態管理指南](guide/forms/signals/field-state-management)。
 
-## Handling invalid submissions with `onInvalid`
+## 用 `onInvalid` 處理無效的送出
 
-When validation fails, the `action` function does not run. If you need to respond to a failed submission attempt — such as scrolling to the first error, showing a toast, or focusing an invalid field — use the `onInvalid` callback.
+當驗證失敗時，`action` 函式不會執行。若你需要回應失敗的送出嘗試——例如捲動到第一個錯誤、顯示提示訊息（toast），或聚焦某個無效欄位——請使用 `onInvalid` 回呼。
 
 ```ts
 contactForm = form(
@@ -184,17 +184,17 @@ contactForm = form(
 );
 ```
 
-The `onInvalid` callback receives the same `(field, detail)` parameters as `action`. It runs after all interactive fields are marked as touched, so validation errors are already visible in the UI when it executes.
+`onInvalid` 回呼接收與 `action` 相同的 `(field, detail)` 參數。它會在所有可互動欄位都被標記為已觸碰之後執行，因此它執行時，驗證錯誤已經在 UI 中可見。
 
-## Controlling validation gating with `ignoreValidators`
+## 用 `ignoreValidators` 控制驗證閘門
 
-By default, `submit()` ignores pending validators. If no validators have failed, the action runs even if some async validators are still in progress. The `ignoreValidators` option gives you control over this behavior.
+依預設，`submit()` 會忽略尚待處理的驗證器。若沒有驗證器失敗，即使有些非同步驗證器還在進行中，action 也會執行。`ignoreValidators` 選項讓你能控制這個行為。
 
-| Value       | Behavior                                                                 |
-| ----------- | ------------------------------------------------------------------------ |
-| `'pending'` | Submit if no validators have failed, even if some are pending (default)  |
-| `'none'`    | Submit only if all validators pass — pending validators block submission |
-| `'all'`     | Always submit regardless of validation state                             |
+| 值          | 行為                                                     |
+| ----------- | -------------------------------------------------------- |
+| `'pending'` | 只要沒有驗證器失敗就送出，即使有些尚待處理（預設）       |
+| `'none'`    | 只有所有驗證器都通過才送出——尚待處理的驗證器會阻擋送出   |
+| `'all'`     | 無論驗證狀態如何，一律送出                               |
 
 ```ts
 contactForm = form(
@@ -214,11 +214,11 @@ contactForm = form(
 );
 ```
 
-Use `'none'` when your form has async validators (such as checking username availability) and you need all validation to complete before submitting. Use `'all'` for draft-saving scenarios where you want to persist data regardless of validation state.
+當你的表單有非同步驗證器（例如檢查使用者名稱是否可用），而且你需要所有驗證都完成後才能送出時，請使用 `'none'`。在儲存草稿的情境中，若你想不論驗證狀態如何都保存資料，請使用 `'all'`。
 
-## Manual submission with `submit()`
+## 用 `submit()` 手動送出
 
-The `FormRoot` directive is the most common way to trigger submission, but you can also call `submit()` directly. This is useful for multi-step wizards, auto-save, or triggering submission from outside the form element.
+`FormRoot` 指令是觸發送出最常見的方式，但你也可以直接呼叫 `submit()`。這在多步驟精靈、自動儲存，或從表單元素外部觸發送出時很有用。
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -269,9 +269,9 @@ export class Contact {
 }
 ```
 
-## Handling side effects
+## 處理副作用
 
-The `submit()` function returns a `Promise<boolean>` — `true` when the action completes without errors, `false` when validation fails, the action returns errors, or a submission is already in progress. If the action throws, the promise rejects. Use this to trigger side effects like navigation or notifications.
+`submit()` 函式會回傳 `Promise<boolean>`——當 action 無錯誤地完成時為 `true`；當驗證失敗、action 回傳錯誤，或已有送出進行中時為 `false`。若 action 擲出例外，promise 會被拒絕。用這個回傳值來觸發導頁或通知等副作用。
 
 ```ts
 async onSave() {
@@ -285,7 +285,7 @@ async onSave() {
 }
 ```
 
-When the action produces data that a side effect needs, such as a server-generated ID, handle the side effect inside the action:
+當 action 產生了副作用需要的資料（例如伺服器產生的 ID）時，請把副作用處理放在 action 內部：
 
 ```ts
 async onSave() {
@@ -296,7 +296,7 @@ async onSave() {
 }
 ```
 
-When using `FormRoot`, side effects also go inside the `action` since `FormRoot` calls `submit()` internally:
+使用 `FormRoot` 時，副作用同樣放在 `action` 內，因為 `FormRoot` 會在內部呼叫 `submit()`：
 
 ```ts
 submission: {
@@ -312,16 +312,16 @@ submission: {
 }
 ```
 
-## Concurrent submissions
+## 同時送出
 
-When a submission is in progress, subsequent calls to `submit()` for the same form or any of its descendants return `false` immediately without running the action. This prevents duplicate submissions and side effects if a user triggers the submit action multiple times quickly.
+當一次送出正在進行時，針對同一表單或其任何子孫欄位的後續 `submit()` 呼叫，會立即回傳 `false` 而不執行 action。這能防止使用者在短時間內多次觸發送出動作時，造成重複送出與副作用。
 
-## Next steps
+## 後續步驟
 
-This guide covered submitting forms and handling form submission errors. Related guides explore other aspects of Signal Forms:
+本指南說明了如何送出表單，以及如何處理表單送出錯誤。相關指南將探討 Signal Forms 的其他面向：
 
 <docs-pill-row>
-  <docs-pill href="guide/forms/signals/validation" title="Validation" />
-  <docs-pill href="guide/forms/signals/field-state-management" title="Field state management" />
-  <docs-pill href="guide/forms/signals/form-logic" title="Adding form logic" />
+  <docs-pill href="guide/forms/signals/validation" title="驗證" />
+  <docs-pill href="guide/forms/signals/field-state-management" title="欄位狀態管理" />
+  <docs-pill href="guide/forms/signals/form-logic" title="加入表單邏輯" />
 </docs-pill-row>

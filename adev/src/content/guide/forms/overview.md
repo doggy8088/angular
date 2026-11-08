@@ -68,7 +68,7 @@ TIP: 如果你在找新的 Signal Forms，請查看我們的 [Signal Forms 入�
 ### 在反應式表單中設定
 
 使用反應式表單時，你直接在元件類別中定義表單模型。
-`[formControl]` 指令使用內部的 value accessor，將明確建立的 `FormControl` 實例連結到 view 中的特定表單元素。
+`[formControl]` 指令使用內部的控制項值存取器，將明確建立的 `FormControl` 實例連結到 view 中的特定表單元素。
 
 下列元件使用反應式表單，實作了一個只有單一控制項的輸入欄位。
 在這個範例中，表單模型就是 `FormControl` 實例。
@@ -128,7 +128,7 @@ flowchart TB
 1. 使用者呼叫 `favoriteColorControl.setValue()` 方法，更新 `FormControl` 的值。
 1. `FormControl` 實例透過 `valueChanges` observable 發出新值。
 1. `valueChanges` observable 的所有訂閱者都會收到新值。
-1. 表單輸入元素上的 control value accessor 以新值更新該元素。
+1. 表單輸入元素上的控制項值存取器以新值更新該元素。
 
 ```mermaid
 flowchart TB
@@ -151,10 +151,10 @@ view 到模型的圖表顯示，當輸入欄位的值從 view 變更時，資料
 
 1. 使用者在輸入元素中輸入 _Blue_。
 1. 輸入元素以 _Blue_ 這個值發出一個 "input" 事件。
-1. 附著在輸入上的 control value accessor 觸發 `FormControl` 實例的 `setValue()` 方法。
+1. 附著在輸入上的控制項值存取器觸發 `FormControl` 實例的 `setValue()` 方法。
 1. `FormControl` 實例透過 `valueChanges` observable 發出新值。
 1. `valueChanges` observable 的所有訂閱者都會收到新值。
-1. control value accessor 也呼叫 `NgModel.viewToModelUpdate()` 方法，該方法發出一個 `ngModelChange` 事件。
+1. 控制項值存取器也呼叫 `NgModel.viewToModelUpdate()` 方法，該方法發出一個 `ngModelChange` 事件。
 1. 由於元件範本對 `favoriteColor` 屬性使用雙向資料繫結，元件中的 `favoriteColor` 屬性會被更新為 `ngModelChange` 事件所發出的值（_Blue_）。
 
 ```mermaid
@@ -186,7 +186,7 @@ flowchart TB
 1. 在下一個 tick，該工作執行，為 `FormControl` 實例設定值。
 1. `FormControl` 實例透過 `valueChanges` observable 發出最新值。
 1. `valueChanges` observable 的所有訂閱者都會收到新值。
-1. control value accessor 以最新的 `favoriteColor` 值更新 view 中的表單輸入元素。
+1. 控制項值存取器以最新的 `favoriteColor` 值更新 view 中的表單輸入元素。
 
 ```mermaid
 flowchart TB
@@ -249,7 +249,7 @@ NOTE: `NgModel` 會觸發第二次變更偵測，以避免 `ExpressionChangedAft
 
 測試在複雜的應用程式中扮演重要角色。
 在驗證你的表單是否正確運作時，較簡單的測試策略很有用。
-反應式表單與範本驅動表單在依賴渲染 UI 來根據表單控制項與表單欄位變更進行斷言（assertion）的程度上有所不同。
+反應式表單與範本驅動表單在依賴渲染 UI 來根據表單控制項與表單欄位變更進行斷言的程度上有所不同。
 下列範例示範了以反應式表單與範本驅動表單測試表單的流程。
 
 ### 測試反應式表單
@@ -266,7 +266,7 @@ NOTE: `NgModel` 會觸發第二次變更偵測，以避免 `ExpressionChangedAft
 第一個範例執行下列步驟，驗證 view 到模型的資料流。
 
 1. 向 view 查詢表單輸入元素，並為測試建立一個自訂的 "input" 事件。
-1. 將輸入的新值設為 _Red_，並在表單輸入元素上分派（dispatch）"input" 事件。
+1. 將輸入的新值設為 _Red_，並在表單輸入元素上分派 "input" 事件。
 1. 斷言元件的 `favoriteColorControl` 值與輸入的值相符。
 
 <docs-code header="Favorite color test - view to model" path="adev/src/content/examples/forms-overview/src/app/reactive/favorite-color/favorite-color.component.spec.ts" region="view-to-model"/>

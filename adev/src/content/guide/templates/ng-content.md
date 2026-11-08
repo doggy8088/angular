@@ -1,8 +1,8 @@
-# Render templates from a parent component with `ng-content`
+# 以 `ng-content` 從父元件算繪範本
 
-`<ng-content>` is a special element that accepts markup or a template fragment and controls how components render content. It does not render a real DOM element.
+`<ng-content>` 是一個特殊元素，用來接受標記或範本片段，並控制元件如何算繪內容。它不會算繪出真正的 DOM 元素。
 
-Here is an example of a `BaseButton` component that accepts any markup from its parent.
+以下是一個 `BaseButton` 元件的範例，它可以接受來自父元件的任何標記。
 
 ```angular-ts {header:'base-button/base-button.ts'}
 import {Component} from '@angular/core';
@@ -26,4 +26,4 @@ import {BaseButton} from './base-button';
 export class App {}
 ```
 
-For more detail, check out the [`<ng-content>` in-depth guide](/guide/components/content-projection) for other ways you can leverage this pattern.
+如需更多細節，請參閱 [`<ng-content>` 深入指南](/guide/components/content-projection)，了解運用此模式的其他方式。

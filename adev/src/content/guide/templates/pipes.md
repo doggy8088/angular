@@ -1,12 +1,12 @@
-# Pipes
+# 管道
 
-## Overview
+## 總覽
 
-Pipes are special operators in Angular template expressions that allow you to transform data declaratively in your template. Pipes let you declare a transformation function once and then use that transformation across multiple templates. Angular pipes use the vertical bar character (`|`), inspired by the [Unix pipe](<https://en.wikipedia.org/wiki/Pipeline_(Unix)>).
+管道是 Angular 範本運算式中的特殊運算子，讓你能在範本中以宣告方式轉換資料。管道讓你宣告一次轉換函式，就能在多個範本中重複使用該轉換。Angular 管道使用直線字元（`|`），靈感來自 [Unix pipe](<https://en.wikipedia.org/wiki/Pipeline_(Unix)>)。
 
-NOTE: Angular's pipe syntax deviates from standard JavaScript, which uses the vertical bar character for the [bitwise OR operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_OR). Angular template expressions do not support bitwise operators.
+NOTE: Angular 的管道語法與標準 JavaScript 不同，JavaScript 使用直線字元作為[位元 OR 運算子](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Bitwise_OR)。Angular 範本運算式不支援位元運算子。
 
-Here is an example using some built-in pipes that Angular provides:
+以下範例使用了 Angular 提供的一些內建管道：
 
 ```angular-ts
 import {Component} from '@angular/core';
@@ -33,7 +33,7 @@ export class ShoppingCart {
 }
 ```
 
-When Angular renders the component, it will ensure that the appropriate date format and currency are based on the locale of the user. If the user is in the United States, it would render:
+當 Angular 渲染這個元件時，會確保所使用的日期格式與貨幣是依據使用者的地區設定。如果使用者位於美國，渲染結果會是：
 
 ```angular-html
 <main>
@@ -42,69 +42,69 @@ When Angular renders the component, it will ensure that the appropriate date for
 </main>
 ```
 
-See the [in-depth guide on i18n](/guide/i18n) to learn more about how Angular localizes values.
+若要了解 Angular 如何在地化數值，請參閱 [i18n 深入指南](/guide/i18n)。
 
-### Built-in Pipes
+### 內建管道
 
-Angular includes a set of built-in pipes in the `@angular/common` package:
+Angular 在 `@angular/common` 套件中包含一組內建管道：
 
-| Name                                          | Description                                                                                   |
+| 名稱                                          | 說明                                                                                   |
 | --------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| [`AsyncPipe`](api/common/AsyncPipe)           | Read the value from a `Promise` or an RxJS `Observable`.                                      |
-| [`CurrencyPipe`](api/common/CurrencyPipe)     | Transforms a number to a currency string, formatted according to locale rules.                |
-| [`DatePipe`](api/common/DatePipe)             | Formats a `Date` value according to locale rules.                                             |
-| [`DecimalPipe`](api/common/DecimalPipe)       | Transforms a number into a string with a decimal point, formatted according to locale rules.  |
-| [`I18nPluralPipe`](api/common/I18nPluralPipe) | Maps a value to a string that pluralizes the value according to locale rules.                 |
-| [`I18nSelectPipe`](api/common/I18nSelectPipe) | Maps a key to a custom selector that returns a desired value.                                 |
-| [`JsonPipe`](api/common/JsonPipe)             | Transforms an object to a string representation via `JSON.stringify`, intended for debugging. |
-| [`KeyValuePipe`](api/common/KeyValuePipe)     | Transforms Object or Map into an array of key value pairs.                                    |
-| [`LowerCasePipe`](api/common/LowerCasePipe)   | Transforms text to all lower case.                                                            |
-| [`PercentPipe`](api/common/PercentPipe)       | Transforms a number to a percentage string, formatted according to locale rules.              |
-| [`SlicePipe`](api/common/SlicePipe)           | Creates a new Array or String containing a subset (slice) of the elements.                    |
-| [`TitleCasePipe`](api/common/TitleCasePipe)   | Transforms text to title case.                                                                |
-| [`UpperCasePipe`](api/common/UpperCasePipe)   | Transforms text to all upper case.                                                            |
+| [`AsyncPipe`](api/common/AsyncPipe)           | 從 `Promise` 或 RxJS `Observable` 讀取值。                                      |
+| [`CurrencyPipe`](api/common/CurrencyPipe)     | 將數字轉換為貨幣字串，依地區設定規則格式化。                |
+| [`DatePipe`](api/common/DatePipe)             | 依地區設定規則格式化 `Date` 值。                                             |
+| [`DecimalPipe`](api/common/DecimalPipe)       | 將數字轉換為帶小數點的字串，依地區設定規則格式化。  |
+| [`I18nPluralPipe`](api/common/I18nPluralPipe) | 將值對應到依地區設定規則處理複數形式的字串。                 |
+| [`I18nSelectPipe`](api/common/I18nSelectPipe) | 將鍵對應到回傳所需值的自訂選擇器。                                 |
+| [`JsonPipe`](api/common/JsonPipe)             | 透過 `JSON.stringify` 將物件轉換為字串表示法，用於除錯。 |
+| [`KeyValuePipe`](api/common/KeyValuePipe)     | 將 Object 或 Map 轉換為鍵值對陣列。                                    |
+| [`LowerCasePipe`](api/common/LowerCasePipe)   | 將文字轉換為全部小寫。                                                            |
+| [`PercentPipe`](api/common/PercentPipe)       | 將數字轉換為百分比字串，依地區設定規則格式化。              |
+| [`SlicePipe`](api/common/SlicePipe)           | 建立包含元素子集（切片）的新 Array 或 String。                    |
+| [`TitleCasePipe`](api/common/TitleCasePipe)   | 將文字轉換為標題大小寫。                                                                |
+| [`UpperCasePipe`](api/common/UpperCasePipe)   | 將文字轉換為全部大寫。                                                            |
 
-## Using pipes
+## 使用管道
 
-Angular's pipe operator uses the vertical bar character (`|`), within a template expression. The pipe operator is a binary operator– the left-hand operand is the value passed to the transformation function, and the right side operand is the name of the pipe and any additional arguments (described below).
+Angular 的管道運算子在範本運算式中使用直線字元（`|`）。管道運算子是二元運算子，左側運算元是傳入轉換函式的值，右側運算元是管道名稱以及任何額外參數（如下所述）。
 
 ```angular-html
 <p>Total: {{ amount | currency }}</p>
 ```
 
-In this example, the value of `amount` is passed into the `CurrencyPipe` where the pipe name is `currency`. It then renders the default currency for the user’s locale.
+在這個範例中，`amount` 的值會傳入 `CurrencyPipe`，其中管道名稱是 `currency`。接著它會渲染使用者地區設定的預設貨幣。
 
-### Combining multiple pipes in the same expression
+### 在同一個運算式中結合多個管道
 
-You can apply multiple transformations to a value by using multiple pipe operators. Angular runs the pipes from left to right.
+你可以使用多個管道運算子，對一個值套用多個轉換。Angular 會由左至右執行這些管道。
 
-The following example demonstrates a combination of pipes to display a localized date in all uppercase:
+以下範例示範如何結合多個管道，顯示全部大寫的在地化日期：
 
 ```angular-html
 <p>The event will occur on {{ scheduledOn | date | uppercase }}.</p>
 ```
 
-### Passing parameters to pipes
+### 將參數傳給管道
 
-Some pipes accept parameters to configure the transformation. To specify a parameter, append the pipe name with a colon (`:`) followed by the parameter value.
+有些管道接受參數來設定轉換方式。若要指定參數，請在管道名稱後面加上冒號（`:`），再接著參數值。
 
-For example, the `DatePipe` is able to take parameters to format the date in a specific way.
+例如，`DatePipe` 可以接受參數，以特定方式格式化日期。
 
 ```angular-html
 <p>The event will occur at {{ scheduledOn | date: 'hh:mm' }}.</p>
 ```
 
-Some pipes may accept multiple parameters. You can specify additional parameter values separated by the colon character (`:`).
+有些管道可以接受多個參數。你可以用冒號字元（`:`）分隔，指定額外的參數值。
 
-For example, we can also pass a second optional parameter to control the timezone.
+例如，我們也可以傳入第二個選擇性參數來控制時區。
 
 ```angular-html
 <p>The event will occur at {{ scheduledOn | date: 'hh:mm' : 'UTC' }}.</p>
 ```
 
-## How pipes work
+## 管道如何運作
 
-Conceptually, pipes are functions that accept an input value and return a transformed value.
+從概念上來說，管道是接受輸入值並回傳轉換後值的函式。
 
 ```angular-ts
 import {Component} from '@angular/core';
@@ -124,58 +124,58 @@ export class AppComponent {
 }
 ```
 
-In this example:
+在這個範例中：
 
-1. `CurrencyPipe` is imported from `@angular/common`
-1. `CurrencyPipe` is added to the `imports` array
-1. The `amount` data is passed to the `currency` pipe
+1. 從 `@angular/common` 匯入 `CurrencyPipe`
+1. 將 `CurrencyPipe` 加入 `imports` 陣列
+1. 將 `amount` 資料傳給 `currency` 管道
 
-### Pipe operator precedence
+### 管道運算子的優先順序
 
-The pipe operator has lower precedence than other binary operators, including `+`, `-`, `*`, `/`, `%`, `&&`, `||`, and `??`.
+管道運算子的優先順序低於其他二元運算子，包括 `+`、`-`、`*`、`/`、`%`、`&&`、`||` 與 `??`。
 
 ```angular-html
 <!-- firstName and lastName are concatenated before the result is passed to the uppercase pipe -->
 {{ firstName + lastName | uppercase }}
 ```
 
-The pipe operator has higher precedence than the conditional (ternary) operator.
+管道運算子的優先順序高於條件（三元）運算子。
 
 ```angular-html
 {{ (isAdmin ? 'Access granted' : 'Access denied') | uppercase }}
 ```
 
-If the same expression were written without parentheses:
+如果同一個運算式沒有加括號：
 
 <!-- prettier-ignore -->
 ```angular-html
 {{ isAdmin ? 'Access granted' : 'Access denied' | uppercase }}
 ```
 
-It will be parsed instead as:
+它反而會被解析為：
 
 ```angular-html
 {{ isAdmin ? 'Access granted' : ('Access denied' | uppercase) }}
 ```
 
-Always use parentheses in your expressions when operator precedence may be ambiguous.
+當運算子優先順序可能不明確時，請務必在運算式中使用括號。
 
-### Change detection with pipes
+### 管道與變更偵測
 
-By default, all pipes are considered `pure`, which means that they only execute when a primitive input value (such as a `String`, `Number`, `Boolean`, or `Symbol`) or an object reference (such as `Array`, `Object`, `Function`, or `Date`) is changed. Pure pipes offer a performance advantage because Angular can avoid calling the transformation function if the passed value has not changed.
+依預設，所有管道都被視為 `pure`（純粹），意思是它們只有在原始型別輸入值（例如 `String`、`Number`、`Boolean` 或 `Symbol`）或物件參照（例如 `Array`、`Object`、`Function` 或 `Date`）變更時才會執行。純粹管道具有效能優勢，因為如果傳入的值沒有變更，Angular 可以避免呼叫轉換函式。
 
-As a result, this means that mutations to object properties or array items are not detected unless the entire object or array reference is replaced with a different instance. If you want this level of change detection, refer to [detecting changes within arrays or objects](#detecting-change-within-arrays-or-objects).
+因此，這也表示物件屬性或陣列項目的異動不會被偵測到，除非整個物件或陣列參照被換成不同的執行個體。如果你需要這個層級的變更偵測，請參閱[偵測陣列或物件內部的變更](#detecting-change-within-arrays-or-objects)。
 
-## Creating custom pipes
+## 建立自訂管道
 
-You can define a custom pipe by implementing a TypeScript class with the `@Pipe` decorator. A pipe must have two things:
+你可以實作一個帶有 `@Pipe` 裝飾器的 TypeScript 類別，來定義自訂管道。一個管道必須具備兩樣東西：
 
-- A name, specified in the pipe decorator
-- A method named `transform` that performs the value transformation.
+- 一個名稱，在管道裝飾器中指定
+- 一個名為 `transform` 的方法，負責執行值轉換。
 
-The TypeScript class should additionally implement the `PipeTransform` interface to ensure that it satisfies the type signature for a pipe.
+此外，這個 TypeScript 類別還應該實作 `PipeTransform` 介面，以確保它符合管道的型別簽章。
 
-Here is an example of a custom pipe that transforms strings to kebab case:
+以下是一個自訂管道的範例，可將字串轉換為 kebab case：
 
 ```angular-ts {header: "kebab-case.pipe.ts"}
 import {Pipe, PipeTransform} from '@angular/core';
@@ -190,9 +190,9 @@ export class KebabCasePipe implements PipeTransform {
 }
 ```
 
-### Using the `@Pipe` decorator
+### 使用 `@Pipe` 裝飾器
 
-When creating a custom pipe, import `Pipe` from the `@angular/core` package and use it as a decorator for the TypeScript class.
+建立自訂管道時，從 `@angular/core` 套件匯入 `Pipe`，並將它用作 TypeScript 類別的裝飾器。
 
 ```angular-ts
 import {Pipe} from '@angular/core';
@@ -203,18 +203,18 @@ import {Pipe} from '@angular/core';
 export class MyCustomTransformationPipe {}
 ```
 
-The `@Pipe` decorator requires a `name` that controls how the pipe is used in a template.
+`@Pipe` 裝飾器需要一個 `name`，用來控制管道在範本中的使用方式。
 
-### Naming convention for custom pipes
+### 自訂管道的命名慣例
 
-The naming convention for custom pipes consists of two conventions:
+自訂管道的命名慣例由兩個慣例組成：
 
-- `name` - camelCase is recommended. Do not use hyphens.
-- `class name` - PascalCase version of the `name` with `Pipe` appended to the end
+- `name`：建議使用 camelCase。不要使用連字號。
+- `class name`：`name` 的 PascalCase 版本，並在結尾加上 `Pipe`
 
-### Implement the `PipeTransform` interface
+### 實作 `PipeTransform` 介面
 
-In addition to the `@Pipe` decorator, custom pipes should always implement the `PipeTransform` interface from `@angular/core`.
+除了 `@Pipe` 裝飾器之外，自訂管道還應該一律實作來自 `@angular/core` 的 `PipeTransform` 介面。
 
 ```angular-ts
 import {Pipe, PipeTransform} from '@angular/core';
@@ -225,11 +225,11 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class MyCustomTransformationPipe implements PipeTransform {}
 ```
 
-Implementing this interface ensures that your pipe class has the correct structure.
+實作這個介面可以確保你的管道類別具有正確的結構。
 
-### Transforming the value of a pipe
+### 轉換管道的值
 
-Every transformation is invoked by the `transform` method with the first parameter being the value being passed in and the return value being the transformed value.
+每次轉換都會呼叫 `transform` 方法，第一個參數是傳入的值，回傳值則是轉換後的值。
 
 ```angular-ts
 import {Pipe, PipeTransform} from '@angular/core';
@@ -244,9 +244,9 @@ export class MyCustomTransformationPipe implements PipeTransform {
 }
 ```
 
-### Adding parameters to a custom pipe
+### 為自訂管道加入參數
 
-You can add parameters to your transformation by adding additional parameters to the `transform` method:
+你可以為 `transform` 方法加入額外參數，為你的轉換加入參數：
 
 ```angular-ts
 import {Pipe, PipeTransform} from '@angular/core';
@@ -267,11 +267,11 @@ export class MyCustomTransformationPipe implements PipeTransform {
 }
 ```
 
-### Detecting change within arrays or objects
+### 偵測陣列或物件內部的變更
 
-When you want a pipe to detect changes within arrays or objects, it must be marked as an impure function by passing the `pure` flag with a value of `false`.
+當你希望管道能偵測陣列或物件內部的變更時，必須將 `pure` 旗標傳入 `false`，把它標記為非純粹函式。
 
-IMPORTANT: Avoid creating impure pipes unless absolutely necessary, as they can incur a significant performance penalty if used without care.
+IMPORTANT: 除非絕對必要，請避免建立非純粹管道，因為若使用不慎，它們可能帶來顯著的效能損失。
 
 ```angular-ts
 import {Pipe, PipeTransform} from '@angular/core';
@@ -287,15 +287,15 @@ export class JoinNamesImpurePipe implements PipeTransform {
 }
 ```
 
-Angular developers often adopt the convention of including `Impure` in the pipe `name` and class name to indicate the potential performance pitfall to other developers.
+Angular 開發者經常採用一個慣例：在管道的 `name` 與類別名稱中包含 `Impure`，向其他開發者提示潛在的效能陷阱。
 
-## Using pipe logic outside templates
+## 在範本之外使用管道邏輯
 
-Pipes are template operators designed to transform data declaratively in templates. When you need the same transformation logic in a service, a utility class, or any other non-template context, **avoid injecting the pipe class**. Pipes are not designed as injectable services.
+管道是範本運算子，設計目的是在範本中以宣告方式轉換資料。當你在服務、工具類別或任何其他非範本脈絡中需要相同的轉換邏輯時，**請避免注入管道類別**。管道並不是設計來當作可注入服務的。
 
-### Extract the logic from custom pipes
+### 從自訂管道抽出邏輯
 
-When you create a custom pipe, extract the transformation into a standalone function. Have the pipe's `transform()` method delegate to that function, and import the function directly wherever else you need it.
+建立自訂管道時，請把轉換抽成一個獨立函式。讓管道的 `transform()` 方法委派給該函式，並在其他需要它的地方直接匯入該函式。
 
 ```ts {header: "kebab-case.ts"}
 export function toKebabCase(value: string): string {
@@ -342,11 +342,11 @@ export class FormatterService {
 }
 ```
 
-### Use formatting functions for built-in pipes
+### 為內建管道使用格式化函式
 
-Angular's built-in locale-aware pipes each have a corresponding standalone formatting function exported from `@angular/common`. Use these functions instead of injecting the pipe class.
+Angular 內建的地區感知管道，各自都有一個對應的獨立格式化函式，從 `@angular/common` 匯出。請使用這些函式，不要注入管道類別。
 
-| Pipe           | Standalone function |
+| 管道           | 獨立函式 |
 | -------------- | ------------------- |
 | `DatePipe`     | `formatDate`        |
 | `CurrencyPipe` | `formatCurrency`    |

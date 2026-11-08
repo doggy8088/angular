@@ -1,41 +1,41 @@
-# Using Tailwind CSS with Angular
+# 在 Angular 中使用 Tailwind CSS
 
-[Tailwind CSS](https://tailwindcss.com/) is a utility-first CSS framework that can be used to build modern websites without ever leaving your HTML. This guide will walk you through setting up Tailwind CSS in your Angular project.
+[Tailwind CSS](https://tailwindcss.com/) 是一個以工具類別為優先的 CSS 框架，讓你不必離開 HTML 就能打造現代網站。本指南將帶你逐步在 Angular 專案中完成 Tailwind CSS 的設定。
 
-## Automated Setup with `ng add`
+## 使用 `ng add` 自動設定
 
-Angular CLI provides a streamlined way to integrate Tailwind CSS into your project using the `ng add` command. This command automatically installs the necessary packages, configures Tailwind CSS, and updates your project's build settings.
+Angular CLI 提供以 `ng add` 指令將 Tailwind CSS 整合進專案的簡便方式。這個指令會自動安裝所需的套件、設定 Tailwind CSS，並更新專案的建置設定。
 
-First, navigate to your Angular project's root directory in a terminal and run the following command:
+首先，在終端機中切換到 Angular 專案的根目錄，執行下列指令：
 
 ```shell
 ng add tailwindcss
 ```
 
-This command performs the following actions:
+這個指令會執行下列動作：
 
-- Installs `tailwindcss` and its peer dependencies.
-- Configures the project to use Tailwind CSS.
-- Adds the Tailwind CSS `@import` statement to your styles.
+- 安裝 `tailwindcss` 及其對等相依套件。
+- 設定專案使用 Tailwind CSS。
+- 將 Tailwind CSS 的 `@import` 陳述式加入你的樣式檔。
 
-After running `ng add tailwindcss`, you can immediately start using Tailwind's utility classes in your component templates.
+執行 `ng add tailwindcss` 之後，你就能立即在元件範本中使用 Tailwind 的工具類別。
 
-## Manual Setup (Alternative Method)
+## 手動設定（替代方式）
 
-If you prefer to set up Tailwind CSS manually, follow these steps:
+如果你偏好手動設定 Tailwind CSS，請依照下列步驟進行：
 
-### 1. Create an Angular project
+### 1. 建立 Angular 專案
 
-First, create a new Angular project if you don't have one set up already.
+首先，如果你還沒有建立 Angular 專案，先建立一個新專案。
 
 ```shell
 ng new my-project
 cd my-project
 ```
 
-### 2. Install Tailwind CSS
+### 2. 安裝 Tailwind CSS
 
-Next, open a terminal in your Angular project's root directory and run the following command to install Tailwind CSS and its peer dependencies:
+接著，在 Angular 專案根目錄開啟終端機，執行下列指令，安裝 Tailwind CSS 及其對等相依套件：
 
 <docs-code-multifile>
   <docs-code header="npm" language="shell">
@@ -52,10 +52,10 @@ Next, open a terminal in your Angular project's root directory and run the follo
   </docs-code>
 </docs-code-multifile>
 
-### 3. Configure PostCSS Plugins
+### 3. 設定 PostCSS 外掛
 
-Next, add a `.postcssrc.json` file in the file root of the project.
-Add the `@tailwindcss/postcss` plugin into your PostCSS configuration.
+接著，在專案的檔案根目錄新增 `.postcssrc.json` 檔案。
+將 `@tailwindcss/postcss` 外掛加入你的 PostCSS 設定中。
 
 ```json {header: '.postcssrc.json'}
 {
@@ -65,30 +65,30 @@ Add the `@tailwindcss/postcss` plugin into your PostCSS configuration.
 }
 ```
 
-### 4. Import Tailwind CSS
+### 4. 匯入 Tailwind CSS
 
-Add an `@import` to `./src/styles.css` that imports Tailwind CSS.
+在 `./src/styles.css` 中加入一個匯入 Tailwind CSS 的 `@import`。
 
 ```css {header: "src/styles.css"}
 @import 'tailwindcss';
 ```
 
-If you're using SCSS, add `@use` to `./src/styles.scss`.
+如果你使用 SCSS，請在 `./src/styles.scss` 中加入 `@use`。
 
 ```scss {header: "src/styles.scss"}
 @use 'tailwindcss';
 ```
 
-### 5. Start using Tailwind in your project
+### 5. 開始在專案中使用 Tailwind
 
-You can now start using Tailwind's utility classes in your component templates to style your application. Run your build process with `ng serve` and you should see the styled heading.
+現在你可以在元件範本中使用 Tailwind 的工具類別來為應用程式加上樣式。以 `ng serve` 執行建置流程，你應該會看到加上樣式後的標題。
 
-For example, you can add the following to your `app.html` file:
+例如，你可以將下列內容加入你的 `app.html` 檔案：
 
 ```html
 <h1 class="text-3xl font-bold underline">Hello world!</h1>
 ```
 
-## Additional Resources
+## 其他資源
 
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
+- [Tailwind CSS 文件](https://tailwindcss.com/docs)

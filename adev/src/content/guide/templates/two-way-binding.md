@@ -1,16 +1,16 @@
-# Two-way binding
+# 雙向繫結
 
-**Two way binding** is a shorthand to simultaneously bind a value into an element, while also giving that element the ability to propagate changes back through this binding.
+**雙向繫結**是一種簡寫語法，可以同時將值繫結到元素，同時也讓該元素能透過這個繫結把變更傳播回來。
 
-## Syntax
+## 語法
 
-The syntax for two-way binding is a combination of square brackets and parentheses, `[()]`. It combines the syntax from property binding, `[]`, and the syntax from event binding, `()`. The Angular community informally refers to this syntax as "banana-in-a-box".
+雙向繫結的語法是方括號與括號的組合：`[()]`。它結合了屬性繫結的語法 `[]` 與事件繫結的語法 `()`。Angular 社群非正式地將這種語法稱為「banana-in-a-box」。
 
-## Two-way binding with form controls
+## 與表單控制項的雙向繫結
 
-Developers commonly use two-way binding to keep component data in sync with a form control as a user interacts with the control. For example, when a user fills out a text input, it should update the state in the component.
+開發者經常使用雙向繫結，讓元件資料在使用者與表單控制項互動時保持同步。例如，當使用者填寫文字輸入框時，應該要更新元件中的狀態。
 
-The following example dynamically updates the `firstName` attribute on the page:
+以下範例會動態更新頁面上的 `firstName` 屬性：
 
 ```angular-ts
 import {Component} from '@angular/core';
@@ -30,21 +30,21 @@ export class App {
 }
 ```
 
-To use two-way binding with native form controls, you need to:
+若要對原生表單控制項使用雙向繫結，你需要：
 
-1. Import the `FormsModule` from `@angular/forms`
-1. Use the `ngModel` directive with the two-way binding syntax (e.g., `[(ngModel)]`)
-1. Assign it the state that you want it to update (e.g., `firstName`)
+1. 從 `@angular/forms` 匯入 `FormsModule`
+1. 使用雙向繫結語法搭配 `ngModel` 指令（例如 `[(ngModel)]`）
+1. 將你希望它更新的狀態指派給它（例如 `firstName`）
 
-Once that is set up, Angular will ensure that any updates in the text input will reflect correctly inside of the component state!
+設定好之後，Angular 會確保文字輸入框中的任何更新，都能正確反映到元件狀態中！
 
-Learn more about [`NgModel`](/api/forms/NgModel) in the official docs.
+若要了解更多，請參閱官方文件中的 [`NgModel`](/api/forms/NgModel)。
 
-## Two-way binding between components
+## 元件之間的雙向繫結
 
-Leveraging two-way binding between a parent and child component requires more configuration compared to form elements.
+相較於表單元素，在父元件與子元件之間運用雙向繫結需要更多設定。
 
-Here is an example where the `App` is responsible for setting the initial count state, but the logic for updating and rendering the UI for the counter primarily resides inside its child `Counter`.
+以下範例中，`App` 負責設定計數器的初始狀態，但更新與渲染計數器 UI 的邏輯主要位於它的子元件 `Counter` 內。
 
 ```angular-ts {header: 'app.ts'}
 import {Component} from '@angular/core';
@@ -85,13 +85,13 @@ export class Counter {
 }
 ```
 
-### Enabling two-way binding between components
+### 啟用元件之間的雙向繫結
 
-If we break down the example above to its core, each two-way binding for components requires the following:
+如果把上面的範例拆解到核心，每個元件雙向繫結都需要以下條件：
 
-The child component must contain a `model` property.
+子元件必須包含一個 `model` 屬性。
 
-Here is a simplified example:
+以下是一個簡化範例：
 
 ```angular-ts {header: 'counter.ts'}
 import {Component, model} from '@angular/core';
@@ -108,12 +108,12 @@ export class Counter {
 }
 ```
 
-The parent component must:
+父元件必須：
 
-1. Wrap the `model` property name in the two-way binding syntax.
-1. Assign a property or a signal to the `model` property.
+1. 以雙向繫結語法包裝 `model` 屬性名稱。
+1. 將屬性或訊號指派給 `model` 屬性。
 
-Here is a simplified example:
+以下是一個簡化範例：
 
 ```angular-ts {header: 'app.ts'}
 import {Component} from '@angular/core';

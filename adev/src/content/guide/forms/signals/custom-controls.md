@@ -463,7 +463,7 @@ export class Order {
 
 有剖析錯誤的欄位即為無效，會像未通過驗證規則一樣阻擋送出。
 
-HELPFUL: Signal Forms 對原生輸入也使用同一套機制。當瀏覽器無法剖析某個值時（例如在 `<input type="date">` 中打到一半的日期），它會以欄位上的 `parse` 錯誤形式呈現。詳見[原生 HTML 驗證](guide/forms/signals/validation#native-html-validation)。
+HELPFUL: Signal Forms 對原生輸入也使用同一套機制。當瀏覽器無法剖析某個值時（例如在 `<input type="date">` 中打到一半的日期），它會以欄位上的 `parse` 錯誤形式呈現。詳見[原生 HTML 驗證](guide/forms/signals/validation#native-html-validation)。
 
 ### 重設
 

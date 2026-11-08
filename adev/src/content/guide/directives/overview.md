@@ -1,26 +1,26 @@
-<docs-decorative-header title="Directives" imgSrc="adev/src/assets/images/directives.svg"> <!-- markdownlint-disable-line -->
-Directives add behavior to elements and components in your Angular applications.
+<docs-decorative-header title="指令" imgSrc="adev/src/assets/images/directives.svg"> <!-- markdownlint-disable-line -->
+指令能為你的 Angular 應用程式中的元素與元件加上行為。
 </docs-decorative-header>
 
-A directive can change how an element looks, how it behaves, or how it fits into the DOM. Angular ships with several built-in directives, and you can write your own.
+指令可以改變元素的外觀、行為，或它在 DOM 中的位置。Angular 內建了數個指令，你也可以撰寫自己的指令。
 
-## When to use a directive
+## 何時使用指令
 
-Directives are most effective when they encapsulate **reusable** behavior that you want to apply to an existing element or component.
+當指令封裝了你想套用到既有元素或元件的**可重複使用**行為時，最能發揮效用。
 
-Common examples include:
+常見的範例包括：
 
-- Applying the same appearance or behavior across many elements, such as autofocus or a tooltip.
-- Reading from or writing to the host element's DOM, attributes, or classes.
-- Adding behavior to a component you don't own without changing its source.
+- 將相同的外觀或行為套用到許多元素，例如自動聚焦或工具提示。
+- 讀取宿主元素的 DOM、屬性或類別，或寫入其中。
+- 在不修改原始碼的情況下，為你不擁有的元件加上行為。
 
-If you need to render your own markup or manage a piece of UI with its own template, reach for a [component](guide/components), a specialized directive with its own template.
+如果你需要算繪自己的標記，或管理一塊擁有自己範本的 UI，請改用[元件](guide/components)：那是一種擁有自己範本的特殊指令。
 
-## A quick example
+## 快速範例
 
-Suppose you want elements to highlight when the user hovers over them with a mouse, changing their background color to yellow. Rather than repeat the same event-handling logic on every element, you can package that behavior in a directive and apply it wherever you need it.
+假設你想讓使用者將滑鼠游標移到元素上時，元素會醒目顯示，背景顏色變成黃色。與其在每個元素上重複相同的事件處理邏輯，不如把這項行為包裝成指令，在需要的地方套用。
 
-The following `appHighlight` directive sets the host element's background color when the mouse enters and clears it when the mouse leaves:
+下列 `appHighlight` 指令會在滑鼠進入時設定宿主元素的背景顏色，並在滑鼠離開時清除：
 
 ```ts
 import {Directive, signal} from '@angular/core';
@@ -38,32 +38,32 @@ export class HighlightDirective {
 }
 ```
 
-The `host` metadata listens for mouse events to update the `isHovered` signal, and binds the host element's `background-color` style to the signal's value.
+`host` 中繼資料會監聽滑鼠事件來更新 `isHovered` 訊號，並把宿主元素的 `background-color` 樣式繫結到該訊號的值。
 
-Apply the directive by adding its selector as an attribute on an element:
+把指令的選擇器以屬性形式加到元素上，即可套用該指令：
 
 ```angular-html
 <p appHighlight>Highlight me!</p>
 ```
 
-Every element that carries the `appHighlight` attribute gains the same hover behavior, with the logic defined in one place.
+每個帶有 `appHighlight` 屬性的元素都會獲得相同的懸停行為，而邏輯只定義在一處。
 
-## Types of directives
+## 指令的類型
 
-Angular has three primary types of directives:
+Angular 主要有三種類型的指令：
 
-| Directive type                                                  | Details                                                                           |
-| :-------------------------------------------------------------- | :-------------------------------------------------------------------------------- |
-| [Components](guide/components)                                  | Define reusable UI with their own template.                                       |
-| [Attribute directives](guide/directives/attribute-directives)   | Change the appearance or behavior of an element, component, or another directive. |
-| [Structural directives](guide/directives/structural-directives) | Change the DOM layout by adding and removing DOM elements.                        |
+| 指令類型                                                        | 說明                                       |
+| :-------------------------------------------------------------- | :----------------------------------------- |
+| [元件](guide/components)                                        | 以自己的範本定義可重複使用的 UI。          |
+| [屬性指令](guide/directives/attribute-directives)               | 改變元素、元件或另一個指令的外觀或行為。   |
+| [結構指令](guide/directives/structural-directives)              | 透過新增與移除 DOM 元素來改變 DOM 版面配置。 |
 
-## What's next
+## 後續步驟
 
-Learn more about each type of directive in the following guides.
+在下列指南中進一步了解每一種類型的指令。
 
 <docs-pill-row>
-  <docs-pill href="guide/directives/attribute-directives" title="Attribute directives"/>
-  <docs-pill href="guide/directives/structural-directives" title="Structural directives"/>
-  <docs-pill href="guide/directives/directive-composition-api" title="Directive composition API"/>
+  <docs-pill href="guide/directives/attribute-directives" title="屬性指令"/>
+  <docs-pill href="guide/directives/structural-directives" title="結構指令"/>
+  <docs-pill href="guide/directives/directive-composition-api" title="指令組合 API"/>
 </docs-pill-row>

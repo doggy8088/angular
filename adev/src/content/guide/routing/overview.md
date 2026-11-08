@@ -1,33 +1,33 @@
-<docs-decorative-header title="Angular Routing" imgSrc="adev/src/assets/images/routing.svg"> <!-- markdownlint-disable-line -->
-Routing helps you change what the user sees in a single-page app.
+<docs-decorative-header title="Angular 路由" imgSrc="adev/src/assets/images/routing.svg"> <!-- markdownlint-disable-line -->
+路由能協助你改變使用者在單頁應用程式中看到的內容。
 </docs-decorative-header>
 
-Angular Router (`@angular/router`) is the official library for managing navigation in Angular applications and a core part of the framework. It is included by default in all projects created by Angular CLI.
+Angular Router（`@angular/router`）是管理 Angular 應用程式導覽的官方函式庫，也是框架的核心組成部分。所有由 Angular CLI 建立的專案都預設包含它。
 
-## Why is routing necessary in a SPA?
+## 為什麼 SPA 需要路由？
 
-When you navigate to a URL in your web browser, the browser normally makes a network request to a web server and displays the returned HTML page. When you navigate to a different URL, such as clicking a link, the browser makes another network request and replaces the entire page with a new one.
+當你在網頁瀏覽器中導覽至某個 URL 時，瀏覽器通常會向網頁伺服器發出網路請求，並顯示回傳的 HTML 頁面。當你導覽至不同的 URL（例如點選連結），瀏覽器會再發出另一個網路請求，並以新頁面完全取代整個頁面。
 
-A single-page application (SPA) differs in that the browser only makes a request to a web server for the first page, the `index.html`. After that, a client-side router takes over, controlling which content displays based on the URL. When a user navigates to a different URL, the router updates the page's content in place without triggering a full-page reload.
+單頁應用程式（SPA）不同之處在於，瀏覽器只會向網頁伺服器請求第一個頁面，也就是 `index.html`。之後便由用戶端路由接手，根據 URL 控制要顯示的內容。當使用者導覽至不同的 URL 時，路由會就地更新頁面內容，而不觸發整頁重新載入。
 
-## How Angular manages routing
+## Angular 如何管理路由
 
-Routing in Angular is comprised of three primary parts:
+Angular 的路由由三個主要部分組成：
 
-1. **Routes** define which component displays when a user visits a specific URL.
-2. **Outlets** are placeholders in your templates that dynamically load and render components based on the active route.
-3. **Links** provide a way for users to navigate between different routes in your application without triggering a full page reload.
+1. **路由**定義使用者造訪特定 URL 時要顯示哪個元件。
+2. **出口**是範本中的佔位元素，會根據目前啟用的路由，動態載入並渲染元件。
+3. **連結**讓使用者能在應用程式的不同路由之間導覽，而不觸發整頁重新載入。
 
-In addition, the Angular Routing library offers additional functionality such as:
+此外，Angular 路由函式庫還提供以下額外功能：
 
-- Nested routes
-- Programmatic navigation
-- Route params, queries and wildcards
-- Activated route information with `ActivatedRoute`
-- Data fetching with route resources and resolvers
-- View transition effects
-- Navigation guards
+- 巢狀路由
+- 程式化導覽
+- 路由參數、查詢與萬用字元
+- 透過 `ActivatedRoute` 取得已啟用路由的資訊
+- 透過路由資源與解析器擷取資料
+- 檢視轉場效果
+- 導覽守衛
 
-## Next steps
+## 後續步驟
 
-Learn about how you can [define routes using Angular router](/guide/routing/define-routes).
+進一步了解如何[使用 Angular Router 定義路由](/guide/routing/define-routes)。

@@ -1,14 +1,14 @@
-# Error boundaries with `@boundary`
+# 使用 `@boundary` 的錯誤邊界
 
-IMPORTANT: `@boundary` is in [developer preview](reference/releases#developer-preview).
+IMPORTANT: `@boundary` 目前處於[開發者預覽](reference/releases#developer-preview)階段。
 
-Angular templates support error boundaries to gracefully handle runtime errors that occur during rendering and change detection.
+Angular 範本支援錯誤邊界，能妥善處理在算繪與變更偵測期間發生的執行階段錯誤。
 
-Error boundaries prevent a single component's failure from crashing the entire application and provide a way to display fallback UI to the user.
+錯誤邊界可以避免單一元件的失敗拖垮整個應用程式，並提供向使用者顯示備援 UI 的方式。
 
-## Catching errors with `@boundary` and `@error`
+## 以 `@boundary` 與 `@error` 捕捉錯誤
 
-The `@boundary` block wraps a section of your template. If any component or directive inside this boundary throws an error during initialization or change detection, the framework catches the error and renders the `@error` block instead.
+`@boundary` 區塊會包住範本中的一個區段。如果這個邊界內的任何元件或指令在初始化或變更偵測期間擲出錯誤，框架會捕捉該錯誤，並改為算繪 `@error` 區塊。
 
 ```angular-html
 @boundary {
@@ -18,9 +18,9 @@ The `@boundary` block wraps a section of your template. If any component or dire
 }
 ```
 
-## Accessing the error object
+## 存取錯誤物件
 
-You can access the caught error by accessing the implicit `$error` variable:
+你可以透過隱含的 `$error` 變數存取被捕捉到的錯誤：
 
 ```angular-html
 @boundary {
@@ -30,9 +30,9 @@ You can access the caught error by accessing the implicit `$error` variable:
 }
 ```
 
-## Resetting the boundary
+## 重設邊界
 
-You can attempt to re-render the content of the `@boundary` by calling the implicit `$reset` function in the `@error` block. When called, it resets the boundary state and tries to render the original content again.
+你可以在 `@error` 區塊中呼叫隱含的 `$reset` 函式，嘗試重新算繪 `@boundary` 的內容。呼叫後，它會重設邊界狀態，並再次嘗試算繪原始內容。
 
 ```angular-html
 @boundary {
@@ -43,9 +43,9 @@ You can attempt to re-render the content of the `@boundary` by calling the impli
 }
 ```
 
-## Conditional error handling with `when`
+## 以 `when` 進行條件式錯誤處理
 
-You can use `when` clauses to conditionally handle specific types of errors, allowing you to provide different fallback UIs. Angular evaluates this condition when it catches an error.
+你可以使用 `when` 子句，依條件處理特定類型的錯誤，為不同的錯誤提供不同的備援 UI。Angular 會在捕捉到錯誤時評估這個條件。
 
 ```angular-html
 @boundary {
@@ -58,11 +58,11 @@ You can use `when` clauses to conditionally handle specific types of errors, all
 }
 ```
 
-Order your `@error` blocks from most specific to least specific, as Angular evaluates the `when` clauses in order and uses the first one that evaluates to true. A final `@error` block without a `when` clause acts as a catch-all fallback.
+請將你的 `@error` 區塊從最具體排到最不具體，因為 Angular 會依序評估 `when` 子句，並使用第一個評估為 true 的子句。最後一個沒有 `when` 子句的 `@error` 區塊，會作為全捕捉的備援。
 
-## Global error handler integration
+## 與全域錯誤處理常式的整合
 
-When a boundary catches an error, Angular can still notify the global `ErrorHandler`. You can implement the optional `onViewError` hook in your custom `ErrorHandler` to log these caught errors to your error tracking service.
+當邊界捕捉到錯誤時，Angular 仍可通知全域的 `ErrorHandler`。你可以在自訂的 `ErrorHandler` 中實作選擇性的 `onViewError` 鉤子，將這些被捕捉到的錯誤記錄到你的錯誤追蹤服務。
 
 ```ts
 @Injectable()
@@ -79,13 +79,13 @@ export class MyErrorHandler implements ErrorHandler {
 }
 ```
 
-IMPORTANT: If an `@error` block itself throws an error, the error propagates to the next outer `@boundary` or Angular treats it as an unhandled application error.
+IMPORTANT: 如果 `@error` 區塊本身擲出錯誤，該錯誤會向上傳播到次一層外圍的 `@boundary`，否則 Angular 會將它視為未處理的應用程式錯誤。
 
-## Content projection
+## 內容投影
 
-If your component uses [content projection](guide/components/content-projection), wrapping `<ng-content>` in a `@boundary` does not catch errors from projected content. That content belongs to the view that declares it, not the receiving component's view.
+如果你的元件使用了[內容投影](guide/components/content-projection)，將 `<ng-content>` 包在 `@boundary` 中並不會捕捉來自投影內容的錯誤。那份內容屬於宣告它的檢視，而非接收元件的檢視。
 
-For example, a wrapper component with the following template does not catch errors from components projected into it:
+例如，下列範本的包裝元件無法捕捉投影進來的元件所發生的錯誤：
 
 ```angular-html {avoid}
 @boundary {
@@ -95,7 +95,7 @@ For example, a wrapper component with the following template does not catch erro
 }
 ```
 
-To catch those errors, wrap the wrapper component and its projected content in a `@boundary` in the parent template:
+若要捕捉那些錯誤，請在父範本中將包裝元件及其投影內容一起包進 `@boundary`：
 
 ```angular-html {prefer}
 @boundary {
@@ -107,6 +107,6 @@ To catch those errors, wrap the wrapper component and its projected content in a
 }
 ```
 
-## Dynamic views and programmatic error handling
+## 動態檢視與程式化錯誤處理
 
-Error handling isn't limited to template syntax. If you are creating components or embedded views dynamically, you can use the `onError` option to handle errors. See the [Handling rendering errors](guide/components/programmatic-rendering#handling-rendering-errors) section in the programmatic rendering guide for more information.
+錯誤處理不限於範本語法。如果你是動態建立元件或內嵌檢視，可以使用 `onError` 選項來處理錯誤。詳情請參閱程式化算繪指南中的[處理算繪錯誤](guide/components/programmatic-rendering#handling-rendering-errors)一節。

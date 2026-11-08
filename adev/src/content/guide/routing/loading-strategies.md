@@ -1,15 +1,15 @@
-# Route Loading Strategies
+# 路由載入策略
 
-Understanding how and when routes and components load in Angular routing is crucial for building responsive web applications. Angular offers two primary strategies to control loading behavior:
+了解 Angular 路由中路由與元件的載入方式與時機，對於建置反應迅速的網頁應用程式至關重要。Angular 提供兩種主要策略來控制載入行為：
 
-1. **Eagerly loaded**: Routes and components that are loaded immediately
-2. **Lazily loaded**: Routes and components loaded only when needed
+1. **立即載入**：會立即載入的路由與元件
+2. **延遲載入**：只在需要時才載入的路由與元件
 
-Each approach offers distinct advantages for different scenarios.
+每種做法在不同的情境下各有其優勢。
 
-## Eagerly loaded components
+## 立即載入的元件
 
-When you define a route with the [`component`](api/router/Route#component) property, the referenced component is eagerly loaded as part of the same JavaScript bundle as the route configuration.
+當你以 [`component`](api/router/Route#component) 屬性定義路由時，被參照的元件會立即載入，成為與路由設定同屬一個 JavaScript 打包檔的一部分。
 
 ```ts
 import {Routes} from '@angular/router';
@@ -30,13 +30,13 @@ export const routes: Routes = [
 ];
 ```
 
-Eagerly loading route components like this means that the browser has to download and parse all of the JavaScript for these components as part of your initial page load, but the components are available to Angular immediately.
+像這樣立即載入路由元件，意味著瀏覽器在初始頁面載入時就必須下載並解析這些元件的全部 JavaScript，但這些元件能立即供 Angular 使用。
 
-While including more JavaScript in your initial page load leads to slower initial load times, this can lead to more seamless transitions as the user navigates through an application.
+在初始頁面載入時包含更多 JavaScript 會讓初始載入時間變慢，但使用者在應用程式中導覽時，轉換可以更加流暢。
 
-## Lazily loaded components and routes
+## 延遲載入的元件與路由
 
-You can use the [`loadComponent`](api/router/Route#loadComponent) property to lazily load the JavaScript for a component at the point at which that route would become active. The [`loadChildren`](api/router/Route#loadChildren) property lazily loads child routes during route matching.
+你可以使用 [`loadComponent`](api/router/Route#loadComponent) 屬性，在路由即將啟用之際，延遲載入該元件的 JavaScript。[`loadChildren`](api/router/Route#loadChildren) 屬性則會在路由比對期間延遲載入子路由。
 
 ```ts
 import {Routes} from '@angular/router';
@@ -54,15 +54,15 @@ export const routes: Routes = [
 ];
 ```
 
-The [`loadComponent`](/api/router/Route#loadComponent) and [`loadChildren`](/api/router/Route#loadChildren) properties accept a loader function that returns a Promise that resolves to an Angular component or a set of routes respectively. In most cases, this function uses the standard [JavaScript dynamic import API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import). You can, however, use any arbitrary async loader function.
+[`loadComponent`](/api/router/Route#loadComponent) 與 [`loadChildren`](/api/router/Route#loadChildren) 屬性接受一個載入器函式，該函式會回傳一個 Promise，其解析結果分別是 Angular 元件或一組路由。在大多數情況下，此函式使用標準的 [JavaScript 動態匯入 API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import)。不過，你也可以使用任何自訂的非同步載入器函式。
 
-If the lazily loaded file uses a `default` export, you can return the `import()` promise directly without an additional `.then` call to select the exported class.
+如果延遲載入的檔案使用 `default` 匯出，你可以直接回傳 `import()` 的 Promise，不需要額外呼叫 `.then` 來選取匯出的類別。
 
-Lazily loading routes can significantly improve the load speed of your Angular application by removing large portions of JavaScript from the initial bundle. These portions of your code compile into separate JavaScript "chunks" that the router requests only when the user visits the corresponding route.
+延遲載入路由可以大幅改善 Angular 應用程式的載入速度，因為它能從初始打包檔中移除大量 JavaScript。這些程式碼會編譯成獨立的 JavaScript 區塊，路由器只會在使用者造訪對應的路由時才去請求它們。
 
-## Injection context lazy loading
+## 注入上下文中的延遲載入
 
-The Router executes [`loadComponent`](/api/router/Route#loadComponent) and [`loadChildren`](/api/router/Route#loadChildren) within the **injection context of the current route**, allowing you to call [`inject`](/api/core/inject)inside these loader functions to access providers declared on that route, inherited from parent routes through hierarchical dependency injection, or available globally. This enables context-aware lazy loading.
+Router 會在**目前路由的注入上下文**中執行 [`loadComponent`](/api/router/Route#loadComponent) 與 [`loadChildren`](/api/router/Route#loadChildren)，讓你能在這些載入器函式中呼叫 [`inject`](/api/core/inject)，以存取在該路由上宣告的提供者、透過階層式依賴注入從父路由繼承的提供者，或全域可用的提供者。這讓你能實現具上下文感知能力的延遲載入。
 
 ```ts
 import {Routes} from '@angular/router';
@@ -83,14 +83,14 @@ export const routes: Routes = [
 ];
 ```
 
-## Should I use an eager or a lazy route?
+## 我應該使用立即載入還是延遲載入的路由？
 
-There are many factors to consider when deciding on whether a route should be eager or lazy.
+決定某個路由應該立即載入還是延遲載入時，有許多因素需要考量。
 
-In general, eager loading is recommended for primary landing page(s) while other pages would be lazy-loaded.
+一般而言，建議主要的到達頁面使用立即載入，其他頁面則使用延遲載入。
 
-NOTE: While lazy routes have the upfront performance benefit of reducing the amount of initial data requested by the user, it adds future data requests that could be undesirable. This is particularly true when dealing with nested lazy loading at multiple levels, which can significantly impact performance.
+NOTE: 雖然延遲載入的路由有減少使用者初始請求資料量的前期效能優勢，但它也會增加日後的資料請求，在某些情況下並不理想。尤其當多個層級都使用巢狀延遲載入時，對效能的影響會特別顯著。
 
-## Next steps
+## 後續步驟
 
-Learn how to [display the contents of your routes with Outlets](/guide/routing/show-routes-with-outlets).
+了解如何[使用 Outlet 顯示路由內容](/guide/routing/show-routes-with-outlets)。
