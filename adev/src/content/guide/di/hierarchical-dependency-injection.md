@@ -428,13 +428,13 @@ export class App {
 <p>Emoji from FlowerService: {{flower.emoji}}</p>
 ```
 
-The output in the view would be:
+檢視中的輸出會是：
 
 ```text {hideCopy}
 Emoji from FlowerService: 🌺
 ```
 
-In the logical tree, this would be represented as follows:
+在邏輯樹中，這會表示如下：
 
 ```html
 <app-root @ApplicationConfig
@@ -449,28 +449,28 @@ In the logical tree, this would be represented as follows:
 </app-root>
 ```
 
-When `<app-root>` requests the `FlowerService`, it is the injector's job to resolve the `FlowerService` token.
-The resolution of the token happens in two phases:
+當 `<app-root>` 請求 `FlowerService` 時，解析 `FlowerService` token 是注入器的工作。
+token 的解析分兩個階段進行：
 
-1. The injector determines the starting location in the logical tree and an ending location of the search.
-   The injector begins with the starting location and looks for the token at each view level in the logical tree.
-   If the token is found it is returned.
+1. 注入器決定邏輯樹中的起始位置和搜尋的結束位置。
+   注入器從起始位置開始，在邏輯樹的每個檢視層級尋找 token。
+   如果找到 token，就把它傳回。
 
-1. If the token is not found, the injector looks for the closest parent `EnvironmentInjector` to delegate the request to.
+1. 如果找不到 token，注入器會尋找最近的父 `EnvironmentInjector`，把請求委派給它。
 
-In the example case, the constraints are:
+在這個範例中，限制條件如下：
 
-1. Start with `<#VIEW>` belonging to `<app-root>` and end with `<app-root>`.
-   - Normally the starting point for search is at the point of injection.
-     However, in this case `<app-root>` is a component. `@Component`s are special in that they also include their own `viewProviders`, which is why the search starts at `<#VIEW>` belonging to `<app-root>`.
-     This would not be the case for a directive matched at the same location.
-   - The ending location happens to be the same as the component itself, because it is the topmost component in this application.
+1. 從屬於 `<app-root>` 的 `<#VIEW>` 開始，以 `<app-root>` 結束。
+   - 一般來說，搜尋的起點是注入的位置。
+     然而，在這個情況下，`<app-root>` 是一個元件。`@Component` 的特殊之處在於它們也包含自己的 `viewProviders`，這就是搜尋從屬於 `<app-root>` 的 `<#VIEW>` 開始的原因。
+     對於在同一個位置比對到的指令，情況就不是這樣。
+   - 結束位置恰好與元件本身相同，因為它是這個應用程式中最上層的元件。
 
-1. The `EnvironmentInjector` provided by the `ApplicationConfig` acts as the fallback injector when the injection token can't be found in the `ElementInjector` hierarchies.
+1. 由 `ApplicationConfig` 提供的 `EnvironmentInjector`，在 `ElementInjector` 階層中找不到注入 token 時，充當備用注入器。
 
-### Using the `providers` array
+### 使用 `providers` 陣列
 
-Now, in the `Child` class, add a provider for `FlowerService` to demonstrate more complex resolution rules in the upcoming sections:
+現在，在 `Child` 類別中，為 `FlowerService` 加入一個提供者，以在接下來的章節中示範更複雜的解析規則：
 
 ```ts
 @Component({
@@ -486,23 +486,23 @@ export class Child {
 }
 ```
 
-Now that the `FlowerService` is provided in the `@Component()` decorator, when the `<app-child>` requests the service, the injector has only to look as far as the `ElementInjector` in the `<app-child>`.
-It won't have to continue the search any further through the injector tree.
+既然 `FlowerService` 已在 `@Component()` 裝飾器中提供，當 `<app-child>` 請求該服務時，注入器只需要找到 `<app-child>` 中的 `ElementInjector` 為止。
+它不需要再沿著注入器樹繼續搜尋。
 
-The next step is to add a binding to the `Child` template.
+下一步是在 `Child` 範本中加入一個繫結。
 
 ```html
 <p>Emoji from FlowerService: {{flower.emoji}}</p>
 ```
 
-To render the new values, add `<app-child>` to the bottom of the `App` template so the view also displays the sunflower:
+若要算繪新的值，把 `<app-child>` 加入 `App` 範本的底部，讓檢視也顯示向日葵：
 
 ```text {hideCopy}
 Child Component
 Emoji from FlowerService: 🌻
 ```
 
-In the logical tree, this is represented as follows:
+在邏輯樹中，這表示如下：
 
 ```html
 <app-root @ApplicationConfig
@@ -522,23 +522,23 @@ In the logical tree, this is represented as follows:
 </app-root>
 ```
 
-When `<app-child>` requests the `FlowerService`, the injector begins its search at the `<#VIEW>` belonging to `<app-child>` \(`<#VIEW>` is included because it is injected from `@Component()`\) and ends with `<app-child>`.
-In this case, the `FlowerService` is resolved in the `providers` array with sunflower <code>🌻</code> of the `<app-child>`.
-The injector doesn't have to look any further in the injector tree.
-It stops as soon as it finds the `FlowerService` and never sees the red hibiscus <code>🌺</code>.
+當 `<app-child>` 請求 `FlowerService` 時，注入器從屬於 `<app-child>` 的 `<#VIEW>` 開始搜尋（`<#VIEW>` 被包括在內，是因為它從 `@Component()` 注入），並以 `<app-child>` 結束。
+在這種情況下，`FlowerService` 以 `<app-child>` 的 `providers` 陣列中向日葵 <code>🌻</code> 的值被解析。
+注入器不需要在注入器樹中再往別處尋找。
+它一找到 `FlowerService` 就停下來，永遠不會看到紅色扶桑花 <code>🌺</code>。
 
-### Using the `viewProviders` array
+### 使用 `viewProviders` 陣列
 
-Use the `viewProviders` array as another way to provide services in the `@Component()` decorator.
-Using `viewProviders` makes services visible in the `<#VIEW>`.
+使用 `viewProviders` 陣列，是在 `@Component()` 裝飾器中提供服務的另一種方式。
+使用 `viewProviders` 讓服務在 `<#VIEW>` 中可見。
 
-HELPFUL: The steps are the same as using the `providers` array, with the exception of using the `viewProviders` array instead.
+HELPFUL: 步驟與使用 `providers` 陣列相同，唯一的例外是改用 `viewProviders` 陣列。
 
-For step-by-step instructions, continue with this section.
-If you can set it up on your own, skip ahead to [Modifying service availability](#visibility-of-provided-tokens).
+如需逐步說明，請繼續閱讀本節。
+如果你可以自行設定，請跳到[修改服務可用性](#visibility-of-provided-tokens)。
 
-For demonstration, we are building an `AnimalService` to demonstrate `viewProviders`.
-First, create an `AnimalService` with an `emoji` property of whale <code>🐳</code>:
+為了示範，我們建立一個 `AnimalService` 來示範 `viewProviders`。
+首先，建立一個 `AnimalService`，其 `emoji` 屬性為鯨魚 <code>🐳</code>：
 
 ```typescript
 import {Service} from '@angular/core';
@@ -549,7 +549,7 @@ export class AnimalService {
 }
 ```
 
-Following the same pattern as with the `FlowerService`, inject the `AnimalService` in the `App` class:
+遵循與 `FlowerService` 相同的模式，在 `App` 類別中注入 `AnimalService`：
 
 ```ts
 export class App {
@@ -558,10 +558,10 @@ export class App {
 }
 ```
 
-HELPFUL: You can leave all the `FlowerService` related code in place as it will allow a comparison with the `AnimalService`.
+HELPFUL: 你可以保留所有 `FlowerService` 相關的程式碼，因為這能讓你與 `AnimalService` 做對照比較。
 
-Add a `viewProviders` array and inject the `AnimalService` in the `<app-child>` class, too, but give `emoji` a different value.
-Here, it has a value of dog 🐶.
+也為 `<app-child>` 類別加入 `viewProviders` 陣列並注入 `AnimalService`，但給 `emoji` 一個不同的值。
+在這裡，它的值是狗 🐶。
 
 ```typescript
 @Component({
@@ -579,20 +579,20 @@ export class Child {
 }
 ```
 
-Add bindings to the `Child` and the `App` templates.
-In the `Child` template, add the following binding:
+在 `Child` 和 `App` 範本中加入繫結。
+在 `Child` 範本中，加入以下繫結：
 
 ```html
 <p>Emoji from AnimalService: {{animal.emoji}}</p>
 ```
 
-Additionally, add the same to the `App` template:
+此外，在 `App` 範本中也加入相同的繫結：
 
 ```html
 <p>Emoji from AnimalService: {{animal.emoji}}</p>
 ```
 
-Now you should see both values in the browser:
+現在你應該能在瀏覽器中看到這兩個值：
 
 ```text {hideCopy}
 App
@@ -602,7 +602,7 @@ Child Component
 Emoji from AnimalService: 🐶
 ```
 
-The logic tree for this example of `viewProviders` is as follows:
+這個 `viewProviders` 範例的邏輯樹如下：
 
 ```html
 <app-root @ApplicationConfig
@@ -621,18 +621,18 @@ The logic tree for this example of `viewProviders` is as follows:
 </app-root>
 ```
 
-Just as with the `FlowerService` example, the `AnimalService` is provided in the `<app-child>` `@Component()` decorator.
-This means that since the injector first looks in the `ElementInjector` of the component, it finds the `AnimalService` value of dog <code>🐶</code>.
-It doesn't need to continue searching the `ElementInjector` tree, nor does it need to search the `ModuleInjector`.
+就如同 `FlowerService` 範例一樣，`AnimalService` 在 `<app-child>` 的 `@Component()` 裝飾器中被提供。
+這表示由於注入器先在元件的 `ElementInjector` 中尋找，它找到了狗 <code>🐶</code> 的 `AnimalService` 值。
+它不需要繼續搜尋 `ElementInjector` 樹，也不需要搜尋 `ModuleInjector`。
 
-### `providers` vs. `viewProviders`
+### `providers` 與 `viewProviders`
 
-The `viewProviders` field is conceptually similar to `providers`, but there is one notable difference.
-Providers in `viewProviders` are only visible inside the component's own view — content projected into the component via `<ng-content>` cannot see them.
+`viewProviders` 欄位在概念上與 `providers` 相似，但有一個值得注意的差異。
+`viewProviders` 中的提供者只在元件自己的檢視內可見，透過 `<ng-content>` 投影進元件的內容看不到它們。
 
-To see the difference between using `providers` and `viewProviders`, add another component to the example and call it `Inspector`.
-`Inspector` will be a child of the `Child`.
-In `inspector.ts`, inject the `FlowerService` and `AnimalService` during property initialization:
+若要看出使用 `providers` 與 `viewProviders` 的差異，在範例中再加入一個元件，稱它為 `Inspector`。
+`Inspector` 將是 `Child` 的子元件。
+在 `inspector.ts` 中，在屬性初始化期間注入 `FlowerService` 和 `AnimalService`：
 
 ```typescript
 export class Inspector {
@@ -641,15 +641,15 @@ export class Inspector {
 }
 ```
 
-You do not need a `providers` or `viewProviders` array.
-Next, in `inspector.html`, add the same markup from previous components:
+你不需要 `providers` 或 `viewProviders` 陣列。
+接著，在 `inspector.html` 中，加入與前面元件相同的標記：
 
 ```html
 <p>Emoji from FlowerService: {{flower.emoji}}</p>
 <p>Emoji from AnimalService: {{animal.emoji}}</p>
 ```
 
-Remember to add the `Inspector` to the `Child` `imports` array.
+記得把 `Inspector` 加入 `Child` 的 `imports` 陣列。
 
 ```ts
 @Component({
@@ -658,7 +658,7 @@ Remember to add the `Inspector` to the `Child` `imports` array.
 })
 ```
 
-Next, add the following to `child.html`:
+接著，在 `child.html` 中加入以下內容：
 
 ```html
 ...

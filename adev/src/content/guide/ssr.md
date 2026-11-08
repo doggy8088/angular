@@ -334,9 +334,9 @@ export class Checkout {
 }
 ```
 
-## Accessing Document via DI
+## 透過 DI 存取 Document
 
-When working with server-side rendering, you should avoid directly referencing browser-specific globals like `document`. Instead, use the [`DOCUMENT`](api/core/DOCUMENT) token to access the document object in a platform-agnostic way.
+在使用伺服器端渲染時，你應該避免直接參考 `document` 等瀏覽器專屬的全域變數。請改用 [`DOCUMENT`](api/core/DOCUMENT) token，以與平台無關的方式存取 document 物件。
 
 ```ts
 import {inject, DOCUMENT, Service} from '@angular/core';
@@ -356,15 +356,15 @@ export class CanonicalLinkService {
 }
 ```
 
-HELPFUL: For managing meta tags, Angular provides the `Meta` service.
+HELPFUL: 對於管理 meta 標籤，Angular 提供了 `Meta` 服務。
 
-## Accessing Request and Response via DI
+## 透過 DI 存取 Request 與 Response
 
-The `@angular/core` package provides several tokens for interacting with the server-side rendering environment. These tokens give you access to crucial information and objects within your Angular application during SSR.
+`@angular/core` 套件提供數個用來與伺服器端渲染環境互動的 token。這些 token 讓你在 SSR 期間能存取 Angular 應用程式中的關鍵資訊與物件。
 
-- **[`REQUEST`](api/core/REQUEST 'API reference'):** Provides access to the current request object, which is of type [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) from the Web API. This allows you to access headers, cookies, and other request information.
-- **[`RESPONSE_INIT`](api/core/RESPONSE_INIT 'API reference'):** Provides access to the response initialization options, which is of type [`ResponseInit`](https://developer.mozilla.org/en-US/docs/Web/API/Response/Response#parameters) from the Web API. This allows you to set headers and the status code for the response dynamically. Use this token to set headers or status codes that need to be determined at runtime.
-- **[`REQUEST_CONTEXT`](api/core/REQUEST_CONTEXT 'API reference'):** Provides access to additional context related to the current request. This context can be passed as the second parameter of the [`handle`](api/ssr/AngularAppEngine#handle 'API reference') function. Typically, this is used to provide additional request-related information that is not part of the standard Web API.
+- **[`REQUEST`](api/core/REQUEST 'API reference')**：提供對目前請求物件的存取，該物件的型別是 Web API 的 [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request)。這讓你能存取標頭、cookies 與其他請求資訊。
+- **[`RESPONSE_INIT`](api/core/RESPONSE_INIT 'API reference')**：提供對回應初始化選項的存取，該選項的型別是 Web API 的 [`ResponseInit`](https://developer.mozilla.org/en-US/docs/Web/API/Response/Response#parameters)。這讓你能動態設定回應的標頭與狀態碼。當標頭或狀態碼需要在執行階段決定時，請使用這個 token。
+- **[`REQUEST_CONTEXT`](api/core/REQUEST_CONTEXT 'API reference')**：提供對目前請求相關額外上下文的存取。這個上下文可以作為 [`handle`](api/ssr/AngularAppEngine#handle 'API reference') 函式的第二個參數傳入。通常用來提供不屬於標準 Web API 的額外請求相關資訊。
 
 ```angular-ts
 import {inject, REQUEST, Component} from '@angular/core';
@@ -384,22 +384,22 @@ export class MyComponent {
 <!-- UL is used below as otherwise the list will not be include as part of the note. -->
 <!-- prettier-ignore-start -->
 
-IMPORTANT: The above tokens will be `null` in the following scenarios:<ul class="docs-list">
-  <li>During the build processes.</li>
-  <li>When the application is rendered in the browser (CSR).</li>
-  <li>When performing static site generation (SSG).</li>
-  <li>During route extraction in development (at the time of the request).</li>
+IMPORTANT: 上述 token 在以下情境中會是 `null`：<ul class="docs-list">
+  <li>在建置過程中。</li>
+  <li>當應用程式在瀏覽器中渲染（CSR）時。</li>
+  <li>執行靜態網站生成（SSG）時。</li>
+  <li>在開發期間的路由擷取過程中（於請求當下）。</li>
 </ul>
 
 <!-- prettier-ignore-end -->
 
-## Generate a fully static application
+## 產生完全靜態的應用程式
 
-By default, Angular prerenders your entire application and generates a server file for handling requests. This allows your app to serve pre-rendered content to users. However, if you prefer a fully static site without a server, you can opt out of this behavior by setting the `outputMode` to `static` in your `angular.json` configuration file.
+預設情況下，Angular 會預先渲染你的整個應用程式，並產生一個用來處理請求的伺服器檔案。這讓你的應用程式能把預先渲染好的內容提供給使用者。然而，如果你偏好沒有伺服器的完全靜態網站，可以在 `angular.json` 設定檔中將 `outputMode` 設為 `static`，來退出這個行為。
 
-When `outputMode` is set to `static`, Angular generates pre-rendered HTML files for each route at build time, but it does not generate a server file or require a Node.js server to serve the app. This is useful for deploying to static hosting providers where a backend server is not needed.
+當 `outputMode` 設為 `static` 時，Angular 會在建置時為每條路由產生預先渲染的 HTML 檔案，但不會產生伺服器檔案，也不需要 Node.js 伺服器來提供應用程式。這在部署到不需要後端伺服器的靜態託管服務時很有用。
 
-To configure this, update your `angular.json` file as follows:
+要進行此設定，請如下更新你的 `angular.json` 檔案：
 
 ```json
 {
@@ -417,16 +417,16 @@ To configure this, update your `angular.json` file as follows:
 }
 ```
 
-### Prerendered file output format
+### 預先渲染檔案的輸出格式
 
-The `format` property of the `prerender` option controls the file structure Angular writes for each prerendered route. For a route with the path `about`:
+`prerender` 選項的 `format` 屬性控制 Angular 為每條預先渲染路由寫出的檔案結構。以路徑為 `about` 的路由為例：
 
-| `format`              | Prerendered file   |
+| `format`              | 預先渲染的檔案   |
 | --------------------- | ------------------ |
 | `directory` (default) | `about/index.html` |
 | `file`                | `about.html`       |
 
-Depending on your static hosting provider, you can set `format` to `"file"` if your host requires `<route>.html` files to serve routes without redirecting to a trailing slash.
+依你的靜態託管服務而定，如果主機要求以 `<route>.html` 檔案來提供路由、而不重新導向到尾隨斜線，你可以將 `format` 設為 `"file"`。
 
 ```json
 {
@@ -447,17 +447,17 @@ Depending on your static hosting provider, you can set `format` to `"file"` if y
 }
 ```
 
-NOTE: The `format` option is only considered when the build does not produce a server.
+NOTE: `format` 選項只有在建置不產生伺服器時才會被考量。
 
-## Caching data when using HttpClient
+## 使用 HttpClient 時快取資料
 
-`HttpClient` caches outgoing network requests when running on the server. This information is serialized and transferred to the browser as part of the initial HTML sent from the server. In the browser, `HttpClient` checks whether it has data in the cache and if so, reuses it instead of making a new HTTP request during initial application rendering. `HttpClient` stops using the cache once an application becomes [stable](api/core/ApplicationRef#isStable) while running in a browser.
+`HttpClient` 在伺服器上執行時會快取對外發出的網路請求。這些資訊會被序列化，並作為伺服器傳送的初始 HTML 的一部分傳給瀏覽器。在瀏覽器中，`HttpClient` 會檢查快取中是否有資料，若有，就在應用程式初始渲染期間重用它，而不發出新的 HTTP 請求。一旦應用程式在瀏覽器中執行時變得[穩定](api/core/ApplicationRef#isStable)，`HttpClient` 就會停止使用快取。
 
-### Configuring the response body size limit
+### 設定回應主體大小上限
 
-When `HttpClient` uses the default fetch backend during server-side rendering, Angular limits each response body to 1 MB. This limit prevents the server from buffering unexpectedly large responses during rendering. If a response exceeds the configured limit, the request fails with the [NG02825](errors/NG02825) error.
+當 `HttpClient` 在伺服器端渲染期間使用預設的 fetch 後端時，Angular 會將每個回應主體限制為 1 MB。這個限制可防止伺服器在渲染期間緩衝意外過大的回應。如果回應超過設定的上限，請求會失敗並產生 [NG02825](errors/NG02825) 錯誤。
 
-If your application needs to fetch larger responses during server rendering, set `maxResponseBodySize` in the `provideServerRendering` options:
+如果你的應用程式需要在伺服器渲染期間擷取更大的回應，請在 `provideServerRendering` 選項中設定 `maxResponseBodySize`：
 
 ```ts
 import {provideServerRendering, withRoutes} from '@angular/ssr';
@@ -476,18 +476,18 @@ const serverConfig: ApplicationConfig = {
 };
 ```
 
-`maxResponseBodySize` is configured in bytes and applies globally to server-side `HttpClient` requests that use the fetch backend.
+`maxResponseBodySize` 以位元組為單位設定，並全域套用到伺服器端使用 fetch 後端的 `HttpClient` 請求。
 
-IMPORTANT: Keep this limit as small as your application allows. Increasing it lets server-side requests buffer larger response bodies, which can increase memory use and denial-of-service risk. Prefer moving large downloads outside server rendering.
+IMPORTANT: 請把這個上限保持在你的應用程式所能允許的最小值。提高它會讓伺服器端請求緩衝更大的回應主體，可能增加記憶體用量與阻斷服務攻擊的風險。請優先把大型下載移到伺服器渲染之外處理。
 
-CRITICAL: During SSR, the Fetch implementation reads the entire response body to verify `integrity` before returning a response, as required by the [Fetch Standard](https://fetch.spec.whatwg.org/#concept-main-fetch). Angular enforces [`maxResponseBodySize`](/guide/ssr#configuring-the-response-body-size-limit) only after Fetch returns a response, so this limit does not constrain the data buffered during integrity verification.
+CRITICAL: 在 SSR 期間，Fetch 實作會依照 [Fetch 標準](https://fetch.spec.whatwg.org/#concept-main-fetch) 的要求，在傳回回應之前讀取整個回應主體來驗證 `integrity`。Angular 只在 Fetch 傳回回應之後才強制執行 [`maxResponseBodySize`](/guide/ssr#configuring-the-response-body-size-limit)，因此這個上限並不限制完整性驗證期間所緩衝的資料。
 
-### Configuring the caching options
+### 設定快取選項
 
-You can customize how Angular caches HTTP responses during server‑side rendering (SSR) and reuses them during hydration by configuring `HttpTransferCacheOptions`.  
-This configuration is provided globally using `withHttpTransferCacheOptions` inside `provideClientHydration()`.
+你可以透過設定 `HttpTransferCacheOptions`，來自訂 Angular 在伺服器端渲染（SSR）期間如何快取 HTTP 回應，以及在水合期間如何重用它們。  
+這個設定是透過在 `provideClientHydration()` 內使用 `withHttpTransferCacheOptions` 全域提供的。
 
-By default, `HttpClient` caches all `HEAD` and `GET` requests which don't contain `Authorization`, `Proxy-Authorization`, or `Cookie` headers and are not sent with `withCredentials` or Fetch API `credentials` modes that can send credentials. Angular also skips transfer cache when a request or response includes `Cache-Control` directives that forbid caching (`no-store`, `no-cache`, or `private`), or when the Fetch API `cache` option is set to `no-store` or `no-cache`. Responses that carry a `Set-Cookie` header are also skipped. You can override the request filtering settings by using `withHttpTransferCacheOptions` in the hydration configuration.
+預設情況下，`HttpClient` 會快取所有不含 `Authorization`、`Proxy-Authorization` 或 `Cookie` 標頭、且不是以可傳送憑證的 `withCredentials` 或 Fetch API `credentials` 模式送出的 `HEAD` 與 `GET` 請求。當請求或回應包含禁止快取的 `Cache-Control` 指令（`no-store`、`no-cache` 或 `private`），或 Fetch API 的 `cache` 選項設為 `no-store` 或 `no-cache` 時，Angular 也會跳過傳輸快取。帶有 `Set-Cookie` 標頭的回應同樣會被跳過。你可以在水合設定中使用 `withHttpTransferCacheOptions` 來覆寫請求篩選設定。
 
 ```ts
 import {
@@ -512,8 +512,8 @@ bootstrapApplication(App, {
 
 ### `includeHeaders`
 
-Specifies which headers from the server response should be included in cached entries.  
-No headers are included by default.
+指定伺服器回應中哪些標頭應該包含在快取項目裡。  
+預設不包含任何標頭。
 
 ```ts
 withHttpTransferCacheOptions({
@@ -521,14 +521,14 @@ withHttpTransferCacheOptions({
 });
 ```
 
-IMPORTANT: Avoid including sensitive headers like authentication tokens. These can leak user‑specific data between requests.
+IMPORTANT: 避免包含驗證 token 等敏感標頭。這些標頭可能會在請求之間洩漏使用者專屬資料。
 
-Including `Cache-Control` in `includeHeaders` only makes that header available on the hydrated response. Angular already evaluates `Cache-Control` headers automatically when deciding whether a request or response is eligible for transfer cache.
+在 `includeHeaders` 中包含 `Cache-Control`，只是讓該標頭能在水合後的回應上使用。Angular 在決定請求或回應是否符合傳輸快取資格時，本來就會自動評估 `Cache-Control` 標頭。
 
 ### `includePostRequests`
 
-By default, only `GET` and `HEAD` requests are cached.  
-You can enable caching for `POST` requests when they are used as read operations such as GraphQL queries.
+預設情況下，只有 `GET` 與 `HEAD` 請求會被快取。  
+當 `POST` 請求被用作讀取操作（例如 GraphQL 查詢）時，你可以為它們啟用快取。
 
 ```ts
 withHttpTransferCacheOptions({
@@ -536,12 +536,12 @@ withHttpTransferCacheOptions({
 });
 ```
 
-Use this only when `POST` requests are **idempotent** and safe to reuse between server and client renders.
+只有當 `POST` 請求具**冪等性**，且在伺服器與用戶端渲染之間重用是安全的，才使用此設定。
 
 ### `includeRequestsWithAuthHeaders`
 
-Determines whether requests containing `Authorization`, `Proxy‑Authorization`, or `Cookie` headers are eligible for caching.  
-By default, these are excluded to prevent caching user‑specific responses.
+決定包含 `Authorization`、`Proxy-Authorization` 或 `Cookie` 標頭的請求是否符合快取資格。  
+預設情況下，這些請求會被排除，以防止快取使用者專屬的回應。
 
 ```ts
 withHttpTransferCacheOptions({
@@ -549,12 +549,12 @@ withHttpTransferCacheOptions({
 });
 ```
 
-Enable only when authentication headers do **not** affect the response content (for example, public tokens for analytics APIs).
+只有當驗證標頭**不**影響回應內容時（例如分析 API 的公開 token），才啟用此設定。
 
 ### `includeRequestsWithCredentials`
 
-Determines whether requests sent using `withCredentials` or Fetch API `credentials` modes (`include` or `same-origin`) are eligible for caching.  
-By default, these are excluded to prevent caching user‑specific responses.
+決定使用 `withCredentials` 或 Fetch API `credentials` 模式（`include` 或 `same-origin`）送出的請求是否符合快取資格。  
+預設情況下，這些請求會被排除，以防止快取使用者專屬的回應。
 
 ```ts
 withHttpTransferCacheOptions({
@@ -562,12 +562,12 @@ withHttpTransferCacheOptions({
 });
 ```
 
-Enable only when credentialed requests return responses that are safe to cache.
+只有當帶憑證的請求所傳回的回應可以安全快取時，才啟用此設定。
 
 ### `includeNonCacheableRequests`
 
-Determines whether requests and responses containing `Cache-Control` directives that forbid caching (`no-store`, `no-cache`, or `private`), responses with a `Set-Cookie` header, or requests using Fetch API `cache` options (`no-store` or `no-cache`), are eligible for caching.  
-By default, these are excluded to respect HTTP caching controls.
+決定包含禁止快取之 `Cache-Control` 指令（`no-store`、`no-cache` 或 `private`）的請求與回應、帶有 `Set-Cookie` 標頭的回應，或使用 Fetch API `cache` 選項（`no-store` 或 `no-cache`）的請求，是否符合快取資格。  
+預設情況下，這些會被排除，以尊重 HTTP 快取控制。
 
 ```ts
 withHttpTransferCacheOptions({
@@ -575,24 +575,24 @@ withHttpTransferCacheOptions({
 });
 ```
 
-Enable only when you need to bypass cache-control restrictions for transfer caching.
+只有當你需要繞過快取控制限制來進行傳輸快取時，才啟用此設定。
 
-### Per‑request overrides
+### 個別請求的覆寫
 
-You can override caching behavior for a specific request using the `transferCache` request option.
+你可以使用 `transferCache` 請求選項，為特定請求覆寫快取行為。
 
 ```ts
 // Include specific headers for this request
 http.get('/api/profile', {transferCache: {includeHeaders: ['CustomHeader']}});
 ```
 
-### Disabling caching
+### 停用快取
 
-You can disable HTTP caching of requests sent from the server either globally or individually.
+你可以全域或個別停用從伺服器送出之請求的 HTTP 快取。
 
-#### Globally
+#### 全域停用
 
-To disable caching for all requests in your application, use the `withNoHttpTransferCache` feature:
+若要停用應用程式中所有請求的快取，請使用 `withNoHttpTransferCache` 功能：
 
 ```ts
 import {
@@ -606,9 +606,9 @@ bootstrapApplication(App, {
 });
 ```
 
-#### Filtering
+#### 篩選
 
-You can also selectively disable caching for certain requests using the [`filter`](api/common/http/HttpTransferCacheOptions) option in `withHttpTransferCacheOptions`. For example, you can disable caching for a specific API endpoint:
+你也可以使用 `withHttpTransferCacheOptions` 中的 [`filter`](api/common/http/HttpTransferCacheOptions) 選項，選擇性地停用某些請求的快取。例如，你可以停用特定 API 端點的快取：
 
 ```ts
 import {
@@ -628,25 +628,25 @@ bootstrapApplication(App, {
 });
 ```
 
-Use this option to exclude endpoints with user‑specific or dynamic data (for example `/api/profile`).
+使用這個選項來排除帶有使用者專屬或動態資料的端點（例如 `/api/profile`）。
 
-#### Per-request
+#### 個別請求
 
-To disable caching for an individual request, you can specify the [`transferCache`](api/common/http/HttpRequest#transferCache) option in an `HttpRequest`.
+若要停用個別請求的快取，你可以在 `HttpRequest` 中指定 [`transferCache`](api/common/http/HttpRequest#transferCache) 選項。
 
 ```ts
 httpClient.get('/api/sensitive-data', {transferCache: false});
 ```
 
-`HttpTransferCache` does not cache requests or responses that explicitly opt out of caching. Angular skips transfer cache entries when a request includes a `Cache-Control` header with `no-store`, `no-cache`, or `private`, or when the request uses the Fetch API `cache` option set to `no-store` or `no-cache`. Responses with `Cache-Control: no-store`, `Cache-Control: no-cache`, or `Cache-Control: private` are also not stored in the transfer cache. Responses that include a `Set-Cookie` header are likewise not stored, as they typically carry user-specific state.
+`HttpTransferCache` 不會快取明確選擇退出快取的請求或回應。當請求包含值為 `no-store`、`no-cache` 或 `private` 的 `Cache-Control` 標頭，或請求使用設為 `no-store` 或 `no-cache` 的 Fetch API `cache` 選項時，Angular 會跳過傳輸快取項目。帶有 `Cache-Control: no-store`、`Cache-Control: no-cache` 或 `Cache-Control: private` 的回應也不會存入傳輸快取。包含 `Set-Cookie` 標頭的回應同樣不會被儲存，因為它們通常帶有使用者專屬的狀態。
 
-NOTE: If your application uses different HTTP origins to make API calls on the server and on the client, the `HTTP_TRANSFER_CACHE_ORIGIN_MAP` token allows you to establish a mapping between those origins, so that `HttpTransferCache` feature can recognize those requests as the same ones and reuse the data cached on the server during hydration on the client.
+NOTE: 如果你的應用程式在伺服器與用戶端使用不同的 HTTP 來源來呼叫 API，`HTTP_TRANSFER_CACHE_ORIGIN_MAP` token 讓你能在這些來源之間建立對應，使 `HttpTransferCache` 功能能將這些請求識別為相同的請求，並在用戶端水合期間重用伺服器上快取的資料。
 
-## Configuring a server
+## 設定伺服器
 
 ### Node.js
 
-The `@angular/ssr/node` extends `@angular/ssr` specifically for Node.js environments. It provides APIs that make it easier to implement server-side rendering within your Node.js application. For a complete list of functions and usage examples, refer to the [`@angular/ssr/node` API reference](api/ssr/node/AngularNodeAppEngine) API reference.
+`@angular/ssr/node` 是專為 Node.js 環境擴充 `@angular/ssr` 的套件。它提供的 API 讓你在 Node.js 應用程式中實作伺服器端渲染更容易。完整的函式清單與使用範例，請參閱 [`@angular/ssr/node` API 參考](api/ssr/node/AngularNodeAppEngine)。
 
 ```ts {header: "server.ts"}
 import {

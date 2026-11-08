@@ -1,110 +1,110 @@
-# Angular services
+# Angular 服務
 
-This tutorial lesson demonstrates how to create an Angular service and use dependency injection to include it in your app.
+本教學課程示範如何建立 Angular 服務，並使用依賴注入將它納入你的應用程式。
 
 <docs-video src="https://www.youtube.com/embed/-jRxG84AzCI?si=rieGfJawp9xJ00Sz"/>
 
-## What you'll learn
+## 你將學到什麼
 
-Your app has a service to serve the data to your app.
-At the end of this lesson, the service reads data from local, static data.
-In a later lesson, you'll update the service to get data from a web service.
+你的應用程式有一個服務，負責將資料提供給應用程式。
+在這一課結束時，服務會從本機的靜態資料讀取資料。
+在之後的課程中，你會更新這個服務，讓它從網路服務取得資料。
 
-## Conceptual preview of services
+## 服務概念預覽
 
-This tutorial introduces Angular services and dependency injection.
+本教學介紹 Angular 服務與依賴注入。
 
-### Angular services
+### Angular 服務
 
-_Angular services_ provide a way for you to separate Angular app data and functions that can be used by multiple components in your app.
-To be used by multiple components, a service must be made _injectable_.
-Services that are injectable and used by a component become dependencies of that component.
-The component depends on those services and can't function without them.
+_Angular 服務_提供了一種方式，讓你將應用程式的資料與功能分離出來，供應用程式中的多個元件使用。
+一個服務要能被多個元件使用，必須先做成可注入的（injectable）。
+可注入且被元件使用的服務，會成為該元件的相依性。
+元件依賴這些服務，沒有它們就無法運作。
 
-### Dependency injection
+### 依賴注入
 
-_Dependency injection_ is the mechanism that manages the dependencies of an app's components and the services that other components can use.
+_依賴注入_是管理應用程式元件相依性，以及其他元件可使用之服務的機制。
 
 <docs-workflow>
 
-<docs-step title="Create a new service for your app">
-This step creates an injectable service for your app.
+<docs-step title="為你的應用程式建立新服務">
+這個步驟會為你的應用程式建立一個可注入的服務。
 
-In the **Terminal** pane of your IDE:
+在 IDE 的 **Terminal** 窗格中：
 
-1. In your project directory, navigate to the `first-app` directory.
-1. In the `first-app` directory, run this command to create the new service.
+1. 在你的專案目錄中，進入 `first-app` 目錄。
+1. 在 `first-app` 目錄中，執行下列指令，建立新服務。
 
    ```shell
    ng generate service housing --skip-tests
    ```
 
-1. Run `ng serve` to build the app and serve it to `http://localhost:4200`.
-1. Confirm that the app builds without error.
-   Correct any errors before you continue to the next step.
+1. 執行 `ng serve`，建置應用程式並將它提供到 `http://localhost:4200`。
+1. 確認應用程式建置時沒有錯誤。
+   繼續下一步之前，請先修正任何錯誤。
    </docs-step>
 
-<docs-step title="Add static data to the new service">
-This step adds some sample data to your new service.
-In a later lesson, you'll replace the static data with a web interface to get data as you might in a real app.
-For now, your app's new service uses the data that has, so far, been created locally in `Home`.
+<docs-step title="將靜態資料加入新服務">
+這個步驟會為你的新服務加入一些範例資料。
+在之後的課程中，你會將靜態資料換成網路介面，像在真正的應用程式中一樣取得資料。
+目前，你的應用程式的新服務使用的是到目前為止在本機 `Home` 中建立的資料。
 
-In the **Edit** pane of your IDE:
+在 IDE 的 **Edit** 窗格中：
 
-1. In `src/app/home/home.ts`, from `Home`, copy the `baseUrl` variable and the `housingLocationList` variable with its array value.
-1. In `src/app/housing.service.ts`:
-   1. Inside the `HousingService` class, paste the variables that you copied from `Home` in the previous step.
-   1. Inside the `HousingService` class, paste these functions after the data you just copied.
-      These functions allow dependencies to access the service's data.
+1. 在 `src/app/home/home.ts` 中，從 `Home` 複製 `baseUrl` 變數與 `housingLocationList` 變數及其陣列值。
+1. 在 `src/app/housing.service.ts` 中：
+   1. 在 `HousingService` 類別內，貼上你在上一個步驟中從 `Home` 複製的變數。
+   1. 在 `HousingService` 類別內，將這些函式貼在你剛複製的資料之後。
+      這些函式讓相依者能存取服務的資料。
 
-      <docs-code header="Service functions in src/app/housing.service.ts" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/housing.service.ts" visibleLines="[110,116]"/>
+      <docs-code header="src/app/housing.service.ts 中的服務函式" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/housing.service.ts" visibleLines="[110,116]"/>
 
-      You will need these functions in a future lesson. For now, it is enough to understand that these functions return either a specific `HousingLocation` by id or the entire list.
+      之後的課程會用到這些函式。目前只要理解這些函式會依 id 回傳特定的 `HousingLocation`，或回傳整份清單即可。
 
-   1. Add a file level import for the `HousingLocation`.
+   1. 為 `HousingLocation` 加入檔案層級的匯入。
 
-      <docs-code header="Import HousingLocation type in  src/app/housing.service.ts" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/housing.service.ts" visibleLines="[2]"/>
+      <docs-code header="在 src/app/housing.service.ts 中匯入 HousingLocation 型別" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/housing.service.ts" visibleLines="[2]"/>
 
-1. Confirm that the app builds without error.
-   Correct any errors before you continue to the next step.
+1. 確認應用程式建置時沒有錯誤。
+   繼續下一步之前，請先修正任何錯誤。
    </docs-step>
 
-<docs-step title="Inject the new service into `Home`">
-This step injects the new service into your app's `Home` so that it can read the app's data from a service.
-In a later lesson, you'll replace the static data with a live data source to get data as you might in a real app.
+<docs-step title="將新服務注入 `Home`">
+這個步驟會將新服務注入應用程式的 `Home`，讓它能從服務讀取應用程式的資料。
+在之後的課程中，你會將靜態資料換成即時資料來源，像在真正的應用程式中一樣取得資料。
 
-In the **Edit** pane of your IDE, in `src/app/home/home.ts`:
+在 IDE 的 **Edit** 窗格中，在 `src/app/home/home.ts` 裡：
 
-1.  At the top of `src/app/home/home.ts`, add the `inject` to the items imported from `@angular/core`. This will import the `inject` function into the `Home` class.
+1.  在 `src/app/home/home.ts` 頂部，將 `inject` 加入從 `@angular/core` 匯入的項目中。這會將 `inject` 函式匯入 `Home` 類別。
 
-      <docs-code language="angular-ts" header="Update to src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/home/home.ts" visibleLines="[1]"/>
+      <docs-code language="angular-ts" header="更新 src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/home/home.ts" visibleLines="[1]"/>
 
-1.  Add a new file level import for the `HousingService`:
+1.  為 `HousingService` 加入新的檔案層級匯入：
 
-      <docs-code language="angular-ts" header="Add import to src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/home/home.ts" visibleLines="[4]"/>
+      <docs-code language="angular-ts" header="在 src/app/home/home.ts 中加入匯入" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/home/home.ts" visibleLines="[4]"/>
 
-1.  From `Home`, delete the `baseUrl` variable, delete the `housingLocationList` array entries and assign `housingLocationList` the value of empty array (`[]`). In a few steps you will update the code to pull the data from the `HousingService`.
+1.  從 `Home` 中刪除 `baseUrl` 變數，刪除 `housingLocationList` 陣列的項目，並將 `housingLocationList` 指派為空陣列（`[]`）。再過幾個步驟，你會更新程式碼，讓它從 `HousingService` 拉取資料。
 
-1.  In `Home`, add the following code to inject the new service and initialize the data for the app. The `constructor` is the first function that runs when this component is created. The code in the `constructor` will assign the `housingLocationList` the value returned from the call to `getAllHousingLocations`.
+1.  在 `Home` 中，加入下列程式碼，注入新服務並為應用程式初始化資料。`constructor` 是這個元件建立時第一個執行的函式。`constructor` 中的程式碼會將 `housingLocationList` 指派為呼叫 `getAllHousingLocations` 所回傳的值。
 
-      <docs-code language="angular-ts" header="Initialize data from service in src/app/home/home.ts" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/home/home.ts" visibleLines="[23,30]"/>
+      <docs-code language="angular-ts" header="在 src/app/home/home.ts 中從服務初始化資料" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/home/home.ts" visibleLines="[23,30]"/>
 
-1.  Save the changes to `src/app/home/home.ts` and confirm your app builds without error.
-    Correct any errors before you continue to the next step.
+1.  儲存對 `src/app/home/home.ts` 的變更，確認你的應用程式建置時沒有錯誤。
+    繼續下一步之前，請先修正任何錯誤。
     </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you added an Angular service to your app and injected it into the `Home` class.
-This compartmentalizes how your app gets its data.
-For now, the new service gets its data from a static array of data.
-In a later lesson, you'll refactor the service to get its data from an API endpoint.
+SUMMARY: 在這一課中，你為應用程式加入了一個 Angular 服務，並將它注入 `Home` 類別。
+這讓應用程式取得資料的方式有了清楚的區隔。
+目前，新服務是從靜態資料陣列取得資料。
+在之後的課程中，你會重構這個服務，讓它從 API 端點取得資料。
 
-For more information about the topics covered in this lesson, visit:
+如需本課所涵蓋主題的更多資訊，請造訪：
 
 <docs-pill-row>
-  <docs-pill href="guide/di/creating-and-using-services" title="Creating an injectable service"/>
-  <docs-pill href="guide/di" title="Dependency injection in Angular"/>
+  <docs-pill href="guide/di/creating-and-using-services" title="建立可注入的服務"/>
+  <docs-pill href="guide/di" title="Angular 中的依賴注入"/>
   <docs-pill href="cli/generate/service" title="ng generate service"/>
   <docs-pill href="cli/generate" title="ng generate"/>
 </docs-pill-row>

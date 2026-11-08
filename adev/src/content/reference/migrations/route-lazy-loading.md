@@ -1,35 +1,35 @@
-# Migration to lazy-loaded routes
+# 遷移到延遲載入路由
 
-This schematic helps developers to convert eagerly loaded component routes to lazy loaded routes. This allows the build process to split the production bundle into smaller chunks, to avoid a big JS bundle that includes all routes, which negatively affects initial page load of an application.
+此原理圖能協助開發者把急切載入的元件路由，轉換為延遲載入路由。這能讓建置流程把正式環境的 bundle 拆成更小的區塊，避免產生一個包含所有路由的龐大 JS bundle，對應用程式的頁面初次載入造成負面影響。
 
-Run the schematic using the following command:
+使用以下指令執行此原理圖：
 
 ```shell
 ng generate @angular/core:route-lazy-loading
 ```
 
-### `path` config option
+### `path` 設定選項
 
-By default, migration will go over the entire application. If you want to apply this migration to a subset of the files, you can pass the path argument as shown below:
+依預設，遷移會遍歷整個應用程式。如果你想把這項遷移套用到一部分檔案，可以如下所示傳入 path 引數：
 
 ```shell
 ng generate @angular/core:route-lazy-loading --path src/app/sub-component
 ```
 
-The value of the path parameter is a relative path within the project.
+path 參數的值是專案內的相對路徑。
 
-### How does it work?
+### 運作方式
 
-The schematic will attempt to find all the places where the application routes as defined:
+此原理圖會嘗試找出應用程式路由定義的所有位置：
 
 - `RouterModule.forRoot` and `RouterModule.forChild`
 - `Router.resetConfig`
 - `provideRouter`
 - variables of type `Routes` or `Route[]` (e.g. `const routes: Routes = [{...}]`)
 
-The migration will check all the components in the routes, check if they are standalone and eagerly loaded, and if so, it will convert them to lazy loaded routes.
+遷移會檢查路由中的所有元件，確認它們是否為獨立元件且被急切載入；如果是，就會把它們轉換為延遲載入路由。
 
-#### Before
+#### 遷移前
 
 ```typescript {header: "app.module.ts"}
 import {NgModule} from '@angular/core';
@@ -50,7 +50,7 @@ import {Home} from './home';
 export class AppModule {}
 ```
 
-#### After
+#### 遷移後
 
 ```typescript {header: "app.module.ts"}
 @NgModule({
@@ -67,4 +67,4 @@ export class AppModule {}
 export class AppModule {}
 ```
 
-This migration will also collect information about all the components declared in NgModules and output the list of routes that use them (including corresponding location of the file). Consider making those components standalone and run this migration again. You can use an existing migration ([see](reference/migrations/standalone)) to convert those components to standalone.
+這項遷移還會收集在 NgModules 中宣告的所有元件的資訊，並輸出使用它們的路由清單（包括檔案的對應位置）。你可以考慮把這些元件改為獨立元件，然後再執行一次這項遷移。你可以使用既有的遷移（[請見](reference/migrations/standalone)）把這些元件轉換為獨立元件。

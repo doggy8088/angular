@@ -1,25 +1,23 @@
-# Migration to output function
+# 遷移到 output 函式
 
-Angular introduced an improved API for outputs in v17.3 that is considered
-production ready as of v19. This API mimics the `input()` API but is not based on Signals.
-Read more about custom events output function and its benefits in the [dedicated guide](guide/components/outputs).
+Angular 在 v17.3 引入了改進的 outputs API，並自 v19 起視為已可正式使用。這個 API 仿效 `input()` API，但不是以訊號為基礎。
+關於自訂事件的 output 函式及其優點，詳情請見[專門的指南](guide/components/outputs)。
 
-To support existing projects that would like to use output function, the Angular team
-provides an automated migration that converts `@Output` custom events to the new `output()` API.
+為了支援想使用 output 函式的既有專案，Angular 團隊提供了一項自動化遷移，能把 `@Output` 自訂事件轉換為新的 `output()` API。
 
-Run the schematic using the following command:
+使用以下指令執行此原理圖：
 
 ```bash
 ng generate @angular/core:output-migration
 ```
 
-## What does the migration change?
+## 遷移會更動什麼？
 
-1. `@Output()` class members are updated to their `output()` equivalent.
-2. Imports in the file of components or directives, at TypeScript module level, are updated as well.
-3. Migrates API calls like `event.next()`, whose use is not recommended, to `event.emit()` and removes `event.complete()` calls.
+1. `@Output()` 類別成員會更新為對應的 `output()` 形式。
+2. 元件或指令所在檔案中，TypeScript 模組層級的 imports 也會一併更新。
+3. 把像 `event.next()` 這類不建議使用的 API 呼叫遷移為 `event.emit()`，並移除 `event.complete()` 呼叫。
 
-**Before**
+**遷移前**
 
 ```typescript
 import {Component, Output, EventEmitter} from '@angular/core';
@@ -36,7 +34,7 @@ export class MyComponent {
 }
 ```
 
-**After**
+**遷移後**
 
 ```typescript
 import {Component, output} from '@angular/core';
@@ -53,35 +51,33 @@ export class MyComponent {
 }
 ```
 
-## Configuration options
+## 設定選項
 
-The migration supports a few options for fine tuning the migration to your specific needs.
+這項遷移支援幾個選項，可依你的具體需求微調遷移方式。
 
 ### `--path`
 
-If not specified, the migration will ask you for a path and update your whole Angular CLI workspace.
-You can limit the migration to a specific sub-directory using this option.
+如果沒有指定，遷移會向你詢問路徑，並更新你整個 Angular CLI 工作區。
+你可以使用這個選項，把遷移限制在特定的子目錄。
 
 ### `--analysis-dir`
 
-In large projects you may use this option to reduce the amount of files being analyzed.
-By default, the migration analyzes the whole workspace, regardless of the `--path` option, in
-order to update all references affected by an `@Output()` migration.
+在大型專案中，你可以使用這個選項來減少被分析的檔案數量。
+依預設，無論 `--path` 選項為何，遷移都會分析整個工作區，以便更新所有受 `@Output()` 遷移影響的參照。
 
-With this option, you can limit analysis to a sub-folder. Note that this means that any
-references outside this directory are silently skipped, potentially breaking your build.
+使用這個選項，可以把分析限制在某個子資料夾。請注意，這表示該目錄之外的任何參照都會被默默略過，可能會破壞你的建置。
 
-Use these options as shown below:
+如下所示使用這些選項：
 
 ```bash
 ng generate @angular/core:output-migration --path src/app/sub-folder
 ```
 
-## Exceptions
+## 例外情況
 
-In some cases, the migration will not touch the code.
-One of these exceptions is the case where the event is used with a `pipe()` method outside a test file.
-The following code won't be migrated:
+在某些情況下，遷移不會更動程式碼。
+其中一個例外是：在測試檔案之外，事件搭配 `pipe()` 方法使用的情況。
+以下程式碼不會被遷移：
 
 ```typescript
 export class MyDialogComponent {
@@ -95,6 +91,6 @@ export class MyDialogComponent {
 }
 ```
 
-In a test file the migration rewrites the usage instead of skipping the output, so `this.close.pipe(…)` becomes `outputToObservable(this.close).pipe(…)`.
+在測試檔案中，遷移會改寫其用法，而不是略過該 output，因此 `this.close.pipe(…)` 會變成 `outputToObservable(this.close).pipe(…)`。
 
-NOTE: The migration recognizes a test file by looking for an import whose path contains `jasmine` or `catalyst`. It does not recognize a file that only imports Jest or Vitest, so it skips the output there instead of rewriting it.
+NOTE: 遷移判斷測試檔案的方式，是尋找路徑中含有 `jasmine` 或 `catalyst` 的 import。它無法辨識只匯入 Jest 或 Vitest 的檔案，因此在那種情況下會略過該 output，而不是改寫它。
