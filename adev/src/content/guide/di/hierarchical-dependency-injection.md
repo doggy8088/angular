@@ -740,18 +740,18 @@ Emoji from AnimalService: 🐶
 </app-root>
 ```
 
-The projected `<app-inspector>` gets <code>🐳</code> because <code>🐶</code> belongs to `Child`'s view and projected content can't reach it.
-<code>🐳</code> is accessible because `<app-inspector>` was declared in `App`'s template, so it can still walk up to the root `AnimalService`.
+被投影的 `<app-inspector>` 取得 <code>🐳</code>，因為 <code>🐶</code> 屬於 `Child` 的檢視，投影進來的內容觸及不到它。
+<code>🐳</code> 可以被存取，是因為 `<app-inspector>` 是在 `App` 的範本中宣告的，因此它仍然可以沿著樹往上走到根層級的 `AnimalService`。
 
-The `<app-inspector>` that lives directly inside `Child`'s template (not projected) gets <code>🐶</code> — it's inside the `<#VIEW>`, so no boundary to cross.
+直接位於 `Child` 範本內（不是被投影）的 `<app-inspector>` 取得 <code>🐶</code>，因為它在 `<#VIEW>` 內，沒有邊界需要跨越。
 
-### Giving projected content access to a view injector
+### 讓投影進來的內容存取檢視注入器
 
-Content projected with `<ng-content>` can't see a component's `viewProviders`, because Angular resolves injection against the injector where the content is declared, not where it renders.
+以 `<ng-content>` 投影進來的內容看不到元件的 `viewProviders`，因為 Angular 是對照內容被宣告位置的注入器來解析注入，而不是它算繪的位置。
 
-When you specifically want projected content to reach a view-level service — or the projecting component instance itself — accept the content as a template instead of `<ng-content>` and render it with an explicit injector.
+當你特別想讓投影進來的內容觸及檢視層級的服務（或投影元件實例本身）時，把內容作為範本接受，而不是用 `<ng-content>`，並以明確的注入器來算繪它。
 
-Update `Child` to provide `AnimalService` in `viewProviders`, query the projected template, and render it through [`NgTemplateOutlet`](/api/common/NgTemplateOutlet) with `ngTemplateOutletInjector` set to an injector that can see that service:
+更新 `Child`，在 `viewProviders` 中提供 `AnimalService`，查詢被投影的範本，並透過 [`NgTemplateOutlet`](/api/common/NgTemplateOutlet) 算繪它，把 `ngTemplateOutletInjector` 設為一個看得到該服務的注入器：
 
 ```ts
 @Component({
@@ -768,7 +768,7 @@ export class Child {
 }
 ```
 
-The consumer wraps the projected markup in an `<ng-template>`:
+使用者把被投影的標記包在 `<ng-template>` 中：
 
 ```html
 <app-child>
@@ -778,30 +778,30 @@ The consumer wraps the projected markup in an `<ng-template>`:
 </app-child>
 ```
 
-`Child` now creates `<app-inspector>` at the outlet using its own injector, so `AnimalService` resolves to the dog <code>🐶</code> even though the markup is written in `App`'s template. The cost is a little extra markup on both sides compared with `<ng-content>`.
+`Child` 現在用自己的注入器在出口處建立 `<app-inspector>`，因此即使標記寫在 `App` 的範本中，`AnimalService` 也會解析為狗 <code>🐶</code>。代價是與 `<ng-content>` 相比，兩邊都要多寫一點標記。
 
-### Visibility of provided tokens
+### 被提供 token 的可見性
 
-Visibility decorators influence where the search for the injection token begins and ends in the logic tree.
-To do this, place visibility configuration at the point of injection, that is, when invoking `inject()`, rather than at a point of declaration.
+可見性裝飾器影響在邏輯樹中搜尋注入 token 的起點和終點。
+若要做到這一點，把可見性設定放在注入點，也就是叫用 `inject()` 時，而不是宣告點。
 
-To alter where the injector starts looking for `FlowerService`, add `skipSelf` to the `<app-child>` `inject()` invocation where `FlowerService` is injected.
-This invocation is a property initializer in `<app-child>` as shown in `child.ts`:
+若要改變注入器開始尋找 `FlowerService` 的位置，在 `<app-child>` 注入 `FlowerService` 的 `inject()` 叫用中加入 `skipSelf`。
+這個叫用是 `<app-child>` 中的一個屬性初始化器，如 `child.ts` 所示：
 
 ```typescript
 flower = inject(FlowerService, {skipSelf: true});
 ```
 
-With `skipSelf`, the `<app-child>` injector doesn't look to itself for the `FlowerService`.
-Instead, the injector starts looking for the `FlowerService` at the `ElementInjector` of the `<app-root>`, where it finds nothing.
-Then, it goes back to the `<app-child>` `ModuleInjector` and finds the red hibiscus <code>🌺</code> value, which is available because `<app-child>` and `<app-root>` share the same `ModuleInjector`.
-The UI renders the following:
+有了 `skipSelf`，`<app-child>` 注入器不會向自己尋找 `FlowerService`。
+相反地，注入器從 `<app-root>` 的 `ElementInjector` 開始尋找 `FlowerService`，但在那裡什麼也找不到。
+接著，它回到 `<app-child>` 的 `ModuleInjector`，找到紅色扶桑花 <code>🌺</code> 的值，它之所以可用，是因為 `<app-child>` 和 `<app-root>` 共用同一個 `ModuleInjector`。
+UI 算繪出以下內容：
 
 ```text {hideCopy}
 Emoji from FlowerService: 🌺
 ```
 
-In a logical tree, this same idea might look like this:
+在邏輯樹中，同樣的概念可能像這樣：
 
 ```html
 <app-root @ApplicationConfig
@@ -819,11 +819,11 @@ In a logical tree, this same idea might look like this:
 </app-root>
 ```
 
-Though `<app-child>` provides the sunflower <code>🌻</code>, the application renders the red hibiscus <code>🌺</code> because `skipSelf` causes the current injector (`app-child`) to skip itself and look to its parent.
+儘管 `<app-child>` 提供了向日葵 <code>🌻</code>，應用程式卻算繪出紅色扶桑花 <code>🌺</code>，因為 `skipSelf` 使目前的注入器（`app-child`）跳過自己、看向它的父層。
 
-If you now add `host` (in addition to the `skipSelf`), the result will be `null`.
-This is because `host` limits the upper bound of the search to the `app-child` `<#VIEW>`.
-Here's the idea in the logical tree:
+如果你現在再加上 `host`（除了 `skipSelf` 之外），結果會是 `null`。
+這是因為 `host` 把搜尋的上限限制在 `app-child` 的 `<#VIEW>`。
+邏輯樹中的概念如下：
 
 ```html
 <app-root @ApplicationConfig
@@ -838,15 +838,15 @@ Here's the idea in the logical tree:
 </app-root>
 ```
 
-Here, the services and their values are the same, but `host` stops the injector from looking any further than the `<#VIEW>` for `FlowerService`, so it doesn't find it and returns `null`.
+在這裡，服務和它們的值都相同，但 `host` 阻止注入器在 `<#VIEW>` 之外繼續尋找 `FlowerService`，因此它找不到該服務並傳回 `null`。
 
-### `skipSelf` and `viewProviders`
+### `skipSelf` 與 `viewProviders`
 
-Remember, `<app-child>` provides the `AnimalService` in the `viewProviders` array with the value of dog <code>🐶</code>.
-Because the injector has only to look at the `ElementInjector` of the `<app-child>` for the `AnimalService`, it never sees the whale <code>🐳</code>.
+記住，`<app-child>` 在 `viewProviders` 陣列中提供了 `AnimalService`，其值為狗 <code>🐶</code>。
+因為注入器只需要查看 `<app-child>` 的 `ElementInjector` 就能找到 `AnimalService`，它永遠不會看到鯨魚 <code>🐳</code>。
 
-As in the `FlowerService` example, if you add `skipSelf` to the `inject()` of `AnimalService`, the injector won't look in the `ElementInjector` of the current `<app-child>` for the `AnimalService`.
-Instead, the injector will begin at the `<app-root>` `ElementInjector`.
+如同 `FlowerService` 範例，如果你把 `skipSelf` 加入 `AnimalService` 的 `inject()`，注入器就不會在目前 `<app-child>` 的 `ElementInjector` 中尋找 `AnimalService`。
+相反地，注入器會從 `<app-root>` 的 `ElementInjector` 開始。
 
 ```typescript
 @Component({
@@ -858,7 +858,7 @@ Instead, the injector will begin at the `<app-root>` `ElementInjector`.
 })
 ```
 
-The logical tree looks like this with `skipSelf` in `<app-child>`:
+在 `<app-child>` 中有 `skipSelf` 時，邏輯樹看起來像這樣：
 
 ```html
 <app-root @ApplicationConfig
@@ -877,13 +877,13 @@ The logical tree looks like this with `skipSelf` in `<app-child>`:
 </app-root>
 ```
 
-With `skipSelf` in the `<app-child>`, the injector begins its search for the `AnimalService` in the `<app-root>` `ElementInjector` and finds whale 🐳.
+在 `<app-child>` 中有 `skipSelf` 時，注入器從 `<app-root>` 的 `ElementInjector` 開始搜尋 `AnimalService`，並找到鯨魚 🐳。
 
-### `host` and `viewProviders`
+### `host` 與 `viewProviders`
 
-If you just use `host` for the injection of `AnimalService`, the result is dog <code>🐶</code> because the injector finds the `AnimalService` in the `<app-child>` `<#VIEW>` itself.
-The `Child` configures the `viewProviders` so that the dog emoji is provided as `AnimalService` value.
-You can also see `host` the `inject()`:
+如果你只對 `AnimalService` 的注入使用 `host`，結果會是狗 <code>🐶</code>，因為注入器在 `<app-child>` 的 `<#VIEW>` 本身就找到了 `AnimalService`。
+`Child` 設定了 `viewProviders`，使狗 emoji 被提供為 `AnimalService` 的值。
+你也可以在 `inject()` 中看到 `host`：
 
 ```typescript
 @Component({
@@ -898,7 +898,7 @@ export class Child {
 }
 ```
 
-`host: true` causes the injector to look until it encounters the edge of the `<#VIEW>`.
+`host: true` 使注入器一直找到 `<#VIEW>` 的邊界為止。
 
 ```html
 <app-root @ApplicationConfig
@@ -914,7 +914,7 @@ export class Child {
 </app-root>
 ```
 
-Add a `viewProviders` array with a third animal, hedgehog <code>🦔</code>, to the `app.ts` `@Component()` metadata:
+在 `app.ts` 的 `@Component()` 詮釋資料中，加入一個帶有第三種動物，刺蝟 <code>🦔</code> 的 `viewProviders` 陣列：
 
 ```typescript
 @Component({

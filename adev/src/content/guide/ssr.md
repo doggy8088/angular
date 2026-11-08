@@ -85,7 +85,7 @@ const serverConfig: ApplicationConfig = {
 
 伺服器路由設定讓你可以透過設定 [`RenderMode`](api/ssr/RenderMode 'API reference')，來指定應用程式中每條路由應該如何渲染：
 
-| Rendering mode      | Description                                                                                                 |
+| Rendering mode      | 說明                                                                                                 |
 | ------------------- | ----------------------------------------------------------------------------------------------------------- |
 | **Server (SSR)**    | 針對每個請求在伺服器上渲染應用程式，並將內容完整的 HTML 頁面傳送給瀏覽器。 |
 | **Client (CSR)**    | 在瀏覽器中渲染應用程式。這是 Angular 的預設行為。                               |

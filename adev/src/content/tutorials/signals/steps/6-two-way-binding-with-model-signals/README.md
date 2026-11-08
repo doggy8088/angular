@@ -1,15 +1,15 @@
-# Two-way binding with model signals
+# 使用 model 訊號進行雙向繫結
 
-Now that you've learned [passing data to components with input signals](/tutorials/signals/5-component-communication-with-signals), let's explore Angular's `model()` API for two-way binding. Model signals are perfect for UI components like checkboxes, sliders, or custom form controls where the component needs to both receive a value AND update it.
+既然你已學會[使用輸入訊號將資料傳遞給元件](/tutorials/signals/5-component-communication-with-signals)，接著來探索 Angular 用於雙向繫結的 `model()` API。model 訊號非常適合核取方塊、滑桿或自訂表單控制項等 UI 元件，這類元件需要同時接收一個值，也需要更新它。
 
-In this activity, you'll create a custom checkbox component that manages its own state while keeping the parent synchronized.
+在本活動中，你將建立一個自訂核取方塊元件，它管理自己的狀態，同時與父元件保持同步。
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Set up the custom checkbox with model signal">
-Create a model signal in the `custom-checkbox` component that can both receive and update the parent's value.
+<docs-step title="使用 model 訊號設定自訂核取方塊">
+在 `custom-checkbox` 元件中建立一個 model 訊號，它既能接收，也能更新父元件的值。
 
 ```ts
 // Add imports for model signals
@@ -22,11 +22,11 @@ checked = model.required<boolean>();
 label = input<string>('');
 ```
 
-Unlike `input()` signals which are read-only, `model()` signals can be both read and written to.
+與唯讀的 `input()` 訊號不同，`model()` 訊號既可讀取，也可寫入。
 </docs-step>
 
-<docs-step title="Create the checkbox template">
-Build the checkbox template that responds to clicks and updates its own model.
+<docs-step title="建立核取方塊範本">
+建置會回應點選，並更新自身 model 的核取方塊範本。
 
 ```html
 <label class="custom-checkbox">
@@ -36,11 +36,11 @@ Build the checkbox template that responds to clicks and updates its own model.
 </label>
 ```
 
-The component reads from its model signal and has a method to update it.
+元件會讀取它的 model 訊號，並有一個方法來更新它。
 </docs-step>
 
-<docs-step title="Add the toggle method">
-Implement the toggle method that updates the model signal when the checkbox is clicked.
+<docs-step title="加入 toggle 方法">
+實作 toggle 方法，在核取方塊被點選時更新 model 訊號。
 
 ```ts
 toggle() {
@@ -49,11 +49,11 @@ toggle() {
 }
 ```
 
-When the child component calls `this.checked.set()`, it automatically propagates the change back to the parent. This is the key difference from `input()` signals.
+當子元件呼叫 `this.checked.set()` 時，變更會自動傳播回父元件。這就是與 `input()` 訊號的關鍵差異。
 </docs-step>
 
-<docs-step title="Set up two-way binding in the parent">
-First, uncomment the model signal properties and methods in `app.ts`:
+<docs-step title="在父元件中設定雙向繫結">
+首先，取消 `app.ts` 中 model 訊號屬性與方法的註解：
 
 ```ts
 // Parent signal models
@@ -71,14 +71,14 @@ resetAll() {
 }
 ```
 
-Then update the template:
+接著更新範本：
 
-Part 1. **Uncomment the checkboxes and add two-way binding:**
+第 1 部分：**取消核取方塊的註解並加入雙向繫結**
 
-- Replace `___ADD_TWO_WAY_BINDING___` with `[(checked)]="agreedToTerms"` for the first checkbox
-- Replace `___ADD_TWO_WAY_BINDING___` with `[(checked)]="enableNotifications"` for the second
+- 將第一個核取方塊的 `___ADD_TWO_WAY_BINDING___` 換成 `[(checked)]="agreedToTerms"`
+- 將第二個核取方塊的 `___ADD_TWO_WAY_BINDING___` 換成 `[(checked)]="enableNotifications"`
 
-Part 2. **Replace the `???` placeholders with @if blocks:**
+第 2 部分：**將 `???` 預留位置換成 @if 區塊**
 
 ```angular-html
 @if (agreedToTerms()) {
@@ -94,38 +94,38 @@ Part 2. **Replace the `???` placeholders with @if blocks:**
 }
 ```
 
-Part 3. **Add click handlers to the buttons:**
+第 3 部分：**為按鈕加入點選處理常式**
 
 ```html
 <button (click)="toggleTermsFromParent()">Toggle Terms from Parent</button>
 <button (click)="resetAll()">Reset All</button>
 ```
 
-The `[(checked)]` syntax creates two-way binding - data flows down to the component AND changes flow back up to the parent by emitting an event that references the signal itself and does _not_ call the signal getter directly.
+`[(checked)]` 語法會建立雙向繫結：資料向下流入元件，變更也向上流回父元件，其機制是發出一個引用訊號本身的事件，而不是直接呼叫訊號的 getter。
 </docs-step>
 
-<docs-step title="Test the two-way binding">
-Interact with your app to see two-way binding in action:
+<docs-step title="測試雙向繫結">
+與你的應用程式互動，看看雙向繫結的實際運作：
 
-1. **Click checkboxes** - Component updates its own state and notifies parent
-2. **Click "Toggle Terms from Parent"** - Parent updates propagate down to component
-3. **Click "Reset All"** - Parent resets both models and components update automatically
+1. **點選核取方塊**：元件更新自己的狀態並通知父元件
+2. **點選 "Toggle Terms from Parent"**：父元件的更新向下傳播到元件
+3. **點選 "Reset All"**：父元件重設兩個 model，元件自動更新
 
-Both the parent and child can update the shared state, and both stay in sync automatically!
+父元件與子元件都能更新共享的狀態，而且兩者會自動保持同步！
 </docs-step>
 
 </docs-workflow>
 
-Perfect! You've learned how model signals enable two-way binding:
+太完美了！你已學會 model 訊號如何實現雙向繫結：
 
-- **Model signals** - Use `model()` and `model.required()` for values that can be both read and written
-- **Two-way binding** - Use `[(property)]` syntax to bind parent signals to child models
-- **Perfect for UI components** - Checkboxes, form controls, and widgets that need to manage their own state
-- **Automatic synchronization** - Parent and child stay in sync without manual event handling
+- **model 訊號**：使用 `model()` 與 `model.required()` 處理既可讀取也可寫入的值
+- **雙向繫結**：使用 `[(property)]` 語法將父元件訊號繫結到子元件的 model
+- **非常適合 UI 元件**：核取方塊、表單控制項，以及需要管理自身狀態的小工具
+- **自動同步**：父元件與子元件保持同步，無需手動處理事件
 
-**When to use `model()` vs `input()`:**
+**何時使用 `model()`、何時使用 `input()`**
 
-- Use `input()` for data that only flows down (display data, configuration)
-- Use `model()` for UI components that need to update their own value (form controls, toggles)
+- 資料只向下流動（顯示資料、設定）時，使用 `input()`
+- UI 元件需要更新自己的值（表單控制項、切換開關）時，使用 `model()`
 
-In the next lesson, you'll learn about [using signals with services](/tutorials/signals/7-using-signals-with-services)!
+在下一課中，你將學到[搭配服務使用訊號](/tutorials/signals/7-using-signals-with-services)！
