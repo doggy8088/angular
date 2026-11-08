@@ -1,32 +1,32 @@
-# Server and hybrid rendering
+# 伺服器端與混合渲染
 
-Angular ships all applications as client-side rendered (CSR) by default. While this approach delivers an initial payload that's lightweight, it introduces trade-offs including slower load times, degraded performance metrics, and higher resource demands since the user's device performs most of the computations. As a result, many applications achieve significant performance improvements by integrating server-side rendering (SSR) into a hybrid rendering strategy.
+Angular 預設將所有應用程式以用戶端渲染（CSR）的方式交付。雖然這種做法的初始負載較輕量，但它帶來一些取捨，包括載入時間較慢、效能指標較差，以及資源需求較高，因為大部分運算都由使用者的裝置執行。因此，許多應用程式透過將伺服器端渲染（SSR）納入混合渲染策略，獲得了顯著的效能提升。
 
-## What is hybrid rendering?
+## 什麼是混合渲染？
 
-Hybrid rendering allows developers to leverage the benefits of server-side rendering (SSR), pre-rendering (also known as "static site generation" or SSG) and client-side rendering (CSR) to optimize your Angular application. It gives you fine-grained control over how the different parts of your app are rendered to give your users the best experience possible.
+混合渲染讓開發者能善用伺服器端渲染（SSR）、預先渲染（也稱為「靜態網站生成」或 SSG）與用戶端渲染（CSR）的優點，來最佳化你的 Angular 應用程式。它讓你能細緻地控制應用程式不同部分的渲染方式，為使用者提供最佳體驗。
 
-## Setting up hybrid rendering
+## 設定混合渲染
 
-You can create a **new** project with hybrid rendering by using the server-side rendering flag (i.e., `--ssr`) with the Angular CLI `ng new` command:
+你可以在使用 Angular CLI 的 `ng new` 指令時加上伺服器端渲染旗標（即 `--ssr`），來建立一個採用混合渲染的**新**專案：
 
 ```shell
 ng new --ssr
 ```
 
-You can also enable hybrid rendering by adding server-side rendering to an existing project with the `ng add` command:
+你也可以用 `ng add` 指令為既有專案加入伺服器端渲染，來啟用混合渲染：
 
 ```shell
 ng add @angular/ssr
 ```
 
-NOTE: By default, Angular prerenders your entire application and generates a server file. To disable this and create a fully static app, set `outputMode` to `static`. To enable SSR, update the server routes to use `RenderMode.Server`. For more details, see [`Server routing`](#server-routing) and [`Generate a fully static application`](#generate-a-fully-static-application).
+NOTE: 預設情況下，Angular 會預先渲染你的整個應用程式，並產生一個伺服器檔案。若要停用此行為並建立完全靜態的應用程式，請將 `outputMode` 設為 `static`。若要啟用 SSR，請更新伺服器路由以使用 `RenderMode.Server`。詳情請參閱 [`Server routing`](#server-routing) 與 [`Generate a fully static application`](#generate-a-fully-static-application)。
 
-## Server routing
+## 伺服器路由
 
-### Configuring server routes
+### 設定伺服器路由
 
-You can create a server route config by declaring an array of [`ServerRoute`](api/ssr/ServerRoute 'API reference') objects. This configuration typically lives in a file named `app.routes.server.ts`.
+你可以宣告一個由 [`ServerRoute`](api/ssr/ServerRoute 'API reference') 物件組成的陣列，來建立伺服器路由設定。這個設定通常放在名為 `app.routes.server.ts` 的檔案中。
 
 ```typescript {header: "app.routes.server.ts"}
 import {RenderMode, ServerRoute} from '@angular/ssr';
@@ -51,7 +51,7 @@ export const serverRoutes: ServerRoute[] = [
 ];
 ```
 
-You can add this config to your application with [`provideServerRendering`](api/ssr/provideServerRendering 'API reference') using the [`withRoutes`](api/ssr/withRoutes 'API reference') function:
+你可以使用 [`withRoutes`](api/ssr/withRoutes 'API reference') 函式，透過 [`provideServerRendering`](api/ssr/provideServerRendering 'API reference') 將這個設定加入你的應用程式：
 
 ```typescript {header: "app.config.server.ts"}
 import {provideServerRendering, withRoutes} from '@angular/ssr';
@@ -66,7 +66,7 @@ const serverConfig: ApplicationConfig = {
 };
 ```
 
-When using the [App shell pattern](ecosystem/service-workers/app-shell), you must specify the component to be used as the app shell for client-side rendered routes. To do this, use the [`withAppShell`](api/ssr/withAppShell 'API reference') feature:
+使用 [App shell 模式](ecosystem/service-workers/app-shell)時，你必須指定用來作為用戶端渲染路由 app shell 的元件。要做到這一點，請使用 [`withAppShell`](api/ssr/withAppShell 'API reference') 功能：
 
 ```typescript
 import {provideServerRendering, withRoutes, withAppShell} from '@angular/ssr';
@@ -81,19 +81,19 @@ const serverConfig: ApplicationConfig = {
 };
 ```
 
-### Rendering modes
+### 渲染模式
 
-The server routing configuration lets you specify how each route in your application should render by setting a [`RenderMode`](api/ssr/RenderMode 'API reference'):
+伺服器路由設定讓你可以透過設定 [`RenderMode`](api/ssr/RenderMode 'API reference')，來指定應用程式中每條路由應該如何渲染：
 
 | Rendering mode      | Description                                                                                                 |
 | ------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **Server (SSR)**    | Renders the application on the server for each request, sending a fully populated HTML page to the browser. |
-| **Client (CSR)**    | Renders the application in the browser. This is the default Angular behavior.                               |
-| **Prerender (SSG)** | Prerenders the application at build time, generating static HTML files for each route.                      |
+| **Server (SSR)**    | 針對每個請求在伺服器上渲染應用程式，並將內容完整的 HTML 頁面傳送給瀏覽器。 |
+| **Client (CSR)**    | 在瀏覽器中渲染應用程式。這是 Angular 的預設行為。                               |
+| **Prerender (SSG)** | 在建置時預先渲染應用程式，為每條路由產生靜態 HTML 檔案。                      |
 
-#### Choosing a rendering mode
+#### 選擇渲染模式
 
-Each rendering mode has different benefits and drawbacks. You can choose rendering modes based on the specific needs of your application.
+每種渲染模式都有不同的優點與缺點。你可以依應用程式的具體需求選擇渲染模式。
 
 ##### Client-side rendering (CSR)
 

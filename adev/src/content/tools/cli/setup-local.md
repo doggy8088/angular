@@ -1,19 +1,19 @@
-# Setting up the local environment and workspace
+# 設定本機環境與工作區
 
-This guide explains how to set up your environment for Angular development using the [Angular CLI](cli 'CLI command reference').
-It includes information about installing the CLI, creating an initial workspace and starter app, and running that app locally to verify your setup.
+本指南說明如何使用 [Angular CLI](cli 'CLI command reference') 為 Angular 開發設定你的環境。
+內容包括安裝 CLI、建立初始工作區與起始應用程式，以及在本機執行該應用程式來驗證你的設定。
 
-<docs-callout title="Try Angular without local setup">
+<docs-callout title="不需本機設定也能試用 Angular">
 
-If you are new to Angular, you might want to start with [Try it now!](tutorials/learn-angular), which introduces the essentials of Angular in your browser.
-This standalone tutorial takes advantage of the interactive [StackBlitz](https://stackblitz.com) environment for online development.
-You don't need to set up your local environment until you're ready.
+如果你是 Angular 新手，或許可以先從[立即試用！](tutorials/learn-angular)開始，它會在你的瀏覽器中介紹 Angular 的核心概念。
+這份獨立教學利用互動式的 [StackBlitz](https://stackblitz.com) 環境進行線上開發。
+在你準備好之前，不需要設定本機環境。
 
 </docs-callout>
 
-## Before you start
+## 開始之前
 
-To use Angular CLI, you should be familiar with the following:
+若要使用 Angular CLI，你應該熟悉下列技術：
 
 <docs-pill-row>
   <docs-pill href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" title="JavaScript"/>
@@ -21,21 +21,21 @@ To use Angular CLI, you should be familiar with the following:
   <docs-pill href="https://developer.mozilla.org/en-US/docs/Web/CSS" title="CSS"/>
 </docs-pill-row>
 
-You should also be familiar with usage of command line interface (CLI) tools and have a general understanding of command shells.
-Knowledge of [TypeScript](https://www.typescriptlang.org) is helpful, but not required.
+你也應該熟悉命令列介面（CLI）工具的使用方式，並對命令殼層有基本的了解。
+了解 [TypeScript](https://www.typescriptlang.org) 會有幫助，但不是必需的。
 
-## Dependencies
+## 相依套件
 
-To install Angular CLI on your local system, you need to install [Node.js](https://nodejs.org/).
-Angular CLI uses Node and its associated package manager, npm, to install and run JavaScript tools outside the browser.
+若要在本機系統上安裝 Angular CLI，你需要安裝 [Node.js](https://nodejs.org/)。
+Angular CLI 使用 Node 及其搭配的套件管理器 npm，在瀏覽器之外安裝並執行 JavaScript 工具。
 
-[Download and install Node.js](https://nodejs.org/en/download), which will include the `npm` CLI as well.
-Angular requires an [active LTS or maintenance LTS](https://nodejs.org/en/about/previous-releases) version of Node.js.
-See [Angular's version compatibility](reference/versions) guide for more information.
+[下載並安裝 Node.js](https://nodejs.org/en/download)，其中也會包含 `npm` CLI。
+Angular 需要 Node.js 的[現行 LTS 或維護 LTS](https://nodejs.org/en/about/previous-releases) 版本。
+詳情請參閱 Angular 的[版本相容性](reference/versions)指南。
 
-## Install the Angular CLI
+## 安裝 Angular CLI
 
-To install the Angular CLI, open a terminal window and run the following command:
+若要安裝 Angular CLI，請開啟終端機視窗並執行下列指令：
 
 <docs-code-multifile>
    <docs-code
@@ -65,10 +65,10 @@ To install the Angular CLI, open a terminal window and run the following command
 
  </docs-code-multifile>
 
-### Powershell execution policy
+### PowerShell 執行原則
 
-On Windows client computers, the execution of PowerShell scripts is disabled by default, so the above command may fail with an error.
-To allow the execution of PowerShell scripts, which is needed for npm global binaries, you must set the following <a href="https://docs.microsoft.com/powershell/module/microsoft.powershell.core/about/about_execution_policies" target="_blank">execution policy</a>:
+在 Windows 用戶端電腦上，PowerShell 指令碼的執行預設是停用的，因此上述指令可能會失敗並出現錯誤。
+若要允許執行 PowerShell 指令碼（npm 全域執行檔需要這項設定），你必須設定下列<a href="https://docs.microsoft.com/powershell/module/microsoft.powershell.core/about/about_execution_policies" target="_blank">執行原則</a>：
 
 ```sh
 
@@ -76,12 +76,12 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 ```
 
-Carefully read the message displayed after executing the command and follow the instructions. Make sure you understand the implications of setting an execution policy.
+請仔細閱讀執行指令後顯示的訊息，並依照指示操作。務必了解設定執行原則的影響。
 
-### Unix permissions
+### Unix 權限
 
-On some Unix-like setups, global scripts may be owned by the root user, so to the above command may fail with a permission error.
-Run with `sudo` to execute the command as the root user and enter your password when prompted:
+在某些類 Unix 設定中，全域指令碼可能歸 root 使用者所有，因此上述指令可能會失敗並出現權限錯誤。
+使用 `sudo` 以 root 使用者身分執行指令，並在出現提示時輸入你的密碼：
 
 <docs-code-multifile>
    <docs-code
@@ -111,13 +111,13 @@ Run with `sudo` to execute the command as the root user and enter your password 
 
  </docs-code-multifile>
 
-Make sure you understand the implications of running commands as root.
+務必了解以 root 身分執行指令的影響。
 
-## Create a workspace and initial application
+## 建立工作區與初始應用程式
 
-You develop apps in the context of an Angular **workspace**.
+你在 Angular **工作區**的脈絡下開發應用程式。
 
-To create a new workspace and initial starter app, run the CLI command `ng new` and provide the name `my-app`, as shown here, then answer prompts about features to include:
+若要建立新的工作區與初始起始應用程式，請執行 CLI 指令 `ng new` 並提供名稱 `my-app`，如下所示，然後回答要包含哪些功能的提示：
 
 ```shell
 
@@ -125,11 +125,11 @@ ng new my-app
 
 ```
 
-The Angular CLI installs the necessary Angular npm packages and other dependencies.
-This can take a few minutes.
+Angular CLI 會安裝必要的 Angular npm 套件與其他相依套件。
+這可能需要幾分鐘。
 
-The CLI creates a new workspace and a small welcome app in a new directory with the same name as the workspace, ready to run.
-Navigate to the new directory so subsequent commands use this workspace.
+CLI 會在與工作區同名的新目錄中建立一個新工作區和一個小型的歡迎應用程式，隨時可以執行。
+切換到新目錄，讓後續指令使用這個工作區。
 
 ```shell
 
@@ -137,9 +137,9 @@ cd my-app
 
 ```
 
-## Run the application
+## 執行應用程式
 
-The Angular CLI includes a development server, for you to build and serve your app locally. Run the following command:
+Angular CLI 包含一個開發伺服器，讓你在本機建置並提供你的應用程式。執行下列指令：
 
 ```shell
 
@@ -147,33 +147,32 @@ ng serve --open
 
 ```
 
-The `ng serve` command launches the server, watches your files, as well as rebuilds the app and reloads the browser as you make changes to those files.
+`ng serve` 指令會啟動伺服器、監視你的檔案，並在你變更這些檔案時重新建置應用程式並重新載入瀏覽器。
 
-The `--open` (or just `-o`) option automatically opens your browser to `http://localhost:4200/` to view the generated application.
+`--open`（或簡寫 `-o`）選項會自動開啟你的瀏覽器，前往 `http://localhost:4200/` 檢視產生的應用程式。
 
-## Workspaces and project files
+## 工作區與專案檔案
 
-The [`ng new`](cli/new) command creates an [Angular workspace](reference/configs/workspace-config) folder and generates a new application inside it.
-A workspace can contain multiple applications and libraries.
-The initial application created by the [`ng new`](cli/new) command is at the root directory of the workspace.
-When you generate an additional application or library in an existing workspace, it goes into a `projects/` subfolder by default.
+[`ng new`](cli/new) 指令會建立一個 [Angular 工作區](reference/configs/workspace-config)資料夾，並在其中產生一個新應用程式。
+一個工作區可以包含多個應用程式與程式庫。
+由 [`ng new`](cli/new) 指令建立的初始應用程式位於工作區的根目錄。
+當你在既有工作區中產生額外的應用程式或程式庫時，它預設會進入 `projects/` 子資料夾。
 
-A newly generated application contains the source files for a root component and template.
-Each application has a `src` folder that contains its components, data, and assets.
+新產生的應用程式包含根元件與範本的原始檔案。
+每個應用程式都有一個 `src` 資料夾，裡面放著它的元件、資料與素材。
 
-You can edit the generated files directly, or add to and modify them using CLI commands.
-Use the [`ng generate`](cli/generate) command to add new files for additional components, directives, pipes, services, and more.
-Commands such as [`ng add`](cli/add) and [`ng generate`](cli/generate), which create or operate on applications and libraries, must be executed
-from within a workspace. By contrast, commands such as `ng new` must be executed _outside_ a workspace because they will create a new one.
+你可以直接編輯產生的檔案，或用 CLI 指令來新增與修改它們。
+使用 [`ng generate`](cli/generate) 指令，為額外的元件、指令、管道、服務等新增檔案。
+像 [`ng add`](cli/add) 與 [`ng generate`](cli/generate) 這類建立應用程式與程式庫或對其進行操作的指令，必須在工作區_內部_執行。相對地，像 `ng new` 這類指令必須在工作區_外部_執行，因為它們會建立新的工作區。
 
-## Next steps
+## 後續步驟
 
-- Learn more about the [file structure](reference/configs/file-structure) and [configuration](reference/configs/workspace-config) of the generated workspace.
+- 深入了解產生之工作區的[檔案結構](reference/configs/file-structure)與[設定](reference/configs/workspace-config)。
 
-- Test your new application with [`ng test`](cli/test).
+- 用 [`ng test`](cli/test) 測試你的新應用程式。
 
-- Generate boilerplate like components, directives, and pipes with [`ng generate`](cli/generate).
+- 用 [`ng generate`](cli/generate) 產生元件、指令、管道等樣板程式碼。
 
-- Deploy your new application and make it available to real users with [`ng deploy`](cli/deploy).
+- 用 [`ng deploy`](cli/deploy) 部署你的新應用程式，讓真正的使用者可以使用。
 
-- Set up and run end-to-end tests of your application with [`ng e2e`](cli/e2e).
+- 用 [`ng e2e`](cli/e2e) 設定並執行應用程式的端對端測試。

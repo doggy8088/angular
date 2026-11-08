@@ -1,40 +1,40 @@
-# Hierarchical injectors
+# 階層式注入器
 
-This guide provides in-depth coverage of Angular's hierarchical dependency injection system, including resolution rules, modifiers, and advanced patterns.
+本指南深入說明 Angular 的階層式依賴注入系統，包括解析規則、修飾符和進階模式。
 
-NOTE: For basic concepts about injector hierarchy and provider scoping, see the [defining dependency providers guide](guide/di/defining-dependency-providers#injector-hierarchy-in-angular).
+NOTE: 關於注入器階層和提供者範圍的基本概念，請參閱[定義依賴提供者指南](guide/di/defining-dependency-providers#injector-hierarchy-in-angular)。
 
-## Types of injector hierarchies
+## 注入器階層的類型
 
-Angular has two injector hierarchies:
+Angular 有兩種注入器階層：
 
-| Injector hierarchies            | Details                                                                                                                                                                   |
+| 注入器階層                      | 詳細資訊                                                                                                                                                                  |
 | :------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `EnvironmentInjector` hierarchy | Configure an `EnvironmentInjector` in this hierarchy using `@Service()` or `providers` array in `ApplicationConfig`.                                                      |
-| `ElementInjector` hierarchy     | Created implicitly at each DOM element. An `ElementInjector` is empty by default unless you configure it in the `providers` property on `@Directive()` or `@Component()`. |
+| `EnvironmentInjector` 階層      | 使用 `@Service()` 或 `ApplicationConfig` 中的 `providers` 陣列，在此階層中設定 `EnvironmentInjector`。                                                                    |
+| `ElementInjector` 階層          | 在每個 DOM 元素上隱含地建立。`ElementInjector` 預設是空的，除非你在 `@Directive()` 或 `@Component()` 的 `providers` 屬性中設定它。                                       |
 
-<docs-callout title="NgModule Based Applications">
-For `NgModule` based applications, you can provide dependencies with the `ModuleInjector` hierarchy using an `@NgModule()` or `@Injectable()` annotation.
+<docs-callout title="以 NgModule 為基礎的應用程式">
+對於以 `NgModule` 為基礎的應用程式，你可以使用 `@NgModule()` 或 `@Injectable()` 註記，透過 `ModuleInjector` 階層提供依賴。
 </docs-callout>
 
 ### `EnvironmentInjector`
 
-The `EnvironmentInjector` can be configured in one of two ways by using:
+`EnvironmentInjector` 可以用以下兩種方式之一來設定：
 
-- The `@Service()`
-- The `ApplicationConfig` `providers` array
+- `@Service()`
+- `ApplicationConfig` 的 `providers` 陣列
 
-<docs-callout title="Tree-shaking and @Service()">
+<docs-callout title="搖樹優化與 @Service()">
 
-Using the `@Service()` decorator is preferable to using the `ApplicationConfig` `providers` array. With `@Service`, optimization tools can perform tree-shaking, which removes services that your application isn't using. This results in smaller bundle sizes.
+使用 `@Service()` 裝飾器比使用 `ApplicationConfig` 的 `providers` 陣列更可取。有了 `@Service`，最佳化工具可以執行搖樹優化，移除你的應用程式沒有使用的服務。如此能產生更小的 bundle。
 
-Tree-shaking is especially useful for a library because the application which uses the library may not have a need to inject it.
+搖樹優化對函式庫特別有用，因為使用該函式庫的應用程式可能不需要注入它。
 
 </docs-callout>
 
-`EnvironmentInjector` is configured by the `ApplicationConfig.providers`.
+`EnvironmentInjector` 由 `ApplicationConfig.providers` 設定。
 
-Provide services using `@Service()` as follows:
+使用 `@Service()` 提供服務的方式如下：
 
 ```ts {highlight:[4]}
 import {Service} from '@angular/core';
@@ -45,43 +45,43 @@ export class ItemService {
 }
 ```
 
-The `@Service()` or `@Injectable()` decorators identify a service class.
+`@Service()` 或 `@Injectable()` 裝飾器用來標識服務類別。
 
 ### ModuleInjector
 
-In the case of `NgModule` based applications, the ModuleInjector can be configured in one of two ways by using:
+對於以 `NgModule` 為基礎的應用程式，ModuleInjector 可以用以下兩種方式之一來設定：
 
-- The `@Service()` decorator,
-- The `@Injectable()` `providedIn` property to refer to `root` or `platform`
-- The `@NgModule()` `providers` array
+- `@Service()` 裝飾器，
+- 以 `@Injectable()` 的 `providedIn` 屬性指向 `root` 或 `platform`
+- `@NgModule()` 的 `providers` 陣列
 
-`ModuleInjector` is configured by the `@NgModule.providers` and `NgModule.imports` property. `ModuleInjector` is a flattening of all the providers arrays that can be reached by following the `NgModule.imports` recursively.
+`ModuleInjector` 由 `@NgModule.providers` 和 `NgModule.imports` 屬性設定。`ModuleInjector` 是沿著 `NgModule.imports` 遞迴追蹤可觸及的所有 providers 陣列攤平後的結果。
 
-Child `ModuleInjector` hierarchies are created when lazy loading other `@NgModules`.
+延遲載入其他 `@NgModules` 時，會建立子 `ModuleInjector` 階層。
 
-### Platform injector
+### 平台注入器
 
-There are two more injectors above `root`, an additional `EnvironmentInjector` and `NullInjector()`.
+在 `root` 之上還有兩個注入器：一個額外的 `EnvironmentInjector` 和 `NullInjector()`。
 
-Consider how Angular bootstraps the application with the following in `main.ts`:
+想想 Angular 如何以 `main.ts` 中的以下程式碼啟動應用程式：
 
 ```ts
 bootstrapApplication(App, appConfig);
 ```
 
-The `bootstrapApplication()` method creates a child injector of the platform injector which is configured by the `ApplicationConfig` instance.
-This is the `root` `EnvironmentInjector`.
+`bootstrapApplication()` 方法會建立平台注入器的一個子注入器，它由 `ApplicationConfig` 實例設定。
+這就是 `root` `EnvironmentInjector`。
 
-The `bootstrapApplication()` method also creates (or reuses) the platform injector, which contains platform-specific dependencies.
-This allows multiple applications to share a platform configuration.
-For example, a browser has only one URL bar, no matter how many applications you have running.
-You can configure additional platform-specific providers at the platform level by supplying `extraProviders` using the `platformBrowser()` function.
+`bootstrapApplication()` 方法也會建立（或重複使用）平台注入器，其中包含平台專屬的依賴。
+這讓多個應用程式可以共用一個平台設定。
+例如，無論你執行多少個應用程式，瀏覽器都只有一個網址列。
+你可以使用 `platformBrowser()` 函式提供 `extraProviders`，在平台層級設定額外的平台專屬提供者。
 
-The next parent injector in the hierarchy is the `NullInjector()`, which is the top of the tree.
-If you've gone so far up the tree that you are looking for a service in the `NullInjector()`, you'll get an error unless you've used `@Optional()` because ultimately, everything ends at the `NullInjector()` and it returns an error or, in the case of `@Optional()`, `null`.
-For more information on `@Optional()`, see the [`@Optional()` section](#optional) of this guide.
+階層中再往上的父注入器是 `NullInjector()`，它是這棵樹的頂端。
+如果你沿著樹一路往上、最後在 `NullInjector()` 中尋找服務，你會收到一個錯誤，除非你使用了 `@Optional()`，因為最終一切都結束於 `NullInjector()`，它會傳回錯誤，或在 `@Optional()` 的情況下傳回 `null`。
+關於 `@Optional()` 的更多資訊，請參閱本指南的 [`@Optional()` 一節](#optional)。
 
-The following diagram represents the relationship between the `root` `ModuleInjector` and its parent injectors as the previous paragraphs describe.
+下圖呈現了 `root` `ModuleInjector` 與其父注入器之間的關係，如前幾段所述。
 
 ```mermaid
 stateDiagram-v2
@@ -94,32 +94,32 @@ stateDiagram-v2
     elementInjector --> nullInjector
 ```
 
-While the name `root` is a special alias, other `EnvironmentInjector` hierarchies don't have aliases.
-You have the option to create `EnvironmentInjector` hierarchies whenever a dynamically loaded component is created, such as with the Router, which will create child `EnvironmentInjector` hierarchies.
+雖然 `root` 這個名稱是一個特殊的別名，其他 `EnvironmentInjector` 階層沒有別名。
+你可以在動態載入元件建立時建立 `EnvironmentInjector` 階層，例如透過 Router，它會建立子 `EnvironmentInjector` 階層。
 
-All requests forward up to the root injector, whether you configured it with the `ApplicationConfig` instance passed to the `bootstrapApplication()` method, or registered all providers with `root` in their own services.
+所有請求都會向上轉送到根注入器，無論你是用傳給 `bootstrapApplication()` 方法的 `ApplicationConfig` 實例來設定它，或是在各個服務本身以 `root` 註冊所有提供者。
 
-<docs-callout title="@Injectable() vs. ApplicationConfig">
+<docs-callout title="@Injectable() 與 ApplicationConfig">
 
-If you configure an app-wide provider in the `ApplicationConfig` of `bootstrapApplication`, it overrides one configured for `root` in the `@Injectable()` metadata.
-You can do this to configure a non-default provider of a service that is shared with multiple applications.
+如果你在 `bootstrapApplication` 的 `ApplicationConfig` 中設定了一個全應用程式的提供者，它會覆寫在 `@Injectable()` 詮釋資料中為 `root` 設定的提供者。
+你可以這樣做，來為一個與多個應用程式共用的服務設定非預設的提供者。
 
-Here is an example of the case where the component router configuration includes a non-default [location strategy](guide/routing/common-router-tasks#locationstrategy-and-browser-url-styles) by listing its provider in the `providers` list of the `ApplicationConfig`.
+以下是一個範例：元件路由設定把非預設的[位置策略](guide/routing/common-router-tasks#locationstrategy-and-browser-url-styles)提供者列在 `ApplicationConfig` 的 `providers` 清單中。
 
 ```ts
 providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}];
 ```
 
-For `NgModule` based applications, configure app-wide providers in the `AppModule` `providers`.
+對於以 `NgModule` 為基礎的應用程式，請在 `AppModule` 的 `providers` 中設定全應用程式的提供者。
 
 </docs-callout>
 
 ### `ElementInjector`
 
-Angular creates `ElementInjector` hierarchies implicitly for each DOM element.
+Angular 會為每個 DOM 元素隱含地建立 `ElementInjector` 階層。
 
-Providing a service in the `@Component()` decorator using its `providers` or `viewProviders` property configures an `ElementInjector`.
-For example, the following `TestComponent` configures the `ElementInjector` by providing the service as follows:
+在 `@Component()` 裝飾器中使用它的 `providers` 或 `viewProviders` 屬性提供服務，就能設定一個 `ElementInjector`。
+例如，以下 `TestComponent` 透過如下方式提供服務來設定 `ElementInjector`：
 
 ```ts {highlight:[3]}
 @Component({
@@ -129,67 +129,67 @@ For example, the following `TestComponent` configures the `ElementInjector` by p
 export class TestComponent
 ```
 
-HELPFUL: See the [resolution rules](#resolution-rules) section to understand the relationship between the `EnvironmentInjector` tree, the `ModuleInjector` and the `ElementInjector` tree.
+HELPFUL: 請參閱[解析規則](#resolution-rules)一節，了解 `EnvironmentInjector` 樹、`ModuleInjector` 和 `ElementInjector` 樹之間的關係。
 
-When you provide services in a component, that service is available by way of the `ElementInjector` at that component instance.
-It may also be visible at child component/directives based on visibility rules described in the [resolution rules](#resolution-rules) section.
+當你在元件中提供服務時，該服務透過該元件實例的 `ElementInjector` 可供使用。
+根據[解析規則](#resolution-rules)一節所述的可見性規則，它在子元件／指令中也可能可見。
 
-When the component instance is destroyed, so is that service instance.
+當元件實例被銷毀時，該服務實例也會一併被銷毀。
 
-#### `@Directive()` and `@Component()`
+#### `@Directive()` 與 `@Component()`
 
-A component is a special type of directive, which means that just as `@Directive()` has a `providers` property, `@Component()` does too.
-This means that directives as well as components can configure providers, using the `providers` property.
-When you configure a provider for a component or directive using the `providers` property, that provider belongs to the `ElementInjector` of that component or directive.
-Components and directives on the same element share an injector.
+元件是指令的一種特殊類型，意思是就像 `@Directive()` 有 `providers` 屬性一樣，`@Component()` 也有。
+這表示指令和元件都可以使用 `providers` 屬性來設定提供者。
+當你使用 `providers` 屬性為元件或指令設定提供者時，該提供者屬於該元件或指令的 `ElementInjector`。
+同一個元素上的元件和指令共用一個注入器。
 
-## Resolution rules
+## 解析規則
 
-When resolving a token for a component/directive, Angular resolves it in two phases:
+為元件／指令解析 token 時，Angular 會分兩個階段進行：
 
-1. Against its parents in the `ElementInjector` hierarchy.
-2. Against its parents in the `EnvironmentInjector` hierarchy.
+1. 對照它在 `ElementInjector` 階層中的父層。
+2. 對照它在 `EnvironmentInjector` 階層中的父層。
 
-When a component declares a dependency, Angular tries to satisfy that dependency with its own `ElementInjector`.
-If the component's injector lacks the provider, it passes the request up to its parent component's `ElementInjector`.
+當元件宣告一個依賴時，Angular 會試圖用它自己的 `ElementInjector` 來滿足該依賴。
+如果元件的注入器缺少該提供者，它會把請求往上傳給父元件的 `ElementInjector`。
 
-The requests keep forwarding up until Angular finds an injector that can handle the request or runs out of ancestor `ElementInjector` hierarchies.
+請求會不斷向上轉送，直到 Angular 找到能處理該請求的注入器，或用盡所有祖先 `ElementInjector` 階層為止。
 
-If Angular doesn't find the provider in any `ElementInjector` hierarchies, it goes back to the element where the request originated and looks in the `EnvironmentInjector` hierarchy.
-If Angular still doesn't find the provider, it throws an error.
+如果 Angular 在任何 `ElementInjector` 階層中都找不到該提供者，它會回到請求發出的元素，並在 `EnvironmentInjector` 階層中尋找。
+如果 Angular 仍然找不到該提供者，它就會擲出錯誤。
 
-If you have registered a provider for the same DI token at different levels, the first one Angular encounters is the one it uses to resolve the dependency.
-If, for example, a provider is registered locally in the component that needs a service,
-Angular doesn't look for another provider of the same service.
+如果你在不同層級為同一個 DI token 註冊了提供者，Angular 遇到的第一個就是它用來解析該依賴的提供者。
+例如，如果提供者在需要某個服務的元件中就地註冊，
+Angular 就不會再尋找同一個服務的其他提供者。
 
-HELPFUL: For `NgModule` based applications, Angular will search the `ModuleInjector` hierarchy if it cannot find a provider in the `ElementInjector` hierarchies.
+HELPFUL: 對於以 `NgModule` 為基礎的應用程式，如果 Angular 在 `ElementInjector` 階層中找不到提供者，它會搜尋 `ModuleInjector` 階層。
 
-## Resolution modifiers
+## 解析修飾符
 
-Angular's resolution behavior can be modified with `optional`, `self`, `skipSelf` and `host`.
-Import each of them from `@angular/core` and use each in the [`inject`](/api/core/inject) configuration when you inject your service.
+Angular 的解析行為可以用 `optional`、`self`、`skipSelf` 和 `host` 來修改。
+從 `@angular/core` 匯入它們，並在你注入服務時，在 [`inject`](/api/core/inject) 設定中使用它們。
 
-### Types of modifiers
+### 修飾符的類型
 
-Resolution modifiers fall into three categories:
+解析修飾符分為三類：
 
-- What to do if Angular doesn't find what you're looking for, that is `optional`
-- Where to start looking, that is `skipSelf`
-- Where to stop looking, `host` and `self`
+- 找不到你要找的東西時該怎麼做，也就是 `optional`
+- 從哪裡開始找，也就是 `skipSelf`
+- 在哪裡停止尋找，也就是 `host` 和 `self`
 
-By default, Angular always starts at the current `Injector` and keeps searching all the way up.
-Modifiers allow you to change the starting, or _self_, location and the ending location.
+依預設，Angular 一律從目前的 `Injector` 開始，一路往上搜尋。
+修飾符讓你可以改變開始（也就是 *self*）的位置和結束的位置。
 
-Additionally, you can combine all of the modifiers except:
+此外，你可以組合所有修飾符，但以下組合除外：
 
-- `host` and `self`
-- `skipSelf` and `self`.
+- `host` 和 `self`
+- `skipSelf` 和 `self`。
 
 ### `optional`
 
-`optional` allows Angular to consider a service you inject to be optional.
-This way, if it can't be resolved at runtime, Angular resolves the service as `null`, rather than throwing an error.
-In the following example, the service, `OptionalService`, isn't provided in the service, `ApplicationConfig`, `@NgModule()`, or component class, so it isn't available anywhere in the app.
+`optional` 讓 Angular 把你注入的服務視為可選。
+這樣一來，如果它在執行階段無法被解析，Angular 會把該服務解析為 `null`，而不是擲出錯誤。
+在以下範例中，服務 `OptionalService` 沒有在服務、`ApplicationConfig`、`@NgModule()` 或元件類別中被提供，因此它在應用程式的任何地方都不可用。
 
 ```ts {header:"src/app/optional/optional.ts"}
 export class Optional {
@@ -199,12 +199,12 @@ export class Optional {
 
 ### `self`
 
-Use `self` so that Angular will only look at the `ElementInjector` for the current component or directive.
+使用 `self`，讓 Angular 只查看目前元件或指令的 `ElementInjector`。
 
-A good use case for `self` is to inject a service but only if it is available on the current host element.
-To avoid errors in this situation, combine `self` with `optional`.
+`self` 的一個很好的使用情境是注入一個服務，但前提是它在目前的宿主元素上可用。
+為了在這種情況下避免錯誤，把 `self` 與 `optional` 組合使用。
 
-For example, in the following `SelfNoData`, notice the injected `LeafService` as a property.
+例如，在以下的 `SelfNoData` 中，注意作為屬性的被注入的 `LeafService`。
 
 ```ts {header: 'self-no-data.ts', highlight: [7]}
 @Component({

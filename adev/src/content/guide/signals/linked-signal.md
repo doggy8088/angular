@@ -1,6 +1,6 @@
-# Dependent state with `linkedSignal`
+# 使用 `linkedSignal` 處理相依狀態
 
-You can use the `signal` function to hold some state in your Angular code. Sometimes, this state depends on some _other_ state. For example, imagine a component that lets the user select a shipping method for an order:
+你可以使用 `signal` 函式在 Angular 程式碼中保存某些狀態。有時，這個狀態會依賴_其他_狀態。例如，想像一個讓使用者為訂單選擇運送方式的元件：
 
 ```typescript
 @Component({
@@ -18,9 +18,9 @@ export class ShippingMethodPicker {
 }
 ```
 
-In this example, the `selectedOption` defaults to the first option, but changes if the user selects another option. But `shippingOptions` is a signal— its value may change! If `shippingOptions` changes, `selectedOption` may contain a value that is no longer a valid option.
+在這個範例中，`selectedOption` 預設為第一個選項，但使用者選擇其他選項時就會改變。然而 `shippingOptions` 是個訊號，它的值可能會變！如果 `shippingOptions` 改變，`selectedOption` 可能會包含一個不再有效的選項值。
 
-**The `linkedSignal` function lets you create a signal to hold some state that is intrinsically _linked_ to some other state.** Revisiting the example above, `linkedSignal` can replace `signal`:
+**`linkedSignal` 函式讓你建立一個訊號，用來保存與其他狀態本質上_相連結_的狀態**。回到上面的範例，`linkedSignal` 可以取代 `signal`：
 
 ```ts
 @Component({
@@ -38,9 +38,9 @@ export class ShippingMethodPicker {
 }
 ```
 
-`linkedSignal` works similarly to `signal` with one key difference— instead of passing a default value, you pass a _computation function_, just like `computed`. When the value of the computation changes, the value of the `linkedSignal` changes to the computation result. This helps ensure that the `linkedSignal` always has a valid value.
+`linkedSignal` 的運作方式與 `signal` 類似，但有一個關鍵差異——你傳入的不是預設值，而是一個_計算函式_，就像 `computed` 一樣。當計算的值改變時，`linkedSignal` 的值就會變成計算結果。這能確保 `linkedSignal` 隨時都持有有效的值。
 
-The following example shows how the value of a `linkedSignal` can change based on its linked state:
+以下範例展示 `linkedSignal` 的值如何隨其連結的狀態而改變：
 
 ```ts
 const shippingOptions = signal(['Ground', 'Air', 'Sea']);
@@ -54,11 +54,11 @@ shippingOptions.set(['Email', 'Will Call', 'Postal service']);
 console.log(selectedOption()); // 'Email'
 ```
 
-## Accounting for previous state
+## 將先前狀態納入考量
 
-In some cases, the computation for a `linkedSignal` needs to account for the previous value of the `linkedSignal`.
+在某些情況下，`linkedSignal` 的計算需要把 `linkedSignal` 的先前值納入考量。
 
-In the example above, `selectedOption` always updates back to the first option when `shippingOptions` changes. You may, however, want to preserve the user's selection if their selected option is still somewhere in the list. To accomplish this, you can create a `linkedSignal` with a separate _source_ and _computation_:
+在上面的範例中，當 `shippingOptions` 改變時，`selectedOption` 總是會回到第一個選項。然而，如果使用者已選的選項仍在清單中，你可能會想保留使用者的選擇。為此，你可以建立一個帶有分開的 _source_ 與 _computation_ 的 `linkedSignal`：
 
 ```ts
 interface ShippingMethod {
@@ -106,17 +106,17 @@ export class ShippingMethodPicker {
 }
 ```
 
-When you create a `linkedSignal`, you can pass an object with separate `source` and `computation` properties instead of providing just a computation.
+建立 `linkedSignal` 時，你可以傳入一個帶有分開的 `source` 與 `computation` 屬性的物件，而不只是提供一個計算函式。
 
-The `source` can be any signal, such as a `computed` or component `input`. The `linkedSignal` updates its value when the `source` changes or when any signal referenced in the `computation` changes, updating its value with the result of the provided `computation`.
+`source` 可以是任何訊號，例如 `computed` 或元件的 `input`。當 `source` 改變、或 `computation` 中參考的任何訊號改變時，`linkedSignal` 就會以所提供 `computation` 的結果更新自己的值。
 
-The `computation` is a function that receives the new value of `source` and a `previous` object. The `previous` object has two properties— `previous.source` is the previous value of `source`, and `previous.value` is the previous value of the `linkedSignal`. You can use these previous values to decide the new result of the computation.
+`computation` 是一個函式，會收到 `source` 的新值和一個 `previous` 物件。`previous` 物件有兩個屬性——`previous.source` 是 `source` 的先前值，`previous.value` 是 `linkedSignal` 的先前值。你可以用這些先前值來決定計算的新結果。
 
-HELPFUL: When using the `previous` parameter, it is necessary to provide the generic type arguments of `linkedSignal` explicitly. The first generic type corresponds with the type of `source` and the second generic type determines the output type of `computation`.
+HELPFUL: 使用 `previous` 參數時，你必須明確提供 `linkedSignal` 的泛型型別引數。第一個泛型型別對應 `source` 的型別，第二個泛型型別決定 `computation` 的輸出型別。
 
-## Custom equality comparison
+## 自訂相等比較
 
-`linkedSignal`, as any other signal, can be configured with a custom equality function. This function is used by downstream dependencies to determine if that value of the `linkedSignal` (result of a computation) changed:
+`linkedSignal` 和其他任何訊號一樣，可以設定自訂的相等比較函式。下游依賴會使用這個函式來判斷 `linkedSignal` 的值（即計算結果）是否已改變：
 
 ```typescript
 const activeUser = signal({id: 123, name: 'Morgan', isAdmin: true});
@@ -134,20 +134,20 @@ const activeUserEditCopy = linkedSignal({
 });
 ```
 
-## Customizing the set operation
+## 自訂 set 操作
 
-Sometimes you may want the `set` and `update` operations of a `linkedSignal` to write back to the source of truth instead of updating the `linkedSignal`'s value directly. You can customize this behavior by passing a `set` function in the options.
+有時，你會希望 `linkedSignal` 的 `set` 與 `update` 操作能寫回真實來源，而不是直接更新 `linkedSignal` 本身的值。你可以在選項中傳入一個 `set` 函式來自訂這個行為。
 
-The custom `set` function receives two arguments:
+自訂的 `set` 函式會收到兩個引數：
 
-1. The new value being set.
-2. A `rawSet` function, which you can invoke to update the `linkedSignal`'s internal state directly (matching the default behavior).
+1. 要設定的新值。
+2. 一個 `rawSet` 函式，你可以呼叫它來直接更新 `linkedSignal` 的內部狀態（與預設行為相同）。
 
-NOTE: Using `rawSet` allows you to update the `linkedSignal`'s value directly. This can be useful to prevent the computation from running, for example if it is an expensive derivation and you already know the result.
+NOTE: 使用 `rawSet` 可以讓你直接更新 `linkedSignal` 的值。當你不想讓計算執行時這很有用，例如該衍生運算成本高昂、而你已經知道結果。
 
-### Writing back to a source signal
+### 寫回來源訊號
 
-Consider a component that displays and allows editing temperature in Fahrenheit, but uses a Celsius signal as its source of truth:
+想像一個元件，它顯示並允許編輯華氏溫度，但以一個攝氏溫度訊號作為真實來源：
 
 ```typescript
 const tempC = signal(0);
@@ -163,9 +163,9 @@ console.log(tempC()); // 100
 console.log(tempF()); // 212
 ```
 
-### Updating a property inside a parent object
+### 更新父物件內的屬性
 
-Another common scenario is updating a specific property inside a parent object. The parent is held in a signal, and you link to a nested property:
+另一個常見情境是更新父物件內的特定屬性。父物件保存在一個訊號中，而你連結到其中一個巢狀屬性：
 
 ```typescript
 interface Order {
