@@ -1,16 +1,16 @@
-# Testing Signal Forms
+# 測試訊號表單
 
-Forms are often critical to applications, and testing gives you confidence they behave correctly as the codebase changes. Signal Forms keeps most of its logic in the schema rather than the template, which means you can test the majority of form behavior without rendering a component.
+表單通常是應用程式的關鍵所在，測試能讓你有信心：隨著程式碼庫演進，表單仍能正確運作。訊號表單將大部分邏輯放在結構定義而非範本中，這表示你可以在不算繪元件的情況下，測試大部分的表單行為。
 
-This guide walks through how to set up those tests, starting with isolated logic tests and then covering component-bound tests for cases where DOM interaction matters.
+本指南將逐步說明如何設定這些測試，先從獨立的邏輯測試開始，再介紹當 DOM 互動很重要時使用的元件綁定測試。
 
-## Testing form logic in isolation
+## 單獨測試表單邏輯
 
-When you only need to verify validation, disabled state, required state, or error output, test the form directly instead of rendering a component. Isolated tests keep the setup small and let the test focus on the form's behavior.
+當你只需要驗證驗證規則、停用狀態、必填狀態或錯誤輸出時，請直接測試表單本身，而不是算繪元件。獨立測試讓設定保持精簡，並讓測試聚焦於表單的行為。
 
-The key requirement is the injector. Signal Forms needs an injection context during form creation. If a test calls `form()` without one, the call throws before the test can assert anything about the form.
+關鍵需求是注入器（injector）。訊號表單在建立表單期間需要注入上下文。如果測試在沒有注入上下文的情況下呼叫 `form()`，該呼叫會在測試能對表單做任何斷言之前就擲出例外。
 
-The most direct way to satisfy this requirement is to pass an injector explicitly. The following test creates a form with a `required` rule and verifies that the field becomes valid after receiving a value:
+滿足這個需求最直接的方法，是明確傳入注入器。以下測試建立了一個帶有 `required` 規則的表單，並驗證該欄位在取得值之後變為有效：
 
 ```ts {header: 'profile-form.spec.ts'}
 import {Injector, signal} from '@angular/core';
@@ -41,9 +41,9 @@ describe('profile form', () => {
 });
 ```
 
-This pattern works well for most isolated tests because the injector requirement stays visible at the call site. It also mirrors how Signal Forms unit tests in Angular's source create forms.
+這個模式適用於大多數獨立測試，因為注入器需求在呼叫處一目了然。它也反映了 Angular 原始碼中訊號表單單元測試建立表單的方式。
 
-When the code under test calls `form()` internally, you may not be able to pass the injector directly. In that case, wrap the call in an ambient injection context:
+當受測程式碼在內部呼叫 `form()` 時，你可能無法直接傳入注入器。在這種情況下，請將呼叫包裝在環境注入上下文中：
 
 ```ts {header: 'profile-form.spec.ts'}
 import {signal} from '@angular/core';
@@ -66,15 +66,15 @@ describe('profile form', () => {
 });
 ```
 
-Both patterns produce the same kind of form. Passing `{injector}` is often the clearest choice when the test creates the form directly. `TestBed.runInInjectionContext()` is useful when the code under test calls `form()` internally and you need to supply the surrounding injection context.
+這兩種模式產生的表單種類相同。當測試直接建立表單時，傳入 `{injector}` 通常是最清楚的選擇。當受測程式碼在內部呼叫 `form()`，而你需要提供周圍的注入上下文時，`TestBed.runInInjectionContext()` 就很好用。
 
-Once the form exists, test it through field state signals. Common assertions include `valid()`, `invalid()`, `disabled()`, `required()`, and `errors()`. For most form logic, that is enough to verify the behavior without involving the DOM.
+表單建立完成後，請透過欄位狀態訊號來測試它。常見的斷言包括 `valid()`、`invalid()`、`disabled()`、`required()` 與 `errors()`。對大多數表單邏輯而言，這已足以驗證行為，不需要牽涉 DOM。
 
-## Testing a form with multiple rules
+## 測試具有多條規則的表單
 
-After the injector setup is in place, a good next step is a complete test that exercises a few pieces of form logic together. This kind of test is still isolated, but it looks much closer to a real application form.
+注入器設定就緒後，一個很好的下一步是撰寫一個完整的測試，將幾段表單邏輯一起演練。這類測試仍然是獨立測試，但看起來更接近真實應用程式中的表單。
 
-For example, this test verifies both a basic required rule and a conditional required rule that depends on another field:
+例如，以下測試同時驗證了一條基本的必填規則，以及一條相依於另一個欄位的條件式必填規則：
 
 ```ts {header: 'profile-form.spec.ts'}
 import {Injector, signal} from '@angular/core';
@@ -119,27 +119,27 @@ describe('profile form', () => {
 });
 ```
 
-This example shows an important testing pattern: update one field, then assert against the state of another field. Because Signal Forms rules are reactive, a field's validation can depend on sibling values, parent values, or other derived conditions. Tests should verify those relationships directly instead of only checking the field that changed.
+這個範例展示了一個重要的測試模式：更新一個欄位，然後針對另一個欄位的狀態做斷言。由於訊號表單的規則是反應式的，某個欄位的驗證可能相依於同層欄位的值、父層的值或其他衍生條件。測試應直接驗證這些關係，而不是只檢查變更的那個欄位。
 
-For validation-focused tests, `errors()` is usually the most useful assertion. `valid()` and `invalid()` tell you whether the field currently passes validation, but `errors()` shows which rule produced the failure. That becomes especially useful once a field has multiple validators or conditional rules.
+對於以驗證為主的測試，`errors()` 通常是最有用的斷言。`valid()` 與 `invalid()` 告訴你欄位目前是否通過驗證，但 `errors()` 會顯示是哪條規則造成失敗。當欄位有多個驗證器或條件規則時，這一點特別有用。
 
-The same structure works for most everyday form tests:
+大多數日常的表單測試都可以使用相同的結構：
 
-1. Create a model signal with the smallest shape that reproduces the behavior.
-1. Build the form with an explicit injector.
-1. Assert the initial field state.
-1. Change a field with `.value.set(...)`, including sibling fields when testing cross-field rules.
-1. Assert the updated state signals, usually `errors()`, `valid()`, or `invalid()`.
+1. 建立一個模型訊號，其形狀是能重現該行為的最小形狀。
+1. 使用明確的注入器建立表單。
+1. 斷言初始欄位狀態。
+1. 使用 `.value.set(...)` 變更欄位；測試跨欄位規則時，也包含同層欄位。
+1. 斷言更新後的狀態訊號，通常是 `errors()`、`valid()` 或 `invalid()`。
 
-When a test is about schema behavior rather than rendering, default to this isolated style. It is faster than a component test and makes it easier to see which rule is responsible when the behavior changes.
+當測試的主題是結構定義行為而非算繪時，請預設使用這種獨立測試風格。它比元件測試更快，而且當行為改變時，更容易看出是哪條規則造成的。
 
-## Testing forms bound to components
+## 測試與元件綁定的表單
 
-When you need to verify behavior that depends on template bindings, user interaction through `dispatchEvent`, or custom form controls that manage their own rendering, isolated tests are not enough. You need component-bound tests to render the template so that you can interact with actual DOM elements.
+當你需要驗證相依於範本綁定、透過 `dispatchEvent` 進行的使用者互動，或自行管理算繪的自訂表單控制項等行為時，獨立測試就不夠了。你需要元件綁定測試來算繪範本，才能與實際的 DOM 元素互動。
 
-### Setting up a component test
+### 設定元件測試
 
-Component-bound tests render the component so you can interact with actual DOM elements. Create the component with `TestBed.createComponent()` and wait for rendering to complete before asserting:
+元件綁定測試會算繪元件，讓你與實際的 DOM 元素互動。使用 `TestBed.createComponent()` 建立元件，並等待算繪完成後再做斷言：
 
 ```angular-ts {header: 'profile-form.ts'}
 import {Component, signal} from '@angular/core';
@@ -184,31 +184,31 @@ describe('ProfileForm', () => {
 });
 ```
 
-Notice that the component uses `form()` without an explicit injector because the component's own injection context provides it automatically. After each change, `await fixture.whenStable()` waits for rendering and effects to complete before asserting.
+請注意，元件使用 `form()` 時沒有明確指定注入器，因為元件自身的注入上下文會自動提供它。每次變更後，`await fixture.whenStable()` 會等到算繪與副作用完成後才進行斷言。
 
-The same pattern works for async operations such as async validators or server calls. Call `await fixture.whenStable()` after the async work resolves.
+相同的模式也適用於非同步操作，例如非同步驗證器或伺服器呼叫。在非同步工作完成後呼叫 `await fixture.whenStable()` 即可。
 
-## When to use each approach
+## 何時使用哪種方式
 
-| What you need to verify                              | Approach        |
-| ---------------------------------------------------- | --------------- |
-| Validation rules, `errors()`, `valid()`, `invalid()` | Isolated        |
-| Disabled, required, or readonly state                | Isolated        |
-| Cross-field reactive dependencies                    | Isolated        |
-| Conditional schemas (`applyWhen`, `applyWhenValue`)  | Isolated        |
-| Input values rendering in the DOM                    | Component-bound |
-| User typing updating the model                       | Component-bound |
-| Custom form controls with their own templates        | Component-bound |
-| Focus management or accessibility attributes         | Component-bound |
+| 需要驗證的內容                                       | 方式         |
+| ---------------------------------------------------- | ------------ |
+| 驗證規則、`errors()`、`valid()`、`invalid()`         | 獨立測試     |
+| 停用、必填或唯讀狀態                                 | 獨立測試     |
+| 跨欄位的反應式相依性                                 | 獨立測試     |
+| 條件式結構定義（`applyWhen`、`applyWhenValue`）      | 獨立測試     |
+| 輸入值在 DOM 中的算繪                                | 元件綁定測試 |
+| 使用者輸入更新模型                                   | 元件綁定測試 |
+| 具有自有範本的自訂表單控制項                         | 元件綁定測試 |
+| 焦點管理或無障礙屬性                                 | 元件綁定測試 |
 
-Most forms only need isolated tests. The form's logic (such as validation, disabled state, cross-field rules) lives in the schema, and schemas do not need a template to run. Component-bound tests add value when the behavior you care about crosses the boundary between the form and the DOM.
+大多數表單只需要獨立測試。表單的邏輯（例如驗證、停用狀態、跨欄位規則）位於結構定義中，而結構定義不需要範本就能執行。當你關心的行為跨越了表單與 DOM 之間的界線時，元件綁定測試才會帶來價值。
 
-## Next steps
+## 後續步驟
 
-This guide covered testing Signal Forms in isolation and with component templates. Here are related guides that explore other aspects of Signal Forms:
+本指南介紹了單獨測試訊號表單，以及搭配元件範本進行測試。以下是探討訊號表單其他面向的相關指南：
 
 <docs-pill-row>
-  <docs-pill href="guide/forms/signals/validation" title="Validation" />
-  <docs-pill href="guide/forms/signals/field-state-management" title="Field state management" />
-  <docs-pill href="guide/forms/signals/form-submission" title="Form submission" />
+  <docs-pill href="guide/forms/signals/validation" title="驗證" />
+  <docs-pill href="guide/forms/signals/field-state-management" title="欄位狀態管理" />
+  <docs-pill href="guide/forms/signals/form-submission" title="表單提交" />
 </docs-pill-row>

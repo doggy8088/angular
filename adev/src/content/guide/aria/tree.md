@@ -1,13 +1,13 @@
-# Tree
+# 樹狀結構
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/treeview/" title="Tree ARIA pattern"/>
-  <docs-pill href="/api/aria/tree/Tree" title="Tree API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/treeview/" title="樹狀結構 ARIA 模式"/>
+  <docs-pill href="/api/aria/tree/Tree" title="Tree API 參考文件"/>
 </docs-pill-row>
 
-## Overview
+## 概觀
 
-A tree displays hierarchical data where items can expand to reveal children or collapse to hide them. Users navigate with arrow keys, expand and collapse nodes, and optionally select items for navigation or data selection scenarios.
+樹狀結構用來顯示階層式資料，項目可以展開以顯示子項目，也可以收合將其隱藏。使用者以方向鍵導覽、展開與收合節點，並可視需要選取項目，用於導覽或資料選取等情境。
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tree/src/single-select/basic/app/app.ts">
   <docs-code header="TS" path="adev/src/content/examples/aria/tree/src/single-select/basic/app/app.ts"/>
@@ -15,42 +15,42 @@ A tree displays hierarchical data where items can expand to reveal children or c
   <docs-code header="CSS" path="adev/src/content/examples/aria/tree/src/single-select/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Usage
+## 使用方式
 
-Trees work well for displaying hierarchical data where users need to navigate through nested structures.
+當使用者需要在巢狀結構中導覽時，樹狀結構很適合顯示階層式資料。
 
-**Use trees when:**
+**適合使用樹狀結構的情況**：
 
-- Building file system navigation
-- Showing folder and document hierarchies
-- Creating nested menu structures
-- Displaying organization charts
-- Browsing hierarchical data
-- Implementing site navigation with nested sections
+- 建立檔案系統導覽
+- 顯示資料夾與文件的階層
+- 建立巢狀選單結構
+- 顯示組織圖
+- 瀏覽階層式資料
+- 實作含有巢狀區段的網站導覽
 
-**Avoid trees when:**
+**應避免使用樹狀結構的情況**：
 
-- Displaying flat lists (use [Listbox](guide/aria/listbox) instead)
-- Showing data tables (use [Grid](guide/aria/grid) instead)
-- Creating simple dropdowns (use [Select](guide/aria/select) instead)
-- Building breadcrumb navigation (use breadcrumb patterns)
+- 顯示平面清單（請改用 [Listbox](guide/aria/listbox)）
+- 顯示資料表（請改用 [Grid](guide/aria/grid)）
+- 建立簡單的下拉選單（請改用 [Select](guide/aria/select)）
+- 建立麵包屑導覽（請使用麵包屑模式）
 
-## Features
+## 功能特色
 
-- **Hierarchical navigation** - Nested tree structure with expand and collapse functionality
-- **Selection modes** - Single or multi-selection with explicit or follow-focus behavior
-- **Selection follows focus** - Optional automatic selection when focus changes
-- **Keyboard navigation** - Arrow keys, Home, End, and type-ahead search
-- **Expand/collapse** - Right/Left arrows or Enter to toggle parent nodes
-- **Disabled items** - Disable specific nodes with focus management
-- **Focus modes** - Roving tabindex or activedescendant focus strategies
-- **RTL support** - Right-to-left language navigation
+- **階層式導覽**：巢狀樹狀結構，具備展開與收合功能
+- **選取模式**：單選或多選，可選擇明確選取或選取跟隨焦點的行為
+- **選取跟隨焦點**：焦點變更時可選擇自動選取
+- **鍵盤導覽**：方向鍵、Home、End，以及輸入即搜尋（type-ahead）
+- **展開／收合**：以右／左方向鍵或 Enter 切換父節點
+- **停用項目**：停用特定節點並管理焦點
+- **焦點模式**：roving tabindex 或 activedescendant 焦點策略
+- **RTL 支援**：支援由右至左語言的導覽
 
-## Examples
+## 範例
 
-### Navigation tree
+### 導覽樹
 
-Use a tree for navigation where clicking items triggers actions rather than selecting them.
+當點選項目是觸發動作而非選取項目時，可將樹狀結構用於導覽。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -62,11 +62,11 @@ Use a tree for navigation where clicking items triggers actions rather than sele
   </docs-tab>
 </docs-tab-group>
 
-Set `[nav]="true"` to enable navigation mode. This uses `aria-current` to indicate the current page instead of selection.
+設定 `[nav]="true"` 即可啟用導覽模式。此模式會使用 `aria-current` 來表明目前頁面，而不是選取狀態。
 
-### Single selection
+### 單選
 
-Enable single selection for scenarios where users choose one item from the tree.
+在使用者需要從樹狀結構中選擇一個項目的情境下，啟用單選。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -85,11 +85,11 @@ Enable single selection for scenarios where users choose one item from the tree.
   </docs-tab>
 </docs-tab-group>
 
-Leave `[multi]="false"` (the default) for single selection. Users press Space to select the focused item.
+單選時保持 `[multi]="false"`（預設值）。使用者按下 Space 即可選取目前聚焦的項目。
 
-### Multi-selection
+### 多選
 
-Allow users to select multiple items from the tree.
+允許使用者從樹狀結構中選取多個項目。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -108,11 +108,11 @@ Allow users to select multiple items from the tree.
   </docs-tab>
 </docs-tab-group>
 
-Set `[multi]="true"` on the tree. Users select items individually with Space or select ranges with Shift+Arrow keys.
+在樹狀結構上設定 `[multi]="true"`。使用者以 Space 逐一選取項目，或以 Shift＋方向鍵選取範圍。
 
-### Selection follows focus
+### 選取跟隨焦點
 
-When selection follows focus, the focused item is automatically selected. This simplifies interaction for navigation scenarios.
+當選取跟隨焦點時，目前聚焦的項目會自動被選取。這能簡化導覽情境下的互動。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -131,11 +131,11 @@ When selection follows focus, the focused item is automatically selected. This s
   </docs-tab>
 </docs-tab-group>
 
-Set `[selectionMode]="'follow'"` on the tree. Selection automatically updates as users navigate with arrow keys.
+在樹狀結構上設定 `[selectionMode]="'follow'"`。當使用者以方向鍵導覽時，選取狀態會自動更新。
 
-### Disabled tree items
+### 停用的樹狀項目
 
-Disable specific tree nodes to prevent interaction. Control whether disabled items can receive focus.
+停用特定樹狀節點以防止互動，並可控制停用的項目是否能接收焦點。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -154,12 +154,11 @@ Disable specific tree nodes to prevent interaction. Control whether disabled ite
   </docs-tab>
 </docs-tab-group>
 
-When `[softDisabled]="true"` on the tree, disabled items can receive focus but cannot be activated or selected. When `[softDisabled]="false"`, disabled items are skipped during keyboard navigation.
+當樹狀結構的 `[softDisabled]="true"` 時，停用的項目可以接收焦點，但無法被啟用或選取。當 `[softDisabled]="false"` 時，停用的項目會在鍵盤導覽時被略過。
 
-## Testing
+## 測試
 
-Angular Aria provides component harnesses for testing tree components.
-Here is an example of how to use the harnesses in a component test:
+Angular Aria 提供元件測試工具（component harness）來測試樹狀元件。以下是在元件測試中使用這些測試工具的範例：
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
@@ -214,9 +213,9 @@ describe('MyTreeComponent', () => {
 });
 ```
 
-## API reference
+## API 參考
 
-For detailed API documentation, inspect the following API references:
+如需詳細的 API 文件，請查看下列 API 參考：
 
 - [`Tree`](/api/aria/tree/Tree)
 - [`TreeItem`](/api/aria/tree/TreeItem)

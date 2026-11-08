@@ -1,13 +1,13 @@
 # Listbox
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/listbox/" title="Listbox pattern"/>
-  <docs-pill href="/api?query=listbox#angular_aria_listbox" title="Listbox API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/listbox/" title="Listbox 模式"/>
+  <docs-pill href="/api?query=listbox#angular_aria_listbox" title="Listbox API 參考"/>
 </docs-pill-row>
 
-## Overview
+## 概觀
 
-A directive that displays a list of options for users to select from, supporting keyboard navigation, single or multiple selection, and screen reader support.
+這個指令會顯示一份選項清單供使用者選取，支援鍵盤導覽、單選或多選，以及螢幕閱讀器支援。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -35,47 +35,47 @@ A directive that displays a list of options for users to select from, supporting
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## 用法
 
-Listbox is a foundational directive used by the [Select](guide/aria/select), [Multiselect](guide/aria/multiselect), and [Autocomplete](guide/aria/autocomplete) patterns. For most dropdown needs, use those documented patterns instead.
+Listbox 是 [Select](guide/aria/select)、[Multiselect](guide/aria/multiselect) 與 [Autocomplete](guide/aria/autocomplete) 模式所使用的基礎指令。對於大多數下拉清單需求，請改用那些已文件化的模式。
 
-Consider using listbox directly when:
+在下列情況可以考慮直接使用 listbox：
 
-- **Building custom selection components** - Creating specialized interfaces with specific behavior
-- **Visible selection lists** - Displaying selectable items directly on the page (not in dropdowns)
-- **Custom integration patterns** - Integrating with unique popup or layout requirements
+- **建置自訂的選取元件**：建立具有特定行為的專門介面
+- **可見的選取清單**：把可選取的項目直接顯示在頁面上（不是放在下拉清單裡）
+- **自訂整合模式**：與獨特的彈出視窗或版面配置需求整合
 
-Avoid listbox when:
+在下列情況避免使用 listbox：
 
-- **Navigation menus are needed** - Use the [Menu](guide/aria/menu) directive for actions and commands
+- **需要導覽選單**：請使用 [Menu](guide/aria/menu) 指令來處理動作與指令
 
-## Features
+## 功能
 
-Angular's listbox provides a fully accessible list implementation with:
+Angular 的 listbox 提供完整無障礙的清單實作，包含：
 
-- **Keyboard Navigation** - Navigate options with arrow keys, select with Enter or Space
-- **Screen Reader Support** - Built-in ARIA attributes including role="listbox"
-- **Single or Multiple Selection** - `multi` attribute controls selection mode
-- **Horizontal or Vertical** - `orientation` attribute for layout direction
-- **Type-ahead Search** - Type characters to jump to matching options
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
+- **鍵盤導覽**：用方向鍵瀏覽選項、用 Enter 或空白鍵選取
+- **螢幕閱讀器支援**：內建 ARIA 屬性，包括 role="listbox"
+- **單選或多選**：`multi` 屬性控制選取模式
+- **水平或垂直**：`orientation` 屬性控制版面方向
+- **預先輸入搜尋**：輸入字元即可跳到相符的選項
+- **以訊號為基礎的反應性**：使用 Angular 訊號進行反應式狀態管理
 
-## Examples
+## 範例
 
-### Basic listbox
+### 基本 listbox
 
-Applications sometimes need selectable lists visible directly on the page rather than hidden in a dropdown. A standalone listbox provides keyboard navigation and selection for these visible list interfaces.
+應用程式有時需要把可選取的清單直接顯示在頁面上，而不是藏在下拉清單裡。獨立的 listbox 為這些可見的清單介面提供鍵盤導覽與選取功能。
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts" />
   <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/basic/app/app.html" />
 </docs-code-multifile>
 
-The `value` model signal provides two-way binding to the selected items. With `selectionMode="explicit"`, users press Space or Enter to select options. For dropdown patterns that combine listbox with combobox and overlay positioning, see the [Select](guide/aria/select) pattern.
+`value` 模型訊號提供與已選取項目的雙向繫結。在 `selectionMode="explicit"` 之下，使用者按空白鍵或 Enter 來選取選項。把 listbox 與 combobox 及覆蓋層定位結合的下拉清單模式，請參閱 [Select](guide/aria/select) 模式。
 
-### Horizontal listbox
+### 水平 listbox
 
-Lists sometimes work better horizontally, such as toolbar-like interfaces or tab-style selections. The `orientation` attribute changes both the layout and keyboard navigation direction.
+清單有時以水平方式呈現效果更好，例如類似工具列的介面或分頁式的選取。`orientation` 屬性會同時改變版面配置與鍵盤導覽方向。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -103,13 +103,13 @@ Lists sometimes work better horizontally, such as toolbar-like interfaces or tab
   </docs-tab>
 </docs-tab-group>
 
-With `orientation="horizontal"`, left and right arrow keys navigate between options instead of up and down. The listbox automatically handles right-to-left (RTL) languages by reversing navigation direction.
+在 `orientation="horizontal"` 之下，左右方向鍵會在選項之間瀏覽，而不是上下方向鍵。Listbox 會自動處理由右至左（RTL）的語言，做法是反轉導覽方向。
 
-### Selection modes
+### 選取模式
 
-Listbox supports two selection modes that control when items become selected.
+Listbox 支援兩種選取模式，用來控制項目在什麼時候被選取。
 
-The `'follow'` mode automatically selects the focused item, providing faster interaction when selection changes frequently. The `'explicit'` mode requires Space or Enter to confirm selection, preventing accidental changes while navigating. Dropdown patterns typically use `'follow'` mode for single selection.
+`'follow'` 模式會自動選取取得焦點的項目，在選取頻繁變更時提供更快的互動。`'explicit'` 模式則需要用空白鍵或 Enter 確認選取，避免在瀏覽時不小心變更。下拉清單模式在單選時通常使用 `'follow'` 模式。
 
 #### Explicit
 
@@ -125,17 +125,17 @@ The `'follow'` mode automatically selects the focused item, providing faster int
   <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/modes/app/follow/app.html" />
 </docs-code-multifile>
 
-| Mode         | Description                                                                                            |
+| 模式         | 說明                                                                                                   |
 | ------------ | ------------------------------------------------------------------------------------------------------ |
-| `'follow'`   | Automatically selects the focused item, providing faster interaction when selection changes frequently |
-| `'explicit'` | Requires Space or Enter to confirm selection, preventing accidental changes while navigating           |
+| `'follow'`   | 在選取頻繁變更時，會自動選取取得焦點的項目，提供更快的互動                                               |
+| `'explicit'` | 需要用空白鍵或 Enter 確認選取，避免在瀏覽時不小心變更                                                     |
 
-TIP: Dropdown patterns typically use `'follow'` mode for single selection.
+TIP: 下拉清單模式在單選時通常使用 `'follow'` 模式。
 
-## Testing
+## 測試
 
-Angular Aria provides component harnesses for testing listbox components.
-Here is an example of how to use the harnesses in a component test:
+Angular Aria 提供元件 harness，可用來測試 listbox 元件。
+以下範例示範如何在元件測試中使用這些 harness：
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
@@ -181,19 +181,19 @@ describe('MyListboxComponent', () => {
 });
 ```
 
-## API reference
+## API 參考
 
-For detailed API documentation, inspect the following API references:
+如需詳細的 API 文件，請查看下列 API 參考：
 
 - [`Listbox`](/api/aria/listbox/Listbox)
 - [`Option`](/api/aria/listbox/Option)
 
-### Related patterns
+### 相關模式
 
-Listbox is used by these documented dropdown patterns:
+Listbox 被下列已文件化的下拉清單模式使用：
 
-- [Select](guide/aria/select) - Single-selection dropdown pattern using readonly combobox + listbox
-- [Multiselect](guide/aria/multiselect) - Multiple-selection dropdown pattern using readonly combobox + listbox with `multi`
-- [Autocomplete](guide/aria/autocomplete) - Filterable dropdown pattern using combobox + listbox
+- [Select](guide/aria/select)：使用唯讀 combobox 加上 listbox 的單選下拉清單模式
+- [Multiselect](guide/aria/multiselect)：使用唯讀 combobox 加上 listbox 與 `multi` 的多選下拉清單模式
+- [Autocomplete](guide/aria/autocomplete)：使用 combobox 加上 listbox 的可篩選下拉清單模式
 
-For complete dropdown patterns with trigger, popup, and overlay positioning, see those pattern guides instead of using listbox alone.
+若需要包含觸發器、彈出視窗與覆蓋層定位的完整下拉清單模式，請參閱那些模式指南，不要只單獨使用 listbox。

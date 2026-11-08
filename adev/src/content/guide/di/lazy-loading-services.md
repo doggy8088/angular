@@ -1,14 +1,14 @@
-# Lazy loading services
+# 延遲載入服務
 
-IMPORTANT: For lazy loading to work, the service you load must be auto-provided. Decorate it with either `@Injectable({providedIn: 'root'})` or [`@Service()`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator). Without auto-provisioning, Angular has no way to construct the service after it loads.
+IMPORTANT: 若要讓延遲載入運作，你載入的服務必須是自動提供的。請用 `@Injectable({providedIn: 'root'})` 或 [`@Service()`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator) 裝飾它。若沒有自動提供，Angular 在服務載入後就無法建構它。
 
-Angular's `injectAsync` function lets you load a service on demand, only when it's actually needed. This is useful when a service depends on a large library or rarely used feature, and you don't want to pay for it on the initial page load.
+Angular 的 `injectAsync` 函式讓你按需載入服務，只在真正需要時才載入。當服務依賴大型函式庫或不常使用的功能、而你不想在初始頁面載入時就付出這個成本時，這非常有用。
 
-When you use `injectAsync`, the service's code is split out by your bundler into a separate JavaScript chunk and downloaded the first time you ask for the instance. Once loaded, Angular resolves the service through the regular DI system, so it can still depend on other injectables and behaves like any other singleton.
+當你使用 `injectAsync` 時，服務的程式碼會被你的打包工具拆成獨立的 JavaScript chunk，在你第一次索取實例時下載。載入後，Angular 會透過一般的 DI 系統解析該服務，因此它仍然可以依賴其他可注入項，行為也和任何其他單例一樣。
 
-## Lazily injecting a service
+## 延遲注入服務
 
-Imagine a `ReportExporter` that depends on a heavy spreadsheet library. Most users open the report; only a few click **Export**. Load the exporter on demand:
+想像一個依賴厚重試算表函式庫的 `ReportExporter`。大多數使用者只會開啟報表，只有少數人會點擊 **Export**。按需載入匯出器：
 
 ```angular-ts
 import {Component, injectAsync} from '@angular/core';
@@ -27,9 +27,9 @@ export class Report {
 }
 ```
 
-The first call to `this.exporter()` triggers the dynamic import and resolves the service from DI. Subsequent calls reuse the same promise, so the chunk is only fetched once.
+第一次呼叫 `this.exporter()` 會觸發動態匯入，並從 DI 解析該服務。後續呼叫會重複使用同一個 promise，因此 chunk 只會擷取一次。
 
-If the lazy-loaded service is the [default export](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/export#using_the_default_export), pass the dynamic import directly, Angular unwraps the `default` for you:
+如果延遲載入的服務是[預設匯出](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/export#using_the_default_export)，可以直接傳入動態匯入，Angular 會幫你解開 `default`：
 
 ```ts {header: "report-exporter.ts"}
 @Service()
@@ -42,11 +42,11 @@ export default class ReportExporter {
 private exporter = injectAsync(() => import('./report-exporter'));
 ```
 
-## Prefetching the dependency
+## 預先擷取依賴
 
-By default, the lazy chunk is only fetched when you invoke the returned function. You can start the download earlier by passing a `prefetch` trigger in the options. A trigger is any function that returns a `Promise`, when it resolves, Angular kicks off the loader.
+依預設，延遲的 chunk 只在你叫用傳回的函式時才會擷取。你可以在選項中傳入 `prefetch` 觸發器，讓下載更早開始。觸發器是任何傳回 `Promise` 的函式，當它解析完成時，Angular 就會啟動載入器。
 
-Angular ships with `onIdle`, a built-in trigger that waits until the browser becomes idle:
+Angular 內建了 `onIdle` 觸發器，它會等到瀏覽器閒置時才觸發：
 
 ```ts
 import {Component, injectAsync, onIdle} from '@angular/core';
@@ -59,17 +59,17 @@ export class Report {
 }
 ```
 
-You can also configure `onIdle` with a maximum wait time so the prefetch always happens within a known window, even on busy pages:
+你也可以為 `onIdle` 設定最長等待時間，讓預先擷取在已知的時間範圍內一定會發生，即使頁面很忙也一樣：
 
 ```ts
 injectAsync(loader, {prefetch: () => onIdle({timeout: 1_000})});
 ```
 
-NOTE: Prefetching is opportunistic. If the user invokes the feature before the prefetch fires, Angular still loads the dependency immediately and resolves your `await` as soon as it's ready.
+NOTE: 預先擷取是機會性的。如果使用者在預先擷取觸發前就叫用該功能，Angular 仍會立即載入依賴，並在準備好時儘快解析你的 `await`。
 
-## Provide a custom prefetch trigger
+## 提供自訂預先擷取觸發器
 
-A `PrefetchTrigger` is just a function that returns a promise, the loader runs as soon as the promise resolves. Use this to align prefetching with your own signals, such as a hover or a scheduler tick:
+`PrefetchTrigger` 就只是一個傳回 promise 的函式，promise 一解析完成，載入器就會執行。用它來把預先擷取與你自己的訊號對齊，例如懸停事件或排程器的 tick：
 
 ```ts
 import {PrefetchTrigger} from '@angular/core';

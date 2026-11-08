@@ -1,23 +1,23 @@
-# Dynamic Forms with JSON
+# 使用 JSON 的動態表單
 
-Some forms can't define their structure at compile time. Server-driven forms, admin panels, multi-tenant applications, and CMS-managed content all need to render fields from configuration delivered at runtime, typically as JSON from a backend, an admin tool, or per-tenant settings.
+有些表單無法在編譯時期就定義好結構。由伺服器驅動的表單、管理後台、多租戶應用程式，以及由 CMS 管理的內容，都需要在執行時期依傳入的設定來呈現欄位，這類設定通常是以 JSON 形式從後端、管理工具或各租戶的設定中取得。
 
-This guide shows how to build forms whose model, schema, validation, and rendering are all derived from a single runtime configuration.
+本指南將說明如何建立這類表單：其模型、結構描述、驗證與呈現，全都源自同一份執行時期設定。
 
-## When to use JSON-driven forms
+## 何時適合用 JSON 驅動的表單
 
-This pattern is a good choice when:
+在下列情況下，這種模式是很好的選擇：
 
-- A backend defines which fields appear based on user role, feature flags, or business rules
-- Non-developers configure form structure through an admin panel or CMS
-- Each tenant in a multi-tenant application has its own form structure stored as configuration
-- Forms need to evolve without redeploying the frontend
+- 後端依使用者角色、功能旗標或商業規則，決定要顯示哪些欄位
+- 非開發人員透過管理後台或 CMS 設定表單結構
+- 多租戶應用程式中，每個租戶都有自己以設定形式儲存的表單結構
+- 表單需要演進，卻不想重新部署前端
 
-Use a static form (with fields defined directly in your component) when the structure is known at build time. Static forms get full TypeScript checking on every field, plus straightforward testing and tooling support.
+若表單結構在建置時期就已確定，請使用靜態表單（直接在元件中定義欄位）。靜態表單能對每個欄位進行完整的 TypeScript 檢查，測試與工具支援也更直接。
 
-## Defining a typed field config
+## 定義具型別的欄位設定
 
-When you want to render fields from runtime configuration, start with a TypeScript type that captures the shape of each field. A discriminated union by `kind` lets each variant declare its own validation options:
+當你想依執行時期設定來呈現欄位時，先從一個 TypeScript 型別著手，用它捕捉每個欄位的形狀。以 `kind` 作為判別欄位的聯集型別（discriminated union），能讓每個變體宣告各自的驗證選項：
 
 ```ts
 type FieldConfig =
@@ -25,9 +25,9 @@ type FieldConfig =
   | {kind: 'number'; name: string; label: string; required?: boolean; min?: number; max?: number};
 ```
 
-Every variant has a name, label, and optional `required` flag. Number fields additionally accept `min` and `max` bounds. Add new variants by adding new `kind` branches.
+每個變體都有名稱、標籤，以及可選的 `required` 旗標。數字欄位還額外接受 `min` 與 `max` 界限。要新增變體，只要加入新的 `kind` 分支即可。
 
-A concrete config might look like this:
+一份具體的設定可能長這樣：
 
 ```ts
 const profileConfig: FieldConfig[] = [
@@ -36,11 +36,11 @@ const profileConfig: FieldConfig[] = [
 ];
 ```
 
-In practice this `FieldConfig[]` typically arrives from your backend, an admin panel, or a CMS. For brevity, the examples below use an in-component literal.
+實務上，這份 `FieldConfig[]` 通常來自你的後端、管理後台或 CMS。為了簡潔，以下範例使用元件內的常值。
 
-## Building the model from config
+## 從設定建立模型
 
-The form's model needs one entry per field with a default value matching the field's kind. A small helper handles this:
+表單模型需要為每個欄位準備一個項目，其預設值要與欄位的種類相符。一個小小的輔助函式就能處理這件事：
 
 ```ts
 function buildModel(configs: FieldConfig[]): Record<string, string | number | null> {
@@ -52,13 +52,13 @@ function buildModel(configs: FieldConfig[]): Record<string, string | number | nu
 }
 ```
 
-The model uses `Record<string, string | number | null>` because the keys are not known ahead of time.
+模型使用 `Record<string, string | number | null>`，因為鍵名無法事先得知。
 
-In addition, numeric fields initialize to `null` rather than `0` so an empty field reads as empty. With `0`, [`required()`](api/forms/signals/required) would treat the field as already filled, and any [`min()`](api/forms/signals/min) constraint above zero would flag the field invalid before the user enters anything.
+此外，數字欄位初始化為 `null` 而非 `0`，這樣空白欄位讀起來就是空白。若用 `0`，[`required()`](api/forms/signals/required) 會把該欄位視為已填寫，而且任何大於零的 [`min()`](api/forms/signals/min) 限制，都會在使用者輸入任何內容之前就把該欄位標為無效。
 
-## Building the schema from config
+## 從設定建立結構描述
 
-The schema is also derived from the config. You can loop through each entry and apply the validators that match its kind:
+結構描述同樣源自設定。你可以逐一走訪每個項目，並套用與其種類相符的驗證器：
 
 ```ts
 import {required, min, max, SchemaFn, SchemaPath} from '@angular/forms/signals';
@@ -82,11 +82,11 @@ function buildSchema(configs: FieldConfig[]): SchemaFn<Record<string, string | n
 }
 ```
 
-The discriminated union narrows `config` inside each branch, so `config.min` and `config.max` are typed correctly when `config.kind === 'number'`.
+判別聯集會在每個分支內縮小 `config` 的型別，因此當 `config.kind === 'number'` 時，`config.min` 與 `config.max` 的型別都是正確的。
 
-## Expressing conditional rules in config
+## 在設定中表達條件規則
 
-Some validation rules only make sense under certain conditions. For example, US state codes need validating only when the country is the US. Express these dependencies in the config by adding a `when` discriminator that names another field and the value it must equal:
+有些驗證規則只在特定條件下才有意義。例如，美國州別代碼只有在國家為美國時才需要驗證。要在設定中表達這類相依關係，可以加入一個 `when` 判別欄位，指出另一個欄位的名稱，以及它必須等於的值：
 
 ```ts
 type WhenCondition = {field: string; equals: string | number};
@@ -104,7 +104,7 @@ type FieldConfig =
     };
 ```
 
-Update `buildSchema()` to translate `when` into an [`applyWhen()`](api/forms/signals/applyWhen) call. Shared rule application logic moves into a small closure so the conditional and unconditional branches both call the same function:
+接著更新 `buildSchema()`，把 `when` 轉換成 [`applyWhen()`](api/forms/signals/applyWhen) 呼叫。把共用的規則套用邏輯移到一個小閉包中，讓有條件與無條件的分支都呼叫同一個函式：
 
 ```ts
 import {applyWhen, required, min, max, SchemaFn, SchemaPath} from '@angular/forms/signals';
@@ -133,9 +133,9 @@ function buildSchema(configs: FieldConfig[]): SchemaFn<Record<string, string | n
 }
 ```
 
-When `applyWhen()`'s condition is true, the rules inside activate. When the condition becomes false, the rules deactivate and the field's validation state clears. Because the condition function reads through `valueOf(rootPath[field])`, the form re-evaluates the gate every time the referenced field changes.
+當 `applyWhen()` 的條件為真時，裡面的規則就會啟用；當條件變為假時，規則停用，該欄位的驗證狀態也會清除。由於條件函式是透過 `valueOf(rootPath[field])` 讀值，每當被參照的欄位變更時，表單就會重新評估這道關卡。
 
-A config that uses `when` looks like this:
+一份使用 `when` 的設定長這樣：
 
 ```ts
 const addressConfig: FieldConfig[] = [
@@ -150,17 +150,17 @@ const addressConfig: FieldConfig[] = [
 ];
 ```
 
-The `stateCode` field only requires a value when `country` is `'US'`. Users entering any other country can leave `stateCode` blank without blocking submission.
+只有當 `country` 為 `'US'` 時，`stateCode` 欄位才需要填值。輸入其他任何國家的使用者，都可以把 `stateCode` 留白，不會因此無法送出表單。
 
-For more complex conditions (multiple fields, ranges, or non-equality checks), extend `WhenCondition` with additional discriminators (such as `in: string[]` or `notEquals: string | number`) and translate each variant inside `buildSchema()`. The principle is the same: the config carries the data, `buildSchema()` translates it to `applyWhen()` calls.
+若條件更複雜（多個欄位、範圍，或非相等比較），可以為 `WhenCondition` 加入更多判別欄位（例如 `in: string[]` 或 `notEquals: string | number`），並在 `buildSchema()` 中逐一轉換每個變體。原則相同：設定攜帶資料，`buildSchema()` 把它轉換成 `applyWhen()` 呼叫。
 
-To gate visibility instead of validation, follow the same pattern using [`hidden()`](api/forms/signals/hidden) on the field path. See [Configuring `hidden()` state on fields](guide/forms/signals/form-logic#configuring-hidden-state-on-fields) for details.
+若要控制的是顯示與否而非驗證，可以比照相同模式，在欄位路徑上使用 [`hidden()`](api/forms/signals/hidden)。詳情請參閱[在欄位上設定 `hidden()` 狀態](guide/forms/signals/form-logic#configuring-hidden-state-on-fields)。
 
-## Expressing repeating fields in config
+## 在設定中表達重複欄位
 
-Some configurations need fields that grow and shrink at runtime, like a list of phone numbers, tags, or invoice line items. Add an `array` kind to the config and translate it to [`applyEach()`](api/forms/signals/applyEach) so per-item rules apply uniformly as items come and go.
+有些設定需要能在執行時期增減的欄位，例如一串電話號碼、標籤，或發票品項。可以為設定加入 `array` 種類，並將其轉換成 [`applyEach()`](api/forms/signals/applyEach)，讓每個項目的規則在項目增減時都能一致套用。
 
-Extend `FieldConfig` with an `array` variant. This example uses arrays of strings; the same approach scales to arrays of objects by replacing the item shape with a record:
+先為 `FieldConfig` 擴充一個 `array` 變體。以下範例使用字串陣列；把項目形狀換成記錄（record），同樣的做法也能擴展到物件陣列：
 
 ```ts
 type FieldConfig =
@@ -177,7 +177,7 @@ type FieldConfig =
   | {kind: 'array'; name: string; label: string; itemRequired?: boolean; when?: WhenCondition};
 ```
 
-Update `buildModel()` to initialize array fields with an empty array. The model widens to include `string[]`:
+更新 `buildModel()`，讓陣列欄位初始化為空陣列。模型型別隨之放寬，納入 `string[]`：
 
 ```ts
 function buildModel(configs: FieldConfig[]): Record<string, string | number | null | string[]> {
@@ -191,7 +191,7 @@ function buildModel(configs: FieldConfig[]): Record<string, string | number | nu
 }
 ```
 
-Update `buildSchema()` to apply per-item rules with `applyEach()`. The path coming from a `Record<string, string | number | null | string[]>` model is too broad for `applyEach()` (and for `min()` / `max()`) to type-check directly, so cast `fieldPath` to the appropriate shape inside each `kind` branch:
+更新 `buildSchema()`，用 `applyEach()` 套用每個項目的規則。來自 `Record<string, string | number | null | string[]>` 模型的路徑，對 `applyEach()`（以及 `min()`／`max()`）來說太寬，無法直接通過型別檢查，因此要在每個 `kind` 分支內，把 `fieldPath` 轉型為適當的形狀：
 
 ```ts
 import {
@@ -240,9 +240,9 @@ function buildSchema(
 }
 ```
 
-The casts inside each branch are deliberate escape hatches: you're trading the compiler's structural guarantee for a runtime invariant the surrounding `kind` check enforces. Each cast is scoped to a `kind` block, so the assumption stays local and straightforward to audit.
+每個分支內的轉型都是刻意留下的逃生口：你等於放棄編譯器的結構保證，換取由外層 `kind` 檢查所強制維持的執行時期不變量。每個轉型的作用範圍都侷限在單一 `kind` 區塊內，因此這項假設保持在局部，審查起來也很直接。
 
-A config that uses the `array` kind looks like this:
+一份使用 `array` 種類的設定長這樣：
 
 ```ts
 const contactConfig: FieldConfig[] = [
@@ -251,7 +251,7 @@ const contactConfig: FieldConfig[] = [
 ];
 ```
 
-To render an array field, iterate it with `@for` and let users add or remove items by updating the model signal. Add a typed accessor that returns a [`FieldTree`](api/forms/signals/FieldTree) so the iteration sees the array structure, and define methods to grow and shrink the model:
+要呈現陣列欄位，可以用 `@for` 走訪它，並讓使用者透過更新模型訊號來新增或移除項目。加入一個具型別的存取器，回傳 [`FieldTree`](api/forms/signals/FieldTree)，讓走訪能看見陣列結構；同時定義增減模型的方法：
 
 ```ts
 import {FieldTree} from '@angular/forms/signals';
@@ -276,9 +276,9 @@ removeItem(name: string, index: number) {
 }
 ```
 
-`FieldTree<string[]>` is iterable, so `@for` can walk it; each item is a `FieldTree<string>` that satisfies `[formField]` directly. Leaf fields can use `Field<T>` accessors instead, since `Field<T>` is the callable signature without iteration.
+`FieldTree<string[]>` 可以走訪，因此 `@for` 能逐項處理；每個項目都是一個 `FieldTree<string>`，能直接滿足 `[formField]`。葉欄位則可以改用 `Field<T>` 存取器，因為 `Field<T>` 是可呼叫簽章，不具走訪能力。
 
-In the template, render an array case like this:
+在範本中，陣列的情況可以這樣呈現：
 
 ```angular-html
 @case ('array') {
@@ -293,11 +293,11 @@ In the template, render an array case like this:
 }
 ```
 
-The `addItem()` method extends the model; the form re-derives the array's fields automatically. New items start with fresh validation state. The `removeItem()` method filters the model. Because arrays of primitives are [tracked by position](#tracking-item-identity), field state is tied to the index rather than the value: when an item is removed, subsequent values shift into earlier positions and inherit their existing field state, while the trailing field is dropped.
+`addItem()` 方法會擴充模型，表單會自動重新推導陣列的欄位。新項目從全新的驗證狀態開始。`removeItem()` 方法會篩選模型。由於基本型別陣列是[依位置追蹤](#tracking-item-identity)的，欄位狀態與索引綁定，而非與值綁定：當某個項目被移除時，後面的值會移入較前面的位置，並繼承該位置原有的欄位狀態，最末尾的欄位則會被捨棄。
 
-### Tracking item identity
+### 追蹤項目身分
 
-Signal Forms tracks each item in an array of objects by its identity. When you store a reference to a field at a specific position, that reference follows the underlying data, not the position. Reading state through the held reference returns the data even if it has moved:
+Signal Forms 會依身分追蹤物件陣列中的每個項目。當你保存了指向特定位置欄位的參照時，該參照跟隨的是底層資料，而不是位置。透過保存的參照讀取狀態，即使資料已經移動，仍會回傳該資料：
 
 ```ts
 const contactModel = signal([
@@ -318,22 +318,22 @@ console.log(aliceField().value().phone); // '555-0001' (Alice's number)
 console.log(contactForm[0]().value().phone); // '555-0002' (Bob, now at index 0)
 ```
 
-This identity tracking prevents bugs when sorting, reordering, or filtering, as long as the referenced item remains in the array. Stored field references remain valid even when array order changes; removing the referenced item itself orphans the held reference.
+這種身分追蹤能避免排序、重排或篩選時出現錯誤，前提是被參照的項目還留在陣列中。即使陣列順序改變，保存下來的欄位參照依然有效；若移除的正是被參照的項目本身，該參照就會變成孤兒。
 
-For arrays of primitives (the `phoneNumbers` example above), Signal Forms tracks items positionally instead: index 0 always refers to whatever value is currently at position 0.
+對於基本型別陣列（前述 `phoneNumbers` 範例），Signal Forms 改以位置追蹤項目：索引 0 永遠指向目前位於位置 0 的值。
 
-Identity here is by JavaScript object reference, not by a logical id like a database key. If you replace the array with freshly-deserialized objects (for example, after a server reload), field state doesn't follow the logical item even when each item's `id` is unchanged. The guarantee covers in-memory operations like sorting, reordering, and filtering, not data refresh.
+這裡的身分指的是 JavaScript 物件參照，而不是資料庫鍵之類的邏輯 id。若你把陣列換成剛反序列化出的新物件（例如伺服器重新載入之後），即使每個項目的 `id` 都沒變，欄位狀態也不會跟隨邏輯項目。這項保證涵蓋的是排序、重排與篩選等記憶體內操作，不涵蓋資料刷新。
 
-## Validating the config
+## 驗證設定
 
-Configs from external sources need validation before the form is built. Several failure modes can hide in untrusted JSON:
+來自外部來源的設定，必須在建立表單之前先驗證。未受信任的 JSON 中可能藏著幾種失敗模式：
 
-- Duplicate `name` values overwrite earlier model entries and break the `track config.name` expression in the template.
-- A `when` clause that names a non-existent field fails at runtime when the condition first evaluates.
-- A `when` clause that compares against an `array` field has no defined equality semantics.
-- A `when.equals` value whose type doesn't match the referenced field's kind silently never matches, hiding the conditional behavior as if the rule were never active.
+- 重複的 `name` 值會覆寫先前的模型項目，並破壞範本中的 `track config.name` 運算式。
+- 參照不存在欄位的 `when` 子句，會在條件第一次求值時於執行時期失敗。
+- 對 `array` 欄位進行比較的 `when` 子句，沒有定義好的相等語意。
+- `when.equals` 的值若型別與被參照欄位的種類不符，就會靜靜地永遠比不到，讓條件行為像是規則從未啟用一樣被藏起來。
 
-Catch all four at the boundary:
+在邊界就攔下這四種情況：
 
 ```ts
 function validateConfigs(configs: FieldConfig[]): FieldConfig[] {
@@ -371,11 +371,11 @@ function validateConfigs(configs: FieldConfig[]): FieldConfig[] {
 }
 ```
 
-The first pass enforces uniqueness; the second pass walks each `when` clause to confirm the referenced field exists, isn't an array, and is being compared against a value of the right type. The function returns the configs unchanged on success, so it composes cleanly with the field initializer that holds the configs in the component. Failures surface at the boundary between your application and the upstream source rather than as opaque form misbehavior later.
+第一輪走訪強制名稱唯一；第二輪走訪每個 `when` 子句，確認被參照的欄位存在、不是陣列，而且比較的值型別正確。驗證成功時，函式會原封不動地回傳設定，因此能順暢地與元件中保存設定的欄位初始化銜接。失敗會在你的應用程式與上游來源之間的邊界浮現，而不是日後以難以理解的表單異常行為出現。
 
-## Rendering the form dynamically
+## 動態呈現表單
 
-In the component, use `@for` to iterate the configs and `@switch` on `kind` to pick the right input control:
+在元件中，使用 `@for` 走訪設定，並依 `kind` 用 `@switch` 挑選正確的輸入控制項：
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -457,27 +457,27 @@ export class DynamicForm {
 }
 ```
 
-Template type-checking treats `dynamicForm[name]` as an independent expression, so the `@switch` narrowing on `config.kind` doesn't reach the indexed access. The accessors restate that narrowing as a cast at the binding site, and the matching `kind` branch guarantees the narrowed type is correct at runtime.
+範本的型別檢查會把 `dynamicForm[name]` 視為獨立運算式，因此 `@switch` 對 `config.kind` 的型別縮小不會傳遞到索引存取。這些存取器在繫結位置以轉型重述了縮小結果，而相符的 `kind` 分支保證縮小後的型別在執行時期正確。
 
-Because the model and schema are both derived from the same `FieldConfig[]` at component construction, they can't drift apart for a given config. The example above assumes the config is available synchronously when the component is created.
+由於模型與結構描述都是在元件建構時，從同一份 `FieldConfig[]` 推導出來的，對同一份設定而言，兩者不可能漸行漸遠。以上範例假設設定在元件建立時就能同步取得。
 
-## Next steps
+## 後續步驟
 
-JSON-driven forms keep their model and schema aligned by deriving both from the same `FieldConfig[]`. Each extension in this guide (conditional rules, repeating fields) widens the type and adds a translation step inside `buildSchema()` while preserving that alignment. The model and schema stay locked together, regardless of where the config comes from or how it grows.
+JSON 驅動的表單讓模型與結構描述都源自同一份 `FieldConfig[]`，藉此讓兩者保持一致。本指南中的每項擴充（條件規則、重複欄位）都會放寬型別，並在 `buildSchema()` 中多加一個轉換步驟，同時保留這份一致性。無論設定來自何處、如何成長，模型與結構描述始終緊密相連。
 
-For related guides cover other aspects of Signal Forms, check out:
+想了解 Signal Forms 其他面向的相關指南，請參閱：
 
 <docs-pill-row>
-  <docs-pill href="guide/forms/signals/schemas" title="Schemas and schema composability" />
-  <docs-pill href="guide/forms/signals/validation" title="Validation" />
-  <docs-pill href="guide/forms/signals/form-logic" title="Adding form logic" />
-  <docs-pill href="guide/forms/signals/field-state-management" title="Field state management" />
+  <docs-pill href="guide/forms/signals/schemas" title="結構描述與結構描述可組合性" />
+  <docs-pill href="guide/forms/signals/validation" title="驗證" />
+  <docs-pill href="guide/forms/signals/form-logic" title="加入表單邏輯" />
+  <docs-pill href="guide/forms/signals/field-state-management" title="欄位狀態管理" />
 </docs-pill-row>
 
-For detailed API documentation, see:
+詳細 API 文件請參閱：
 
-- [`form()`](api/forms/signals/form) - Create a form from a model signal
-- [`applyWhen()`](api/forms/signals/applyWhen) - Apply a schema conditionally based on reactive state
-- [`applyEach()`](api/forms/signals/applyEach) - Apply a schema to each item in an array field
-- [`FieldTree`](api/forms/signals/FieldTree) - Navigable tree of fields exposed by `form()`
-- [`SchemaFn`](api/forms/signals/SchemaFn) - Type signature for schema functions
+- [`form()`](api/forms/signals/form) - 從模型訊號建立表單
+- [`applyWhen()`](api/forms/signals/applyWhen) - 依反應式狀態，有條件地套用結構描述
+- [`applyEach()`](api/forms/signals/applyEach) - 對陣列欄位的每個項目套用結構描述
+- [`FieldTree`](api/forms/signals/FieldTree) - `form()` 所公開、可走訪的欄位樹
+- [`SchemaFn`](api/forms/signals/SchemaFn) - 結構描述函式的型別簽章

@@ -1,49 +1,49 @@
-<docs-decorative-header title="Dependency injection in Angular" imgSrc="adev/src/assets/images/dependency_injection.svg"> <!-- markdownlint-disable-line -->
+<docs-decorative-header title="Angular 中的依賴注入" imgSrc="adev/src/assets/images/dependency_injection.svg"> <!-- markdownlint-disable-line -->
 
-Dependency Injection (DI) is a design pattern you use to organize and share code across your application by supplying dependencies to a class instead of creating them inside it.
+依賴注入（DI）是一種設計模式，讓你把依賴提供給類別，而不是讓類別自己建立這些依賴，藉此組織並共用整個應用程式的程式碼。
 </docs-decorative-header>
 
-TIP: Check out Angular's [Essentials](essentials/dependency-injection) before diving into this comprehensive guide.
+TIP: 在深入這份完整指南之前，先看看 Angular 的[精華篇](essentials/dependency-injection)。
 
-As an application grows, developers often need to reuse and share functionality across different parts of the codebase. [Dependency Injection (DI)](https://en.wikipedia.org/wiki/Dependency_injection) helps you achieve this by allowing you to provide dependencies to a class instead of creating them directly inside it. This makes different parts of the application more reusable and easier to manage.
+隨著應用程式成長，開發者經常需要在程式碼庫的不同部分重複使用並共用功能。[依賴注入（DI）](https://en.wikipedia.org/wiki/Dependency_injection)能幫助你達成這一點：你把依賴提供給類別，而不是在類別內部直接建立它們。這讓應用程式的不同部分更容易重複使用，也更容易管理。
 
-Dependency injection is a popular pattern because it allows developers to address common challenges such as:
+依賴注入之所以廣受歡迎，是因為它能讓開發者處理一些常見挑戰，例如：
 
-- **Improved code maintainability**: Dependency injection promotes a clear separation of concerns, making code easier to refactor and reducing duplication.
-- **Scalability**: You can reuse modular functionality across different parts of an application, making it easier to scale.
-- **Better testing**: DI allows unit tests to use [test doubles](https://en.wikipedia.org/wiki/Test_double) in place of real implementations when needed.
+- **提升程式碼可維護性**：依賴注入促進清晰的關注點分離，讓程式碼更容易重構，也減少重複。
+- **可擴充性**：你可以在應用程式的不同部分重複使用模組化功能，讓擴充更容易。
+- **更好的測試**：DI 讓單元測試在需要時能用[測試替身](https://en.wikipedia.org/wiki/Test_double)取代真正的實作。
 
-## How does dependency injection work in Angular?
+## 依賴注入在 Angular 中如何運作？
 
-A dependency is any object, value, function, or service that a class requires to work but does not create itself. Instead, you provide it from the outside, creating a clear relationship between different parts of the application.
+依賴是類別運作所需、但不會自己建立的任何物件、值、函式或服務。相反地，你從外部提供它，在應用程式的不同部分之間建立清晰的關係。
 
-You interact with a dependency injection system in two main ways:
+你主要透過兩種方式與依賴注入系統互動：
 
-- You can _provide_, or make available, values.
-- You can _inject_, or ask for, those values as dependencies.
+- 你可以*提供*，也就是讓值可供取用。
+- 你可以*注入*，也就是索取那些值作為依賴。
 
-In this context, "values" can refer to any JavaScript value, including objects, functions, or class instances. Common types of injected dependencies include:
+在這個脈絡中，「值」可以指任何 JavaScript 值，包括物件、函式或類別實例。常見的注入依賴類型包括：
 
-- **Configuration values**: Environment-specific constants, API URLs, feature flags, etc.
-- **Factories**: Functions that create objects or values based on runtime conditions
-- **Services**: Classes that provide common functionality, business logic, or state
+- **設定值**：與環境相關的常數、API URL、功能旗標等。
+- **工廠**：依執行階段條件建立物件或值的函式
+- **服務**：提供共用功能、業務邏輯或狀態的類別
 
-Angular components and directives automatically participate in DI, meaning that you can inject dependencies into them and make them available for injection.
+Angular 元件和指令會自動參與 DI，意思是你可以把依賴注入它們，也可以讓它們可供注入。
 
-## What are services?
+## 什麼是服務？
 
-An Angular _service_ is a TypeScript class decorated with `@Service`, which allows you to inject an instance of the class as a dependency. Services are the most common way of sharing data and functionality across an application.
+Angular _服務_是以 `@Service` 裝飾的 TypeScript 類別，讓你可以把該類別的實例作為依賴注入。服務是跨應用程式共用資料與功能最常見的方式。
 
-Common types of services include:
+常見的服務類型包括：
 
-- **Data clients:** Abstracts the details of making requests to a server for data retrieval and mutation
-- **State management:** Defines state shared across multiple components or pages
-- **Authentication and authorization:** Manages user authentication, token storage, and access control
-- **Logging and error handling:** Establishes a common API for logging or communicating error states to the user
-- **Event handling and dispatch:** Handles events or notifications that are not associated with a specific component, or for dispatching events and notifications to components, following the [observer pattern](https://en.wikipedia.org/wiki/Observer_pattern)
-- **Utility functions:** Offers reusable utility functions like data formatting, validation, or calculations
+- **資料用戶端**：抽象化向伺服器發出資料取得與異動請求的細節
+- **狀態管理**：定義跨多個元件或頁面共用的狀態
+- **驗證與授權**：管理使用者驗證、token 儲存與存取控制
+- **記錄與錯誤處理**：為記錄或向使用者傳達錯誤狀態建立共用 API
+- **事件處理與派送**：處理不屬於特定元件的事件或通知，或把事件和通知派送給元件，遵循[觀察者模式](https://en.wikipedia.org/wiki/Observer_pattern)
+- **工具函式**：提供可重複使用的工具函式，例如資料格式化、驗證或計算
 
-The following example declares a service named `AnalyticsLogger`:
+以下範例宣告了一個名為 `AnalyticsLogger` 的服務：
 
 ```ts
 import {Service} from '@angular/core';
@@ -60,15 +60,15 @@ export class AnalyticsLogger {
 }
 ```
 
-NOTE: The `@Service` makes this service available throughout your entire application as a singleton. This is the recommended approach for most services.
+NOTE: `@Service` 讓這個服務在整個應用程式中以單例的形式可供使用。這是大多數服務的建議做法。
 
-HELPFUL: The [`@Service`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator) decorator is an ergonomic shorthand for `@Injectable({providedIn: 'root'})`.
+HELPFUL: [`@Service`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator)裝飾器是 `@Injectable({providedIn: 'root'})` 的順手簡寫。
 
-## Injecting dependencies with `inject()`
+## 使用 `inject()` 注入依賴
 
-You can inject dependencies using Angular's `inject()` function.
+你可以使用 Angular 的 `inject()` 函式來注入依賴。
 
-Here is an example of a navigation bar that injects `AnalyticsLogger` and Angular `Router` service to allow users to navigate to a different page while tracking the event.
+以下是一個導覽列的範例，它注入了 `AnalyticsLogger` 和 Angular 的 `Router` 服務，讓使用者在導覽到其他頁面的同時也能追蹤事件。
 
 ```angular-ts
 import {Component, inject} from '@angular/core';
@@ -91,9 +91,9 @@ export class Navbar {
 }
 ```
 
-### Where can `inject()` be used?
+### `inject()` 可以用在哪裡？
 
-You can inject dependencies during construction of a component, directive, or service. The call to [`inject`](/api/core/inject) can appear in either the `constructor` or in a field initializer. Here are some common examples:
+你可以在元件、指令或服務的建構期間注入依賴。對 [`inject`](/api/core/inject) 的呼叫可以出現在 `constructor` 中，也可以出現在欄位初始化器中。以下是一些常見範例：
 
 ```ts
 @Component(/* ... */)
@@ -137,18 +137,18 @@ export const authGuard = () => {
 };
 ```
 
-Angular uses the term "injection context" to describe any place in your code where you can call [`inject`](/api/core/inject). While component, directive, and service construction is the most common, see [injection contexts](/guide/di/dependency-injection-context) for more details.
+Angular 用「注入上下文」一詞來描述程式碼中任何可以呼叫 [`inject`](/api/core/inject) 的位置。元件、指令與服務的建構是最常見的情形，詳情請參閱[注入上下文](/guide/di/dependency-injection-context)。
 
-For more information, see the [inject API docs](api/core/inject#usage-notes).
+更多資訊請參閱 [inject API 文件](api/core/inject#usage-notes)。
 
-## Next steps
+## 後續步驟
 
-Now that you understand the fundamentals of dependency injection in Angular, you're ready to learn how to create your own services.
+現在你已了解 Angular 依賴注入的基本原理，可以開始學習如何建立自己的服務了。
 
-The next guide, [Creating and using services](guide/di/creating-and-using-services), will show you:
+下一篇指南[建立與使用服務](guide/di/creating-and-using-services)將示範：
 
-- How to create a service with the Angular CLI or manually
-- How the `providedIn: 'root'` pattern works
-- How to inject services into components and other services
+- 如何用 Angular CLI 或手動建立服務
+- `providedIn: 'root'` 模式如何運作
+- 如何把服務注入元件和其他服務
 
-This covers the most common use case for services in Angular applications.
+這涵蓋了 Angular 應用程式中最常見的服務使用情境。

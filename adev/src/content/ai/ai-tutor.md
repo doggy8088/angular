@@ -1,93 +1,93 @@
-# Angular AI Tutor
+# Angular AI 教學導師
 
-The Angular AI Tutor is designed to interactively guide you step-by-step through building a complete, modern Angular application from the ground up. You'll learn the latest patterns and best practices by building a real, tangible project: a **"Smart Recipe Box"** for creating and managing recipes.
+Angular AI 教學導師旨在以互動方式，逐步引導你從零開始建置一個完整、現代的 Angular 應用程式。你將透過建置一個真實、具體的專案，學習最新模式與最佳實踐：一個用於建立與管理食譜的「**Smart Recipe Box**」。
 
-Our goal is to foster critical thinking and help you retain what you learn. Instead of just giving you code, the tutor will explain concepts, show you examples, and then give you project-specific exercises to solve on your own.
+我們的目標是培養批判性思考，並幫助你記住所學。教學導師不會只是直接給你程式碼，而是會講解概念、展示範例，然後給你專為專案設計的練習，讓你自己動手解題。
 
-## Get Started
+## 開始使用
 
-You can access the AI tutor via the [Angular MCP server](ai/mcp).
+你可以透過 [Angular MCP server](ai/mcp) 存取 AI 教學導師。
 
-1. [Install](ai/mcp#get-started) the Angular MCP server
-2. Create a new Angular project `ng new <project-name>`
-3. Navigate to your new project (`cd <project-name>`) in an AI-powered editor or tool, like the [Gemini CLI](https://geminicli.com/)
-4. Enter a prompt like `launch the Angular AI tutor`
-   ![A screenshot demonstrating how to launch the Angular AI Tutor in the Gemini CLI.](assets/images/launch-ai-tutor.png 'Launch the Angular AI Tutor')
+1. [安裝](ai/mcp#get-started) Angular MCP server
+2. 建立新的 Angular 專案 `ng new <project-name>`
+3. 在 AI 驅動的編輯器或工具（例如 [Gemini CLI](https://geminicli.com/)）中，導覽至你的新專案（`cd <project-name>`）
+4. 輸入類似 `launch the Angular AI tutor` 的提示詞
+   ![示範如何在 Gemini CLI 中啟動 Angular AI Tutor 的螢幕截圖。](assets/images/launch-ai-tutor.png '啟動 Angular AI Tutor')
 
-## Using the AI Tutor
+## 使用 AI 教學導師
 
-Each module begins with a brief concept explanation.
-![A screenshot of the Angular AI Tutor presenting a brief concept explanation.](assets/images/ai-tutor-preview-1.png 'Angular AI Tutor explanation')
-If applicable, the tutor will present a code example to demonstrate the concept.
-![A screenshot of the Angular AI Tutor showing a code example.](assets/images/ai-tutor-preview-2.png 'Angular AI Tutor code example')
-The tutor will also provide an open-ended exercise to test your understanding.
-![A screenshot of the Angular AI Tutor providing an exercise.](assets/images/ai-tutor-preview-3.png 'Angular AI Tutor exercise')
-Finally, the tutor will check your work before moving onto the next module.
-![A screenshot of the Angular AI Tutor checking the user's work.](assets/images/ai-tutor-preview-4.png 'Angular AI Tutor check')
+每個模組都以簡短的概念講解開始。
+![Angular AI Tutor 呈現簡短概念講解的螢幕截圖。](assets/images/ai-tutor-preview-1.png 'Angular AI Tutor 說明')
+如有適用，教學導師會呈現程式碼範例來示範概念。
+![Angular AI Tutor 展示程式碼範例的螢幕截圖。](assets/images/ai-tutor-preview-2.png 'Angular AI Tutor 程式碼範例')
+教學導師也會提供開放式練習，檢驗你的理解程度。
+![Angular AI Tutor 提供練習的螢幕截圖。](assets/images/ai-tutor-preview-3.png 'Angular AI Tutor 練習')
+最後，教學導師會在進入下一個模組之前檢查你的成果。
+![Angular AI Tutor 檢查使用者成果的螢幕截圖。](assets/images/ai-tutor-preview-4.png 'Angular AI Tutor 檢查')
 
-## How It Works: The Learning Cycle
+## 運作方式：學習循環
 
-For each new topic, you'll follow a learning loop that emphasizes critical thinking to help you better retain what you learn.
+對於每個新主題，你都會遵循一個強調批判性思考的學習循環，幫助你更好地記住所學。
 
-1. **Learn the Concept:** The tutor will briefly explain a core Angular feature and show you a generic code example to illustrate it.
-2. **Apply Your Knowledge:** You'll immediately get a hands-on exercise. The tutor presents these exercises at a high level with objectives and expected outcomes, encouraging you to think through the solution yourself.
-3. **Get Feedback & Support:** When you're ready, let the tutor know. It will **automatically read your project files** to verify your solution is correct. If you get stuck, you are in complete control. You can ask for a **"hint"** for more guidance, or get step-by-step instructions by typing **"detailed guide"** or **"step-by-step instructions."**
+1. **學習概念**：教學導師會簡短講解一項核心 Angular 功能，並展示通用程式碼範例加以說明。
+2. **應用你的知識**：你會立即得到一個實作練習。教學導師以高層次方式呈現這些練習，包含目標與預期成果，鼓勵你自己思考解法。
+3. **取得回饋與支援**：當你準備好時，告訴教學導師即可。它會**自動讀取你的專案檔案**，驗證你的解答是否正確。如果你卡住了，完全由你掌控。你可以要求 **"hint"** 取得更多指引，或輸入 **"detailed guide"** 或 **"step-by-step instructions"** 取得逐步說明。
 
-Once you've succeeded, the tutor will move directly to the next topic. You can also ask the tutor for more information on a topic or ask any related Angular questions at any time.
+成功完成後，教學導師會直接進入下一個主題。你也可以隨時向教學導師詢問某個主題的更多資訊，或提出任何相關的 Angular 問題。
 
 ---
 
-## **Features & Commands**
+## **功能與指令**
 
-You are in control of your learning experience. Use these features at any time:
+你的學習體驗由你掌控。隨時都可以使用這些功能：
 
-### **Leave and Come Back**
+### **離開與回來**
 
-Feel free to take a break. Your progress is tied to your project's code. When you return for a new session, the tutor will automatically analyze your files to determine exactly where you left off, allowing you to seamlessly pick up right where you were.
+歡迎隨時休息。你的進度與專案的程式碼綁定。當你回到新的工作階段時，教學導師會自動分析你的檔案，精確判斷你上次停在哪裡，讓你無縫地從中斷處繼續。
 
-**Pro Tip:** We highly recommend using Git to save your progress. After completing a module, it's a great idea to commit your changes (e.g., `git commit -m "Complete Phase 1, Module 8"`). This acts as a personal checkpoint you can always return to.
+**專業提示**：我們強烈建議使用 Git 儲存你的進度。完成一個模組後，把變更提交是個好主意（例如 `git commit -m "Complete Phase 1, Module 8"`）。這就像是你個人的檢查點，隨時可以回來。
 
-### **Adjust Your Experience Level**
+### **調整你的經驗等級**
 
-You can set your experience level to **Beginner (1-3)**, **Intermediate (4-7)**, or **Experienced (8-10)**. You can change this setting at any time during your session, and the tutor will immediately adapt its teaching style to match.
+你可以把經驗等級設定為 **Beginner (1-3)**、**Intermediate (4-7)** 或 **Experienced (8-10)**。你可以在工作階段中隨時變更這個設定，教學導師會立即調整其教學風格以配合。
 
-**Example Prompts:**
+**範例提示詞**：
 
 - "Set my experience level to beginner."
 - "Change my rating to 8."
 
-### **See the Full Learning Plan**
+### **查看完整學習計畫**
 
-Want to see the big picture or check how far you've come? Just ask for the table of contents.
+想看全貌，或確認自己已經走了多遠？只要要求目錄即可。
 
-**Example Prompts:**
+**範例提示詞**：
 
 - "Where are we?"
 - "Show the table of contents."
 - "Show the plan."
 
-The tutor will display the full learning plan and mark your current location.
+教學導師會顯示完整的學習計畫，並標示你目前的位置。
 
-### **A Note on Styling**
+### **關於樣式的說明**
 
-The tutor will apply basic styling to your application to keep things looking clean. You are highly encouraged to apply your own styling to make the app your own.
+教學導師會為你的應用程式套用基本樣式，讓畫面保持整潔。我們非常鼓勵你套用自己的樣式，讓應用程式成為你的作品。
 
-### **Skip the Current Module**
+### **跳過目前模組**
 
-If you'd rather move on to the next topic in the learning path, you can ask the tutor to skip the current exercise.
+如果你想直接進入學習路徑的下一個主題，可以要求教學導師跳過目前的練習。
 
-**Example Prompts:**
+**範例提示詞**：
 
 - "Skip this section."
 - "Auto-complete this step for me."
 
-The tutor will ask for confirmation and then present you with the complete code solution for the current module and attempt to automatically apply any required updates to ensure you can continue smoothly with the next module.
+教學導師會要求確認，然後呈現目前模組的完整程式碼解答，並嘗試自動套用任何必要的更新，確保你能順利繼續下一個模組。
 
-### **Jump to Any Topic**
+### **跳至任何主題**
 
-If you want to learn about a specific topic out of order (e.g., jump from the basics to forms), you can. The tutor will provide the necessary code to update your project to the correct starting point for the selected module and attempt to automatically apply any required updates.
+如果你想不按順序學習特定主題（例如從基礎直接跳到表單），也可以。教學導師會提供必要的程式碼，把你的專案更新到所選模組的正確起點，並嘗試自動套用任何必要的更新。
 
-**Example Prompts:**
+**範例提示詞**：
 
 - "Take me to the forms lesson."
 - "I want to learn about Route Guards now."
@@ -95,13 +95,13 @@ If you want to learn about a specific topic out of order (e.g., jump from the ba
 
 ---
 
-## **Troubleshooting**
+## **疑難排解**
 
-### Setup Issues
+### 設定問題
 
-**"launch the Angular AI tutor" doesn't do anything?**
+輸入 **"launch the Angular AI tutor"** 沒有反應嗎？
 
-Make sure you have a project open first. The tutor needs an actual Angular project to work with:
+請先確認你有開啟專案。教學導師需要一個真正的 Angular 專案才能運作：
 
 ```bash
 ng new my-app
@@ -109,79 +109,79 @@ cd my-app
 code .
 ```
 
-Then ensure your MCP server is running. In VS Code, open the `.vscode/mcp.json` file and click the **"Start"** button at the top of the file.
+接著確認你的 MCP server 正在執行。在 VS Code 中，開啟 `.vscode/mcp.json` 檔案，並點選檔案頂端的 **"Start"** 按鈕。
 
-When you type "launch the Angular AI tutor", you should see a checkmark saying
-"Reviewed .vscode/mcp.json and ran start task" and a prompt asking to
-"Allow task run?" — go ahead and click Allow.
+當你輸入 "launch the Angular AI tutor" 時，你應該會看到一個勾號，顯示
+"Reviewed .vscode/mcp.json and ran start task"，以及一個詢問
+"Allow task run?" 的提示——請直接點選 Allow。
 
-**Still not working?**
+**仍然無法運作的話**：
 
-Try typing `#angular-cli` first to load the Angular context, then paste the tutorial URL: `https://angular.dev/ai/ai-tutor`
+先輸入 `#angular-cli` 載入 Angular 上下文，然後貼上教學網址：`https://angular.dev/ai/ai-tutor`
 
-**How to verify the server is running**
+**如何確認伺服器正在執行**
 
-Open the Command Palette (`Ctrl+Shift+P`), type "MCP: List Running Servers", and look for "angular-cli" in the list.
-
----
-
-### General Issues
-
-If the tutor doesn't respond correctly or you suspect an issue with your application, here are a few things to try:
-
-1. **Type "proceed":** This can often nudge the tutor to continue to the next step in the event it gets stuck.
-2. **Correct the Tutor:** If the tutor is mistaken about your progress (e.g., it says you're on Module 3 but you've completed Module 8), just tell it. For example: _"I'm actually on Module 8."_ The tutor will re-evaluate your code and adjust.
-3. **Verify Your UI:** If you want to confirm what your application's user interface should look like, just ask the tutor. For example: _"What should I see in my UI?"_
-4. **Reload the Browser Window:** A refresh can solve many issues related to your application.
-5. **Hard Restart the Browser:** Errors are sometimes only surfaced in the browser's developer console. A hard restart can help clear underlying issues related to the application.
-6. **Start a New Chat:** You can always start a new chat to remove the existing history and begin fresh. The tutor will read your files to find the latest step you were on.
-
-## **Your Learning Journey: The Phased Path**
-
-You will build your application over a five-phase journey. You can follow this path from start to finish to create a complete, fully-functional Angular application. Each module builds logically upon the last, taking you from the basics to advanced, real-world features.
-
-**A Note on Automated Setup:** Some modules require a setup step, like creating interfaces or mock data. In these cases, the tutor will present you with the code and file instructions. You will be responsible for creating and modifying these files as instructed before the exercise begins.
-
-### **Phase 1: Angular Fundamentals**
-
-- **Module 1:** Getting Started
-- **Module 2:** Dynamic Text with Interpolation
-- **Module 3:** Event Listeners (`(click)`)
-
-### **Phase 2: State and Signals**
-
-- **Module 4:** State Management with Writable Signals (Part 1: `set`)
-- **Module 5:** State Management with Writable Signals (Part 2: `update`)
-- **Module 6:** Computed Signals
-
-### **Phase 3: Component Architecture**
-
-- **Module 7:** Template Binding (Properties & Attributes)
-- **Module 8:** Creating & Nesting Components
-- **Module 9:** Component Inputs with Signals
-- **Module 10:** Styling Components
-- **Module 11:** List Rendering with `@for`
-- **Module 12:** Conditional Rendering with `@if`
-
-### **Phase 4: Advanced Features & Architecture**
-
-- **Module 13:** Two-Way Binding
-- **Module 14:** Services & Dependency Injection (DI)
-- **Module 15:** Basic Routing
-- **Module 16:** Introduction to Forms
-- **Module 17:** Intro to Angular Material
-
-### **Phase 5: Signal Forms**
-
-- **Module 18**: **Introduction to Signal Forms**
-- **Module 19**: **Submitting & Resetting**
-- **Module 20**: **Validation in Signal Forms**
-- **Module 21**: **Field State & Error Messages**
+開啟命令選擇區（`Ctrl+Shift+P`），輸入 "MCP: List Running Servers"，並在清單中尋找 "angular-cli"。
 
 ---
 
-## **A Note on AI & Feedback**
+### 一般問題
 
-This tutor is powered by a Large Language Model (LLM). While we've worked hard to make it an expert, AIs can make mistakes. If you encounter an explanation or code example that seems incorrect, please let us know. You can correct the tutor, and it will use your feedback to adjust its response.
+如果教學導師沒有正確回應，或你懷疑應用程式有問題，可以試試以下幾件事：
 
-For any technical bugs or feature requests, please [submit an issue](https://github.com/angular/angular-cli/issues).
+1. **輸入 "proceed"**：這通常能促使教學導師在卡住時繼續下一步。
+2. **糾正教學導師**：如果教學導師誤判了你的進度（例如它說你在 Module 3，但你已完成 Module 8），直接告訴它即可。例如：_"I'm actually on Module 8."_ 教學導師會重新評估你的程式碼並調整。
+3. **確認你的使用者介面**：如果你想確認應用程式的使用者介面應該長什麼樣子，只要詢問教學導師即可。例如：_"What should I see in my UI?"_
+4. **重新載入瀏覽器視窗**：重新整理能解決許多與你的應用程式相關的問題。
+5. **強制重啟瀏覽器**：錯誤有時只會出現在瀏覽器的開發者主控台中。強制重啟有助於清除與應用程式相關的潛在問題。
+6. **開始新聊天**：你隨時可以開始新聊天，移除既有的記錄並重新開始。教學導師會讀取你的檔案，找出你上次所在的最新步驟。
+
+## **你的學習之旅：分階段路徑**
+
+你將在五個階段的旅程中建置你的應用程式。你可以從頭到尾遵循這條路徑，建立一個完整、功能齊全的 Angular 應用程式。每個模組都邏輯地建構在前一個模組之上，帶你從基礎走向進階的實務功能。
+
+**關於自動設定的說明**：有些模組需要設定步驟，例如建立介面或模擬資料。在這些情況下，教學導師會呈現程式碼與檔案指示。在練習開始之前，你需要負責依照指示建立與修改這些檔案。
+
+### **階段 1：Angular 基礎**
+
+- **模組 1**：入門
+- **模組 2**：使用插值顯示動態文字
+- **模組 3**：事件監聽器（`(click)`）
+
+### **階段 2：狀態與訊號**
+
+- **模組 4**：以可寫訊號管理狀態（第 1 部分：`set`）
+- **模組 5**：以可寫訊號管理狀態（第 2 部分：`update`）
+- **模組 6**：計算訊號
+
+### **階段 3：元件架構**
+
+- **模組 7**：範本繫結（屬性與特性）
+- **模組 8**：建立與巢狀元件
+- **模組 9**：以訊號實現元件輸入
+- **模組 10**：元件樣式
+- **模組 11**：以 `@for` 渲染清單
+- **模組 12**：以 `@if` 進行條件渲染
+
+### **階段 4：進階功能與架構**
+
+- **模組 13**：雙向繫結
+- **模組 14**：服務與依賴注入（DI）
+- **模組 15**：基本路由
+- **模組 16**：表單簡介
+- **模組 17**：Angular Material 簡介
+
+### **階段 5：Signal Forms**
+
+- **模組 18**：**Signal Forms 簡介**
+- **模組 19**：**提交與重設**
+- **模組 20**：**Signal Forms 中的驗證**
+- **模組 21**：**欄位狀態與錯誤訊息**
+
+---
+
+## **關於 AI 與回饋的說明**
+
+這個教學導師由大型語言模型（LLM）驅動。雖然我們努力讓它成為專家，但 AI 仍可能犯錯。如果你遇到看似不正確的講解或程式碼範例，請告訴我們。你可以糾正教學導師，它會運用你的回饋調整回應。
+
+如有任何技術錯誤或功能請求，請[提交 issue](https://github.com/angular/angular-cli/issues)。

@@ -1,15 +1,15 @@
-# DI in action
+# DI 實務應用
 
-This guide explores additional features of dependency injection (DI) in Angular.
+本指南探討 Angular 依賴注入（DI）的其他功能。
 
-NOTE: For comprehensive coverage of InjectionToken and custom providers, see the [defining dependency providers guide](guide/di/defining-dependency-providers#injection-tokens).
+NOTE: 關於 InjectionToken 和自訂提供者的完整說明，請參閱[定義依賴提供者指南](guide/di/defining-dependency-providers#injection-tokens)。
 
-## Inject the component's DOM element
+## 注入元件的 DOM 元素
 
-Although developers generally avoid it, some visual effects and third-party tools require you to access the DOM directly.
-In such cases, you may need to access a component's DOM element.
+雖然開發者通常會避免這麼做，但有些視覺效果和第三方工具需要你直接存取 DOM。
+在這種情況下，你可能需要存取元件的 DOM 元素。
 
-Angular exposes the underlying DOM element of a `@Component` or `@Directive` through injection using the `ElementRef` token:
+Angular 透過 `ElementRef` token 進行注入，公開 `@Component` 或 `@Directive` 底層的 DOM 元素：
 
 ```ts {highlight:[7]}
 import {Directive, ElementRef, inject} from '@angular/core';
@@ -26,9 +26,9 @@ export class HighlightDirective {
 }
 ```
 
-## Inject the host element's tag name
+## 注入宿主元素的標籤名稱
 
-To get the tag name of a host element, inject it using the `HOST_TAG_NAME` token.
+若要取得宿主元素的標籤名稱，請使用 `HOST_TAG_NAME` token 注入它。
 
 ```ts
 import {Directive, HOST_TAG_NAME, inject} from '@angular/core';
@@ -55,23 +55,23 @@ export class RoleButtonDirective {
 }
 ```
 
-NOTE: If the host element might not have a tag name (e.g., `ng-container` or `ng-template`), make the injection optional.
+NOTE: 如果宿主元素可能沒有標籤名稱（例如 `ng-container` 或 `ng-template`），請把注入設為可選。
 
-## Resolve circular dependencies with a forward reference
+## 用前向參考解決循環依賴
 
-In TypeScript, the order of class declarations matters.
-You cannot reference a class directly until you define it.
+在 TypeScript 中，類別宣告的順序很重要。
+在定義類別之前，你無法直接參考它。
 
-This isn't usually a problem, especially if you adhere to the recommended _one class per file_ rule.
-However, in some cases, circular references are unavoidable.
-For example, if class 'A' refers to class 'B' and class 'B' refers to class 'A', one of them must be defined first.
+這通常不是問題，特別是當你遵循建議的*一個檔案一個類別*規則時。
+然而，在某些情況下，循環參考無可避免。
+例如，如果類別「A」參考類別「B」，而類別「B」又參考類別「A」，其中一個就必須先定義。
 
-The Angular `forwardRef()` function creates an _indirect_ reference that Angular can resolve later.
+Angular 的 `forwardRef()` 函式會建立一個*間接*參考，讓 Angular 稍後再解析。
 
-You face a similar problem when a class makes _a reference to itself_.
-For example, in its `providers` array.
-The `providers` array is a property of the `@Component()` decorator function, which must appear before the class definition.
-Such circular references can be resolved using `forwardRef`.
+當類別*參考自己*時，你也會面臨類似的問題。
+例如在它的 `providers` 陣列中。
+`providers` 陣列是 `@Component()` 裝飾器函式的屬性，必須出現在類別定義之前。
+這類循環參考可以用 `forwardRef` 解決。
 
 ```typescript {header: 'app.component.ts', highlight: [4]}
 providers: [

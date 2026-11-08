@@ -1,12 +1,12 @@
-# Designing your form model
+# 設計你的表單模型
 
-Signal Forms uses a model-driven approach, deriving the form's state and structure directly from the model you provide. Because it serves as the foundation of the entire form, it is important to start with a well-designed form model. This guide explores best practices for designing form models.
+Signal Forms 採用模型驅動的方法，直接從你提供的模型推導出表單的狀態與結構。模型是整個表單的基礎，因此一開始就設計好表單模型非常重要。本指南探討設計表單模型的最佳實務。
 
-## Form model vs domain model
+## 表單模型與領域模型
 
-Forms are used to collect user input. Your application likely has a domain model used to represent this input in a way that's optimized for business logic or storage. However, this is often _different_ than how we want to model the data in our form.
+表單用來收集使用者輸入。你的應用程式很可能有一個領域模型，用來以最適合業務邏輯或儲存的方式表示這些輸入。然而，這往往「不同於」我們想在表單中塑模資料的方式。
 
-The form model represents the raw user input as it appears in the UI. For instance, in a form you might ask a user to pick a date and a time slot for an appointment as separate input fields, even if your domain model represents it as a single JavaScript `Date` object.
+表單模型表示 UI 中呈現的原始使用者輸入。舉例來說，在表單中，你可能讓使用者分別在不同輸入欄位挑選預約的日期與時段，即使你的領域模型把它表示為單一個 JavaScript `Date` 物件。
 
 ```ts
 interface AppointmentFormModel {
@@ -21,17 +21,17 @@ interface AppointmentDomainModel {
 }
 ```
 
-Forms should use a form model tailored to the input experience, rather than simply repurposing the domain model.
+表單應該使用為輸入體驗量身打造的表單模型，而不是直接拿領域模型來充數。
 
-## Form model best practices
+## 表單模型最佳實務
 
-### Use specific types
+### 使用明確的型別
 
-Always define interfaces or types for your models as shown in [Using TypeScript types](/guide/forms/signals/models#using-typescript-types). Explicit types provide better IntelliSense, catch errors at compile time, and serve as documentation for what data the form contains.
+務必為你的模型定義介面或型別，如[使用 TypeScript 型別](/guide/forms/signals/models#using-typescript-types)所示。明確的型別能提供更好的 IntelliSense，在編譯時期攔截錯誤，也能作為文件，說明表單包含哪些資料。
 
-### Initialize all fields
+### 初始化所有欄位
 
-Provide initial values for every field in your model:
+為模型中的每個欄位提供初始值：
 
 ```ts {prefer, header: 'All fields initialized'}
 const taskModel = signal({
@@ -49,11 +49,11 @@ const taskModel = signal({
 });
 ```
 
-Missing initial values mean those fields won't exist in the field tree, making them inaccessible for form interactions.
+缺少初始值，表示那些欄位不會存在於欄位樹中，表單互動時也就無法存取它們。
 
-### Keep models focused
+### 讓模型保持聚焦
 
-Each model should represent a single form or a cohesive set of related data:
+每個模型應代表單一表單，或一組具內聚性的相關資料：
 
 ```ts {prefer, header: 'Focused on a single purpose'}
 const loginModel = signal({
@@ -75,11 +75,11 @@ const appModel = signal({
 });
 ```
 
-Separate models for different concerns makes forms easier to understand and reuse. Create multiple forms if you're managing distinct sets of data.
+不同關注點用不同模型分開，表單會更容易理解與重複使用。管理的是不同組資料時，就建立多個表單。
 
-### Consider validation requirements
+### 把驗證需求納入考量
 
-Design models with validation in mind. Group fields that validate together:
+設計模型時要把驗證放在心上。把會一起驗證的欄位分組：
 
 ```ts {prefer, header: 'Related fields grouped for comparison'}
 // Password fields grouped for comparison
@@ -90,15 +90,15 @@ interface PasswordChangeData {
 }
 ```
 
-This structure makes cross-field validation (like checking if `newPassword` matches `confirmPassword`) more natural.
+這樣的結構讓跨欄位驗證（例如檢查 `newPassword` 是否與 `confirmPassword` 相符）更自然。
 
-### Match data types to UI controls
+### 讓資料型別與 UI 控制項相符
 
-Properties on your form model should match the data types expected by your UI controls.
+表單模型上的屬性，應與 UI 控制項預期的資料型別相符。
 
-For example, consider a beverage order form with a `size` field (6, 12, or 24 pack) and a `quantity` field. The UI uses a dropdown (`<select>`) for size and a number input (`<input type="number">`) for quantity.
+例如，想像一個飲料訂購表單，有一個 `size` 欄位（6 入、12 入或 24 入包裝）與一個 `quantity` 欄位。UI 用下拉選單（`<select>`）選尺寸，用數字輸入（`<input type="number">`）填數量。
 
-Although the size options look numeric, `<select>` elements work with string values, so `size` should be modeled as a string. An `<input type="number">` on the other hand, does work with numbers, so `quantity` can be modeled as a number.
+雖然尺寸選項看起來是數字，但 `<select>` 元素處理的是字串值，所以 `size` 應塑模為字串。另一方面，`<input type="number">` 處理的是數字，所以 `quantity` 可以塑模為數字。
 
 ```ts {prefer, header: 'Appropriate data types for the bound UI controls'}
 interface BeverageOrderFormModel {
@@ -107,11 +107,11 @@ interface BeverageOrderFormModel {
 }
 ```
 
-### Avoid `undefined`
+### 避免 `undefined`
 
-A form model must not contain `undefined` values or properties. In Signal Forms the structure of the form is derived from the structure of the model, and `undefined` signifies the _absence of a field_, rather than a field with an empty value. This means you must also avoid optional fields (e.g., `{property?: string}`), as they implicitly allow `undefined`.
+表單模型不可以包含 `undefined` 的值或屬性。在 Signal Forms 中，表單的結構是從模型的結構推導出來的，而 `undefined` 表示的是「欄位不存在」，而不是值為空的欄位。這也表示你必須避免可選欄位（例如 `{property?: string}`），因為它們隱含允許 `undefined`。
 
-To represent a property with an empty value in your form model, use a value that the UI control understands to mean "empty" (e.g. `""` for a `<input type="text">`). If you're designing a custom UI control, `null` often works as a good value to signify "empty".
+要在表單模型中表示空的屬性值，請使用 UI 控制項能理解為「空」的值（例如文字輸入 `<input type="text">` 用的 `""`）。若你在設計自訂 UI 控制項，`null` 往往是表示「空」的好選擇。
 
 ```ts {prefer, header: 'Appropriate empty values'}
 interface UserFormModel {
@@ -123,13 +123,13 @@ interface UserFormModel {
 form(signal({name: '', birthday: null}));
 ```
 
-### Avoid models with dynamic structure
+### 避免動態結構的模型
 
-A form model has a dynamic structure if it changes shape (if the properties on the object change) based on its value. This happens when the model type allows for values with different shapes, such as a union of object types that have different properties, or a union of an object and a primitive. The following sections examine a few common scenarios where models with a dynamic structure might seem appealing, but ultimately prove problematic.
+若模型的形狀會依其值而改變（物件上的屬性會變動），它就具有動態結構。當模型型別允許形狀不同的值時，就會發生這種情況，例如由屬性不同的物件型別組成的聯集型別，或物件與原始型別的聯集。以下各節檢視幾個看似適合用動態結構模型、但最終證明問題重重的常見情境。
 
-#### Empty value for a complex object
+#### 複雜物件的空值
 
-We often use forms to ask users to enter brand new data, rather than edit existing data in a system. A good example of this is an account creation form. We might model that using the following form model.
+我們常用表單要求使用者輸入全新的資料，而不是編輯系統中既有的資料。開立帳號表單就是很好的例子。我們可能會用以下表單模型來塑模它。
 
 ```ts
 interface CreateAccountFormModel {
@@ -141,13 +141,13 @@ interface CreateAccountFormModel {
 }
 ```
 
-When creating the form we encounter a dilemma, what should the initial value in the model be? It may be tempting to create a `form<CreateAccountFormModel | null>()` since we don't have any input from the user yet.
+建立表單時我們會遇到一個難題：模型中的初始值該放什麼？由於還沒有任何使用者輸入，可能會想建立一個 `form<CreateAccountFormModel | null>()`。
 
 ```ts {avoid, header: 'Using null as empty value for complex object'}
 createAccountForm = form<CreateAccountFormModel | null>(signal(/* what goes here, null? */));
 ```
 
-However, it is important to remember that Signal Forms is _model driven_. If our model is `null` and `null` doesn't have a `name` or `username` property, that means our form won't have those subfields either. Instead what we really want is an instance of `CreateAccountFormModel` with all of its leaf fields set to an empty value.
+然而，務必記住 Signal Forms 是「模型驅動」的。模型若是 `null`，而 `null` 沒有 `name` 或 `username` 屬性，表示我們的表單也不會有那些子欄位。我們真正想要的，是一個所有葉欄位都設為空值的 `CreateAccountFormModel` 實例。
 
 ```ts {prefer, header: 'Same shape value with empty values for properties'}
 createAccountForm = form<CreateAccountFormModel>(
@@ -161,7 +161,7 @@ createAccountForm = form<CreateAccountFormModel>(
 );
 ```
 
-Using this representation, all of the subfields we need now exist, and we can bind them using the `[formField]` directive in our template.
+用這個表示方式，我們需要的所有子欄位都存在，也能在範本中用 `[formField]` 指令綁定它們。
 
 ```html
 First: <input [formField]="createAccountForm.name.first" /> Last:
@@ -169,9 +169,9 @@ First: <input [formField]="createAccountForm.name.first" /> Last:
 <input [formField]="createAccountForm.username" />
 ```
 
-#### Fields that are conditionally hidden or unavailable
+#### 條件式隱藏或不可用的欄位
 
-Forms aren't always linear. You often need to create conditional paths based on previous user input. One example of this is a form where we give the user different payment options. Let's start by imagining what the UI for such a form might look like.
+表單並不總是線性的。你常需要根據先前的使用者輸入建立條件式路徑。其中一個例子是讓使用者選擇不同付款方式的表單。先想像這類表單的 UI 可能長什麼樣子。
 
 ```html
 Name: <input type="text" />
@@ -190,7 +190,7 @@ Name: <input type="text" />
 </section>
 ```
 
-The best way to handle this is to use a form model with a static structure that includes fields for _all_ potential payment methods. In our schema, we can hide or disable the fields that are not currently available.
+處理這個問題最好的方式，是使用靜態結構的表單模型，把「所有」潛在付款方式的欄位都包含進去。在結構定義中，我們可以隱藏或停用目前不可用的欄位。
 
 ```ts {prefer, header: 'Static structure model'}
 interface BillPayFormModel {
@@ -217,9 +217,9 @@ const billPaySchema = schema<BillPayFormModel>((billPay) => {
 });
 ```
 
-Using this model, both `card` and `bank` objects are always present in the form's state. When the user switches payment methods, we only update the `type` property. The data they entered into the card fields remains safely stored in the `card` object, ready to be redisplayed if they switch back.
+用這個模型，`card` 與 `bank` 兩個物件都會一直存在於表單狀態中。使用者切換付款方式時，我們只需更新 `type` 屬性。他們在信用卡欄位輸入的資料會安全地保存在 `card` 物件中，切換回來時隨時可以重新顯示。
 
-In contrast, a dynamic form model may initially seem like a good fit for this use case. After all, we don't need fields for account and routing number if the user selected "Credit Card". We may be tempted to model this as a discriminated union:
+相較之下，動態表單模型乍看可能很適合這個使用情境。畢竟，使用者若選了「Credit Card」，我們就不需要帳號與銀行代碼的欄位。我們可能會想把它塑模成可辨識聯集：
 
 ```ts {avoid, header: 'Dynamic structure model'}
 interface BillPayFormModel {
@@ -239,23 +239,23 @@ interface BillPayFormModel {
 }
 ```
 
-However, consider what would happen in the following scenario:
+不過，想想以下情境會發生什麼事：
 
-1. User fills out their name and credit card information
-2. They're about to submit, but at the last moment they notice the convenience fee.
-3. They toggle to the bank account option instead, figuring they might as well avoid the fee.
-4. As they're about to enter the bank account info, they have second thoughts, they wouldn't want it to wind up in a leak.
-5. They toggle back to credit card option, but they notice all the info they just entered is gone!
+1. 使用者填好姓名與信用卡資訊
+2. 正要送出時，最後一刻注意到那筆便利手續費
+3. 他們改選銀行帳戶，想說不如省下這筆費用
+4. 正要輸入銀行帳戶資訊時，又改變心意，擔心資料萬一外洩怎麼辦
+5. 他們切換回信用卡選項，卻發現剛才輸入的所有資訊都不見了！
 
-This illustrates another problem with form models that have a dynamic structure: they can cause data loss. A model like this assumes that once a field becomes hidden, the information in it will never be needed again. It replaces the credit card information with the bank information, and has no way to get the credit card information back.
+這說明了動態結構表單模型的另一個問題：它可能造成資料遺失。這種模型假設欄位一旦被隱藏，其中的資訊就永遠不會再被需要。它把信用卡資訊換成銀行資訊，而且再也找不回信用卡資訊。
 
-#### Exceptions
+#### 例外
 
-While static structure is generally preferred, there are specific scenarios where dynamic structure is necessary and supported.
+靜態結構一般是比較好的選擇，但有特定情境下動態結構是必要的，而且受到支援。
 
-##### Arrays
+##### 陣列
 
-Arrays are the most common exception. Forms often need to collect a variable number of items, such as a list of phone numbers, attendees, or line items in an order.
+陣列是最常見的例外。表單常需要收集數量不定的項目，例如電話號碼清單、參加者名單，或訂單中的品項。
 
 ```ts
 interface SendEmailFormModel {
@@ -264,13 +264,13 @@ interface SendEmailFormModel {
 }
 ```
 
-In this case, the `recipientEmails` array grows and shrinks as the user interacts with the form. While the length of the array is dynamic, the structure of the individual items should be consistent (each item should have the same shape).
+在這個例子中，`recipientEmails` 陣列會隨著使用者與表單互動而增長或縮減。陣列的長度是動態的，但個別項目的結構應該保持一致（每個項目都應有相同的形狀）。
 
-##### Fields that are treated atomically by the UI control
+##### 由 UI 控制項以原子方式處理的欄位
 
-Another case where dynamic structure is acceptable is when a complex object is treated as a single, atomic value by the UI control. That is, if the control does not attempt to bind to or access any of its sub-fields individually. In this scenario, the control updates the value by replacing the entire object at once, rather than modifying its internal properties. Because the form structure is irrelevant in this scenario, it's acceptable for that structure to be dynamic.
+另一個可接受動態結構的情況，是複雜物件被 UI 控制項視為單一、原子的值。也就是說，控制項不會嘗試個別綁定或存取它的任何子欄位。在這種情境下，控制項是把整個物件一次換掉來更新值，而不是修改其內部屬性。由於表單結構在這個情境下無關緊要，該結構是動態的也可以接受。
 
-For example, consider a user profile form that includes a `location` field. The location is selected using a complex "location picker" widget (perhaps a map or a search-ahead dropdown) that returns a coordinate object. In the case where the location is not yet selected, or the user chooses not to share their location, the picker indicates the location as `null`.
+例如，想像一個使用者個人檔案表單，其中有一個 `location` 欄位。地點是透過一個複雜的「地點選擇器」小工具（可能是地圖或邊打字邊搜尋的下拉選單）選取的，它會回傳一個座標物件。在地點尚未選取、或使用者選擇不分享地點的情況下，選擇器以 `null` 表示地點。
 
 ```ts {prefer, header: 'Dynamic structure is ok when field is treated as atomic'}
 interface Location {
@@ -286,20 +286,20 @@ interface UserProfileFormModel {
 }
 ```
 
-In the template, we bind the `location` field directly to our custom control:
+在範本中，我們把 `location` 欄位直接綁定到自訂控制項：
 
 ```html
 Username: <input [formField]="userForm.username" /> Location:
 <location-picker [formField]="userForm.location"></location-picker>
 ```
 
-Here, `<location-picker>` consumes and produces the entire `Location` object (or `null`), and doesn't access `userForm.location.lat` or `userForm.location.lng`. Therefore, `location` can safely have a dynamic shape without violating the principles of model-driven forms.
+這裡的 `<location-picker>` 會取用並產生整個 `Location` 物件（或 `null`），不會存取 `userForm.location.lat` 或 `userForm.location.lng`。因此，`location` 可以安全地擁有動態形狀，不違反模型驅動表單的原則。
 
-## Translating between form model and domain model
+## 在表單模型與領域模型之間轉換
 
-Given that the form model and domain model represent the same concept differently, we need to have a way to translate between these different representations. When we want to present some existing data in the system to the user in a form, we need to transform it from the domain model representation to the form model representation. Conversely when we want to save a user's changes, we need to transform the data from the form model representation to the domain model representation.
+既然表單模型與領域模型以不同方式表示同一個概念，我們就需要有方法在這兩種表示法之間轉換。想把系統中既有的資料呈現給使用者填表時，我們需要把它從領域模型的表示法轉換為表單模型的表示法。反過來，想儲存使用者的修改時，則需要把資料從表單模型的表示法轉換回領域模型的表示法。
 
-Let's imagine that we have a domain model and a form model and we've written some functions to convert between them.
+想像我們有一個領域模型與一個表單模型，並已寫好在兩者之間轉換的函式。
 
 ```ts
 interface MyDomainModel { ... }
@@ -314,11 +314,11 @@ function domainModelToFormModel(domainModel: MyDomainModel): MyFormModel { ... }
 function formModelToDomainModel(formModel: MyFormModel): MyDomainModel { ... }
 ```
 
-### Domain model to form model
+### 領域模型轉表單模型
 
-When we're creating a form to edit some existing domain model in the system, we'll typically receive that domain model either as an `input()` to our form component or from a backend (e.g. via a resource). In either case, `linkedSignal` provides an excellent way to apply our transform.
+當我們建立表單來編輯系統中既有的領域模型時，通常會以 `input()` 把該領域模型傳入表單元件，或從後端取得（例如透過資源）。無論哪種情況，`linkedSignal` 都提供了套用轉換的絕佳方式。
 
-In the case where we receive the domain model as an `input()`, we can use `linkedSignal` to create a writable form model from the input signal.
+在以 `input()` 接收領域模型的情況下，我們可以用 `linkedSignal` 從輸入訊號建立一個可寫入的表單模型。
 
 ```ts {prefer, header: 'Use linkedSignal to convert domain model to form model'}
 @Component(...)
@@ -339,7 +339,7 @@ class MyForm {
 }
 ```
 
-Similarly, when we receive the domain model from the backend via a resource, we can create a `linkedSignal` based on its value to create our `formModel`. In this scenario, the domain model may take some time to fetch, and we should disable the form until the data is loaded.
+同樣地，當我們透過資源從後端接收領域模型時，可以根據它的值建立 `linkedSignal` 來產生 `formModel`。在這個情境下，領域模型可能需要一些時間才能取得，在資料載入完成前，我們應該停用表單。
 
 ```ts {prefer, header: 'Disable or hide the form when data is unavailable'}
 @Component(...)
@@ -363,13 +363,13 @@ class MyForm {
 }
 ```
 
-The examples above show a pure derivation of the form model, directly from the domain model. However, in some cases you may wish to do a more advanced diff operation between the new domain model value and the previous domain model and form model values. This can be implemented based on the `linkedSignal` [previous state](/guide/signals/linked-signal#accounting-for-previous-state).
+上面的範例展示的是表單模型的純粹推導，直接來自領域模型。不過，在某些情況下，你可能想在新的領域模型值與先前的領域模型、表單模型值之間做更進階的 diff 運算。這可以依據 `linkedSignal` 的[先前狀態](/guide/signals/linked-signal#accounting-for-previous-state)來實作。
 
-### Form model to domain model
+### 表單模型轉領域模型
 
-When we're ready to save the user's input back to the system, we need to convert it to the domain model representation. This would typically happen when the user submits the form, or continuously as the user edits for an auto-saving form.
+當我們準備把使用者的輸入存回系統時，需要把它轉換為領域模型的表示法。這通常發生在使用者送出表單時；若是自動儲存的表單，則在使用者編輯時持續進行。
 
-To save on submit, we can handle the conversion in the `submit` function.
+要在送出時儲存，我們可以在 `submit` 函式中處理轉換。
 
 ```ts {prefer, header: 'Convert form model to domain model on submit'}
 @Component(...)
@@ -386,10 +386,9 @@ class MyForm {
 }
 ```
 
-Alternatively, you could also send the form model directly to the server and do the conversion from
-form model to domain model on the server.
+或者，你也可以把表單模型直接送到伺服器，在伺服器上做表單模型到領域模型的轉換。
 
-For continuous saving, update the domain model in an `effect`.
+若要持續儲存，則在 `effect` 中更新領域模型。
 
 ```ts {prefer, header: 'Convert form model to domain model in an effect for auto-saving'}
 @Component(...)
@@ -409,7 +408,7 @@ class MyForm {
 }
 ```
 
-The examples above show a pure conversion from the form model to the domain model. However, it is perfectly acceptable to consider the full form state in addition to just the form model value. For example, to save bytes we might want to only send partial updates to the server based on what the user changed. In this case our conversion function could be designed to take the entire form state and return a sparse domain model based on the form's values and dirtiness.
+上面的範例展示的是從表單模型到領域模型的純粹轉換。不過，除了表單模型的值之外，把完整的表單狀態也納入考量也是完全可以接受的。例如，為了省下位元組，我們可能只想根據使用者改了什麼，把部分更新送到伺服器。在這種情況下，轉換函式可以設計成接收整個表單狀態，並根據表單的值與 dirty 狀態回傳一個稀疏的領域模型。
 
 ```ts
 type Sparse<T> = T extends object ? {

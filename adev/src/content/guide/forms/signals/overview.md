@@ -1,39 +1,39 @@
 <docs-decorative-header title="Forms with Angular Signals" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-Signal Forms is a library that allows you to manage form state in Angular applications by building on the reactive foundation of signals. With automatic two-way binding, type-safe field access, and schema-based validation, Signal Forms help you create robust forms.
+Signal Forms 是一個函式庫，讓你能在 Angular 應用程式中管理表單狀態，並建立在訊號的反應式基礎之上。透過自動雙向繫結、型別安全的欄位存取，以及以結構描述為基礎的驗證，Signal Forms 能協助你建立穩健的表單。
 
-TIP: For a quick introduction to Signal Forms, see the [Signal Forms essentials guide](essentials/signal-forms).
+TIP: 想快速認識 Signal Forms，請參閱 [Signal Forms 基礎指南](essentials/signal-forms)。
 
-## Why Signal Forms?
+## 為什麼要用 Signal Forms？
 
-Building forms in web applications involves managing several interconnected concerns: tracking field values, validating user input, handling error states, and keeping the UI synchronized with your data model. Managing these concerns separately creates boilerplate code and complexity.
+在 Web 應用程式中建立表單，牽涉到好幾項彼此連動的工作：追蹤欄位值、驗證使用者輸入、處理錯誤狀態，以及讓 UI 與資料模型保持同步。若把這些工作分開管理，就會產生大量樣板程式碼與複雜度。
 
-Signal Forms address these challenges by:
+Signal Forms 透過以下方式解決這些挑戰：
 
-- **Synchronizing state automatically** - Automatically syncs the form data model with bound form fields
-- **Providing type safety** - Supports fully type safe schemas & bindings between your UI controls and data model
-- **Centralizing validation logic** - Define all validation rules in one place using a validation schema
+- **自動同步狀態** - 自動將表單資料模型與繫結的表單欄位同步
+- **提供型別安全** - 在 UI 控制項與資料模型之間，支援完全型別安全的結構描述與繫結
+- **集中驗證邏輯** - 使用驗證結構描述，在單一位置定義所有驗證規則
 
-Signal Forms work best in new applications built with signals. If you're working with an existing application that uses reactive forms, reactive forms remain a solid choice.
+Signal Forms 最適合用在以訊號打造的新應用程式。若你正在維護使用反應式表單的既有應用程式，反應式表單仍然是可靠的選擇。
 
-NOTE: If you're coming from template or reactive forms, you may be interested in the [comparison guide](guide/forms/signals/comparison).
+NOTE: 若你是從範本表單或反應式表單轉過來的，可能會對[比較指南](guide/forms/signals/comparison)有興趣。
 
-## Prerequisites
+## 前置需求
 
-Signal Forms require:
+Signal Forms 需要：
 
-- Angular v21 or higher
+- Angular v21 或更高版本
 
-## Setup
+## 設定
 
-Signal Forms are already included in the `@angular/forms` package. Import the necessary functions and directives from `@angular/forms/signals`:
+Signal Forms 已內含在 `@angular/forms` 套件中。請從 `@angular/forms/signals` 匯入需要的函式與指令：
 
 ```ts
 import {form, FormField, required, email} from '@angular/forms/signals';
 ```
 
-The `FormField` directive must be imported into any component that binds form fields to HTML inputs:
+凡是將表單欄位繫結到 HTML 輸入元素的元件，都必須匯入 `FormField` 指令：
 
 ```ts
 @Component({
@@ -42,16 +42,16 @@ The `FormField` directive must be imported into any component that binds form fi
 })
 ```
 
-## Next steps
+## 後續步驟
 
-To learn more about how Signal Forms work, check out the following guides:
+想進一步了解 Signal Forms 的運作方式，請參閱下列指南：
 
 <docs-pill-row>
-  <docs-pill href="essentials/signal-forms" title="Signal forms essentials" />
-  <docs-pill href="guide/forms/signals/models" title="Form models" />
-  <docs-pill href="guide/forms/signals/model-design" title="Designing your form model" />
-  <docs-pill href="guide/forms/signals/field-state-management" title="Field state management" />
-  <docs-pill href="guide/forms/signals/validation" title="Validation" />
-  <docs-pill href="guide/forms/signals/custom-controls" title="Custom controls" />
-  <docs-pill href="guide/forms/signals/comparison" title="Comparison with other form systems" />
+  <docs-pill href="essentials/signal-forms" title="Signal forms 基礎" />
+  <docs-pill href="guide/forms/signals/models" title="表單模型" />
+  <docs-pill href="guide/forms/signals/model-design" title="設計你的表單模型" />
+  <docs-pill href="guide/forms/signals/field-state-management" title="欄位狀態管理" />
+  <docs-pill href="guide/forms/signals/validation" title="驗證" />
+  <docs-pill href="guide/forms/signals/custom-controls" title="自訂控制項" />
+  <docs-pill href="guide/forms/signals/comparison" title="與其他表單系統的比較" />
 </docs-pill-row>

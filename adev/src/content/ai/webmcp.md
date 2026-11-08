@@ -1,18 +1,18 @@
 # WebMCP
 
-WebMCP is a [proposed web standard](https://github.com/webmachinelearning/webmcp/) that allows web applications to expose structured tools directly to AI agents running natively in the browser. Tools defined by an application allow AI assistants to interact with it directly, providing additional capabilities to the agent and reducing the need for DOM interactions.
+WebMCP 是一項[提議中的 Web 標準](https://github.com/webmachinelearning/webmcp/)，讓 Web 應用程式能把結構化工具直接公開給在瀏覽器中原生執行的 AI 代理。應用程式定義的工具讓 AI 助理能直接與應用程式互動，為代理提供額外能力，並減少透過 DOM 互動的需求。
 
-For example, an application to register a new user might provide a WebMCP tool for a browser's AI agent to create the user directly rather than requiring the agent to go through a complex wizard UI via DOM interactions.
+舉例來說，一個註冊新使用者的應用程式，可以為瀏覽器的 AI 代理提供一個 WebMCP 工具，讓代理直接建立使用者，而不必要求代理透過 DOM 互動走完複雜的精靈使用者介面。
 
-Angular provides experimental support for WebMCP, allowing you to easily register tools tied to your application's dependency injection lifecycle and automatically turn your Signal Forms into AI-ready tools.
+Angular 為 WebMCP 提供實驗性支援，讓你能輕鬆註冊與應用程式依賴注入生命週期綁定的工具，並自動把你的 Signal Forms 轉換為可供 AI 使用的工具。
 
-IMPORTANT: The WebMCP spec is very early in its lifecycle and is undergoing frequent changes. As such, WebMCP support in Angular is currently [**experimental**](reference/releases#experimental). APIs are subject to change even outside of major versions.
+IMPORTANT: WebMCP 規範仍處於生命週期的非常早期階段，且頻繁變動。因此，Angular 對 WebMCP 的支援目前為[**實驗性**](reference/releases#experimental)。API 可能變更，即使不在主要版本之間也一樣。
 
-## Provide tools for the application
+## 為應用程式提供工具
 
-Use [`provideExperimentalWebMcpTools`](api/core/provideExperimentalWebMcpTools) in your application config to register tools for the entire lifecycle of the application. Tools provided this way are automatically registered when the application initializes and unregistered when the application is destroyed.
+在你的應用程式設定中使用 [`provideExperimentalWebMcpTools`](api/core/provideExperimentalWebMcpTools)，為應用程式的整個生命週期註冊工具。以這種方式提供的工具，會在應用程式初始化時自動註冊，並在應用程式銷毀時自動取消註冊。
 
-The `execute` callback is invoked in the injection context of the associated `Injector`, meaning you can [`inject`](api/core/inject) services directly.
+`execute` 回呼會在相關聯的 `Injector` 的注入上下文中被呼叫，意思是你可以透過 [`inject`](api/core/inject) 直接注入服務。
 
 ```ts {header:"main.ts"}
 import {Service, inject, provideExperimentalWebMcpTools} from '@angular/core';
@@ -43,9 +43,9 @@ bootstrapApplication(AppRoot, {
 });
 ```
 
-### Define tool parameters
+### 定義工具參數
 
-When a tool requires input from the AI assistant, define the expected arguments inside `inputSchema` using [JSON Schema](https://json-schema.org/) syntax. Angular automatically infers the parameter types passed into your `execute` callback based on the schema definition.
+當工具需要 AI 助理提供輸入時，請在 `inputSchema` 中使用 [JSON Schema](https://json-schema.org/) 語法定義預期的引數。Angular 會依結構描述定義，自動推斷傳入 `execute` 回呼的參數型別。
 
 ```ts {header:"main.ts"}
 import {provideExperimentalWebMcpTools} from '@angular/core';
@@ -93,11 +93,11 @@ bootstrapApplication(AppRoot, {
 });
 ```
 
-TIP: Use `required: ['param1', 'param2', ...]` to remove `undefined` from the types of those parameters and use `additionalProperties: false` to restrict the argument object's type to only these parameters.
+TIP: 使用 `required: ['param1', 'param2', ...]` 可移除那些參數型別中的 `undefined`，並使用 `additionalProperties: false` 把引數物件的型別限制為僅包含這些參數。
 
-## Provide tools for a route
+## 為路由提供工具
 
-When building complex applications, you may only want certain tools available when the user is viewing specific routes. You can achieve this by providing tools directly in route definitions.
+建置複雜應用程式時，你可能只希望使用者檢視特定路由時才提供某些工具。你可以直接在路由定義中提供工具來達成。
 
 ```ts {header:"routes.ts"}
 import {provideExperimentalWebMcpTools} from '@angular/core';
@@ -122,7 +122,7 @@ export const routes: Routes = [
 ];
 ```
 
-NOTE: When registering tools to a particular route, consider configuring the router to use [`withAutoCleanupInjectors`](api/router/withAutoCleanupInjectors) to ensure tools are automatically _unregistered_ when the user navigates away from the route. Without this option, WebMCP tools declared on routes will remain accessible to AI agents even after the user has navigated to a different route.
+NOTE: 把工具註冊到特定路由時，請考慮設定路由使用 [`withAutoCleanupInjectors`](api/router/withAutoCleanupInjectors)，確保使用者離開該路由時，工具會自動_取消註冊_。若沒有這個選項，在路由上宣告的 WebMCP 工具，即使使用者已導覽到不同路由，仍可供 AI 代理存取。
 
 ```ts {header:"app.config.ts"}
 import {ApplicationConfig} from '@angular/core';
@@ -134,9 +134,9 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## Provide tools within services
+## 在服務中提供工具
 
-For dynamic use cases, the [`declareExperimentalWebMcpTool`](api/core/declareExperimentalWebMcpTool) function registers a tool directly within an injection context and automatically unregisters it when that context is destroyed.
+對於動態使用情境，[`declareExperimentalWebMcpTool`](api/core/declareExperimentalWebMcpTool) 函式可直接在注入上下文中註冊工具，並在該上下文銷毀時自動取消註冊。
 
 ```ts {header:"counter.ts"}
 import {Service, declareExperimentalWebMcpTool, signal, inject} from '@angular/core';
@@ -157,15 +157,15 @@ export class Counter {
 }
 ```
 
-While `declareExperimentalWebMcpTool` works in any injection context, watch out for [name collisions](#name-collisions) and prefer using it in root services.
+雖然 `declareExperimentalWebMcpTool` 在任何注入上下文中都能運作，請留意[名稱衝突](#name-collisions)，並優先在根服務中使用它。
 
-## Implicit tools in Signal Forms
+## Signal Forms 中的隱含工具
 
-You can create a WebMCP tool implicitly from an existing Angular [Signal Form](essentials/signal-forms) with minimal configuration. Angular converts your form models into rich WebMCP tools, effectively supporting highly dynamic forms without requiring you to manually write JSON schemas or event handlers.
+你只需極少的設定，就能從既有的 Angular [Signal Form](essentials/signal-forms) 隱含地建立 WebMCP 工具。Angular 會把你的表單模型轉換為功能豐富的 WebMCP 工具，有效支援高度動態的表單，無需你手動撰寫 JSON 結構描述或事件處理常式。
 
-### Enable the WebMCP forms feature
+### 啟用 WebMCP 表單功能
 
-First, add [`provideExperimentalWebMcpForms`](api/forms/signals/provideExperimentalWebMcpForms) to your root application providers:
+首先，把 [`provideExperimentalWebMcpForms`](api/forms/signals/provideExperimentalWebMcpForms) 加入你的根應用程式 providers：
 
 ```ts {header:"main.ts"}
 import {bootstrapApplication} from '@angular/platform-browser';
@@ -177,9 +177,9 @@ bootstrapApplication(AppRoot, {
 });
 ```
 
-### Opt in a Signal Form
+### 讓 Signal Form 加入
 
-Second, when defining a Signal Form using [`form`](api/forms/signals/form), pass the `experimentalWebMcpTool` configuration option to opt-in to an implicit WebMCP tool. Angular will inspect your form's data model and automatically generate a JSON schema for connected AI agents.
+其次，在使用 [`form`](api/forms/signals/form) 定義 Signal Form 時，傳入 `experimentalWebMcpTool` 設定選項，即可加入隱含的 WebMCP 工具。Angular 會檢查你的表單資料模型，並自動為連接的 AI 代理生成 JSON 結構描述。
 
 ```ts {header:"user-registration.ts"}
 import {Component, signal} from '@angular/core';
@@ -220,37 +220,37 @@ export class UserRegistration {
 }
 ```
 
-In this example, Angular generates a WebMCP tool with a JSON schema which:
+在這個範例中，Angular 生成的 WebMCP 工具帶有一個 JSON 結構描述，其中：
 
-1. includes `firstName`, `lastName`, `age`, and `hobbies` as parameters inferred from the initial value of the `model` signal.
-2. defines `firstName` and `lastName` as _required_ fields as inferred from the [`required`](api/forms/signals/required) validator.
-3. defines `hobbies` as an array of strings, allowing the agent to provide an arbitrary amount of hobbies.
+1. 包含 `firstName`、`lastName`、`age` 與 `hobbies` 作為參數，這些參數是從 `model` 訊號的初始值推斷而來。
+2. 將 `firstName` 與 `lastName` 定義為_必填_欄位，這是從 [`required`](api/forms/signals/required) 驗證器推斷而來。
+3. 將 `hobbies` 定義為字串陣列，讓代理能提供任意數量的興趣。
 
-Beyond inferring the input schema, Angular also connects the WebMCP tool to the form's validation logic and submission handler. This means the agent will observe any validation errors triggered by its inputs or any failures which happen during submission, allowing it to self-correct and potentially retry.
+除了推斷輸入結構描述，Angular 也把 WebMCP 工具連接到表單的驗證邏輯與提交處理常式。這表示代理會觀察到其輸入觸發的任何驗證錯誤，或提交期間發生的任何失敗，從而能自我修正並可能重試。
 
-NOTE: By default, async validators don't block submission: the submission action runs before they finish, so their errors aren't reported to the agent. Handle these checks in the submission action instead.
+NOTE: 依預設，非同步驗證器不會阻擋提交：提交動作會在它們完成之前執行，因此它們的錯誤不會回報給代理。請改在提交動作中處理這些檢查。
 
-#### Constraints
+#### 限制
 
-Angular infers the WebMCP schema from the initial value of your form model. This requires:
+Angular 從表單模型的初始值推斷 WebMCP 結構描述。這需要：
 
-- Concrete initial values (`''`, `0`, `false`): Angular cannot infer data types from `null` or `undefined`.
-- Non-empty arrays (`['Hello!']`): Angular cannot infer data types from an empty array and requires at least one initial value.
+- 具體的初始值（`''`、`0`、`false`）：Angular 無法從 `null` 或 `undefined` 推斷資料型別。
+- 非空陣列（`['Hello!']`）：Angular 無法從空陣列推斷資料型別，且需要至少一個初始值。
 
-## Best practices
+## 最佳實踐
 
-Keep the following best practices in mind:
+請謹記下列最佳實踐：
 
-### Name collisions
+### 名稱衝突
 
-WebMCP requires each tool to have a unique name and will throw an error if the same tool name is registered multiple times. This means calling `declareExperimentalWebMcpTool` or `provideExperimentalWebMcpTools` in a context where they might be registered multiple times (such as a component constructor) may lead to errors at runtime.
+WebMCP 要求每個工具都有唯一的名稱，若同一個工具名稱被註冊多次，就會拋出錯誤。這表示在可能被多次註冊的上下文（例如元件建構子）中呼叫 `declareExperimentalWebMcpTool` 或 `provideExperimentalWebMcpTools`，可能會在執行階段導致錯誤。
 
-Prefer placing tools on application providers, route providers, or root services where possible. When putting tools on a component, including [implicit tools in Signal Forms](#implicit-tools-in-signal-forms), ensure that component is only ever rendered on the page at most _once_ at any given time.
+請盡可能優先把工具放在應用程式 providers、路由 providers 或根服務上。把工具放在元件上時，包括 [Signal Forms 中的隱含工具](#implicit-tools-in-signal-forms)，請確保該元件在任何時刻在頁面上最多只渲染_一次_。
 
-### Validate tool inputs
+### 驗證工具輸入
 
-Angular does not provide any implicit validation that the inputs provided by an agent actually match the defined JSON schema. Consider explicitly validating arguments to the `execute` function before using them to ensure reliability.
+Angular 不提供任何隱含驗證，來保證代理提供的輸入確實符合所定義的 JSON 結構描述。請考慮在使用引數之前，明確驗證傳給 `execute` 函式的引數，以確保可靠性。
 
-### Testing
+### 測試
 
-Consider using a mock WebMCP implementation like [`@mcp-b/webmcp-polyfill`](https://www.npmjs.com/package/@mcp-b/webmcp-polyfill) to effectively unit test your tools.
+請考慮使用模擬的 WebMCP 實作，例如 [`@mcp-b/webmcp-polyfill`](https://www.npmjs.com/package/@mcp-b/webmcp-polyfill)，來有效地為你的工具進行單元測試。

@@ -1,8 +1,8 @@
-# Validation
+# 驗證
 
-Forms need validation to ensure users provide correct, complete data before submission. Without validation, you would need to handle data quality issues on the server, provide poor user experience with unclear error messages, and manually check every constraint.
+表單需要驗證，才能確保使用者在提交前提供正確、完整的資料。若沒有驗證，你就必須在伺服器上處理資料品質問題、用不清楚的錯誤訊息提供糟糕的使用者體驗，並手動檢查每一個限制條件。
 
-Signal Forms provides a schema-based validation approach. Validation rules bind to fields using a schema function, run automatically when values change, and expose errors through field state signals. This enables reactive validation that updates as users interact with the form.
+訊號表單提供以結構定義為基礎的驗證方式。驗證規則透過結構定義函式綁定到欄位，在值變更時自動執行，並透過欄位狀態訊號公開錯誤。這實現了反應式驗證，會隨著使用者與表單互動而更新。
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/signal-forms/src/login-validation-complete/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/signal-forms/src/login-validation-complete/app/app.ts"/>
@@ -10,13 +10,13 @@ Signal Forms provides a schema-based validation approach. Validation rules bind 
   <docs-code header="app.css" path="adev/src/content/examples/signal-forms/src/login-validation-complete/app/app.css"/>
 </docs-code-multifile>
 
-## Validation basics
+## 驗證基礎
 
-Validation in Signal Forms is defined through a schema function passed as the second argument to `form()`.
+訊號表單的驗證是透過傳給 `form()` 的第二個引數——結構定義函式——來定義的。
 
-### The schema function
+### 結構定義函式
 
-The schema function receives a `SchemaPathTree` object that lets you define your validation rules:
+結構定義函式會收到一個 `SchemaPathTree` 物件，讓你定義驗證規則：
 
 <docs-code
   header="app.ts"
@@ -25,54 +25,54 @@ The schema function receives a `SchemaPathTree` object that lets you define your
   highlight="[30,31,33]"
 />
 
-The schema function runs once during form initialization. Validation rules bind to fields using the schema path parameter (such as `schemaPath.email`, `schemaPath.password`), and validation runs automatically whenever field values change.
+結構定義函式在表單初始化期間執行一次。驗證規則使用結構定義路徑參數（例如 `schemaPath.email`、`schemaPath.password`）綁定到欄位，每當欄位值變更時，驗證就會自動執行。
 
-NOTE: The schema callback parameter (`schemaPath` in these examples) is a `SchemaPathTree` object that provides paths to all fields in your form. You can name this parameter anything you like.
+NOTE: 結構定義回呼參數（在這些範例中是 `schemaPath`）是一個 `SchemaPathTree` 物件，提供表單中所有欄位的路徑。你可以自由命名這個參數。
 
-### How validation works
+### 驗證的運作方式
 
-Validation in Signal Forms follows this pattern:
+訊號表單的驗證遵循以下模式：
 
-1. **Define validation rules in schema** - Bind validation rules to fields in the schema function
-2. **Automatic execution** - Validation rules run when field values change
-3. **Error propagation** - Validation errors are exposed through field state signals
-4. **Reactive updates** - UI automatically updates when validation state changes
+1. **在結構定義中定義驗證規則**：在結構定義函式中將驗證規則綁定到欄位
+2. **自動執行**：欄位值變更時執行驗證規則
+3. **錯誤傳播**：驗證錯誤透過欄位狀態訊號公開
+4. **反應式更新**：驗證狀態變更時，UI 自動更新
 
-Validation runs on every value change for interactive fields. Hidden, disabled, and readonly fields don't run validation - their validation rules are skipped until the field becomes interactive again.
+互動式欄位每次值變更時都會執行驗證。隱藏、停用與唯讀欄位不會執行驗證——在欄位恢復為互動式之前，它們的驗證規則會被跳過。
 
-### Validation timing
+### 驗證時機
 
-Validation rules execute in this order:
+驗證規則依以下順序執行：
 
-1. **Synchronous validation** - All synchronous validation rules run when value changes
-2. **Asynchronous validation** - Asynchronous validation rules run only after all synchronous validation rules pass
-3. **Field state updates** - The `valid()`, `invalid()`, `errors()`, and `pending()` signals update
+1. **同步驗證**：值變更時，所有同步驗證規則都會執行
+2. **非同步驗證**：非同步驗證規則只在所有同步驗證規則都通過後才執行
+3. **欄位狀態更新**：`valid()`、`invalid()`、`errors()` 與 `pending()` 訊號隨之更新
 
-Synchronous validation rules (like `required()`, `email()`) complete immediately. Asynchronous validation rules (like `validateHttp()`) may take time and set the `pending()` signal to `true` while executing.
+同步驗證規則（例如 `required()`、`email()`）會立即完成。非同步驗證規則（例如 `validateHttp()`）可能需要一些時間，並在執行期間將 `pending()` 訊號設為 `true`。
 
-All validation rules run on every change - validation doesn't short-circuit after the first error. If a field has both `required()` and `email()` validation rules, both run, and both can produce errors simultaneously.
+所有驗證規則在每次變更時都會執行——驗證不會在第一個錯誤後短路停止。如果欄位同時有 `required()` 與 `email()` 驗證規則，兩者都會執行，而且可以同時產生錯誤。
 
-### Native HTML validation
+### 原生 HTML 驗證
 
-Signal Forms **does not** use the browser's built-in [constraint validation](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Constraint_validation) to run validation rules. This is by design: Signal Forms allows any component to act as a form control, not just native form elements.
+訊號表單**不會**使用瀏覽器內建的[限制驗證](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Constraint_validation)來執行驗證規則。這是刻意的設計：訊號表單允許任何元件充當表單控制項，不限於原生表單元素。
 
-Instead, your validation rules run entirely in Angular, and validation state is exposed through field state signals such as `valid()`, `invalid()`, and `errors()` rather than through the element's native validity state. The [`FormRoot` directive](guide/forms/signals/form-submission) also sets the `novalidate` attribute on the form element so the browser does not block submission.
+取而代之的是，你的驗證規則完全在 Angular 中執行，驗證狀態透過 `valid()`、`invalid()` 與 `errors()` 等欄位狀態訊號公開，而不是透過元素的原生有效性狀態。[`FormRoot` 指令](guide/forms/signals/form-submission)也會在表單元素上設定 `novalidate` 屬性，使瀏覽器不會阻擋提交。
 
-When a field is bound to a native form element, some built-in validation rules mirror their constraint to the corresponding native attribute: `required()`, `min()`, `max()`, `minLength()`, and `maxLength()` set the `required`, `min`, `max`, `minlength`, and `maxlength` attributes when the element supports them. An exception is `pattern()`, which does not set the native `pattern` attribute. Signal Forms sets these attributes to control input behavior and to improve accessibility, **not to trigger native validation**.
+當欄位綁定到原生表單元素時，某些內建驗證規則會將其限制反映到對應的原生屬性上：`required()`、`min()`、`max()`、`minLength()` 與 `maxLength()` 會在元素支援時，設定 `required`、`min`、`max`、`minlength` 與 `maxlength` 屬性。例外是 `pattern()`，它不會設定原生 `pattern` 屬性。訊號表單設定這些屬性是為了控制輸入行為並改善無障礙體驗，**而非觸發原生驗證**。
 
-NOTE: There is one case where Signal Forms reads native validity state: when the browser cannot parse a native input's value (for example, a partially typed date), Signal Forms reports it as a parse error. Even then, the error surfaces through the field's `errors()` signal like any other validation error. See [Value transformation](guide/forms/signals/custom-controls#value-transformation) for details.
+NOTE: 有一種情況訊號表單會讀取原生有效性狀態：當瀏覽器無法剖析原生輸入值時（例如輸入到一半的日期），訊號表單會將其回報為剖析錯誤。即便如此，該錯誤也會像其他驗證錯誤一樣，透過欄位的 `errors()` 訊號呈現。詳情請參閱[值轉換](guide/forms/signals/custom-controls#value-transformation)。
 
-IMPORTANT: Do not rely on native validity features such as the `:valid` and `:invalid` CSS pseudo-classes, the element's `validity` property, or `validationMessage`. The browser may report some inputs as invalid as a side effect of the mirrored attributes (for example, a number input whose value is below its `min`), but this behavior varies by validation rule and input type and is not a supported way to observe validation state.
+IMPORTANT: 不要依賴原生有效性功能，例如 `:valid` 與 `:invalid` CSS 虛擬類別、元素的 `validity` 屬性，或 `validationMessage`。瀏覽器可能會因為反映的屬性產生副作用，而將某些輸入回報為無效（例如值低於其 `min` 的數字輸入框），但這種行為會隨驗證規則與輸入類型而異，並不是觀察驗證狀態的受支援方式。
 
-To style controls based on validation state, bind classes to field state signals (see [Field state management](guide/forms/signals/field-state-management#conditional-error-display)) or configure automatic status classes (see [Automatic status classes](guide/forms/signals/migration#automatic-status-classes)).
+若要根據驗證狀態為控制項設定樣式，請將類別綁定到欄位狀態訊號（請參閱[欄位狀態管理](guide/forms/signals/field-state-management#conditional-error-display)），或設定自動狀態類別（請參閱[自動狀態類別](guide/forms/signals/migration#automatic-status-classes)）。
 
-## Built-in validation rules
+## 內建驗證規則
 
-Signal Forms provides validation rules for common validation scenarios. All built-in validation rules accept an options object for custom error messages and conditional logic.
+訊號表單為常見的驗證情境提供驗證規則。所有內建驗證規則都接受一個選項物件，用於自訂錯誤訊息與條件邏輯。
 
 ### required()
 
-The `required()` validation rule ensures a field has a value:
+`required()` 驗證規則確保欄位有值：
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -110,24 +110,22 @@ export class RegistrationComponent {
 }
 ```
 
-A field is considered "empty" when its value is one of the following, and non-empty for every other
-value — including `0` and the empty array `[]`:
+當欄位的值是下列其中之一時，該欄位被視為「空」；其他所有值都視為非空——包括 `0` 與空陣列 `[]`：
 
-| Condition                | Example     |
-| ------------------------ | ----------- |
-| Value is `null`          | `null`      |
-| Value is `undefined`     | `undefined` |
-| Value is an empty string | `''`        |
-| Value is `false`         | `false`     |
-| Value is `NaN`           | `NaN`       |
+| 條件                 | 範例        |
+| -------------------- | ----------- |
+| 值為 `null`          | `null`      |
+| 值為 `undefined`     | `undefined` |
+| 值為空字串           | `''`        |
+| 值為 `false`         | `false`     |
+| 值為 `NaN`           | `NaN`       |
 
-The last two are worth calling out:
+最後兩項值得特別說明：
 
-- `false` is empty to follow the native semantics of `required` on `<input type="checkbox">`, where
-  an unchecked box fails validation.
-- `NaN` is empty because it is usually the result of a parsing error, and is not a valid number.
+- `false` 視為空，是為了遵循 `<input type="checkbox">` 上 `required` 的原生語意，其中未勾選的核取方塊會驗證失敗。
+- `NaN` 視為空，因為它通常是剖析錯誤的結果，並不是有效的數字。
 
-For conditional requirements, use the `when` option:
+對於條件式必填，請使用 `when` 選項：
 
 ```ts
 registrationForm = form(this.registrationModel, (schemaPath) => {
@@ -138,13 +136,13 @@ registrationForm = form(this.registrationModel, (schemaPath) => {
 });
 ```
 
-The validation rule only runs when the `when` function returns `true`.
+驗證規則只在 `when` 函式傳回 `true` 時執行。
 
-NOTE: `required` treats an empty array as present (valid), so use [`minLength()`](#minlength-and-maxlength) to enforce a minimum number of array items.
+NOTE: `required` 將空陣列視為有值（有效），因此若要強制陣列項目的最小數量，請使用 [`minLength()`](#minlength-and-maxlength)。
 
 ### email()
 
-The `email()` validation rule checks for valid email format:
+`email()` 驗證規則檢查電子郵件格式是否有效：
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -171,11 +169,11 @@ export class ContactComponent {
 }
 ```
 
-The `email()` validation rule uses a standard email format regex. It accepts addresses like `user@example.com` but rejects malformed addresses like `user@` or `@example.com`.
+`email()` 驗證規則使用標準的電子郵件格式正規表示式。它接受像 `user@example.com` 這樣的地址，但會拒絕像 `user@` 或 `@example.com` 這樣格式錯誤的地址。
 
-### min() and max()
+### min() 與 max()
 
-The `min()` and `max()` validation rules work with numeric values:
+`min()` 與 `max()` 驗證規則處理數值：
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -214,7 +212,7 @@ export class AgeFormComponent {
 }
 ```
 
-You can use computed values for dynamic constraints:
+你可以使用計算值作為動態限制：
 
 ```ts
 ageForm = form(this.ageModel, (schemaPath) => {
@@ -224,9 +222,9 @@ ageForm = form(this.ageModel, (schemaPath) => {
 });
 ```
 
-### minDate() and maxDate()
+### minDate() 與 maxDate()
 
-The `minDate()` and `maxDate()` validation rules work with `Date` values, such as a field bound to `<input type="date">`. They also set the `min` and `max` attributes of that input.
+`minDate()` 與 `maxDate()` 驗證規則處理 `Date` 值，例如綁定到 `<input type="date">` 的欄位。它們也會設定該輸入框的 `min` 與 `max` 屬性。
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -254,9 +252,9 @@ export class BookingFormComponent {
 }
 ```
 
-IMPORTANT: An `<input type="date">` reads and writes `Date` values at midnight UTC, whatever the user's time zone, because that is how the browser's `valueAsDate` works. Build the limits the same way, for example with `new Date('2026-06-01')` or `new Date(Date.UTC(2026, 5, 1))`. A `Date` created from local time, such as `new Date(2026, 5, 1)` or `new Date()`, is shifted by the user's UTC offset. Depending on the time zone, the `min` or `max` attribute can then be off by a day, and the limit date itself can be rejected.
+IMPORTANT: 無論使用者位於哪個時區，`<input type="date">` 讀取與寫入的 `Date` 值都是 UTC 午夜，因為瀏覽器的 `valueAsDate` 就是這樣運作的。請以相同方式建立界限，例如使用 `new Date('2026-06-01')` 或 `new Date(Date.UTC(2026, 5, 1))`。以本地時間建立的 `Date`，例如 `new Date(2026, 5, 1)` 或 `new Date()`，會被使用者的 UTC 偏移量平移。視時區而定，`min` 或 `max` 屬性可能會差一天，界限日期本身也可能被拒絕。
 
-To require a date that is not before today, use today's calendar date in the user's time zone, expressed at midnight UTC:
+若要要求日期不得早於今天，請使用使用者時區中的今天日期，並以 UTC 午夜表示：
 
 ```ts
 const now = new Date();
@@ -265,11 +263,11 @@ const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()
 minDate(schemaPath.checkIn, today, {message: 'Check-in cannot be in the past'});
 ```
 
-Passing `new Date()` directly can reject today's date, because the value picked in the input is midnight UTC, which is earlier than the current time. This happens in UTC and in the time zones behind it.
+直接傳入 `new Date()` 可能會拒絕今天的日期，因為在輸入框中選取的值是 UTC 午夜，早於目前時間。這種情況會發生在 UTC 以及其後的時區。
 
-### minLength() and maxLength()
+### minLength() 與 maxLength()
 
-The `minLength()` and `maxLength()` validation rules work with strings and arrays:
+`minLength()` 與 `maxLength()` 驗證規則處理字串與陣列：
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -307,11 +305,11 @@ export class PasswordFormComponent {
 }
 ```
 
-For strings, "length" means the number of characters. For arrays, "length" means the number of elements.
+對字串而言，「長度」指的是字元數；對陣列而言，「長度」指的是元素數量。
 
 ### pattern()
 
-The `pattern()` validation rule validates against a regular expression:
+`pattern()` 驗證規則使用正規表示式進行驗證：
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -352,18 +350,18 @@ export class PhoneFormComponent {
 }
 ```
 
-Common patterns:
+常見的模式：
 
-| Pattern Type     | Regular Expression      | Example      |
+| 模式類型         | 正規表示式              | 範例         |
 | ---------------- | ----------------------- | ------------ |
-| Phone            | `/^\d{3}-\d{3}-\d{4}$/` | 555-123-4567 |
-| Postal code (US) | `/^\d{5}$/`             | 12345        |
-| Alphanumeric     | `/^[a-zA-Z0-9]+$/`      | abc123       |
-| URL-safe         | `/^[a-zA-Z0-9_-]+$/`    | my-url_123   |
+| 電話             | `/^\d{3}-\d{3}-\d{4}$/` | 555-123-4567 |
+| 郵遞區號（美國） | `/^\d{5}$/`             | 12345        |
+| 英數字           | `/^[a-zA-Z0-9]+$/`      | abc123       |
+| URL 安全字元     | `/^[a-zA-Z0-9_-]+$/`    | my-url_123   |
 
-## Validation of array items
+## 陣列項目的驗證
 
-Forms can include arrays of nested objects (for example, a list of order items). To apply validation rules to each item in an array, use `applyEach()` inside your schema function. `applyEach()` iterates the array path and supplies a path for each item where you can apply validators just like top-level fields.
+表單可以包含巢狀物件陣列（例如訂單項目清單）。若要對陣列中的每個項目套用驗證規則，請在結構定義函式中使用 `applyEach()`。`applyEach()` 會逐一走訪陣列路徑，並為每個項目提供一個路徑，讓你可以像套用在頂層欄位一樣套用驗證器。
 
 ```ts
 import {Component, signal} from '@angular/core';
@@ -399,26 +397,26 @@ export class OrderComponent {
 }
 ```
 
-## Validation errors
+## 驗證錯誤
 
-When validation rules fail, they produce error objects that describe what went wrong. Understanding error structure helps you provide clear feedback to users.
+當驗證規則失敗時，它們會產生描述問題所在的錯誤物件。了解錯誤結構有助於你向使用者提供清楚的回饋。
 
-NOTE: This section covers the errors that validation rules produce. For displaying and using validation errors in your UI, see the [Field State Management guide](guide/forms/signals/field-state-management).
+NOTE: 本節說明驗證規則產生的錯誤。如需在 UI 中顯示與使用驗證錯誤，請參閱[欄位狀態管理指南](guide/forms/signals/field-state-management)。
 
-### Error structure
+### 錯誤結構
 
-Each validation error object contains these properties:
+每個驗證錯誤物件都包含以下屬性：
 
-| Property  | Description                                                              |
-| --------- | ------------------------------------------------------------------------ |
-| `kind`    | The validation rule that failed (e.g., "required", "email", "minLength") |
-| `message` | Optional human-readable error message                                    |
+| 屬性      | 說明                                                               |
+| --------- | ------------------------------------------------------------------ |
+| `kind`    | 失敗的驗證規則（例如 "required"、"email"、"minLength"）            |
+| `message` | 選擇性的人類可讀錯誤訊息                                           |
 
-Built-in validation rules automatically set the `kind` property. The `message` property is optional - you can provide custom messages through validation rule options.
+內建驗證規則會自動設定 `kind` 屬性。`message` 屬性是選擇性的——你可以透過驗證規則選項提供自訂訊息。
 
-### Custom error messages
+### 自訂錯誤訊息
 
-All built-in validation rules accept a `message` option for custom error text:
+所有內建驗證規則都接受 `message` 選項，用於自訂錯誤文字：
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -462,11 +460,11 @@ export class SignupComponent {
 }
 ```
 
-Custom messages should be clear, specific, and tell users how to fix the problem. Instead of "Invalid input", use "Password must be at least 12 characters for security".
+自訂訊息應清楚、具體，並告訴使用者如何修正問題。不要使用 "Invalid input"，而應使用 "Password must be at least 12 characters for security"。
 
-### Multiple errors per field
+### 每個欄位的多個錯誤
 
-When a field has multiple validation rules, each validation rule runs independently and can produce an error:
+當欄位有多條驗證規則時，每條驗證規則都會獨立執行，並可能產生一個錯誤：
 
 ```ts
 signupForm = form(this.signupModel, (schemaPath) => {
@@ -476,22 +474,22 @@ signupForm = form(this.signupModel, (schemaPath) => {
 });
 ```
 
-If the email field is empty, only the `required()` error appears. If the user types "a@b", both `email()` and `minLength()` errors appear. All validation rules run - validation doesn't stop after the first failure.
+如果電子郵件欄位是空的，只會出現 `required()` 錯誤。如果使用者輸入 "a@b"，`email()` 與 `minLength()` 錯誤會同時出現。所有驗證規則都會執行——驗證不會在第一個失敗後停止。
 
-TIP: Use the `touched() && invalid()` pattern in your templates to prevent errors from appearing before users have interacted with a field. For comprehensive guidance on displaying validation errors, see the [Field State Management guide](guide/forms/signals/field-state-management#conditional-error-display).
+TIP: 在範本中使用 `touched() && invalid()` 模式，可避免錯誤在使用者與欄位互動之前就出現。如需顯示驗證錯誤的完整指引，請參閱[欄位狀態管理指南](guide/forms/signals/field-state-management#conditional-error-display)。
 
-## Custom validation rules
+## 自訂驗證規則
 
-While built-in validation rules handle common cases, you'll often need custom validation logic for business rules, complex formats, or domain-specific constraints.
+內建驗證規則能處理常見情況，但你經常會需要自訂驗證邏輯，用於業務規則、複雜格式或特定領域的限制。
 
-### Using validate()
+### 使用 validate()
 
-The `validate()` function creates custom validation rules. It receives a validator function that accesses the field context and returns:
+`validate()` 函式用來建立自訂驗證規則。它接收一個驗證器函式，該函式存取欄位上下文並傳回：
 
-| Return Value          | Meaning          |
-| --------------------- | ---------------- |
-| Error object          | Value is invalid |
-| `null` or `undefined` | Value is valid   |
+| 傳回值                | 意義         |
+| --------------------- | ------------ |
+| 錯誤物件              | 值無效       |
+| `null` 或 `undefined` | 值有效       |
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -527,25 +525,25 @@ export class UrlFormComponent {
 }
 ```
 
-The validator function receives a `FieldContext` object with:
+驗證器函式會收到一個 `FieldContext` 物件，其中包含：
 
-| Property        | Type       | Description                                 |
-| --------------- | ---------- | ------------------------------------------- |
-| `value`         | Signal     | Signal containing the current field value   |
-| `state`         | FieldState | The field state reference                   |
-| `fieldTree`     | FieldTree  | The field tree reference                    |
-| `valueOf()`     | Method     | Get the value of another field by path      |
-| `stateOf()`     | Method     | Get the state of another field by path      |
-| `fieldTreeOf()` | Method     | Get the field tree of another field by path |
-| `pathKeys`      | Signal     | Path keys from root to current field        |
+| 屬性            | 型別       | 說明                             |
+| --------------- | ---------- | -------------------------------- |
+| `value`         | Signal     | 包含目前欄位值的訊號             |
+| `state`         | FieldState | 欄位狀態參照                     |
+| `fieldTree`     | FieldTree  | 欄位樹參照                       |
+| `valueOf()`     | Method     | 依路徑取得另一個欄位的值         |
+| `stateOf()`     | Method     | 依路徑取得另一個欄位的狀態       |
+| `fieldTreeOf()` | Method     | 依路徑取得另一個欄位的欄位樹     |
+| `pathKeys`      | Signal     | 從根到目前欄位的路徑鍵           |
 
-NOTE: Child fields also have a `key` signal, and array item fields have both `key` and `index` signals.
+NOTE: 子欄位也有 `key` 訊號，陣列項目欄位則同時有 `key` 與 `index` 訊號。
 
-Return an error object with `kind` and `message` when validation fails. Return `null` or `undefined` when validation passes.
+驗證失敗時，傳回包含 `kind` 與 `message` 的錯誤物件；驗證通過時，傳回 `null` 或 `undefined`。
 
-### Using validateTree()
+### 使用 validateTree()
 
-The `validateTree()` function creates custom validation rules that can target multiple fields or provide complex validation logic for a whole subtree.
+`validateTree()` 函式用來建立自訂驗證規則，可以鎖定多個欄位，或為整個子樹提供複雜的驗證邏輯。
 
 ```angular-ts
 import {Component, model} from '@angular/core';
@@ -579,11 +577,11 @@ export class UserFormComponent {
 }
 ```
 
-The `validateTree()` validator function receives the same `FieldContext` object as `validate()`.
+`validateTree()` 的驗證器函式會收到與 `validate()` 相同的 `FieldContext` 物件。
 
-### Reusable validation rules
+### 可重複使用的驗證規則
 
-Create reusable validation rule functions by wrapping `validate()`:
+將 `validate()` 包裝起來，即可建立可重複使用的驗證規則函式：
 
 ```ts
 function url(path: SchemaPath<string>, options?: {message?: string}) {
@@ -616,7 +614,7 @@ function phoneNumber(path: SchemaPath<string>, options?: {message?: string}) {
 }
 ```
 
-You can use custom validation rules just like built-in validation rules:
+你可以像使用內建驗證規則一樣使用自訂驗證規則：
 
 ```ts
 urlForm = form(this.urlModel, (schemaPath) => {
@@ -625,11 +623,11 @@ urlForm = form(this.urlModel, (schemaPath) => {
 });
 ```
 
-## Cross-field validation
+## 跨欄位驗證
 
-Cross-field validation compares or relates multiple field values.
+跨欄位驗證會比較或關聯多個欄位的值。
 
-A common scenario for cross-field validation is password confirmation:
+跨欄位驗證的常見情境是密碼確認：
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -683,26 +681,26 @@ export class PasswordChangeComponent {
 }
 ```
 
-The confirmation validation rule accesses the password field value using `valueOf(schemaPath.password)` and compares it to the confirmation value. This validation rule runs reactively - if either password changes, validation reruns automatically.
+確認驗證規則使用 `valueOf(schemaPath.password)` 存取密碼欄位的值，並將它與確認值比較。這條驗證規則會以反應式方式執行——只要任一密碼變更，驗證就會自動重新執行。
 
-## Conditional validation
+## 條件式驗證
 
-Sometimes a validation rule should apply only under certain conditions, such as validating a shipping address only when an order ships internationally, or applying a different set of rules to each variant of a union-typed field.
+有時驗證規則應該只在特定條件下套用，例如只有在訂單出貨到國外時才驗證送貨地址，或對聯集型別欄位的每個變體套用不同的一組規則。
 
-Because validation rules live in the schema function, you apply them conditionally with the same structural functions that compose schemas:
+由於驗證規則位於結構定義函式中，你可以使用組合結構定義的相同結構函式來條件式地套用它們：
 
-- Use [`applyWhen()`](guide/forms/signals/form-logic#conditional-logic-with-applywhen) to activate a group of rules based on reactive form state, including the values of other fields.
-- Use [`applyWhenValue()`](guide/forms/signals/schemas#type-narrowing-with-applywhenvalue) to apply rules based on a field's own value. When the predicate is a type guard, the rules are typed to the narrowed value, which makes it the recommended way to validate discriminated unions and other variant types.
+- 使用 [`applyWhen()`](guide/forms/signals/form-logic#conditional-logic-with-applywhen)，根據反應式表單狀態（包括其他欄位的值）啟用一組規則。
+- 使用 [`applyWhenValue()`](guide/forms/signals/schemas#type-narrowing-with-applywhenvalue)，根據欄位自身的值套用規則。當述詞是型別守衛時，規則的型別會縮小為該值，這使它成為驗證判別聯集與其他變體型別的建議方式。
 
-For complete examples, including reusable schemas and discriminated unions, see the [Schemas and schema composability guide](guide/forms/signals/schemas).
+如需完整範例，包括可重複使用的結構定義與判別聯集，請參閱[結構定義與結構定義的可組合性指南](guide/forms/signals/schemas)。
 
-## Async validation
+## 非同步驗證
 
-Async validation handles validation that requires external data sources, like checking username availability on a server or validating against an API.
+非同步驗證處理需要外部資料來源的驗證，例如在伺服器上檢查使用者名稱是否可用，或對照 API 進行驗證。
 
-### Using validateHttp()
+### 使用 validateHttp()
 
-The `validateHttp()` function performs HTTP-based validation:
+`validateHttp()` 函式執行以 HTTP 為基礎的驗證：
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -750,17 +748,17 @@ export class UsernameFormComponent {
 }
 ```
 
-The `validateHttp()` validation rule:
+`validateHttp()` 驗證規則會：
 
-1. Calls the URL or request returned by the `request` function
-2. Maps the successful response to a validation error or `null` using `onSuccess`
-3. Handles request failures (network errors, HTTP errors) using `onError`
-4. Sets `pending()` to `true` while the request is in progress
-5. Only runs after all synchronous validation rules pass
+1. 呼叫 `request` 函式傳回的 URL 或請求
+2. 使用 `onSuccess` 將成功回應對應為驗證錯誤或 `null`
+3. 使用 `onError` 處理請求失敗（網路錯誤、HTTP 錯誤）
+4. 在請求進行期間將 `pending()` 設為 `true`
+5. 只在所有同步驗證規則都通過後才執行
 
-### Pending state
+### 待處理狀態
 
-While async validation runs, the field's `pending()` signal returns `true`. Use this to show loading indicators:
+非同步驗證執行期間，欄位的 `pending()` 訊號會傳回 `true`。你可以使用它來顯示載入指示器：
 
 ```angular-html
 @if (form.username().pending()) {
@@ -768,11 +766,11 @@ While async validation runs, the field's `pending()` signal returns `true`. Use 
 }
 ```
 
-The `valid()` signal returns `false` while validation is pending, even if there are no errors yet. The `invalid()` signal only returns `true` if errors exist.
+`valid()` 訊號在驗證待處理期間會傳回 `false`，即使目前還沒有錯誤。`invalid()` 訊號則只在存在錯誤時才傳回 `true`。
 
-## Integration with schema validation libraries
+## 與結構定義驗證程式庫整合
 
-Signal Forms have built-in support for libraries that conform to [Standard Schema](https://standardschema.dev/) like [Zod](https://zod.dev/) or [Valibot](https://valibot.dev/). The integration is provided via the `validateStandardSchema` function. This allows you to use existing schemas while maintaining Signal Forms' reactive validation benefits.
+訊號表單內建支援符合 [Standard Schema](https://standardschema.dev/) 的程式庫，例如 [Zod](https://zod.dev/) 或 [Valibot](https://valibot.dev/)。這項整合透過 `validateStandardSchema` 函式提供。它讓你可以使用既有的結構定義，同時保有訊號表單反應式驗證的好處。
 
 ```ts
 import {form, validateStandardSchema} from '@angular/forms/signals';
@@ -791,9 +789,9 @@ const userForm = form(signal({email: '', password: ''}), (schemaPath) => {
 });
 ```
 
-### Dynamic schemas
+### 動態結構定義
 
-You can pass a signal instead of a static schema so the validation schema updates automatically when its dependencies change.
+你可以傳入訊號而不是靜態結構定義，讓驗證結構定義在其相依性變更時自動更新。
 
 ```angular-ts
 import {Component, computed, signal} from '@angular/core';
@@ -818,13 +816,13 @@ export class DynamicSchema {
 }
 ```
 
-## Next steps
+## 後續步驟
 
-This guide covered creating and applying validation rules. Related guides explore other aspects of Signal Forms:
+本指南介紹了驗證規則的建立與套用。以下是探討訊號表單其他面向的相關指南：
 
 <docs-pill-row>
-  <docs-pill href="guide/forms/signals/field-state-management" title="Field state management" />
-  <docs-pill href="guide/forms/signals/models" title="Form models" />
-  <docs-pill href="guide/forms/signals/form-logic" title="Adding form logic" />
-  <docs-pill href="guide/forms/signals/schemas" title="Schemas and schema composability" />
+  <docs-pill href="guide/forms/signals/field-state-management" title="欄位狀態管理" />
+  <docs-pill href="guide/forms/signals/models" title="表單模型" />
+  <docs-pill href="guide/forms/signals/form-logic" title="新增表單邏輯" />
+  <docs-pill href="guide/forms/signals/schemas" title="結構定義與結構定義的可組合性" />
 </docs-pill-row>

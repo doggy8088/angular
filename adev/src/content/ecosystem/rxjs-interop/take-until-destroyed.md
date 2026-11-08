@@ -1,8 +1,8 @@
-# Unsubscribing with `takeUntilDestroyed`
+# 使用 `takeUntilDestroyed` 取消訂閱
 
-TIP: This guide assumes you're familiar with [component and directive lifecycle](guide/components/lifecycle).
+TIP: 本指南假設你已熟悉[元件與指令的生命週期](guide/components/lifecycle)。
 
-The `takeUntilDestroyed` operator, from `@angular/core/rxjs-interop`, provides a concise and reliable way to automatically unsubscribe from an Observable when a component or directive is destroyed. This prevents common memory leaks with RxJS subscriptions. It works similarly to the RxJS [`takeUntil`](https://rxjs.dev/api/operators/takeUntil) operator but without the need for a separate Subject.
+來自 `@angular/core/rxjs-interop` 的 `takeUntilDestroyed` 運算子，提供一種簡潔可靠的方式，在元件或指令被銷毀時自動取消訂閱 Observable。這能避免 RxJS 訂閱常見的記憶體洩漏。它的運作方式類似 RxJS 的 [`takeUntil`](https://rxjs.dev/api/operators/takeUntil) 運算子，但不需要另外準備一個 Subject。
 
 ```typescript
 import {Component, inject} from '@angular/core';
@@ -26,7 +26,7 @@ export class UserProfile {
 }
 ```
 
-The `takeUntilDestroyed` operator accepts a single optional [`DestroyRef`](/api/core/DestroyRef) argument. The operator uses `DestroyRef` to know when the component or directive has been destroyed. You can omit this argument when calling `takeUntilDestroyed` in an [injection context](/guide/di/dependency-injection-context), typically the constructor of a component or directive. Always provide a `DestroyRef` if your code may call `takeUntilDestroyed` outside of an injection context.
+`takeUntilDestroyed` 運算子接受單一個可選的 [`DestroyRef`](/api/core/DestroyRef) 引數。運算子透過 `DestroyRef` 得知元件或指令何時被銷毀。在[注入上下文](/guide/di/dependency-injection-context)中呼叫 `takeUntilDestroyed` 時可以省略這個引數，典型情境是元件或指令的建構子。如果你的程式碼可能在注入上下文之外呼叫 `takeUntilDestroyed`，就務必提供 `DestroyRef`。
 
 ```typescript
 @Component(/* ... */)

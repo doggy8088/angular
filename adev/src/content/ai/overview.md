@@ -1,119 +1,119 @@
 <!-- TODO: need an Angular + AI logo -->
 
-<docs-decorative-header title="Build with AI" imgSrc="adev/src/assets/images/what_is_angular.svg"> <!-- markdownlint-disable-line -->
-Build AI-powered apps. Develop faster with AI.
+<docs-decorative-header title="用 AI 建置" imgSrc="adev/src/assets/images/what_is_angular.svg"> <!-- markdownlint-disable-line -->
+打造 AI 驅動的應用程式，用 AI 更快開發。
 </docs-decorative-header>
 
-HELPFUL: Looking to get started with building in your favorite AI powered IDE? <br>Check out our [prompt rules and best practices](/ai/develop-with-ai).
+HELPFUL: 想在你愛用的 AI 驅動 IDE 中開始上手嗎？<br>請參考我們的[提示詞規則與最佳實踐](/ai/develop-with-ai)。
 
-Generative AI (GenAI) with large language models (LLMs) enables the creation of sophisticated and engaging application experiences, including personalized content, intelligent recommendations, media generation and comprehension, information summarization, and dynamic functionality.
+生成式 AI（GenAI）結合大型語言模型（LLM），能打造精緻且引人入勝的應用程式體驗，包括個人化內容、智慧推薦、媒體生成與理解、資訊摘要和動態功能。
 
-Developing features like these would have previously required deep domain expertise and significant engineering effort. However, new products and SDKs are lowering the barrier to entry. Angular is well-suited for integrating AI into your web application as a result of:
+這類功能過去需要深厚的領域專業與大量工程投入才能實現。不過，新產品與 SDK 正在降低進入門檻。Angular 非常適合把 AI 整合進你的 Web 應用程式，原因如下：
 
-- Angular's robust templating APIs enable the creation of dynamic, cleanly composed UIs made from generated content
-- Strong, signal-based architecture designed to dynamically manage data and state
-- Angular integrates seamlessly with AI SDKs and APIs
+- Angular 強大的範本 API，能以生成的內容建立動態且組合乾淨的使用者介面
+- 以訊號為核心的強健架構，專為動態管理資料與狀態而設計
+- Angular 能與 AI SDK 和 API 無縫整合
 
-This guide demonstrates how you can use [Genkit](/ai#build-ai-powered-applications-with-genkit-and-angular), [Firebase AI Logic](/ai#build-ai-powered-applications-with-firebase-ai-logic-and-angular), and the [Gemini API](/ai#build-ai-powered-applications-with-gemini-api-and-angular) to infuse your Angular apps with AI today. This guide will jumpstart your AI-powered web app development journey by explaining how to begin integrating AI into Angular apps. This guide also shares resources, such as starter kits, example code, and recipes for common workflows, you can use to get up to speed quickly.
+本指南示範如何使用 [Genkit](/ai#build-ai-powered-applications-with-genkit-and-angular)、[Firebase AI Logic](/ai#build-ai-powered-applications-with-firebase-ai-logic-and-angular) 與 [Gemini API](/ai#build-ai-powered-applications-with-gemini-api-and-angular)，今天就為你的 Angular 應用程式注入 AI。本指南會說明如何開始把 AI 整合進 Angular 應用程式，帶你踏上 AI 驅動的 Web 應用程式開發之旅。本指南也分享了入門套件、範例程式碼與常見工作流程的配方等資源，幫助你快速上手。
 
-To get started, you should have a basic understanding of Angular. New to Angular? Try our [essentials guide](/essentials) or our [getting started tutorials](/tutorials).
+開始之前，你應該對 Angular 有基本的了解。剛接觸 Angular 嗎？可以試試我們的[核心概念指南](/essentials)或[入門教學](/tutorials)。
 
-NOTE: While this page features integrations and examples with Google AI products, tools like Genkit are model agnostic and allow you to choose your own model. In many cases, the examples and code samples are applicable to other third-party solutions.
+NOTE: 本頁雖然以 Google AI 產品的整合與範例為主，但 Genkit 這類工具與模型無關，你可以自行選擇模型。在許多情況下，這些範例與程式碼片段同樣適用於其他第三方解決方案。
 
-## Getting Started
+## 開始使用
 
-Building AI-powered applications is a new and rapidly developing field. It can be challenging to decide where to start and which technologies to choose. The following section provides three options to choose from:
+建置 AI 驅動的應用程式是一個全新且快速發展的領域。要決定從何開始、選用哪些技術，可能並不容易。以下章節提供三個選項供你選擇：
 
-1. _Genkit_ gives you the choice of [supported model and interface with a unified API](https://genkit.dev) for building full-stack applications. Ideal for applications requiring sophisticated back-end AI logic, such as personalized recommendations.
+1. _Genkit_ 讓你透過[統一的 API](https://genkit.dev) 自行選擇支援的模型與介面，來建置全端應用程式。適合需要精緻後端 AI 邏輯的應用程式，例如個人化推薦。
 
-1. _Firebase AI Logic_ provides a secure client-side API for Google's models to build client-side only applications or mobile apps. Best for interactive AI features directly in the browser, such as real-time text analysis or basic chatbots.
+1. _Firebase AI Logic_ 提供安全的用戶端 API 來使用 Google 的模型，適合建置純用戶端應用程式或行動應用程式。最適合直接在瀏覽器中運作的互動式 AI 功能，例如即時文字分析或基本聊天機器人。
 
-1. _Gemini API_ enables you to build an application that uses the methods and functionality exposed through the API surface directly, best for full-stack applications. Suitable for applications needing direct control over AI models, like custom image generation or deep data processing.
+1. _Gemini API_ 讓你建置直接使用該 API 介面所公開的方法與功能的應用程式，最適合全端應用程式。適合需要直接控制 AI 模型的應用程式，例如自訂圖片生成或深度資料處理。
 
-### Build AI-powered applications with Genkit and Angular
+### 以 Genkit 與 Angular 建置 AI 驅動的應用程式
 
-[Genkit](https://genkit.dev) is an open-source toolkit designed to help you build AI-powered features in web and mobile apps. It offers a unified interface for integrating AI models from Google, OpenAI, Anthropic, Ollama, and more, so you can explore and choose the best models for your needs. As a server-side solution, your web apps need a supported server environment, such as a node-based server in order to integrate with Genkit. Building a full-stack app using Angular SSR gives you the starting server-side code, for example.
+[Genkit](https://genkit.dev) 是一套開源工具組，旨在協助你在 Web 與行動應用程式中建置 AI 驅動的功能。它提供統一的介面，可整合來自 Google、OpenAI、Anthropic、Ollama 等來源的 AI 模型，讓你探索並選擇最符合需求的模型。作為伺服器端解決方案，你的 Web 應用程式需要受支援的伺服器環境才能整合 Genkit，例如以 Node 為基礎的伺服器。舉例來說，以 Angular SSR 建置全端應用程式，就能取得起始的伺服器端程式碼。
 
-Here are examples of how to build with Genkit and Angular:
+以下是使用 Genkit 與 Angular 建置的範例：
 
-- [Agentic Apps with Genkit and Angular starter-kit](https://github.com/angular/examples/tree/main/genkit-angular-starter-kit) — New to building with AI? Start here with a basic app that features an agentic workflow. Perfect place to start for your first AI building experience.
+- [Agentic Apps with Genkit and Angular starter-kit](https://github.com/angular/examples/tree/main/genkit-angular-starter-kit) — 剛開始用 AI 建置嗎？從這個具備代理式工作流程的基本應用程式開始。這裡是你第一次 AI 建置體驗的完美起點。
 
-- [Use Genkit in an Angular app](https://genkit.dev/docs/frameworks/angular/) — Build a basic application that uses Genkit Flows, Angular and Gemini 2.5 Flash. This step-by-step walkthrough guides you through creating a full-stack Angular application with AI features.
+- [Use Genkit in an Angular app](https://genkit.dev/docs/frameworks/angular/) — 建置一個使用 Genkit Flows、Angular 與 Gemini 2.5 Flash 的基本應用程式。這份逐步解說會引導你建立具備 AI 功能的全端 Angular 應用程式。
 
-- [Dynamic Story Generator app](https://github.com/angular/examples/tree/main/genkit-angular-story-generator) — Learn to build an agentic Angular app powered by Genkit, Gemini and Imagen 3 to dynamically generate a story based on user interaction featuring beautiful image panels to accompany the events that take place. Start here if you'd like to experiment with a more advanced use-case.
+- [Dynamic Story Generator app](https://github.com/angular/examples/tree/main/genkit-angular-story-generator) — 學習建置一個由 Genkit、Gemini 與 Imagen 3 驅動的代理式 Angular 應用程式，依使用者互動動態生成故事，並有精美的圖片面板搭配故事事件。如果你想嘗試更進階的使用情境，就從這裡開始。
 
-  This example also has an in-depth video walkthrough of the functionality:
+  這個範例也有深入解說功能的影片導覽：
   - [Watch "Building Agentic Apps with Angular and Genkit live!"](https://youtube.com/live/mx7yZoIa2n4?feature=share)
   - [Watch "Building Agentic Apps with Angular and Genkit live! PT 2"](https://youtube.com/live/YR6LN5_o3B0?feature=share)
 
-- [Building Agentic apps with Firebase and Google Cloud (Barista Example)](https://developers.google.com/solutions/learn/agentic-barista) - Learn how to build an agentic coffee ordering app with Firebase and Google Cloud. This example uses both Firebase AI Logic and Genkit.
+- [Building Agentic apps with Firebase and Google Cloud (Barista Example)](https://developers.google.com/solutions/learn/agentic-barista) - 學習如何用 Firebase 與 Google Cloud 建置代理式咖啡訂購應用程式。這個範例同時使用 Firebase AI Logic 與 Genkit。
 
-- [Creating Dynamic, Server-Driven UIs](https://github.com/angular/examples/tree/main/dynamic-sdui-app) - Learn to build Agentic Angular apps with UI views that are generated at runtime based on user input.
+- [Creating Dynamic, Server-Driven UIs](https://github.com/angular/examples/tree/main/dynamic-sdui-app) - 學習建置代理式 Angular 應用程式，其使用者介面檢視會在執行階段依使用者輸入即時生成。
 
-  This example also has an in-depth video walkthrough of the functionality:
+  這個範例也有深入解說功能的影片導覽：
   - [Watch "Exploring the future of web apps"](https://www.youtube.com/live/4qargCqOu70?feature=share)
 
-### Build AI-powered applications with Firebase AI Logic and Angular
+### 以 Firebase AI Logic 與 Angular 建置 AI 驅動的應用程式
 
-[Firebase AI Logic](https://firebase.google.com/products/vertex-ai-in-firebase) provides a secure way to interact with Vertex AI Gemini API or Imagen API directly from your web and mobile apps. This is compelling for Angular developers since apps can be either full-stack or client-side only. If you are developing a client-side only application, Firebase AI Logic is a good fit for incorporating AI into your web apps.
+[Firebase AI Logic](https://firebase.google.com/products/vertex-ai-in-firebase) 提供安全的方式，讓你直接從 Web 與行動應用程式與 Vertex AI Gemini API 或 Imagen API 互動。對 Angular 開發者來說很有吸引力，因為應用程式可以是全端，也可以是純用戶端。如果你開發的是純用戶端應用程式，Firebase AI Logic 很適合把 AI 納入你的 Web 應用程式。
 
-Here is an example of how to build with Firebase AI Logic and Angular:
+以下是使用 Firebase AI Logic 與 Angular 建置的範例：
 
-- [Firebase AI Logic x Angular Starter Kit](https://github.com/angular/examples/tree/main/firebase-ai-logic-angular-example) - Use this starter-kit to build an e-commerce application with a chat agent that can perform tasks. Start here if you do not have experience building with Firebase AI Logic and Angular.
+- [Firebase AI Logic x Angular Starter Kit](https://github.com/angular/examples/tree/main/firebase-ai-logic-angular-example) - 使用這個入門套件，建置一個具備可執行任務的聊天代理的電子商務應用程式。如果你還沒有使用 Firebase AI Logic 與 Angular 的經驗，就從這裡開始。
 
-  This example includes an [in-depth video walkthrough explaining the functionality and demonstrates how to add new features](https://youtube.com/live/4vfDz2al_BI).
+  這個範例包含一段[深入解說功能的影片導覽，並示範如何新增功能](https://youtube.com/live/4vfDz2al_BI)。
 
-### Build AI-powered applications with Gemini API and Angular
+### 以 Gemini API 與 Angular 建置 AI 驅動的應用程式
 
-The [Gemini API](https://ai.google.dev/gemini-api/docs) provides access to state-of-the-art models from Google that support audio, images, video, and text input. These models that are optimized for specific use cases, [learn more on the Gemini API documentation site](https://ai.google.dev/gemini-api/docs/models).
+[Gemini API](https://ai.google.dev/gemini-api/docs) 提供 Google 最先進的模型，支援音訊、圖片、影片與文字輸入。這些模型針對特定使用情境最佳化，[可至 Gemini API 文件網站了解更多](https://ai.google.dev/gemini-api/docs/models)。
 
-- [AI Text Editor Angular app template](https://github.com/FirebaseExtended/firebase-framework-tools/tree/main/starters/angular/ai-text-editor) - Use this template to start with a fully functioning text editor with AI-powered features like refining text, expanding text and formalizing text. This is a good starting point to gain experience with calling the Gemini API via HTTP.
+- [AI Text Editor Angular app template](https://github.com/FirebaseExtended/firebase-framework-tools/tree/main/starters/angular/ai-text-editor) - 使用這個範本，從一個功能完整的文字編輯器開始，具備潤飾文字、擴寫文字與將文字改為正式語氣等 AI 驅動功能。這是透過 HTTP 呼叫 Gemini API 的良好起點，能累積相關經驗。
 
-- [AI Chatbot app template](https://github.com/FirebaseExtended/firebase-framework-tools/tree/main/starters/angular/ai-chatbot) - This template starts with a chatbot user interface that communicates with the Gemini API via HTTP.
+- [AI Chatbot app template](https://github.com/FirebaseExtended/firebase-framework-tools/tree/main/starters/angular/ai-chatbot) - 這個範本從一個聊天機器人使用者介面開始，透過 HTTP 與 Gemini API 通訊。
 
-## Best Practices
+## 最佳實踐
 
-### Connecting to model providers and keeping your API Credentials Secure
+### 連接模型供應商並保護你的 API 憑證
 
-When connecting to model providers, it is important to keep your API secrets safe. _Never put your API key in a file that ships to the client, such as `environments.ts`_.
+連接模型供應商時，務必妥善保護你的 API 機密。_絕不要把 API 金鑰放在會隨程式出貨到用戶端的檔案中，例如 `environments.ts`_。
 
-Your application's architecture determines which AI APIs and tools to choose. Specifically, choose based on whether or not your application is client-side or server-side. Tools such as Firebase AI Logic provide a secure connection to the model APIs for client-side code. If you want to use a different API than Firebase AI Logic or prefer to use a different model provider, consider creating a proxy-server or even [Cloud Functions for Firebase](https://firebase.google.com/docs/functions) to serve as a proxy and not expose your API keys.
+你的應用程式架構決定了該選用哪些 AI API 與工具。具體而言，應依應用程式是用戶端還是伺服器端來選擇。像 Firebase AI Logic 這類工具，為用戶端程式碼提供與模型 API 的安全連線。如果你想使用 Firebase AI Logic 以外的 API，或偏好使用不同的模型供應商，可以考慮建立 proxy-server，甚至使用 [Cloud Functions for Firebase](https://firebase.google.com/docs/functions) 作為代理，避免暴露你的 API 金鑰。
 
-For an example of connecting using a client-side app, see the code: [Firebase AI Logic Angular example repository](https://github.com/angular/examples/tree/main/firebase-ai-logic-angular-example).
+如需用戶端應用程式的連線範例，請參考程式碼：[Firebase AI Logic Angular example repository](https://github.com/angular/examples/tree/main/firebase-ai-logic-angular-example)。
 
-For server-side connections to model APIs that require API keys, prefer using a secrets manager or environment variable, not `environments.ts`. You should follow standard best practices for securing API keys and credentials. Firebase now provides a new secrets manager with the latest updates from Firebase App Hosting. To learn more, [check out the official documentation](https://firebase.google.com/docs/app-hosting/configure).
+對於需要 API 金鑰的伺服器端模型 API 連線，建議使用機密管理工具或環境變數，而不是 `environments.ts`。你應該遵循保護 API 金鑰與憑證的標準最佳實踐。Firebase 現在隨 Firebase App Hosting 的最新更新提供新的機密管理工具。若要了解更多，[請查看官方文件](https://firebase.google.com/docs/app-hosting/configure)。
 
-For a server-side connection example in a full-stack application, see the code: [Angular AI Example (Genkit and Angular Story Generator) repository](https://github.com/angular/examples/tree/main/genkit-angular-story-generator).
+如需全端應用程式中的伺服器端連線範例，請參考程式碼：[Angular AI Example (Genkit and Angular Story Generator) repository](https://github.com/angular/examples/tree/main/genkit-angular-story-generator)。
 
-### Use Tool Calling to enhance apps
+### 使用工具呼叫強化應用程式
 
-If you want to build agentic workflows, where agents are able to act and use tools to solve problems based on prompts use "tool calling". Tool calling, also known as function calling, is a way to provide LLMs the ability to make requests back to the application that called it. As a developer, you define which tools are available and you are in control of how or when the tools are called.
+如果你想建置代理式工作流程，讓代理能依提示詞採取行動並使用工具解決問題，請使用「工具呼叫」。工具呼叫又稱函式呼叫，是一種讓 LLM 能向呼叫它的應用程式發出請求的機制。作為開發者，你定義有哪些工具可用，並掌控工具如何被呼叫、何時被呼叫。
 
-Tool calling further enhances your web apps by expanding your AI integration further than a question and answer style chat bot. In fact, you can empower your model to request function calls using the function calling API of your model provider. The available tools can be used to perform more complex actions within the context of your application.
+工具呼叫讓你的 Web 應用程式不再只是問答式的聊天機器人，進一步擴展 AI 整合的程度。事實上，你可以讓模型透過模型供應商的函式呼叫 API 請求呼叫函式。可用的工具能在你的應用程式情境中執行更複雜的動作。
 
-In the [e-commerce example](https://github.com/angular/examples/blob/main/firebase-ai-logic-angular-example/src/app/ai.service.ts#L88) of the [Angular examples repository](https://github.com/angular/examples), the LLM requests to make calls to functions for inventory in order to gain the necessary context to perform more complex tasks such as calculating how much a group of items in the store will cost. The scope of the available API is up to you as a developer just as is whether or not to call a function requested by the LLM. You remain in control of the flow of execution. You can expose specific functions of a service for example but not all functions of that service.
+在 [Angular 範例儲存庫](https://github.com/angular/examples) 的[電子商務範例](https://github.com/angular/examples/blob/main/firebase-ai-logic-angular-example/src/app/ai.service.ts#L88)中，LLM 會請求呼叫庫存相關的函式，以取得執行更複雜任務所需的上下文，例如計算商店中一組商品的總價。可用 API 的範圍由你這位開發者決定，是否呼叫 LLM 請求的函式也一樣。執行流程始終由你掌控。舉例來說，你可以公開某個服務的特定函式，但不公開該服務的全部函式。
 
-### Handling non-deterministic responses
+### 處理非確定性回應
 
-Because models can return non-deterministic results, your applications should be designed with that in mind. Here are a few strategies that you can use in your application implementation:
+由於模型可能回傳非確定性的結果，你的應用程式設計應將這一點納入考量。以下是在應用程式實作中可以採用的幾種策略：
 
-- Adjust prompts and model parameters (such as [temperature](https://ai.google.dev/gemini-api/docs/prompting-strategies)) for more or less deterministic responses. You can [find out more in the prompting strategies section](https://ai.google.dev/gemini-api/docs/prompting-strategies) of [ai.google.dev](https://ai.google.dev/).
-- Use the "human in the loop" strategy where a human verifies outputs before proceeding in a workflow. Build your application workflows to allow operators (humans or other models) to verify outputs and confirm key decisions.
-- Employ tool (or function) calling and schema constraints to guide and restrict model responses to predefined formats, increasing response predictability.
+- 調整提示詞與模型參數（例如 [temperature](https://ai.google.dev/gemini-api/docs/prompting-strategies)），讓回應更確定或更不確定。你可以[在提示詞策略章節了解更多](https://ai.google.dev/gemini-api/docs/prompting-strategies)，該章節位於 [ai.google.dev](https://ai.google.dev/)。
+- 採用「人在迴路中」策略，由真人在工作流程繼續之前驗證輸出。設計你的應用程式工作流程，讓操作者（真人或其他模型）能驗證輸出並確認關鍵決策。
+- 運用工具（或函式）呼叫與結構描述限制，引導並將模型回應限制在預先定義的格式，提高回應的可預測性。
 
-Even considering these strategies and techniques, sensible fallbacks should be incorporated in your application design. Follow existing standards of application resiliency. For example, it is not acceptable for an application to crash if a resource or API is not available. In that scenario, an error message is displayed to the user and, if applicable, options for next steps are also displayed. Building AI-powered applications requires the same consideration. Confirm that the response is aligned with the expected output and provide a "safe landing" in case it is not aligned by way of [graceful degradation](https://developer.mozilla.org/en-US/docs/Glossary/Graceful_degradation). This also applies to API outages for LLM providers.
+即使考量了這些策略與技巧，應用程式設計仍應納入合理的備援機制，並遵循既有的應用程式韌性標準。舉例來說，資源或 API 無法使用時，應用程式當機是不可接受的。在這種情境下，應向使用者顯示錯誤訊息，如有需要，也顯示後續步驟的選項。建置 AI 驅動的應用程式也需要同樣的考量。請確認回應符合預期輸出，若不符合，則透過[優雅降級](https://developer.mozilla.org/en-US/docs/Glossary/Graceful_degradation)提供「安全著陸」。這同樣適用於 LLM 供應商的 API 中斷。
 
-Consider this example: The LLM provider is not responding. A potential strategy to handle the outage is:
+請看這個範例：LLM 供應商沒有回應。處理中斷的一種潛在策略是：
 
-- Save the response from the user to use in a retry scenario (now or at a later time)
-- Alert the user to the outage with an appropriate message that doesn't reveal sensitive information
-- Resume the conversation at a later time once the services are available again.
+- 儲存使用者的回應，以便在重試情境中使用（立即或稍後）
+- 以適當的訊息提醒使用者發生中斷，且不洩漏敏感資訊
+- 待服務恢復可用後，在稍後恢復對話。
 
-## Next steps
+## 後續步驟
 
-To learn about LLM prompts and AI IDE setup, see the following guides:
+若要了解 LLM 提示詞與 AI IDE 設定，請參考以下指南：
 
 <docs-pill-row>
-  <docs-pill href="ai/develop-with-ai" title="LLM prompts and IDE setup"/>
+  <docs-pill href="ai/develop-with-ai" title="LLM 提示詞與 IDE 設定"/>
   <docs-pill href="ai/agent-skills" title="Agent Skills"/>
 </docs-pill-row>

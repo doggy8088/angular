@@ -1,44 +1,44 @@
-# Performance
+# 效能
 
-Angular includes many optimizations out of the box, but as applications grow, you may need to fine-tune both how quickly your app loads and how responsive it feels during use. These guides cover the tools and techniques Angular provides to help you build fast applications.
+Angular 開箱就內建許多最佳化，但隨著應用程式成長，你可能需要微調應用程式的載入速度，以及使用時的流暢感受。這些指南涵蓋 Angular 提供的工具與技巧，協助你打造快速的應用程式。
 
-## Loading performance
+## 載入效能
 
-Loading performance determines how quickly your application becomes visible and interactive. Slow loading directly impacts [Core Web Vitals](https://web.dev/vitals/) like Largest Contentful Paint (LCP) and Time to First Byte (TTFB).
+載入效能決定你的應用程式多快變得可見且可互動。載入緩慢會直接影響 [Core Web Vitals](https://web.dev/vitals/)，例如 Largest Contentful Paint（LCP）與 Time to First Byte（TTFB）。
 
-| Technique                                                                                               | What it does                                                                                                                                                                                                                    | When to use it                                                                                |
+| 技巧                                                                                               | 作用                                                                                                                                                                                                                    | 使用時機                                                                                |
 | :------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :-------------------------------------------------------------------------------------------- |
-| [Lazy-loaded routes](best-practices/performance/lazy-loaded-routes#lazily-loaded-components-and-routes) | Defers loading route components until navigation, reducing the initial bundle size                                                                                                                                              | Applications with multiple routes where not all are needed on initial load                    |
-| [Deferred loading with `@defer`](best-practices/performance/defer)                                      | Splits components into separate bundles that load on demand                                                                                                                                                                     | Components not visible on initial render, heavy third-party libraries, below-the-fold content |
-| [Lazy loading services with `injectAsync`](guide/di/lazy-loading-services)                              | Splits rarely used services into separate chunks and loads them on demand                                                                                                                                                       | Services backed by large libraries or infrequently used features                              |
-| [Image optimization](best-practices/performance/image-optimization)                                     | Prioritizes LCP images, lazy loads others, generates responsive `srcset` attributes                                                                                                                                             | Any application that displays images                                                          |
-| [Server-side rendering](best-practices/performance/ssr)                                                 | Renders pages on the server for faster first paint and better SEO, with [hydration](guide/hydration) to restore interactivity and [incremental hydration](guide/incremental-hydration) to defer hydrating sections until needed | Content-heavy applications, pages that need search engine indexing                            |
+| [延遲載入的路由](best-practices/performance/lazy-loaded-routes#lazily-loaded-components-and-routes) | 把路由元件延後到導航時才載入，減少初始套件大小                                                                                                                                              | 有多條路由、且並非所有路由在初始載入時都需要用到的應用程式                    |
+| [用 `@defer` 延遲載入](best-practices/performance/defer)                                      | 把元件拆成各自的套件，依需求載入                                                                                                                                                                     | 初始渲染時看不到的元件、龐大的第三方程式庫、頁面下方的內容 |
+| [用 `injectAsync` 延遲載入服務](guide/di/lazy-loading-services)                              | 把不常用的服務拆成各自的區塊，依需求載入                                                                                                                                                       | 背後是大型程式庫的服務，或不常使用的功能                              |
+| [圖片最佳化](best-practices/performance/image-optimization)                                     | 優先處理 LCP 圖片、延遲載入其他圖片，並產生響應式的 `srcset` 屬性                                                                                                                                             | 任何會顯示圖片的應用程式                                                          |
+| [伺服器端渲染](best-practices/performance/ssr)                                                 | 在伺服器上渲染頁面，帶來更快的首次繪製與更好的 SEO，並透過[水合（hydration）](guide/hydration) 恢復互動性，再以[漸進式水合](guide/incremental-hydration) 把各區段的水合延後到需要時才做 | 內容為主的應用程式、需要被搜尋引擎索引的頁面                            |
 
-## Runtime performance
+## 執行期效能
 
-Runtime performance determines how responsive your application feels after it loads. Angular's change detection system keeps the DOM in sync with your data, and optimizing how and when it runs is the primary lever for improving runtime performance.
+執行期效能決定應用程式載入後操作起來是否流暢。Angular 的變更偵測系統會讓 DOM 與你的資料保持同步，而最佳化它執行的方式與時機，正是改善執行期效能的主要著力點。
 
-| Technique                                                       | What it does                                                                                        | When to use it                                                                        |
+| 技巧                                                       | 作用                                                                                        | 使用時機                                                                        |
 | :-------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------ |
-| [Zoneless change detection](guide/zoneless)                     | Removes ZoneJS overhead and triggers change detection only when signals or events indicate a change | New applications (default in Angular v21+), or existing applications ready to migrate |
-| [Slow computations](best-practices/slow-computations)           | Identifies and optimizes expensive template expressions and lifecycle hooks                         | Profiling reveals specific components causing slow change detection cycles            |
-| [Skipping component subtrees](best-practices/skipping-subtrees) | Uses `OnPush` change detection to skip unchanged component trees                                    | Applications that need finer control over change detection                            |
-| [Zone pollution](best-practices/zone-pollution)                 | Prevents unnecessary change detection caused by third-party libraries or timers                     | Zone-based applications where profiling reveals excessive change detection cycles     |
+| [無 Zone 變更偵測](guide/zoneless)                     | 移除 ZoneJS 的額外負擔，只在訊號或事件顯示有變更時才觸發變更偵測 | 新應用程式（Angular v21 以上預設），或已準備好遷移的既有應用程式 |
+| [緩慢的計算](best-practices/slow-computations)           | 找出並最佳化昂貴的範本運算式與生命週期鉤子                         | 效能分析顯示特定元件造成變更偵測週期緩慢時            |
+| [略過元件子樹](best-practices/skipping-subtrees) | 使用 `OnPush` 變更偵測來略過未變更的元件樹                                    | 需要更精細控制變更偵測的應用程式                            |
+| [Zone 污染](best-practices/zone-pollution)                 | 防止第三方程式庫或計時器造成不必要的變更偵測                     | 分析顯示變更偵測週期過多的 Zone 架構應用程式     |
 
-## Measuring performance
+## 量測效能
 
-Identifying what to optimize is just as important as knowing how to optimize it. Angular integrates with browser developer tools to help you find bottlenecks.
+找出該最佳化什麼，和知道如何最佳化同樣重要。Angular 與瀏覽器開發人員工具整合，協助你找出瓶頸。
 
-| Tool                                                                       | What it does                                                                                                                                                                     |
+| 工具                                                                       | 作用                                                                                                                                                                     |
 | :------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Chrome DevTools profiling](best-practices/profiling-with-chrome-devtools) | Records Angular-specific performance data alongside browser profiling, with color-coded flame charts that show component rendering, change detection cycles, and lifecycle hooks |
-| [Angular DevTools](tools/devtools)                                         | A browser extension that provides a component tree inspector and a profiler for visualizing change detection cycles                                                              |
+| [Chrome DevTools 效能分析](best-practices/profiling-with-chrome-devtools) | 連同瀏覽器的效能分析，一起記錄 Angular 專屬的效能資料，並以色彩標示的火焰圖呈現元件渲染、變更偵測週期與生命週期鉤子 |
+| [Angular DevTools](tools/devtools)                                         | 瀏覽器擴充功能，提供元件樹檢視器與分析工具，用來視覺化變更偵測週期                                                              |
 
-## What to optimize first
+## 先最佳化什麼
 
-If you are unsure where to start, profile your application first using the [Chrome DevTools Angular track](best-practices/profiling-with-chrome-devtools) to identify specific bottlenecks.
+如果你不確定該從何下手，先用 [Chrome DevTools 的 Angular 追蹤](best-practices/profiling-with-chrome-devtools) 分析你的應用程式，找出具體的瓶頸。
 
-As a general starting point:
+一般的起點如下：
 
-- **Slow initial load** — Use [`@defer`](best-practices/performance/defer) to split large components out of the main bundle, [`NgOptimizedImage`](best-practices/performance/image-optimization) to prioritize above-the-fold images, and [server-side rendering](best-practices/performance/ssr) to deliver content faster.
-- **Slow interactions after load** — Check whether [zoneless change detection](guide/zoneless) is enabled, look for [slow computations](best-practices/slow-computations) in templates or lifecycle hooks, and consider [`OnPush`](best-practices/skipping-subtrees) to reduce unnecessary change detection.
+- **初始載入緩慢**：用 [`@defer`](best-practices/performance/defer) 把大型元件拆出主套件，用 [`NgOptimizedImage`](best-practices/performance/image-optimization) 優先處理頁面上方的圖片，並用[伺服器端渲染](best-practices/performance/ssr) 更快地傳遞內容。
+- **載入後互動緩慢**：檢查是否已啟用[無 Zone 變更偵測](guide/zoneless)，查看範本或生命週期鉤子中是否有[緩慢的計算](best-practices/slow-computations)，並考慮用 [`OnPush`](best-practices/skipping-subtrees) 減少不必要的變更偵測。

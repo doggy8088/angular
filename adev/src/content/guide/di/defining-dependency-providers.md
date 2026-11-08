@@ -1,19 +1,19 @@
-# Defining dependency providers
+# 定義依賴提供者
 
-Angular provides two ways to make services available for injection:
+Angular 提供兩種方式，讓服務可供注入：
 
-1. **Automatic provision** - Using `providedIn` in the `@Injectable` decorator, the [`@Service`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator) decorator, or by providing a factory in the `InjectionToken` configuration
-2. **Manual provision** - Using the `providers` array in components, directives, routes, or application config
+1. **自動提供**：使用 `@Injectable` 裝飾器中的 `providedIn`、[`@Service`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator) 裝飾器，或在 `InjectionToken` 設定中提供工廠
+2. **手動提供**：使用元件、指令、路由或應用程式設定中的 `providers` 陣列
 
-In the [previous guide](/guide/di/creating-and-using-services), you learned how to create services using `providedIn: 'root'`, which handles most common use cases. This guide explores additional patterns for both automatic and manual provider configuration.
+在[上一篇指南](/guide/di/creating-and-using-services)中，你學到了如何使用 `providedIn: 'root'` 建立服務，這涵蓋了最常見的使用情境。本指南將探討自動與手動提供者設定的其他模式。
 
-## Automatic provision for non-class dependencies
+## 非類別依賴的自動提供
 
-While the `@Injectable` decorator with `providedIn: 'root'` works great for services (classes), you might need to provide other types of values globally - like configuration objects, functions, or primitive values. Angular provides `InjectionToken` for this purpose.
+帶有 `providedIn: 'root'` 的 `@Injectable` 裝飾器對服務（類別）很好用，但你可能需要全域提供其他類型的值，例如設定物件、函式或原始值。Angular 為此提供了 `InjectionToken`。
 
-### What is an InjectionToken?
+### 什麼是 InjectionToken？
 
-An `InjectionToken` is an object that Angular's dependency injection system uses to uniquely identify values for injection. Think of it as a special key that lets you store and retrieve any type of value in Angular's DI system:
+`InjectionToken` 是 Angular 依賴注入系統用來唯一識別可注入值的物件。可以把它想成一把特殊的鑰匙，讓你能在 Angular 的 DI 系統中儲存和擷取任何類型的值：
 
 ```ts
 import {InjectionToken} from '@angular/core';
@@ -32,11 +32,11 @@ export interface Config {
 export const CONFIG_TOKEN = new InjectionToken<Config>('app.config');
 ```
 
-NOTE: The string parameter (e.g., `'api.url'`) is a description purely for debugging — Angular identifies tokens by their object reference, not this string.
+NOTE: 字串參數（例如 `'api.url'`）只是一個純粹用於除錯的描述，Angular 是以物件參考來識別 token，而不是這個字串。
 
-### InjectionToken with `providedIn: 'root'`
+### 搭配 `providedIn: 'root'` 的 InjectionToken
 
-An `InjectionToken` that has a `factory` results in `providedIn: 'root'` by default (but can be overridden via the `providedIn` prop).
+帶有 `factory` 的 `InjectionToken`，預設即為 `providedIn: 'root'`（但可以透過 `providedIn` 屬性覆寫）。
 
 ```ts {header: "/app/config.token.ts"}
 import {InjectionToken, Component, inject} from '@angular/core';

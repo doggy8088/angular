@@ -1,66 +1,8 @@
 # Autocomplete
 
-## Overview
+## 概觀
 
-An accessible input field that filters and suggests options as users type, helping them find and select values from a list.
-
-<docs-tab-group>
-  <docs-tab label="Basic">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Material">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Retro">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-</docs-tab-group>
-
-## Usage
-
-Autocomplete works best when users need to select from a large set of options where typing is faster than scrolling. Consider using autocomplete when:
-
-- **The option list is long** (more than 20 items) - Typing narrows down choices faster than scrolling through a dropdown
-- **Users know what they're looking for** - They can type part of the expected value (like a state name, product, or username)
-- **Options follow predictable patterns** - Users can guess partial matches (like country codes, email domains, or categories)
-- **Speed matters** - Forms benefit from quick selection without extensive navigation
-
-Avoid autocomplete when:
-
-- The list has fewer than 10 options - A regular dropdown or radio group provides better visibility
-- Users need to browse options - If discovery is important, show all options upfront
-- Options are unfamiliar - Users can't type what they don't know exists in the list
-
-## Features
-
-Angular's autocomplete provides a fully accessible combobox implementation with:
-
-- **Keyboard Navigation** - Navigate options with arrow keys, select with Enter, close with Escape
-- **Screen Reader Support** - Built-in ARIA attributes for assistive technologies
-- **Dynamic Highlight Behavior** - Built-in support for inline selection suggestions
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
-- **Popover API Integration** - Leverages the native HTML Popover API for optimal positioning
-- **Bidirectional Text Support** - Automatically handles right-to-left (RTL) languages
-
-## Examples
-
-### Auto-select mode
-
-Users typing partial text expect immediate confirmation that their input matches an available option. Auto-select mode updates the input value to match the first filtered option as users type, reducing the number of keystrokes needed and providing instant feedback that their search is on the right track.
+這是一個無障礙的輸入欄位，會在使用者輸入時篩選並建議選項，幫助他們從清單中找到並選取所需的值。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -88,9 +30,67 @@ Users typing partial text expect immediate confirmation that their input matches
   </docs-tab>
 </docs-tab-group>
 
-### Manual selection mode
+## 用法
 
-Manual selection mode keeps the typed text unchanged while users navigate the suggestion list, preventing confusion from automatic updates. The input only changes when users explicitly confirm their choice with Enter or a click.
+當使用者需要從一大組選項中選取、而打字比捲動更快的情境下，自動完成的效果最好。在下列情況可以考慮使用自動完成：
+
+- **選項清單很長**（超過 20 個項目）：打字縮小選擇範圍的速度，比捲動下拉清單更快
+- **使用者知道自己在找什麼**：他們可以輸入預期值的一部分（例如州名、產品或使用者名稱）
+- **選項遵循可預測的模式**：使用者可以猜到部分相符的內容（例如國家代碼、電子郵件網域或分類）
+- **速度很重要**：表單能受惠於快速選取，不必進行大量導覽
+
+在下列情況避免使用自動完成：
+
+- 清單少於 10 個選項：一般的下拉清單或單選按鈕群組能提供更好的可見性
+- 使用者需要瀏覽選項：如果探索很重要，一開始就把所有選項都顯示出來
+- 選項不熟悉：使用者無法輸入他們不知道清單裡存在的東西
+
+## 功能
+
+Angular 的自動完成提供完整無障礙的 combobox 實作，包含：
+
+- **鍵盤導覽**：用方向鍵瀏覽選項、用 Enter 選取、用 Escape 關閉
+- **螢幕閱讀器支援**：為輔助技術內建 ARIA 屬性
+- **動態醒目提示行為**：內建支援行內選取建議
+- **以訊號為基礎的反應性**：使用 Angular 訊號進行反應式狀態管理
+- **Popover API 整合**：運用原生 HTML Popover API 達成最佳定位
+- **雙向文字支援**：自動處理由右至左（RTL）的語言
+
+## 範例
+
+### 自動選取模式
+
+使用者輸入部分文字時，會期待立即得到確認，知道自己的輸入與某個可用選項相符。自動選取模式會在使用者輸入時，把輸入值更新為第一個篩選出來的選項，減少需要的按鍵次數，並即時回饋，讓使用者知道搜尋方向正確。
+
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/basic/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
+
+### 手動選取模式
+
+手動選取模式會在使用者瀏覽建議清單時，保持輸入的文字不變，避免自動更新造成混淆。只有當使用者用 Enter 或點選明確確認選擇時，輸入內容才會改變。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -118,9 +118,9 @@ Manual selection mode keeps the typed text unchanged while users navigate the su
   </docs-tab>
 </docs-tab-group>
 
-### Highlight mode
+### 醒目提示模式
 
-Highlight mode allows the user to navigate options with arrow keys without changing the input value as they browse until they explicitly select a new option with Enter or click.
+醒目提示模式讓使用者用方向鍵瀏覽選項，在瀏覽過程中不會改變輸入值，直到他們用 Enter 或點選明確選取新選項為止。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -148,11 +148,11 @@ Highlight mode allows the user to navigate options with arrow keys without chang
   </docs-tab>
 </docs-tab-group>
 
-### Signal Forms Integration
+### Signal Forms 整合
 
-Angular Aria integrates seamlessly with the signal-based [Signal Forms](guide/forms/signals/overview) API. You can encapsulate complex inputs into reusable custom control components implementing `FormValueControl`.
+Angular Aria 可以與以訊號為基礎的 [Signal Forms](guide/forms/signals/overview) API 無縫整合。你可以把複雜的輸入封裝成可重複使用的自訂控制元件，實作 `FormValueControl`。
 
-The following example demonstrates a country selector component implementing `FormValueControl<string>`, bound to the parent form using `[formField]` and protected by schema validation rules.
+以下範例示範一個實作 `FormValueControl<string>` 的國家選取器元件，它使用 `[formField]` 繫結到父表單，並受到結構描述驗證規則的保護。
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/app.ts"/>
@@ -163,10 +163,10 @@ The following example demonstrates a country selector component implementing `Fo
   <docs-code header="app.css" path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/app.css"/>
 </docs-code-multifile>
 
-## Testing
+## 測試
 
-The autocomplete pattern can be tested using a combination of `ComboboxHarness` and `ListboxHarness` from `@angular/aria/combobox/testing` and `@angular/aria/listbox/testing`.
-Here is an example of how to use the harnesses to test an autocomplete component:
+自動完成模式可以使用 `@angular/aria/combobox/testing` 的 `ComboboxHarness` 與 `@angular/aria/listbox/testing` 的 `ListboxHarness` 組合來測試。
+以下範例示範如何使用這些 harness 測試自動完成元件：
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
@@ -215,9 +215,9 @@ describe('MyAutocompleteComponent', () => {
 });
 ```
 
-## API reference
+## API 參考
 
-For detailed API documentation, inspect the following API references:
+如需詳細的 API 文件，請查看下列 API 參考：
 
 - [`Combobox`](/api/aria/combobox/Combobox)
 - [`ComboboxPopup`](/api/aria/combobox/ComboboxPopup)

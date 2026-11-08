@@ -1,13 +1,13 @@
 <docs-decorative-header title="Angular Aria" imgSrc="adev/src/assets/images/aria.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-## What is Angular Aria?
+## 什麼是 Angular Aria？
 
-Building accessible components seems straightforward, but implementing them according to the [W3C Accessibility Guidelines](https://www.w3.org/TR/wcag/) requires significant effort and accessibility expertise.
+建立無障礙元件看似簡單，但要按照 [W3C 無障礙指南](https://www.w3.org/TR/wcag/) 實作，需要投入相當多的心力，也需要無障礙方面的專業知識。
 
-Angular Aria is a collection of headless, accessible directives that implement common [WAI-ARIA patterns](https://www.w3.org/WAI/ARIA/apg/patterns/). The directives handle keyboard interactions, ARIA attributes, focus management, and screen reader support. All you have to do is provide the HTML structure, CSS styling, and business logic!
+Angular Aria 是一組無頭（headless）的無障礙指令，實作了常見的 [WAI-ARIA 模式](https://www.w3.org/WAI/ARIA/apg/patterns/)。這些指令會處理鍵盤互動、ARIA 屬性、焦點管理與螢幕閱讀器支援。你只需要提供 HTML 結構、CSS 樣式與商業邏輯！
 
-## Installation
+## 安裝
 
 <docs-code-multifile>
   <docs-code header="npm" language="shell">
@@ -24,9 +24,9 @@ Angular Aria is a collection of headless, accessible directives that implement c
   </docs-code>
 </docs-code-multifile>
 
-## Showcase
+## 展示
 
-For example, let's take a toolbar menu. While it may appear to be a "simple" row of buttons tied with specific logic, keyboard navigation and screen readers add a lot of unexpected complexity to those unfamiliar with accessibility.
+以工具列選單為例。它看起來可能只是「一排綁了特定邏輯的按鈕」，但對不熟悉無障礙的人來說，鍵盤導覽與螢幕閱讀器會帶來許多意料之外的複雜度。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -54,60 +54,60 @@ For example, let's take a toolbar menu. While it may appear to be a "simple" row
   </docs-tab>
 </docs-tab-group>
 
-In this one scenario, developers need to consider:
+光是這一個情境，開發者就需要考慮：
 
-- **Keyboard navigation**. Users need to open the menu with Enter or Space, navigate options with arrow keys, select with Enter, and close with Escape.
-- **Screen readers** need to announce the menu's state, the number of options, and which option has focus.
-- **Focus management** needs to move logically between the trigger and menu items.
-- **Right-to-left languages** require the ability to navigate in reverse.
+- **鍵盤導覽**：使用者需要能用 Enter 或 Space 開啟選單、用方向鍵導覽選項、用 Enter 選取，並用 Escape 關閉。
+- **螢幕閱讀器**：需要播報選單的狀態、選項數量，以及目前取得焦點的選項。
+- **焦點管理**：需要在觸發器與選單項目之間合乎邏輯地移動。
+- **由右至左的語言**：需要能以反方向導覽。
 
-## What's included?
+## 包含哪些內容？
 
-Angular Aria includes directives with comprehensive documentation, working examples and API references for common interactive patterns:
+Angular Aria 針對常見的互動模式，提供附有完整文件、可運作範例與 API 參考的指令：
 
-### Search and selection
+### 搜尋與選取
 
-| Component                               | Description                                                    |
+| 元件                                    | 說明                                                           |
 | --------------------------------------- | -------------------------------------------------------------- |
-| [Autocomplete](guide/aria/autocomplete) | Text input with filtered suggestions that appear as users type |
-| [Listbox](guide/aria/listbox)           | Single or multi-select option lists with keyboard navigation   |
-| [Select](guide/aria/select)             | Single-selection dropdown pattern with keyboard navigation     |
-| [Multiselect](guide/aria/multiselect)   | Multiple-selection dropdown pattern with compact display       |
-| [Combobox](guide/aria/combobox)         | Primitive directive that coordinates a text input with a popup |
+| [Autocomplete](guide/aria/autocomplete) | 文字輸入框，使用者輸入時會出現篩選後的建議                     |
+| [Listbox](guide/aria/listbox)           | 支援鍵盤導覽的單選或多選選項清單                               |
+| [Select](guide/aria/select)             | 支援鍵盤導覽的單選下拉模式                                     |
+| [Multiselect](guide/aria/multiselect)   | 以精簡方式顯示的多選下拉模式                                   |
+| [Combobox](guide/aria/combobox)         | 基礎指令，負責協調文字輸入框與彈出視窗                         |
 
-### Navigation and call to actions
+### 導覽與呼叫動作
 
-| Component                     | Description                                                |
-| ----------------------------- | ---------------------------------------------------------- |
-| [Menu](guide/aria/menu)       | Dropdown menus with nested submenus and keyboard shortcuts |
-| [Menubar](guide/aria/menubar) | Horizontal navigation bar for persistent application menus |
-| [Toolbar](guide/aria/toolbar) | Grouped sets of controls with logical keyboard navigation  |
+| 元件                          | 說明                                               |
+| ----------------------------- | -------------------------------------------------- |
+| [Menu](guide/aria/menu)       | 支援巢狀子選單與鍵盤快速鍵的下拉選單               |
+| [Menubar](guide/aria/menubar) | 用於常駐應用程式選單的水平導覽列                   |
+| [Toolbar](guide/aria/toolbar) | 成組的控制項，支援合乎邏輯的鍵盤導覽               |
 
-### Content organization
+### 內容組織
 
-| Component                         | Description                                                            |
-| --------------------------------- | ---------------------------------------------------------------------- |
-| [Accordion](guide/aria/accordion) | Collapsible content panels that can expand individually or exclusively |
-| [Tabs](guide/aria/tabs)           | Tabbed interfaces with automatic or manual activation modes            |
-| [Tree](guide/aria/tree)           | Hierarchical lists with expand/collapse functionality                  |
-| [Grid](guide/aria/grid)           | Two-dimensional data display with cell-by-cell keyboard navigation     |
+| 元件                              | 說明                                                                 |
+| --------------------------------- | -------------------------------------------------------------------- |
+| [Accordion](guide/aria/accordion) | 可收合的內容面板，可個別展開，也可一次只展開一個                     |
+| [Tabs](guide/aria/tabs)           | 分頁介面，支援自動或手動啟用模式                                     |
+| [Tree](guide/aria/tree)           | 階層式清單，支援展開/收合功能                                        |
+| [Grid](guide/aria/grid)           | 二維資料顯示，支援逐格鍵盤導覽                                       |
 
-## When to use Angular Aria
+## 何時使用 Angular Aria
 
-Angular Aria works well when you need accessible interactive components that are WCAG compliant with custom styling. Examples include:
+當你需要符合 WCAG 且可自訂樣式的無障礙互動元件時，Angular Aria 是很好的選擇。例如：
 
-- **Building a design system** - Your team maintains a component library with specific visual standards that need accessible implementations
-- **Enterprise component libraries** - You're creating reusable components for multiple applications within an organization
-- **Custom brand requirements** - The interface needs to match precise design specifications that pre-styled component libraries cannot easily accommodate
+- **建立設計系統**：你的團隊維護一套有特定視覺標準的元件庫，需要無障礙的實作
+- **企業級元件庫**：你正在為組織內多個應用程式建立可重複使用的元件
+- **自訂品牌需求**：介面需要符合精確的設計規格，是預先套好樣式的元件庫難以配合的
 
-## When not to use Angular Aria
+## 何時不該使用 Angular Aria
 
-Angular Aria might not fit every scenario:
+Angular Aria 不見得適合所有情境：
 
-- **Pre-styled components** - If you need components that look complete without custom styling, use Angular Material instead
-- **Simple forms** - Native HTML form controls like `<button>` and `<input type="radio">` provide built-in accessibility for straightforward use cases
-- **Rapid prototyping** - When validating concepts quickly, pre-styled component libraries reduce initial development time
+- **預先套好樣式的元件**：如果你需要不加自訂樣式就外觀完整的元件，請改用 Angular Material
+- **簡單表單**：在簡單的使用情境下，原生 HTML 表單控制項（例如 `<button>` 與 `<input type="radio">`）本身就具備無障礙支援
+- **快速製作原型**：在快速驗證概念時，預先套好樣式的元件庫能減少初期開發時間
 
-## Next steps
+## 下一步
 
-Check out a component from the side nav or [list above](#whats-included), or start with [Toolbar](guide/aria/toolbar) to see a complete example of how Angular Aria directives work!
+從側邊導覽或[上方清單](#whats-included)挑一個元件來看看，或者從 [Toolbar](guide/aria/toolbar) 開始，看看 Angular Aria 指令如何運作的完整範例！

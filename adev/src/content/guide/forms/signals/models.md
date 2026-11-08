@@ -1,18 +1,18 @@
-# Form models
+# 表單模型
 
-Form models are the foundation of Signal Forms, serving as the single source of truth for your form data. This guide explores how to create form models, update them, and design them for maintainability.
+表單模型是 Signal Forms 的基礎，是表單資料的單一事實來源。本指南將探討如何建立表單模型、更新模型，以及如何以易於維護的方式設計模型。
 
-NOTE: Form models are distinct from Angular's `model()` signal used for component two-way binding. A form model is a writable signal that stores form data, while `model()` creates inputs/outputs for parent/child component communication.
+NOTE: 表單模型不同於 Angular 用於元件雙向繫結的 `model()` 訊號。表單模型是儲存表單資料的可寫入訊號，而 `model()` 則是為父子元件溝通建立輸入與輸出。
 
-## What form models solve
+## 表單模型解決了什麼問題
 
-Forms require managing data that changes over time. Without a clear structure, this data can become scattered across component properties, making it difficult to track changes, validate input, or submit data to a server.
+表單需要管理會隨時間變化的資料。若沒有清楚的結構，這些資料可能散落在元件的各個屬性中，讓變更難以追蹤、輸入難以驗證，資料也難以送出到伺服器。
 
-Form models solve this by centralizing form data in a single writable signal. When the model updates, the form automatically reflects those changes. When users interact with the form, the model updates accordingly.
+表單模型透過把表單資料集中在單一可寫入訊號中，解決了這個問題。模型更新時，表單會自動反映這些變化；使用者與表單互動時，模型也會隨之更新。
 
-## Creating models
+## 建立模型
 
-A form model is a writable signal created with Angular's `signal()` function. The signal holds an object that represents your form's data structure.
+表單模型是用 Angular 的 `signal()` 函式建立的可寫入訊號。這個訊號保存著一個物件，代表你的表單資料結構。
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -36,13 +36,13 @@ export class LoginComponent {
 }
 ```
 
-The [`form()`](api/forms/signals/form) function accepts the model signal and creates a **field tree** - a special object structure that mirrors your model's shape. The field tree is both navigable (access child fields with dot notation like `loginForm.email`) and callable (call a field as a function to access its state).
+[`form()`](api/forms/signals/form) 函式接受模型訊號，並建立一棵**欄位樹**——一種特殊的物件結構，映照著你模型的形狀。欄位樹既可以走訪（用點記法存取子欄位，例如 `loginForm.email`），也可以呼叫（把欄位當作函式呼叫，以存取其狀態）。
 
-The `[formField]` directive binds each input element to its corresponding field in the field tree, enabling automatic two-way synchronization between the UI and model.
+`[formField]` 指令把每個輸入元素繫結到欄位樹中對應的欄位，讓 UI 與模型之間能自動雙向同步。
 
-### Supported model structures
+### 支援的模型結構
 
-Signal Forms builds the field tree by walking your model. The objects and arrays it walks through (the **structural layer**) must be plain JavaScript objects and arrays. The values at the **leaves** (positions with no nested fields) are usually primitives (strings, numbers, booleans) or `null`. Native `date`, `month`, `time`, and `week` inputs also accept `Date`, and custom controls can accept any value type they understand.
+Signal Forms 會走訪你的模型來建立欄位樹。它所走訪的物件與陣列（**結構層**）必須是純 JavaScript 物件與陣列。位於**葉節點**（沒有巢狀欄位的位置）的值，通常是基本型別（字串、數字、布林值）或 `null`。原生的 `date`、`month`、`time` 與 `week` 輸入元素也接受 `Date`，自訂控制項則可以接受任何它能理解的值型別。
 
 ```ts {prefer, header: 'Plain structure'}
 interface UserFormModel {
@@ -66,17 +66,17 @@ const userModel = signal<UserFormModel>({
 });
 ```
 
-IMPORTANT: Class instances, `Map`, and `Set` are **not supported in the structural layer**, even though TypeScript will accept them. Signal Forms does not validate the model shape at runtime, so the framework accepts these values without throwing, then produces incorrect behavior in different ways depending on shape:
+IMPORTANT: 類別實例、`Map` 與 `Set` 在結構層中不受支援，即使 TypeScript 會接受它們。Signal Forms 不會在執行時期驗證模型形狀，因此框架會接受這些值而不擲出錯誤，接著依形狀不同，以不同方式產生不正確的行為：
 
-- **Class instances** lose their prototype on the first write because Signal Forms shallow-copies parent objects on update. Methods, getters, and `instanceof` checks are gone afterward.
-- **Non-extensible or frozen objects inside arrays** throw when Signal Forms assigns a tracking symbol to preserve item identity across reorders.
-- **`Map` and `Set`** produce empty field trees, because Signal Forms enumerates children with `Object.keys`.
+- **類別實例**在第一次寫入時就會失去原型，因為 Signal Forms 在更新時會對父物件做淺拷貝。之後，方法、getter 與 `instanceof` 檢查都不復存在。
+- **陣列中不可擴充或已凍結的物件**在 Signal Forms 指派追蹤符號以保留重排時的項目身分時，會擲出錯誤。
+- **`Map` 與 `Set`** 會產生空的欄位樹，因為 Signal Forms 是用 `Object.keys` 列舉子項的。
 
-If your application uses classes for domain modeling, translate to plain objects at the form boundary. See [Translating between form model and domain model](guide/forms/signals/model-design#translating-between-form-model-and-domain-model).
+若你的應用程式使用類別來做領域建模，請在表單邊界將其轉換為純物件。請參閱[在表單模型與領域模型之間轉換](guide/forms/signals/model-design#translating-between-form-model-and-domain-model)。
 
-### Using TypeScript types
+### 使用 TypeScript 型別
 
-While TypeScript infers types from object literals, defining explicit types improves code quality and provides better IntelliSense support.
+雖然 TypeScript 會從物件常值推斷型別，但定義明確的型別能提升程式碼品質，並提供更好的 IntelliSense 支援。
 
 ```ts
 interface LoginData {
@@ -94,7 +94,7 @@ export class LoginComponent {
 }
 ```
 
-With explicit types, the field tree provides full type safety. Accessing `loginForm.email` is typed as `FieldTree<string>`, and attempting to access a non-existent property results in a compile-time error.
+有了明確的型別，欄位樹就能提供完整的型別安全。存取 `loginForm.email` 的型別是 `FieldTree<string>`，而嘗試存取不存在的屬性，則會造成編譯時期錯誤。
 
 ```ts
 // TypeScript knows this is FieldTree<string>
@@ -104,9 +104,9 @@ const emailField = loginForm.email;
 const usernameField = loginForm.username;
 ```
 
-### Initializing all fields
+### 初始化所有欄位
 
-Form models should provide initial values for all fields you want to include in the field tree.
+表單模型應該為你想納入欄位樹的所有欄位提供初始值。
 
 ```ts {prefer}
 // Good: All fields initialized
@@ -126,7 +126,7 @@ const userModel = signal({
 });
 ```
 
-For optional fields, explicitly set them to an empty value or `null`:
+對於可選欄位，請明確將其設為空值或 `null`：
 
 ```ts
 interface UserData {
@@ -142,17 +142,17 @@ const userModel = signal<UserData>({
 });
 ```
 
-HELPFUL: Native text controls like `<input type=text>` and `<textarea>` don't support `null`, use `''` to represent an empty value.
+HELPFUL: 原生文字控制項如 `<input type=text>` 與 `<textarea>` 不支援 `null`，請用 `''` 表示空值。
 
-Fields set to `undefined` are excluded from the field tree. A model with `{value: undefined}` behaves identically to `{}` - accessing the field returns `undefined` rather than a `FieldTree`.
+設為 `undefined` 的欄位會被排除在欄位樹之外。模型為 `{value: undefined}` 時，其行為與 `{}` 完全相同——存取該欄位會回傳 `undefined`，而不是 `FieldTree`。
 
-## Reading model values
+## 讀取模型的值
 
-You can access form values in two ways: directly from the model signal, or through individual fields. Each approach serves a different purpose.
+你可以用兩種方式存取表單的值：直接從模型訊號讀取，或透過個別欄位讀取。每種方式適用於不同目的。
 
-### Reading from the model
+### 從模型讀取
 
-Access the model signal when you need the complete form data, such as during form submission:
+當你需要完整的表單資料時（例如送出表單時），請存取模型訊號：
 
 ```ts
 async onSubmit() {
@@ -164,13 +164,13 @@ async onSubmit() {
 }
 ```
 
-The model signal returns the entire data object, making it ideal for operations that work with the complete form state.
+模型訊號會回傳整個資料物件，很適合處理完整表單狀態的操作。
 
-### Reading from field state
+### 從欄位狀態讀取
 
-Each field in the field tree is a function. Calling a field returns a `FieldState` object containing reactive signals for the field's value, validation status, and interaction state.
+欄位樹中的每個欄位都是一個函式。呼叫欄位會回傳一個 `FieldState` 物件，其中包含該欄位值、驗證狀態與互動狀態的反應式訊號。
 
-Access field state when working with individual fields in templates or reactive computations:
+當你在範本或反應式計算中處理個別欄位時，請存取欄位狀態：
 
 ```angular-ts
 @Component({
@@ -189,17 +189,17 @@ export class LoginComponent {
 }
 ```
 
-Field state provides reactive signals for each field's value, making it suitable for displaying field-specific information or creating derived state.
+欄位狀態為每個欄位的值提供反應式訊號，適合用來顯示欄位專屬資訊，或建立衍生狀態。
 
-TIP: Field state includes many more signals beyond `value()`, such as validation state (e.g., valid, invalid, errors), interaction tracking (e.g., touched, dirty), and visibility (e.g., hidden, disabled).
+TIP: 欄位狀態除了 `value()` 之外，還包含更多訊號，例如驗證狀態（如 valid、invalid、errors）、互動追蹤（如 touched、dirty），以及可見性（如 hidden、disabled）。
 
-See the [Field State Management guide](guide/forms/signals/field-state-management) for complete coverage.
+完整說明請參閱[欄位狀態管理指南](guide/forms/signals/field-state-management)。
 
-## Updating form models programmatically
+## 以程式化方式更新表單模型
 
-### Replacing form models with `set()`
+### 用 `set()` 取代表單模型
 
-Use `set()` on the form model to replace the entire value:
+使用表單模型上的 `set()`，可以取代整個值：
 
 ```ts
 loadUserData() {
@@ -219,11 +219,11 @@ resetForm() {
 }
 ```
 
-This approach works well when loading data from an API or resetting the entire form.
+這種方式很適合從 API 載入資料，或重設整個表單。
 
-### Update a single field directly with `set()` or `update()`
+### 用 `set()` 或 `update()` 直接更新單一欄位
 
-Use `set()` on individual field values to directly update the field state:
+使用個別欄位值上的 `set()`，可以直接更新欄位狀態：
 
 ```ts
 clearEmail() {
@@ -235,11 +235,11 @@ incrementAge() {
 }
 ```
 
-These are also known as "field-level updates." They automatically propagate to the model signal and keep both in sync.
+這類更新也稱為「欄位層級更新」。它們會自動傳播到模型訊號，讓兩者保持同步。
 
-### Example: Loading data from an API
+### 範例：從 API 載入資料
 
-A common pattern involves fetching data and populating the model:
+一個常見的模式是取得資料並填入模型：
 
 ```ts
 export class UserProfileComponent {
@@ -263,11 +263,11 @@ export class UserProfileComponent {
 }
 ```
 
-The form fields automatically update when the model changes, displaying the fetched data without additional code.
+模型變更時，表單欄位會自動更新，顯示取回的資料，不需要額外的程式碼。
 
-### Example: Synchronizing to a service
+### 範例：同步到服務
 
-For some use cases, a service may store a form model:
+在某些使用情境中，服務可能會保存一份表單模型：
 
 ```ts
 @Service()
@@ -294,36 +294,33 @@ export class UserForm {
 }
 ```
 
-`linkedSignal`'s computation function reads the service's form model, and the `set` function
-in the options allows syncing the component's form model to the service's form model. The
-form fields automatically update when the service's model changes, as well as automatically
-update the service's form model when the form fields update the component's form model.
+`linkedSignal` 的計算函式會讀取服務的表單模型，而選項中的 `set` 函式能把元件的表單模型同步到服務的表單模型。當服務的模型變更時，表單欄位會自動更新；當表單欄位更新元件的表單模型時，也會自動更新服務的表單模型。
 
-## Two-way data binding
+## 雙向資料繫結
 
-The `[formField]` directive creates automatic two-way synchronization between the model, form state, and UI.
+`[formField]` 指令會在模型、表單狀態與 UI 之間建立自動雙向同步。
 
-### How data flows
+### 資料如何流動
 
-Changes flow bidirectionally:
+變化會雙向流動：
 
-**User input → Model:**
+**使用者輸入 → 模型**：
 
-1. User types in an input element
-2. The `[formField]` directive detects the change
-3. Field state updates
-4. Model signal updates
+1. 使用者在輸入元素中打字
+2. `[formField]` 指令偵測到變化
+3. 欄位狀態更新
+4. 模型訊號更新
 
-**Programmatic update → UI:**
+**程式化更新 → UI**：
 
-1. Code updates the model with `set()` or `update()`
-2. Model signal notifies subscribers
-3. Field state updates
-4. The `[formField]` directive updates the input element
+1. 程式碼用 `set()` 或 `update()` 更新模型
+2. 模型訊號通知訂閱者
+3. 欄位狀態更新
+4. `[formField]` 指令更新輸入元素
 
-This synchronization happens automatically. You don't write subscriptions or event handlers to keep the model and UI in sync.
+這種同步會自動發生。你不需要撰寫訂閱或事件處理常式，就能讓模型與 UI 保持同步。
 
-### Example: Both directions
+### 範例：雙向流動
 
 ```angular-ts
 @Component({
@@ -344,15 +341,15 @@ export class UserComponent {
 }
 ```
 
-When the user types in the input, `userModel().name` updates. When the button is clicked, the input value changes to "Bob". No manual synchronization code is required.
+當使用者在輸入框中打字時，`userModel().name` 會更新；當按鈕被點選時，輸入值會變成「Bob」。不需要任何手動同步的程式碼。
 
-## Model structure patterns
+## 模型結構模式
 
-Form models can be flat objects or contain nested objects and arrays. The structure you choose affects how you access fields and organize validation.
+表單模型可以是扁平物件，也可以包含巢狀物件與陣列。你選擇的結構，會影響你存取欄位與組織驗證的方式。
 
-### Flat vs nested models
+### 扁平與巢狀模型
 
-Flat form models keep all fields at the top level:
+扁平的表單模型把所有欄位都放在最上層：
 
 ```ts
 // Flat structure
@@ -366,7 +363,7 @@ const userModel = signal({
 });
 ```
 
-Nested models group related fields:
+巢狀模型則把相關欄位分組：
 
 ```ts
 // Nested structure
@@ -382,21 +379,21 @@ const userModel = signal({
 });
 ```
 
-**Use flat structures when:**
+**在下列情況使用扁平結構**：
 
-- Fields don't have clear conceptual groupings
-- You want simpler field access (`userForm.city` vs `userForm.address.city`)
-- Validation rules span multiple potential groups
+- 欄位沒有清楚的概念分組
+- 你想讓欄位存取更簡單（`userForm.city` 而非 `userForm.address.city`）
+- 驗證規則橫跨多個可能的分組
 
-**Use nested structures when:**
+**在下列情況使用巢狀結構**：
 
-- Fields form a clear conceptual group (like an address)
-- The grouped data matches your API structure
-- You want to validate the group as a unit
+- 欄位構成清楚的概念群組（如地址）
+- 分組後的資料與你的 API 結構相符
+- 你想把整個群組當作一個單位來驗證
 
-### Working with nested objects
+### 處理巢狀物件
 
-You can access nested fields by following the object path:
+你可以沿著物件路徑存取巢狀欄位：
 
 ```ts
 const userModel = signal({
@@ -417,7 +414,7 @@ userForm.profile.firstName; // FieldTree<string>
 userForm.settings.theme; // FieldTree<string>
 ```
 
-In templates, you bind nested fields the same way as top-level fields:
+在範本中，巢狀欄位的繫結方式與最上層欄位相同：
 
 ```angular-ts
 @Component({
@@ -433,9 +430,9 @@ In templates, you bind nested fields the same way as top-level fields:
 })
 ```
 
-### Working with arrays
+### 處理陣列
 
-Models can include arrays for collections of items:
+模型可以包含陣列，用來保存項目集合：
 
 ```ts
 const orderModel = signal({
@@ -450,17 +447,17 @@ orderForm.items[0].product; // FieldTree<string>
 orderForm.items[0].quantity; // FieldTree<number>
 ```
 
-Array items containing objects automatically receive tracking identities, which helps maintain field state even when items change position in the array. This ensures validation state and user interactions persist correctly when arrays are reordered.
+包含物件的陣列項目會自動獲得追蹤身分，即使項目在陣列中改變位置，也能協助維持欄位狀態。這能確保陣列重排時，驗證狀態與使用者互動仍正確保留。
 
 <!-- TBD: For dynamic arrays and complex array operations, see the [Working with arrays guide](guide/forms/signals/arrays). -->
 
-## Next steps
+## 後續步驟
 
-This guide covered creating models and updating values. Related guides explore other aspects of Signal Forms:
+本指南說明了如何建立模型與更新值。相關指南將探討 Signal Forms 的其他面向：
 
 <docs-pill-row>
-  <docs-pill href="guide/forms/signals/field-state-management" title="Field state management" />
-  <docs-pill href="guide/forms/signals/validation" title="Validation" />
-  <docs-pill href="guide/forms/signals/custom-controls" title="Custom controls" />
+  <docs-pill href="guide/forms/signals/field-state-management" title="欄位狀態管理" />
+  <docs-pill href="guide/forms/signals/validation" title="驗證" />
+  <docs-pill href="guide/forms/signals/custom-controls" title="自訂控制項" />
   <!-- <docs-pill href="guide/forms/signals/arrays" title="Working with Arrays" /> -->
 </docs-pill-row>

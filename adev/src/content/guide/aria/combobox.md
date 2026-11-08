@@ -1,13 +1,13 @@
 # Combobox
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/combobox/" title="Combobox ARIA pattern"/>
-  <docs-pill href="/api?query=combobox#angular_aria_combobox" title="Combobox API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/combobox/" title="Combobox ARIA 模式"/>
+  <docs-pill href="/api?query=combobox#angular_aria_combobox" title="Combobox API 參考"/>
 </docs-pill-row>
 
-## Overview
+## 概觀
 
-A directive that coordinates a trigger element (such as a text input, button, or `div`) with a popup, providing the primitive directive for autocomplete, select, and multiselect patterns.
+這個指令負責協調觸發元素（例如文字輸入框、按鈕或 `div`）與彈出視窗，提供自動完成、選取與多選模式所用的基礎指令。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -35,39 +35,39 @@ A directive that coordinates a trigger element (such as a text input, button, or
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## 用法
 
-Combobox is the primitive directive that coordinates an interactive trigger element (such as a text input, button, or `div`) with a popup. It provides the foundation for autocomplete, select, and multiselect patterns. Consider using combobox directly when:
+Combobox 是負責協調互動式觸發元素（例如文字輸入框、按鈕或 `div`）與彈出視窗的基礎指令。它是自動完成、選取與多選模式的基礎。在下列情況可以考慮直接使用 combobox：
 
-- **Building custom autocomplete patterns** - Creating specialized filtering or suggestion behavior
-- **Creating custom selection components** - Developing dropdowns with unique requirements
-- **Coordinating input with popup** - Pairing text input with listbox, tree, or dialog content
-- **Implementing custom filtering** - Filtering and orchestrating matching options in user space
+- **建置自訂的自動完成模式**：建立專門的篩選或建議行為
+- **建立自訂的選取元件**：開發具有獨特需求的下拉清單
+- **協調輸入與彈出視窗**：把文字輸入與 listbox、tree 或 dialog 內容配對
+- **實作自訂篩選**：在使用者程式碼中篩選並調度相符的選項
 
-Use documented patterns instead when:
+在下列情況，請改用已文件化的模式：
 
-- Standard autocomplete with filtering is needed - See the [Autocomplete pattern](guide/aria/autocomplete) for ready-to-use examples
-- Single-selection dropdowns are needed - See the [Select pattern](guide/aria/select) for complete dropdown implementation
-- Multiple-selection dropdowns are needed - See the [Multiselect pattern](guide/aria/multiselect) for multi-select with compact display
+- 需要標準的自動完成與篩選功能：請參閱 [Autocomplete 模式](guide/aria/autocomplete)，裡面有可直接使用的範例
+- 需要單選下拉清單：請參閱 [Select 模式](guide/aria/select)，裡面有完整的下拉清單實作
+- 需要多選下拉清單：請參閱 [Multiselect 模式](guide/aria/multiselect)，了解以精簡顯示呈現的多選功能
 
-NOTE: The [Autocomplete](guide/aria/autocomplete), [Select](guide/aria/select), and [Multiselect](guide/aria/multiselect) guides show documented patterns that combine this directive with [Listbox](guide/aria/listbox) for specific use cases.
+NOTE: [Autocomplete](guide/aria/autocomplete)、[Select](guide/aria/select) 與 [Multiselect](guide/aria/multiselect) 指南展示了已文件化的模式，它們把這個指令與 [Listbox](guide/aria/listbox) 結合，用於特定的使用情境。
 
-## Features
+## 功能
 
-Angular's combobox provides a fully accessible input-popup coordination system with:
+Angular 的 combobox 提供完整無障礙的輸入與彈出視窗協調系統，包含：
 
-- **Trigger Element with Popup** - Coordinates trigger element with popup content
-- **Flexible Coordination** - Integrates seamlessly with standard layouts (listbox, tree, grid, or dialog)
-- **Keyboard Navigation** - Arrow keys, Enter, Escape handling
-- **Screen Reader Support** - Built-in ARIA attributes including role="combobox" and aria-expanded
-- **Popup Management** - Automatic show/hide based on user interaction
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
+- **觸發元素與彈出視窗**：協調觸發元素與彈出內容
+- **彈性的協調方式**：與標準版面配置無縫整合（listbox、tree、grid 或 dialog）
+- **鍵盤導覽**：處理方向鍵、Enter 與 Escape
+- **螢幕閱讀器支援**：內建 ARIA 屬性，包括 role="combobox" 與 aria-expanded
+- **彈出視窗管理**：依使用者互動自動顯示或隱藏
+- **以訊號為基礎的反應性**：使用 Angular 訊號進行反應式狀態管理
 
-## Examples
+## 範例
 
 ### Autocomplete
 
-An accessible input field that filters and suggests options as users type, helping them find and select values from a list.
+這是一個無障礙的輸入欄位，會在使用者輸入時篩選並建議選項，幫助他們從清單中找到並選取所需的值。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -95,11 +95,11 @@ An accessible input field that filters and suggests options as users type, helpi
   </docs-tab>
 </docs-tab-group>
 
-Filtering is managed in user space by updating a signal that reactively filters the options list. Users navigate with arrow keys and select with Enter or click. This provides complete control and maximum flexibility for custom selection logic. See the [Autocomplete guide](guide/aria/autocomplete) for complete filtering patterns and examples.
+篩選是在使用者程式碼中管理的，做法是更新一個訊號，由它反應式地篩選選項清單。使用者用方向鍵瀏覽、用 Enter 或點選來選取。這提供了完整的控制權，以及為自訂選取邏輯保留最大的彈性。完整的篩選模式與範例，請參閱 [Autocomplete 指南](guide/aria/autocomplete)。
 
-### Readonly mode
+### 唯讀模式
 
-A pattern that combines a readonly combobox with listbox to create single-selection dropdowns with keyboard navigation and screen reader support.
+這個模式把唯讀的 combobox 與 listbox 結合，建立具有鍵盤導覽與螢幕閱讀器支援的單選下拉清單。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -127,13 +127,13 @@ A pattern that combines a readonly combobox with listbox to create single-select
   </docs-tab>
 </docs-tab-group>
 
-Triggering a dropdown without text input can be achieved using a button as the host trigger, or applying the native HTML `readonly` attribute to the input trigger. The popup opens on click or arrow keys.
+不必輸入文字也能觸發下拉清單，做法是使用按鈕作為主機觸發元素，或是把原生 HTML `readonly` 屬性套用到輸入觸發元素上。彈出視窗會在點選或按方向鍵時開啟。
 
-This configuration provides the foundation for the [Select](guide/aria/select) and [Multiselect](guide/aria/multiselect) patterns. See those guides for complete dropdown implementations with triggers and overlay positioning.
+這個設定是 [Select](guide/aria/select) 與 [Multiselect](guide/aria/multiselect) 模式的基礎。完整的下拉清單實作（包含觸發器與覆蓋層定位），請參閱那些指南。
 
-### Datepicker grid
+### 日期選擇器格線
 
-Combobox can coordinate with a two-dimensional grid to create accessible datepickers. Users navigate dates inside the calendar grid table using directional arrow keys and confirm selection with click, Enter, or Spacebar.
+Combobox 可以與二維格線協調，建立無障礙的日期選擇器。使用者用方向鍵在行事曆格線表格中瀏覽日期，並以點選、Enter 或空白鍵確認選取。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -161,9 +161,9 @@ Combobox can coordinate with a two-dimensional grid to create accessible datepic
   </docs-tab>
 </docs-tab-group>
 
-### Dialog popup
+### 對話框彈出視窗
 
-Dialog popups combine the combobox trigger with standard dialog layouts and focus traps (such as CDK's `cdkTrapFocus`). Use dialog popups when the overlay requires modal behavior or backdrop interaction.
+對話框彈出視窗把 combobox 觸發器與標準的對話框版面配置和焦點陷阱（例如 CDK 的 `cdkTrapFocus`）結合。當覆蓋層需要強制回應行為或背景互動時，請使用對話框彈出視窗。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -191,10 +191,10 @@ Dialog popups combine the combobox trigger with standard dialog layouts and focu
   </docs-tab>
 </docs-tab-group>
 
-## Testing
+## 測試
 
-Angular Aria provides a `ComboboxHarness` for testing combobox components.
-Here is an example of how to use the harness in a component test:
+Angular Aria 提供 `ComboboxHarness`，可用來測試 combobox 元件。
+以下範例示範如何在元件測試中使用這個 harness：
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
@@ -234,23 +234,23 @@ describe('MyComboboxComponent', () => {
 });
 ```
 
-## API reference
+## API 參考
 
-For detailed API documentation, inspect the following API references:
+如需詳細的 API 文件，請查看下列 API 參考：
 
 - [`Combobox`](/api/aria/combobox/Combobox)
 - [`ComboboxPopup`](/api/aria/combobox/ComboboxPopup)
 - [`ComboboxWidget`](/api/aria/combobox/ComboboxWidget)
 
-### Related patterns and directives
+### 相關模式與指令
 
-Combobox is the primitive directive for these documented patterns:
+Combobox 是下列已文件化模式的基礎指令：
 
-- [Autocomplete](guide/aria/autocomplete) - Filtering and suggestions pattern (coordinates input typing with options list)
-- [Select](guide/aria/select) - Single selection dropdown pattern (applied directly on non-editable button triggers)
-- [Multiselect](guide/aria/multiselect) - Multiple selection pattern (applied on non-editable triggers with multi-enabled Listbox)
+- [Autocomplete](guide/aria/autocomplete)：篩選與建議模式（協調輸入打字與選項清單）
+- [Select](guide/aria/select)：單選下拉清單模式（直接套用在不可編輯的按鈕觸發器上）
+- [Multiselect](guide/aria/multiselect)：多選模式（套用在不可編輯的觸發器上，搭配啟用多選的 Listbox）
 
-Combobox typically combines with:
+Combobox 通常會與下列項目結合：
 
-- [Listbox](guide/aria/listbox) - Most common popup content
-- [Tree](guide/aria/tree) - Hierarchical popup content (see Tree guide for examples)
+- [Listbox](guide/aria/listbox)：最常見的彈出內容
+- [Tree](guide/aria/tree)：階層式彈出內容（範例請參閱 Tree 指南）

@@ -1,22 +1,22 @@
-# Angular i18n Internationalization Example
+# Angular i18n 國際化範例
 
-This sample comes from the Angular documentation's "[Example Angular Internationalization application](https://angular.dev/guide/i18n/example)" page.
+這個範例來自 Angular 文件的「[Angular 國際化範例應用程式](https://angular.dev/guide/i18n/example)」頁面。
 
-## Install and Run the Download
+## 安裝並執行下載內容
 
-1. `npm install` the node_module packages
-2. `npm start` to see it run in English
-3. `npm run start:fr` to see it run with French translation.
+1. 用 `npm install` 安裝 node_module 套件
+2. 用 `npm start` 以英文執行並查看
+3. 用 `npm run start:fr` 以法文翻譯執行並查看。
 
-> See the scripts in `package.json` for an explanation of these commands.
+> 請參閱 `package.json` 中的指令碼，以了解這些指令的說明。
 
-## Run in StackBlitz
+## 在 StackBlitz 中執行
 
-StackBlitz compiles and runs the English version by default.
+StackBlitz 預設會編譯並執行英文版本。
 
-To see the example translate to French with Angular i18n:
+若要查看範例如何透過 Angular i18n 翻譯為法文：
 
-1. Open the `project.json` file and add the following to the bottom:
+1. 開啟 `project.json` 檔案，將下列內容加入底部：
 
 ```json
   "stackblitz": {
@@ -24,4 +24,4 @@ To see the example translate to French with Angular i18n:
   }
 ```
 
-1. Click the "Fork" button in the StackBlitz header. That makes a new copy for you with this change and re-runs the example in French.
+1. 點選 StackBlitz 標頭中的「Fork」按鈕。這會為你建立一份帶有此變更的新副本，並以法文重新執行範例。

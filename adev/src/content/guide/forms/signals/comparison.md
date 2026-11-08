@@ -1,23 +1,23 @@
-# Comparison with other form approaches
+# 與其他表單方法的比較
 
-Angular provides three approaches to building forms: Signal Forms, Reactive Forms, and Template-driven Forms. Each has distinct patterns for managing state, validation, and data flow. This guide helps you understand the differences and choose the right approach for your project.
+Angular 提供三種建置表單的方法：Signal Forms、Reactive Forms 與 Template-driven Forms。三者在管理狀態、驗證與資料流的方式上各有不同的模式。本指南協助你了解彼此的差異，為你的專案選出合適的方法。
 
-## Quick comparison
+## 快速比較
 
-| Feature          | Signal Forms                       | Reactive Forms                        | Template-driven Forms   |
-| ---------------- | ---------------------------------- | ------------------------------------- | ----------------------- |
-| Source of truth  | User-defined writable signal model | `FormControl`/`FormGroup`             | User model in component |
-| Type safety      | Inferred from model                | Explicit with typed forms             | Minimal                 |
-| Validation       | Schema with path-based validators  | List of validators passed to Controls | Directive-based         |
-| State management | Signal-based                       | Observable-based                      | Angular-managed         |
-| Setup            | Signal + schema function           | FormControl tree                      | NgModel in template     |
-| Best for         | Signal-based apps                  | Complex forms                         | Simple forms            |
-| Learning curve   | Medium                             | Medium-High                           | Low                     |
-| Status           | Stable (v22+)                      | Stable                                | Stable                  |
+| 功能         | Signal Forms               | Reactive Forms              | Template-driven Forms |
+| ------------ | -------------------------- | --------------------------- | --------------------- |
+| 真實來源     | 使用者自訂的可寫入訊號模型 | `FormControl`/`FormGroup`   | 元件中的使用者模型    |
+| 型別安全     | 從模型推斷                 | 透過型別化表單明確指定      | 極少                  |
+| 驗證         | 以路徑驗證器組成的結構定義 | 傳入控制項的驗證器清單      | 以指令為基礎          |
+| 狀態管理     | 以訊號為基礎               | 以 Observable 為基礎        | 由 Angular 管理       |
+| 建置方式     | 訊號 + 結構定義函式        | FormControl 樹              | 範本中的 NgModel      |
+| 最適合       | 以訊號為基礎的應用程式     | 複雜表單                    | 簡單表單              |
+| 學習曲線     | 中等                       | 中高                        | 低                    |
+| 狀態         | 穩定版（v22+）             | 穩定版                      | 穩定版                |
 
-## By example: Login form
+## 範例：登入表單
 
-The best way to understand the differences is to see the same form implemented in all three approaches.
+了解差異最好的方式，是看同一個表單以三種方法各實作一次。
 
 <docs-code-multifile>
   <docs-code language="angular-ts" header="Signal forms" path="adev/src/content/examples/signal-forms/src/comparison/app/signal-forms.ts"/>
@@ -25,43 +25,43 @@ The best way to understand the differences is to see the same form implemented i
   <docs-code header="Template-driven forms" path="adev/src/content/examples/signal-forms/src/comparison/app/template-driven-forms.ts"/>
 </docs-code-multifile>
 
-## Understanding the differences
+## 了解差異
 
-The three approaches make different design choices that affect how you write and maintain your forms. These differences stem from where each approach stores form state and how it manages validation.
+三種方法在設計上做了不同的取捨，影響你撰寫與維護表單的方式。這些差異源自於每種方法儲存表單狀態的位置，以及管理驗證的方式。
 
-### Where your form data lives
+### 表單資料存放的位置
 
-The most fundamental difference is where each approach considers the "source of truth" for form values.
+最根本的差異，在於每種方法把表單值的「真實來源」放在哪裡。
 
-Signal Forms stores data in a writable signal. When you need the current form values, you call the signal:
+Signal Forms 把資料存在可寫入的訊號中。需要目前的表單值時，呼叫該訊號即可：
 
 ```ts
 const credentials = this.loginModel(); // { email: '...', password: '...' }
 ```
 
-This keeps your form data in a single reactive container that automatically notifies Angular when values change. The form structure mirrors your data model exactly.
+這樣表單資料就放在單一的反應式容器中，值改變時會自動通知 Angular。表單結構與你的資料模型完全對應。
 
-Reactive Forms stores data inside FormControl and FormGroup instances. You access values through the form hierarchy:
+Reactive Forms 把資料存在 `FormControl` 與 `FormGroup` 實例中。你透過表單階層存取值：
 
 ```ts
 const credentials = this.loginForm.value; // { email: '...', password: '...' }
 ```
 
-This separates form state management from your component's data model. The form structure is explicit but requires more setup code.
+這讓表單狀態管理與元件的資料模型分離。表單結構是明確的，但需要較多的建置程式碼。
 
-Template-driven Forms stores data in component properties. You access values directly:
+Template-driven Forms 把資料存在元件屬性中。你直接存取值：
 
 ```ts
 const credentials = {email: this.email, password: this.password};
 ```
 
-This is the most direct approach but requires manually assembling values when you need them. Angular manages form state through directives in the template.
+這是最直接的方法，但需要值的時候得手動組裝。Angular 透過範本中的指令管理表單狀態。
 
-### How validation works
+### 驗證的運作方式
 
-Each approach defines validation rules differently, affecting where your validation logic lives and how you maintain it.
+每種方法定義驗證規則的方式不同，影響驗證邏輯存放的位置與維護方式。
 
-Signal Forms uses a schema function where you bind validators to field paths:
+Signal Forms 使用結構定義函式，把驗證器綁定到欄位路徑：
 
 ```ts
 loginForm = form(this.loginModel, (fieldPath) => {
@@ -70,9 +70,9 @@ loginForm = form(this.loginModel, (fieldPath) => {
 });
 ```
 
-All validation rules live together in one place. The schema function runs once during form creation, and validators execute automatically when field values change. Error messages are part of the validation definition.
+所有驗證規則都集中在同一處。結構定義函式在建立表單時執行一次，欄位值改變時驗證器會自動執行。錯誤訊息屬於驗證定義的一部分。
 
-Reactive Forms attaches validators when creating controls:
+Reactive Forms 在建立控制項時附加驗證器：
 
 ```ts
 loginForm = new FormGroup({
@@ -80,21 +80,21 @@ loginForm = new FormGroup({
 });
 ```
 
-Validators are tied to individual controls in the form structure. This distributes validation across your form definition. Error messages typically live in your template.
+驗證器與表單結構中的個別控制項綁在一起，驗證因此分散在整個表單定義中。錯誤訊息通常放在範本裡。
 
-Template-driven Forms uses directive attributes in the template:
+Template-driven Forms 在範本中使用指令屬性：
 
 ```html
 <input [(ngModel)]="email" required email />
 ```
 
-Validation rules live in your template alongside the HTML. This keeps validation close to the UI but spreads logic across template and component.
+驗證規則與 HTML 並存在範本中。這讓驗證貼近 UI，但邏輯會分散在範本與元件之間。
 
-### Type safety and autocomplete
+### 型別安全與自動完成
 
-TypeScript integration differs significantly between approaches, affecting how much the compiler helps you avoid errors.
+三種方法與 TypeScript 的整合差異明顯，影響編譯器能幫你避免多少錯誤。
 
-Signal Forms infers types from your model structure:
+Signal Forms 從你的模型結構推斷型別：
 
 ```ts
 const loginModel = signal({email: '', password: ''});
@@ -102,9 +102,9 @@ const loginForm = form(loginModel);
 // TypeScript knows: loginForm.email exists and returns FieldState<string>
 ```
 
-You define your data shape once in the signal, and TypeScript automatically knows what fields exist and their types. Accessing `loginForm.username` (which doesn't exist) produces a type error.
+你只需在訊號中定義一次資料形狀，TypeScript 就會自動知道有哪些欄位以及它們的型別。存取不存在的 `loginForm.username` 會產生型別錯誤。
 
-Reactive Forms requires explicit type annotations with typed forms:
+Reactive Forms 需要以型別化表單明確標註型別：
 
 ```ts
 const loginForm = new FormGroup({
@@ -114,9 +114,9 @@ const loginForm = new FormGroup({
 // TypeScript knows: loginForm.controls.email is FormControl<string>
 ```
 
-You specify types for each control individually. TypeScript validates your form structure, but you maintain type information separately from your data model.
+你為每個控制項個別指定型別。TypeScript 會驗證表單結構，但型別資訊需要你另外維護，與資料模型分開。
 
-Template-driven Forms offers minimal type safety:
+Template-driven Forms 提供的型別安全極少：
 
 ```ts
 email = '';
@@ -124,37 +124,37 @@ password = '';
 // TypeScript only knows these are strings, no form-level typing
 ```
 
-TypeScript understands your component properties but has no knowledge of form structure or validation. You lose compile-time checking for form operations.
+TypeScript 只了解元件屬性，對表單結構或驗證一無所知，表單操作也失去了編譯時期檢查。
 
-## Choose your approach
+## 選擇適合你的方法
 
-### Use Signal Forms if:
+### 以下情況選用 Signal Forms：
 
-- You're building new signal-based applications (Angular v22+)
-- You want type safety inferred from your model structure
-- Schema-based validation appeals to you
-- Your team is familiar with signals
+- 你在建置以訊號為基礎的新應用程式（Angular v22+）
+- 你希望型別安全由模型結構自動推斷
+- 以結構定義為基礎的驗證方式合你的胃口
+- 你的團隊已熟悉訊號
 
-### Use Reactive Forms if:
+### 以下情況選用 Reactive Forms：
 
-- You need production-ready stability
-- You're building complex, dynamic forms
-- You prefer observable-based patterns
-- You need fine-grained control over form state
-- You're working on an existing reactive forms codebase
+- 你需要可上線的穩定性
+- 你在建置複雜、動態的表單
+- 你偏好以 Observable 為基礎的模式
+- 你需要對表單狀態做細緻控制
+- 你在既有的 Reactive Forms 程式碼庫上工作
 
-### Use Template-driven Forms if:
+### 以下情況選用 Template-driven Forms：
 
-- You're building simple forms (login, contact, search)
-- You're doing rapid prototyping
-- Your form logic is straightforward
-- You prefer keeping form logic in templates
-- You're working on an existing template-driven codebase
+- 你在建置簡單表單（登入、聯絡、搜尋）
+- 你在快速製作原型
+- 你的表單邏輯很單純
+- 你偏好把表單邏輯放在範本中
+- 你在既有的 Template-driven Forms 程式碼庫上工作
 
-## Next steps
+## 下一步
 
-To learn more about each approach:
+想進一步了解每種方法：
 
-- **Signal Forms**: See the [Overview guide](guide/forms/signals/overview) to get started, or dive into [Form Models](guide/forms/signals/models), [Validation](guide/forms/signals/validation), and [Field State Management](guide/forms/signals/field-state-management)
-- **Reactive Forms**: See the [Reactive Forms guide](guide/forms/reactive-forms) in Angular documentation
-- **Template-driven Forms**: See the [Template-driven Forms guide](guide/forms/template-driven-forms) in Angular documentation
+- **Signal Forms**：先看[總覽指南](guide/forms/signals/overview)入門，或深入[表單模型](guide/forms/signals/models)、[驗證](guide/forms/signals/validation)與[欄位狀態管理](guide/forms/signals/field-state-management)
+- **Reactive Forms**：看 Angular 文件中的 [Reactive Forms 指南](guide/forms/reactive-forms)
+- **Template-driven Forms**：看 Angular 文件中的 [Template-driven Forms 指南](guide/forms/template-driven-forms)

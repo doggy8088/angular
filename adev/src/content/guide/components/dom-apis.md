@@ -1,10 +1,8 @@
-# Using DOM APIs
+# 使用 DOM API
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先閱讀該指南。
 
-Angular handles most DOM creation, updates, and removals for you. However, you might rarely need to
-directly interact with a component's DOM. Components can inject ElementRef to get a reference to the
-component's host element:
+DOM 的建立、更新與移除，大多由 Angular 為你處理。不過，你偶爾可能需要直接與元件的 DOM 互動。元件可以注入 ElementRef，取得元件宿主元素的參考：
 
 ```ts
 @Component(/* ... */)
@@ -16,11 +14,9 @@ export class ProfilePhoto {
 }
 ```
 
-The `nativeElement` property references the
-host [Element](https://developer.mozilla.org/docs/Web/API/Element) instance.
+`nativeElement` 屬性參照宿主 [Element](https://developer.mozilla.org/docs/Web/API/Element) 執行個體。
 
-You can use Angular's `afterEveryRender` and `afterNextRender` functions to register a **render
-callback** that runs when Angular has finished rendering the page.
+你可以使用 Angular 的 `afterEveryRender` 與 `afterNextRender` 函式，註冊一個**算繪回呼**，在 Angular 完成頁面算繪時執行。
 
 ```ts
 @Component(/* ... */)
@@ -35,51 +31,31 @@ export class ProfilePhoto {
 }
 ```
 
-`afterEveryRender` and `afterNextRender` must be called in an _injection context_, typically a
-component's constructor.
+`afterEveryRender` 與 `afterNextRender` 必須在_注入情境_中呼叫，通常是元件的建構函式。
 
-**Avoid direct DOM manipulation whenever possible.** Always prefer expressing your DOM's structure
-in component templates and updating that DOM with bindings.
+**應盡可能避免直接操作 DOM**。請一律優先在元件範本中表達 DOM 的結構，並以繫結更新該 DOM。
 
-**Render callbacks never run during server-side rendering or build-time pre-rendering.**
+**算繪回呼不會在伺服器端算繪或建置時期預先算繪時執行**。
 
-**Never directly manipulate the DOM inside of other Angular lifecycle hooks**. Angular does not
-guarantee that a component's DOM is fully rendered at any point other than in render callbacks.
-Further, reading or modifying the DOM during other lifecycle hooks can negatively impact page
-performance by
-causing [layout thrashing](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing).
+**絕不要在其他 Angular 生命週期掛鉤中直接操作 DOM**。Angular 不保證元件的 DOM 在算繪回呼以外的任何時間點已完整算繪。此外，在其他生命週期掛鉤期間讀取或修改 DOM，可能因造成[版面抖動（layout thrashing）](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing)而對頁面效能造成負面影響。
 
-## Using a component's renderer
+## 使用元件的算繪器
 
-Components can inject an instance of `Renderer2` to perform certain DOM manipulations that are tied
-to other Angular features.
+元件可以注入 `Renderer2` 的執行個體，執行某些與其他 Angular 功能相連的 DOM 操作。
 
-Any DOM elements created by a component's `Renderer2` participate in that
-component's [style encapsulation](guide/components/styling#style-scoping).
+由元件 `Renderer2` 建立的任何 DOM 元素，都會參與該元件的[樣式封裝](guide/components/styling#style-scoping)。
 
-Certain `Renderer2` APIs also tie into Angular's animation system. You can use the `setProperty`
-method to update synthetic animation properties and the `listen` method to add event listeners for
-synthetic animation events. See the [Animations](guide/animations) guide for details.
+某些 `Renderer2` API 也與 Angular 的動畫系統相連。你可以使用 `setProperty` 方法更新合成動畫屬性，並使用 `listen` 方法為合成動畫事件加上事件監聽器。詳情請參閱[動畫](guide/animations)指南。
 
-Aside from these two narrow use-cases, there is no difference between using `Renderer2` and native
-DOM APIs. Both work in server-side rendering and build-time pre-rendering, but the server's DOM lacks
-browser-only APIs such as layout measurement and observers.
+除了這兩個狹窄的應用情境之外，使用 `Renderer2` 與使用原生 DOM API 並無差異。兩者在伺服器端算繪與建置時期預先算繪時都能運作，但伺服器的 DOM 缺少僅限瀏覽器的 API，例如版面量測與觀察器。
 
-## When to use DOM APIs
+## 何時使用 DOM API
 
-While Angular handles most rendering concerns, some behaviors may still require using DOM APIs. Some
-common use cases include:
+雖然 Angular 處理了大多數算繪相關事務，有些行為仍可能需要使用 DOM API。一些常見的應用情境包括：
 
-- Managing element focus
-- Measuring element geometry, such as with `getBoundingClientRect`
-- Reading an element's text content
-- Setting up native observers such
-  as [`MutationObserver`](https://developer.mozilla.org/docs/Web/API/MutationObserver),
-  [`ResizeObserver`](https://developer.mozilla.org/docs/Web/API/ResizeObserver), or
-  [`IntersectionObserver`](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API).
+- 管理元素焦點
+- 量測元素幾何，例如使用 `getBoundingClientRect`
+- 讀取元素的文字內容
+- 設定原生觀察器，例如 [`MutationObserver`](https://developer.mozilla.org/docs/Web/API/MutationObserver)、[`ResizeObserver`](https://developer.mozilla.org/docs/Web/API/ResizeObserver) 或 [`IntersectionObserver`](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API)。
 
-Avoid inserting, removing, and modifying DOM elements. In particular, **never directly set an
-element's `innerHTML` property**, which can make your application vulnerable
-to [cross-site scripting (XSS) exploits](https://developer.mozilla.org/docs/Glossary/Cross-site_scripting).
-Angular's template bindings, including bindings for `innerHTML`, include safeguards that help
-protect against XSS attacks. See the [Security guide](best-practices/security) for details.
+應避免插入、移除與修改 DOM 元素。特別是**絕不要直接設定元素的 `innerHTML` 屬性**，這可能讓你的應用程式容易遭受[跨網站指令碼（XSS）攻擊](https://developer.mozilla.org/docs/Glossary/Cross-site_scripting)。Angular 的範本繫結，包括對 `innerHTML` 的繫結，都含有有助於防範 XSS 攻擊的保護措施。詳情請參閱[安全性指南](best-practices/security)。

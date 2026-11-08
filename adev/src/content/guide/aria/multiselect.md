@@ -1,8 +1,8 @@
 # Multiselect
 
-## Overview
+## 概述
 
-The multiselect pattern combines a read-only combobox trigger with a multi-select listbox popup to create highly accessible multiple-selection dropdowns with keyboard navigation and screen reader support.
+多選模式將唯讀的 combobox 觸發器與多選 listbox 彈出視窗結合，建立出無障礙程度高、支援鍵盤導覽與螢幕閱讀器的多選下拉選單。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -30,41 +30,41 @@ The multiselect pattern combines a read-only combobox trigger with a multi-selec
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## 用法
 
-The multiselect pattern works best when users need to choose multiple related items from a familiar set of options.
+當使用者需要從一組熟悉的選項中選取多個相關項目時，多選模式最為合適。
 
-Consider using this pattern when:
+在下列情況可以考慮使用這個模式：
 
-- **Users need multiple selections** - Tags, categories, filters, or labels where multiple choices apply
-- **The option list is fixed** (fewer than 20 items) - Users can scan options without search
-- **Filtering content** - Multiple criteria can be active simultaneously
-- **Assigning attributes** - Labels, permissions, or features where multiple values make sense
-- **Related choices** - Options that logically work together (such as selecting multiple team members)
+- **使用者需要多選**：標籤、分類、篩選條件或標記等可同時適用多個選項的情況
+- **選項清單固定**（少於 20 個項目）：使用者不需搜尋就能瀏覽選項
+- **篩選內容**：可同時啟用多個條件
+- **指派屬性**：標籤、權限或功能等可同時有多個值的情況
+- **相關選項**：邏輯上能互相搭配的選項（例如選取多位團隊成員）
 
-Avoid this pattern when:
+在下列情況應避免使用這個模式：
 
-- **Only single selection is needed** - Use the [Select pattern](guide/aria/select) for simpler single-choice dropdowns
-- **The list has more than 20 items with search needed** - Use the [Autocomplete pattern](guide/aria/autocomplete) with multiselect capability
-- **Most or all options will be selected** - A checklist pattern provides better visibility
-- **Choices are independent binary options** - Individual checkboxes communicate the choices more clearly
+- **只需要單選**：改用 [Select 模式](guide/aria/select)，下拉選單更簡單
+- **清單超過 20 個項目且需要搜尋**：改用具備多選能力的 [Autocomplete 模式](guide/aria/autocomplete)
+- **會選取大多數或全部選項**：核取清單模式的可見性更好
+- **選項是各自獨立的二元選項**：個別的核取方塊能更清楚地表達選項
 
-## Features
+## 功能
 
-The multiselect pattern combines [Combobox](guide/aria/combobox) and [Listbox](guide/aria/listbox) directives to provide a fully accessible dropdown with:
+多選模式結合 [Combobox](guide/aria/combobox) 與 [Listbox](guide/aria/listbox) 指令，提供完全無障礙的下拉選單，功能包括：
 
-- **Keyboard Navigation** - Navigate options with arrow keys, toggle with Space, close with Escape
-- **Screen Reader Support** - Built-in ARIA attributes including aria-multiselectable
-- **Selection Count Display** - Shows compact "Item + 2 more" pattern for multiple selections
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
-- **Smart Positioning** - CDK Overlay handles viewport edges and scrolling
-- **Persistent Selection** - Selected options remain visible with checkmarks after selection
+- **鍵盤導覽**：用方向鍵導覽選項、用 Space 切換、用 Escape 關閉
+- **螢幕閱讀器支援**：內建 ARIA 屬性，包括 aria-multiselectable
+- **選取數量顯示**：多選時以精簡的「項目 + 2 more」模式顯示
+- **以訊號為基礎的反應式機制**：使用 Angular 訊號管理反應式狀態
+- **智慧定位**：由 CDK Overlay 處理視窗邊緣與捲動
+- **持續顯示選取狀態**：選取的選項在選取後仍可見，並帶有勾選標記
 
-## Examples
+## 範例
 
-### Basic multiselect
+### 基本多選
 
-Users need to select multiple items from a list of options. A readonly combobox paired with a multi-enabled listbox provides familiar multiselect functionality with full accessibility support.
+使用者需要從一份選項清單中選取多個項目。唯讀的 combobox 搭配支援多選的 listbox，能提供熟悉的多選功能，並具備完整的無障礙支援。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -92,11 +92,11 @@ Users need to select multiple items from a list of options. A readonly combobox 
   </docs-tab>
 </docs-tab-group>
 
-The `multi` attribute on `ngListbox` enables multiple selection. Press Space to toggle options, and the popup remains open for additional selections. The display shows the first selected item plus a count of remaining selections.
+`ngListbox` 上的 `multi` 屬性可啟用多選。按 Space 可切換選項，彈出視窗會保持開啟以便繼續選取。顯示內容會呈現第一個選取的項目，再加上其餘選取項目的數量。
 
-### Multiselect with custom display
+### 具備自訂顯示的多選
 
-Options often need visual indicators like icons or colors to help users identify choices. Custom templates within options allow rich formatting while the display value shows a compact summary.
+選項通常需要圖示或顏色等視覺標示，協助使用者辨識選項。選項內的自訂範本能提供豐富的格式，而顯示值則呈現精簡的摘要。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -124,11 +124,11 @@ Options often need visual indicators like icons or colors to help users identify
   </docs-tab>
 </docs-tab-group>
 
-Each option displays an icon alongside its label. The display value updates to show the first selection's icon and text, followed by a count of additional selections. Selected options show a checkmark for clear visual feedback.
+每個選項都會在標籤旁顯示一個圖示。顯示值會更新為第一個選取項目的圖示與文字，再加上其餘選取項目的數量。選取的選項會顯示勾選標記，提供清楚的視覺回饋。
 
-### Controlled selection
+### 受控選取
 
-Forms sometimes need to limit the number of selections or validate user choices. Programmatic control over selection enables these constraints while maintaining accessibility.
+表單有時需要限制選取數量，或驗證使用者的選擇。以程式控制選取狀態，就能在維持無障礙的同時加上這些限制。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -156,12 +156,12 @@ Forms sometimes need to limit the number of selections or validate user choices.
   </docs-tab>
 </docs-tab-group>
 
-This example limits selections to two items. When the limit is reached, unselected options are disabled to prevent further selections, and the combobox display updates to reflect the choices.
+這個範例將選取數量限制為兩個項目。達到上限時，未選取的選項會被停用，以防止繼續選取，而 combobox 的顯示內容也會隨之更新以反映目前的選擇。
 
-## Testing
+## 測試
 
-The multiselect pattern can be tested using a combination of `ComboboxHarness` and `ListboxHarness` from `@angular/aria/combobox/testing` and `@angular/aria/listbox/testing`.
-Here is an example of how to use the harnesses to test a multiselect component:
+多選模式可以使用 `@angular/aria/combobox/testing` 的 `ComboboxHarness` 與 `@angular/aria/listbox/testing` 的 `ListboxHarness` 組合來測試。
+以下範例示範如何使用這些測試工具來測試多選元件：
 
 ```typescript
 import {ComponentFixture, TestBed} from '@angular/core/testing';
@@ -214,9 +214,9 @@ describe('MyMultiselectComponent', () => {
 });
 ```
 
-## API reference
+## API 參考
 
-For detailed API documentation, inspect the following API references:
+如需詳細的 API 文件，請查看下列 API 參考：
 
 - [`Combobox`](/api/aria/combobox/Combobox)
 - [`ComboboxPopup`](/api/aria/combobox/ComboboxPopup)
