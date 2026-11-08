@@ -79,7 +79,7 @@ NOTE: 如果你使用的是內嵌編輯器，請直接跳到[第四步](#create-
 檢視完組成 Angular 應用程式專案的檔案後，繼續進行下一步。
 </docs-step>
 
-<docs-step title="建立 `Hello World`">
+<docs-step title="建立 `Hello World` {#create-hello-world}">
 在這個步驟中，你會更新 Angular 專案檔案，變更顯示的內容。
 
 在你的 IDE 中：

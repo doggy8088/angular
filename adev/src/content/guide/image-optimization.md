@@ -41,7 +41,7 @@ imports: [
 ```
 
 </docs-step>
-<docs-step title="（可選）設定 Loader">
+<docs-step title="（可選）設定 Loader {#optional-set-up-a-loader}">
 使用 NgOptimizedImage 並不**需要**圖片載入器（loader），但搭配圖片 CDN 使用載入器可以啟用強大的效能功能，包括為你的圖片自動產生 `srcset`。
 
 設定載入器的簡要指南，請參閱本頁結尾的[為 NgOptimizedImage 設定圖片載入器](#configuring-an-image-loader-for-ngoptimizedimage)章節。
