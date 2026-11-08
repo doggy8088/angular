@@ -46,7 +46,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build adev (production)
-        run: pnpm bazel build //adev:build.production
+        # 資源上限：16GB runner 上 Bazel server 連續兩次在建置尾聲（16,818/16,925、
+        # 16,841/16,925）突然死亡（Server terminated abruptly, connection reset），
+        # 屬記憶體壓力而非內容錯誤；限制平行任務數與 server heap 換取穩定完成。
+        run: pnpm bazel build //adev:build.production --jobs=2 --local_ram_resources=8192 --host_jvm_args=-Xmx3g
 
       - name: Collect static output
         run: |
