@@ -965,23 +965,23 @@ export class Child {
 </app-root>
 ```
 
-`skipSelf`, causes the injector to start its search for the `AnimalService` at the `<app-root>`, not the `<app-child>`, where the request originates, and `host` stops the search at the `<app-root>` `<#VIEW>`.
-Since `AnimalService` is provided by way of the `viewProviders` array, the injector finds hedgehog <code>🦔</code> in the `<#VIEW>`.
+`skipSelf` 使注入器從 `<app-root>` 開始搜尋 `AnimalService`，而不是請求發出的 `<app-child>`，而 `host` 在 `<app-root>` 的 `<#VIEW>` 停止搜尋。
+由於 `AnimalService` 是透過 `viewProviders` 陣列提供的，注入器在 `<#VIEW>` 中找到了刺蝟 <code>🦔</code>。
 
-## Example: `ElementInjector` use cases
+## 範例：`ElementInjector` 使用情境
 
-The ability to configure one or more providers at different levels opens up useful possibilities.
+能在不同層級設定一個或多個提供者，開啟了許多有用的可能性。
 
-### Scenario: service isolation
+### 情境：服務隔離
 
-Architectural reasons may lead you to restrict access to a service to the application domain where it belongs.
-For example, consider we build a `VillainsList` that displays a list of villains.
-It gets those villains from a `VillainsService`.
+架構上的理由可能讓你想把對某個服務的存取，限制在它所屬的應用程式領域內。
+例如，設想我們建立一個 `VillainsList` 來顯示反派清單。
+它從 `VillainsService` 取得那些反派。
 
-If you provide `VillainsService` in the root `AppModule`, it will make `VillainsService` visible everywhere in the application.
-If you later modify the `VillainsService`, you could break something in other components that started depending on this service by accident.
+如果你在根層級的 `AppModule` 中提供 `VillainsService`，它會讓 `VillainsService` 在應用程式的任何地方都可見。
+如果你日後修改 `VillainsService`，你可能會破壞其他不小心開始依賴這個服務的元件。
 
-Instead, you should provide the `VillainsService` in the `providers` metadata of the `VillainsList` like this:
+相反地，你應該像這樣在 `VillainsList` 的 `providers` 詮釋資料中提供 `VillainsService`：
 
 ```typescript
 @Component({
@@ -992,34 +992,34 @@ Instead, you should provide the `VillainsService` in the `providers` metadata of
 export class VillainsList {}
 ```
 
-By providing `VillainsService` in the `VillainsList` metadata and nowhere else, the service becomes available only in the `VillainsList` and its subcomponent tree.
+透過只在 `VillainsList` 的詮釋資料中提供 `VillainsService`、而不在其他任何地方提供，該服務就只在 `VillainsList` 及其子元件樹中可用。
 
-`VillainsService` is a singleton with respect to `VillainsList` because that is where it is declared.
-As long as `VillainsList` does not get destroyed it will be the same instance of `VillainsService` but if there are multiple instances of `VillainsList`, then each instance of `VillainsList` will have its own instance of `VillainsService`.
+`VillainsService` 相對於 `VillainsList` 而言是單例，因為它就是在那裡宣告的。
+只要 `VillainsList` 沒有被銷毀，它就會是同一個 `VillainsService` 實例；但如果有多個 `VillainsList` 實例，那麼每個 `VillainsList` 實例都會有自己的 `VillainsService` 實例。
 
-### Scenario: multiple edit sessions
+### 情境：多個編輯工作階段
 
-Many applications allow users to work on several open tasks at the same time.
-For example, in a tax preparation application, the preparer could be working on several tax returns, switching from one to the other throughout the day.
+許多應用程式允許使用者同時處理多個開啟中的工作。
+例如，在報稅應用程式中，報稅人員可以同時處理多份報稅表，在一天中在它們之間切換。
 
-To demonstrate that scenario, imagine a `HeroList` that displays a list of super heroes.
+若要示範這個情境，想像一個顯示超級英雄清單的 `HeroList`。
 
-To open a hero's tax return, the preparer clicks on a hero name, which opens a component for editing that return.
-Each selected hero tax return opens in its own component and multiple returns can be open at the same time.
+若要開啟某位英雄的報稅表，報稅人員點擊英雄的名字，就會開啟一個用於編輯該報稅表的元件。
+每份被選取的英雄報稅表都在自己的元件中開啟，多份報稅表可以同時開啟。
 
-Each tax return component has the following characteristics:
+每個報稅表元件都有以下特點：
 
-- Is its own tax return editing session
-- Can change a tax return without affecting a return in another component
-- Has the ability to save the changes to its tax return or cancel them
+- 是它自己的報稅表編輯工作階段
+- 可以變更報稅表，而不會影響另一個元件中的報稅表
+- 能夠儲存對其報稅表的變更，或取消它們
 
-Suppose that the `HeroTaxReturnEditor` had logic to manage and restore changes.
-That would be a straightforward task for a hero tax return.
-In the real world, with a rich tax return data model, the change management would be tricky.
-You could delegate that management to a helper service, as this example does.
+假設 `HeroTaxReturnEditor` 有管理與還原變更的邏輯。
+對於英雄報稅表來說，那會是一件直截了當的工作。
+在真實世界中，面對豐富的報稅表資料模型，變更管理工作會很棘手。
+你可以把這項管理委派給一個輔助服務，如本範例所示。
 
-The `HeroTaxReturnService` caches a single `HeroTaxReturn`, tracks changes to that return, and can save or restore it.
-It also delegates to the application-wide singleton `HeroService`, which it gets by injection.
+`HeroTaxReturnService` 快取單一的 `HeroTaxReturn`，追蹤對該報稅表的變更，並能儲存或還原它。
+它也會委派給整個應用程式範圍的單例 `HeroService`，它透過注入取得該服務。
 
 ```typescript
 import {inject, Service} from '@angular/core';
@@ -1053,7 +1053,7 @@ export class HeroTaxReturnService {
 }
 ```
 
-Here is the `HeroTaxReturnEditor` that makes use of `HeroTaxReturnService`.
+以下是使用 `HeroTaxReturnService` 的 `HeroTaxReturnEditor`。
 
 ```typescript
 import {Component, effect, inject, input, output} from '@angular/core';
