@@ -1,13 +1,13 @@
-# Configuring application environments
+# 設定應用程式環境
 
-You can define different named build configurations for your project, such as `development` and `staging`, with different defaults.
+你可以為專案定義不同的具名建置設定，例如 `development` 與 `staging`，各自帶有不同的預設值。
 
-Each named configuration can have defaults for any of the options that apply to the various builder targets, such as `build`, `serve`, and `test`.
-The [Angular CLI](tools/cli) `build`, `serve`, and `test` commands can then replace files with appropriate versions for your intended target environment.
+每個具名設定都可以為適用於各種建置器目標的任一選項提供預設值，例如 `build`、`serve` 與 `test`。
+接著，[Angular CLI](tools/cli) 的 `build`、`serve` 與 `test` 指令就能針對你預定的目標環境，將檔案換成適當的版本。
 
-## Angular CLI configurations
+## Angular CLI 設定
 
-Angular CLI builders support a `configurations` object, which allows overwriting specific options for a builder based on the configuration provided on the command line.
+Angular CLI 建置器支援 `configurations` 物件，讓你能依據命令列提供的設定，覆寫建置器的特定選項。
 
 ```json
 
@@ -36,7 +36,7 @@ Angular CLI builders support a `configurations` object, which allows overwriting
 
 ```
 
-You can choose which configuration to use with the `--configuration` option.
+你可以用 `--configuration` 選項選擇要使用哪個設定。
 
 ```shell
 
@@ -44,7 +44,7 @@ ng build --configuration debug
 
 ```
 
-Configurations can be applied to any Angular CLI builder. Multiple configurations can be specified with a comma separator. The configurations are applied in order, with conflicting options using the value from the last configuration.
+設定可以套用到任何 Angular CLI 建置器。你可以用逗號分隔指定多個設定。設定會依序套用，遇到衝突的選項時，以最後一個設定的值為準。
 
 ```shell
 
@@ -52,12 +52,12 @@ ng build --configuration debug,production,customer-facing
 
 ```
 
-## Configure environment-specific defaults
+## 設定環境專屬的預設值
 
-`@angular/build:application` supports file replacements, an option for substituting source files before executing a build.
-Using this in combination with `--configuration` provides a mechanism for configuring environment-specific data in your application.
+`@angular/build:application` 支援檔案置換，這個選項能在執行建置之前替換原始碼檔案。
+將它與 `--configuration` 搭配使用，就能為應用程式設定環境專屬的資料。
 
-Start by [generating environments](cli/generate/environments) to create the `src/environments/` directory and configure the project to use file replacements.
+先[產生環境設定](cli/generate/environments)，建立 `src/environments/` 目錄，並設定專案使用檔案置換。
 
 ```shell
 
@@ -65,10 +65,10 @@ ng generate environments
 
 ```
 
-The project's `src/environments/` directory contains the base configuration file, `environment.ts`, which provides the default configuration for production.
-You can override default values for additional environments, such as `development` and `staging`, in target-specific configuration files.
+專案的 `src/environments/` 目錄包含基礎設定檔 `environment.ts`，它提供正式環境的預設設定。
+你可以在目標專屬的設定檔中，為其他環境（例如 `development` 與 `staging`）覆寫預設值。
 
-For example:
+例如：
 
 ```text
 
@@ -79,8 +79,8 @@ my-app/src/environments
 
 ```
 
-The base file `environment.ts`, contains the default environment settings.
-For example:
+基礎檔案 `environment.ts` 包含預設的環境設定。
+例如：
 
 ```ts
 export const environment = {
@@ -88,9 +88,9 @@ export const environment = {
 };
 ```
 
-The `build` command uses this as the build target when no environment is specified.
-You can add further variables, either as additional properties on the environment object, or as separate objects.
-For example, the following adds a default for a variable to the default environment:
+未指定環境時，`build` 指令會將它作為建置目標。
+你可以加入更多變數，方式是為環境物件新增屬性，或是另外建立物件。
+例如，下例為預設環境的某個變數加入了預設值：
 
 ```ts
 export const environment = {
@@ -99,10 +99,10 @@ export const environment = {
 };
 ```
 
-CRITICAL: Files in `src/environments/` are bundled into your client-side application and visible to anyone who loads the page. Never store secrets such as API keys here. Use a server-side proxy or a secrets manager instead.
+CRITICAL: `src/environments/` 中的檔案會被打包進你的用戶端應用程式，任何載入頁面的人都看得到。絕不要在此存放 API 金鑰之類的機密資訊。請改用伺服器端代理或機密管理工具。
 
-You can add target-specific configuration files, such as `environment.development.ts`.
-The following content sets default values for the development build target:
+你可以新增目標專屬的設定檔，例如 `environment.development.ts`。
+以下內容為開發建置目標設定了預設值：
 
 ```ts
 export const environment = {
@@ -111,17 +111,17 @@ export const environment = {
 };
 ```
 
-## Using environment-specific variables in your app
+## 在應用程式中使用環境專屬變數
 
-To use the environment configurations you have defined, your components must import the original environments file:
+要使用你定義的環境設定，你的元件必須匯入原始的環境檔案：
 
 ```ts
 import {environment} from './environments/environment';
 ```
 
-This ensures that the build and serve commands can find the configurations for specific build targets.
+這樣能確保 build 與 serve 指令找得到特定建置目標的設定。
 
-The following code in the component file (`app.ts`) uses an environment variable defined in the configuration files.
+元件檔案（`app.ts`）中的下列程式碼使用了一個在設定檔中定義的環境變數。
 
 ```ts
 import {environment} from './../environments/environment';
@@ -130,11 +130,11 @@ import {environment} from './../environments/environment';
 fetch(environment.apiUrl);
 ```
 
-The main CLI configuration file, `angular.json`, contains a `fileReplacements` section in the configuration for each build target, which lets you replace any file in the TypeScript program with a target-specific version of that file.
-This is useful for including target-specific code or variables in a build that targets a specific environment, such as production or staging.
+主要的 CLI 設定檔 `angular.json` 中，每個建置目標的設定裡都有一段 `fileReplacements`，讓你可以把 TypeScript 程式中的任何檔案，換成該檔案的目標專屬版本。
+這在你想為特定環境（例如正式環境或預備環境）的建置加入目標專屬的程式碼或變數時非常有用。
 
-By default no files are replaced, however `ng generate environments` sets up this configuration automatically.
-You can change or add file replacements for specific build targets by editing the `angular.json` configuration directly.
+預設不會置換任何檔案，不過 `ng generate environments` 會自動設定好這項設定。
+你可以直接編輯 `angular.json` 設定，來變更或新增特定建置目標的檔案置換。
 
 ```json
 
@@ -150,9 +150,9 @@ You can change or add file replacements for specific build targets by editing th
 
 ```
 
-This means that when you build your development configuration with `ng build --configuration development`, the `src/environments/environment.ts` file is replaced with the target-specific version of the file, `src/environments/environment.development.ts`.
+這表示當你用 `ng build --configuration development` 建置開發設定時，`src/environments/environment.ts` 檔案會被換成該檔案的目標專屬版本 `src/environments/environment.development.ts`。
 
-To add a staging environment, create a copy of `src/environments/environment.ts` called `src/environments/environment.staging.ts`, then add a `staging` configuration to `angular.json`:
+若要新增預備環境，先將 `src/environments/environment.ts` 複製一份，命名為 `src/environments/environment.staging.ts`，再在 `angular.json` 中加入 `staging` 設定：
 
 ```json
 
@@ -171,10 +171,10 @@ To add a staging environment, create a copy of `src/environments/environment.ts`
 
 ```
 
-You can add more configuration options to this target environment as well.
-Any option that your build supports can be overridden in a build target configuration.
+你也可以為這個目標環境加入更多設定選項。
+建置支援的任何選項，都可以在建置目標設定中覆寫。
 
-To build using the staging configuration, run the following command:
+若要使用預備設定進行建置，執行下列指令：
 
 ```shell
 
@@ -182,8 +182,8 @@ ng build --configuration staging
 
 ```
 
-By default, the `build` target includes `production` and `development` configurations and `ng serve` uses the development build of the application.
-You can also configure `ng serve` to use the targeted build configuration if you set the `buildTarget` option:
+預設情況下，`build` 目標包含 `production` 與 `development` 設定，而 `ng serve` 使用的是應用程式的開發建置。
+你也可以設定 `ng serve` 使用指定的建置設定，方法是設定 `buildTarget` 選項：
 
 ```json
 
@@ -205,5 +205,5 @@ You can also configure `ng serve` to use the targeted build configuration if you
 
 ```
 
-The `defaultConfiguration` option specifies which configuration is used by default.
-When `defaultConfiguration` is not set, `options` are used directly without modification.
+`defaultConfiguration` 選項指定預設使用哪個設定。
+未設定 `defaultConfiguration` 時，會直接使用 `options`，不做任何修改。

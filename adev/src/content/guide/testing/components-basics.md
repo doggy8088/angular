@@ -1,44 +1,44 @@
-# Basics of testing components
+# 測試元件的基礎知識
 
-A component, unlike all other parts of an Angular application, combines an HTML template and a TypeScript class.
-The component truly is the template and the class _working together_.
-To adequately test a component, you should test that they work together as intended.
+元件與 Angular 應用程式的所有其他部分不同，它結合了 HTML 範本與 TypeScript 類別。
+元件真正的是範本與類別_共同運作_。
+若要妥善測試元件，你應該測試它們是否如預期般共同運作。
 
-Such tests require creating the component's host element in the browser DOM, as Angular does, and investigating the component class's interaction with the DOM as described by its template.
+這類測試需要在瀏覽器 DOM 中建立元件的宿主元素（如同 Angular 所做的），並研究元件類別如何依照其範本所描述的方式與 DOM 互動。
 
-The Angular `TestBed` facilitates this kind of testing as you'll see in the following sections.
-But in many cases, _testing the component class alone_, without DOM involvement, can validate much of the component's behavior in a straightforward, more obvious way.
+Angular `TestBed` 促進了這類測試，你將在以下章節中看到。
+但在許多情況下，_單獨測試元件類別_、不涉及 DOM，就能以直接、更明顯的方式驗證元件的大部分行為。
 
-## Component DOM testing
+## 元件 DOM 測試
 
-A component is more than just its class.
-A component interacts with the DOM and with other components.
-Classes alone cannot tell you if the component is going to render properly, respond to user input and gestures, or integrate with its parent and child components.
+元件不只是它的類別而已。
+元件會與 DOM 以及其他元件互動。
+光靠類別無法告訴你元件是否能正確渲染、回應使用者輸入與手勢，或與其父元件和子元件整合。
 
-- Is `Lightswitch.clicked()` bound to anything such that the user can invoke it?
-- Is the `Lightswitch.message` displayed?
-- Can the user actually select the hero displayed by the `DashboardHero` component?
-- Is the hero name displayed as expected \(such as uppercase\)?
-- Is the welcome message displayed by the template of the `Welcome` component?
+- `Lightswitch.clicked()` 是否繫結到任何東西，讓使用者可以叫用它？
+- `Lightswitch.message` 是否有顯示？
+- 使用者是否真的能選取 `DashboardHero` 元件顯示的英雄？
+- 英雄名稱是否如預期般顯示（例如大寫）？
+- `Welcome` 元件的範本是否顯示了歡迎訊息？
 
-These might not be troubling questions for the preceding simple components illustrated.
-But many components have complex interactions with the DOM elements described in their templates, causing HTML to appear and disappear as the component state changes.
+對前面說明的簡單元件來說，這些問題可能不令人困擾。
+但許多元件與其範本中所描述的 DOM 元素有複雜的互動，隨著元件狀態變更，HTML 會出現和消失。
 
-To answer these kinds of questions, you have to create the DOM elements associated with the components, you must examine the DOM to confirm that component state displays properly at the appropriate times, and you must simulate user interaction with the screen to determine whether those interactions cause the component to behave as expected.
+若要回答這類問題，你必須建立與元件相關聯的 DOM 元素，必須檢查 DOM 以確認元件狀態在適當的時機正確顯示，並且必須模擬使用者與螢幕的互動，以判斷這些互動是否讓元件如預期般運作。
 
-To write these kinds of test, you'll use additional features of the `TestBed` as well as other testing helpers.
+若要撰寫這類測試，你將使用 `TestBed` 的額外功能以及其他測試輔助工具。
 
-### CLI-generated tests
+### CLI 產生的測試
 
-The CLI creates an initial test file for you by default when you ask it to generate a new component.
+當你要求 CLI 產生新元件時，CLI 依預設會為你建立一個初始測試檔案。
 
-For example, the following CLI command generates a `Banner` component in the `app/banner` folder \(with inline template and styles\):
+例如，以下 CLI 指令會在 `app/banner` 資料夾中產生一個 `Banner` 元件（帶有內嵌範本與樣式）：
 
 ```shell
 ng generate component banner --inline-template --inline-style
 ```
 
-It also generates an initial test file for the component, `banner.spec.ts`, that looks like this:
+它也會為該元件產生一個初始測試檔案 `banner.spec.ts`，看起來像這樣：
 
 ```ts
 import {ComponentFixture, TestBed} from '@angular/core/testing';
@@ -62,14 +62,14 @@ describe('Banner', () => {
 });
 ```
 
-### Reduce the setup
+### 減少設定
 
-Only the last three lines of this file actually test the component and all they do is assert that Angular can create the component.
+這個檔案中只有最後三行真正在測試元件，而且它們所做的只是斷言 Angular 可以建立該元件。
 
-The rest of the file is boilerplate setup code anticipating more advanced tests that _might_ become necessary if the component evolves into something substantial.
+檔案的其餘部分都是樣板設定程式碼，預先為更進階的測試做準備——如果元件演變成實質的東西，這些測試_可能_會變得有必要。
 
-You'll learn about these advanced test features in the following sections.
-For now, you can radically reduce this test file to a more manageable size:
+你將在以下章節中了解這些進階測試功能。
+目前，你可以大幅縮減這個測試檔案，使其大小更易於管理：
 
 ```ts
 describe('Banner (minimal)', () => {
@@ -81,33 +81,33 @@ describe('Banner (minimal)', () => {
 });
 ```
 
-Later you'll call `TestBed.configureTestingModule()` with imports, providers, and more declarations to suit your testing needs.
-Optional `override` methods can further fine-tune aspects of the configuration.
+稍後你將呼叫 `TestBed.configureTestingModule()`，帶入匯入、提供者與更多宣告，以滿足你的測試需求。
+選擇性的 `override` 方法可以進一步微調設定的各個面向。
 
-NOTE: `TestBed.compileComponents` is only required when `@defer` blocks are used in the tested components.
+NOTE: 只有在受測元件使用 `@defer` 區塊時，才需要 `TestBed.compileComponents`。
 
 ### `createComponent()`
 
-After configuring `TestBed`, you call its `createComponent()` method.
+設定好 `TestBed` 之後，你呼叫它的 `createComponent()` 方法。
 
 ```ts
 const fixture = TestBed.createComponent(Banner);
 ```
 
-`TestBed.createComponent()` creates an instance of the `Banner` component, adds a corresponding element to the test-runner DOM, and returns a [`ComponentFixture`](#componentfixture).
+`TestBed.createComponent()` 會建立 `Banner` 元件的一個執行個體，將對應的元素加入測試執行器 DOM，並回傳一個 [`ComponentFixture`](#componentfixture)。
 
-IMPORTANT: Do not re-configure `TestBed` after calling `createComponent`.
+IMPORTANT: 呼叫 `createComponent` 之後，不要重新設定 `TestBed`。
 
-The `createComponent` method freezes the current `TestBed` definition, closing it to further configuration.
+`createComponent` 方法會凍結目前的 `TestBed` 定義，使其無法再進行進一步設定。
 
-You cannot call any more `TestBed` configuration methods, not `configureTestingModule()`, nor any of the `override...` methods.
-If you try, `TestBed` throws an error.
+你不能再呼叫任何 `TestBed` 設定方法，不能呼叫 `configureTestingModule()`，也不能呼叫任何 `override...` 方法。
+如果你嘗試這麼做，`TestBed` 會擲出錯誤。
 
 ### `ComponentFixture`
 
-The [`ComponentFixture`](api/core/testing/ComponentFixture) is a test harness for interacting with the created component and its corresponding element.
+[`ComponentFixture`](api/core/testing/ComponentFixture) 是一個測試工具，用於與建立的元件及其對應元素互動。
 
-Access the component instance through the fixture and confirm it exists with an expectation:
+透過 fixture 存取元件執行個體，並用期望確認它存在：
 
 ```ts
 const component = fixture.componentInstance;
@@ -116,8 +116,8 @@ expect(component).toBeDefined();
 
 ### `beforeEach()`
 
-You will add more tests as this component evolves.
-Rather than duplicate the `TestBed` configuration for each test, you refactor to pull the setup into a `beforeEach()` and some supporting variables:
+隨著這個元件演變，你將加入更多測試。
+與其為每個測試重複 `TestBed` 設定，不如重構，將設定抽到 `beforeEach()` 與一些輔助變數中：
 
 ```ts
 describe('Banner (with beforeEach)', () => {
@@ -137,9 +137,9 @@ describe('Banner (with beforeEach)', () => {
 });
 ```
 
-HELPFUL: By awaiting the initial rendering in the `beforeEach` with `await fixture.whenStable` the single tests synchronous.
+HELPFUL: 在 `beforeEach` 中以 `await fixture.whenStable` 等待初始渲染，可以讓個別測試保持同步。
 
-Now add a test that gets the component's element from `fixture.nativeElement` and looks for the expected text.
+現在加入一個測試，從 `fixture.nativeElement` 取得元件的元素，並尋找預期的文字。
 
 ```ts
 it('should contain "banner works!"', () => {
@@ -148,12 +148,12 @@ it('should contain "banner works!"', () => {
 });
 ```
 
-### create a `setup` function
+### 建立 `setup` 函式
 
-As an alternative to `beforeEach`, you can also create a setup function that you will call in every test.
-A setup function has the advantage of being customizable via parameters.
+作為 `beforeEach` 的替代方案，你也可以建立一個 setup 函式，在每個測試中呼叫它。
+setup 函式的優點是它可以透過參數自訂。
 
-Here is an example of what a setup function could look like:
+以下是一個 setup 函式可能長什麼樣子的範例：
 
 ```ts
 function setup(providers?: Provider[]): ComponentFixture<Banner> {
@@ -164,17 +164,17 @@ function setup(providers?: Provider[]): ComponentFixture<Banner> {
 
 ### `nativeElement`
 
-The value of `ComponentFixture.nativeElement` has the `any` type.
-Later you'll encounter the `DebugElement.nativeElement` and it too has the `any` type.
+`ComponentFixture.nativeElement` 的值型別為 `any`。
+稍後你會遇到 `DebugElement.nativeElement`，它的型別同樣是 `any`。
 
-Angular can't know at compile time what kind of HTML element the `nativeElement` is or if it even is an HTML element.
-The application might be running on a _non-browser platform_, such as the server or a node environment, where the element might have a diminished API or not exist at all.
+Angular 在編譯時期無法知道 `nativeElement` 是哪一種 HTML 元素，甚至不知道它是否為 HTML 元素。
+應用程式可能正在_非瀏覽器平台_上執行，例如伺服器或 node 環境，在這些環境中，該元素可能擁有縮減的 API，甚至根本不存在。
 
-The tests in this guide are designed to run in a browser so a `nativeElement` value will always be an `HTMLElement` or one of its derived classes.
+本指南中的測試設計為在瀏覽器中執行，因此 `nativeElement` 值永遠都會是 `HTMLElement` 或其衍生類別之一。
 
-Knowing that it is an `HTMLElement` of some sort, use the standard HTML `querySelector` to dive deeper into the element tree.
+知道它是某種 `HTMLElement` 之後，就可以使用標準的 HTML `querySelector` 深入元素樹。
 
-Here's another test that calls `HTMLElement.querySelector` to get the paragraph element and look for the banner text:
+以下另一個測試呼叫 `HTMLElement.querySelector` 來取得段落元素，並尋找橫幅文字：
 
 ```ts
 it('should have <p> with "banner works!"', () => {
@@ -186,31 +186,31 @@ it('should have <p> with "banner works!"', () => {
 
 ### `DebugElement`
 
-The Angular _fixture_ provides the component's element directly through the `fixture.nativeElement`.
+Angular _fixture_ 透過 `fixture.nativeElement` 直接提供元件的元素。
 
 ```ts
 const bannerElement: HTMLElement = fixture.nativeElement;
 ```
 
-This is actually a convenience method, implemented as `fixture.debugElement.nativeElement`.
+這實際上是一個便利方法，實作方式為 `fixture.debugElement.nativeElement`。
 
 ```ts
 const bannerDe: DebugElement = fixture.debugElement;
 const bannerEl: HTMLElement = bannerDe.nativeElement;
 ```
 
-There's a good reason for this circuitous path to the element.
+透過這條迂迴路徑取得元素，是有充分理由的。
 
-The properties of the `nativeElement` depend upon the runtime environment.
-You could be running these tests on a _non-browser_ platform that doesn't have a DOM or whose DOM-emulation doesn't support the full `HTMLElement` API.
+`nativeElement` 的屬性取決於執行階段環境。
+你可能正在_非瀏覽器_平台上執行這些測試，該平台沒有 DOM，或其 DOM 模擬不支援完整的 `HTMLElement` API。
 
-Angular relies on the `DebugElement` abstraction to work safely across _all supported platforms_.
-Instead of creating an HTML element tree, Angular creates a `DebugElement` tree that wraps the _native elements_ for the runtime platform.
-The `nativeElement` property unwraps the `DebugElement` and returns the platform-specific element object.
+Angular 仰賴 `DebugElement` 抽象層，才能在_所有受支援的平台_上安全運作。
+Angular 不會建立 HTML 元素樹，而是建立 `DebugElement` 樹，包裝執行階段平台的_原生元素_。
+`nativeElement` 屬性會解開 `DebugElement`，回傳平台專屬的元素物件。
 
-Because the sample tests for this guide are designed to run only in a browser, a `nativeElement` in these tests is always an `HTMLElement` whose familiar methods and properties you can explore within a test.
+由於本指南的範例測試設計為只在瀏覽器中執行，這些測試中的 `nativeElement` 永遠是 `HTMLElement`，你可以在測試中探索它熟悉的方法與屬性。
 
-Here's the previous test, re-implemented with `fixture.debugElement.nativeElement`:
+以下先前的測試以 `fixture.debugElement.nativeElement` 重新實作：
 
 ```ts
 it('should find the <p> with fixture.debugElement.nativeElement', () => {
@@ -221,9 +221,9 @@ it('should find the <p> with fixture.debugElement.nativeElement', () => {
 });
 ```
 
-The `DebugElement` has other methods and properties that are useful in tests, as you'll see elsewhere in this guide.
+`DebugElement` 還有其他在測試中很有用的方法與屬性，你將在本指南的其他地方看到。
 
-You import the `DebugElement` symbol from the Angular core library.
+你從 Angular 核心函式庫匯入 `DebugElement` 符號。
 
 ```ts
 import {DebugElement} from '@angular/core';
@@ -231,23 +231,23 @@ import {DebugElement} from '@angular/core';
 
 ### `By.css()`
 
-Although the tests in this guide all run in the browser, some applications might run on a different platform at least some of the time.
+雖然本指南中的測試全都在瀏覽器中執行，但有些應用程式至少有一部分時間可能在不同平台上執行。
 
-For example, the component might render first on the server as part of a strategy to make the application launch faster on poorly connected devices.
-The server-side renderer might not support the full HTML element API.
-If it doesn't support `querySelector`, the previous test could fail.
+例如，元件可能先在伺服器上渲染，作為讓應用程式在連線不佳的裝置上更快啟動的策略的一部分。
+伺服器端渲染器可能不支援完整的 HTML 元素 API。
+如果它不支援 `querySelector`，前面的測試可能會失敗。
 
-The `DebugElement` offers query methods that work for all supported platforms.
-These query methods take a _predicate_ function that returns `true` when a node in the `DebugElement` tree matches the selection criteria.
+`DebugElement` 提供適用於所有受支援平台的查詢方法。
+這些查詢方法接受一個_謂詞_函式，當 `DebugElement` 樹中的節點符合選取條件時，該函式回傳 `true`。
 
-You create a _predicate_ with the help of a `By` class imported from a library for the runtime platform.
-Here's the `By` import for the browser platform:
+你借助從執行階段平台函式庫匯入的 `By` 類別，建立一個_謂詞_。
+以下是瀏覽器平台的 `By` 匯入：
 
 ```ts
 import {By} from '@angular/platform-browser';
 ```
 
-The following example re-implements the previous test with `DebugElement.query()` and the browser's `By.css` method.
+以下範例以 `DebugElement.query()` 與瀏覽器的 `By.css` 方法重新實作先前的測試。
 
 ```ts
 it('should find the <p> with fixture.debugElement.query(By.css)', () => {
@@ -258,12 +258,12 @@ it('should find the <p> with fixture.debugElement.query(By.css)', () => {
 });
 ```
 
-Some noteworthy observations:
+一些值得注意的觀察：
 
-- The `By.css()` static method selects `DebugElement` nodes with a [standard CSS selector](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors 'CSS selectors').
-- The query returns a `DebugElement` for the paragraph.
-- You must unwrap that result to get the paragraph element.
+- `By.css()` 靜態方法會以[標準 CSS 選擇器](https://developer.mozilla.org/docs/Learn/CSS/Building_blocks/Selectors 'CSS selectors')選取 `DebugElement` 節點。
+- 查詢會回傳段落的 `DebugElement`。
+- 你必須解開該結果，才能取得段落元素。
 
-When you're filtering by CSS selector and only testing properties of a browser's _native element_, the `By.css` approach might be overkill.
+當你以 CSS 選擇器篩選，並且只測試瀏覽器_原生元素_的屬性時，`By.css` 的方式可能有點過度。
 
-It's often more straightforward and clear to filter with a standard `HTMLElement` method such as `querySelector()` or `querySelectorAll()`.
+使用標準的 `HTMLElement` 方法（例如 `querySelector()` 或 `querySelectorAll()`）來篩選，往往更直接、更清楚。

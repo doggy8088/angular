@@ -1,14 +1,14 @@
-<docs-decorative-header title="Forms with signals" imgSrc="adev/src/assets/images/signals.svg"> </docs-decorative-header>
+<docs-decorative-header title="使用訊號的表單" imgSrc="adev/src/assets/images/signals.svg"> </docs-decorative-header>
 
-Signal Forms manage form state using Angular signals to provide automatic synchronization between your data model and the UI with Angular Signals.
+Signal Forms 使用 Angular 訊號來管理表單狀態，讓你的資料模型與 UI 之間透過 Angular Signals 自動保持同步。
 
-This guide walks you through the core concepts to create forms with Signal Forms. Here's how it works:
+本指南會帶你了解使用 Signal Forms 建立表單的核心概念，運作方式如下：
 
-## Creating your first form
+## 建立你的第一個表單
 
-### 1. Create a form model with `signal()`
+### 1. 使用 `signal()` 建立表單模型
 
-Every form starts by creating a signal that holds your form's data model:
+每個表單的第一步，都是建立一個保存表單資料模型的訊號：
 
 ```ts
 interface LoginData {
@@ -22,11 +22,11 @@ const loginModel = signal<LoginData>({
 });
 ```
 
-### 2. Pass the form model to `form()` to create a `FieldTree`
+### 2. 把表單模型傳入 `form()`，建立 `FieldTree`
 
-Then, you pass your form model into the `form()` function to create a **field tree** - an object structure that mirrors your model's shape, allowing you to access fields with dot notation.
+接著，把你的表單模型傳入 `form()` 函式，建立一個**欄位樹**。它是一個鏡像對應你模型形狀的物件結構，讓你可以用點號表示法存取各個欄位。
 
-Both the root form object and its nested properties are `FieldTree` nodes:
+根表單物件和它巢狀的屬性，全都是 `FieldTree` 節點：
 
 ```ts
 const loginForm = form(loginModel);
@@ -35,29 +35,29 @@ loginForm; // is a FieldTree
 loginForm.email; // is also a FieldTree
 ```
 
-### 3. Bind HTML inputs with `[formField]` directive
+### 3. 使用 `[formField]` 指令繫結 HTML 輸入元素
 
-Next, you bind your HTML inputs to the form using the `[formField]` directive, which creates two-way binding between them:
+接下來，使用 `[formField]` 指令把你的 HTML 輸入元素繫結到表單，在兩者之間建立雙向繫結：
 
 ```html
 <input type="email" [formField]="loginForm.email" />
 <input type="password" [formField]="loginForm.password" />
 ```
 
-As a result, user changes (such as typing in the field) automatically updates the form.
+如此一來，使用者的變更（例如在欄位中輸入文字）會自動更新表單。
 
-NOTE: The `[formField]` directive also syncs field state for attributes like `required`, `disabled`, and `readonly` when appropriate.
+NOTE: `[formField]` 指令也會在適當時機，同步 `required`、`disabled` 與 `readonly` 等屬性的欄位狀態。
 
-### 4. Read state with `FieldTree` signals
+### 4. 使用 `FieldTree` 訊號讀取狀態
 
-You can access state for any part of the tree by calling the `FieldTree` node as a function. This returns a state object containing reactive signals for the value, validation status, and interaction state:
+你可以把任一部分的 `FieldTree` 節點當作函式呼叫，來存取它的狀態。這會傳回一個狀態物件，裡面包含值、驗證狀態與互動狀態的反應式訊號：
 
 ```ts
 loginForm(); // Returns state for the whole form
 loginForm.email(); // Returns state for the email field
 ```
 
-To read the current value, access the `value()` signal:
+要讀取目前的值，可以存取 `value()` 訊號：
 
 ```html
 <!-- Render values that update automatically as user types -->
@@ -70,23 +70,23 @@ To read the current value, access the `value()` signal:
 const currentEmail = loginForm.email().value();
 ```
 
-### 5. Update values with `set()`
+### 5. 使用 `set()` 更新值
 
-You can programmatically update values using the `value.set()` method on any node. This updates both the `FieldTree` and the underlying model signal:
+你可以使用任一節點上的 `value.set()` 方法，以程式方式更新值。這會同時更新 `FieldTree` 與底層的模型訊號：
 
 ```ts
 // Update the value programmatically
 loginForm.email().value.set('alice@wonderland.com');
 ```
 
-As a result, both the field value and the model signal are updated automatically:
+如此一來，欄位值和模型訊號都會自動更新：
 
 ```ts
 // The model signal is also updated
 console.log(loginModel().email); // 'alice@wonderland.com'
 ```
 
-### Complete example
+### 完整範例
 
 <docs-code-multifile preview path="adev/src/content/examples/signal-forms/src/login-simple/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/signal-forms/src/login-simple/app/app.ts"/>
@@ -94,13 +94,13 @@ console.log(loginModel().email); // 'alice@wonderland.com'
   <docs-code header="app.css" path="adev/src/content/examples/signal-forms/src/login-simple/app/app.css"/>
 </docs-code-multifile>
 
-## Basic usage
+## 基本用法
 
-The `[formField]` directive works with all standard HTML input types. Here are the most common patterns:
+`[formField]` 指令可以搭配所有標準的 HTML 輸入類型使用。以下是最常見的模式：
 
-### Text inputs
+### 文字輸入
 
-Text inputs work with various `type` attributes and textareas:
+文字輸入可以搭配各種 `type` 屬性與文字區域使用：
 
 ```html
 <!-- Text and email -->
@@ -108,18 +108,18 @@ Text inputs work with various `type` attributes and textareas:
 <input type="email" [formField]="form.email" />
 ```
 
-#### Numbers
+#### 數字
 
-Number inputs automatically convert between strings and numbers:
+數字輸入會在字串與數字之間自動轉換：
 
 ```html
 <!-- Number - automatically converts to number type -->
 <input type="number" [formField]="form.age" />
 ```
 
-#### Date and time
+#### 日期與時間
 
-Date inputs store values as `YYYY-MM-DD` strings, and time inputs use `HH:mm` format:
+日期輸入會把值儲存為 `YYYY-MM-DD` 字串，時間輸入則使用 `HH:mm` 格式：
 
 ```html
 <!-- Date and time - stores as ISO format strings -->
@@ -127,24 +127,24 @@ Date inputs store values as `YYYY-MM-DD` strings, and time inputs use `HH:mm` fo
 <input type="time" [formField]="form.eventTime" />
 ```
 
-If you need to convert date strings to Date objects, you can do so by passing the field value into `Date()`:
+如果你需要把日期字串轉換成 Date 物件，可以把欄位值傳入 `Date()`：
 
 ```ts
 const dateObject = new Date(form.eventDate().value());
 ```
 
-#### Multiline text
+#### 多行文字
 
-Textareas work the same way as text inputs:
+文字區域的運作方式與文字輸入相同：
 
 ```html
 <!-- Textarea -->
 <textarea [formField]="form.message" rows="4"></textarea>
 ```
 
-### Checkboxes
+### 核取方塊
 
-Checkboxes bind to boolean values:
+核取方塊會繫結到布林值：
 
 ```html
 <!-- Single checkbox -->
@@ -154,9 +154,9 @@ Checkboxes bind to boolean values:
 </label>
 ```
 
-#### Multiple checkboxes
+#### 多個核取方塊
 
-For multiple options, create a separate boolean `formField` for each:
+若有多個選項，請為每個選項建立各自獨立的布林值 `formField`：
 
 ```html
 <label>
@@ -169,9 +169,9 @@ For multiple options, create a separate boolean `formField` for each:
 </label>
 ```
 
-### Radio buttons
+### 單選按鈕
 
-Radio buttons work similarly to checkboxes. As long as the radio buttons use the same `[formField]` value, Signal Forms will automatically bind the same `name` attribute to all of them:
+單選按鈕的運作方式與核取方塊類似。只要單選按鈕使用同一個 `[formField]` 值，Signal Forms 就會自動把相同的 `name` 屬性繫結到它們全部：
 
 ```html
 <label>
@@ -184,11 +184,11 @@ Radio buttons work similarly to checkboxes. As long as the radio buttons use the
 </label>
 ```
 
-When a user selects a radio button, the form `formField` stores the value from that radio button's `value` attribute. For example, selecting "Premium" sets `form.plan().value()` to `"premium"`.
+當使用者選取一個單選按鈕時，表單的 `formField` 會儲存該單選按鈕 `value` 屬性的值。舉例來說，選取「Premium」會把 `form.plan().value()` 設為 `"premium"`。
 
-### Select dropdowns
+### 下拉式選單
 
-Select elements work with both static and dynamic options:
+選單元素可以搭配靜態與動態選項使用：
 
 ```angular-html
 <!-- Static options -->
@@ -207,11 +207,11 @@ Select elements work with both static and dynamic options:
 </select>
 ```
 
-NOTE: Multiple select (`<select multiple>`) is not supported by the `[formField]` directive at this time.
+NOTE: `[formField]` 指令目前不支援多選選單（`<select multiple>`）。
 
-## Validation and state
+## 驗證與狀態
 
-Signal Forms provides built-in validators that you can apply to your form fields. To add validation, pass a schema function as the second argument to `form()`:
+Signal Forms 提供內建的驗證器，可以套用到你的表單欄位上。要加上驗證，請把一個結構函式作為第二個引數傳給 `form()`：
 
 ```ts
 const loginForm = form(loginModel, (schemaPath) => {
@@ -221,41 +221,41 @@ const loginForm = form(loginModel, (schemaPath) => {
 });
 ```
 
-The schema function receives a **schema path** parameter that provides paths to your fields for configuring validation rules.
+結構函式會接收一個**結構路徑**參數，提供通往你各個欄位的路徑，用來設定驗證規則。
 
-Common validators include:
+常見的驗證器包括：
 
-- **`required()`** - Ensures the field has a value
-- **`email()`** - Validates email format
-- **`min()`** / **`max()`** - Validates number ranges
-- **`minLength()`** / **`maxLength()`** - Validates string or collection length
-- **`pattern()`** - Validates against a regex pattern
+- **`required()`**：確保欄位有值
+- **`email()`**：驗證電子郵件格式
+- **`min()`** / **`max()`**：驗證數字範圍
+- **`minLength()`** / **`maxLength()`**：驗證字串或集合的長度
+- **`pattern()`**：以正規表示式模式進行驗證
 
-You can also customize error messages by passing an options object as the second argument to the validator:
+你也可以把一個選項物件作為第二個引數傳給驗證器，來自訂錯誤訊息：
 
 ```ts
 required(schemaPath.email, {message: 'Email is required'});
 email(schemaPath.email, {message: 'Please enter a valid email address'});
 ```
 
-Each node in the `FieldTree` exposes its validation and interaction state through reactive signals.
+`FieldTree` 中的每個節點，都會透過反應式訊號公開它的驗證與互動狀態。
 
-### FieldTree State Signals
+### FieldTree 狀態訊號
 
-Every node in the tree, including the root form object, provides the same signals to track its state. Since every node is a `FieldTree`, the API for monitoring validity and interaction is identical at every level.
+樹中的每個節點（包括根表單物件）都提供相同的訊號來追蹤自身狀態。由於每個節點都是 `FieldTree`，監控有效性與互動狀態的 API 在每一層都完全相同。
 
-| State        | Description                                                                     |
-| ------------ | ------------------------------------------------------------------------------- |
-| `valid()`    | Returns `true` if the node passes all validation rules                          |
-| `invalid()`  | Returns `true` if there are validation errors                                   |
-| `pending()`  | Returns `true` if async validation is in progress                               |
-| `touched()`  | Returns `true` if the user has focused and blurred the field or any child field |
-| `dirty()`    | Returns `true` if the value has been changed by the user                        |
-| `disabled()` | Returns `true` if the node is disabled                                          |
-| `readonly()` | Returns `true` if the node is readonly                                          |
-| `errors()`   | Returns an array of validation errors with `kind` and `message` properties      |
+| 狀態         | 說明                                                                    |
+| ------------ | ----------------------------------------------------------------------- |
+| `valid()`    | 若節點通過所有驗證規則，傳回 `true`                                     |
+| `invalid()`  | 若有驗證錯誤，傳回 `true`                                               |
+| `pending()`  | 若非同步驗證正在進行中，傳回 `true`                                     |
+| `touched()`  | 若使用者曾聚焦又離開此欄位或任一子欄位，傳回 `true`                     |
+| `dirty()`    | 若值曾被使用者變更，傳回 `true`                                         |
+| `disabled()` | 若節點已停用，傳回 `true`                                               |
+| `readonly()` | 若節點為唯讀，傳回 `true`                                               |
+| `errors()`   | 傳回驗證錯誤的陣列，包含 `kind` 與 `message` 屬性                       |
 
-### Complete example {#complete-example-validation}
+### 完整範例 {#complete-example-validation}
 
 <docs-code-multifile preview path="adev/src/content/examples/signal-forms/src/login-validation/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/signal-forms/src/login-validation/app/app.ts"/>
@@ -263,15 +263,15 @@ Every node in the tree, including the root form object, provides the same signal
   <docs-code header="app.css" path="adev/src/content/examples/signal-forms/src/login-validation/app/app.css"/>
 </docs-code-multifile>
 
-## Next steps
+## 下一步
 
-To learn more about Signal Forms and how it works, check out the in-depth guides:
+想更深入了解 Signal Forms 及其運作方式，請查看這些深入指南：
 
-- [Overview](guide/forms/signals/overview) - Introduction to Signal Forms and when to use them
-- [Form models](guide/forms/signals/models) - Creating and managing form data with signals
-- [Field state management](guide/forms/signals/field-state-management) - Working with validation state, interaction tracking, and field visibility
-- [Validation](guide/forms/signals/validation) - Built-in validators, custom validation rules, and async validation
+- [總覽](guide/forms/signals/overview)：Signal Forms 的介紹，以及何時該使用它
+- [表單模型](guide/forms/signals/models)：使用訊號建立與管理表單資料
+- [欄位狀態管理](guide/forms/signals/field-state-management)：處理驗證狀態、互動追蹤與欄位可見性
+- [驗證](guide/forms/signals/validation)：內建驗證器、自訂驗證規則與非同步驗證
 
 <docs-pill-row>
-  <docs-pill title="Modular design with dependency injection" href="essentials/dependency-injection" />
+  <docs-pill title="以依賴注入實現模組化設計" href="essentials/dependency-injection" />
 </docs-pill-row>

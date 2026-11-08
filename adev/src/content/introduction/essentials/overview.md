@@ -1,27 +1,27 @@
-<docs-decorative-header title="Essentials" imgSrc="adev/src/assets/images/what_is_angular.svg"> <!-- markdownlint-disable-line -->
-A short introduction to some of Angular's main concepts.
+<docs-decorative-header title="精華指南" imgSrc="adev/src/assets/images/what_is_angular.svg"> <!-- markdownlint-disable-line -->
+簡短介紹 Angular 的幾個主要概念。
 </docs-decorative-header>
 
-## Interested in Angular?
+## 對 Angular 有興趣嗎？
 
-Welcome! This _Essentials_ guide explains some of Angular's main concepts, helping you understand what it's like to use the framework. This guide focuses on just a few building blocks as a short introduction. If you're looking for deep, comprehensive documentation, you can navigate to specific _In-depth Guides_ from the [documentation landing page](overview).
+歡迎！這篇《精華》指南會說明 Angular 的幾個主要概念，幫助你了解使用這個框架的感受。本指南只聚焦在少數幾個建構單位，作為簡短的入門介紹。如果你想找深入而完整的文件，可以從[文件首頁](overview)前往各篇專門的《深入指南》。
 
-If you prefer to immediately start writing some code, you can [skip straight to the hands-on tutorial](tutorials/learn-angular).
+如果你比較想立刻開始動手寫程式，可以[直接跳到實作教學](tutorials/learn-angular)。
 
-### Before you start
+### 開始之前
 
-This site expects that you're familiar with HTML, CSS and TypeScript. If you are totally new to web development, you should seek out some more introductory content before coming back here.
+本站預設你已經熟悉 HTML、CSS 和 TypeScript。如果你完全是 Web 開發的新手，建議先找一些更入門的內容來看，之後再回到這裡。
 
-In particular, you should be familiar with the following concepts:
+你特別應該要熟悉下列概念：
 
-- [JavaScript Classes](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Classes)
-- [TypeScript fundamentals](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
-- [TypeScript Decorators](https://www.typescriptlang.org/docs/handbook/decorators.html)
+- [JavaScript 類別](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Classes)
+- [TypeScript 基礎](https://www.typescriptlang.org/docs/handbook/typescript-in-5-minutes.html)
+- [TypeScript 裝飾器](https://www.typescriptlang.org/docs/handbook/decorators.html)
 
-## Next Step
+## 下一步
 
-Ready to jump in? It's time to learn about components in Angular!
+準備好開始了嗎？是時候來了解 Angular 的元件了！
 
 <docs-pill-row>
-  <docs-pill title="Composing with Components" href="essentials/components" />
+  <docs-pill title="以元件組構應用程式" href="essentials/components" />
 </docs-pill-row>

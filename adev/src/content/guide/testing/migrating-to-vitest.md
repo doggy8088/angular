@@ -202,7 +202,7 @@ IMPORTANT: 使用自訂設定雖然能啟用進階選項，但 Angular 團隊不
 
 你可以提供自訂的 Vitest 設定檔來覆寫預設設定。完整的可用選項清單請參閱官方 [Vitest 文件](https://vitest.dev/config/)。
 
-**1. 直接指定路徑：**
+**1. 直接指定路徑**：
 在你的 `angular.json` 中提供 Vitest 設定檔的直接路徑：
 
 ```json
@@ -220,7 +220,7 @@ IMPORTANT: 使用自訂設定雖然能啟用進階選項，但 Angular 團隊不
 }
 ```
 
-**2. 自動搜尋基礎設定：**
+**2. 自動搜尋基礎設定**：
 如果你將 `runnerConfig` 設為 `true`，建置器會自動在你的專案與工作區根目錄中搜尋共用的 `vitest-base.config.*` 檔案。
 
 ## `zone.js` Vitest 修補

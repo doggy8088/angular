@@ -1,139 +1,139 @@
-# Rendering strategies in Angular
+# Angular 的渲染策略
 
-This guide helps you choose the right rendering strategy for different parts of your Angular application.
+本指南協助你在 Angular 應用程式的不同部分，選擇合適的渲染策略。
 
-## What are rendering strategies?
+## 什麼是渲染策略？
 
-Rendering strategies determine when and where your Angular application's HTML content is generated. Each strategy offers different trade-offs between initial page load performance, interactivity, SEO capabilities, and server resource usage.
+渲染策略決定了你的 Angular 應用程式的 HTML 內容在何時、何地生成。每種策略在初始頁面載入效能、互動性、SEO 能力與伺服器資源使用量之間，都有不同的取捨。
 
-Angular supports three primary rendering strategies:
+Angular 支援三種主要的渲染策略：
 
-- **Client-Side Rendering (CSR)** - Content is rendered entirely in the browser
-- **Static Site Generation (SSG/Prerendering)** - Content is pre-rendered at build time
-- **Server-Side Rendering (SSR)** - Content is rendered on the server for the initial request for a route
+- **用戶端渲染（CSR）**：內容完全在瀏覽器中渲染
+- **靜態網站生成（SSG/預先渲染）**：內容在建置時期預先渲染
+- **伺服器端渲染（SSR）**：內容會在某個路由初次請求時，在伺服器上渲染
 
-## Client-Side Rendering (CSR)
+## 用戶端渲染（CSR）
 
-**CSR is Angular's default.** Content renders entirely in the browser after JavaScript loads.
+**CSR 是 Angular 的預設做法**。內容會在 JavaScript 載入後，完全在瀏覽器中渲染。
 
-### When to use CSR
+### 何時使用 CSR
 
-✅ It can be a good fit for:
+✅ 它很適合用於：
 
-- Interactive applications (dashboards, admin panels)
-- Real-time applications
-- Internal tools where SEO doesn't matter
-- Single-page applications with complex client-side state
+- 互動式應用程式（儀表板、管理介面）
+- 即時應用程式
+- SEO 不重要的內部工具
+- 具有複雜用戶端狀態的單頁應用程式
 
-❌ When possible, consider avoiding it for:
+❌ 在下列情況下，盡可能考慮避免使用：
 
-- Public-facing content that needs SEO
-- Pages where initial load performance is critical
+- 需要 SEO 的公開內容
+- 初始載入效能非常關鍵的頁面
 
-### CSR trade-offs
+### CSR 的取捨
 
-| Aspect            | Impact                                                   |
+| 面向              | 影響                                                     |
 | :---------------- | :------------------------------------------------------- |
-| **SEO**           | Poor - content not visible to crawlers until JS executes |
-| **Initial load**  | Slower - must download and execute JavaScript first      |
-| **Interactivity** | Immediate once loaded                                    |
-| **Server needs**  | Minimal outside of some configuration                    |
-| **Complexity**    | Simplest because it works with minimum configuration     |
+| **SEO**           | 不佳：內容在 JavaScript 執行之前，爬蟲無法看見           |
+| **初始載入**      | 較慢：必須先下載並執行 JavaScript                        |
+| **互動性**        | 載入完成後立即可互動                                     |
+| **伺服器需求**    | 極低，僅需一些基本設定                                   |
+| **複雜度**        | 最簡單，因為只需要最少的設定即可運作                     |
 
-## Static Site Generation (SSG/Prerendering)
+## 靜態網站生成（SSG/預先渲染）
 
-**SSG pre-renders pages at build time** into static HTML files. The server sends pre-built HTML for the initial page load. After hydration, your app runs entirely in the browser like a traditional SPA - subsequent navigation, route changes, and API calls all happen client-side without server rendering.
+**SSG 會在建置時期預先渲染頁面**，將其產出為靜態 HTML 檔案。伺服器會在初始頁面載入時，傳送已預先建置好的 HTML 內容。水合（hydration）完成後，你的應用程式便會像傳統的 SPA 一樣，完全在瀏覽器中執行，後續的導覽、路由變更與 API 呼叫，全都在用戶端進行，不需要伺服器進行渲染。
 
-### When to use SSG
+### 何時使用 SSG
 
-✅ It can be a good fit for:
+✅ 它很適合用於：
 
-- Marketing pages and landing pages
-- Blog posts and documentation
-- Product catalogs with stable content
-- Content that doesn't change per-user
+- 行銷頁面與登陸頁面
+- 部落格文章與文件
+- 內容穩定的產品目錄
+- 不會依使用者而有所不同的內容
 
-❌ When possible, consider avoiding it for:
+❌ 在下列情況下，盡可能考慮避免使用：
 
-- User-specific content
-- Frequently changing data
-- Real-time information
+- 專屬於特定使用者的內容
+- 經常變動的資料
+- 即時資訊
 
-### SSG trade-offs
+### SSG 的取捨
 
-| Aspect              | Impact                                      |
-| :------------------ | :------------------------------------------ |
-| **SEO**             | Excellent - full HTML available immediately |
-| **Initial load**    | Fastest - pre-generated HTML                |
-| **Interactivity**   | After hydration completes                   |
-| **Server needs**    | None for serving (CDN-friendly)             |
-| **Build time**      | Longer - generates all pages upfront        |
-| **Content updates** | Requires rebuild and redeploy               |
+| 面向              | 影響                                        |
+| :---------------- | :------------------------------------------ |
+| **SEO**           | 極佳：可以立即取得完整的 HTML               |
+| **初始載入**      | 最快：使用預先生成的 HTML                   |
+| **互動性**        | 需要等到水合完成後                          |
+| **伺服器需求**    | 供應內容時不需要伺服器（非常適合搭配 CDN）  |
+| **建置時間**      | 較長：需要預先生成所有頁面                  |
+| **內容更新**      | 需要重新建置並重新部署                      |
 
-📖 **Implementation:** See [Customizing build-time prerendering](guide/ssr#customizing-build-time-prerendering-ssg) in the SSR guide.
+📖 **實作方式**：請參閱 SSR 指南中的[自訂建置時期的預先渲染](guide/ssr#customizing-build-time-prerendering-ssg)。
 
-## Server-Side Rendering (SSR)
+## 伺服器端渲染（SSR）
 
-**SSR generates HTML on the server for the initial request for a route**, providing dynamic content with good SEO. The server renders HTML and sends it to the client.
+**SSR 會在伺服器端為某個路由的初次請求生成 HTML**，提供兼顧動態內容與良好 SEO 的效果。伺服器會渲染 HTML，並將其傳送給用戶端。
 
-Once the client renders the page, Angular [hydrates](/guide/hydration#what-is-hydration) the app and it then runs entirely in the browser like a traditional SPA - subsequent navigation, route changes, and API calls all happen client-side without additional server rendering.
+一旦用戶端把頁面渲染出來，Angular 就會對應用程式進行[水合](/guide/hydration#what-is-hydration)，之後應用程式便會像傳統的 SPA 一樣，完全在瀏覽器中執行，後續的導覽、路由變更與 API 呼叫，全都在用戶端進行，不再需要額外的伺服器渲染。
 
-### When to use SSR
+### 何時使用 SSR
 
-✅ It can be a good fit for:
+✅ 它很適合用於：
 
-- E-commerce product pages (dynamic pricing/inventory)
-- News sites and social media feeds
-- Personalized content that changes frequently
+- 電子商務產品頁面（動態價格與庫存）
+- 新聞網站與社群媒體資訊流
+- 經常變動的個人化內容
 
-❌ When possible, consider avoiding it for:
+❌ 在下列情況下，盡可能考慮避免使用：
 
-- Static content (use SSG instead)
-- When server costs are a concern
+- 靜態內容（改用 SSG）
+- 伺服器成本是考量因素時
 
-### SSR trade-offs
+### SSR 的取捨
 
-| Aspect              | Impact                                              |
-| :------------------ | :-------------------------------------------------- |
-| **SEO**             | Excellent - full HTML for crawlers                  |
-| **Initial load**    | Fast - immediate content visibility                 |
-| **Interactivity**   | Delayed until hydration                             |
-| **Server needs**    | Requires server                                     |
-| **Personalization** | Full access to user context                         |
-| **Server costs**    | Higher - renders on the initial request for a route |
+| 面向              | 影響                                                |
+| :---------------- | :-------------------------------------------------- |
+| **SEO**           | 極佳：為爬蟲提供完整的 HTML                         |
+| **初始載入**      | 快速：內容立即可見                                  |
+| **互動性**        | 會延遲到水合完成為止                                |
+| **伺服器需求**    | 需要伺服器                                          |
+| **個人化**        | 可以完整存取使用者的上下文                          |
+| **伺服器成本**    | 較高：會在某個路由初次被請求時進行渲染              |
 
-📖 **Implementation:** See [Server routing](guide/ssr#server-routing) and [Authoring server-compatible components](guide/ssr#authoring-server-compatible-components) in the SSR guide.
+📖 **實作方式**：請參閱 SSR 指南中的[伺服器路由](guide/ssr#server-routing)與[撰寫與伺服器相容的元件](guide/ssr#authoring-server-compatible-components)。
 
-## Choosing the Right Strategy
+## 選擇正確的策略
 
-### Decision matrix
+### 決策矩陣
 
-| If you need...             | Use this strategy | Why                                              |
+| 如果你的需求是…            | 請使用這個策略    | 原因                                             |
 | :------------------------- | :---------------- | :----------------------------------------------- |
-| **SEO + Static content**   | SSG               | Pre-rendered HTML, fastest load                  |
-| **SEO + Dynamic content**  | SSR               | Fresh content on the initial request for a route |
-| **No SEO + Interactivity** | CSR               | Simplest, no server needed                       |
-| **Mixed requirements**     | Hybrid            | Different strategies per route                   |
+| **需要 SEO 與靜態內容**    | SSG               | 預先渲染的 HTML，載入速度最快                    |
+| **需要 SEO 與動態內容**    | SSR               | 能在某個路由初次被請求時提供最新內容             |
+| **不需要 SEO 且重視互動性** | CSR               | 最簡單，不需要伺服器                             |
+| **混合式需求**             | 混合式（Hybrid）  | 不同的路由可以使用不同的策略                     |
 
-## Making SSR/SSG Interactive with Hydration
+## 透過水合讓 SSR/SSG 擁有互動性
 
-When using SSR or SSG, Angular "hydrates" the server-rendered HTML to make it interactive.
+當使用 SSR 或 SSG 時，Angular 會把在伺服器上渲染好的 HTML 進行「水合」，使其能夠互動。
 
-**Available strategies:**
+**可用的策略包括**：
 
-- **Full hydration** - Entire app becomes interactive at once (default)
-- **Incremental hydration** - Parts become interactive as needed (better performance)
-- **Event replay** - Captures clicks before hydration completes
+- **全量水合**：整個應用程式一次全部變成可互動（這是預設做法）
+- **漸進式水合**：應用程式的各個部分，依需要逐漸變成可互動（效能更佳）
+- **事件重播**：在水合完成之前，先把使用者的點選動作捕捉下來
 
-📖 **Learn more:**
+📖 **了解更多**：
 
-- [Hydration guide](guide/hydration) - Complete hydration setup
-- [Incremental hydration](guide/incremental-hydration) - Advanced hydration with `@defer` blocks
+- [水合指南](guide/hydration)：完整的水合設定
+- [漸進式水合](guide/incremental-hydration)：運用 `@defer` 區塊的進階水合做法
 
-## Next steps
+## 後續步驟
 
 <docs-pill-row>
-  <docs-pill href="/guide/ssr" title="Server-Side Rendering"/>
-  <docs-pill href="/guide/hydration" title="Hydration"/>
-  <docs-pill href="/guide/incremental-hydration" title="Incremental Hydration"/>
+  <docs-pill href="/guide/ssr" title="伺服器端渲染"/>
+  <docs-pill href="/guide/hydration" title="水合"/>
+  <docs-pill href="/guide/incremental-hydration" title="漸進式水合"/>
 </docs-pill-row>

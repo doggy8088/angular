@@ -1,12 +1,12 @@
-# Testing Attribute Directives
+# 測試屬性指令
 
-An _attribute directive_ modifies the behavior of an element, component or another directive.
-Its name reflects the way the directive is applied: as an attribute on a host element.
+_屬性指令_會修改元素、元件或其他指令的行為。
+它的名稱反映了指令的套用方式：作為宿主元素上的一個屬性。
 
-## Testing the `Highlight` directive
+## 測試 `Highlight` 指令
 
-The sample application's `Highlight` directive sets the background color of an element based on either a data bound color or a default color \(lightgray\).
-It also sets a custom property of the element \(`customProperty`\) to `true` for no reason other than to show that it can.
+範例應用程式的 `Highlight` 指令會根據資料繫結的顏色或預設顏色（lightgray），設定元素的背景顏色。
+它也會將元素的自訂屬性（`customProperty`）設定為 `true`，理由僅僅是為了展示它可以這麼做。
 
 ```ts
 import {Directive, inject, input} from '@angular/core';
@@ -28,7 +28,7 @@ export class Highlight {
 }
 ```
 
-It's used throughout the application, perhaps most simply in the `About` component:
+它在整個應用程式中都有使用，或許最簡單的用法是在 `About` 元件中：
 
 ```ts
 @Component({
@@ -42,7 +42,7 @@ It's used throughout the application, perhaps most simply in the `About` compone
 export class About {}
 ```
 
-Testing the specific use of the `Highlight` directive within the `About` component requires only the techniques explored in the ["Nested component tests"](guide/testing/components-scenarios#nested-component-tests) section of [Component testing scenarios](guide/testing/components-scenarios).
+在 `About` 元件中測試 `Highlight` 指令的特定用法，只需要[元件測試情境](guide/testing/components-scenarios)中[「巢狀元件測試」](guide/testing/components-scenarios#nested-component-tests)一節所探討的技巧。
 
 ```ts
 let fixture: ComponentFixture<About>;
@@ -63,13 +63,13 @@ it('should have skyblue <h2>', () => {
 });
 ```
 
-However, testing a single use case is unlikely to explore the full range of a directive's capabilities.
-Finding and testing all components that use the directive is tedious, brittle, and almost as unlikely to afford full coverage.
+不過，只測試單一使用案例，不太可能探索到指令能力的完整範圍。
+找出並測試所有使用該指令的元件既繁瑣又脆弱，而且同樣不太可能提供完整覆蓋率。
 
-_Class-only tests_ might be helpful, but attribute directives like this one tend to manipulate the DOM.
-Isolated unit tests don't touch the DOM and, therefore, do not inspire confidence in the directive's efficacy.
+_僅類別測試_可能有幫助，但像這樣的屬性指令往往會操作 DOM。
+隔離的單元測試不會觸及 DOM，因此無法讓人對指令是否真的有效產生信心。
 
-A better solution is to create an artificial test component that demonstrates all ways to apply the directive.
+更好的解決方案是建立一個人造的測試元件，展示套用該指令的所有方式。
 
 ```angular-ts
 @Component({
@@ -84,12 +84,12 @@ A better solution is to create an artificial test component that demonstrates al
 class Test {}
 ```
 
-<img alt="HighlightDirective spec in action" src="assets/images/guide/testing/highlight-directive-spec.png">
+<img alt="Highlight 指令規格運作畫面" src="assets/images/guide/testing/highlight-directive-spec.png">
 
-HELPFUL: The `<input>` case binds the `Highlight` to the name of a color value in the input box.
-The initial value is the word "cyan" which should be the background color of the input box.
+HELPFUL: `<input>` 案例將 `Highlight` 繫結到輸入框中顏色值的名稱。
+初始值是 "cyan" 這個字，應該會成為輸入框的背景顏色。
 
-Here are some tests of this component:
+以下是這個元件的一些測試：
 
 ```ts
 let fixture: ComponentFixture<Test>;
@@ -141,24 +141,24 @@ it('bare <h2> should not have a backgroundColor', () => {
 });
 ```
 
-A few techniques are noteworthy:
+有幾個技巧值得注意：
 
-- The `By.directive` predicate is a great way to get the elements that have this directive _when their element types are unknown_
-- The [`:not` pseudo-class](https://developer.mozilla.org/docs/Web/CSS/:not) in `By.css('h2:not([highlight])')` helps find `<h2>` elements that _do not_ have the directive.
-  `By.css('*:not([highlight])')` finds _any_ element that does not have the directive.
+- 當元素型別未知時，`By.directive` 謂詞是取得帶有此指令之元素的絕佳方式
+- `By.css('h2:not([highlight])')` 中的 [`:not` 虛擬類別](https://developer.mozilla.org/docs/Web/CSS/:not)有助於找出_沒有_該指令的 `<h2>` 元素。
+  `By.css('*:not([highlight])')` 會找出_任何_沒有該指令的元素。
 
-- `DebugElement.styles` affords access to element styles even in the absence of a real browser, thanks to the `DebugElement` abstraction.
-  But feel free to exploit the `nativeElement` when that seems easier or more clear than the abstraction.
+- 即使沒有真正的瀏覽器，`DebugElement.styles` 也能透過 `DebugElement` 抽象層存取元素樣式。
+  但當 `nativeElement` 看起來比抽象層更容易或更清楚時，也請自由利用它。
 
-- Angular adds a directive to the injector of the element to which it is applied.
-  The test for the default color uses the injector of the second `<h2>` to get its `Highlight` instance and its `defaultColor`.
+- Angular 會將指令加入它所套用元素的注入器中。
+  預設顏色的測試使用第二個 `<h2>` 的注入器，取得它的 `Highlight` 執行個體與其 `defaultColor`。
 
-- `DebugElement.properties` affords access to the artificial custom property that is set by the directive
+- `DebugElement.properties` 可以存取由指令設定的人造自訂屬性
 
-## Testing a directive in isolation
+## 隔離測試指令
 
-A directive can be created on its own with `TestBed.createDirective()`, which returns a `DirectiveFixture`. Alternatively, you can render it through a component's template.
-The `Highlight` directive can be tested this way, using a local test component's input to control the directive.
+你可以用 `TestBed.createDirective()` 單獨建立一個指令，它會回傳 `DirectiveFixture`。或者，你也可以透過元件的範本來渲染它。
+`Highlight` 指令可以用這種方式測試，使用本地測試元件的輸入來控制該指令。
 
 ```ts
 @Component({

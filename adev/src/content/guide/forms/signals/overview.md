@@ -1,4 +1,4 @@
-<docs-decorative-header title="Forms with Angular Signals" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
+<docs-decorative-header title="使用 Angular 訊號的表單" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
 Signal Forms 是一個函式庫，讓你能在 Angular 應用程式中管理表單狀態，並建立在訊號的反應式基礎之上。透過自動雙向繫結、型別安全的欄位存取，以及以結構描述為基礎的驗證，Signal Forms 能協助你建立穩健的表單。

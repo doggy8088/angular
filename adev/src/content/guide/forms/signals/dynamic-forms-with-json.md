@@ -17,7 +17,7 @@
 
 ## 定義具型別的欄位設定
 
-當你想依執行時期設定來呈現欄位時，先從一個 TypeScript 型別著手，用它捕捉每個欄位的形狀。以 `kind` 作為判別欄位的聯集型別（discriminated union），能讓每個變體宣告各自的驗證選項：
+當你想依執行時期設定來呈現欄位時，先從一個 TypeScript 型別著手，用它捕捉每個欄位的形狀。以 `kind` 作為判別欄位的聯集型別，能讓每個變體宣告各自的驗證選項：
 
 ```ts
 type FieldConfig =
@@ -160,7 +160,7 @@ const addressConfig: FieldConfig[] = [
 
 有些設定需要能在執行時期增減的欄位，例如一串電話號碼、標籤，或發票品項。可以為設定加入 `array` 種類，並將其轉換成 [`applyEach()`](api/forms/signals/applyEach)，讓每個項目的規則在項目增減時都能一致套用。
 
-先為 `FieldConfig` 擴充一個 `array` 變體。以下範例使用字串陣列；把項目形狀換成記錄（record），同樣的做法也能擴展到物件陣列：
+先為 `FieldConfig` 擴充一個 `array` 變體。以下範例使用字串陣列；把項目形狀換成記錄，同樣的做法也能擴展到物件陣列：
 
 ```ts
 type FieldConfig =

@@ -1,183 +1,182 @@
-# Angular versioning and releases
+# Angular 版本管理與版本發布
 
-We recognize that you need stability from the Angular framework.
-Stability ensures that reusable components and libraries, tutorials, tools, and learned practices don't become obsolete unexpectedly.
-Stability is essential for the ecosystem around Angular to thrive.
+我們理解你需要 Angular 框架的穩定性。
+穩定性確保可重用的元件與函式庫、教學、工具與既有的實務做法，不會意外變得過時。
+穩定性是 Angular 周邊生態系蓬勃發展的關鍵。
 
-We also share with you the need for Angular to keep evolving.
-We strive to ensure that the foundation on top of which you are building is continuously improving and enabling you to stay up-to-date with the rest of the web ecosystem and your user needs.
+我們也與你一樣，需要 Angular 持續演進。
+我們致力於確保你建構應用所依賴的基礎持續改進，讓你能跟上 Web 生態系其餘部分的發展與使用者的需求。
 
-This document contains the practices that we follow to provide you with a leading-edge application development platform, balanced with stability.
-We strive to ensure that future changes are always introduced in a predictable way.
-We want everyone who depends on Angular to know when and how new features are added, and to be well-prepared when obsolete ones are removed.
+本文件記載了我們遵循的實務做法，讓這個尖端的應用程式開發平台在穩定性之間取得平衡。
+我們致力於確保未來的變更永遠以可預測的方式引入。
+我們希望每一位依賴 Angular 的人，都知道新功能在何時、如何加入，並在過時功能被移除時做好充分準備。
 
-Sometimes _breaking changes_, such as the removal of APIs or features, are necessary to innovate and stay current with evolving best practices, changing dependencies, or shifts in the web platform. These breaking changes go through a deprecation process explained in our [deprecation policy](#deprecation-policy).
+有時候，_破壞性變更_是必要的，例如移除 API 或功能，才能持續創新並跟上不斷演進的最佳實務、相依性的變化，或 Web 平台的轉變。這些破壞性變更會經過本文件[淘汰政策](#deprecation-policy)中說明的淘汰流程。
 
-To make these transitions as straightforward as possible, the Angular team makes these commitments:
+為了讓這些轉換盡可能單純，Angular 團隊做出以下承諾：
 
-- We work hard to minimize the number of breaking changes and to provide migration tools when possible
-- We follow the deprecation policy described here, so you have time to update your applications to the latest APIs and best practices
+- 我們努力將破壞性變更的數量降到最低，並在可能時提供遷移工具
+- 我們遵循本文件所述的淘汰政策，讓你有時間將應用程式更新到最新的 API 與最佳實務
 
-HELPFUL: The practices described in this document apply to Angular 2.0 and later.
-If you are currently using AngularJS, see [Upgrading from AngularJS](https://angular.io/guide/upgrade 'Upgrading from AngularJS').
-_AngularJS_ is the name for all v1.x versions of Angular.
+HELPFUL: 本文件所述的實務做法適用於 Angular 2.0 與之後的版本。
+如果你目前使用的是 AngularJS，請參閱[從 AngularJS 升級](https://angular.io/guide/upgrade 'Upgrading from AngularJS')。
+_AngularJS_ 是 Angular 所有 v1.x 版本的名稱。
 
-## Angular versioning
+## Angular 版本編號
 
-Angular version numbers indicate the level of changes that are introduced by the release.
-This use of [semantic versioning](https://semver.org/ 'Semantic Versioning Specification') helps you understand the potential impact of updating to a new version.
+Angular 的版本號代表該版本發布引入的變更程度。
+採用[語意化版本](https://semver.org/ 'Semantic Versioning Specification')，能幫助你理解更新到新版本可能造成的影響。
 
-Angular version numbers have three parts: `major.minor.patch`.
-For example, version 7.2.11 indicates major version 7, minor version 2, and patch level 11.
+Angular 版本號由三個部分組成：`major.minor.patch`。
+例如，版本 7.2.11 代表主版本 7、次版本 2，以及修訂版本 11。
 
-The version number is incremented based on the level of change included in the release.
+版本號會依據版本發布所包含的變更程度遞增。
 
-| Level of change | Details                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| :-------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Major release   | Contains significant new features, some but minimal developer assistance is expected during the update. When updating to a new major release, you might need to run update scripts, refactor code, run additional tests, and learn new APIs.                                                                                                                                                                                      |
-| Minor release   | Contains new smaller features. Minor releases are fully backward-compatible; no developer assistance is expected during update, but you can optionally modify your applications and libraries to begin using new APIs, features, and capabilities that were added in the release. We update peer dependencies in minor versions by expanding the supported versions, but we do not require projects to update these dependencies. |
-| Patch release   | Low risk, bug fix release. No developer assistance is expected during update.                                                                                                                                                                                                                                                                                                                                                     |
+| 變更程度   | 說明                                                                                                                                                                                                                         |
+| :--------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 主要版本發布 | 包含重大的新功能，更新期間預期需要一些但極少的開發者協助。更新到新的主要版本時，你可能需要執行更新指令稿、重構程式碼、執行額外的測試，並學習新的 API。                                                                            |
+| 次要版本發布 | 包含較小的新功能。次要版本發布完全向後相容；更新期間不需要開發者協助，但你可以選擇修改應用程式與函式庫，開始使用該版本新增的 API、功能與能力。我們會在次要版本中透過擴大支援範圍來更新對等相依性，但不要求專案更新這些相依性。 |
+| 修訂版本發布 | 低風險的錯誤修正發布。更新期間不需要開發者協助。                                                                                                                                                                               |
 
-HELPFUL: As of Angular version 7, the major versions of Angular core and the CLI are aligned.
-This means that in order to use the CLI as you develop an Angular app, the version of `@angular/core` and the CLI need to be the same.
+HELPFUL: 自 Angular 版本 7 起，Angular 核心與 CLI 的主要版本號已對齊。
+這代表在你開發 Angular 應用程式並使用 CLI 時，`@angular/core` 與 CLI 的版本必須相同。
 
-### Preview releases
+### 預覽版本發布
 
-We let you preview what's coming by providing "Next" and Release Candidates \(`rc`\) pre-releases for each major and minor release:
+我們會為每個主要版本與次要版本提供「Next」與發行候選版（`rc`）預先發布，讓你搶先預覽即將推出的內容：
 
-| Pre-release type  | Details                                                                                                                                                                      |
-| :---------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Next              | The release that is under active development and testing. The next release is indicated by a release tag appended with the `-next` identifier, such as `8.1.0-next.0`.       |
-| Release candidate | A release that is feature complete and in final testing. A release candidate is indicated by a release tag appended with the `-rc` identifier, such as version `8.1.0-rc.0`. |
+| 預先發布類型 | 說明                                                                                                              |
+| :----------- | :---------------------------------------------------------------------------------------------------------------- |
+| Next         | 正在積極開發與測試中的版本發布。下一個版本會在發布標籤後附加 `-next` 標識來表示，例如 `8.1.0-next.0`。              |
+| 發行候選版   | 功能已完整並進入最終測試的版本發布。發行候選版會在發布標籤後附加 `-rc` 標識來表示，例如版本 `8.1.0-rc.0`。         |
 
-The latest `next` or `rc` pre-release version of the documentation is available at [next.angular.dev](https://next.angular.dev).
+文件最新的 `next` 或 `rc` 預先發布版本可在 [next.angular.dev](https://next.angular.dev) 取得。
 
-## Release frequency
+## 版本發布頻率
 
-We work toward a regular schedule of releases, so that you can plan and coordinate your updates with the continuing evolution of Angular.
+我們朝著固定的版本發布時程努力，讓你能隨著 Angular 的持續演進，規劃並協調你的更新。
 
-HELPFUL: Dates are offered as general guidance and are subject to change.
+HELPFUL: 日期僅供一般參考，可能會有所變動。
 
-In general, expect the following release cycle:
+一般而言，預期的版本發布週期如下：
 
-- A major release every 12 months
-- 4-6 minor releases for each major release
-- A patch release and pre-release \(`next` or `rc`\) build almost every week
+- 每 12 個月發布一個主要版本
+- 每個主要版本有 4 到 6 個次要版本
+- 幾乎每週發布一個修訂版本與預先發布（`next` 或 `rc`）建置版本
 
-This cadence of releases gives eager developers access to new features as soon as they are fully developed and pass through our code review and integration testing processes, while maintaining the stability and reliability of the platform for production users that prefer to receive features after they have been validated by Google and other developers that use the pre-release builds.
+這樣的發布節奏，讓積極的開發者能在新功能完整開發完成、並通過我們的程式碼審查與整合測試流程後，第一時間取得它們；同時，對偏好在功能經過 Google 與其他使用預先發布建置版本的開發者驗證後再接收的生產環境使用者，也能維持平台的穩定與可靠。
 
-HELPFUL: Until Angular v22, Angular had a 6-month major release cycle, with 1-3 minor releases for each major release
+HELPFUL: 在 Angular v22 之前，Angular 的主要版本發布週期為 6 個月，每個主要版本有 1 到 3 個次要版本
 
-## Support policy and schedule
+## 支援政策與時程
 
-HELPFUL: Approximate dates are offered as general guidance and are subject to change.
+HELPFUL: 約略日期僅供一般參考，可能會有所變動。
 
-### Release schedule
+### 版本發布時程
 
-| Version | Date               |
-| :------ | :----------------- |
-| v22.1   | Week of 2026-07-27 |
-| v22.2   | Week of 2026-09-21 |
-| v22.3   | ~ November 2026    |
-| v22.4   | ~ January 2027     |
-| v22.5   | ~ March 2027       |
-| v23.0   | ~ June 2027        |
+| 版本  | 日期             |
+| :---- | :--------------- |
+| v22.1 | 2026-07-27 當週  |
+| v22.2 | 2026-09-21 當週  |
+| v22.3 | 約 2026 年 11 月 |
+| v22.4 | 約 2027 年 1 月  |
+| v22.5 | 約 2027 年 3 月  |
+| v23.0 | 約 2027 年 6 月  |
 
-### Support window
+### 支援期間
 
-All major releases are typically supported for 24 months.
+所有主要版本通常支援 24 個月。
 
-| Support stage     | Support Timing | Details                                                             |
-| :---------------- | :------------- | :------------------------------------------------------------------ |
-| Active            | 12 months      | Regularly-scheduled updates and patches are released                |
-| Long-term \(LTS\) | 12 months      | Only [critical fixes and security patches](#lts-fixes) are released |
+| 支援階段       | 支援期間 | 說明                                                         |
+| :------------- | :------- | :----------------------------------------------------------- |
+| 積極支援       | 12 個月  | 會發布定期排程的更新與修訂                                     |
+| 長期支援（LTS） | 12 個月  | 只會發布[重大修正與安全性修補](#lts-fixes)                     |
 
-### Actively supported versions
+### 積極支援中的版本
 
-The following table provides the status for Angular versions under support.
+下表提供支援中的 Angular 版本狀態。
 
-| Version | Status | Released   | Active ends | LTS ends   |
-| :------ | :----- | :--------- | :---------- | :--------- |
-| ^22.0.0 | Active | 2026-06-03 | 2027-06     | 2028-06    |
-| ^21.0.0 | LTS    | 2025-11-19 | 2026-06-03  | 2027-06    |
-| ^20.0.0 | LTS    | 2025-05-28 | 2025-11-19  | 2026-11-28 |
+| 版本    | 狀態     | 發布日期   | 積極支援結束 | LTS 結束 |
+| :------ | :------- | :--------- | :----------- | :------- |
+| ^22.0.0 | 積極支援 | 2026-06-03 | 2027-06      | 2028-06  |
+| ^21.0.0 | LTS      | 2025-11-19 | 2026-06-03   | 2027-06  |
+| ^20.0.0 | LTS      | 2025-05-28 | 2025-11-19   | 2026-11-28 |
 
-IMPORTANT: Angular versions v2 to v19 are no longer supported.
+IMPORTANT: Angular v2 到 v19 已不再支援。
 
-### LTS fixes
+### LTS 修正
 
-As a general rule, a fix is considered for an LTS version if it resolves one of:
+一般而言，一項修正若能解決下列問題之一，就會被考慮納入 LTS 版本：
 
-- A newly identified security vulnerability,
-- A regression, since the start of LTS, caused by a 3rd party change, such as a new browser version.
+- 新發現的安全性漏洞、
+- 自 LTS 開始以來，由第三方變更（例如新瀏覽器版本）引起的迴歸問題（regression）。
 
-## Deprecation policy
+## 淘汰政策
 
-When the Angular team intends to remove an API or feature, it will be marked as _deprecated_. This occurs when an API is obsolete, superseded by another API, or otherwise discontinued. Deprecated API remain available through their deprecated phase, which lasts a minimum one major version (approximately one year).
+當 Angular 團隊打算移除某個 API 或功能時，會將其標示為 _deprecated_（已淘汰）。當某個 API 已經過時、被另一個 API 取代，或以其他方式停止提供時，就會發生這種情況。已淘汰的 API 在其淘汰期間內仍然可用，淘汰期間至少持續一個主要版本（約一年）。
 
-To help ensure that you have sufficient time and a clear path to update, this is our deprecation policy:
+為了確保你有充足的時間與明確的更新路徑，我們的淘汰政策如下：
 
-| Deprecation stages | Details                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| :----------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Announcement       | We announce deprecated APIs and features in the [change log](https://github.com/angular/angular/blob/main/CHANGELOG.md 'Angular change log'). Deprecated APIs appear in the [documentation](api?status=8) with ~~strikethrough~~. When we announce a deprecation, we also announce a recommended update path. Additionally, all deprecated APIs are annotated with `@deprecated` in the corresponding documentation, which enables text editors and IDEs to provide hints if your project depends on them. |
-| Deprecation period | When an API or a feature is deprecated, it is still present in at least the next major release (period of at least 12 months). After that, deprecated APIs and features are candidates for removal. A deprecation can be announced in any release, but the removal of a deprecated API or feature happens only in major release. Until a deprecated API or feature is removed, it is maintained according to the LTS support policy, meaning that only critical and security issues are fixed.             |
-| npm dependencies   | We only make npm dependency updates that require changes to your applications in a major release. In minor releases, we update peer dependencies by expanding the supported versions, but we do not require projects to update these dependencies until a future major version. This means that during minor Angular releases, npm dependency updates within Angular applications and libraries are optional.                                                                                              |
+| 淘汰階段       | 說明                                                                                                                                                                                                                                                                                                                                                                                                           |
+| :------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 公布           | 我們會在[變更記錄](https://github.com/angular/angular/blob/main/CHANGELOG.md 'Angular change log')中公布已淘汰的 API 與功能。已淘汰的 API 會在[文件](api?status=8)中以 ~~刪除線~~ 呈現。當我們公布一項淘汰時，也會同時公布建議的更新路徑。此外，所有已淘汰的 API 都會在對應的文件中以 `@deprecated` 標註，讓文字編輯器與 IDE 在你的專案相依於這些 API 時提供提示。                                                  |
+| 淘汰期間       | 當某個 API 或功能被淘汰時，它至少還會存在於下一個主要版本中（期間至少 12 個月）。在此之後，已淘汰的 API 與功能就可能被移除。淘汰可以在任何版本發布中公布，但已淘汰的 API 或功能的移除，只會發生在主要版本發布中。在已淘汰的 API 或功能被移除之前，會依照 LTS 支援政策維護它，也就是只修正重大與安全性問題。                                                                                                        |
+| npm 相依性     | 我們只會在主要版本發布中，進行需要你變更應用程式的 npm 相依性更新。在次要版本發布中，我們會透過擴大支援範圍來更新對等相依性，但不要求專案更新這些相依性，直到未來的主要版本為止。這代表在 Angular 次要版本發布期間，Angular 應用程式與函式庫中的 npm 相依性更新是選擇性的。                                                                                                                                        |
 
-## Compatibility policy
+## 相容性政策
 
-Angular is a collection of many packages, subprojects, and tools.
-To prevent accidental use of private APIs and so that you can clearly understand what is covered by the practices described here — we document what is and is not considered our public API surface.
-For details, see [Supported Public API Surface of Angular](https://github.com/angular/angular/blob/main/contributing-docs/public-api-surface.md 'Supported Public API Surface of Angular').
+Angular 是由許多套件、子專案與工具組成的集合。
+為了防止意外使用私有 API，並讓你清楚理解本文件所述實務做法的涵蓋範圍，我們記錄了哪些屬於、哪些不屬於我們的公開 API 表面。
+詳情請參閱 [Angular 支援的公開 API 表面](https://github.com/angular/angular/blob/main/contributing-docs/public-api-surface.md 'Supported Public API Surface of Angular')。
 
-To guarantee backward compatibility of Angular we run a series of checks before we merge any change:
+為了保證 Angular 的向後相容性，我們在合併任何變更之前，都會執行一系列檢查：
 
-- Unit tests and integration tests
-- Comparing the type definitions of the public API surface before and after the change
-- Running the tests of all the applications at Google that depend on Angular
+- 單元測試與整合測試
+- 比對變更前後公開 API 表面的型別定義
+- 執行 Google 內部所有依賴 Angular 的應用程式的測試
 
-Any changes to the public API surface are made in accordance with the versioning, support, and depreciation policies previously described. In exceptional cases, such as critical security patches, fixes may introduce backwards incompatible changes. Such exceptional cases are accompanied by explicit notice on the framework's official communication channels.
+對公開 API 表面的任何變更，都會依照前述的版本管理、支援與淘汰政策進行。在例外情況下，例如重大安全性修補，修正可能會引入向後不相容的變更。這類例外情況都會在框架的官方溝通管道上附帶明確通知。
 
-### Compiler ABI stability
+### 編譯器 ABI 穩定性
 
-In addition to public API stability, Angular maintains **Compiler ABI (Application Binary Interface) stability** across patch versions of the same minor version. The ABI refers to the set of internal runtime APIs (such as those prefixed with `ɵɵ`) used by the code generated by the Angular compiler. This stability ensures that code compiled with version `X.Y.A` of the Angular compiler is compatible with the Angular runtime of version `X.Y.B`.
+除了公開 API 的穩定性之外，Angular 在同一個次要版本的各修訂版本之間，還維持**編譯器 ABI**（Application Binary Interface，應用程式二進位介面）的穩定性。ABI 指的是 Angular 編譯器產生的程式碼所使用的內部執行期 API 集合（例如以 `ɵɵ` 為前綴的那些）。這項穩定性確保以 Angular 編譯器 `X.Y.A` 版本編譯的程式碼，能與 `X.Y.B` 版本的 Angular 執行期相容。
 
-This stability unblocks use cases like microfrontends where multiple applications may share a single Angular runtime while being built independently with different patch versions. Note that ABI stability is not guaranteed across minor versions, as new features may require changes to the internal APIs or the format of the generated code.
+這項穩定性讓微前端等使用情境得以實現：多個應用程式可以共用單一 Angular 執行期，同時各自以不同的修訂版本獨立建置。請注意，ABI 穩定性在次要版本之間並不保證，因為新功能可能需要變更內部 API 或產生程式碼的格式。
 
-HELPFUL: While we strive to maintain ABI compatibility and will treat any breakage as a regression, in practice it is difficult to validate such compatibility across all combinations of versions.
+HELPFUL: 雖然我們致力於維持 ABI 相容性，並會將任何破壞視為迴歸問題，但實務上很難在所有版本組合下驗證這種相容性。
 
-## Breaking change policy and update paths
+## 破壞性變更政策與更新路徑
 
-Breaking change requires you to do work because the state after it is not backward compatible with the state before it. You can find the rare exceptions from this rule in the [Compatibility policy](#compatibility-policy). Examples of breaking changes are the removal of public APIs or other changes of the type definition of Angular, changing the timing of calls, or updating to a new version of a dependency of Angular, which includes breaking changes itself.
+破壞性變更會要求你進行額外的作業，因為變更後的狀態與變更前並不向後相容。你可以在[相容性政策](#compatibility-policy)中找到這條規則的少數例外。破壞性變更的範例包括：移除公開 API、變更 Angular 的其他型別定義、改變呼叫的時機，或更新到 Angular 某個相依性的新版本，而該相依性本身就包含破壞性變更。
 
-To support you in case of breaking changes in Angular:
+為了在 Angular 出現破壞性變更時支援你：
 
-- We follow our [deprecation policy](#deprecation-policy) before we remove a public API
-- Support update automation via the `ng update` command. It provides code transformations which we often have tested ahead of time over hundreds of thousands of projects at Google
-- Step by step instructions how to update from one major version to another at the ["Angular Update Guide"](update-guide)
+- 我們在移除公開 API 之前，會遵循我們的[淘汰政策](#deprecation-policy)
+- 透過 `ng update` 指令支援更新自動化。它提供程式碼轉換，而且我們通常會事先在 Google 內部數十萬個專案上測試過
+- 在[「Angular 更新指南」](update-guide)中提供從一個主要版本更新到另一個主要版本的逐步說明
 
-You can `ng update` to any version of Angular, provided that the following criteria are met:
+只要符合下列條件，你就可以用 `ng update` 更新到任何 Angular 版本：
 
-- The version you want to update _to_ is supported.
-- The version you want to update _from_ is within one major version of the version you want to
-  upgrade to.
+- 你想更新_到_的版本仍在支援期間內。
+- 你想更新的來源版本，與你想升級到的版本相差在一個主要版本以內。
 
-For example, you can update from version 11 to version 12, provided that version 12 is still supported.
-If you want to update across multiple major versions, perform each update one major version at a time.
-For example, to update from version 10 to version 12:
+例如，只要版本 12 仍在支援期間內，你就可以從版本 11 更新到版本 12。
+如果你想跨越多個主要版本更新，請一次以一個主要版本為單位，逐次執行每次更新。
+例如，要從版本 10 更新到版本 12：
 
-1. Update from version 10 to version 11.
-1. Update from version 11 to version 12.
+1. 從版本 10 更新到版本 11。
+1. 從版本 11 更新到版本 12。
 
-## Developer Preview
+## 開發者預覽
 
-Occasionally we introduce new APIs under the label of "Developer Preview". These are APIs that are fully functional and polished, but that we are not ready to stabilize under our normal deprecation policy.
+我們偶爾會以「開發者預覽」的標籤引入新的 API。這些 API 功能完整且經過打磨，但我們還沒準備好依照一般的淘汰政策將它們穩定下來。
 
-This may be because we want to gather feedback from real applications before stabilization, or because the associated documentation or migration tooling is not fully complete. Feedback can be provided via a [GitHub issue](https://github.com/angular/angular/issues), where developers can share their experiences, report bugs, or suggest improvements to help refine the feature.
+這可能是因為我們想在穩定化之前，先從真實應用程式收集回饋，或者因為相關文件或遷移工具尚未完全完成。回饋可以透過 [GitHub issue](https://github.com/angular/angular/issues) 提供，開發者可以在其中分享使用經驗、回報錯誤，或提出改進建議，協助我們完善這項功能。
 
-The policies and practices that are described in this document do not apply to APIs marked as Developer Preview. Such APIs can change at any time, even in new patch versions of the framework. Teams should decide for themselves whether the benefits of using Developer Preview APIs are worth the risk of breaking changes outside of our normal use of semantic versioning.
+本文件所述的政策與實務做法，不適用於標示為開發者預覽的 API。這類 API 隨時可能變更，即使是在框架的新修訂版本中也一樣。各團隊應自行評估，使用開發者預覽 API 的好處是否值得承擔一般語意化版本管理之外破壞性變更的風險。
 
-## Experimental
+## 實驗性質
 
-These APIs might not become stable at all or have significant changes before becoming stable.
+這些 API 可能根本不會成為穩定版，或在成為穩定版之前會有重大變更。
 
-The policies and practices that are described in this document do not apply to APIs marked as experimental. Such APIs can change at any time, even in new patch versions of the framework. Teams should decide for themselves whether the benefits of using experimental APIs are worth the risk of breaking changes outside of our normal use of semantic versioning.
+本文件所述的政策與實務做法，不適用於標示為實驗性質的 API。這類 API 隨時可能變更，即使是在框架的新修訂版本中也一樣。各團隊應自行評估，使用實驗性質 API 的好處是否值得承擔一般語意化版本管理之外破壞性變更的風險。

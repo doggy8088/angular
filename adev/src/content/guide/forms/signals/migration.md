@@ -1,6 +1,6 @@
 # 把既有表單遷移到 Signal Forms
 
-本指南提供把既有程式碼庫遷移到 Signal Forms 的策略，重點放在與既有反應式表單（Reactive Forms）的互通性。
+本指南提供把既有程式碼庫遷移到 Signal Forms 的策略，重點放在與既有反應式表單的互通性。
 
 ## 使用 `compatForm` 由上而下遷移
 
