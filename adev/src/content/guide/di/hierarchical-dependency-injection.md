@@ -927,8 +927,8 @@ export class Child {
 })
 ```
 
-Next, add `skipSelf` along with `host` to the `inject()` for the `AnimalService` injection in `child.ts`.
-Here are `host` and `skipSelf` in the `animal` property initialization:
+接著，在 `child.ts` 中為 `AnimalService` 注入的 `inject()` 加入 `skipSelf` 以及 `host`。
+以下是在 `animal` 屬性初始化中的 `host` 和 `skipSelf`：
 
 ```typescript
 export class Child {
@@ -940,12 +940,12 @@ export class Child {
   and how `host` works.
  -->
 
-When `host` and `skipSelf` were applied to the `FlowerService`, which is in the `providers` array, the result was `null` because `skipSelf` starts its search in the `<app-child>` injector, but `host` stops searching at `<#VIEW>` —where there is no `FlowerService`
-In the logical tree, you can see that the `FlowerService` is visible in `<app-child>`, not its `<#VIEW>`.
+當 `host` 和 `skipSelf` 被套用到位於 `providers` 陣列中的 `FlowerService` 時，結果是 `null`，因為 `skipSelf` 從 `<app-child>` 注入器開始搜尋，但 `host` 在 `<#VIEW>` 就停止搜尋，而那裡沒有 `FlowerService`。
+在邏輯樹中，你可以看到 `FlowerService` 在 `<app-child>` 中可見，而不是在它的 `<#VIEW>` 中。
 
-However, the `AnimalService`, which is provided in the `App` `viewProviders` array, is visible.
+然而，在 `App` 的 `viewProviders` 陣列中提供的 `AnimalService` 是可見的。
 
-The logical tree representation shows why this is:
+邏輯樹的表示法說明了為什麼會這樣：
 
 ```html
 <app-root @ApplicationConfig
