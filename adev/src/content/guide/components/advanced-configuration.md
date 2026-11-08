@@ -20,7 +20,7 @@ TIP: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angula
 
 Angular 預設會移除並收合範本中多餘的空白，最常見的是換行與縮排。你可以將元件中繼資料中的 `preserveWhitespaces` 明確設定為 `true`，來變更這項設定。
 
-## 自訂元素結構描述
+## 自訂元素結構定義
 
 Angular 預設在遇到未知的 HTML 元素時會擲出錯誤。你可以在元件中繼資料的 `schemas` 屬性中加入 `CUSTOM_ELEMENTS_SCHEMA`，為該元件停用這項行為。
 

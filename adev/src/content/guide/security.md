@@ -463,7 +463,7 @@ NOTE: 大多數雲端供應商與 CDN 供應商，會在請求到達應用程式
 
 ```typescript
 const appEngine = new AngularAppEngine({
-  allowedHosts: ['example.com', '*.example.com'],
+  allowedHosts: ['example.com', '*.trusted-example.com'],
 });
 
 const nodeAppEngine = new AngularNodeAppEngine({

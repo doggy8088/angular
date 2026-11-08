@@ -45,7 +45,7 @@ bootstrapApplication(AppRoot, {
 
 ### 定義工具參數
 
-當工具需要 AI 助理提供輸入時，請在 `inputSchema` 中使用 [JSON Schema](https://json-schema.org/) 語法定義預期的引數。Angular 會依結構描述定義，自動推斷傳入 `execute` 回呼的參數型別。
+當工具需要 AI 助理提供輸入時，請在 `inputSchema` 中使用 [JSON Schema](https://json-schema.org/) 語法定義預期的引數。Angular 會依結構定義定義，自動推斷傳入 `execute` 回呼的參數型別。
 
 ```ts {header:"main.ts"}
 import {provideExperimentalWebMcpTools} from '@angular/core';
@@ -161,7 +161,7 @@ export class Counter {
 
 ## Signal Forms 中的隱含工具
 
-你只需極少的設定，就能從既有的 Angular [Signal Form](essentials/signal-forms) 隱含地建立 WebMCP 工具。Angular 會把你的表單模型轉換為功能豐富的 WebMCP 工具，有效支援高度動態的表單，無需你手動撰寫 JSON 結構描述或事件處理常式。
+你只需極少的設定，就能從既有的 Angular [Signal Form](essentials/signal-forms) 隱含地建立 WebMCP 工具。Angular 會把你的表單模型轉換為功能豐富的 WebMCP 工具，有效支援高度動態的表單，無需你手動撰寫 JSON 結構定義或事件處理常式。
 
 ### 啟用 WebMCP 表單功能
 
@@ -179,7 +179,7 @@ bootstrapApplication(AppRoot, {
 
 ### 讓 Signal Form 加入
 
-其次，在使用 [`form`](api/forms/signals/form) 定義 Signal Form 時，傳入 `experimentalWebMcpTool` 設定選項，即可加入隱含的 WebMCP 工具。Angular 會檢查你的表單資料模型，並自動為連接的 AI 代理生成 JSON 結構描述。
+其次，在使用 [`form`](api/forms/signals/form) 定義 Signal Form 時，傳入 `experimentalWebMcpTool` 設定選項，即可加入隱含的 WebMCP 工具。Angular 會檢查你的表單資料模型，並自動為連接的 AI 代理生成 JSON 結構定義。
 
 ```ts {header:"user-registration.ts"}
 import {Component, signal} from '@angular/core';
@@ -220,19 +220,19 @@ export class UserRegistration {
 }
 ```
 
-在這個範例中，Angular 生成的 WebMCP 工具帶有一個 JSON 結構描述，其中：
+在這個範例中，Angular 生成的 WebMCP 工具帶有一個 JSON 結構定義，其中：
 
 1. 包含 `firstName`、`lastName`、`age` 與 `hobbies` 作為參數，這些參數是從 `model` 訊號的初始值推斷而來。
 2. 將 `firstName` 與 `lastName` 定義為_必填_欄位，這是從 [`required`](api/forms/signals/required) 驗證器推斷而來。
 3. 將 `hobbies` 定義為字串陣列，讓代理能提供任意數量的興趣。
 
-除了推斷輸入結構描述，Angular 也把 WebMCP 工具連接到表單的驗證邏輯與提交處理常式。這表示代理會觀察到其輸入觸發的任何驗證錯誤，或提交期間發生的任何失敗，從而能自我修正並可能重試。
+除了推斷輸入結構定義，Angular 也把 WebMCP 工具連接到表單的驗證邏輯與提交處理常式。這表示代理會觀察到其輸入觸發的任何驗證錯誤，或提交期間發生的任何失敗，從而能自我修正並可能重試。
 
 NOTE: 依預設，非同步驗證器不會阻擋提交：提交動作會在它們完成之前執行，因此它們的錯誤不會回報給代理。請改在提交動作中處理這些檢查。
 
 #### 限制
 
-Angular 從表單模型的初始值推斷 WebMCP 結構描述。這需要：
+Angular 從表單模型的初始值推斷 WebMCP 結構定義。這需要：
 
 - 具體的初始值（`''`、`0`、`false`）：Angular 無法從 `null` 或 `undefined` 推斷資料型別。
 - 非空陣列（`['Hello!']`）：Angular 無法從空陣列推斷資料型別，且需要至少一個初始值。
@@ -249,7 +249,7 @@ WebMCP 要求每個工具都有唯一的名稱，若同一個工具名稱被註�
 
 ### 驗證工具輸入
 
-Angular 不提供任何隱含驗證，來保證代理提供的輸入確實符合所定義的 JSON 結構描述。請考慮在使用引數之前，明確驗證傳給 `execute` 函式的引數，以確保可靠性。
+Angular 不提供任何隱含驗證，來保證代理提供的輸入確實符合所定義的 JSON 結構定義。請考慮在使用引數之前，明確驗證傳給 `execute` 函式的引數，以確保可靠性。
 
 ### 測試
 

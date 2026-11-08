@@ -152,7 +152,7 @@ Angular 的自動完成提供完整無障礙的 combobox 實作，包含：
 
 Angular Aria 可以與以訊號為基礎的 [Signal Forms](guide/forms/signals/overview) API 無縫整合。你可以把複雜的輸入封裝成可重複使用的自訂控制元件，實作 `FormValueControl`。
 
-以下範例示範一個實作 `FormValueControl<string>` 的國家選取器元件，它使用 `[formField]` 繫結到父表單，並受到結構描述驗證規則的保護。
+以下範例示範一個實作 `FormValueControl<string>` 的國家選取器元件，它使用 `[formField]` 繫結到父表單，並受到結構定義驗證規則的保護。
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/autocomplete/src/signal-forms/app/app.ts"/>

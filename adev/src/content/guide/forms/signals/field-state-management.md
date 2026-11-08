@@ -336,7 +336,7 @@ export class Order {
 
 在這個範例中，我們用 `valueOf(schemaPath.total)` 檢查 `total` 欄位的值，決定 `couponCode` 是否應被停用。
 
-NOTE: 結構描述回呼參數（這些範例中的 `schemaPath`）是一個 `SchemaPathTree` 物件，提供你表單中所有欄位的路徑。你可以任意為這個參數命名。
+NOTE: 結構定義回呼參數（這些範例中的 `schemaPath`）是一個 `SchemaPathTree` 物件，提供你表單中所有欄位的路徑。你可以任意為這個參數命名。
 
 在定義 `disabled()`、`hidden()` 或 `readonly()` 這類規則時，`when` 函式會收到一個 `FieldContext` 物件，通常會被解構（例如 `({valueOf})`）。驗證規則中常用的兩個方法是：
 

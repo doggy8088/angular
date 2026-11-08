@@ -1,6 +1,6 @@
 # 加入表單邏輯
 
-Signal Forms 讓你能使用結構描述為表單加入邏輯。驗證邏輯已在[驗證指南](guide/forms/signals/validation)中說明，本指南將討論結構描述中其他可用的規則。你可以有條件地停用欄位、依其他值隱藏欄位、把欄位設為唯讀、防抖使用者輸入，以及為自訂控制項附加中繼資料。
+Signal Forms 讓你能使用結構定義為表單加入邏輯。驗證邏輯已在[驗證指南](guide/forms/signals/validation)中說明，本指南將討論結構定義中其他可用的規則。你可以有條件地停用欄位、依其他值隱藏欄位、把欄位設為唯讀、防抖使用者輸入，以及為自訂控制項附加中繼資料。
 
 本指南將說明如何使用 `disabled()`、`hidden()`、`readonly()`、`debounce()` 與 `metadata()` 等規則來控制欄位行為。
 
@@ -26,7 +26,7 @@ const orderForm = form(this.orderModel, (schemaPath) => {
 
 反應式邏輯函式會收到一個 `FieldContext` 物件，透過 `valueOf()` 與 `stateOf()` 等輔助函式，提供對欄位值與狀態的存取。它通常會被解構，以便直接存取這些輔助函式。
 
-NOTE: 結構描述回呼參數（這些範例中的 `schemaPath`）是一個 `SchemaPathTree` 物件，提供你表單中所有欄位的路徑。你可以任意為這個參數命名。
+NOTE: 結構定義回呼參數（這些範例中的 `schemaPath`）是一個 `SchemaPathTree` 物件，提供你表單中所有欄位的路徑。你可以任意為這個參數命名。
 
 `FieldContext` 屬性與方法的完整詳情，請參閱[驗證指南](guide/forms/signals/validation)。
 
@@ -686,11 +686,11 @@ export class Address {
 
 1. 要套用邏輯的路徑（通常是根表單路徑）
 2. 一個反應式邏輯函式，回傳 `true`（套用）或 `false`（不套用）
-3. 一個定義條件規則的結構描述函式
+3. 一個定義條件規則的結構定義函式
 
 條件規則只在條件為真時執行。這對複雜表單很有用，因為驗證規則或行為會依使用者的選擇而改變。
 
-### 可重用的結構描述函式
+### 可重用的結構定義函式
 
 把常見的規則設定抽取成可重用的函式：
 

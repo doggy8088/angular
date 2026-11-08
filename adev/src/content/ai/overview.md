@@ -99,7 +99,7 @@ NOTE: 本頁雖然以 Google AI 產品的整合與範例為主，但 Genkit 這�
 
 - 調整提示詞與模型參數（例如 [temperature](https://ai.google.dev/gemini-api/docs/prompting-strategies)），讓回應更確定或更不確定。你可以[在提示詞策略章節了解更多](https://ai.google.dev/gemini-api/docs/prompting-strategies)，該章節位於 [ai.google.dev](https://ai.google.dev/)。
 - 採用「人在迴路中」策略，由真人在工作流程繼續之前驗證輸出。設計你的應用程式工作流程，讓操作者（真人或其他模型）能驗證輸出並確認關鍵決策。
-- 運用工具（或函式）呼叫與結構描述限制，引導並將模型回應限制在預先定義的格式，提高回應的可預測性。
+- 運用工具（或函式）呼叫與結構定義限制，引導並將模型回應限制在預先定義的格式，提高回應的可預測性。
 
 即使考量了這些策略與技巧，應用程式設計仍應納入合理的備援機制，並遵循既有的應用程式韌性標準。舉例來說，資源或 API 無法使用時，應用程式當機是不可接受的。在這種情境下，應向使用者顯示錯誤訊息，如有需要，也顯示後續步驟的選項。建置 AI 驅動的應用程式也需要同樣的考量。請確認回應符合預期輸出，若不符合，則透過[優雅降級](https://developer.mozilla.org/en-US/docs/Glossary/Graceful_degradation)提供「安全著陸」。這同樣適用於 LLM 供應商的 API 中斷。
 

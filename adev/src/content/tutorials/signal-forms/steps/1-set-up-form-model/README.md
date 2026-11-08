@@ -1,25 +1,25 @@
-# Set up the form model
+# 建立表單模型
 
-Every Signal Form starts with a form data model - a signal that defines the shape of your data, and stores your form data.
+每個訊號表單都從一個表單資料模型開始：它是一個訊號，定義了資料的結構，並儲存你的表單資料。
 
-In this lesson, you'll learn how to:
+在這一課中，你將學到如何：
 
-- Define a TypeScript interface for your form data
-- Create a signal to hold form values
-- Use the `form()` function to create a Signal Form
+- 為表單資料定義 TypeScript 介面
+- 建立一個用來存放表單值的訊號
+- 使用 `form()` 函式建立訊號表單
 
-Let's build the foundation for our login form!
+一起為登入表單打好基礎吧！
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Define the LoginData interface">
-Create a TypeScript interface that defines the structure of your login form data. The form will have:
+<docs-step title="定義 LoginData 介面">
+建立一個 TypeScript 介面，定義登入表單資料的結構。這個表單將包含：
 
-- An `email` field (string)
-- A `password` field (string)
-- A `rememberMe` field (boolean)
+- 一個 `email` 欄位（字串）
+- 一個 `password` 欄位（字串）
+- 一個 `rememberMe` 欄位（布林值）
 
 ```ts
 interface LoginData {
@@ -29,11 +29,11 @@ interface LoginData {
 }
 ```
 
-Add this interface above the `@Component` decorator.
+將這個介面加在 `@Component` 裝飾器上方。
 </docs-step>
 
-<docs-step title="Import signal and form">
-Import the `signal` function from `@angular/core` and the `form` function from `@angular/forms/signals`:
+<docs-step title="匯入 signal 與 form">
+從 `@angular/core` 匯入 `signal` 函式，並從 `@angular/forms/signals` 匯入 `form` 函式：
 
 ```ts
 import {Component, signal} from '@angular/core';
@@ -42,8 +42,8 @@ import {form} from '@angular/forms/signals';
 
 </docs-step>
 
-<docs-step title="Create the form model signal">
-In your component class, create a `loginModel` signal with initial values. Use the `LoginData` interface as the type parameter:
+<docs-step title="建立表單模型訊號">
+在你的元件類別中，建立一個帶有初始值的 `loginModel` 訊號，並使用 `LoginData` 介面作為型別參數：
 
 ```ts
 loginModel = signal<LoginData>({
@@ -53,21 +53,21 @@ loginModel = signal<LoginData>({
 });
 ```
 
-The initial values start as empty strings for text fields and `false` for the checkbox.
+初始值方面，文字欄位是空字串，核取方塊則是 `false`。
 </docs-step>
 
-<docs-step title="Create the form">
-Now create the form by passing your model signal to the `form()` function:
+<docs-step title="建立表單">
+現在，將你的模型訊號傳入 `form()` 函式來建立表單：
 
 ```ts
 loginForm = form(this.loginModel);
 ```
 
-The `form()` function creates a form from your model, giving you access to field state and validation.
+`form()` 函式會根據你的模型建立表單，讓你能存取欄位狀態與驗證功能。
 </docs-step>
 
 </docs-workflow>
 
-Excellent! You've set up your form model. The `loginModel` signal holds your form data, and the `loginForm` provides access to each field with type safety.
+太棒了！你已經建立好表單模型。`loginModel` 訊號存放著你的表單資料，而 `loginForm` 則讓你能以型別安全的方式存取每個欄位。
 
-Next, you'll learn [how to connect your form to the template](/tutorials/signal-forms/2-connect-form-template)!
+接下來，你將學習[如何將表單連接到範本](/tutorials/signal-forms/2-connect-form-template)！

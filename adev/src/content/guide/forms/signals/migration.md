@@ -415,7 +415,7 @@ export class UserProfile {
 
 ### 手動選取錯誤
 
-`setErrors()` 與 `markAsPending()` 方法不受支援。在 Signal Forms 中，錯誤源自驗證規則與非同步驗證狀態。若你需要回報錯誤，應該透過結構描述中的驗證規則，以宣告方式完成。
+`setErrors()` 與 `markAsPending()` 方法不受支援。在 Signal Forms 中，錯誤源自驗證規則與非同步驗證狀態。若你需要回報錯誤，應該透過結構定義中的驗證規則，以宣告方式完成。
 
 ## 自動狀態類別
 

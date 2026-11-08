@@ -1,27 +1,27 @@
-# Learn Angular Signal Forms
+# 學習 Angular 訊號表單
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/greeting.svg" aria-hidden="true">
-  <p class="docs-tutorial-mascot__bubble">Welcome! Let's build forms with signals.</p>
+  <p class="docs-tutorial-mascot__bubble">歡迎！一起用訊號來建立表單吧。</p>
 </div>
 
-This interactive tutorial will teach you how to build reactive forms using Angular's Signal Forms API.
+這份互動教學將帶你學習如何使用 Angular 的訊號表單 API，建立反應式表單。
 
-## How to use this tutorial
+## 如何使用這份教學
 
-This tutorial assumes you understand Angular's core concepts and have basic familiarity with signals. If you're new to Angular, read our [essentials guide](/essentials). If you're new to signals, complete the [signals tutorial](/tutorials/signals) first.
+這份教學假設你已理解 Angular 的核心概念，並且對訊號有基本的認識。如果你是 Angular 新手，請先閱讀我們的[精華指南](/essentials)。如果你剛接觸訊號，請先完成[訊號教學](/tutorials/signals)。
 
-Each step represents a concept in Signal Forms. You'll build a complete login form from scratch, learning the fundamentals step by step.
+每個步驟都代表訊號表單的一個概念。你將從零開始建立一個完整的登入表單，一步步學習基本原理。
 
-**Your learning path:**
+**你的學習路徑**：
 
-1. Set up the form model with TypeScript and signals
-2. Connect the form to your template
-3. Add validation rules
-4. Display validation errors to users
-5. Handle form submission
-6. Explore advanced topics and next steps
+1. 使用 TypeScript 與訊號建立表單模型
+2. 將表單連接到你的範本
+3. 加入驗證規則
+4. 向使用者顯示驗證錯誤
+5. 處理表單提交
+6. 探索進階主題與後續學習方向
 
-If you get stuck, click "Reveal answer" at the top.
+如果卡住了，點選上方的 "Reveal answer" 即可查看答案。
 
-Alright, let's [get started](/tutorials/signal-forms/1-set-up-form-model)!
+好，我們[開始吧](/tutorials/signal-forms/1-set-up-form-model)！

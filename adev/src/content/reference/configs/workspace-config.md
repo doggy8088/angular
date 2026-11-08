@@ -112,8 +112,8 @@ HELPFUL: 當你也需要重新命名輸出目錄時，請使用 `subPath` 而非
 預設 Angular CLI `ng generate` 子指令的原理圖，收集在套件 [`@schematics/angular`](https://github.com/angular/angular-cli/blob/main/packages/schematics/angular/application/schema.json) 中。
 例如，使用 `ng generate component` 產生元件的原理圖是 `@schematics/angular:component`。
 
-原理圖結構描述中給定的欄位，對應到 Angular CLI 子指令選項允許的命令列引數值與預設值。
-你可以更新工作區結構描述檔案，為子指令選項設定不同的預設值。例如，若要預設在 `ng generate component` 中停用 `standalone`：
+原理圖結構定義中給定的欄位，對應到 Angular CLI 子指令選項允許的命令列引數值與預設值。
+你可以更新工作區結構定義檔案，為子指令選項設定不同的預設值。例如，若要預設在 `ng generate component` 中停用 `standalone`：
 
 ```json
 {
@@ -139,8 +139,8 @@ Architect 是一個殼層，會依照目標設定，執行指定的建置器來�
 ### 預設的 Architect 建置器與目標
 
 Angular 定義了預設建置器，供特定指令使用，或搭配一般的 `ng run` 指令使用。
-定義每個建置器的選項與預設值的 JSON 結構描述，收集在 [`@angular/build`](https://github.com/angular/angular-cli/blob/main/packages/angular/build/builders.json) 套件中。
-這些結構描述為下列建置器設定選項。
+定義每個建置器的選項與預設值的 JSON 結構定義，收集在 [`@angular/build`](https://github.com/angular/angular-cli/blob/main/packages/angular/build/builders.json) 套件中。
+這些結構定義為下列建置器設定選項。
 
 ### 設定建置器目標
 

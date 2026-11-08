@@ -16,7 +16,9 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages-zhtw
+  # v2：第一輪 run（42512792694）的 job 被 GitHub 端取消成殭屍狀態、長期占用 v1 群組，
+  # 改名讓新 run 不被殭屍擋住；殭屍 run 的 deploy 步驟早已 skipped，不會與新 run 競爭部署。
+  group: pages-zhtw-v2
   cancel-in-progress: false
 
 jobs:

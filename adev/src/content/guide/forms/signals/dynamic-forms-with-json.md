@@ -2,7 +2,7 @@
 
 有些表單無法在編譯時期就定義好結構。由伺服器驅動的表單、管理後台、多租戶應用程式，以及由 CMS 管理的內容，都需要在執行時期依傳入的設定來呈現欄位，這類設定通常是以 JSON 形式從後端、管理工具或各租戶的設定中取得。
 
-本指南將說明如何建立這類表單：其模型、結構描述、驗證與呈現，全都源自同一份執行時期設定。
+本指南將說明如何建立這類表單：其模型、結構定義、驗證與呈現，全都源自同一份執行時期設定。
 
 ## 何時適合用 JSON 驅動的表單
 
@@ -56,9 +56,9 @@ function buildModel(configs: FieldConfig[]): Record<string, string | number | nu
 
 此外，數字欄位初始化為 `null` 而非 `0`，這樣空白欄位讀起來就是空白。若用 `0`，[`required()`](api/forms/signals/required) 會把該欄位視為已填寫，而且任何大於零的 [`min()`](api/forms/signals/min) 限制，都會在使用者輸入任何內容之前就把該欄位標為無效。
 
-## 從設定建立結構描述
+## 從設定建立結構定義
 
-結構描述同樣源自設定。你可以逐一走訪每個項目，並套用與其種類相符的驗證器：
+結構定義同樣源自設定。你可以逐一走訪每個項目，並套用與其種類相符的驗證器：
 
 ```ts
 import {required, min, max, SchemaFn, SchemaPath} from '@angular/forms/signals';
@@ -459,16 +459,16 @@ export class DynamicForm {
 
 範本的型別檢查會把 `dynamicForm[name]` 視為獨立運算式，因此 `@switch` 對 `config.kind` 的型別縮小不會傳遞到索引存取。這些存取器在繫結位置以轉型重述了縮小結果，而相符的 `kind` 分支保證縮小後的型別在執行時期正確。
 
-由於模型與結構描述都是在元件建構時，從同一份 `FieldConfig[]` 推導出來的，對同一份設定而言，兩者不可能漸行漸遠。以上範例假設設定在元件建立時就能同步取得。
+由於模型與結構定義都是在元件建構時，從同一份 `FieldConfig[]` 推導出來的，對同一份設定而言，兩者不可能漸行漸遠。以上範例假設設定在元件建立時就能同步取得。
 
 ## 後續步驟
 
-JSON 驅動的表單讓模型與結構描述都源自同一份 `FieldConfig[]`，藉此讓兩者保持一致。本指南中的每項擴充（條件規則、重複欄位）都會放寬型別，並在 `buildSchema()` 中多加一個轉換步驟，同時保留這份一致性。無論設定來自何處、如何成長，模型與結構描述始終緊密相連。
+JSON 驅動的表單讓模型與結構定義都源自同一份 `FieldConfig[]`，藉此讓兩者保持一致。本指南中的每項擴充（條件規則、重複欄位）都會放寬型別，並在 `buildSchema()` 中多加一個轉換步驟，同時保留這份一致性。無論設定來自何處、如何成長，模型與結構定義始終緊密相連。
 
 想了解 Signal Forms 其他面向的相關指南，請參閱：
 
 <docs-pill-row>
-  <docs-pill href="guide/forms/signals/schemas" title="結構描述與結構描述可組合性" />
+  <docs-pill href="guide/forms/signals/schemas" title="結構定義與結構定義可組合性" />
   <docs-pill href="guide/forms/signals/validation" title="驗證" />
   <docs-pill href="guide/forms/signals/form-logic" title="加入表單邏輯" />
   <docs-pill href="guide/forms/signals/field-state-management" title="欄位狀態管理" />
@@ -477,7 +477,7 @@ JSON 驅動的表單讓模型與結構描述都源自同一份 `FieldConfig[]`�
 詳細 API 文件請參閱：
 
 - [`form()`](api/forms/signals/form) - 從模型訊號建立表單
-- [`applyWhen()`](api/forms/signals/applyWhen) - 依反應式狀態，有條件地套用結構描述
-- [`applyEach()`](api/forms/signals/applyEach) - 對陣列欄位的每個項目套用結構描述
+- [`applyWhen()`](api/forms/signals/applyWhen) - 依反應式狀態，有條件地套用結構定義
+- [`applyEach()`](api/forms/signals/applyEach) - 對陣列欄位的每個項目套用結構定義
 - [`FieldTree`](api/forms/signals/FieldTree) - `form()` 所公開、可走訪的欄位樹
-- [`SchemaFn`](api/forms/signals/SchemaFn) - 結構描述函式的型別簽章
+- [`SchemaFn`](api/forms/signals/SchemaFn) - 結構定義函式的型別簽章

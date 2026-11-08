@@ -2,11 +2,11 @@
 
 欄位中繼資料是你可以附加到個別欄位的反應式資料。Angular 內建的限制驗證器（例如 `required()` 與 `min()`）在內部就使用這套系統。換句話說，每次你呼叫驗證器時，都是在為該欄位的中繼資料鍵做出一份貢獻。
 
-本指南將深入說明這套中繼資料系統：歸約器如何合併多條結構描述規則的貢獻、如何撰寫自訂歸約器、讀取如何與 `hasMetadata()` 組合，以及受管理的中繼資料如何把具備生命週期感知能力的物件繫結到個別欄位。
+本指南將深入說明這套中繼資料系統：歸約器如何合併多條結構定義規則的貢獻、如何撰寫自訂歸約器、讀取如何與 `hasMetadata()` 組合，以及受管理的中繼資料如何把具備生命週期感知能力的物件繫結到個別欄位。
 
 ## 你其實早就在使用中繼資料了
 
-當你在結構描述中呼叫 `required()`，並在範本中讀取結果欄位上的 `.required()` 時，你用的就是中繼資料系統。`state.required` 並不是特例屬性，它是一個便利的 getter，回傳內建 `REQUIRED` 中繼資料鍵的目前值。
+當你在結構定義中呼叫 `required()`，並在範本中讀取結果欄位上的 `.required()` 時，你用的就是中繼資料系統。`state.required` 並不是特例屬性，它是一個便利的 getter，回傳內建 `REQUIRED` 中繼資料鍵的目前值。
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -59,15 +59,15 @@ export class Registration {
 
 舉例來說，可能包括：
 
-- **附加在可重用欄位結構描述上的設定**。例如價格欄位上的貨幣符號，讓任何呈現該欄位的範本或自訂控制項都能顯示它；或是日期欄位上的 `MIN_DATE` 與 `MAX_DATE`，供可重用的範圍選擇器讀取。
+- **附加在可重用欄位結構定義上的設定**。例如價格欄位上的貨幣符號，讓任何呈現該欄位的範本或自訂控制項都能顯示它；或是日期欄位上的 `MIN_DATE` 與 `MAX_DATE`，供可重用的範圍選擇器讀取。
 - **在同一欄位的多條規則之間共享的解析後值**。例如把電話號碼解析一次成 E.164 格式，讓格式驗證器與唯一性檢查都讀取同一份正規形式，不必重複解析。
 - **由欄位狀態組裝而成的顯示提示**。例如嚴重程度等級（`'info' | 'warning' | 'error'`），UI 會將其對應到徽章與圖示；或是會依使用者已輸入的內容與其他欄位的填寫情況而變化的情境感知說明訊息。
 
-若你發現自己在表單旁邊另外維護一份平行的 `Map<fieldKey, value>`，逐欄位追蹤某些東西，那就是該用中繼資料的訊號。中繼資料與結構描述放在一起、保持反應式，並參與欄位的生命週期。
+若你發現自己在表單旁邊另外維護一份平行的 `Map<fieldKey, value>`，逐欄位追蹤某些東西，那就是該用中繼資料的訊號。中繼資料與結構定義放在一起、保持反應式，並參與欄位的生命週期。
 
 ## 建立中繼資料鍵
 
-想建立自訂鍵時，請呼叫 `createMetadataKey<TWrite>()`。型別參數描述的是你的結構描述規則將貢獻的值。
+想建立自訂鍵時，請呼叫 `createMetadataKey<TWrite>()`。型別參數描述的是你的結構定義規則將貢獻的值。
 
 ```ts
 import {createMetadataKey} from '@angular/forms/signals';
@@ -79,9 +79,9 @@ export const USERNAME_HELP = createMetadataKey<string>();
 
 NOTE: 沒有歸約器的鍵，預設使用「覆寫」語意：若多條規則都設定了該鍵，最後一份貢獻勝出。
 
-## 從結構描述設定值
+## 從結構定義設定值
 
-當你需要為特定欄位上的鍵註冊一個值時，請在結構描述函式內使用 `metadata(path, key, logic)`。
+當你需要為特定欄位上的鍵註冊一個值時，請在結構定義函式內使用 `metadata(path, key, logic)`。
 
 ```angular-ts
 import {Component, computed, signal} from '@angular/core';
@@ -128,7 +128,7 @@ export class Registration {
 
 ## 從欄位讀取中繼資料
 
-若有任何結構描述規則在這個欄位上註冊了該鍵，`hasMetadata(key)` 會回傳 `true`。`state.metadata(key)` 在沒有規則註冊該鍵時回傳 `undefined`，否則回傳目前歸約後值的訊號。
+若有任何結構定義規則在這個欄位上註冊了該鍵，`hasMetadata(key)` 會回傳 `true`。`state.metadata(key)` 在沒有規則註冊該鍵時回傳 `undefined`，否則回傳目前歸約後值的訊號。
 
 ```ts
 registrationForm.username().hasMetadata(USERNAME_HELP); // true if any metadata() rule registered this key
@@ -144,7 +144,7 @@ registrationForm.username().hasMetadata(USERNAME_HELP); // true if any metadata(
 }
 ```
 
-當你確定某條規則一定會註冊該鍵時（因為同一檔案中的結構描述就是這麼做的），可以略過 `hasMetadata()` 檢查，改用可選鏈結作為精簡的替代寫法：
+當你確定某條規則一定會註冊該鍵時（因為同一檔案中的結構定義就是這麼做的），可以略過 `hasMetadata()` 檢查，改用可選鏈結作為精簡的替代寫法：
 
 ```ts
 const message = registrationForm.username().metadata(USERNAME_HELP)?.();
@@ -160,7 +160,7 @@ const message = registrationForm.username().metadata(USERNAME_HELP)!();
 
 前面的元件範例在 `computed()` 內使用可選鏈結，讓範本繫結到純粹的 `string`，並為初始畫面準備了空字串作為後備值。
 
-以上就是單一貢獻者的完整 API。下一節將說明：當多條結構描述規則對同一個鍵做出貢獻時會發生什麼事，以及如何用歸約器合併這些貢獻。
+以上就是單一貢獻者的完整 API。下一節將說明：當多條結構定義規則對同一個鍵做出貢獻時會發生什麼事，以及如何用歸約器合併這些貢獻。
 
 ## 用歸約器合併貢獻
 
@@ -175,7 +175,7 @@ form(model, (path) => {
 });
 ```
 
-兩條規則都執行完後，`state.metadata(HELP)!()` 只會回傳第二則訊息。這幾乎絕不是你想要的結果。貢獻往往來自不同來源：兩份用 `apply()` 組合的結構描述各自附加了說明文字，或是多條驗證規則各自貢獻一則提示。
+兩條規則都執行完後，`state.metadata(HELP)!()` 只會回傳第二則訊息。這幾乎絕不是你想要的結果。貢獻往往來自不同來源：兩份用 `apply()` 組合的結構定義各自附加了說明文字，或是多條驗證規則各自貢獻一則提示。
 
 若要合併貢獻，請把歸約器傳給 `createMetadataKey()`。歸約器描述如何把個別的值摺疊成累積結果：
 
@@ -233,7 +233,7 @@ Angular 在 [`MetadataReducer`](api/forms/signals/MetadataReducer) 命名空間�
 
 `MIN` 與 `MAX` 是選取鍵。它們指向與欄位值型別相符的具體鍵，例如 `min()` 對應 `MIN_NUMBER`、`minDate()` 對應 `MIN_DATE`。這就是為什麼 `field().min()` 與 `field().max()` 對數字與日期欄位都能運作。
 
-這種「最嚴格者勝出」的配對，正是在兩份組合的結構描述中呼叫 `min(path.age, 18)` 與 `min(path.age, 21)` 能正確運作的原因。每次呼叫都會註冊自己的驗證器，強制其特定的界限（因此低於任一界限的值都會驗證失敗）。同時，每次呼叫都會對 `MIN_NUMBER` 鍵做出貢獻，而 `state.min!()` 會回報彙總結果（`21`），讓 UI 與自訂控制項能讀取有效的最小值。
+這種「最嚴格者勝出」的配對，正是在兩份組合的結構定義中呼叫 `min(path.age, 18)` 與 `min(path.age, 21)` 能正確運作的原因。每次呼叫都會註冊自己的驗證器，強制其特定的界限（因此低於任一界限的值都會驗證失敗）。同時，每次呼叫都會對 `MIN_NUMBER` 鍵做出貢獻，而 `state.min!()` 會回報彙總結果（`21`），讓 UI 與自訂控制項能讀取有效的最小值。
 
 ### 撰寫自訂歸約器
 
@@ -313,7 +313,7 @@ export const URL_PREVIEW = createManagedMetadataKey((_state, url: Signal<string 
 
 `create` 會在欄位建構時執行一次，位置在該欄位的注入上下文中。這讓你可以在 `create` 內呼叫 `inject()`、`resource()` 與 `effect()`，並把清理工作繫結到欄位的生命週期：當欄位被銷毀時，Angular 會銷毀該注入上下文，你在其中註冊的任何 `resource()`、`effect()` 或 `DestroyRef` 回呼都會自動清理。
 
-由於 `create` 本身不具反應性，任何需要回應訊號變化的行為，都必須放在那次初始呼叫中所建立的 `effect()`、`resource()` 或 `httpResource()` 裡面。`URL_PREVIEW` 正示範了這個模式：`httpResource()` 在它的請求函式內讀取 URL 訊號，因此每當訊號變更時，請求就會重新執行。結構描述規則（`metadata(path.url, URL_PREVIEW, ({value}) => value())`）決定要餵入什麼資料；受管理的鍵決定要拿這些資料做什麼。
+由於 `create` 本身不具反應性，任何需要回應訊號變化的行為，都必須放在那次初始呼叫中所建立的 `effect()`、`resource()` 或 `httpResource()` 裡面。`URL_PREVIEW` 正示範了這個模式：`httpResource()` 在它的請求函式內讀取 URL 訊號，因此每當訊號變更時，請求就會重新執行。結構定義規則（`metadata(path.url, URL_PREVIEW, ({value}) => value())`）決定要餵入什麼資料；受管理的鍵決定要拿這些資料做什麼。
 
 ### 在表單中使用受管理的鍵
 
@@ -375,17 +375,17 @@ export class LinkEditor {
 }
 ```
 
-每個陣列項目都會獲得自己的 `URL_PREVIEW` 資源，因為 `applyEach` 會針對每個項目獨立註冊結構描述規則。當使用者新增連結時，`create` 會為新項目的欄位執行。當連結被移除時（此處未示範，但這是常見的模式），框架會連同資源一起拆解該欄位的注入器。
+每個陣列項目都會獲得自己的 `URL_PREVIEW` 資源，因為 `applyEach` 會針對每個項目獨立註冊結構定義規則。當使用者新增連結時，`create` 會為新項目的欄位執行。當連結被移除時（此處未示範，但這是常見的模式），框架會連同資源一起拆解該欄位的注入器。
 
 ## 後續步驟
 
-請記住，中繼資料存在的目的，是讓反應式資料能隨著欄位一起，經過結構描述的組合、跨規則累積，並隨著欄位的生命週期一起拆解。它運用了與 Angular 內建驗證器相同的系統，也能依你的使用情境量身調整。
+請記住，中繼資料存在的目的，是讓反應式資料能隨著欄位一起，經過結構定義的組合、跨規則累積，並隨著欄位的生命週期一起拆解。它運用了與 Angular 內建驗證器相同的系統，也能依你的使用情境量身調整。
 
 詳細 API 文件請參閱：
 
 - [`createMetadataKey()`](api/forms/signals/createMetadataKey) - 定義可帶有歸約器的中繼資料鍵
 - [`createManagedMetadataKey()`](api/forms/signals/createManagedMetadataKey) - 定義具生命週期感知能力的中繼資料鍵
-- [`metadata()`](api/forms/signals/metadata) - 在結構描述中為中繼資料鍵貢獻一個值
+- [`metadata()`](api/forms/signals/metadata) - 在結構定義中為中繼資料鍵貢獻一個值
 - [`MetadataReducer`](api/forms/signals/MetadataReducer) - 用於合併貢獻的內建歸約器
 
 想了解 Signal Forms 的其他相關指南，請參閱：

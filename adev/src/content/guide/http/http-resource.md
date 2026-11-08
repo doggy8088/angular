@@ -93,7 +93,7 @@ NOTE: `HttpClient` 已將 `reportProgress` 棄用，改推 `reportUploadProgress
 
 ## 回應解析與驗證
 
-擷取資料時，你可能想用預先定義的結構描述（schema）來驗證回應，常用的熱門開源函式庫有 [Zod](https://zod.dev) 或 [Valibot](https://valibot.dev)。你可以透過指定 `parse` 選項，把這類驗證函式庫整合進 `httpResource`。`parse` 函式的回傳型別，決定了 resource 的 `value` 型別。
+擷取資料時，你可能想用預先定義的結構定義（schema）來驗證回應，常用的熱門開源函式庫有 [Zod](https://zod.dev) 或 [Valibot](https://valibot.dev)。你可以透過指定 `parse` 選項，把這類驗證函式庫整合進 `httpResource`。`parse` 函式的回傳型別，決定了 resource 的 `value` 型別。
 
 下列範例使用 Zod 來解析並驗證來自 [StarWars API](https://swapi.info/) 的回應。resource 的型別隨之與 Zod 解析的輸出型別相同。
 

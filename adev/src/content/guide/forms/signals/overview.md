@@ -1,7 +1,7 @@
 <docs-decorative-header title="使用 Angular 訊號的表單" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-Signal Forms 是一個函式庫，讓你能在 Angular 應用程式中管理表單狀態，並建立在訊號的反應式基礎之上。透過自動雙向繫結、型別安全的欄位存取，以及以結構描述為基礎的驗證，Signal Forms 能協助你建立穩健的表單。
+Signal Forms 是一個函式庫，讓你能在 Angular 應用程式中管理表單狀態，並建立在訊號的反應式基礎之上。透過自動雙向繫結、型別安全的欄位存取，以及以結構定義為基礎的驗證，Signal Forms 能協助你建立穩健的表單。
 
 TIP: 想快速認識 Signal Forms，請參閱 [Signal Forms 基礎指南](essentials/signal-forms)。
 
@@ -12,8 +12,8 @@ TIP: 想快速認識 Signal Forms，請參閱 [Signal Forms 基礎指南](essent
 Signal Forms 透過以下方式解決這些挑戰：
 
 - **自動同步狀態** - 自動將表單資料模型與繫結的表單欄位同步
-- **提供型別安全** - 在 UI 控制項與資料模型之間，支援完全型別安全的結構描述與繫結
-- **集中驗證邏輯** - 使用驗證結構描述，在單一位置定義所有驗證規則
+- **提供型別安全** - 在 UI 控制項與資料模型之間，支援完全型別安全的結構定義與繫結
+- **集中驗證邏輯** - 使用驗證結構定義，在單一位置定義所有驗證規則
 
 Signal Forms 最適合用在以訊號打造的新應用程式。若你正在維護使用反應式表單的既有應用程式，反應式表單仍然是可靠的選擇。
 
