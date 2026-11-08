@@ -2,7 +2,7 @@
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/greeting.svg" aria-hidden="true">
-  <p class="docs-tutorial-mascot__bubble">Welcome! Let's learn the building blocks of Angular.</p>
+  <p class="docs-tutorial-mascot__bubble">歡迎！我們來學習 Angular 的組成要素吧。</p>
 </div>
 
 這個互動式教學會教你最基本的組成要素，幫助你開始用 Angular 建置出色的應用程式。
