@@ -1102,39 +1102,39 @@ export class HeroTaxReturnEditor {
 }
 ```
 
-The _tax-return-to-edit_ arrives by way of the `taxReturn` signal input.
-An `effect` initializes the component's own instance of the `HeroTaxReturnService` with the incoming return whenever the input changes.
-The service's getter always returns what the service says is the current state of the hero.
-The component also asks the service to save and restore this tax return.
+*要編輯的報稅表*透過 `taxReturn` 訊號輸入抵達。
+每當輸入變更時，一個 `effect` 就會以傳入的報稅表初始化元件自己的 `HeroTaxReturnService` 實例。
+服務的 getter 永遠傳回服務所稱的英雄目前狀態。
+元件也會要求服務儲存與還原這份報稅表。
 
-This won't work if the service is an application-wide singleton.
-Every component would share the same service instance, and each component would overwrite the tax return that belonged to another hero.
+如果服務是整個應用程式範圍的單例，這就行不通了。
+每個元件都會共用同一個服務實例，而每個元件都會覆寫屬於另一位英雄的報稅表。
 
-To prevent this, configure the component-level injector of `HeroTaxReturnEditor` to provide the service, using the `providers` property in the component metadata.
+若要防止這一點，設定 `HeroTaxReturnEditor` 的元件層級注入器來提供該服務，使用元件詮釋資料中的 `providers` 屬性。
 
 ```typescript
 providers: [HeroTaxReturnService];
 ```
 
-The `HeroTaxReturnEditor` has its own provider of the `HeroTaxReturnService`.
-Recall that every component _instance_ has its own injector.
-Providing the service at the component level ensures that _every_ instance of the component gets a private instance of the service. This makes sure that no tax return gets overwritten.
+`HeroTaxReturnEditor` 有它自己的 `HeroTaxReturnService` 提供者。
+回想一下，每個元件*實例*都有自己的注入器。
+在元件層級提供服務，確保該元件的*每個*實例都能取得服務的一個私密實例。這能確保沒有任何報稅表會被覆寫。
 
-HELPFUL: The rest of the scenario code relies on other Angular features and techniques that you can learn about elsewhere in the documentation.
+HELPFUL: 本情境其餘的程式碼仰賴其他 Angular 功能與技巧，你可以在文件其他地方學到它們。
 
-### Scenario: specialized providers
+### 情境：專門化的提供者
 
-Another reason to provide a service again at another level is to substitute a _more specialized_ implementation of that service, deeper in the component tree.
+在另一個層級再次提供服務的另一個理由是，在元件樹更深處替換成該服務*更專門化*的實作。
 
-For example, consider a `Car` component that includes tire service information and depends on other services to provide more details about the car.
+例如，設想一個 `Car` 元件，它包含輪胎服務資訊，並依賴其他服務來提供關於汽車的更多細節。
 
-The root injector, marked as (A), uses _generic_ providers for details about `CarService` and `EngineService`.
+根注入器，標記為 (A)，為 `CarService` 和 `EngineService` 的細節使用*通用*提供者。
 
-1. `Car` component (A). Component (A) displays tire service data about a car and specifies generic services to provide more information about the car.
+1. `Car` 元件 (A)。元件 (A) 顯示關於汽車的輪胎服務資料，並指定通用服務來提供關於汽車的更多資訊。
 
-2. Child component (B). Component (B) defines its own, _specialized_ providers for `CarService` and `EngineService` that have special capabilities suitable for what's going on in component (B).
+2. 子元件 (B)。元件 (B) 為 `CarService` 和 `EngineService` 定義它自己的*專門化*提供者，它們具有適合元件 (B) 中發生之事的特殊能力。
 
-3. Child component (C) as a child of Component (B). Component (C) defines its own, even _more specialized_ provider for `CarService`.
+3. 子元件 (C)，是元件 (B) 的子元件。元件 (C) 為 `CarService` 定義它自己的、甚至*更專門化*的提供者。
 
 ```mermaid
 graph TD;
@@ -1151,13 +1151,13 @@ classDef noShadow filter:none
 class COMPONENT_A,COMPONENT_B,COMPONENT_C noShadow
 ```
 
-Behind the scenes, each component sets up its own injector with zero, one, or more providers defined for that component itself.
+在幕後，每個元件都設定了自己的注入器，其中為該元件本身定義了零個、一個或多個提供者。
 
-When you resolve an instance of `Car` at the deepest component (C), its injector produces:
+當你在最深的元件 (C) 解析 `Car` 的一個實例時，它的注入器產生：
 
-- An instance of `Car` resolved by injector (C)
-- An `Engine` resolved by injector (B)
-- Its `Tires` resolved by the root injector (A).
+- 一個由注入器 (C) 解析的 `Car` 實例
+- 一個由注入器 (B) 解析的 `Engine`
+- 它的 `Tires` 由根注入器 (A) 解析。
 
 ```mermaid
 graph BT;
@@ -1198,8 +1198,8 @@ style tires fill:#BDD7EE,color:#000
 style RootInjector fill:#BDD7EE,color:#000
 ```
 
-## More on dependency injection
+## 依賴注入的更多資訊
 
 <docs-pill-row>
-  <docs-pill href="/guide/di/defining-dependency-providers" title="DI Providers"/>
+  <docs-pill href="/guide/di/defining-dependency-providers" title="DI 提供者"/>
 </docs-pill-row>

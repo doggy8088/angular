@@ -15,7 +15,7 @@ Angular Schematics 工具會建立一個虛擬檔案系統，來防範副作用�
 
 原理圖的公開 API 定義了代表基本概念的類別。
 
-- The virtual file system is represented by a `Tree`.
+- 虛擬檔案系統由 `Tree` 表示。
   `Tree` 資料結構包含 _base_（一組已經存在的檔案）與 _暫存區_（一份要套用到 base 上的變更清單）。
   進行修改時，你並不會真的更動 base，而是把修改加入暫存區。
 
@@ -134,7 +134,7 @@ Angular CLI 指令原理圖的 schema 檔案範例，請參閱 [`@schematics/ang
 
 共支援三種輸入型別。
 
-| 輸入型別   | Details                                            |
+| 輸入型別   | 說明                                            |
 | :----------- | :------------------------------------------------- |
 | confirmation | 是或否的問題；非常適合布林選項。   |
 | input        | 文字輸入；非常適合字串或數字選項。 |
@@ -142,13 +142,13 @@ Angular CLI 指令原理圖的 schema 檔案範例，請參閱 [`@schematics/ang
 
 在簡寫形式中，型別會從屬性的型別與限制推斷而得。
 
-| Property schema   | Prompt type                                  |
+| 屬性 schema   | 提示型別                                  |
 | :---------------- | :------------------------------------------- |
 | "type": "boolean" | confirmation \("yes"=`true`, "no"=`false`\)  |
 | "type": "string"  | input                                        |
-| "type": "number"  | input \(only valid numbers accepted\)        |
-| "type": "integer" | input \(only valid numbers accepted\)        |
-| "enum": […]       | list \(enum members become list selections\) |
+| "type": "number"  | input \(僅接受有效數字\)        |
+| "type": "integer" | input \(僅接受有效數字\)        |
+| "enum": […]       | list \(enum 成員會成為清單選項\) |
 
 在下列範例中，屬性接受的是列舉值，因此原理圖會自動選擇 list 型別，並從可能的值建立一份選單。
 
@@ -173,7 +173,7 @@ Angular CLI 指令原理圖的 schema 檔案範例，請參閱 [`@schematics/ang
 `x-prompt` 欄位語法支援完整形式，用在你需要對提示做更多自訂與控制的場合。
 在這種形式中，`x-prompt` 欄位的值是一個 JSON 物件，含有自訂提示行為的子欄位。
 
-| Field   | Data value                                                                  |
+| 欄位   | 資料值                                                                  |
 | :------ | :-------------------------------------------------------------------------- |
 | type    | `confirmation`, `input`, or `list` \(在簡寫形式中自動選出\) |
 | message | 字串 \(必填\)                                                         |
@@ -378,7 +378,7 @@ schematics blank --name=goodbye-world
 
 集合中每個具名原理圖都有下列主要部分。
 
-| 部分         | Details                                                           |
+| 部分         | 說明                                                           |
 | :------------ | :---------------------------------------------------------------- |
 | `index.ts`    | 定義具名原理圖轉換邏輯的程式碼。 |
 | `schema.json` | 原理圖變數定義。                                    |

@@ -1,20 +1,20 @@
-# Forms Overview
+# 表單概覽
 
-Forms are a big part of many apps because they enable your app to accept user input. Let's learn about how forms are handled in Angular.
+表單是許多應用程式的重要組成部分，因為它們讓你的應用程式能接受使用者輸入。我們來了解一下 Angular 如何處理表單。
 
-In Angular, there are two types of forms: template-driven and reactive. You'll learn about both over the next few activities.
+在 Angular 中，表單有兩種類型：範本驅動與反應式。在接下來的幾個練習中，你會逐一了解這兩種表單。
 
-NOTE: Learn more about [forms in Angular in the in-depth guide](/guide/forms).
+NOTE: 在[深入指南](/guide/forms)中進一步了解 Angular 中的表單。
 
-In this activity, you'll learn how to set up a form using a template-driven approach.
+在這個練習中，你將學習如何使用範本驅動的方式建立表單。
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Create an input field">
+<docs-step title="建立輸入欄位">
 
-In `user.ts`, update the template by adding a text input with the `id` set to `framework`, type set to `text`.
+在 `user.ts` 中，更新範本，加上一個文字輸入框，`id` 設為 `framework`，type 設為 `text`。
 
 ```angular-html
 <label for="framework">
@@ -25,11 +25,11 @@ In `user.ts`, update the template by adding a text input with the `id` set to `f
 
 </docs-step>
 
-<docs-step title="Import `FormsModule`">
+<docs-step title="匯入 `FormsModule`">
 
-For this form to use Angular features that enable data binding to forms, you'll need to import the `FormsModule`.
+要讓這個表單使用 Angular 提供的表單資料繫結功能，你需要匯入 `FormsModule`。
 
-Import the `FormsModule` from `@angular/forms` and add it to the `imports` array of the `User`.
+從 `@angular/forms` 匯入 `FormsModule`，並把它加到 `User` 的 `imports` 陣列中。
 
 ```ts {highlight:[[2],[6]]}
 import {Component} from '@angular/core';
@@ -44,11 +44,11 @@ export class User {}
 
 </docs-step>
 
-<docs-step title="Add binding to the value of the input">
+<docs-step title="把繫結加到輸入框的值上">
 
-The `FormsModule` has a directive called `ngModel` that binds the value of the input to a property in your class.
+`FormsModule` 有一個名為 `ngModel` 的指令，能把輸入框的值繫結到你類別中的一個屬性。
 
-Update the input to use the `ngModel` directive, specifically with the following syntax `[(ngModel)]="favoriteFramework"` to bind to the `favoriteFramework` property.
+更新輸入框，使用 `ngModel` 指令，具體來說就是使用 `[(ngModel)]="favoriteFramework"` 這個語法，繫結到 `favoriteFramework` 屬性。
 
 ```html {highlight:[3]}
 <label for="framework">
@@ -57,14 +57,14 @@ Update the input to use the `ngModel` directive, specifically with the following
 </label>
 ```
 
-After you've made changes, try entering a value in the input field. Notice how it updates on the screen (yes, very cool).
+完成變更後，試著在輸入欄位中輸入一個值。注意它如何即時更新在畫面上（沒錯，非常酷）。
 
-NOTE: The syntax `[()]` is known as "banana in a box" but it represents two-way binding: property binding and event binding. Learn more in the [Angular docs about two-way data binding](guide/templates/two-way-binding).
+NOTE: 語法 `[()]` 被暱稱為 "banana in a box"，但它代表的是雙向繫結：屬性繫結與事件繫結。在 [Angular 雙向資料繫結文件](guide/templates/two-way-binding)中進一步了解。
 
 </docs-step>
 
 </docs-workflow>
 
-You've now taken an important first step towards building forms with Angular.
+你現在已經踏出了用 Angular 建置表單的重要第一步。
 
-Nice work. Let's keep the momentum going!
+做得好。讓我們保持這股氣勢，繼續前進！
