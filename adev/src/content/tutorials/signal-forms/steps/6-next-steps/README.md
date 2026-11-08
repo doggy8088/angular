@@ -1,34 +1,34 @@
-# Congratulations!
+# 恭喜！
 
 <div class="docs-tutorial-mascot">
   <img class="docs-tutorial-mascot__angie" src="assets/images/angie/superhero.svg" aria-hidden="true">
-  <p class="docs-tutorial-mascot__bubble">You've done it! You completed the Signal Forms tutorial and built a login form from scratch.</p>
+  <p class="docs-tutorial-mascot__bubble">你做到了！你完成了 Signal Forms 教學，並從零開始建置了一個登入表單。</p>
 </div>
 
-## What you learned
+## 你學到了什麼
 
-Throughout this tutorial, you learned the fundamentals of Angular Signal Forms:
+在本教學中，你學到了 Angular Signal Forms 的基礎：
 
-1. **Form Models** - Creating type-safe form data with signals and the `form()` function
-2. **Field Binding** - Using the `[formField]` directive for two-way data binding and displaying the field with `value()`
-3. **Validation** - Applying built-in validators (such as `required()`, `email()`) with custom messages
-4. **Error Display** - Showing validation errors conditionally based on field state
-5. **Form Submission** - Handling form submission with the `submit()` function
+1. **表單模型**：使用訊號與 `form()` 函式建立具型別安全的表單資料
+2. **欄位繫結**：使用 `[formField]` 指令進行雙向資料繫結，並以 `value()` 顯示欄位
+3. **驗證**：套用內建驗證器（例如 `required()`、`email()`）並搭配自訂訊息
+4. **錯誤顯示**：依欄位狀態條件式顯示驗證錯誤
+5. **表單提交**：使用 `submit()` 函式處理表單提交
 
-## Next steps
+## 下一步
 
-Ready to learn more? Here are recommended next steps:
+準備好學更多了嗎？以下是建議的下一步：
 
-### Explore the documentation
+### 探索文件
 
-- **[Signal Forms Overview](guide/forms/signals/overview)** - Introduction to Signal Forms and when to use them
-- **[Form Models Guide](guide/forms/signals/models)** - Deep dive into form models and data management
-- **[Validation Guide](guide/forms/signals/validation)** - Comprehensive validation reference
-- **[Field State Management Guide](guide/forms/signals/field-state-management)** - Advanced state patterns
-- **[Custom Controls Guide](guide/forms/signals/custom-controls)** - Building reusable form components
+- **[Signal Forms 總覽](guide/forms/signals/overview)** - Signal Forms 簡介與適用時機
+- **[表單模型指南](guide/forms/signals/models)** - 深入探討表單模型與資料管理
+- **[驗證指南](guide/forms/signals/validation)** - 完整的驗證參考
+- **[欄位狀態管理指南](guide/forms/signals/field-state-management)** - 進階狀態模式
+- **[自訂控制項指南](guide/forms/signals/custom-controls)** - 建置可重複使用的表單元件
 
-## Keep learning
+## 繼續學習
 
-Check the [official documentation](guide/forms/signals/overview) for the complete Signal Forms API.
+查看[官方文件](guide/forms/signals/overview)，取得完整的 Signal Forms API。
 
-Happy coding!
+祝寫程式愉快！

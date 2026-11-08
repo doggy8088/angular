@@ -1,22 +1,22 @@
-# Display validation errors
+# 顯示驗證錯誤
 
-Now that you're able to validate the form, it's important to show validation errors to users.
+現在你已經能驗證表單了，接下來要把驗證錯誤顯示給使用者看，這一點很重要。
 
-In this activity, you'll learn how to:
+在本活動中，你將學到如何：
 
-- Access field state with validation signals
-- Use `@if` to conditionally display errors
-- Loop through errors with `@for`
-- Show errors only after user interaction
+- 以驗證訊號存取欄位狀態
+- 使用 `@if` 條件式顯示錯誤
+- 以 `@for` 逐一列出錯誤
+- 只在使用者互動後才顯示錯誤
 
-Let's display validation feedback!
+來顯示驗證回饋吧！
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Add error display for email field">
-Below the email input, add conditional error display. This will only show errors when the field is both invalid and touched:
+<docs-step title="為電子郵件欄位加入錯誤顯示">
+在電子郵件輸入元素下方，加入條件式錯誤顯示。只有在欄位同時處於無效且已被觸碰的狀態時，才會顯示錯誤：
 
 ```angular-html
 <label>
@@ -32,11 +32,11 @@ Below the email input, add conditional error display. This will only show errors
 }
 ```
 
-The `loginForm.email()` call accesses the field's state signal. The `invalid()` method returns `true` when validation fails, `touched()` returns `true` after the user has interacted with the field, and `errors()` provides an array of validation errors with their custom messages.
+呼叫 `loginForm.email()` 可存取欄位的狀態訊號。`invalid()` 方法在驗證失敗時回傳 `true`，`touched()` 在使用者與欄位互動後回傳 `true`，`errors()` 則提供驗證錯誤的陣列，其中包含自訂訊息。
 </docs-step>
 
-<docs-step title="Add error display for password field">
-Below the password input, add the same pattern for password errors:
+<docs-step title="為密碼欄位加入錯誤顯示">
+在密碼輸入元素下方，以相同的模式加入密碼錯誤的顯示：
 
 ```angular-html
 <label>
@@ -56,6 +56,6 @@ Below the password input, add the same pattern for password errors:
 
 </docs-workflow>
 
-Excellent! You've added error display to your form. The errors appear only after users interact with a field, providing helpful feedback without being intrusive.
+太出色了！你已為表單加入錯誤顯示。錯誤只會在使用者與欄位互動後才出現，能提供有幫助的回饋，又不會造成干擾。
 
-Next, you'll learn [how to handle form submission](/tutorials/signal-forms/5-add-submission)!
+接下來，你將學到[如何處理表單提交](/tutorials/signal-forms/5-add-submission)！

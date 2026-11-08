@@ -22,10 +22,10 @@ path 參數的值是專案內的相對路徑。
 
 此原理圖會嘗試找出應用程式路由定義的所有位置：
 
-- `RouterModule.forRoot` and `RouterModule.forChild`
+- `RouterModule.forRoot` 與 `RouterModule.forChild`
 - `Router.resetConfig`
 - `provideRouter`
-- variables of type `Routes` or `Route[]` (e.g. `const routes: Routes = [{...}]`)
+- 型別為 `Routes` 或 `Route[]` 的變數（例如 `const routes: Routes = [{...}]`）
 
 遷移會檢查路由中的所有元件，確認它們是否為獨立元件且被急切載入；如果是，就會把它們轉換為延遲載入路由。
 

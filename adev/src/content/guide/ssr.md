@@ -680,7 +680,7 @@ export const reqHandler = createNodeRequestHandler(app);
 
 ### Non-Node.js
 
-The `@angular/ssr` provides essential APIs for server-side rendering your Angular application on platforms other than Node.js. It leverages the standard [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) and [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) objects from the Web API, enabling you to integrate Angular SSR into various server environments. For detailed information and examples, refer to the [`@angular/ssr` API reference](api/ssr/AngularAppEngine).
+`@angular/ssr` 提供在 Node.js 以外的平台上為你的 Angular 應用程式進行伺服器端渲染所需的核心 API。它利用 Web API 中標準的 [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) 與 [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) 物件，讓你能將 Angular SSR 整合到各種伺服器環境中。詳細資訊與範例，請參閱 [`@angular/ssr` API 參考](api/ssr/AngularAppEngine)。
 
 ```ts {header: "server.ts"}
 import {AngularAppEngine, createRequestHandler} from '@angular/ssr';
@@ -697,6 +697,6 @@ export const reqHandler = createRequestHandler(async (req: Request) => {
 });
 ```
 
-## Security
+## 安全性
 
-For detailed information on preventing Server-Side Request Forgery (SSRF) and configuring allowed hosts, see the [Server-side security](best-practices/security#preventing-server-side-request-forgery-ssrf) guide.
+關於防止伺服器端請求偽造（SSRF）與設定允許主機的詳細資訊，請參閱[伺服器端安全性](best-practices/security#preventing-server-side-request-forgery-ssrf)指南。

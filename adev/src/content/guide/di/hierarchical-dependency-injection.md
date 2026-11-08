@@ -672,9 +672,9 @@ export class Inspector {
 <app-inspector />
 ```
 
-`<ng-content>` allows you to project content, and `<app-inspector>` inside the `Child` template makes the `Inspector` a child component of `Child`.
+`<ng-content>` 讓你可以投影內容，而 `Child` 範本內的 `<app-inspector>` 使 `Inspector` 成為 `Child` 的子元件。
 
-Next, add the following to `app.html` to take advantage of content projection.
+接著，在 `app.html` 中加入以下內容，以運用內容投影。
 
 ```html
 <app-child>
@@ -682,7 +682,7 @@ Next, add the following to `app.html` to take advantage of content projection.
 </app-child>
 ```
 
-The browser now renders the following, omitting the previous examples for brevity:
+瀏覽器現在算繪出以下內容（為求簡潔，省略先前的範例）：
 
 ```text {hideCopy}
 ...
@@ -695,18 +695,18 @@ Emoji from FlowerService: 🌻
 Emoji from AnimalService: 🐶
 ```
 
-These four bindings demonstrate the difference between `providers` and `viewProviders`.
-Remember that the dog emoji <code>🐶</code> is declared inside the `<#VIEW>` of `Child` and isn't visible to the projected content.
-Instead, the projected content sees the whale <code>🐳</code>.
+這四個繫結示範了 `providers` 與 `viewProviders` 的差異。
+記住，狗 emoji <code>🐶</code> 是在 `Child` 的 `<#VIEW>` 內宣告的，對投影進來的內容不可見。
+相反地，投影進來的內容看到的是鯨魚 <code>🐳</code>。
 
-You might wonder why the projected `<app-inspector>` can still see <code>🐳</code>, which is the root-provided `AnimalService`.
-The reason is that Angular DI tracks **where a component was declared**, not where it ends up being rendered.
-`<app-inspector>` lives in `App`'s template, inside `App`'s `<#VIEW>`, so its lookup never goes through `Child`'s `<#VIEW>`.
-Projecting it into `Child` cuts off access to `Child`'s `viewProviders` (<code>🐶</code>), but the root `AnimalService` (<code>🐳</code>) is still reachable up the tree.
+你可能會疑惑，為什麼被投影的 `<app-inspector>` 仍然看得到 <code>🐳</code>，也就是根層級提供的 `AnimalService`。
+原因是 Angular DI 追蹤的是**元件在哪裡被宣告**，而不是它最終在哪裡被算繪。
+`<app-inspector>` 位於 `App` 的範本中，在 `App` 的 `<#VIEW>` 內，因此它的查找永遠不會經過 `Child` 的 `<#VIEW>`。
+把它投影進 `Child`，切斷了它對 `Child` 的 `viewProviders`（<code>🐶</code>）的存取，但根層級的 `AnimalService`（<code>🐳</code>）仍然可以沿著樹往上觸及。
 
-However, in the next output section though, the `Inspector` is an actual child component of `Child`, `Inspector` is inside the `<#VIEW>`, so when it asks for the `AnimalService`, it sees the dog <code>🐶</code>.
+然而，在下一個輸出區段中，`Inspector` 是 `Child` 的實際子元件，`Inspector` 在 `<#VIEW>` 內，因此當它索取 `AnimalService` 時，它看到的是狗 <code>🐶</code>。
 
-The `AnimalService` in the logical tree would look like this:
+邏輯樹中的 `AnimalService` 會像這樣：
 
 ```html
 <app-root @ApplicationConfig
