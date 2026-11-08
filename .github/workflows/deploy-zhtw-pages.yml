@@ -1,0 +1,63 @@
+name: Deploy zh-TW site to GitHub Pages
+
+# zh-tw 分支專屬：建置 adev（angular.dev）並部署到 GitHub Pages
+# 自訂網域：angular-dev.gh.miniasp.com（於 repo Pages 設定以 API 指定）
+# 注意：上游 preview 建置使用 Google RBE 遠端建置，fork 無憑證可用，
+# 因此這裡改用 runner 本地 Bazel 建置（不加 --config=remote）。
+
+on:
+  push:
+    branches: [zh-tw]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-zhtw
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Setup pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@12.16.1 --activate
+          pnpm --version
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build adev (production)
+        run: pnpm bazel build //adev:build.production
+
+      - name: Collect static output
+        run: |
+          mkdir -p _site
+          cp -rL dist/bin/adev/dist/browser/. _site/
+          ls _site | head -20
+          test -f _site/index.html
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
