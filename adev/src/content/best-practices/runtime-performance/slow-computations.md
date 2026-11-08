@@ -10,7 +10,7 @@
 
 你可以用 Angular DevTools 的分析工具找出耗費龐大的計算。在效能時間軸中，點選一個長條即可預覽某個特定的變更偵測週期。這會顯示一個長條圖，說明框架在每個元件的變更偵測上花了多少時間。點選某個元件時，你可以預覽 Angular 花了多少時間評估它的範本與生命週期鉤子。
 
-<img alt="Angular DevTools profiler preview showing slow computation" src="assets/images/best-practices/runtime-performance/slow-computations.png">
+<img alt="Angular DevTools 分析工具預覽，顯示緩慢的計算" src="assets/images/best-practices/runtime-performance/slow-computations.png">
 
 例如，在前面的截圖中，選取的是第二個記錄到的變更偵測週期。Angular 在這個週期上花了超過 573 ms，其中花最多時間的是 `EmployeeListComponent`。在詳細資訊面板中，你可以看到 Angular 花了超過 297 ms 評估 `EmployeeListComponent` 的範本。
 

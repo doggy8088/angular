@@ -9,7 +9,7 @@ Angular 與 [Chrome DevTools 擴充性 API](https://developer.chrome.com/docs/de
 
 這兩組資料會一起呈現在同一個分頁上，但位於不同的軌道：
 
-<img alt="Angular custom track in Chrome DevTools profiler" src="assets/images/best-practices/runtime-performance/angular-perf-in-chrome.png">
+<img alt="Chrome DevTools 分析工具中的 Angular 自訂軌道" src="assets/images/best-practices/runtime-performance/angular-perf-in-chrome.png">
 
 Angular 專屬資料會以框架概念（元件、變更偵測、生命週期鉤子等）來表達，同時並列瀏覽器擷取到的較低層級函式與方法呼叫。這兩組資料彼此相關聯，你可以在不同檢視與詳細程度之間切換。
 
@@ -47,7 +47,7 @@ bootstrapApplication(MyApp);
 
 使用 Chrome DevTools 效能面板中的 **Record** 按鈕：
 
-<img alt="Recording a profile" src="assets/images/best-practices/runtime-performance/recording-profile-in-chrome.png">
+<img alt="正在記錄效能分析檔案" src="assets/images/best-practices/runtime-performance/recording-profile-in-chrome.png">
 
 關於記錄效能分析檔案的更多細節，請參閱 [Chrome DevTools 文件](https://developer.chrome.com/docs/devtools/performance#record)。
 
@@ -56,7 +56,7 @@ bootstrapApplication(MyApp);
 記錄完效能分析檔案後，在 **Angular** 軌道中選取一個元件事件。
 **Summary** 分頁可能包含一個 **Component** 連結，它使用 `angular-devtools://component/...` 這種 URL 格式。
 
-<img alt="Chrome DevTools Performance panel showing an Angular custom track with a selected _MainComponent event. The Summary tab displays a Component link that uses the angular-devtools://component URL scheme." src="assets/images/best-practices/runtime-performance/chrome-performance-deep-link.png">
+<img alt="Chrome DevTools 效能面板，顯示 Angular 自訂軌道與一個選取的 _MainComponent 事件；Summary 分頁顯示一個使用 angular-devtools://component URL 格式的 Component 連結。" src="assets/images/best-practices/runtime-performance/chrome-performance-deep-link.png">
 
 點選該連結即可開啟 Angular DevTools，並在 **Components** 分頁中選取對應的元件。
 這能協助你從瀏覽器層級的效能分析，轉到所選事件的元件狀態與中繼資料。
@@ -71,7 +71,7 @@ NOTE: 開啟元件連結需要 Angular DevTools for Chrome，以及 Chrome 的�
 
 由於 Angular 與 Chrome 的資料呈現在不同但彼此相關聯的軌道上，你可以看出 Angular 應用程式程式碼是在何時執行，而不是其他瀏覽器處理（通常是版面配置與繪製），或在同一頁面上執行的其他指令碼（這種情況下，自訂的 Angular 軌道不會有任何資料）：
 
-<img alt="Profile data: Angular vs. 3rd party scripts execution" src="assets/images/best-practices/runtime-performance/profile-angular-vs-3rd-party.png">
+<img alt="效能分析資料：Angular 與第三方指令碼的執行情形" src="assets/images/best-practices/runtime-performance/profile-angular-vs-3rd-party.png">
 
 這能讓你判斷後續調查應該聚焦在 Angular 應用程式程式碼，還是程式碼庫的其他部分或相依套件。
 
@@ -92,19 +92,19 @@ Angular 在火焰圖中使用顏色來區分工作類型：
 - 以藍色標示的觸發點，例如對 `bootstrapApplication` 的呼叫、根元件的實例化，以及初始變更偵測
 - 啟動期間實例化的各種 DI 服務，以綠色標示。
 
-<img alt="Profile data: bootstrap application" src="assets/images/best-practices/runtime-performance/profile-bootstrap-application.png">
+<img alt="效能分析資料：應用程式啟動" src="assets/images/best-practices/runtime-performance/profile-bootstrap-application.png">
 
 #### 範例：元件執行
 
 單一元件的處理通常表現為一個進入點（藍色），後面接著它的範本執行（紫色）。範本反過來又可能觸發指令的實例化與生命週期鉤子的執行（綠色）：
 
-<img alt="Profile data: component processing" src="assets/images/best-practices/runtime-performance/profile-component-processing.png">
+<img alt="效能分析資料：元件處理" src="assets/images/best-practices/runtime-performance/profile-component-processing.png">
 
 #### 範例：變更偵測
 
 一個變更偵測週期通常由一或多次資料同步傳遞（藍色）組成，每次傳遞都會走訪一部分元件。
 
-<img alt="Profile data: change detection" src="assets/images/best-practices/runtime-performance/profile-change-detection.png">
+<img alt="效能分析資料：變更偵測" src="assets/images/best-practices/runtime-performance/profile-change-detection.png">
 
 有了這份資料視覺化，你就能立刻找出哪些元件有參與變更偵測、哪些被略過（通常是沒有被標記為 dirty 的 `OnPush` 元件）。
 

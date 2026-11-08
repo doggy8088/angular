@@ -13,7 +13,7 @@
 
 你可以用 Angular DevTools 偵測不必要的變更偵測呼叫。它們在分析工具的時間軸中，經常以連續的長條出現，來源是 `setTimeout`、`setInterval`、`requestAnimationFrame` 或事件處理常式。當你的應用程式中呼叫這些 API 的地方有限時，變更偵測的叫用通常是由第三方程式庫造成的。
 
-<img alt="Angular DevTools profiler preview showing Zone pollution" src="assets/images/best-practices/runtime-performance/zone-pollution.png">
+<img alt="Angular DevTools 分析工具預覽，顯示 Zone 污染" src="assets/images/best-practices/runtime-performance/zone-pollution.png">
 
 在上圖中，有一連串由與某個元素相關聯的事件處理常式觸發的變更偵測呼叫。在使用第三方的、非原生 Angular 元件時，這是常見的挑戰，因為它們不會改變 `NgZone` 的預設行為。
 
@@ -21,7 +21,7 @@
 
 在這種情況下，你可以用 [NgZone](/api/core/NgZone)，指示 Angular 避免為某段程式碼所排程的工作呼叫變更偵測。
 
-```ts {header:"Run outside of the Zone" , linenums}
+```ts {header:"在 Zone 之外執行" , linenums}
 import { Component, NgZone, OnInit, inject } from '@angular/core';
 
 @Component(...)
@@ -38,7 +38,7 @@ class App implements OnInit {
 
 當第三方程式庫的 API 在 Angular Zone 內被叫用時，它們經常觸發不必要的變更偵測週期。這種現象對會設定事件監聽器或發起其他工作（例如計時器、XHR 請求等）的程式庫影響特別明顯。只要在 Angular Zone 之外呼叫程式庫 API，就能避免這些額外的週期：
 
-```ts {header:"Move the plot initialization outside of the Zone" , linenums}
+```ts {header:"把圖表初始化移到 Zone 之外" , linenums}
 import { Component, NgZone, OnInit, inject } from '@angular/core';
 import * as Plotly from 'plotly.js-dist-min';
 
@@ -60,7 +60,7 @@ class App implements OnInit {
 
 但有時候，你可能需要監聽第三方 API 派送的事件。在這種情況下，重要的是要記住：如果初始化邏輯是在 Angular Zone 之外完成的，那些事件監聽器也會在 Angular Zone 之外執行：
 
-```ts {header:"Check whether the handler is called outside of the Zone" , linenums}
+```ts {header:"檢查處理常式是否在 Zone 之外呼叫" , linenums}
 import { Component, NgZone, OnInit, output, inject } from '@angular/core';
 import * as Plotly from 'plotly.js-dist-min';
 
@@ -92,7 +92,7 @@ class App implements OnInit {
 
 若你需要把事件派送給父元件並執行特定的檢視更新邏輯，你應該考慮重新進入 Angular Zone，指示框架執行變更偵測，或手動執行變更偵測：
 
-```ts {header:"Re-enter the Angular zone when dispatching event" , linenums}
+```ts {header:"派送事件時重新進入 Angular Zone" , linenums}
 import { Component, NgZone, OnInit, output, inject } from '@angular/core';
 import * as Plotly from 'plotly.js-dist-min';
 

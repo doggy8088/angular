@@ -6,7 +6,7 @@ Angular 在持續改進的同時，也非常重視穩定性，並讓更新變得
 
 本文件包含資訊與資源，協助你讓 Angular 應用程式與程式庫保持最新。
 
-關於我們的版本政策與實務（包括支援與棄用實務，以及發行時程），請參閱 [Angular 版本與發行](reference/releases 'Angular versioning and releases')。
+關於我們的版本政策與實務（包括支援與棄用實務，以及發行時程），請參閱 [Angular 版本與發行](reference/releases 'Angular 版本管理與版本發布')。
 
 HELPFUL: 若你目前使用的是 AngularJS，請參閱 [Upgrading from AngularJS](https://angular.io/guide/upgrade 'Upgrading from AngularJS')。
 _AngularJS_ 是所有 v1.x 版本 Angular 的名稱。
@@ -43,7 +43,7 @@ Angular 更新指南會根據你指定的目前版本與目標版本，提供客
 對於簡單的更新，你只需要 CLI 指令 [`ng update`](cli/update) 就夠了。
 不加額外引數時，[`ng update`](cli/update) 會列出你可以使用的更新，並提供建議步驟，把你的應用程式更新到最新版本。
 
-[Angular 版本與發行](reference/releases#angular-versioning 'Angular Release Practices, Versioning') 說明了你可以依發行版本號預期何種程度的變更。
+[Angular 版本與發行](reference/releases#angular-versioning 'Angular 版本發布實務與版本編號') 說明了你可以依發行版本號預期何種程度的變更。
 它也說明了受支援的更新路徑。
 
 ## 資源摘要
@@ -61,4 +61,4 @@ Angular 更新指南會根據你指定的目前版本與目標版本，提供客
   [Angular CLI `ng update` 指令參考](cli/update)
 
 - 版本、發行、支援與棄用實務：
-  [Angular 版本與發行](reference/releases 'Angular versioning and releases')
+  [Angular 版本與發行](reference/releases 'Angular 版本管理與版本發布')
