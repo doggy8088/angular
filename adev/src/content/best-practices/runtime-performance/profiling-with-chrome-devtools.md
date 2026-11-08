@@ -43,7 +43,7 @@ enableProfiling();
 bootstrapApplication(MyApp);
 ```
 
-### 記錄效能分析檔案
+### 記錄效能分析檔案 {#record-a-profile}
 
 使用 Chrome DevTools 效能面板中的 **Record** 按鈕：
 

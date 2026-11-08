@@ -229,7 +229,7 @@ const userSnapshot = userResource.snapshot;
 
 每個快照都包含一個 `status`，以及一個 `value` 或一個 `error`。
 
-### 使用快照組合資源
+### 使用快照組合資源 {#composing-resources-with-snapshots}
 
 IMPORTANT: `resourceFromSnapshots` 是[實驗性](reference/releases#experimental)功能。它已經可以試用，但在穩定之前仍可能改變。
 
