@@ -44,8 +44,8 @@ export class HydrationExample {
     penddingEvents: 0,
     isHydrated: false,
     isHydrating: true,
-    title: 'Eager Module',
-    description: 'Part of initial bundle.',
+    title: '即時載入模組',
+    description: '屬於初始套件的一部分。',
   });
   card2 = signal<SimulationCard>({
     id: 2,
@@ -53,8 +53,8 @@ export class HydrationExample {
     penddingEvents: 0,
     isHydrated: false,
     isHydrating: true,
-    title: 'Eager Module',
-    description: 'Part of initial bundle.',
+    title: '即時載入模組',
+    description: '屬於初始套件的一部分。',
   });
   card3 = signal<SimulationCard>({
     id: 3,
@@ -64,8 +64,8 @@ export class HydrationExample {
     isHydrating: false,
     strategy: 'on-interaction',
     syntax: '@defer (hydrate on interaction)',
-    title: 'Interaction Module',
-    description: 'Logic loads on click.',
+    title: '互動模組',
+    description: '邏輯在點擊時載入。',
   });
   card4 = signal<SimulationCard>({
     id: 4,
@@ -75,8 +75,8 @@ export class HydrationExample {
     isHydrating: false,
     strategy: 'on-timer',
     syntax: '@defer (hydrate on timer(2s))',
-    title: 'Timer Module',
-    description: 'Hydrates after 2s delay.',
+    title: '計時器模組',
+    description: '延遲 2 秒後水合。',
   });
 
   constructor() {

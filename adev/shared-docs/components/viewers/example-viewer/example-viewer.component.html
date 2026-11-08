@@ -21,13 +21,13 @@
         class="docs-example-code-toggle"
         [class.docs-example-code-toggle__show]="!showCode()"
         [attr.aria-checked]="showCode()"
-        [attr.aria-label]="showCode() ? 'Hide code' : 'Show code'"
+        [attr.aria-label]="showCode() ? '隱藏程式碼' : '顯示程式碼'"
         (click)="toggleCodeVisibility()"
-        [matTooltip]="showCode() ? 'Hide code' : 'Show code'"
+        [matTooltip]="showCode() ? '隱藏程式碼' : '顯示程式碼'"
         matTooltipPosition="above"
       >
         @if (!showCode()) {
-          <span class="docs-example-show-code"><docs-icon>code</docs-icon> Show Code</span>
+          <span class="docs-example-show-code"><docs-icon>code</docs-icon> 顯示程式碼</span>
         } @else {
           <docs-icon>code_off</docs-icon>
         }
@@ -35,9 +35,9 @@
       <button
         type="button"
         class="docs-example-copy-link"
-        [attr.aria-label]="'Copy link to ' + exampleMetadata()?.title + ' example to the clipboard'"
+        [attr.aria-label]="'將「' + exampleMetadata()?.title + '」範例的連結複製到剪貼簿'"
         (click)="copyLink()"
-        matTooltip="Copy link to example"
+        matTooltip="複製範例連結"
         matTooltipPosition="above"
       >
         <i aria-hidden="true">
@@ -62,8 +62,8 @@
         <button
           type="button"
           (click)="toggleExampleVisibility()"
-          [attr.aria-label]="(expanded() ? 'Collapse' : 'Expand') + ' code example'"
-          matTooltip="{{ expanded() ? 'Collapse' : 'Expand' }} example"
+          [attr.aria-label]="(expanded() ? '收合' : '展開') + '程式碼範例'"
+          matTooltip="{{ expanded() ? '收合' : '展開' }}範例"
           matTooltipPosition="above"
         >
           <i aria-hidden="true">
@@ -121,8 +121,8 @@
           [href]="githubUrl()"
           target="_blank"
           class="docs-example-github-link"
-          aria-label="Open example on GitHub"
-          matTooltip="Open example on GitHub"
+          aria-label="在 GitHub 上開啟範例"
+          matTooltip="在 GitHub 上開啟範例"
           matTooltipPosition="above"
         >
           <i aria-hidden="true">
@@ -149,8 +149,8 @@
           [href]="stackblitzUrl()"
           target="_blank"
           class="docs-example-stackblitz-link"
-          aria-label="Edit example in StackBlitz"
-          matTooltip="Edit example in StackBlitz"
+          aria-label="在 StackBlitz 中編輯範例"
+          matTooltip="在 StackBlitz 中編輯範例"
           matTooltipPosition="above"
         >
           <i aria-hidden="true">

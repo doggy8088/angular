@@ -25,8 +25,8 @@ export const CONFIRMATION_DISPLAY_TIME_MS = 2000;
   templateUrl: './copy-source-code-button.component.html',
   host: {
     'type': 'button',
-    'aria-label': 'Copy example source to clipboard',
-    'title': 'Copy example source',
+    'aria-label': '將範例原始碼複製到剪貼簿',
+    'title': '複製範例原始碼',
     '(click)': 'copySourceCode()',
     '[class.docs-copy-source-code-button-success]': 'showCopySuccess()',
     '[class.docs-copy-source-code-button-failed]': 'showCopyFailure()',

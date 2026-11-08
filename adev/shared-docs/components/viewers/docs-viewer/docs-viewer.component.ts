@@ -437,7 +437,7 @@ export class DocViewer {
       const iframe = this.document.createElement('iframe');
       iframe.className = 'docs-video';
       iframe.src = src;
-      iframe.title = facade.getAttribute('data-video-title') ?? 'Video player';
+      iframe.title = facade.getAttribute('data-video-title') ?? '影片播放器';
       iframe.setAttribute('allow', 'accelerometer; encrypted-media; gyroscope; picture-in-picture');
       iframe.setAttribute('allowfullscreen', '');
       iframe.setAttribute('credentialless', '');
