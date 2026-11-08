@@ -94,7 +94,7 @@ export class MyComponent {}
 
 編譯器_現在_就需要 `template` 屬性的值，才能產生元件工廠。只有變數參照是不夠的。在宣告前加上 `export`，只會產生一個新的錯誤：[`Only initialized variables and constants can be referenced`](#only-initialized-variables-and-constants)。
 
-## 只有已初始化的變數與常數
+## 只有已初始化的變數與常數 {#only-initialized-variables-and-constants}
 
 HELPFUL: _Only initialized variables and constants can be referenced because the value of this variable is needed by the template compiler._
 

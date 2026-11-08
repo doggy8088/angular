@@ -97,7 +97,7 @@ Angular 會把該值辨識為不安全並自動清理，移除 `script` 元素�
 以 [DomSanitizer.sanitize](api/platform-browser/DomSanitizer#sanitize) 方法與適當的 `SecurityContext`，清理不受信任的值。
 該函式也接受使用 `bypassSecurityTrust` 函式標示為受信任的值，並且不會清理它們，如 [下文所述](#trusting-safe-values)。
 
-### 信任安全值
+### 信任安全值 {#trusting-safe-values}
 
 有時應用程式確實需要包含可執行程式碼、顯示來自某個 URL 的 `<iframe>`，或建構可能危險的 URL。
 在這些情況下若要防止自動清理，請告知 Angular：你已檢查該值、確認它的建立方式，並確定它安全無虞。
@@ -134,7 +134,7 @@ Angular 會把該值辨識為不安全並自動清理，移除 `script` 元素�
 
 <docs-code header="bypass-security.component.ts (trust-video-url)" path="adev/src/content/examples/security/src/app/bypass-security.component.ts" region="trust-video-url"/>
 
-### 內容安全性原則
+### 內容安全性原則 {#content-security-policy}
 
 內容安全性原則 \(CSP\) 是一種防止 XSS 的深度防禦技術。
 若要啟用 CSP，請設定你的 Web 伺服器傳回適當的 `Content-Security-Policy` HTTP 標頭。
@@ -198,7 +198,7 @@ Angular 本身只需要這些設定就能正確運作。
 
 若你把應用程式部署到靜態主機，該主機未經邊緣轉換就原樣提供 `index.html`，請不要硬編碼靜態 nonce。改用下列其中一種作法：
 
-##### 以 `autoCsp` 對內嵌指令碼進行雜湊
+##### 以 `autoCsp` 對內嵌指令碼進行雜湊 {#hash-inline-scripts-with-autocsp}
 
 在 [工作區設定](reference/configs/workspace-config#extra-build-and-test-options) 中，把 `security.autoCsp` 選項設為 `true`。
 建置時，Angular CLI 會計算 `index.html` 中每個內嵌指令碼的雜湊，包括關鍵 CSS 內嵌與子資源完整性加入的指令碼。
@@ -239,7 +239,7 @@ default-src 'self'; style-src 'self' 'unsafe-inline';
 
 在這兩種情況下，你的應用程式程式碼與第三方程式庫都可能需要額外的指示詞。
 
-### 強制執行 Trusted Types
+### 強制執行 Trusted Types {#enforcing-trusted-types}
 
 建議你使用 [Trusted Types](https://w3c.github.io/trusted-types/dist/spec/)，協助保護應用程式免於跨站指令碼攻擊。
 Trusted Types 是一項 [Web 平台](https://en.wikipedia.org/wiki/Web_platform) 功能，透過強制更安全的撰碼實務，協助你防止跨站指令碼攻擊。
@@ -303,7 +303,7 @@ Content-Security-Policy: trusted-types angular angular#bundler; require-trusted-
 
 </docs-callout>
 
-### 使用 AOT 範本編譯器
+### 使用 AOT 範本編譯器 {#use-the-aot-template-compiler}
 
 AOT 範本編譯器能防止一整類稱為範本注入的弱點，並大幅提升應用程式效能。
 AOT 範本編譯器是 Angular CLI 應用程式使用的預設編譯器，你應在所有正式部署中使用它。
@@ -412,7 +412,7 @@ Angular 的 `HttpClient` 程式庫認得這項慣例，會在進一步剖析之�
 
 更多資訊請參閱這篇 [Google Web 安全性部落格文章](https://security.googleblog.com/2011/05/website-security-for-webmasters.html) 的 XSSI 一節。
 
-## 防止伺服器端請求偽造 (SSRF)
+## 防止伺服器端請求偽造 (SSRF) {#preventing-server-side-request-forgery-ssrf}
 
 Angular 在請求處理管線中，對 `Host`、`Forwarded`、`X-Forwarded-Host`、`X-Forwarded-Proto`、`X-Forwarded-Prefix` 與 `X-Forwarded-Port` 標頭進行嚴格驗證，以防止以標頭為基礎的 [伺服器端請求偽造 (SSRF)](https://developer.mozilla.org/en-US/docs/Web/Security/Attacks/SSRF)。
 

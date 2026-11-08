@@ -44,7 +44,7 @@ export const routes: Routes = [
 
 TIP: 若你使用 Angular CLI 產生專案，你的路由定義在 `src/app/app.routes.ts`。
 
-### 把路由加入應用程式
+### 把路由加入應用程式 {#adding-the-router-to-your-application}
 
 在不使用 Angular CLI 引導 Angular 應用程式時，你可以傳入一個包含 `providers` 陣列的設定物件。
 
@@ -76,7 +76,7 @@ export const appConfig: ApplicationConfig = {
 - "/blog"
 - "/settings/account"
 
-### 使用路由參數定義 URL 路徑
+### 使用路由參數定義 URL 路徑 {#define-url-paths-with-route-parameters}
 
 參數化 URL 讓你定義動態路徑，使多個 URL 能通往同一個元件，同時依據 URL 中的參數動態顯示資料。
 
@@ -120,7 +120,7 @@ const routes: Routes = [
 
 讀取路由參數的詳細資訊，請參閱[讀取路由狀態](/guide/routing/read-route-state)。
 
-### 萬用字元
+### 萬用字元 {#wildcards}
 
 當你需要攔截特定路徑的所有路由時，解決方法是使用以雙星號（`**`）定義的萬用字元路由。
 

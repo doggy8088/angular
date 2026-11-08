@@ -391,7 +391,7 @@ export class PopupService {
 }
 ```
 
-## 處理渲染錯誤
+## 處理渲染錯誤 {#handling-rendering-errors}
 
 IMPORTANT: `onError` 選項及其 `ErrorDetails` 參數目前處於[開發者預覽](reference/releases#developer-preview)階段。
 

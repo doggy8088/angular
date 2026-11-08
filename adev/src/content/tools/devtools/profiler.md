@@ -68,7 +68,7 @@ Angular DevTools 會以渲染耗時最久的磚塊為基準，用相對時間決
 
 <img src="assets/images/guide/devtools/debugging-onpush.png" alt="「Profiler」分頁的螢幕截圖，顯示某個變更偵測週期的火焰圖視覺化呈現。標示為「Show only change detection」的核取方塊現在已被勾選。火焰圖看起來與之前非常相似，不過元件的顏色已從橙色變成藍色，幾個標示為 `[RouterOutlet]` 的磚塊不再有任何顏色反白。">
 
-## 匯入與匯出錄製資料
+## 匯入與匯出錄製資料 {#import-and-export-recordings}
 
 點選已錄製的效能分析工作階段右上角的 **Save Profile** 按鈕，即可將它匯出為 JSON 檔案並儲存到磁碟。
 之後，在效能分析工具的初始檢視中點選 **Choose file** 輸入框，即可匯入該檔案。

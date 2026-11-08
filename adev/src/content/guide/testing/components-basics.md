@@ -103,7 +103,7 @@ IMPORTANT: 呼叫 `createComponent` 之後，不要重新設定 `TestBed`。
 你不能再呼叫任何 `TestBed` 設定方法，不能呼叫 `configureTestingModule()`，也不能呼叫任何 `override...` 方法。
 如果你嘗試這麼做，`TestBed` 會擲出錯誤。
 
-### `ComponentFixture`
+### `ComponentFixture` {#componentfixture}
 
 [`ComponentFixture`](api/core/testing/ComponentFixture) 是一個測試工具，用於與建立的元件及其對應元素互動。
 

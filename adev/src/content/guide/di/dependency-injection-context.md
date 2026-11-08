@@ -31,7 +31,7 @@ const canActivateTeam: CanActivateFn = (
 };
 ```
 
-## 在注入上下文中執行
+## 在注入上下文中執行 {#run-within-an-injection-context}
 
 如果你需要在注入上下文中執行某個函式，但自己目前並不在這樣的上下文中，可以使用 `runInInjectionContext`。
 這需要能存取一個注入器，例如 `EnvironmentInjector`：
@@ -51,7 +51,7 @@ export class HeroService {
 
 請注意，只有當注入器能解析所請求的 token 時，[`inject`](/api/core/inject) 才會傳回實例。
 
-## 斷言上下文
+## 斷言上下文 {#asserts-the-context}
 
 Angular 提供 `assertInInjectionContext` 輔助函式，用來驗證目前的上下文是注入上下文，若不是則擲出清楚的錯誤。傳入呼叫端函式的參考，讓錯誤訊息指向正確的 API 入口點。這會產生比預設的通用注入錯誤更清楚、更可操作的訊息。
 

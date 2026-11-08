@@ -196,7 +196,7 @@ export class Isolated {
 }
 ```
 
-## Angular 中的注入器階層
+## Angular 中的注入器階層 {#injector-hierarchy-in-angular}
 
 Angular 的依賴注入系統是階層式的。當元件請求某個依賴時，Angular 會從該元件的注入器開始，沿著樹往上尋找，直到找到該依賴的提供者為止。應用程式樹中的每個元件都可以有自己的注入器，這些注入器形成一個與元件樹相對應的階層。
 
@@ -277,7 +277,7 @@ export class Example {}
 1. [類別名稱](#class-names)
 2. [Injection token](#injection-tokens)
 
-#### 類別名稱
+#### 類別名稱 {#class-names}
 
 類別名稱直接使用匯入的類別作為識別項：
 
@@ -296,7 +296,7 @@ export class Example {
 
 類別同時充當識別項和實作，這就是 Angular 提供 `providers: [LocalService]` 這種簡寫的原因。
 
-#### Injection token
+#### Injection token {#injection-tokens}
 
 Angular 提供內建的 [`InjectionToken`](api/core/InjectionToken) 類別，用來為可注入的值建立唯一的物件參考，或在你想為同一個介面提供多個實作時使用。
 
@@ -614,7 +614,7 @@ Angular 提供多個可以註冊提供者的層級，每個層級對範圍、生
 - [**在元素上**（元件或指令）](#component-or-directive-providers)：特定元件樹的隔離實例
 - [**路由**](#route-providers)：延遲載入模組的功能專屬服務
 
-### 應用程式啟動
+### 應用程式啟動 {#application-bootstrap}
 
 在以下情況，把應用程式層級的提供者放在 `bootstrapApplication` 中：
 
@@ -654,7 +654,7 @@ bootstrapApplication(App, {
 - 提供者需要設定（例如路由）
 - 你使用的是 Angular 的 `provideSomething` 模式（例如 `provideRouter`、`provideHttpClient`）
 
-### 元件或指令提供者
+### 元件或指令提供者 {#component-or-directive-providers}
 
 在以下情況，使用元件或指令提供者：
 
@@ -699,7 +699,7 @@ export class Modal {}
 
 NOTE: 如果同一個元素上的多個指令提供了同一個 token，其中一個會勝出，但哪一個會勝出並未定義。
 
-### 路由提供者
+### 路由提供者 {#route-providers}
 
 路由層級的提供者適用於：
 

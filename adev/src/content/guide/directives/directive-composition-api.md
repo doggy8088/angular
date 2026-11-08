@@ -27,7 +27,7 @@ export class AdminMenu {}
 - **在 `hostDirectives` 中使用的指令不得指定 `standalone: false`**。
 - **Angular 會忽略在 `hostDirectives` 屬性中套用的指令的 `selector`**。
 
-## 包含輸入與輸出
+## 包含輸入與輸出 {#including-inputs-and-outputs}
 
 當你為元件套用 `hostDirectives` 時，宿主指令的輸入與輸出依預設不會納入元件的 API。你可以展開 `hostDirectives` 中的項目，明確地把輸入與輸出納入元件的 API：
 
@@ -166,7 +166,7 @@ export class EvenMoreCustomTooltip { }
 
 如果帶有 `hostDirectives` 的元件或指令與其宿主指令提供了相同的注入權杖，則由帶有 `hostDirectives` 的類別所定義的提供者，優先於宿主指令所定義的提供者。
 
-### 宿主指令去重複
+### 宿主指令去重複 {#host-directive-de-duplication}
 
 當同一個指令在解析後的宿主指令樹中出現多次時，Angular 會自動去除重複，而不是擲出錯誤。要決定保留哪一個符合項，會依兩條確定性規則判斷。
 

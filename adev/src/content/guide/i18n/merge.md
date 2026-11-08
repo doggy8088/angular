@@ -25,7 +25,7 @@ HELPFUL: 建置程序的詳細說明，請見[建置與提供 Angular 應用程�
 
 HELPFUL: 也可以選擇[只為單一地區設定套用特定建置選項][GuideI18nCommonMergeApplySpecificBuildOptionsForJustOneLocale]，建立自訂的地區設定組態。
 
-## 在建置設定中定義地區設定
+## 在建置設定中定義地區設定 {#define-locales-in-the-build-configuration}
 
 使用專案 [`angular.json`][GuideWorkspaceConfig] 工作區建置設定檔中的 `i18n` 專案選項，為專案定義地區設定。
 

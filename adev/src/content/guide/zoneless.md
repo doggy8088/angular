@@ -38,7 +38,7 @@ Zoneless 應用程式應將 ZoneJS 完全從建置中移除，以縮小套件大
 npm uninstall zone.js
 ```
 
-## Zoneless 相容性的要求
+## Zoneless 相容性的要求 {#requirements-for-zoneless-compatibility}
 
 Angular 仰賴核心 API 的通知，來判斷何時執行變更偵測，以及對哪些檢視執行。
 這些通知包括：
@@ -113,7 +113,7 @@ readonly myObservableState = someObservable.pipe(pendingUntilEvent());
 
 ## 測試與除錯
 
-### 在 `TestBed` 中使用 Zoneless
+### 在 `TestBed` 中使用 Zoneless {#using-zoneless-in-testbed}
 
 `TestBed` 預設使用 zoneless 變更偵測，即使 `zone.js` 是透過 `polyfills` 載入的也一樣。
 

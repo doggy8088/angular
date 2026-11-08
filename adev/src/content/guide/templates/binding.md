@@ -2,7 +2,7 @@
 
 在 Angular 中，**繫結**會在元件的範本與其資料之間建立動態連接。這個連接能確保元件資料的變更會自動更新算繪後的範本。
 
-## 以文字插值算繪動態文字
+## 以文字插值算繪動態文字 {#render-dynamic-text-with-text-interpolation}
 
 你可以使用雙大括號在範本中繫結動態文字，這會告訴 Angular，它負責處理其中的運算式，並確保其正確更新。這稱為**文字插值**。
 
@@ -56,7 +56,7 @@ export class App {
 
 運算式的值會轉換為字串。`null` 與 `undefined` 會算繪為空字串。物件與陣列則使用該值的 `toString` 方法進行轉換。
 
-## 繫結動態屬性與 attribute
+## 繫結動態屬性與 attribute {#binding-dynamic-properties-and-attributes}
 
 Angular 支援以中括號將動態值繫結到物件屬性與 HTML attribute。
 
@@ -114,7 +114,7 @@ Angular 支援以中括號將動態值繫結到物件屬性與 HTML attribute。
 <img src="profile-photo.jpg" alt="Profile photo of {{ firstName() }}" />
 ```
 
-## CSS 類別與樣式屬性繫結
+## CSS 類別與樣式屬性繫結 {#css-class-and-style-property-bindings}
 
 Angular 為將 CSS 類別與 CSS 樣式屬性繫結到元素提供了額外的功能。
 
@@ -194,7 +194,7 @@ Angular 不保證算繪後元素上 CSS 類別的任何特定順序。
 
 NOTE: 類別繫結不支援在單一鍵中使用以空白分隔的類別名稱。它們也不支援對物件的變更（mutation），因為繫結的參照維持不變。如果你需要其中任一行為，請使用 [ngClass](/api/common/NgClass) 指令。
 
-### CSS 樣式屬性
+### CSS 樣式屬性 {#css-style-properties}
 
 你也可以直接繫結到元素上的 CSS 樣式屬性。
 
@@ -248,7 +248,7 @@ export class UserProfile {
 
 如果一個元素對同一個樣式屬性有多個繫結，Angular 會依照其樣式優先順序解決衝突。
 
-## ARIA attribute
+## ARIA attribute {#aria-attributes}
 
 Angular 支援將字串值繫結到 ARIA attribute。
 

@@ -76,7 +76,7 @@ ng lint my-lib
 
 你的程式庫應提供文件（通常是 README 檔案），說明安裝與維護方式。
 
-## 進入點
+## 進入點 {#entry-points}
 
 *進入點*是一個模組指定符（module specifier），使用者從它匯入，連同該指定符所公開的公開 API。
 每個程式庫都有一個*主要進入點*，並且可以加入任意數量的*次要進入點*。
@@ -214,7 +214,7 @@ IMPORTANT: 從同一個程式庫的另一個進入點匯入程式碼時，一律
 
 更多資訊請參閱[原理圖總覽](tools/cli/schematics)與[程式庫的原理圖](tools/cli/schematics-for-libraries)。
 
-## 發行你的程式庫
+## 發行你的程式庫 {#publishing-your-library}
 
 使用 Angular CLI 與 npm 套件管理工具，將你的程式庫建置並發行為 npm 套件。
 
@@ -232,7 +232,7 @@ npm publish
 
 ```
 
-## 在程式庫中管理素材
+## 在程式庫中管理素材 {#managing-assets-in-a-library}
 
 在你的 Angular 程式庫中，可發行的產物可以包含額外的素材，例如主題檔案、Sass mixin 或文件（如更新記錄）。
 更多資訊請參閱[在建置過程中將素材複製到你的程式庫](https://github.com/ng-packagr/ng-packagr/blob/main/docs/copy-assets.md)，以及[將素材嵌入元件樣式](https://github.com/ng-packagr/ng-packagr/blob/main/docs/embed-assets-css.md)。
@@ -379,7 +379,7 @@ NOTE: 如果你的程式庫與應用程式位於同一個 Angular 工作區（mo
 - `sourceMap.vendor`：啟用廠商原始碼對應表（尤其是 `vendor: true`），讓連結的程式庫程式碼更容易除錯。
 - `prebundle.exclude`：依預設，Angular CLI 可以預先打包所有 node 依賴。排除你的程式庫，能確保連結的原始碼在變更時被正確監看並重新建置。
 
-## 發行程式庫
+## 發行程式庫 {#publishing-libraries}
 
 發行程式庫時有兩種發行格式可以使用：
 
@@ -407,7 +407,7 @@ Angular 不支援應用程式使用較早的版本。
 如果你以前從未在 npm 發行過套件，你必須先建立使用者帳號。
 詳情請參閱[發行 npm 套件](https://docs.npmjs.com/getting-started/publishing-npm-packages)。
 
-## 在 Angular CLI 之外取用 Partial-Ivy 程式碼
+## 在 Angular CLI 之外取用 Partial-Ivy 程式碼 {#consuming-partial-ivy-code-outside-the-angular-cli}
 
 應用程式會從 npm 將許多 Angular 程式庫安裝到它的 `node_modules` 目錄中。
 然而，這些程式庫中的程式碼尚未完整編譯，無法直接與建置好的應用程式一起打包。

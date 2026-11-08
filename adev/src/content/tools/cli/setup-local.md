@@ -33,7 +33,7 @@ Angular CLI 使用 Node 及其搭配的套件管理器 npm，在瀏覽器之外�
 Angular 需要 Node.js 的[現行 LTS 或維護 LTS](https://nodejs.org/en/about/previous-releases) 版本。
 詳情請參閱 Angular 的[版本相容性](reference/versions)指南。
 
-## 安裝 Angular CLI
+## 安裝 Angular CLI {#install-the-angular-cli}
 
 若要安裝 Angular CLI，請開啟終端機視窗並執行下列指令：
 

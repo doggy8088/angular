@@ -110,7 +110,7 @@ Angular CLI 會檢查該程式庫最新發行的版本，如果最新版本比�
 
 1. 執行或重新啟動 `ng serve` 這個 Angular CLI 指令，即可在你的應用程式中看到 Bootstrap 4 正常運作。
 
-### 在應用程式中使用執行階段全域程式庫
+### 在應用程式中使用執行階段全域程式庫 {#using-runtime-global-libraries-inside-your-app}
 
 透過「scripts」陣列匯入程式庫之後，**不要**在你的 TypeScript 程式碼中用 import 陳述式匯入它。
 下列程式碼片段是一個 import 陳述式的例子。

@@ -188,7 +188,7 @@ export class ErrorHandler {
 }
 ```
 
-## 所有 Router 事件
+## 所有 Router 事件 {#all-router-events}
 
 以下列出 Angular 中所有可用的 Router 事件，供你參考。這些事件依類別組織，並依照它們在導覽期間通常發生的順序排列。
 

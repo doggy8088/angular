@@ -67,7 +67,7 @@
 | 4.0.x \|\| 4.1.x            | 1.0.x \|\| 1.1.x \|\| 1.2.x | ^6.9.0              | >=2.1.6 <2.4.0 | ^5.0.1 |
 | 2.x                         | -                           | ^6.9.0              | >=1.8.0 <2.2.0 | ^5.0.1 |
 
-## 瀏覽器支援
+## 瀏覽器支援 {#browser-support}
 
 Angular 使用「widely available」[Baseline](https://web.dev/baseline) 來定義瀏覽器支援。對每個主要版本，Angular 支援的瀏覽器，是在接近該主要版本發布日期所選定日期的 Baseline 中包含的瀏覽器。
 
@@ -130,7 +130,7 @@ HELPFUL: Polyfill 沒有辦法神奇地把舊的、慢的瀏覽器變成現代�
 }
 ```
 
-## 非 CLI 使用者的 polyfill
+## 非 CLI 使用者的 polyfill {#polyfills-for-non-cli-users}
 
 如果你不是使用 CLI，請將你的 polyfill 指令稿直接加入主機網頁（`index.html`）。
 

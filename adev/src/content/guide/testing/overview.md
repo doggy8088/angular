@@ -4,7 +4,7 @@
 
 NOTE: 本指南介紹新建 Angular CLI 專案的預設測試設定，使用的是 Vitest。如果你要將既有專案從 Karma 遷移，請參閱[從 Karma 遷移至 Vitest 指南](guide/testing/migrating-to-vitest)。Karma 仍受支援；更多資訊請參閱 [Karma 測試指南](guide/testing/karma)。
 
-## 測試設定
+## 測試設定 {#set-up-for-testing}
 
 Angular CLI 會下載並安裝使用 [Vitest 測試框架](https://vitest.dev)測試 Angular 應用程式所需的一切。新專案預設包含 `vitest` 與 `jsdom`。
 
@@ -81,7 +81,7 @@ export default testProviders;
 
 HELPFUL: 建立像 `src/test-providers.ts` 這樣的新 TypeScript 檔案作為測試設定或 providers 時，請確保它們有被納入專案的測試 TypeScript 設定檔（通常是 `tsconfig.spec.json`）。這樣 TypeScript 編譯器才能在測試期間正確處理這些檔案。
 
-### 進階 Vitest 設定
+### 進階 Vitest 設定 {#advanced-vitest-configuration}
 
 對於進階使用情境，你可以使用 `angular.json` 中的 `runnerConfig` 選項，提供自訂的 Vitest 設定檔。
 
@@ -122,7 +122,7 @@ HELPFUL: 關於 Vitest 設定的更多資訊，請參閱 [Vitest 官方文件](h
 
 更詳細的資訊請參閱[程式碼覆蓋率指南](guide/testing/code-coverage)。
 
-## 在瀏覽器中執行測試
+## 在瀏覽器中執行測試 {#running-tests-in-a-browser}
 
 雖然預設的 Node.js 環境對大多數單元測試來說速度較快，你也可以在真正的瀏覽器中執行測試。這對於仰賴瀏覽器專屬 API（例如渲染）的測試，或除錯時很有用。
 

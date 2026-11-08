@@ -52,7 +52,7 @@ ng build --configuration debug,production,customer-facing
 
 ```
 
-## 設定環境專屬的預設值
+## 設定環境專屬的預設值 {#configure-environment-specific-defaults}
 
 `@angular/build:application` 支援檔案置換，這個選項能在執行建置之前替換原始碼檔案。
 將它與 `--configuration` 搭配使用，就能為應用程式設定環境專屬的資料。

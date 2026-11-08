@@ -256,7 +256,7 @@ export function responseTypeInterceptor(
 }
 ```
 
-## DI 型攔截器
+## DI 型攔截器 {#di-based-interceptors}
 
 `HttpClient` 也支援以可注入類別定義、並透過 DI 系統設定的攔截器。DI 型攔截器的能力與函式型攔截器完全相同，但設定機制不同。
 

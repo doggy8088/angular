@@ -91,7 +91,7 @@ export class Navbar {
 }
 ```
 
-### `inject()` 可以用在哪裡？
+### `inject()` 可以用在哪裡？ {#where-can-inject-be-used}
 
 你可以在元件、指令或服務的建構期間注入依賴。對 [`inject`](/api/core/inject) 的呼叫可以出現在 `constructor` 中，也可以出現在欄位初始化器中。以下是一些常見範例：
 

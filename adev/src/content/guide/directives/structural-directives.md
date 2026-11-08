@@ -24,7 +24,7 @@ HELPFUL: Angular 的 `<ng-template>` 元素定義了一個依預設不會算繪�
 
 如需更多資訊，請參閱 [ng-template API](api/core/ng-template) 文件。
 
-## 結構指令簡寫
+## 結構指令簡寫 {#structural-directive-shorthand}
 
 Angular 支援結構指令的簡寫語法，讓你不必明確撰寫 `<ng-template>` 元素。
 
@@ -106,7 +106,7 @@ NOTE: 這個範例只在指令初始化時算繪一次範本。當繫結的資�
 
 HELPFUL: CLI 指令 [`ng generate directive`](tools/cli/schematics) 會產生指令及其測試檔的鷹架。
 
-## 結構指令語法參考
+## 結構指令語法參考 {#structural-directive-syntax-reference}
 
 撰寫自己的結構指令時，請使用下列語法：
 
@@ -152,7 +152,7 @@ Angular 會把結構指令簡寫轉譯為一般的繫結語法，如下所示：
 | `*ngComponentOutlet="componentClass; inputs: myInputs"`               | `<ng-template [ngComponentOutlet]="componentClass" [ngComponentOutletInputs]="myInputs">`                     |
 | `*myDir="exp as value"`                                               | `<ng-template [myDir]="exp" let-value="myDir">`                                                               |
 
-## 改善自訂指令的範本型別檢查
+## 改善自訂指令的範本型別檢查 {#improving-template-type-checking-for-custom-directives}
 
 你可以為指令定義加入範本守衛，來改善自訂指令的範本型別檢查。這些守衛能協助 Angular 範本型別檢查器在編譯時期找出範本中的錯誤，進而避免執行時期錯誤。守衛有兩種不同的類型：
 
@@ -203,7 +203,7 @@ class CustomIf {
 
 範本型別檢查器的行為，就如同已斷言繫結到 `condition` 的運算式在範本中為真值。
 
-### 為指令的上下文定型別
+### 為指令的上下文定型別 {#typing-the-directives-context}
 
 如果你的結構指令為具現化的範本提供了上下文，你可以提供靜態的 `ngTemplateContextGuard` 型別斷言函式，在範本中正確地為它定型別。這個函式可以利用指令的型別推導出上下文的型別，當指令的型別是泛型時特別有用。
 

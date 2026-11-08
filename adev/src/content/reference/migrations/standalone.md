@@ -50,7 +50,7 @@ NOTE: 雖然原理圖能自動更新大部分程式碼，但有些邊界情況�
 - 如果專案使用自動格式化，執行所有程式碼格式化工具。
 - 執行專案中的所有程式碼檢查工具並修正新增的警告。有些檢查工具支援 `--fix` 旗標，可以自動解決部分警告。
 
-## 遷移模式
+## 遷移模式 {#migration-modes}
 
 這項遷移有以下模式：
 
@@ -108,7 +108,7 @@ export class Greeter {
 }
 ```
 
-### 移除不必要的 NgModules
+### 移除不必要的 NgModules {#remove-unnecessary-ngmodules}
 
 將所有宣告轉換為獨立模式之後，許多 NgModules 都可以安全地移除。這個步驟會刪除這類模組宣告，並盡可能刪除對應的參照。如果遷移無法自動刪除某個參照，會留下下列 TODO 註解，讓你可以手動刪除該 NgModule：
 
@@ -140,7 +140,7 @@ export class ImporterModule {}
 // Does not exist!
 ```
 
-### 切換到獨立模式的啟動 API
+### 切換到獨立模式的啟動 API {#switch-to-standalone-bootstrapping-api}
 
 這個步驟會將所有 `bootstrapModule` 的用法轉換為新的、基於獨立模式的 `bootstrapApplication`。它也會移除根元件的 `standalone: false`，並刪除根 NgModule。如果根模組有任何 `providers` 或 `imports`，遷移會嘗試將盡可能多的這類設定複製到新的啟動呼叫中。
 

@@ -186,7 +186,7 @@ contactForm = form(
 
 `onInvalid` 回呼接收與 `action` 相同的 `(field, detail)` 參數。它會在所有可互動欄位都被標記為已觸碰之後執行，因此它執行時，驗證錯誤已經在 UI 中可見。
 
-## 用 `ignoreValidators` 控制驗證閘門
+## 用 `ignoreValidators` 控制驗證閘門 {#controlling-validation-gating-with-ignorevalidators}
 
 依預設，`submit()` 會忽略尚待處理的驗證器。若沒有驗證器失敗，即使有些非同步驗證器還在進行中，action 也會執行。`ignoreValidators` 選項讓你能控制這個行為。
 

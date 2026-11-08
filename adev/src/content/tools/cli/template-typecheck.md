@@ -25,7 +25,7 @@
 
 在許多情況下，這些東西最終會是 `any` 型別，導致運算式後續的部分未經檢查。
 
-### 嚴格模式
+### 嚴格模式 {#strict-mode}
 
 嚴格模式是預設模式，在 `strictTemplates` 旗標為 `true` 或未設定時啟用。
 
@@ -67,7 +67,7 @@ interface User {
 在基本模式下，Angular 兩者都不檢查。
 在嚴格模式下，Angular 知道 `<span>` 中的 `user` 型別是 `User`，且 `address` 是一個帶有 `string` 型別 `city` 屬性的物件。
 
-## 範本錯誤疑難排解
+## 範本錯誤疑難排解 {#troubleshooting-template-errors}
 
 使用嚴格模式時，你可能會遇到基本模式下不會出現的範本錯誤。
 這些錯誤往往代表範本中真正的型別不符，先前的工具並沒有抓出來。
@@ -154,7 +154,7 @@ TypeScript 依其型別系統檢查這次指派，並遵循應用程式中設定
 在指令定義中提供範本守衛函式，讓你自己的指令的輸入型別要求盡可能具體。
 請參閱本指南的[改善自訂指令的範本型別檢查](/guide/directives/structural-directives#improving-template-type-checking-for-custom-directives)。
 
-### 嚴格的 null 檢查
+### 嚴格的 null 檢查 {#strict-null-checks}
 
 當你啟用 `strictTemplates` 與 TypeScript 旗標 `strictNullChecks` 時，某些不容易避開的情況可能會出現型別檢查錯誤。
 For example:
@@ -199,7 +199,7 @@ For example:
 此外，你也可以提供範本型別檢查器專屬的型別提示。
 請參閱[改善自訂指令的範本型別檢查](/guide/directives/structural-directives#improving-template-type-checking-for-custom-directives)，以及[輸入 setter 強制轉型](#input-setter-coercion)。
 
-## 輸入 setter 強制轉型
+## 輸入 setter 強制轉型 {#input-setter-coercion}
 
 有時候，我們會希望指令或元件的 `input()` 屬性改變繫結到它的值，通常是使用輸入的 `transform` 函式。
 舉例來說，請看這個自訂按鈕元件：

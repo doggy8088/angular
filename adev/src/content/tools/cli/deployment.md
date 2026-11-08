@@ -95,7 +95,7 @@ Web 開發者在向非應用程式自身主機的伺服器發出網路請求時�
 必須設定_伺服器_來接受應用程式的請求。
 如何在特定伺服器上啟用 CORS，請參閱 [enable-cors.org](https://enable-cors.org/server.html 'Enabling CORS server')。
 
-## 正式環境最佳化
+## 正式環境最佳化 {#production-optimizations}
 
 `ng build` 除非另有設定，否則會使用 `production` 設定。這個設定會啟用下列建置最佳化功能。
 
@@ -110,7 +110,7 @@ Web 開發者在向非應用程式自身主機的伺服器發出網路請求時�
 
 更多 CLI 建置選項及其效果，請參閱 [`ng build`](cli/build)。
 
-### 僅限開發的功能
+### 僅限開發的功能 {#development-only-features}
 
 在本機使用 `ng serve` 執行應用程式時，Angular 會在執行期使用開發設定，並啟用：
 

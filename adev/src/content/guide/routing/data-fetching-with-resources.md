@@ -133,7 +133,7 @@ TIP: 請讀取特定屬性，例如 `ctx.params()['id']`，而不是回傳整個
 
 在相符的路由階層中，路由資源會同時執行，因此同樣的導覽在 300ms 內完成，也就是最慢的資源所花的時間。依賴祖先路由資料的資源也會立即設定，不需等待；請參閱[從祖先資源鏈接出新資源](#chaining-a-resource-off-an-ancestor-resource)。
 
-## 資源繼承
+## 資源繼承 {#resource-inheritance}
 
 每條路由都會繼承其祖先路由的資源。Angular 以兩種形式公開這些繼承的資源：
 
@@ -203,7 +203,7 @@ export class TaskDetail {
 
 NOTE: 當路由把路由狀態繫結到元件輸入時，資源名稱的優先順序高於路由 `data`（包含解析後的值）、路徑參數與查詢參數。
 
-### 從祖先資源鏈接出新資源
+### 從祖先資源鏈接出新資源 {#chaining-a-resource-off-an-ancestor-resource}
 
 子路由經常需要祖先路由的資料，才能載入自己的資料。子路由不需等待祖先路由完成載入，可使用 [`chain()`](/guide/signals/resource#chaining-resources) 把自己的 `params` 函式鏈接到祖先資源。Angular 會把包含 `chain` 的情境物件傳給每個 `params` 函式：
 
@@ -248,7 +248,7 @@ NOTE: 由於 `ctx.resources()` 的型別是 `Resource<unknown>` 的紀錄，讀�
 
 `chain()` 也會傳播祖先資源的狀態。若祖先發生錯誤，鏈接的資源會以 `ResourceDependencyError` 發生錯誤，而當該鏈接資源是阻擋型時，路由會取消導覽。若祖先處於 `idle`，鏈接的資源會變成 `idle`。
 
-## 阻擋型與非阻擋型資源
+## 阻擋型與非阻擋型資源 {#blocking-and-non-blocking-resources}
 
 預設情況下，從 `resources` 回傳的每個資源都是阻擋型的：路由會等到資料完全載入後，才啟用路由與元件。
 
@@ -324,7 +324,7 @@ const routes: Routes = [
 ];
 ```
 
-## 不需重新導覽即可重新載入資源
+## 不需重新導覽即可重新載入資源 {#reloading-resources-without-renavigation}
 
 使用資料解析器時，重新擷取資料需要一次路由導覽（例如以 `onSameUrlNavigation: 'reload'` 導覽），這會重新比對路由，並重新執行守衛與解析器。
 

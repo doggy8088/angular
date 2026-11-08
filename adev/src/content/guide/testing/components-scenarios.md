@@ -70,7 +70,7 @@ it('no title in the DOM after createComponent()', () => {
 });
 ```
 
-### `whenStable()`
+### `whenStable()` {#whenstable}
 
 你可以透過 `await fixture.whenStable()` 告訴 `TestBed` 等待變更偵測執行。
 只有到那時，`<h1>` 才會有預期的標題。
@@ -174,7 +174,7 @@ _受測元件_ 不一定要搭配真實的服務。
 真實的服務可能會要求使用者提供登入憑證，並嘗試連線到驗證伺服器。
 這些行為可能很難攔截。請注意，使用測試替身會讓測試的行為與正式環境不同，因此請謹慎使用。
 
-### 取得注入的服務
+### 取得注入的服務 {#get-injected-services}
 
 測試需要存取注入到 `Welcome` 元件中的 `UserAuthentication`。
 
@@ -356,7 +356,7 @@ TestBed.configureTestingModule({
 
 與真實的 `getQuote()` 方法不同，這個 spy 繞過了伺服器，傳回一個值可立即取得的同步 observable。
 
-### 使用 Vitest 假計時器的非同步測試
+### 使用 Vitest 假計時器的非同步測試 {#async-test-with-a-vitest-fake-timers}
 
 若要模擬像 `setTimeout` 或 `Promise` 這類非同步函式，你可以利用 Vitest 假計時器來控制它們觸發的時機。
 
@@ -788,7 +788,7 @@ constructor() {
 
 測試可以透過導航到不同的路由，探索 `HeroDetail` 如何回應不同的 `id` 參數值。
 
-## 巢狀元件測試
+## 巢狀元件測試 {#nested-component-tests}
 
 元件範本經常有巢狀元件，而這些元件的範本可能又包含更多元件。
 
@@ -1096,7 +1096,7 @@ it('should convert hero name to Title Case', async () => {
 });
 ```
 
-## 覆寫元件的提供者
+## 覆寫元件的提供者 {#override-component-providers}
 
 `HeroDetail` 提供它自己的 `HeroDetailService`。
 
@@ -1197,7 +1197,7 @@ providers?: any[];
 …
 ```
 
-### 提供 _spy 替身_（`HeroDetailServiceSpy`）
+### 提供 _spy 替身_（`HeroDetailServiceSpy`） {#provide-a-spy-stub-herodetailservicespy}
 
 這個範例將元件的 `providers` 陣列完全換成一個新陣列，其中包含一個 `HeroDetailServiceSpy`。
 

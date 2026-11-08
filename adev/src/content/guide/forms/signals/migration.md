@@ -417,7 +417,7 @@ export class UserProfile {
 
 `setErrors()` 與 `markAsPending()` 方法不受支援。在 Signal Forms 中，錯誤源自驗證規則與非同步驗證狀態。若你需要回報錯誤，應該透過結構定義中的驗證規則，以宣告方式完成。
 
-## 自動狀態類別
+## 自動狀態類別 {#automatic-status-classes}
 
 反應式／範本表單會自動加上[類別屬性](/guide/forms/template-driven-forms#track-control-states)（例如 `.ng-valid` 或 `.ng-dirty`），以便為控制項狀態套用樣式。Signal Forms 不會這樣做。
 
@@ -457,7 +457,7 @@ bootstrapApplication(App, {
 });
 ```
 
-## 自訂控制項
+## 自訂控制項 {#custom-controls}
 
 任何[自訂 Signal Form 控制項](guide/forms/signals/custom-controls)都可以原封不動地用在反應式（及範本驅動）表單中。這讓你能把既有的 `ControlValueAccessor` 實作遷移到 `FormValueControl`／`FormCheckboxControl`，而不破壞既有的使用方式。
 

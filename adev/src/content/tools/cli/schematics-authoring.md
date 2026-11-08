@@ -255,7 +255,7 @@ Angular CLI 指令原理圖的 schema 檔案範例，請參閱 [`@schematics/ang
 }
 ```
 
-## Schematics CLI
+## Schematics CLI {#schematics-cli}
 
 Schematics 附有自己的命令列工具。
 全域安裝 Schematics 命令列工具：

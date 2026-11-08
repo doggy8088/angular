@@ -82,7 +82,7 @@ IMPORTANT: 將既有專案遷移至 Vitest 目前仍屬實驗性質。此流程�
   </docs-code>
 </docs-code-multifile>
 
-### 5. 設定瀏覽器模式（選用）
+### 5. 設定瀏覽器模式（選用） {#5-configure-browser-mode-optional}
 
 如果你需要在真正的瀏覽器中執行測試，必須安裝瀏覽器 provider 並設定你的 `angular.json`。
 
@@ -223,7 +223,7 @@ IMPORTANT: 使用自訂設定雖然能啟用進階選項，但 Angular 團隊不
 **2. 自動搜尋基礎設定**：
 如果你將 `runnerConfig` 設為 `true`，建置器會自動在你的專案與工作區根目錄中搜尋共用的 `vitest-base.config.*` 檔案。
 
-## `zone.js` Vitest 修補
+## `zone.js` Vitest 修補 {#zonejs-vitest-patch}
 
 若要使用 `fakeAsync`、`flush` 或 `waitForAsync` 等函式，或讓既有測試能配合這些函式運作，你可以在 `angular.json` 中，將 `zone.js/plugins/vitest-patch` 加入測試目標的 polyfills。
 

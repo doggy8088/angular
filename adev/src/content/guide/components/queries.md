@@ -10,7 +10,7 @@ TIP: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angula
 
 查詢分為兩類：**檢視查詢**與**內容查詢**。
 
-## 檢視查詢
+## 檢視查詢 {#view-queries}
 
 檢視查詢會從元件_檢視_中的元素取得結果，也就是在元件自身範本中定義的元素。你可以使用 `viewChild` 函式查詢單一結果。
 
@@ -65,7 +65,7 @@ export class CustomCard {
 
 **查詢永遠不會穿透元件邊界**。檢視查詢只能從元件的範本中取得結果。
 
-## 內容查詢
+## 內容查詢 {#content-queries}
 
 內容查詢會從元件_內容_中的元素取得結果，也就是在該元件被使用的範本中、巢狀置於元件內的元素。你可以使用 `contentChild` 函式查詢單一結果。
 
@@ -243,7 +243,7 @@ export class CustomTable {
 
 上面的範例會取得 `third-party-table` 元素的節點 injector，也就是從該元素在樹中位置所看到的 injector。透過 `ngTemplateOutletInjector` 將它傳給 `NgTemplateOutlet`，可讓投射範本中的指令注入第三方元件所提供的值。
 
-### 內容後代
+### 內容後代 {#content-descendants}
 
 依預設，`contentChildren` 查詢只會尋找元件的_直接_子元素，不會遍歷至後代元素。`contentChild` 查詢依預設則會遍歷至後代元素。
 

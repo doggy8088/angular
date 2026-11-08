@@ -116,7 +116,7 @@ Angular 的編譯器會為 `@defer` 區塊中使用的每個元件、指令與�
 }
 ```
 
-## 以觸發條件控制延遲內容的載入
+## 以觸發條件控制延遲內容的載入 {#controlling-deferred-content-loading-with-triggers}
 
 你可以指定**觸發條件**，控制 Angular 何時載入並顯示延遲內容。
 
@@ -141,7 +141,7 @@ Angular 的編譯器會為 `@defer` 區塊中使用的每個元件、指令與�
 | [`immediate`](#immediate)     | 在非延遲內容算繪完成後立即觸發                                 |
 | [`timer`](#timer)             | 在特定持續時間後觸發                                           |
 
-#### `idle`
+#### `idle` {#idle}
 
 `idle` 觸發條件會在瀏覽器達到閒置狀態時（以 requestIdleCallback 為依據）載入延遲內容。這是延遲區塊的預設行為。
 
@@ -183,7 +183,7 @@ bootstrapApplication(App, {
 });
 ```
 
-#### `viewport`
+#### `viewport` {#viewport}
 
 `viewport` 觸發條件會在指定內容進入可視區域時，使用 [Intersection Observer API](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API) 載入延遲內容。被觀察的內容可以是 `@placeholder` 內容，或明確的元素參照。
 
@@ -226,7 +226,7 @@ bootstrapApplication(App, {
 }
 ```
 
-#### `interaction`
+#### `interaction` {#interaction}
 
 `interaction` 觸發條件會在使用者透過 `click` 或 `keydown` 事件與指定元素互動時，載入延遲內容。
 
@@ -249,7 +249,7 @@ bootstrapApplication(App, {
 }
 ```
 
-#### `hover`
+#### `hover` {#hover}
 
 `hover` 觸發條件會在滑鼠透過 `mouseover` 與 `focusin` 事件懸停於觸發區域時，載入延遲內容。
 
@@ -272,7 +272,7 @@ bootstrapApplication(App, {
 }
 ```
 
-#### `immediate`
+#### `immediate` {#immediate}
 
 `immediate` 觸發條件會立即載入延遲內容。這意味著延遲區塊會在所有其他非延遲內容算繪完成後，隨即載入。
 
@@ -284,7 +284,7 @@ bootstrapApplication(App, {
 }
 ```
 
-#### `timer`
+#### `timer` {#timer}
 
 `timer` 觸發條件會在指定的持續時間後載入延遲內容。
 
@@ -427,7 +427,7 @@ import {HeavyComponent} from './heavy.component';
 
 萬一有此必要，請避免使用會導致內容在初始頁面算繪期間載入的 `immediate`、`timer`、`viewport` 與自訂 `when` 觸發條件。
 
-### 將無障礙納入考量
+### 將無障礙納入考量 {#keep-accessibility-in-mind}
 
 使用 `@defer` 區塊時，請考量對使用螢幕閱讀器等輔助技術的使用者的影響。
 聚焦於延遲區段的螢幕閱讀器一開始會讀出預留或載入中內容，但在延遲內容載入時可能不會宣告變更。

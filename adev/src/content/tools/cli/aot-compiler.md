@@ -85,7 +85,7 @@ TypeScript 編譯器會承擔第一階段的部分分析工作。它會輸出帶
 
 HELPFUL: Angular 的 [schema.ts](https://github.com/angular/angular/blob/12.2.x/packages/compiler-cli/src/metadata/schema.ts) 以一組 TypeScript 介面描述了該 JSON 格式。
 
-### 運算式語法限制
+### 運算式語法限制 {#expression-syntax-limitations}
 
 AOT 收集器只理解 JavaScript 的一個子集。請以下列受限的語法定義中繼資料物件：
 
@@ -124,7 +124,7 @@ HELPFUL: 若你希望 `ngc` 立即回報語法錯誤，而不是產生帶有錯�
 
 Angular 函式庫會設定此選項，以確保所有 Angular `.metadata.json` 檔案都乾淨無誤；建置自己的函式庫時，比照辦理也是最佳實務。
 
-### 程式碼摺疊
+### 程式碼摺疊 {#code-folding}
 
 編譯器只能解析對**已匯出**符號的參照。然而，收集器可以在收集期間求值一個運算式，並將結果（而非原始運算式）記錄到 `.metadata.json` 中。這讓你能在運算式中有限度地使用未匯出的符號。
 
@@ -213,7 +213,7 @@ export class Hero {
 
 編譯器理解收集器支援的所有語法形式，但若中繼資料的_語意_違反編譯器規則，它可能會拒絕_語法上_正確的中繼資料。
 
-### Public 或 protected 符號
+### Public 或 protected 符號 {#public-or-protected-symbols}
 
 編譯器只能參照_已匯出的符號_。
 
@@ -222,7 +222,7 @@ export class Hero {
 
 - 資料繫結的屬性也必須是 public 或 protected
 
-### 支援的類別與函式
+### 支援的類別與函式 {#supported-classes-and-functions}
 
 只要語法有效，收集器就能表示函式呼叫或以 `new` 建立物件。 然而，編譯器之後可能會拒絕產生對_特定_函式的呼叫，或建立_特定_物件。
 

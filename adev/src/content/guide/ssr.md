@@ -22,7 +22,7 @@ ng add @angular/ssr
 
 NOTE: 預設情況下，Angular 會預先渲染你的整個應用程式，並產生一個伺服器檔案。若要停用此行為並建立完全靜態的應用程式，請將 `outputMode` 設為 `static`。若要啟用 SSR，請更新伺服器路由以使用 `RenderMode.Server`。詳情請參閱 [`Server routing`](#server-routing) 與 [`Generate a fully static application`](#generate-a-fully-static-application)。
 
-## 伺服器路由
+## 伺服器路由 {#server-routing}
 
 ### 設定伺服器路由
 
@@ -163,7 +163,7 @@ export const serverRoutes: ServerRoute[] = [
 **預先渲染（SSG）**
 重新導向是以「軟重新導向」的方式實作，在預先渲染的 HTML 中使用 [`<meta http-equiv="refresh">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#refresh) 標籤。
 
-### 自訂建置時預先渲染（SSG）
+### 自訂建置時預先渲染（SSG） {#customizing-build-time-prerendering-ssg}
 
 使用 [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference') 時，你可以指定數個設定選項，來自訂預先渲染與提供的流程。
 
@@ -237,7 +237,7 @@ export const serverRoutes: ServerRoute[] = [
 ];
 ```
 
-## 撰寫與伺服器相容的元件
+## 撰寫與伺服器相容的元件 {#authoring-server-compatible-components}
 
 某些常見的瀏覽器 API 與功能在伺服器上可能無法使用。應用程式無法使用 `window`、`document`、`navigator` 或 `location` 等瀏覽器專屬的全域物件，以及 `HTMLElement` 的某些屬性。
 
@@ -273,7 +273,7 @@ IMPORTANT: 避免在範本中使用 `isPlatformBrowser` 搭配 `@if` 或其他�
 
 如果你想為每個請求產生新值，請使用帶有 `useFactory` 的工廠提供者。工廠函式會為每個傳入的請求執行，確保每次都建立新值並指派給該 token。
 
-## 提供平台專屬的實作
+## 提供平台專屬的實作 {#providing-platform-specific-implementations}
 
 當你的應用程式在瀏覽器與伺服器上需要不同行為時，請為每個平台提供分開的服務實作。這種做法能把平台邏輯集中在專屬的服務中。
 
@@ -393,7 +393,7 @@ IMPORTANT: 上述 token 在以下情境中會是 `null`：<ul class="docs-list">
 
 <!-- prettier-ignore-end -->
 
-## 產生完全靜態的應用程式
+## 產生完全靜態的應用程式 {#generate-a-fully-static-application}
 
 預設情況下，Angular 會預先渲染你的整個應用程式，並產生一個用來處理請求的伺服器檔案。這讓你的應用程式能把預先渲染好的內容提供給使用者。然而，如果你偏好沒有伺服器的完全靜態網站，可以在 `angular.json` 設定檔中將 `outputMode` 設為 `static`，來退出這個行為。
 
@@ -453,7 +453,7 @@ NOTE: `format` 選項只有在建置不產生伺服器時才會被考量。
 
 `HttpClient` 在伺服器上執行時會快取對外發出的網路請求。這些資訊會被序列化，並作為伺服器傳送的初始 HTML 的一部分傳給瀏覽器。在瀏覽器中，`HttpClient` 會檢查快取中是否有資料，若有，就在應用程式初始渲染期間重用它，而不發出新的 HTTP 請求。一旦應用程式在瀏覽器中執行時變得[穩定](api/core/ApplicationRef#isStable)，`HttpClient` 就會停止使用快取。
 
-### 設定回應主體大小上限
+### 設定回應主體大小上限 {#configuring-the-response-body-size-limit}
 
 當 `HttpClient` 在伺服器端渲染期間使用預設的 fetch 後端時，Angular 會將每個回應主體限制為 1 MB。這個限制可防止伺服器在渲染期間緩衝意外過大的回應。如果回應超過設定的上限，請求會失敗並產生 [NG02825](errors/NG02825) 錯誤。
 

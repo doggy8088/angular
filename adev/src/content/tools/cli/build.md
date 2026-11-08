@@ -43,7 +43,7 @@ Angular CLI 內含四個通常用作 `build` 目標的建置器：
 
 建置程序的結果會輸出到一個目錄（預設為 `dist/${PROJECT_NAME}`）。
 
-## 設定大小預算
+## 設定大小預算 {#configuring-size-budgets}
 
 應用程式的功能越長越大，體積也隨之增長。
 CLI 讓你能在設定中訂定大小門檻，確保應用程式的各個部分維持在你定義的大小界限之內。
@@ -174,7 +174,7 @@ Angular 支援 [Tailwind CSS](https://tailwindcss.com/)，這是一個 utility-f
 
 將 Tailwind CSS 與 Angular CLI 整合的方法，請參閱[〈在 Angular 中使用 Tailwind CSS〉](guide/tailwind)
 
-## 關鍵 CSS 內嵌
+## 關鍵 CSS 內嵌 {#critical-css-inlining}
 
 Angular 可以將應用程式的關鍵 CSS 定義內嵌，以改善[首次內容繪製（FCP）](https://web.dev/first-contentful-paint)。
 這個選項預設啟用。你可以在 [`styles` 自訂選項](reference/configs/workspace-config#styles-optimization-options)中停用這項內嵌。

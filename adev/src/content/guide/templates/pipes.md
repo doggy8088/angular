@@ -166,7 +166,7 @@ export class AppComponent {
 
 因此，這也表示物件屬性或陣列項目的異動不會被偵測到，除非整個物件或陣列參照被換成不同的執行個體。如果你需要這個層級的變更偵測，請參閱[偵測陣列或物件內部的變更](#detecting-change-within-arrays-or-objects)。
 
-## 建立自訂管道
+## 建立自訂管道 {#creating-custom-pipes}
 
 你可以實作一個帶有 `@Pipe` 裝飾器的 TypeScript 類別，來定義自訂管道。一個管道必須具備兩樣東西：
 
@@ -267,7 +267,7 @@ export class MyCustomTransformationPipe implements PipeTransform {
 }
 ```
 
-### 偵測陣列或物件內部的變更
+### 偵測陣列或物件內部的變更 {#detecting-change-within-arrays-or-objects}
 
 當你希望管道能偵測陣列或物件內部的變更時，必須將 `pure` 旗標傳入 `false`，把它標記為非純粹函式。
 

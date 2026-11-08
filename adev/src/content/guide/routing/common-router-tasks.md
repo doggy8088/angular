@@ -111,7 +111,7 @@ provideRouter(routes, withRouterConfig({paramsInheritanceStrategy: 'emptyOnly'})
 
 其他可用設定的詳細資訊，請參閱[路由設定選項](guide/routing/customizing-route-behavior#router-configuration-options)。
 
-## 顯示 404 頁面
+## 顯示 404 頁面 {#displaying-a-404-page}
 
 若要顯示 404 頁面，請設定一條[萬用字元路由](guide/routing/define-routes#wildcards)，把它的 `component` 屬性設為你想用作 404 頁面的元件，如下所示：
 
@@ -205,7 +205,7 @@ export class App {}
 總之，你可以撰寫具有一層、兩層或更多層路由的應用程式。
 連結參數陣列提供了足夠的彈性，可以表示任意路由深度，以及任意合法的路由路徑、（必要的）路由參數與（選用的）路由參數物件序列。
 
-## `LocationStrategy` 與瀏覽器 URL 樣式
+## `LocationStrategy` 與瀏覽器 URL 樣式 {#locationstrategy-and-browser-url-styles}
 
 當路由導覽到新的元件檢視時，它會以該檢視的 URL 更新瀏覽器的位置與歷史紀錄。
 

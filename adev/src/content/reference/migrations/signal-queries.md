@@ -94,7 +94,7 @@ export class MyComponent {
 
 使用這個選項，可以把分析限制在某個子資料夾。請注意，這表示該目錄之外的任何參照都會被默默略過，可能會破壞你的建置。
 
-## VSCode extension
+## VSCode extension {#vscode-extension}
 
 ![在 VSCode 擴充功能中點選 `@ViewChild` 欄位的截圖](assets/images/migrations/signal-queries-vscode.png '在 VSCode 擴充功能中點選 `@ViewChild` 欄位的截圖。')
 

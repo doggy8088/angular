@@ -1,6 +1,6 @@
 # 水合
 
-## 什麼是水合
+## 什麼是水合 {#what-is-hydration}
 
 水合是在用戶端還原伺服器端渲染應用程式的程序。這包括重用伺服器渲染出的 DOM 結構、保留應用程式狀態、傳遞伺服器先前已取得的應用程式資料等程序。
 
@@ -61,11 +61,11 @@ HELPFUL: 在水合完全運作之前，你很可能需要修正直接操作 DOM 
 
 你也可以使用 [Angular DevTools 瀏覽器擴充功能](tools/devtools) 查看頁面上各元件的水合狀態。Angular DevTools 也能啟用覆蓋層，標示頁面中哪些部分已完成水合。若發生水合不符錯誤，DevTools 也會突顯造成錯誤的元件。
 
-## 擷取與重播事件
+## 擷取與重播事件 {#capturing-and-replaying-events}
 
 當應用程式在伺服器上渲染時，產生的 HTML 一載入，頁面就會出現在瀏覽器中。使用者可能會以為已經可以與頁面互動，但事件監聽器要等到水合完成後才會掛上。事件重播功能會擷取水合完成前發生的所有事件，並在水合完成後重播這些事件。
 
-事件重播會隨著[增量水合](guide/incremental-hydration)一併啟用。若你以 `withNoIncrementalHydration()` 停用增量水合，仍可使用 `withEventReplay()` 函式啟用事件重播：
+事件重播會隨著[漸進式水合](guide/incremental-hydration)一併啟用。若你以 `withNoIncrementalHydration()` 停用漸進式水合，仍可使用 `withEventReplay()` 函式啟用事件重播：
 
 ```typescript
 import {
@@ -99,7 +99,7 @@ bootstrapApplication(App, {
 
 這項功能確保一致的使用者體驗，避免使用者在水合前進行的操作被忽略。
 
-## 限制
+## 限制 {#constraints}
 
 水合對你的應用程式施加了一些未啟用水合時不存在的限制。你的應用程式在伺服器與用戶端必須具有相同的 DOM 結構。水合程序預期 DOM 樹在兩處具有相同的結構，這也包括 Angular 在伺服器上渲染時產生的空白與註解節點。這些空白與節點必須存在於伺服器端渲染程序產生的 HTML 中。
 
@@ -107,7 +107,7 @@ IMPORTANT: 伺服器端渲染產生的 HTML，在伺服器與用戶端之間**�
 
 若伺服器與用戶端的 DOM 樹結構不符，水合程序在嘗試對應預期內容與 DOM 中實際內容時就會遇到問題。最常見的元兇，是使用原生 DOM API 直接操作 DOM 的元件。
 
-### 直接操作 DOM
+### 直接操作 DOM {#direct-dom-manipulation}
 
 若你的元件使用原生 DOM API 操作 DOM，或使用 `innerHTML` 或 `outerHTML`，水合程序就會遇到錯誤。DOM 操作會出問題的具體情況，包括存取 `document`、查詢特定元素，以及使用 `appendChild` 注入額外節點。將 DOM 節點拆離再移到其他位置也會導致錯誤。
 
@@ -115,7 +115,7 @@ IMPORTANT: 伺服器端渲染產生的 HTML，在伺服器與用戶端之間**�
 
 最好的做法是重構元件，避免這類 DOM 操作；可以的話，改用 Angular API 來完成。若無法重構這個行為，可以先使用 `ngSkipHydration` 屬性（[如下所述](#how-to-skip-hydration-for-particular-components)），等到能改成對水合友善的作法為止。
 
-### 有效的 HTML 結構
+### 有效的 HTML 結構 {#valid-html-structure}
 
 在某些情況下，若你的元件範本不具備有效的 HTML 結構，可能會在水合期間導致 DOM 不符錯誤。
 
@@ -129,7 +129,7 @@ IMPORTANT: 伺服器端渲染產生的 HTML，在伺服器與用戶端之間**�
 
 NOTE: 雖然 HTML 標準並未要求表格中必須有 `<tbody>` 元素，但現代瀏覽器會自動為未宣告 `<tbody>` 的表格建立一個。為了避免這種不一致造成的問題，請務必在表格中明確宣告 `<tbody>` 元素，以免發生水合錯誤。
 
-### Preserve Whitespaces 設定
+### Preserve Whitespaces 設定 {#preserve-whitespaces-configuration}
 
 使用水合功能時，建議將 `preserveWhitespaces` 保持預設值 `false`。若你的 tsconfig 中沒有這項設定，其值即為 `false`，不需要做任何變更。若你選擇將 `preserveWhitespaces: true` 加入 tsconfig 來啟用保留空白，可能會遇到水合相關問題；這項目尚未完整支援的設定。
 
@@ -143,13 +143,13 @@ HELPFUL: 請確認這項設定在伺服器用的 `tsconfig.server.json` 與瀏�
 
 提供自訂或「noop」的 Zone.js 實作，可能會改變「stable」事件的時機，導致序列化或清理過早或過晚觸發。這項目尚未完整支援的設定，你可能需要調整自訂 Zone.js 實作中 `onStable` 事件的時機。
 
-## 錯誤
+## 錯誤 {#errors}
 
 你可能會遇到幾種與水合相關的錯誤，從節點不符，到在無效的宿主節點上使用 `ngSkipHydration` 的情況都有。最常見的錯誤原因是使用原生 API 直接操作 DOM，導致水合無法在用戶端找到或對應伺服器所渲染的預期 DOM 樹狀結構。另一種可能遇到這類錯誤的情況，已在前文的[有效的 HTML 結構](#valid-html-structure)一節提過。因此，請確認範本中的 HTML 使用有效的結構，就能避免這類錯誤。
 
 水合相關錯誤的完整參考，請見[錯誤參考指南](/errors)。
 
-## 如何為特定元件略過水合
+## 如何為特定元件略過水合 {#how-to-skip-hydration-for-particular-components}
 
 有些元件可能因為前述問題（例如[直接操作 DOM](#direct-dom-manipulation)）而無法在水合啟用時正常運作。作為因應方法，你可以將 `ngSkipHydration` 屬性加到元件的標籤上，略過整個元件的水合。
 
@@ -228,6 +228,6 @@ bootstrapApplication(App, {
 
 許多第三方指令碼（例如廣告追蹤與分析工具）會在水合發生前修改 DOM。這些指令碼可能造成水合錯誤，因為頁面不再符合 Angular 預期的結構。請儘量將這類指令碼延後到水合完成後再執行。可以考慮使用 [`AfterNextRender`](api/core/afterNextRender)，將指令碼延後到水合後程序完成才執行。
 
-## 增量水合
+## 漸進式水合
 
-增量水合是水合的進階形式，能更細緻地控制水合發生的時機。詳情請見[增量水合指南](guide/incremental-hydration)。
+漸進式水合是水合的進階形式，能更細緻地控制水合發生的時機。詳情請見[漸進式水合指南](guide/incremental-hydration)。

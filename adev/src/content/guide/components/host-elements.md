@@ -31,7 +31,7 @@ export class ProfilePhoto {}
 
 在上面的範例中，`<profile-photo>` 是 `ProfilePhoto` 元件的宿主元素。
 
-## 繫結到宿主元素
+## 繫結到宿主元素 {#binding-to-the-host-element}
 
 元件可以將屬性、屬性值、樣式與事件繫結到它的宿主元素。這與元件範本內元素上的繫結行為完全相同，只是改用 `@Component` 裝飾器中的 `host` 屬性來定義：
 

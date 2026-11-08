@@ -84,13 +84,13 @@ export class DropZone { }
 
 Angular 會為比對到清單中_任何_選擇器的每個元素建立一個元件。
 
-## 如何選擇選擇器
+## 如何選擇選擇器 {#choosing-a-selector}
 
 絕大多數元件應使用自訂元素名稱作為其選擇器。所有自訂元素名稱都應包含連字號，如 [HTML 規格](https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name)所述。依預設，當 Angular 遇到不符合任何可用元件的自訂標籤名稱時，會回報錯誤，以防止因元件名稱打錯而產生的錯誤。
 
 關於在 Angular 範本中使用[原生自訂元素](https://developer.mozilla.org/docs/Web/Web_Components)的詳情，請參閱[進階元件設定](guide/components/advanced-configuration)。
 
-### 選擇器前綴
+### 選擇器前綴 {#selector-prefixes}
 
 Angular 團隊建議為專案內定義的所有自訂元件，使用簡短且一致的前綴。例如，如果你要用 Angular 打造 YouTube，你可能會為元件加上 `yt-` 前綴，像是 `yt-menu`、`yt-player` 等元件。像這樣為選擇器加上命名空間，能讓人一眼就看出特定元件的來源。依預設，Angular CLI 使用 `app-`。
 

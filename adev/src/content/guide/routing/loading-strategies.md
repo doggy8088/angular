@@ -34,7 +34,7 @@ export const routes: Routes = [
 
 在初始頁面載入時包含更多 JavaScript 會讓初始載入時間變慢，但使用者在應用程式中導覽時，轉換可以更加流暢。
 
-## 延遲載入的元件與路由
+## 延遲載入的元件與路由 {#lazily-loaded-components-and-routes}
 
 你可以使用 [`loadComponent`](api/router/Route#loadComponent) 屬性，在路由即將啟用之際，延遲載入該元件的 JavaScript。[`loadChildren`](api/router/Route#loadChildren) 屬性則會在路由比對期間延遲載入子路由。
 

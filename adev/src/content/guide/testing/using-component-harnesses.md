@@ -12,7 +12,7 @@ TIP: 本指南假設你已閱讀過[元件測試工具總覽指南](guide/testin
 ng add @angular/cdk
 ```
 
-## 測試工具環境與載入器
+## 測試工具環境與載入器 {#test-harness-environments-and-loaders}
 
 你可以在不同的測試環境中使用元件測試工具。Angular CDK 支援兩種內建環境：
 
@@ -135,7 +135,7 @@ const childLoader = await loader.getChildLoader('.child');
 const allChildLoaders = await loader.getAllChildLoaders('.child');
 ```
 
-### 篩選測試工具
+### 篩選測試工具 {#filtering-harnesses}
 
 當頁面包含某個元件的多個實例時，你可能會想根據元件的某個屬性來篩選，以取得特定的元件實例。你可以使用<strong>測試工具述詞</strong>來做到這一點；它是一個類別，用來將 `ComponentHarness` 類別與可用來篩選元件實例的述詞函式關聯起來。
 

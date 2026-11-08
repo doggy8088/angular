@@ -9,7 +9,7 @@
 Service Worker 會從本機快取回應 Angular 應用程式對資源或資料的請求，不需要等待網路。
 和任何快取一樣，它有內容何時到期與如何更新的規則。
 
-### 應用程式版本
+### 應用程式版本 {#application-versions}
 
 在 Angular Service Worker 的脈絡中，「版本」是代表 Angular 應用程式某個特定建置的一組資源集合。
 每當應用程式的新建置被部署時，Service Worker 就會把該建置視為應用程式的新版本。
@@ -74,7 +74,7 @@ Service Worker 取得正確的內容很重要，因此它會保留資源的雜�
 Angular Service Worker 會在 HTTP 快取標頭指出資源已不再有效之後，仍繼續提供該資源。同時，它會嘗試在背景重新整理已到期的資源。
 如此一來，損壞的未雜湊資源不會在快取中停留超過它們設定的存活時間。
 
-### 應用程式分頁
+### 應用程式分頁 {#application-tabs}
 
 如果一個應用程式接收到的資源版本突然或在沒有警告的情況下變更，可能會造成問題。
 這類問題的說明，請參閱[應用程式版本](#application-versions)一節。
@@ -127,7 +127,7 @@ provideServiceWorker('ngsw-worker.js?v=2', {
 註冊不同的指令碼 URL 會讓瀏覽器重新擷取並安裝 Service Worker，即使其內容未變更。
 Angular Service Worker 會相對於它的註冊範圍（而非指令碼 URL）來解析它的快取與 `ngsw.json`，因此查詢參數不會影響已快取的內容。
 
-### 繞過 Service Worker
+### 繞過 Service Worker {#bypassing-the-service-worker}
 
 在某些情況下，你可能會想完全繞過 Service Worker，讓瀏覽器處理請求。
 例如，當你依賴一個目前在 Service Worker 中不受支援的功能時，例如[回報已上傳檔案的進度](https://github.com/w3c/ServiceWorker/issues/1141)。
@@ -290,12 +290,12 @@ Chrome 等瀏覽器提供與 Service Worker 互動的開發者工具。
 錯誤或損壞的設定可能導致 Angular Service Worker 以非預期的方式運作。
 如果發生這種情況，Angular Service Worker 包含多種安全機制，以備管理員需要快速停用 Service Worker 時使用。
 
-### 故障安全機制
+### 故障安全機制 {#fail-safe}
 
 若要停用 Service Worker，請重新命名 `ngsw.json` 檔案或將它刪除。
 當 Service Worker 對 `ngsw.json` 的請求回傳 `404` 時，Service Worker 就會移除它所有的快取並取消註冊自己，實際上等於自我毀滅。
 
-### Safety worker 安全指令碼
+### Safety worker 安全指令碼 {#safety-worker}
 
 <!-- vale Angular.Google_Acronyms = NO -->
 

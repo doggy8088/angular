@@ -4,7 +4,7 @@
 
 元件範本不只是靜態 HTML，它還能使用元件類別中的資料，並為使用者互動設定處理常式。
 
-## 顯示動態文字
+## 顯示動態文字 {#showing-dynamic-text}
 
 在 Angular 中，繫結會在元件的範本與其資料之間建立動態連結。這個連結能確保元件資料一旦變更，渲染出的範本就會自動更新。
 
@@ -38,7 +38,7 @@ this.userName.set('cool_coder_789');
 <h1>Profile for cool_coder_789</h1>
 ```
 
-## 設定動態的屬性與屬性值
+## 設定動態的屬性與屬性值 {#setting-dynamic-properties-and-attributes}
 
 Angular 支援使用方括號，把動態值繫結到 DOM 屬性上：
 
@@ -62,7 +62,7 @@ export class UserProfile {
 
 當被繫結的值改變時，Angular 會自動更新 DOM 屬性與屬性值。
 
-## 處理使用者互動
+## 處理使用者互動 {#handling-user-interaction}
 
 Angular 讓你可以使用括號，為範本中的元素加上事件監聽器：
 
@@ -98,7 +98,7 @@ export class UserProfile {
 }
 ```
 
-## 使用 `@if` 與 `@for` 控制流程
+## 使用 `@if` 與 `@for` 控制流程 {#control-flow-with-if-and-for}
 
 你可以使用 Angular 的 `@if` 區塊，有條件地隱藏與顯示範本的一部分：
 

@@ -11,7 +11,7 @@ Angular 路由提供了強大的擴充點，讓你自訂路由在應用程式中
 
 NOTE: 在實作自訂策略之前，請先確認預設的路由行為無法滿足你的需求。Angular 的預設路由已針對常見使用案例最佳化，在效能與簡潔之間取得了最佳平衡。自訂路由策略會增加程式碼複雜度，若管理不慎，也可能對記憶體用量造成影響。
 
-## 路由設定選項
+## 路由設定選項 {#router-configuration-options}
 
 `withRouterConfig` 或 `RouterModule.forRoot` 允許提供額外的 `RouterConfigOptions`，來調整路由的行為。
 
@@ -164,7 +164,7 @@ Angular 路由公開了四個主要的自訂領域：
     <docs-pill href="#custom-route-matchers" title="自訂路由比對器"/>
   </docs-pill-row>
 
-## 路由重用策略
+## 路由重用策略 {#route-reuse-strategy}
 
 路由重用策略控制 Angular 在導覽期間是銷毀並重新建立元件，還是保留元件以供重用。預設情況下，Angular 在導覽離開一條路由時會銷毀元件實例，在導覽回來時建立新的實例。
 
@@ -268,7 +268,7 @@ if (this.handles.size > MAX_CACHE_SIZE) {
 
 NOTE: 當涉及 `canMatch` 守衛時，應避免使用路由路徑作為鍵，否則可能導致重複的項目。
 
-### 自動清理未使用的路由注入器
+### 自動清理未使用的路由注入器 {#automatic-cleanup-of-unused-route-injectors}
 
 預設情況下，即使分離的路由不再被 `RouteReuseStrategy` 儲存，Angular 也不會銷毀它們的注入器。這主要是因為對大多數應用程式而言，這一層級的記憶體管理並不常用。
 
@@ -356,7 +356,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## 預載策略
+## 預載策略 {#preloading-strategy}
 
 預載策略決定 Angular 何時在背景載入延遲載入的路由模組。雖然延遲載入透過延後模組下載改善了初始載入時間，但使用者第一次導覽到延遲路由時仍會感受到延遲。預載策略透過在使用者請求之前先載入模組，消除了這個延遲。
 
@@ -437,7 +437,7 @@ export const routes: Routes = [
 
 瀏覽器的資源限制也會影響預載行為。瀏覽器會限制同時的 HTTP 連線數，因此積極的預載可能會排在其他請求之後。Service Worker 可以提供對快取與網路請求的細粒度控制，輔助預載策略。
 
-## URL 處理策略
+## URL 處理策略 {#url-handling-strategy}
 
 URL 處理策略決定 Angular 路由處理哪些 URL、忽略哪些 URL。預設情況下，Angular 會嘗試處理應用程式內的所有導覽事件，但真實世界的應用程式經常需要與其他系統共存、處理外部連結，或與管理自身路由的舊有應用程式整合。
 
@@ -488,7 +488,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## 自訂路由比對器
+## 自訂路由比對器 {#custom-route-matchers}
 
 預設情況下，Angular 路由會依定義順序逐一檢查路由，嘗試把 URL 路徑與每條路由的路徑模式比對。它支援靜態區段、參數化區段（`:id`）與萬用字元（`**`）。第一條相符的路由獲勝，路由隨即停止搜尋。
 

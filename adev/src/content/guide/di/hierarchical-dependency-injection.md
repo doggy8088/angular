@@ -143,7 +143,7 @@ HELPFUL: 請參閱[解析規則](#resolution-rules)一節，了解 `EnvironmentI
 當你使用 `providers` 屬性為元件或指令設定提供者時，該提供者屬於該元件或指令的 `ElementInjector`。
 同一個元素上的元件和指令共用一個注入器。
 
-## 解析規則
+## 解析規則 {#resolution-rules}
 
 為元件／指令解析 token 時，Angular 會分兩個階段進行：
 
@@ -185,7 +185,7 @@ Angular 的解析行為可以用 `optional`、`self`、`skipSelf` 和 `host` 來
 - `host` 和 `self`
 - `skipSelf` 和 `self`。
 
-### `optional`
+### `optional` {#optional}
 
 `optional` 讓 Angular 把你注入的服務視為可選。
 這樣一來，如果它在執行階段無法被解析，Angular 會把該服務解析為 `null`，而不是擲出錯誤。
@@ -780,7 +780,7 @@ export class Child {
 
 `Child` 現在用自己的注入器在出口處建立 `<app-inspector>`，因此即使標記寫在 `App` 的範本中，`AnimalService` 也會解析為狗 <code>🐶</code>。代價是與 `<ng-content>` 相比，兩邊都要多寫一點標記。
 
-### 被提供 token 的可見性
+### 被提供 token 的可見性 {#visibility-of-provided-tokens}
 
 可見性裝飾器影響在邏輯樹中搜尋注入 token 的起點和終點。
 若要做到這一點，把可見性設定放在注入點，也就是叫用 `inject()` 時，而不是宣告點。

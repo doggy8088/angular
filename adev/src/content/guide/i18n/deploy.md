@@ -24,13 +24,13 @@
 
 IMPORTANT: 若你使用[伺服器端渲染](guide/ssr)且 `outputMode` 設為 `server`，Angular 會依據 `Accept-Language` HTTP 標頭動態自動處理重新導向。這省去了手動調整伺服器或設定的麻煩，讓部署更簡單。
 
-### Nginx 範例
+### Nginx 範例 {#nginx-example}
 
 下列範例顯示 Nginx 設定。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/nginx.conf" language="nginx"/>
 
-### Apache 範例
+### Apache 範例 {#apache-example}
 
 下列範例顯示 Apache 設定。
 

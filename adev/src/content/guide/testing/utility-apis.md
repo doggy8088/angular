@@ -16,7 +16,7 @@ Angular 測試工具包括 `TestBed`、`ComponentFixture`，以及一些控制�
 
 如需處理複雜的非同步情境，或測試舊版以 Zone.js 為基礎的應用程式，請參閱 [Zone.js 測試工具](guide/testing/zone-js-testing-utilities) 指南。
 
-## `TestBed` 類別摘要
+## `TestBed` 類別摘要 {#testbed-class-summary}
 
 `TestBed` 類別是主要的 Angular 測試工具之一。
 它的 API 相當龐大，在你逐漸探索之前可能會覺得難以招架。
@@ -67,7 +67,7 @@ type MetadataOverride<T> = {
 少數 `TestBed` 實例方法沒有對應的靜態 `TestBed` _類別_方法。
 這些方法很少需要使用。
 
-## `ComponentFixture`
+## `ComponentFixture` {#the-componentfixture}
 
 `TestBed.createComponent<T>` 會建立元件 `T` 的實例，並為該元件傳回強型別的 `ComponentFixture`。
 
@@ -100,7 +100,7 @@ _fixture_ 方法會讓 Angular 對元件樹執行某些工作。
 | `whenStable`        | 傳回一個在 fixture 穩定時完成的 promise。<br /> 若要在非同步活動或非同步變更偵測完成後繼續測試，請掛接該 promise。請參閱 [whenStable](guide/testing/components-scenarios#whenstable)。                                                                                                                                                                                                                                                                                                                          |
 | `destroy`           | 觸發元件銷毀。                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 
-#### `DebugElement`
+#### `DebugElement` {#debugelement}
 
 `DebugElement` 提供對元件 DOM 表示方式的關鍵洞察。
 

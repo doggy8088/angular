@@ -58,7 +58,7 @@ node_modules/@angular/core
 
 - 它宣告套件是否包含[副作用](#side-effects)
 
-### ESM 宣告
+### ESM 宣告 {#esm-declaration}
 
 最上層的 `package.json` 包含這個鍵：
 
@@ -70,7 +70,7 @@ node_modules/@angular/core
 
 這會告知解析器，套件中的程式碼使用 ECMAScript Modules，而非 CommonJS 模組。
 
-### `"exports"`
+### `"exports"` {#exports}
 
 `"exports"` 欄位的結構如下：
 
@@ -107,7 +107,7 @@ node_modules/@angular/core
 
 更多資訊請參閱[在程式庫中管理素材](tools/libraries/creating-libraries#managing-assets-in-a-library)。
 
-### 舊版解析鍵
+### 舊版解析鍵 {#legacy-resolution-keys}
 
 除了 `"exports"` 之外，最上層的 `package.json` 也為不支援 `"exports"` 的解析器定義了舊版模組解析鍵。
 以 `@angular/core` 為例，它們是：
@@ -121,7 +121,7 @@ node_modules/@angular/core
 
 如前面的程式碼片段所示，模組解析器可以使用這些鍵來載入特定的程式碼格式。
 
-### 副作用
+### 副作用 {#side-effects}
 
 `package.json` 的最後一項功能是宣告套件是否有[副作用](#sideeffects-flag)。
 
@@ -133,7 +133,7 @@ node_modules/@angular/core
 
 大多數 Angular 套件不應依賴最上層的副作用，因此應包含這項宣告。
 
-### 進入點與程式碼分割
+### 進入點與程式碼分割 {#entrypoints-and-code-splitting}
 
 Angular 套件格式的套件包含一個主要進入點，以及零個或多個次要進入點（例如 `@angular/common/http`）。
 進入點有幾項功能。
@@ -236,7 +236,7 @@ FESM 這個縮寫名稱讀作 *phe-som*，後面可以接一個數字，例如 F
 
 索引檔（例如 `my-ui-lib.js`）由 ngc 產生後，就可以使用 Rollup、Rolldown 等打包工具與最佳化工具來產出扁平化的 ESM 檔案。
 
-### 「sideEffects」旗標
+### 「sideEffects」旗標 {#sideeffects-flag}
 
 ECMAScript Modules 預設具有副作用：從模組匯入會確保該模組最上層的任何程式碼都應執行。
 這通常不是我們想要的，因為典型模組中大多數具有副作用的程式碼，其實並非真正具有副作用，只是影響特定的符號。

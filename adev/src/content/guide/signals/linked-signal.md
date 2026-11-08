@@ -54,7 +54,7 @@ shippingOptions.set(['Email', 'Will Call', 'Postal service']);
 console.log(selectedOption()); // 'Email'
 ```
 
-## 將先前狀態納入考量
+## 將先前狀態納入考量 {#accounting-for-previous-state}
 
 在某些情況下，`linkedSignal` 的計算需要把 `linkedSignal` 的先前值納入考量。
 

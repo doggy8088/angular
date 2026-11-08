@@ -71,7 +71,7 @@ export class AwesomeCounter {
 
 IMPORTANT: 唯讀訊號**並未**內建任何能防止其值被深層修改的機制。
 
-### 計算訊號
+### 計算訊號 {#computed-signals}
 
 **計算訊號**是唯讀訊號，其值衍生自其他訊號。你可以用 `computed` 函式並指定一段衍生邏輯來定義計算訊號：
 
@@ -122,7 +122,7 @@ const conditionalCount = computed(() => {
 
 請注意，依賴關係在衍生過程中可以被移除，也可以被新增。如果你之後把 `showCount` 設回 `false`，`count` 就不再被視為 `conditionalCount` 的依賴。
 
-## 反應式上下文
+## 反應式上下文 {#reactive-contexts}
 
 **反應式上下文**是一種執行階段狀態，Angular 在其中監控訊號的讀取以建立依賴關係。讀取訊號的程式碼是_消費者_，被讀取的訊號則是_生產者_。
 

@@ -195,7 +195,7 @@ export class App {}
 </custom-card>
 ```
 
-## 為投影內容加上別名
+## 為投影內容加上別名 {#aliasing-content-for-projection}
 
 Angular 支援一個特殊屬性 `ngProjectAs`，讓你可以在任何元素上指定 CSS 選擇器。當帶有 `ngProjectAs` 的元素要與 `<ng-content>` 佔位符比對時，Angular 會改以 `ngProjectAs` 的值來比對，而不是元素本身的身分：
 

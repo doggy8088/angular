@@ -16,7 +16,7 @@ ng generate guard CUSTOM_NAME
 
 TIP: 你也可以在 Angular 專案中建立一個獨立的 TypeScript 檔案，手動建立路由守衛。開發者通常會在檔案名稱後加上 `-guard.ts` 後綴，讓它和其他檔案有所區別。
 
-## 路由守衛的回傳類型
+## 路由守衛的回傳類型 {#route-guard-return-types}
 
 所有的路由守衛都具有相同的回傳類型選項。這讓你能更靈活地控制導覽流程：
 
@@ -28,7 +28,7 @@ TIP: 你也可以在 Angular 專案中建立一個獨立的 TypeScript 檔案，
 
 NOTE: `CanMatch` 的行為有所不同：當它回傳 `false` 時，Angular 會嘗試其他可比對的路由，而不是完全阻擋導覽。
 
-## 路由守衛的類型
+## 路由守衛的類型 {#types-of-route-guards}
 
 Angular 提供了四種類型的路由守衛，每一種都有不同的用途：
 
@@ -41,7 +41,7 @@ Angular 提供了四種類型的路由守衛，每一種都有不同的用途：
 
 所有的守衛都可以存取[在路由層級所提供的服務](guide/di/defining-dependency-providers#route-providers)，以及透過 `route` 引數所取得的、與該路由相關的資訊。
 
-### CanActivate
+### CanActivate {#canactivate}
 
 `CanActivate` 守衛用來決定使用者是否可以存取某個路由。它最常被用在身分驗證與授權這類情境上。
 
@@ -66,7 +66,7 @@ TIP: 如果你需要將使用者重新導向到其他地方，請回傳一個 [`
 
 如需更多資訊，請參閱 [CanActivateFn 的 API 文件](api/router/CanActivateFn)。
 
-### CanActivateChild
+### CanActivateChild {#canactivatechild}
 
 `CanActivateChild` 守衛用來決定使用者是否可以存取某個父路由底下的子路由。當你想要保護一整段巢狀路由時，這非常好用。換句話說，`canActivateChild` 會針對_所有_的子路由執行。假如某個子元件底下還嵌套了另一個子元件，則 `canActivateChild` 會針對每一個子元件各執行一次。
 
@@ -89,7 +89,7 @@ export const adminChildGuard: CanActivateChildFn = (
 
 如需更多資訊，請參閱 [CanActivateChildFn 的 API 文件](api/router/CanActivateChildFn)。
 
-### CanDeactivate
+### CanDeactivate {#candeactivate}
 
 `CanDeactivate` 守衛用來決定使用者是否可以離開某個路由。一個常見的情境，就是避免使用者在尚未儲存表單的狀態下離開。
 
@@ -117,7 +117,7 @@ export const unsavedChangesGuard: CanDeactivateFn<Form> = (
 
 如需更多資訊，請參閱 [CanDeactivateFn 的 API 文件](api/router/CanDeactivateFn)。
 
-### CanMatch
+### CanMatch {#canmatch}
 
 `CanMatch` 守衛用來決定某個路由在路徑比對期間是否能夠被成功配對。與其他守衛不同的是，一旦它拒絕配對，系統並不會直接阻擋所有導覽流程，而是會接著去嘗試比對其他符合的路由。這對於功能開關、A/B 測試，或是條件式載入路由等情境都相當好用。
 

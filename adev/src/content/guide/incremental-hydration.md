@@ -1,4 +1,4 @@
-# Incremental Hydration
+# 漸進式水合
 
 **漸進式水合**（incremental hydration）是一種進階的水合（hydration）方式，能讓應用程式的某些區塊保持未水合狀態，並在需要時漸進觸發這些區塊的水合。
 
@@ -65,7 +65,7 @@ hydrate 觸發條件有三種類型：`hydrate on`、`hydrate when` 與 `hydrate
 | [`hydrate on immediate`](#hydrate-on-immediate)     | 在非延遲內容完成渲染後立即觸發 |
 | [`hydrate on timer`](#hydrate-on-timer)             | 在特定時間長度後觸發                                     |
 
-#### `hydrate on idle`
+#### `hydrate on idle` {#hydrate-on-idle}
 
 `hydrate on idle` 觸發條件會在瀏覽器達到閒置狀態時，根據 `requestIdleCallback` 載入可延遲檢視的相依性並水合內容。
 
@@ -84,7 +84,7 @@ hydrate 觸發條件有三種類型：`hydrate on`、`hydrate when` 與 `hydrate
 }
 ```
 
-#### `hydrate on viewport`
+#### `hydrate on viewport` {#hydrate-on-viewport}
 
 `hydrate on viewport` 觸發條件會在指定內容使用 [Intersection Observer API](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API) 進入可視區域時，載入可延遲檢視的相依性，並水合應用程式對應的頁面。
 
@@ -96,7 +96,7 @@ hydrate 觸發條件有三種類型：`hydrate on`、`hydrate when` 與 `hydrate
 }
 ```
 
-#### `hydrate on interaction`
+#### `hydrate on interaction` {#hydrate-on-interaction}
 
 `hydrate on interaction` 觸發條件會在使用者透過 `click` 或 `keydown` 事件與指定元素互動時，載入可延遲檢視的相依性並水合內容。
 
@@ -108,7 +108,7 @@ hydrate 觸發條件有三種類型：`hydrate on`、`hydrate when` 與 `hydrate
 }
 ```
 
-#### `hydrate on hover`
+#### `hydrate on hover` {#hydrate-on-hover}
 
 `hydrate on hover` 觸發條件會在滑鼠透過 `mouseover` 與 `focusin` 事件懸停於觸發區域時，載入可延遲檢視的相依性並水合內容。
 
@@ -120,7 +120,7 @@ hydrate 觸發條件有三種類型：`hydrate on`、`hydrate when` 與 `hydrate
 }
 ```
 
-#### `hydrate on immediate`
+#### `hydrate on immediate` {#hydrate-on-immediate}
 
 `hydrate on immediate` 觸發條件會立即載入可延遲檢視的相依性並水合內容。這表示延遲區塊會在所有其他非延遲內容完成渲染後，立刻載入。
 
@@ -132,7 +132,7 @@ hydrate 觸發條件有三種類型：`hydrate on`、`hydrate when` 與 `hydrate
 }
 ```
 
-#### `hydrate on timer`
+#### `hydrate on timer` {#hydrate-on-timer}
 
 `hydrate on timer` 觸發條件會在指定時間長度後，載入可延遲檢視的相依性並水合內容。
 

@@ -111,7 +111,7 @@ const eventSubscription = someComponent.someEventProperty.subscribe((eventData) 
 eventSubscription.unsubscribe();
 ```
 
-## 選擇事件名稱
+## 選擇事件名稱 {#choosing-event-names}
 
 避免選擇會與 `HTMLElement` 等 DOM 元素上的事件衝突的 output 名稱。名稱衝突會讓人混淆所繫結的屬性究竟屬於元件還是 DOM 元素。
 

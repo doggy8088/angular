@@ -3,7 +3,7 @@
 驗證使用者輸入的正確性與完整性，可以提升整體資料品質。
 本頁說明如何從 UI 驗證使用者輸入，並顯示實用的驗證訊息，內容涵蓋反應式表單與範本驅動表單。
 
-## 在範本驅動表單中驗證輸入
+## 在範本驅動表單中驗證輸入 {#validating-input-in-template-driven-forms}
 
 若要為範本驅動表單加上驗證，你要加入的驗證屬性與[原生 HTML 表單驗證](https://developer.mozilla.org/docs/Web/Guide/HTML/HTML5/Constraint_validation)所用的相同。
 Angular 使用指令，將這些屬性與框架中的驗證器函式對應起來。
@@ -34,7 +34,7 @@ HELPFUL: 為了避免驗證器在使用者還來不及編輯表單前就顯示�
 - 當使用者變更受監看欄位的值時，該控制項會被標記為「dirty」
 - 當使用者讓表單控制項元素失焦時，該控制項會被標記為「touched」
 
-## 在反應式表單中驗證輸入
+## 在反應式表單中驗證輸入 {#validating-input-in-reactive-forms}
 
 在反應式表單中，真相來源是元件類別。
 你不是透過範本中的屬性加入驗證器，而是直接把驗證器函式加入元件類別中的表單控制項模型。
@@ -79,7 +79,7 @@ HELPFUL: 為了避免驗證器在使用者還來不及編輯表單前就顯示�
 
 請注意，範本中仍然保留了 `required` 屬性。雖然它對驗證而言並非必要，但為了無障礙的目的，應該將它保留。
 
-## 定義自訂驗證器
+## 定義自訂驗證器 {#defining-custom-validators}
 
 內建驗證器不見得總是符合你應用程式的確切使用情境，因此有時你需要建立自訂驗證器。
 
@@ -131,7 +131,7 @@ HELPFUL: 請注意，自訂驗證指令是用 `useExisting` 而不是 `useClass`
 
 如果你把 `useExisting` 換成 `useClass`，註冊的就會是一個新的類別實例，而它並沒有 `forbiddenName`。
 
-## 控制項狀態 CSS 類別
+## 控制項狀態 CSS 類別 {#control-status-css-classes}
 
 Angular 會自動將許多控制項屬性鏡像到表單控制項元素上，作為 CSS 類別。
 你可以使用這些類別，依據表單的狀態為表單控制項元素設定樣式。
@@ -337,7 +337,7 @@ interface ActorsService {
 new FormControl('', {updateOn: 'blur'});
 ```
 
-## 在反應式表單中動態管理驗證器
+## 在反應式表單中動態管理驗證器 {#managing-validators-dynamically-in-reactive-forms}
 
 在複雜的反應式表單中，你可能需要依據使用者輸入或應用程式狀態，新增、移除或修改驗證器。
 Angular 在 `AbstractControl` 上提供了數個方法，讓你在執行階段管理驗證器，而不必重新建立表單控制項。

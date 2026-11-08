@@ -92,7 +92,7 @@ Angular 元件、範本與樣式都放在這裡。
 | `tsconfig.app.json`                      | 應用程式專屬的 [TypeScript 設定](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)，包含 [Angular 編譯器選項](reference/configs/angular-compiler-options)。                            |
 | `tsconfig.spec.json`                     | 應用程式測試所用的 [TypeScript 設定](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)。                                                                                             |
 
-## 多個專案
+## 多個專案 {#multiple-projects}
 
 多專案工作區適合以單一儲存庫與全域設定管理多個 Angular 專案的組織（即「單一儲存庫」模式）。
 多專案工作區也支援函式庫開發。
@@ -130,7 +130,7 @@ my-workspace/
 └── … (library-specific code and configuration)
 ```
 
-## 函式庫專案檔案
+## 函式庫專案檔案 {#library-project-files}
 
 當你使用 CLI 產生函式庫時（例如使用 `ng generate library my-lib` 指令），產生的檔案會放入工作區的 `projects/` 資料夾。
 關於建立你自己的函式庫的更多資訊，請參閱[建立函式庫](tools/libraries/creating-libraries)。

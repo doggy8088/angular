@@ -176,7 +176,7 @@ orderForm = form(this.orderModel, (schemaPath) => {
 
 若兩個條件都為真，欄位會顯示兩個停用原因。這個模式很適合用在你想分開維護的複雜可用性規則上。
 
-## 在欄位上設定 `hidden()` 狀態
+## 在欄位上設定 `hidden()` 狀態 {#configuring-hidden-state-on-fields}
 
 `hidden()` 規則設定欄位的隱藏狀態。然而，這只設定了程式層面的狀態。**欄位是否出現在 UI 中，由你控制**。
 
@@ -636,7 +636,7 @@ export class Promo {
 - 防抖影響模型更新，不受其他狀態影響
 - 中繼資料是獨立的，隨時可用
 
-### 用 applyWhen 加入條件邏輯
+### 用 applyWhen 加入條件邏輯 {#conditional-logic-with-applywhen}
 
 使用 `applyWhen()`，有條件地套用整組規則：
 

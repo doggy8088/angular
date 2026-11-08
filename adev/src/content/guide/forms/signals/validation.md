@@ -52,7 +52,7 @@ NOTE: 結構定義回呼參數（在這些範例中是 `schemaPath`）是一個 
 
 所有驗證規則在每次變更時都會執行——驗證不會在第一個錯誤後短路停止。如果欄位同時有 `required()` 與 `email()` 驗證規則，兩者都會執行，而且可以同時產生錯誤。
 
-### 原生 HTML 驗證
+### 原生 HTML 驗證 {#native-html-validation}
 
 訊號表單**不會**使用瀏覽器內建的[限制驗證](https://developer.mozilla.org/en-US/docs/Web/HTML/Guides/Constraint_validation)來執行驗證規則。這是刻意的設計：訊號表單允許任何元件充當表單控制項，不限於原生表單元素。
 
@@ -265,7 +265,7 @@ minDate(schemaPath.checkIn, today, {message: 'Check-in cannot be in the past'});
 
 直接傳入 `new Date()` 可能會拒絕今天的日期，因為在輸入框中選取的值是 UTC 午夜，早於目前時間。這種情況會發生在 UTC 以及其後的時區。
 
-### minLength() 與 maxLength()
+### minLength() 與 maxLength() {#minlength-and-maxlength}
 
 `minLength()` 與 `maxLength()` 驗證規則處理字串與陣列：
 

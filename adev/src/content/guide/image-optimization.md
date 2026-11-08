@@ -85,7 +85,7 @@ NOTE: 如果你不知道圖片的尺寸，可以考慮使用「fill mode」來�
 </docs-step>
 </docs-workflow>
 
-## 使用 `fill` 模式
+## 使用 `fill` 模式 {#using-fill-mode}
 
 當你想讓圖片填滿一個容器元素時，可以使用 `fill` 屬性。這在你想達成「背景圖片」效果時經常很有用。當你不知道圖片確切的寬度與高度，但有一個已知尺寸的父容器、想讓圖片符合該容器時，這也很有幫助（見下方的「object-fit」）。
 
@@ -103,7 +103,7 @@ NOTE: 如果你不知道圖片的尺寸，可以考慮使用「fill mode」來�
 
 IMPORTANT: 若要讓「fill」圖片正確渲染，它的父元素**必須**設定 `position: "relative"`、`position: "fixed"` 或 `position: "absolute"` 樣式。
 
-## 如何遷移你的背景圖片
+## 如何遷移你的背景圖片 {#how-to-migrate-your-background-image}
 
 以下是一個將 `background-image` 遷移到 `NgOptimizedImage` 的簡單逐步流程。在這些步驟中，我們將具有圖片背景的元素稱為「容器元素」：
 
@@ -172,7 +172,7 @@ providers: [
 
 NgOptimizedImage 包含多項旨在改善應用程式載入效能的功能。本章節將說明這些功能。
 
-### 加入資源提示
+### 加入資源提示 {#add-resource-hints}
 
 為你的圖片來源加入 [`preconnect` 資源提示](https://web.dev/preconnect-and-dns-prefetch)，可以確保 LCP 圖片盡快載入。
 
@@ -194,7 +194,7 @@ providers: [
 
 有關自動產生 preconnect 的更多資訊，請見[這裡](#why-is-a-preconnect-element-not-being-generated-for-my-image-domain)。
 
-### 以自動產生的 `srcset` 請求正確大小的圖片
+### 以自動產生的 `srcset` 請求正確大小的圖片 {#request-images-at-the-correct-size-with-automatic-srcset}
 
 定義 [`srcset` 屬性](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/srcset)可以確保瀏覽器針對使用者的可視區域請求正確大小的圖片，才不會浪費時間下載過大的圖片。`NgOptimizedImage` 會根據圖片標籤上 [`sizes` 屬性](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/sizes)的有無與其值，為圖片產生適當的 `srcset`。
 
@@ -208,7 +208,7 @@ providers: [
 <img ... srcset="image-400w.jpg 1x, image-800w.jpg 2x" />
 ```
 
-#### 響應式圖片
+#### 響應式圖片 {#responsive-images}
 
 如果你的圖片應該是響應式的（也就是依可視區域大小放大縮小），你就需要定義 [`sizes` 屬性](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/sizes)來產生 `srcset`。
 
@@ -290,7 +290,7 @@ providers: [
 - `async`：以非同步方式解碼圖片，盡可能避免阻塞主執行緒。
 - `sync`：立即解碼圖片；可能會阻塞渲染，但能確保圖片一可用，像素就已就緒。
 
-### 進階的 'sizes' 值
+### 進階的 'sizes' 值 {#advanced-sizes-values}
 
 你可能想讓圖片在不同大小的螢幕上以不同的寬度顯示。這種模式的一個常見範例是網格或欄位式版面：在行動裝置上渲染單欄，在較大的裝置上渲染雙欄。你可以使用「media query」語法，在 `sizes` 屬性中捕捉這種行為，如下所示：
 
@@ -302,7 +302,7 @@ providers: [
 
 有關 `sizes` 屬性的更多資訊，請參閱 [web.dev](https://web.dev/learn/design/responsive-images/#sizes) 或 [mdn](https://developer.mozilla.org/docs/Web/API/HTMLImageElement/sizes)。
 
-## 為 `NgOptimizedImage` 設定圖片載入器
+## 為 `NgOptimizedImage` 設定圖片載入器 {#configuring-an-image-loader-for-ngoptimizedimage}
 
 「loader」（載入器）是一個函式，會為指定的圖片檔案產生[圖片轉換 URL](https://web.dev/image-cdns/#how-image-cdns-use-urls-to-indicate-optimization-options)。在適當的情況下，`NgOptimizedImage` 會為圖片設定大小、格式與圖片品質的轉換。
 
@@ -326,7 +326,7 @@ providers: [
 
 若要使用**通用載入器**，不需要額外的程式碼變更。這是預設行為。
 
-### 內建載入器
+### 內建載入器 {#built-in-loaders}
 
 若要使用現有的**第三方圖片服務**載入器，請將你所選服務的提供者工廠加入 `providers` 陣列。在下面的範例中，使用的是 Imgix 載入器：
 
@@ -344,7 +344,7 @@ providers: [
 
 你可以在對應 CDN 提供者的文件中，進一步了解基礎 URL 的結構。
 
-### 自訂載入器
+### 自訂載入器 {#custom-loaders}
 
 若要使用**自訂載入器**，請將你的載入器函式作為 `IMAGE_LOADER` DI token 的值提供。在下面的範例中，自訂載入器函式回傳一個以 `https://example.com` 開頭的 URL，其中包含 `src`、`width` 與 `height` 作為 URL 參數。
 
@@ -363,7 +363,7 @@ providers: [
 
 NOTE: 即使 `width` 屬性並不總是存在，自訂載入器也必須使用它，來支援以各種寬度請求圖片，讓 `ngSrcset` 能正常運作。
 
-### `loaderParams` 屬性
+### `loaderParams` 屬性 {#the-loaderparams-property}
 
 `NgOptimizedImage` 指令還支援一個額外的屬性，稱為 `loaderParams`，專門設計來支援自訂載入器的使用。`loaderParams` 屬性接受一個具有任意屬性的物件作為值，它本身不會做任何事。`loaderParams` 中的資料會被加入傳給你的自訂載入器的 `ImageLoaderConfig` 物件中，可用來控制載入器的行為。
 
@@ -442,7 +442,7 @@ NgOptimizedImage 並不直接支援 `background-image` css 屬性，但它的設
 
 之所以選擇以 `ngSrc` 屬性作為 NgOptimizedImage 的觸發方式，是基於瀏覽器載入圖片方式的技術考量。NgOptimizedImage 會以程式方式變更 `loading` 屬性——如果瀏覽器在這些變更完成之前就看到 `src` 屬性，它就會開始積極下載圖片檔案，而載入方式的變更將被忽略。
 
-### 為什麼我的圖片網域沒有產生 preconnect 元素？
+### 為什麼我的圖片網域沒有產生 preconnect 元素？ {#why-is-a-preconnect-element-not-being-generated-for-my-image-domain}
 
 preconnect 的產生是根據對你應用程式的靜態分析來執行的。這表示圖片網域必須直接包含在載入器參數中，如下列範例所示：
 

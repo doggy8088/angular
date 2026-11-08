@@ -132,7 +132,7 @@ NOTE: 即使路徑引數是 `schemaPath.address`，邏輯函式仍存取 `valueO
 
 這個模式讓驗證邏輯保持模組化——每個國家的地址規則各自放在自己的結構定義中，表單則根據使用者的選擇來決定啟用哪一個。
 
-## 使用 `applyWhenValue()` 進行型別縮小
+## 使用 `applyWhenValue()` 進行型別縮小 {#type-narrowing-with-applywhenvalue}
 
 `applyWhenValue()` 函式簡化了只需要檢查欄位值的條件。它不像前者那樣讓條件函式接收 `FieldContext`，而是直接把欄位的原始值傳給條件函式。
 

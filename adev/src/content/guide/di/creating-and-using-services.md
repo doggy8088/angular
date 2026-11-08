@@ -41,7 +41,7 @@ export class BasicDataStore {
 - **全域可用**：在任何地方自動可存取，無需手動註冊提供者。
 - **可搖樹優化**（tree-shaking）：確保若你的程式碼從未明確使用該服務，最終的生產 bundle 就不會包含它。
 
-### 使用 `@Service` 與 `@Injectable` 裝飾器的比較
+### 使用 `@Service` 與 `@Injectable` 裝飾器的比較 {#using-the-service-vs-injectable-decorator}
 
 `@Service` 裝飾器是傳統 `@Injectable({ providedIn: 'root' })` 寫法的現代、符合人體工學的簡寫。
 
@@ -86,7 +86,7 @@ class GoogleAnalytics extends Analytics {
 
 NOTE: `factory` 選項取代了 `@Injectable` 的 `useClass`、`useValue`、`useExisting` 與 `useFactory` 選項。如果你需要其中任何一項，請繼續使用 `@Injectable`。
 
-### 退出自動提供
+### 退出自動提供 {#opting-out-of-automatic-provisioning}
 
 依預設，`@Service` 會在根 injector 提供該類別。如果你想手動提供它，例如將其作用域限定於特定路由或元件，請設定 `autoProvided: false`：
 

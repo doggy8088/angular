@@ -32,7 +32,7 @@ HELPFUL: 設定檔的 `projects` 區段，與工作區檔案結構並不完全�
 
 更多資訊，請參閱[工作區與專案檔案結構](reference/configs/file-structure)。
 
-## Angular CLI 設定選項
+## Angular CLI 設定選項 {#angular-cli-configuration-options}
 
 下列屬性是一組用來自訂 Angular CLI 的選項。
 
@@ -44,7 +44,7 @@ HELPFUL: 設定檔的 `projects` 區段，與工作區檔案結構並不完全�
 | `packageManager`       | 要使用的偏好套件管理工具。                                                                                       | `npm` \| `pnpm` \| `yarn` \| `bun`    | `npm`         |
 | `warnings`             | 控制 Angular CLI 專屬的主控台警告。                                                                              | [警告選項](#warnings-options)         | `{}`          |
 
-### 快取選項
+### 快取選項 {#cache-options}
 
 | 屬性          | 詳細說明                                                                                                                                                                                                                                       | 值型別                   | 預設值           |
 | :------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------------- | :--------------- |
@@ -52,7 +52,7 @@ HELPFUL: 設定檔的 `projects` 區段，與工作區檔案結構並不完全�
 | `environment` | 設定在哪種環境中啟用磁碟快取。<br><br>_ `ci` 僅在持續整合（CI）環境中啟用快取。<br>_ `local` 僅在 CI 環境 _之外_ 啟用快取。<br>\* `all` 在所有地方啟用快取。                                                                                 | `local` \| `ci` \| `all` | `local`          |
 | `path`        | 用來儲存快取結果的目錄。                                                                                                                                                                                                                       | `string`                 | `.angular/cache` |
 
-### 警告選項
+### 警告選項 {#warnings-options}
 
 | 屬性              | 詳細說明                                                         | 值型別    | 預設值 |
 | :---------------- | :--------------------------------------------------------------- | :-------- | :----- |
@@ -72,7 +72,7 @@ HELPFUL: 設定檔的 `projects` 區段，與工作區檔案結構並不完全�
 | `schematics`  | 一組原理圖，用來自訂此專案的 `ng generate` 子指令選項預設值。請參閱[產生原理圖](#schematics)區段。                                                                                                                     | 請參閱[原理圖](#schematics)                                     | `{}`            |
 | `architect`   | 此專案的 Architect 建置器目標的設定預設值。                                                                                                                                                                            | 請參閱[設定建置器目標](#configuring-builder-targets)            | `{}`            |
 
-## i18n 選項
+## i18n 選項 {#i18n-options}
 
 使用 `i18n` 專案選項，定義應用程式的原始語言地區與要建置的任何其他語言地區。
 
@@ -81,7 +81,7 @@ HELPFUL: 設定檔的 `projects` 區段，與工作區檔案結構並不完全�
 | `sourceLocale` | 應用程式原始碼中使用的語言地區。可以是語言地區識別碼字串，或是一個[設定物件](#sourcelocale-object)。                             | `string` \| [sourceLocale 物件](#sourcelocale-object) | `"en-US"`     |
 | `locales`      | 語言地區識別碼對應到翻譯檔案或[語言地區設定物件](#locale-object)的對應表。                                                  | `object`                                                | `{}`          |
 
-### `sourceLocale` 物件
+### `sourceLocale` 物件 {#sourcelocale-object}
 
 傳入物件而非字串，以自訂原始語言地區的輸出目錄或基底 HREF：
 
@@ -91,7 +91,7 @@ HELPFUL: 設定檔的 `projects` 區段，與工作區檔案結構並不完全�
 | `baseHref` | 覆寫此語言地區的 HTML `<base href>`。輸出目錄名稱仍保持為語言地區代碼。不能與 `subPath` 一起使用。            | `string`   | 語言地區代碼  |
 | `subPath`  | 同時設定輸出目錄名稱與此語言地區的 HTML `<base href>`。不能與 `baseHref` 一起使用。                           | `string`   | 語言地區代碼  |
 
-### 語言地區物件
+### 語言地區物件 {#locale-object}
 
 每個 `locales` 項目可以是路徑字串、路徑陣列或物件：
 
@@ -103,7 +103,7 @@ HELPFUL: 設定檔的 `projects` 區段，與工作區檔案結構並不完全�
 
 HELPFUL: 當你也需要重新命名輸出目錄時，請使用 `subPath` 而非 `baseHref`，例如輸出到 `de-DE/` 而不是 `de/`。
 
-## 原理圖
+## 原理圖 {#schematics}
 
 [Angular 原理圖](tools/cli/schematics) 是一組指示，用來透過加入新檔案或修改現有檔案來修改專案。
 你可以將原理圖名稱對應到一組預設選項，藉此進行設定。
@@ -142,7 +142,7 @@ Angular 定義了預設建置器，供特定指令使用，或搭配一般的 `n
 定義每個建置器的選項與預設值的 JSON 結構定義，收集在 [`@angular/build`](https://github.com/angular/angular-cli/blob/main/packages/angular/build/builders.json) 套件中。
 這些結構定義為下列建置器設定選項。
 
-### 設定建置器目標
+### 設定建置器目標 {#configuring-builder-targets}
 
 `angular.json` 的 `architect` 區段包含一組 Architect 目標。
 許多目標對應到執行它們的 Angular CLI 指令。
@@ -163,7 +163,7 @@ Angular 定義了預設建置器，供特定指令使用，或搭配一般的 `n
 
 HELPFUL: 設定檔中的所有選項都必須使用 `camelCase`，而不是命令列所使用的 `dash-case`。
 
-## Build target
+## Build target {#build-target}
 
 `architect` 下的每個目標都有下列屬性：
 
@@ -192,7 +192,7 @@ HELPFUL: 設定檔中的所有選項都必須使用 `camelCase`，而不是命�
 }
 ```
 
-### 替代建置設定
+### 替代建置設定 {#alternate-build-configurations}
 
 Angular CLI 附帶兩種建置設定：`production` 與 `development`。
 預設情況下，`ng build` 指令使用 `production` 設定，這會套用多項建置最佳化，包括：
@@ -235,7 +235,7 @@ Angular CLI 附帶兩種建置設定：`production` 與 `development`。
 若多個設定變更了相同設定，最後設定的值就是最終值。
 在此範例中，若 `staging` 與 `french` 設定都設定了輸出路徑，將會使用 `french` 中的值。
 
-### 額外的建置與測試選項
+### 額外的建置與測試選項 {#extra-build-and-test-options}
 
 預設或目標建置的可設定選項，通常對應到 [`ng build`](cli/build) 與 [`ng test`](cli/test) 指令可用的選項。
 這些選項與其可能值的詳細資訊，請參閱 [Angular CLI 參考文件](cli)。
@@ -267,7 +267,7 @@ Angular CLI 附帶兩種建置設定：`production` 與 `development`。
 
 下列區段提供更多關於這些複雜值在各情況下如何使用的詳細資訊。
 
-### 資產設定
+### 資產設定 {#assets-configuration}
 
 每個 `build` 目標設定都可以包含一個 `assets` 陣列，列出你想在建置專案時原樣複製的檔案或資料夾。
 預設情況下，`public/` 目錄的內容會被複製過去。
@@ -341,7 +341,7 @@ Angular CLI 附帶兩種建置設定：`production` 與 `development`。
 }
 ```
 
-### 樣式與指令碼設定
+### 樣式與指令碼設定 {#styles-and-scripts-configuration}
 
 `styles` 與 `scripts` 選項的陣列項目，可以是簡單路徑字串，或是指向額外進入點檔案的物件。
 相關建置器會在建置期間，將該檔案及其相依性載入為個別的套件組。
@@ -420,7 +420,7 @@ HELPFUL: 預設的 `@angular/build:unit-test` 建置器沒有 `styles` 或 `scri
 若你的專案使用 `@angular/build:karma` 建置器，請將單元測試需要的任何樣式或指令碼加入 `test` 目標。
 另請參閱[在應用程式中使用執行階段全域函式庫](tools/libraries/using-libraries#using-runtime-global-libraries-inside-your-app)。
 
-### 最佳化設定
+### 最佳化設定 {#optimization-configuration}
 
 `optimization` 選項可以是布林值，也可以是物件，以進行更細緻的設定。
 此選項會啟用建置輸出的多項最佳化，包括：
@@ -439,7 +439,7 @@ HELPFUL: 預設的 `@angular/build:unit-test` 建置器沒有 `styles` 或 `scri
 | `styles`  | 啟用樣式輸出的最佳化。                                 | `boolean` \| [樣式最佳化選項](#styles-optimization-options)               | `true` |
 | `fonts`   | 啟用字型的最佳化。這需要網際網路存取。                 | `boolean` \| [字型最佳化選項](#fonts-optimization-options)                | `true` |
 
-#### 樣式最佳化選項
+#### 樣式最佳化選項 {#styles-optimization-options}
 
 | 選項                    | 詳細說明                                                                                                         | 值型別    | 預設值 |
 | :---------------------- | :----------------------------------------------------------------------------------------------------------------------- | :--------- | :------------ |
@@ -447,7 +447,7 @@ HELPFUL: 預設的 `@angular/build:unit-test` 建置器沒有 `styles` 或 `scri
 | `inlineCritical`        | 擷取並行內化關鍵 CSS 定義，以改善[首次內容繪製](https://web.dev/first-contentful-paint)。                                | `boolean`  | `true`        |
 | `removeSpecialComments` | 移除全域 CSS 中包含 `@license` 或 `@preserve`，或是以 `//!` 或 `/*!` 開頭的註解。                                        | `boolean`  | `true`        |
 
-#### 字型最佳化選項
+#### 字型最佳化選項 {#fonts-optimization-options}
 
 | 選項     | 詳細說明                                                                                                                                                                                                             | 值型別    | 預設值 |
 | :------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------- | :------------ |
@@ -547,7 +547,7 @@ HELPFUL: 使用隱藏的來源對應時，來源對應不會在套件組中被�
 }
 ```
 
-### 索引設定
+### 索引設定 {#index-configuration}
 
 設定應用程式 HTML 索引的產生方式。
 
@@ -564,7 +564,7 @@ HELPFUL: 使用隱藏的來源對應時，來源對應不會在套件組中被�
 | `output`         | 應用程式產生的 HTML 索引檔案的輸出路徑。會使用所提供的完整路徑，並會視為相對於應用程式設定的輸出路徑。                                                                             | `string`   | `index.html`                                               |
 | `preloadInitial` | 為應用程式的初始檔案與資源，產生 `preload`、`modulepreload` 與 `preconnect` 連結元素。                                                                                             | `boolean`  | 啟用服務工作程式時為 `false`，否則為 `true` |
 
-### 安全性設定
+### 安全性設定 {#security-configuration}
 
 `security` 選項是一個物件，可啟用個別的安全性功能。
 
@@ -573,7 +573,7 @@ HELPFUL: 使用隱藏的來源對應時，來源對應不會在套件組中被�
 | `autoCsp`      | 設為 `true` 時產生以雜湊為基礎的內容安全政策，或設為 `{"unsafeEval": true}` 以同時允許 `eval`。請參閱[使用 `autoCsp` 對行內指令碼進行雜湊](best-practices/security#hash-inline-scripts-with-autocsp)。                       |
 | `allowedHosts` | 允許存取伺服器端應用程式的主機名稱。請參閱[防止伺服器端請求偽造 (SSRF)](best-practices/security#preventing-server-side-request-forgery-ssrf)。                                                                               |
 
-### 輸出路徑設定
+### 輸出路徑設定 {#output-path-configuration}
 
 `outputPath` 選項可以是字串（會用作 `base` 值），也可以是物件，以進行更細緻的設定。
 

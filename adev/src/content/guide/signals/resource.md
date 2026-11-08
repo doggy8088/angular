@@ -43,7 +43,7 @@ const firstName = computed(() => {
 
 `Resource` 有一個 `value` 訊號，其中包含 loader 的結果。
 
-## 資源載入器
+## 資源載入器 {#resource-loaders}
 
 建立資源時，你要指定一個 `ResourceLoader`。這個 loader 是一個非同步函式，接受單一參數——一個 `ResourceLoaderParams` 物件——並傳回一個值。
 
@@ -78,7 +78,7 @@ const userResource = resource({
 userUpdates.set({value: 'Bob'});
 ```
 
-### 中止請求
+### 中止請求 {#aborting-requests}
 
 如果資源載入期間 `params` 計算改變，資源會中止尚未完成的載入操作。
 
@@ -99,7 +99,7 @@ const userResource = resource({
 
 關於使用 `AbortSignal` 取消請求的更多詳情，請參閱 [MDN 上的 `AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)。
 
-### 重新載入
+### 重新載入 {#reloading}
 
 你可以呼叫 `reload` 方法，以程式化方式觸發資源的 `loader`。
 
@@ -116,7 +116,7 @@ const userResource = resource({
 userResource.reload();
 ```
 
-## 資源狀態
+## 資源狀態 {#resource-status}
 
 資源物件有數個訊號屬性，可用來讀取非同步 loader 的狀態。
 
@@ -161,7 +161,7 @@ const userResource = resource({
 
 IMPORTANT: 由於快取值會被序列化進頁面的 HTML 中，請避免在載入特定使用者資料的資源上設定 `id`，尤其是那些資料屬於觸發伺服器端渲染的使用者、且渲染出的 HTML 可能被快取或在使用者之間共用時。
 
-## 串連資源
+## 串連資源 {#chaining-resources}
 
 有時，一個資源會依賴另一個資源的結果。你可以使用 `params` 上下文物件中提供的 `chain` 函式來表達這種依賴關係。
 
@@ -208,7 +208,7 @@ const companyResource = resource({
 
 只有當下游資源需要執行依賴上游值的非同步工作時，才使用 `chain`。如果你只需要從資源同步衍生出一個值，改用 `computed` 即可。
 
-## 使用 `httpResource` 進行反應式資料擷取
+## 使用 `httpResource` 進行反應式資料擷取 {#reactive-data-fetching-with-httpresource}
 
 [`httpResource`](/guide/http/http-resource) 是 `HttpClient` 的包裝器，它會把請求狀態與回應以訊號的形式提供給你。它透過 Angular 的 HTTP 堆疊（包括攔截器）發出 HTTP 請求。
 

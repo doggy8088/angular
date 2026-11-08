@@ -2,7 +2,7 @@
 
 本文件說明如何在使用 [Angular CLI](tools/cli) 建立的專案中啟用 Angular service worker 支援，接著透過範例實際示範 service worker 的運作，展示載入與基本快取的行為。
 
-## 將 service worker 加入你的專案
+## 將 service worker 加入你的專案 {#adding-a-service-worker-to-your-project}
 
 若要在專案中設定 Angular service worker，請執行下列 CLI 指令：
 

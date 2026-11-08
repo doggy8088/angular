@@ -2,7 +2,7 @@
 
 本主題說明 Service Worker 設定檔的各項屬性。
 
-## 修改設定
+## 修改設定 {#modifying-the-configuration}
 
 `ngsw-config.json` 這個 JSON 設定檔，指定 Angular Service Worker 應該快取哪些檔案與資料 URL，以及應該如何更新已快取的檔案與資料。
 [Angular CLI](tools/cli) 會在 `ng build` 期間處理這個設定檔。
@@ -48,12 +48,12 @@
 `SwUpdate` 服務會把該資料包含在更新通知中。
 許多應用程式使用這一節提供額外資訊，用來顯示 UI 彈出視窗，通知使用者有可用更新。
 
-### `index`
+### `index` {#index}
 
 指定作為索引頁面來滿足導覽請求的檔案。
 通常是 `/index.html`。
 
-### `assetGroups`
+### `assetGroups` {#assetgroups}
 
 _資產_是應用程式版本的一部分、會隨應用程式一起更新的資源。
 它們可以包括從頁面來源載入的資源，以及從 CDN 與其他外部 URL 載入的第三方資源。
@@ -362,7 +362,7 @@ HELPFUL: 若要設定導覽請求是否要送往網路，請參閱 [navigationRe
 ];
 ```
 
-### `navigationRequestStrategy`
+### `navigationRequestStrategy` {#navigationrequeststrategy}
 
 這個可選屬性讓你可以設定 Service Worker 如何處理導覽請求：
 
@@ -379,6 +379,6 @@ HELPFUL: 若要設定導覽請求是否要送往網路，請參閱 [navigationRe
 
 IMPORTANT: `freshness` 策略通常會導致更多請求送往伺服器，這可能會增加回應延遲。建議只要有可能，就使用預設的效能策略。
 
-### `applicationMaxAge`
+### `applicationMaxAge` {#applicationmaxage}
 
 這個可選屬性讓你可以設定 Service Worker 會快取任何請求多久。在 `maxAge` 之內，檔案會從快取提供。超過之後，所有請求都只會從網路提供，包括資產與資料請求。

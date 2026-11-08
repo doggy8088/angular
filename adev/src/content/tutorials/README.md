@@ -4,7 +4,7 @@
 - [教學目錄結構](#tutorials-directory-structure)
 - [保留的教學目錄](#reserved-tutorials-directories)
 
-## Tutorial files
+## Tutorial files {#tutorial-files}
 
 教學內容由教學正文、原始碼與設定組成。
 
@@ -35,7 +35,7 @@
 
 教學原始碼的優先權高於 [`common`](#common) 專案檔案，因此如果某個檔案同時存在於 [`common`](#common) 與教學目錄中、且相對路徑相同，教學目錄中的檔案會覆蓋 [`common`](#common) 的檔案。
 
-## Tutorials directory structure
+## Tutorials directory structure {#tutorials-directory-structure}
 
 一個教學由簡介與若干步驟組成。簡介與每個步驟都有各自的正文、設定與原始碼。
 
@@ -62,9 +62,9 @@
 - 連字號是分隔符號 :)。
 - 目錄名稱（包含數字與連字號）定義了步驟的 URL。
 
-## Reserved tutorials directories
+## Reserved tutorials directories {#reserved-tutorials-directories}
 
-### `common`
+### `common` {#common}
 
 common 專案是一個完整的 Angular 專案，所有教學都會重複使用它。它包含所有相依套件（`package.json`、`package-lock.json`）、專案設定（`tsconfig.json`、`angular.json`），以及啟動應用程式的主要檔案（`index.html`、`main.ts`、`app.config.ts`）。
 

@@ -159,7 +159,7 @@ export class Counter {
 
 雖然 `declareExperimentalWebMcpTool` 在任何注入上下文中都能運作，請留意[名稱衝突](#name-collisions)，並優先在根服務中使用它。
 
-## Signal Forms 中的隱含工具
+## Signal Forms 中的隱含工具 {#implicit-tools-in-signal-forms}
 
 你只需極少的設定，就能從既有的 Angular [Signal Form](essentials/signal-forms) 隱含地建立 WebMCP 工具。Angular 會把你的表單模型轉換為功能豐富的 WebMCP 工具，有效支援高度動態的表單，無需你手動撰寫 JSON 結構定義或事件處理常式。
 
@@ -241,7 +241,7 @@ Angular 從表單模型的初始值推斷 WebMCP 結構定義。這需要：
 
 請謹記下列最佳實踐：
 
-### 名稱衝突
+### 名稱衝突 {#name-collisions}
 
 WebMCP 要求每個工具都有唯一的名稱，若同一個工具名稱被註冊多次，就會拋出錯誤。這表示在可能被多次註冊的上下文（例如元件建構子）中呼叫 `declareExperimentalWebMcpTool` 或 `provideExperimentalWebMcpTools`，可能會在執行階段導致錯誤。
 

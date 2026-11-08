@@ -4,7 +4,7 @@
 這些模式可能不會產生開發者預期的效果，往往因此導致錯誤。
 Angular 編譯器包含「擴充診斷」，能識別出許多這類模式，藉此提醒開發者注意潛在問題，並在程式碼庫中落實常見的最佳實務。
 
-## 診斷項目
+## 診斷項目 {#diagnostics}
 
 目前 Angular 支援以下擴充診斷：
 
@@ -29,7 +29,7 @@ Angular 編譯器包含「擴充診斷」，能識別出許多這類模式，藉
 | `NG8119` | [`numericCssPropertyRequiresUnit`](extended-diagnostics/NG8119)       |
 | `NG8021` | [`deferTriggerMisconfiguration`](extended-diagnostics/NG8021)         |
 
-## 設定
+## 設定 {#configuration}
 
 擴充診斷預設為警告，不會阻擋編譯。
 每項診斷都可以設定為以下其中一種：

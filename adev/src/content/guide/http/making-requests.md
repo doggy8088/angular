@@ -6,7 +6,7 @@ NOTE: 由 `HttpClient` 建立的 `Observable` 可以被訂閱任意多次，每�
 
 透過傳給請求方法的 options 物件，可以調整請求的各種屬性，以及回傳的回應型別。
 
-## 擷取 JSON 資料
+## 擷取 JSON 資料 {#fetching-json-data}
 
 從後端擷取資料通常需要使用 [`HttpClient.get()`](api/common/http/HttpClient#get) 方法發出 GET 請求。此方法接受兩個參數：要擷取資料的字串端點 URL，以及一個用來設定請求的「選用 options」物件。
 
@@ -249,7 +249,7 @@ http
 | `HttpEventType.Response`         | 已收到完整回應，包括回應主體                 |
 | `HttpEventType.User`             | 來自 HTTP 攔截器的自訂事件。                                           |
 
-## 處理請求失敗
+## 處理請求失敗 {#handling-request-failure}
 
 HTTP 請求可能以三種方式失敗：
 

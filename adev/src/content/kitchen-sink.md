@@ -16,7 +16,7 @@
 2. 優質的……
 3. 文件！
 
-## 標題（h2）
+## 標題（h2） {#headers-h2}
 
 ### 較小的標題（h3）
 
@@ -26,7 +26,7 @@
 
 ###### 最小的標題！（h6）
 
-## 卡片
+## 卡片 {#cards}
 
 <docs-card-container>
   <docs-card title="什麼是 Angular？" link="平台總覽" href="tutorials/first-app">
@@ -50,7 +50,7 @@
 | `link`                  | （選填）行動呼籲連結文字                          |
 | `href`                  | （選填）行動呼籲連結的 href                       |
 
-## 提示框
+## 提示框 {#callouts}
 
 <docs-callout title="一個實用提示框的標題">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus metus blandit semper faucibus. Sed blandit diam quis tellus maximus, ac scelerisque ex egestas. Ut euismod lobortis mauris pretium iaculis. Quisque ullamcorper, elit ut lacinia blandit, magna sem finibus urna, vel suscipit tortor dolor id risus.
@@ -72,7 +72,7 @@
 | 卡片主體內容                                     | 介於 `<docs-callout>` 與 `</docs-callout>` 之間的任何內容 |
 | `helpful`（預設）\| `critical` \| `important`    | （選填）依嚴重程度加上樣式與圖示                          |
 
-## 膠囊按鈕
+## 膠囊按鈕 {#pills}
 
 膠囊按鈕列很適合當作一種導覽，連結到實用的資源。
 
@@ -95,7 +95,7 @@
 
 膠囊按鈕也可以單獨行內使用，不過我們還沒把那種用法做出來。
 
-## 警示
+## 警示 {#alerts}
 
 警示就是特殊的段落。它們很適合用來特別標示（別和提示框搞混）比較緊急的事情。它們的字體大小由上下文決定，而且有許多等級可用。盡量不要用警示來呈現太多內容，而是用來強化周圍的內容並吸引讀者注意。
 
@@ -121,7 +121,7 @@ HELPFUL: 使用 Best practice 來特別標示已知成功，或是比其他替�
 
 NOTE: 各位 `developers` 注意！警示裡面可以有[連結](#alerts)和其他巢狀樣式（但請盡量**少用**）！
 
-## 程式碼
+## 程式碼 {#code}
 
 你可以使用內建的三個反引號來顯示 `code`：
 
@@ -242,7 +242,7 @@ NOTE: `preview` 只能搭配獨立元件使用。
   </docs-tab>
 </docs-tab-group>
 
-## 流程步驟
+## 流程步驟 {#workflow}
 
 使用 `<docs-step>` 來為編號步驟套用樣式。編號是透過 CSS 產生的（很方便！）。
 
@@ -364,7 +364,7 @@ npm install -g @angular/cli
       "Rats" : 15
 ```
 
-## 水平分隔線
+## 水平分隔線 {#horizontal-line-divider}
 
 這可以用來分隔頁面的章節，就像我們下面要做的那樣。這些樣式預設就會被加入，不需要任何自訂。
 

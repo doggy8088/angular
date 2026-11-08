@@ -69,7 +69,7 @@ export class CustomSlider {
 
 由 `input` 函式建立的訊號是唯讀的。
 
-## 必要輸入
+## 必要輸入 {#required-inputs}
 
 你可以呼叫 `input.required` 而非 `input`，來宣告某個輸入是 `required`：
 
@@ -154,7 +154,7 @@ export class CustomSlider {
 
 `numberAttribute` 會嘗試將給定的值剖析為數字，剖析失敗時產生 `NaN`。
 
-### 輸入別名
+### 輸入別名 {#input-aliases}
 
 你可以指定 `alias` 選項，變更輸入在範本中的名稱。
 
@@ -257,7 +257,7 @@ export class CustomCheckbox {
 
 當你希望元件支援雙向繫結時，請使用模型輸入。當元件的存在目的是依據使用者互動修改某個值時，這通常很合適。最常見的情況是，自訂表單控制項，例如日期選擇器或 combobox，應該以模型輸入作為其主要值。
 
-## 選擇輸入名稱
+## 選擇輸入名稱 {#choosing-input-names}
 
 應避免選擇會與 `HTMLElement` 等 DOM 元素屬性衝突的輸入名稱。名稱衝突會讓人混淆被繫結的屬性究竟屬於元件還是 DOM 元素。
 

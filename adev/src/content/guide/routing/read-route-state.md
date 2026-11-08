@@ -2,7 +2,7 @@
 
 Angular Router 讓你能讀取並使用與路由相關聯的資訊，藉此建立反應敏捷且具上下文感知能力的元件。
 
-## 透過 ActivatedRoute 取得目前路由的資訊
+## 透過 ActivatedRoute 取得目前路由的資訊 {#get-information-about-the-current-route-with-activatedroute}
 
 `ActivatedRoute` 是來自 `@angular/router` 的服務，提供與目前路由相關聯的全部資訊。
 
@@ -112,7 +112,7 @@ export class ProductDetail {
 }
 ```
 
-### 查詢參數
+### 查詢參數 {#query-parameters}
 
 [查詢參數](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) 提供了一種靈活的方式，透過 URL 傳遞選擇性資料，而不會影響路由結構。與路由參數不同，查詢參數可以在多次導覽事件之間持續存在，非常適合處理篩選、排序、分頁，以及其他具狀態性的 UI 元素。
 
@@ -182,7 +182,7 @@ export class ProductList {
 
 如需更多資訊，請參閱 [QueryParamsHandling 的官方文件](/api/router/QueryParamsHandling)。
 
-### 矩陣參數
+### 矩陣參數 {#matrix-parameters}
 
 矩陣參數是屬於特定 URL 區段的選擇性參數，而不是套用到整個路由。與出現在 `?` 之後並全域套用的查詢參數不同，矩陣參數使用分號（`;`），且只套用到個別的路徑區段。
 

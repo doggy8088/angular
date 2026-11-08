@@ -30,7 +30,7 @@ NOTE: 本頁雖然以 Google AI 產品的整合與範例為主，但 Genkit 這�
 
 1. _Gemini API_ 讓你建置直接使用該 API 介面所公開的方法與功能的應用程式，最適合全端應用程式。適合需要直接控制 AI 模型的應用程式，例如自訂圖片生成或深度資料處理。
 
-### 以 Genkit 與 Angular 建置 AI 驅動的應用程式
+### 以 Genkit 與 Angular 建置 AI 驅動的應用程式 {#build-ai-powered-applications-with-genkit-and-angular}
 
 [Genkit](https://genkit.dev) 是一套開源工具組，旨在協助你在 Web 與行動應用程式中建置 AI 驅動的功能。它提供統一的介面，可整合來自 Google、OpenAI、Anthropic、Ollama 等來源的 AI 模型，讓你探索並選擇最符合需求的模型。作為伺服器端解決方案，你的 Web 應用程式需要受支援的伺服器環境才能整合 Genkit，例如以 Node 為基礎的伺服器。舉例來說，以 Angular SSR 建置全端應用程式，就能取得起始的伺服器端程式碼。
 
@@ -53,7 +53,7 @@ NOTE: 本頁雖然以 Google AI 產品的整合與範例為主，但 Genkit 這�
   這個範例也有深入解說功能的影片導覽：
   - [Watch "Exploring the future of web apps"](https://www.youtube.com/live/4qargCqOu70?feature=share)
 
-### 以 Firebase AI Logic 與 Angular 建置 AI 驅動的應用程式
+### 以 Firebase AI Logic 與 Angular 建置 AI 驅動的應用程式 {#build-ai-powered-applications-with-firebase-ai-logic-and-angular}
 
 [Firebase AI Logic](https://firebase.google.com/products/vertex-ai-in-firebase) 提供安全的方式，讓你直接從 Web 與行動應用程式與 Vertex AI Gemini API 或 Imagen API 互動。對 Angular 開發者來說很有吸引力，因為應用程式可以是全端，也可以是純用戶端。如果你開發的是純用戶端應用程式，Firebase AI Logic 很適合把 AI 納入你的 Web 應用程式。
 
@@ -63,7 +63,7 @@ NOTE: 本頁雖然以 Google AI 產品的整合與範例為主，但 Genkit 這�
 
   這個範例包含一段[深入解說功能的影片導覽，並示範如何新增功能](https://youtube.com/live/4vfDz2al_BI)。
 
-### 以 Gemini API 與 Angular 建置 AI 驅動的應用程式
+### 以 Gemini API 與 Angular 建置 AI 驅動的應用程式 {#build-ai-powered-applications-with-gemini-api-and-angular}
 
 [Gemini API](https://ai.google.dev/gemini-api/docs) 提供 Google 最先進的模型，支援音訊、圖片、影片與文字輸入。這些模型針對特定使用情境最佳化，[可至 Gemini API 文件網站了解更多](https://ai.google.dev/gemini-api/docs/models)。
 

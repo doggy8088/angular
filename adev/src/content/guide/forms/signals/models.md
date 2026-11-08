@@ -74,7 +74,7 @@ IMPORTANT: 類別實例、`Map` 與 `Set` 在結構層中不受支援，即使 T
 
 若你的應用程式使用類別來做領域建模，請在表單邊界將其轉換為純物件。請參閱[在表單模型與領域模型之間轉換](guide/forms/signals/model-design#translating-between-form-model-and-domain-model)。
 
-### 使用 TypeScript 型別
+### 使用 TypeScript 型別 {#using-typescript-types}
 
 雖然 TypeScript 會從物件常值推斷型別，但定義明確的型別能提升程式碼品質，並提供更好的 IntelliSense 支援。
 

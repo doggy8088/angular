@@ -51,7 +51,7 @@ ng update @angular/cli --name use-application-builder
 
 `application` 建置器通常更受青睞，因為它改善了伺服器端渲染（SSR）的建置，並讓以用戶端渲染為主的專案在未來更容易採用 SSR。然而，它需要稍多一些遷移工作，若以手動方式執行，對既有的 SSR 應用程式尤其如此。若你的專案難以採用 `application` 建置器，`browser-esbuild` 可以是較簡單的解決方案，它能以較少的破壞性變更，提供大部分的建置效能優勢。
 
-#### 手動遷移到相容建置器
+#### 手動遷移到相容建置器 {#manual-migration-to-the-compatibility-builder}
 
 名為 `browser-esbuild` 的建置器，位於使用 `browser` 建置器的應用程式已經依賴的 `@angular-devkit/build-angular` 套件中。你可以為使用 `browser` 建置器的應用程式試用新的建置系統。若使用自訂建置器，請參閱該建置器的文件，了解可能的遷移選項。
 
@@ -148,7 +148,7 @@ ng serve
 
 HELPFUL: 使用開發伺服器時，你可能會在啟動時看到短暫的未套用樣式內容閃爍（FOUC），因為伺服器正在初始化。開發伺服器會嘗試延後處理樣式表，直到第一次使用時才處理，以改善重新建置的時間。這種情況不會在開發伺服器之外的建置中發生。
 
-### 熱模組替換
+### 熱模組替換 {#hot-module-replacement}
 
 熱模組替換（HMR）是開發伺服器使用的一種技術，當應用程式只有一部分變更時，可避免重新載入整個頁面。在許多情況下，變更可以立即顯示在瀏覽器中，讓應用程式開發時的編輯／重新整理循環更有效率。雖然目前不支援以 JavaScript 為基礎的一般熱模組替換（HMR），但有幾種更具體形式的 HMR 可用：
 
@@ -258,7 +258,7 @@ declare const API_RETRY: number;
 
 IMPORTANT: 此選項不會替換 Angular 中繼資料（例如 Component 或 Directive 裝飾器）中所包含的識別符。
 
-### 副檔名載入器自訂
+### 副檔名載入器自訂 {#file-extension-loader-customization}
 
 IMPORTANT: 此功能僅適用於 `application` 建置器。
 
@@ -419,7 +419,7 @@ import {verboseLogging} from '#logger';
 
 HELPFUL: 若你目前正在使用 `fileReplacements` 建置選項，此功能也許能取代它的用法。
 
-## 已知問題
+## 已知問題 {#known-issues}
 
 目前有幾個你可能會遇到的已知問題。這個清單會持續更新以保持最新。若這些問題中有任何一個目前正阻礙你試用新的建置系統，請日後再回來查看，因為它可能已經被解決。
 
@@ -427,7 +427,7 @@ HELPFUL: 若你目前正在使用 `fileReplacements` 建置選項，此功能也
 
 Web Worker 可以在應用程式程式碼中使用與 `browser` 建置器相同的語法（`new Worker(new URL('<workerfile>', import.meta.url))`）。然而，Worker 內的程式碼目前不會由 TypeScript 編譯器進行型別檢查。TypeScript 程式碼有支援，只是不做型別檢查。此外，任何巢狀 Worker 都不會被建置系統處理。巢狀 Worker 是指在另一個 Worker 檔案中實例化的 Worker。
 
-### ESM 預設匯入 vs. 命名空間匯入
+### ESM 預設匯入 vs. 命名空間匯入 {#esm-default-imports-vs-namespace-imports}
 
 TypeScript 依預設允許將預設匯出以命名空間匯入的方式匯入，然後用在呼叫運算式中。不幸的是，這與 ECMAScript 規格有所出入。新版建置系統底層的綑綁工具（`esbuild`）預期 ESM 程式碼符合規格。若你的應用程式對套件使用了不正確的匯入類型，建置系統現在會產生警告。然而，若要讓 TypeScript 接受正確的用法，必須在應用程式的 `tsconfig` 檔案中啟用一個 TypeScript 選項。啟用後，[`esModuleInterop`](https://www.typescriptlang.org/tsconfig#esModuleInterop) 選項能與 ECMAScript 規格有更好的對齊，這也是 TypeScript 團隊所建議的。啟用之後，你就可以在適用的地方將套件匯入更新為符合 ECMAScript 的形式。
 

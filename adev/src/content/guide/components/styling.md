@@ -32,7 +32,7 @@ export class ProfilePhoto {}
 
 Angular 可搭配任何輸出 CSS 的工具，包括 [Sass](https://sass-lang.com)、[Less](https://lesscss.org) 與 [Stylus](https://stylus-lang.com)。
 
-## 樣式作用域
+## 樣式作用域 {#style-scoping}
 
 每個元件都有一個**檢視封裝**設定，決定框架如何界定元件樣式的作用域。共有四種檢視封裝模式：`Emulated`、`ShadowDom`、`ExperimentalIsolatedShadowDom` 與 `None`。你可以在 `@Component` 裝飾器中指定模式：
 
@@ -92,13 +92,13 @@ shadow tree 內的樣式無法影響該 shadow tree 之外的元素。
 
 NOTE: 在 `Emulated` 與 `ShadowDom` 模式下，Angular 並不 100% 保證你的元件樣式永遠會覆寫來自外部的樣式。在發生衝突時，會假設這些樣式與你的元件樣式具有相同的特異性。
 
-## 在範本中定義樣式
+## 在範本中定義樣式 {#defining-styles-in-templates}
 
 你可以在元件的範本中使用 `<style>` 元素來定義額外的樣式。元件的檢視封裝模式會套用到以這種方式定義的樣式。
 
 Angular 不支援在 style 元素內使用繫結。
 
-## 參照外部樣式檔案
+## 參照外部樣式檔案 {#referencing-external-style-files}
 
 元件範本可以使用 [`<link>` 元素](https://developer.mozilla.org/docs/Web/HTML/Element/link) 來參照 CSS 檔案。此外，你的 CSS 可以使用 [`@import` at-rule](https://developer.mozilla.org/docs/Web/CSS/@import) 來參照 CSS 檔案。Angular 將這些參照視為_外部_樣式。外部樣式不受模擬檢視封裝的影響。
 
@@ -150,7 +150,7 @@ Angular 不會在以下地方重寫名稱：
 
 在 `global` 之後要寫兩個連字號。單一個連字號，例如 `--global-brand-color`，並不會退出命名空間處理，Angular 會像處理任何其他名稱一樣為該名稱加上命名空間。請避免使用以 `--global-` 開頭、其後不是第二個連字號的名稱；未來的重大版本預計會在建置時拒絕這類名稱。Angular 會在每個應用程式中移除 `--global`，包括從未設定命名空間的應用程式。
 
-### 在 TypeScript 中使用已命名空間的屬性
+### 在 TypeScript 中使用已命名空間的屬性 {#using-namespaced-properties-in-typescript}
 
 優先使用像 `[style.--primary-color]` 這樣的樣式繫結，Angular 會為你加上命名空間。當你改透過 DOM API 操作時，請將你在樣式中所寫的名稱（包括開頭的 `--`）傳給 [`CssVarNamespacer`](api/platform-browser/CssVarNamespacer)：
 

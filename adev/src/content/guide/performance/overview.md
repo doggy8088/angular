@@ -1,4 +1,4 @@
-<docs-decorative-header title="Server-side & hybrid rendering" imgSrc="adev/src/assets/images/overview.svg"> <!-- markdownlint-disable-line -->
+<docs-decorative-header title="伺服器端與混合渲染" imgSrc="adev/src/assets/images/overview.svg"> <!-- markdownlint-disable-line -->
 了解如何運用不同的渲染策略來最佳化應用程式的效能。
 </docs-decorative-header>
 
@@ -8,4 +8,4 @@
 | :---------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [Server and hybrid rendering](/guide/ssr)             | 了解如何運用在伺服器上渲染頁面來改善載入時間。                                                                                                              |
 | [Hydration](/guide/hydration)                         | 透過在伺服器端渲染後還原應用程式狀態，並盡可能重用既有的 DOM 結構，來改善應用程式效能的過程。                                 |
-| [Incremental Hydration](/guide/incremental-hydration) | 漸進式水合是一種進階的水合方式，能讓應用程式的某些區塊保持未水合狀態，並在需要時漸進觸發這些區塊的水合。 |
+| [漸進式水合](/guide/incremental-hydration) | 漸進式水合是一種進階的水合方式，能讓應用程式的某些區塊保持未水合狀態，並在需要時漸進觸發這些區塊的水合。 |
