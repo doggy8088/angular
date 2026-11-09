@@ -7,13 +7,69 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: Measure current secret state
+      - name: Prototype Pages direct upload via API (stub site to v21)
         env:
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          echo "token length now: ${#CF_TOKEN} (classic=40, cfut_=53)"
-          echo -n "curl verify now: "
-          curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer ${CF_TOKEN}"
-          echo -n "starts with cfut_: "
-          case "$CF_TOKEN" in cfut_*) echo yes;; *) echo no;; esac
+          pip install -q blake3 requests
+          mkdir -p _stub/assets && echo '<h1>v21 stub</h1>' > _stub/index.html && echo 'body{color:red}' > _stub/assets/app.css
+          cat > _stub/_headers <<'HDR'
+          /*
+            Cross-Origin-Opener-Policy: same-origin
+            Cross-Origin-Embedder-Policy: credentialless
+          HDR
+          cat > upload.py <<'PY'
+          import base64, hashlib, json, os, sys
+          import requests
+          from blake3 import blake3
+
+          TOKEN = os.environ['CF_TOKEN']; ACCOUNT = os.environ['CF_ACCOUNT']
+          PROJECT = 'angular-tw-v21'; BRANCH = 'v21'; ROOT = '_stub'
+          API = 'https://api.cloudflare.com/client/v4'
+          H = {'Authorization': f'Bearer {TOKEN}'}
+
+          def asset_hash(path):
+              data = open(path, 'rb').read()
+              ext = os.path.splitext(path)[1].lstrip('.')
+              return blake3((base64.b64encode(data).decode() + ext).encode()).hexdigest()[:32], data
+
+          manifest, files = {}, {}
+          special = {}
+          for dirpath, _, names in os.walk(ROOT):
+              for n in names:
+                  full = os.path.join(dirpath, n)
+                  rel = '/' + os.path.relpath(full, ROOT).replace(os.sep, '/')
+                  if n in ('_headers', '_redirects'):
+                      special[n] = open(full).read(); continue
+                  h, data = asset_hash(full)
+                  manifest[rel] = h; files[h] = (rel, data)
+          print('manifest:', manifest)
+
+          r = requests.get(f'{API}/accounts/{ACCOUNT}/pages/projects/{PROJECT}/upload-token', headers=H)
+          print('upload-token:', r.status_code)
+          jwt = r.json()['result']['token']
+
+          JH = {'Authorization': f'Bearer {jwt}'}
+          r = requests.post(f'{API}/pages/assets/check-missing', headers=JH, json={'hashes': list(files)})
+          print('check-missing:', r.status_code, r.text[:200])
+          missing = r.json()['result']
+
+          for h in missing:
+              rel, data = files[h]
+              form = {h: (h, base64.b64encode(data))}
+              r = requests.post(f'{API}/pages/assets/upload', headers=JH, files=form)
+              print('upload', rel, r.status_code, r.text[:150])
+
+          r = requests.post(f'{API}/pages/assets/upsert-hashes', headers=JH, json={'hashes': list(files)})
+          print('upsert-hashes:', r.status_code, r.text[:150])
+
+          form = {'manifest': (None, json.dumps(manifest)), 'branch': (None, BRANCH),
+                  'commit_message': (None, 'stub deploy via API prototype'),
+                  'commit_dirty': (None, 'false')}
+          for k, v in special.items():
+              form[k] = (None, v)
+          r = requests.post(f'{API}/accounts/{ACCOUNT}/pages/projects/{PROJECT}/deployments', headers=H, files=form)
+          print('create deployment:', r.status_code, r.text[:400])
+          PY
+          python3 upload.py
