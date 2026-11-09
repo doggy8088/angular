@@ -64,7 +64,7 @@ NOTE: `@Service` 讓這個服務在整個應用程式中以單例的形式可供
 
 HELPFUL: [`@Service`](guide/di/creating-and-using-services#using-the-service-vs-injectable-decorator)裝飾器是 `@Injectable({providedIn: 'root'})` 的順手簡寫。
 
-## 使用 `inject()` 注入依賴
+## 使用 `inject()` 注入依賴 {#injecting-dependencies-with-inject}
 
 你可以使用 Angular 的 `inject()` 函式來注入依賴。
 

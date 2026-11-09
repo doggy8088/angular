@@ -65,7 +65,7 @@ export class Registration {
 
 若你發現自己在表單旁邊另外維護一份平行的 `Map<fieldKey, value>`，逐欄位追蹤某些東西，那就是該用中繼資料的訊號。中繼資料與結構定義放在一起、保持反應式，並參與欄位的生命週期。
 
-## 建立中繼資料鍵
+## 建立中繼資料鍵 {#creating-a-metadata-key}
 
 想建立自訂鍵時，請呼叫 `createMetadataKey<TWrite>()`。型別參數描述的是你的結構定義規則將貢獻的值。
 
@@ -79,7 +79,7 @@ export const USERNAME_HELP = createMetadataKey<string>();
 
 NOTE: 沒有歸約器的鍵，預設使用「覆寫」語意：若多條規則都設定了該鍵，最後一份貢獻勝出。
 
-## 從結構定義設定值
+## 從結構定義設定值 {#setting-values-from-a-schema}
 
 當你需要為特定欄位上的鍵註冊一個值時，請在結構定義函式內使用 `metadata(path, key, logic)`。
 
@@ -162,7 +162,7 @@ const message = registrationForm.username().metadata(USERNAME_HELP)!();
 
 以上就是單一貢獻者的完整 API。下一節將說明：當多條結構定義規則對同一個鍵做出貢獻時會發生什麼事，以及如何用歸約器合併這些貢獻。
 
-## 用歸約器合併貢獻
+## 用歸約器合併貢獻 {#combining-contributions-with-reducers}
 
 覆寫語意在只有一條規則對欄位上的鍵做出貢獻時行得通。一旦有兩條規則貢獻，第一個值就會被靜靜捨棄：
 
@@ -282,7 +282,7 @@ form(model, (path) => {
 
 TIP: 讓你的歸約器保持純粹：`reduce()` 應該只依賴它的兩個引數，`getInitial()` 每次被呼叫時都應該回傳相同的值。歸約器是在反應式計算中執行的，只要任一貢獻的訊號變更就會重新執行，因此不純粹的歸約器會產生不一致的中繼資料。
 
-## 用受管理的中繼資料附加具生命週期感知能力的物件
+## 用受管理的中繼資料附加具生命週期感知能力的物件 {#attaching-lifecycle-aware-objects-with-managed-metadata}
 
 受管理的中繼資料是在欄位上儲存一個具生命週期感知能力的物件，而不是反應式值。適合用在逐欄位的物件上，例如取得外部資料的 `resource()`、同步到外部系統的 `effect()`，或是作用範圍侷限在單一欄位的服務控制代碼。
 

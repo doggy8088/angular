@@ -69,7 +69,7 @@ Angular 仰賴核心 API 的通知，來判斷何時執行變更偵測，以及�
 為了讓程式碼與 Zoneless 應用程式相容，`NgZone.run` 與 `NgZone.runOutsideAngular` 不需要移除。事實上，移除這些呼叫可能會讓那些用在仍仰賴 ZoneJS 的應用程式中的函式庫，出現效能退化的情形。
 </docs-callout>
 
-### 用於伺服器端渲染（SSR）的 `PendingTasks`
+### 用於伺服器端渲染（SSR）的 `PendingTasks` {#pendingtasks-for-server-side-rendering-ssr}
 
 如果你在 Angular 中使用 SSR，你可能知道它仰賴 ZoneJS 來協助判斷應用程式何時「穩定」、可以被序列化。如果有非同步工作應該阻止序列化，不使用 ZoneJS 的應用程式必須透過 [PendingTasks](/api/core/PendingTasks) 服務讓 Angular 知道這些工作。序列化會等待所有待處理工作都被移除的第一個時刻。
 

@@ -25,7 +25,7 @@ Signal Forms 需要：
 
 - Angular v21 或更高版本
 
-## 設定
+## 設定 {#setup}
 
 Signal Forms 已內含在 `@angular/forms` 套件中。請從 `@angular/forms/signals` 匯入需要的函式與指令：
 

@@ -52,7 +52,7 @@ bootstrapApplication(App, {
 
 你設定的攔截器會依你在 providers 中列出的順序串連在一起。在上例中，`loggingInterceptor` 會先處理請求，然後轉交給 `cachingInterceptor`。
 
-### 攔截回應事件
+### 攔截回應事件 {#intercepting-response-events}
 
 攔截器可以轉換 `next` 回傳的 `HttpEvent` 的 `Observable` 串流，以存取或操作回應。由於此串流包含所有回應事件，為了辨識最終的回應物件，可能需要檢查每個事件的 `.type`。
 
@@ -108,7 +108,7 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
 }
 ```
 
-## 請求與回應的中繼資料
+## 請求與回應的中繼資料 {#request-and-response-metadata}
 
 在請求中加入不傳送給後端、而是專門給攔截器使用的資訊，往往很有用。`HttpRequest` 有一個 `.context` 物件，它以 `HttpContext` 執行個體的形式儲存這類中繼資料。這個物件的作用類似具型別的對照表，其鍵的型別為 `HttpContextToken`。
 

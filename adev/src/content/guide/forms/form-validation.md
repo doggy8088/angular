@@ -229,7 +229,7 @@ const actorForm = new FormGroup(
 
 這一點在範本驅動表單與反應式表單中都相同。
 
-## 建立非同步驗證器
+## 建立非同步驗證器 {#creating-asynchronous-validators}
 
 非同步驗證器實作了 `AsyncValidatorFn` 與 `AsyncValidator` 介面。
 它們與同步的對應物非常相似，只有下列差異。
@@ -255,7 +255,7 @@ const actorForm = new FormGroup(
 }
 ```
 
-### 實作自訂非同步驗證器
+### 實作自訂非同步驗證器 {#implementing-a-custom-async-validator}
 
 在下列範例中，一個非同步驗證器確保演員被安排到尚未被佔用的角色。
 新演員不斷來試鏡，舊演員不斷退休，因此可用角色的清單無法事先取得。

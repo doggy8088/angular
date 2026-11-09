@@ -31,7 +31,7 @@ graph TD
 
 在組合結構定義時，這個區別非常重要，因為 `apply()`、`applyWhen()` 與 `schema()` 等函式全都在結構層運作。結構定義掌控_哪些_規則存在、以及它們_是否_啟用，而規則函式則定義那些規則_實際評估的內容_。
 
-## 使用 `schema()` 建立可重複使用的結構定義
+## 使用 `schema()` 建立可重複使用的結構定義 {#create-reusable-schemas-with-schema}
 
 當多個表單對同一種資料形狀共用相同規則時，你可以使用 `schema()` 函式，把這些規則抽取成可重複使用的結構定義。
 
@@ -50,7 +50,7 @@ const nameSchema = schema<{first: string; last: string}>((name) => {
 
 TIP: 如果規則只出現在一個地方，內嵌的結構定義函式同樣好用。當你想在多個表單之間重複使用同一個結構定義，或將同一個結構定義套用到多個路徑時，請使用 `schema()`。可重複使用的 `Schema` 物件會針對每次表單編譯進行快取。
 
-### 搭配 `apply()` 使用結構定義
+### 搭配 `apply()` 使用結構定義 {#using-the-schema-with-apply}
 
 你可以使用 `apply()` 函式，將可重複使用的結構定義套用到表單中的特定路徑。當你呼叫 `apply()` 時，結構定義會收到一個限定範圍的路徑，該路徑只能看到該子路徑內的欄位：
 
@@ -66,7 +66,7 @@ registrationForm = form(this.registrationModel, (schemaPath) => {
 });
 ```
 
-## 使用 `applyWhen()` 的條件式結構定義
+## 使用 `applyWhen()` 的條件式結構定義 {#conditional-schemas-with-applywhen}
 
 NOTE: [新增表單邏輯指南](guide/forms/signals/form-logic)已介紹過搭配內嵌邏輯使用 `applyWhen()` 處理條件規則。本節說明如何將 `applyWhen()` 與可重複使用的結構定義組合使用。
 
@@ -190,7 +190,7 @@ paymentForm = form(this.paymentModel, (schemaPath) => {
 
 若沒有型別守衛，TypeScript 不會知道每個結構定義函式內可以使用哪些欄位。型別縮小確保在信用卡分支中存取 `payment.cardNumber` 是型別安全的，在銀行轉帳分支中存取 `payment.accountNumber` 也是型別安全的。
 
-## 使用 `applyEach()` 處理陣列項目
+## 使用 `applyEach()` 處理陣列項目 {#array-items-with-applyeach}
 
 當表單包含物件陣列時，你經常需要對每個項目套用相同的規則。`applyEach()` 函式會將結構定義套用到陣列欄位中的每個項目，不論共有多少個項目。
 

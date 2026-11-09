@@ -15,7 +15,7 @@ Signal Forms 提供了 `submit()` 函式，協助你管理表單送出的生命�
 
 `submit()` 函式會回傳一個 `Promise<boolean>`：當 action 無錯誤地完成時解析為 `true`；當驗證失敗、action 回傳錯誤，或已有送出進行中時，解析為 `false`。若 action 擲出例外，這個 promise 會以該錯誤被拒絕。
 
-## 用 `FormRoot` 設定表單送出
+## 用 `FormRoot` 設定表單送出 {#setting-up-form-submission-with-formroot}
 
 使用 `submit()` 函式最常見的方式，是透過 `FormRoot` 指令。
 

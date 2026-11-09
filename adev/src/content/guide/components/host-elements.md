@@ -155,7 +155,7 @@ export class MyComponent {
 }
 ```
 
-## 注入宿主元素屬性
+## 注入宿主元素屬性 {#injecting-host-element-attributes}
 
 元件與指令可以使用 `HostAttributeToken` 搭配 [`inject`](api/core/inject) 函式，讀取宿主元素上的靜態屬性。
 

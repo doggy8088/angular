@@ -44,7 +44,7 @@ const login = new UntypedFormGroup({
 
 每個 `Untyped` 符號都與先前 Angular 版本中的語意完全相同。移除 `Untyped` 前置詞後，你可以逐步啟用型別。
 
-## `FormControl`：快速入門
+## `FormControl`：快速入門 {#formcontrol-getting-started}
 
 最簡單的表單由單一控制項組成：
 
@@ -90,7 +90,7 @@ const email = new FormControl<string | null>(null);
 email.setValue('angularrox@gmail.com');
 ```
 
-## `FormArray`：動態、同質的集合
+## `FormArray`：動態、同質的集合 {#formarray-dynamic-homogenous-collections}
 
 `FormArray` 包含一份開放式的控制項清單。型別參數對應到每個內部控制項的型別：
 
@@ -118,7 +118,7 @@ aliases.clear();
 console.log(aliases.length); // 0
 ```
 
-## `FormGroup` 與 `FormRecord`
+## `FormGroup` 與 `FormRecord` {#formgroup-and-formrecord}
 
 Angular 為具有列舉鍵集合的表單提供 `FormGroup` 型別，並為開放式或動態群組提供稱為 `FormRecord` 的型別。
 
@@ -180,7 +180,7 @@ addresses.addControl('Andrew', new FormControl('2340 Folsom St'));
 const addresses = fb.record({'Andrew': '2340 Folsom St'});
 ```
 
-## `FormBuilder` 與 `NonNullableFormBuilder`
+## `FormBuilder` 與 `NonNullableFormBuilder` {#formbuilder-and-nonnullableformbuilder}
 
 `FormBuilder` 類別也已升級，支援新的型別，方式與上述範例相同。
 

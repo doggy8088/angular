@@ -8,7 +8,7 @@
 
 漸進式水合也讓你能將可延遲檢視（deferrable views，`@defer`）用在以前可能無法延遲的內容上。具體來說，你現在可以把可延遲檢視用在首屏（above the fold）的內容上。在漸進式水合出現之前，把 `@defer` 區塊放在首屏會導致佔位內容先渲染出來，然後再被 `@defer` 區塊的主要範本內容取代，進而造成版面位移。漸進式水合則表示 `@defer` 區塊的主要範本在水合時會直接渲染，不會產生版面位移。
 
-## 如何在 Angular 中啟用漸進式水合？
+## 如何在 Angular 中啟用漸進式水合？ {#how-do-you-enable-incremental-hydration-in-angular}
 
 對於已經使用伺服器端渲染（SSR）與水合的應用程式，你可以啟用漸進式水合。請先依照 [Angular SSR 指南](guide/ssr) 啟用伺服器端渲染，並依照 [Angular 水合指南](guide/hydration) 啟用水合。
 

@@ -177,7 +177,7 @@ IMPORTANT: 實作 `FormCheckboxControl` 的控制項不可以有 `value` 屬性
 
 NOTE: `disabledReasons` 是 `DisabledReason` 物件的陣列。每個物件都有一個 `fieldTree` 屬性（參照到欄位樹）與一個可選的 `message` 屬性。透過 `reason.message` 存取訊息。
 
-#### 驗證限制
+#### 驗證限制 {#validation-constraints}
 
 從表單接收驗證限制的值：
 
@@ -198,7 +198,7 @@ NOTE: `disabledReasons` 是 `DisabledReason` 物件的陣列。每個物件都�
 
 下方的「[加入狀態訊號](#adding-state-signals)」一節會展示如何在你的控制項中實作這些屬性。
 
-### FormField 指令的運作方式
+### FormField 指令的運作方式 {#how-the-formfield-directive-works}
 
 `[formField]` 指令會偵測你的控制項實作了哪個介面，並自動綁定相應的訊號：
 

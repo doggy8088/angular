@@ -42,7 +42,7 @@ export default class ReportExporter {
 private exporter = injectAsync(() => import('./report-exporter'));
 ```
 
-## 預先擷取依賴
+## 預先擷取依賴 {#prefetching-the-dependency}
 
 依預設，延遲的 chunk 只在你叫用傳回的函式時才會擷取。你可以在選項中傳入 `prefetch` 觸發器，讓下載更早開始。觸發器是任何傳回 `Promise` 的函式，當它解析完成時，Angular 就會啟動載入器。
 

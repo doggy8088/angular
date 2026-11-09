@@ -212,7 +212,7 @@ const companyResource = resource({
 
 [`httpResource`](/guide/http/http-resource) 是 `HttpClient` 的包裝器，它會把請求狀態與回應以訊號的形式提供給你。它透過 Angular 的 HTTP 堆疊（包括攔截器）發出 HTTP 請求。
 
-## 使用快照組合資源
+## 使用快照組合資源 {#resource-composition-with-snapshots}
 
 `ResourceSnapshot` 是資源目前狀態的結構化表示。每個資源都有一個 `snapshot` 屬性，提供其目前狀態的訊號。
 

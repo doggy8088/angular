@@ -87,7 +87,7 @@ TIP: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angula
 
 在初始化期間，第一個 `ngOnChanges` 會在 `ngOnInit` 之前執行。
 
-#### 檢視變更
+#### 檢視變更 {#inspecting-changes}
 
 `ngOnChanges` 方法接受一個 `SimpleChanges` 引數。這個物件是一個 [`Record`](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type)，將每個元件 input 名稱對應到一個 `SimpleChange` 物件。每個 `SimpleChange` 都包含該 input 的前一個值、目前值，以及一個旗標，表示這是否為該 input 第一次變更。
 
@@ -133,7 +133,7 @@ export class UserProfile {
 
 你也可以使用 `DestroyRef`，讓設定程式碼靠近清理程式碼，而不必將所有清理程式碼都放在 `ngOnDestroy` 方法中。
 
-##### 偵測實例銷毀
+##### 偵測實例銷毀 {#detecting-instance-destruction}
 
 `DestroyRef` 提供了一個 `destroyed` 屬性，可用來檢查指定的實例是否已被銷毀。這在避免對已銷毀的元件進行操作時非常有用，特別是處理延遲或非同步邏輯時。
 
@@ -177,7 +177,7 @@ export class UserProfile {
 
 雖然你可以在這裡存取[檢視查詢](guide/components/queries#view-queries)的更新後狀態，但請避免更動某個範本已經渲染過的非訊號狀態。這麼做可能導致 [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100)。
 
-### afterEveryRender 與 afterNextRender
+### afterEveryRender 與 afterNextRender {#aftereveryrender-and-afternextrender}
 
 `afterEveryRender` 與 `afterNextRender` 函式可讓你註冊一個**渲染回呼**，在 Angular 完成將頁面上的_所有元件_渲染至 DOM 之後被呼叫。
 

@@ -102,7 +102,7 @@ Angular 不支援在 style 元素內使用繫結。
 
 元件範本可以使用 [`<link>` 元素](https://developer.mozilla.org/docs/Web/HTML/Element/link) 來參照 CSS 檔案。此外，你的 CSS 可以使用 [`@import` at-rule](https://developer.mozilla.org/docs/Web/CSS/@import) 來參照 CSS 檔案。Angular 將這些參照視為_外部_樣式。外部樣式不受模擬檢視封裝的影響。
 
-## 為 CSS 自訂屬性加上命名空間
+## 為 CSS 自訂屬性加上命名空間 {#namespacing-css-custom-properties}
 
 Angular 可以為你的元件樣式所宣告與讀取的 CSS 自訂屬性（也稱為 CSS 變數）加上前綴。自訂屬性會沿著 DOM 樹向下繼承，因此當你應用程式之外的某個東西在祖先元素上定義了如 `--primary-color` 這樣的自訂屬性時，你的元件會讀到該值。當你的應用程式與另一個應用程式、或你無法控制的標記共用同一個頁面時，這一點就很重要。在你要求之前，Angular 不會為自訂屬性加上命名空間，而擁有自己頁面的應用程式不需要命名空間。
 

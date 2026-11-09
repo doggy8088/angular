@@ -107,7 +107,7 @@ IMPORTANT: [Angular CLI][CliMain] 開發伺服器 \(`ng serve`\) 只能搭配單
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" region="build-production-french" />
 
-## 回報缺少的翻譯
+## 回報缺少的翻譯 {#report-missing-translations}
 
 當翻譯缺少時，建置仍會成功，但會產生類似 `Missing translation for message "{translation_text}"` 的警告。
 若要設定 Angular 編譯器產生的警告等級，請指定下列其中一個等級。

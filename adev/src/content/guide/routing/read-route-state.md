@@ -34,7 +34,7 @@ export class Product {
 
 請參閱 [`ActivatedRoute` API 文件](/api/router/ActivatedRoute)，取得你可以透過路由存取之內容的完整清單。
 
-## 了解路由快照
+## 了解路由快照 {#understanding-route-snapshots}
 
 頁面導覽是隨著時間發生的事件，你可以擷取路由快照，來存取 Router 在某個時間點的狀態。
 
@@ -219,7 +219,7 @@ export class AwesomeProducts {
 
 NOTE: 除了使用 `ActivatedRoute` 之外，當使用 `withComponentInputBinding` 時，矩陣參數也會綁定到元件輸入上。
 
-## 使用 RouterLinkActive 偵測目前啟用的路由
+## 使用 RouterLinkActive 偵測目前啟用的路由 {#detect-active-current-route-with-routerlinkactive}
 
 你可以使用 `RouterLinkActive` 指令，根據目前啟用的路由，動態地為導覽元素套用樣式。這在導覽元素中很常見，用來通知使用者目前啟用的是哪個路由。
 
@@ -326,7 +326,7 @@ RouterLinkActive 指令也可以套用到祖先元素上，讓開發者能隨心
 
 如需更多資訊，請參閱 [RouterLinkActive 的 API 文件](/api/router/RouterLinkActive)。
 
-## 檢查某個 URL 是否處於啟用狀態
+## 檢查某個 URL 是否處於啟用狀態 {#check-if-a-url-is-active}
 
 `isActive` 函式會回傳一個 computed 訊號，用來追蹤給定的 URL 目前在 Router 中是否處於啟用狀態。隨著 Router 狀態的變化，這個訊號會自動更新。
 

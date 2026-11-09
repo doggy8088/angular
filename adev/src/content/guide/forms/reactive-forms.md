@@ -435,7 +435,7 @@ export class FormArrayExampleComponent {
 
 </docs-workflow>
 
-## 統一的控制項狀態變更事件
+## 統一的控制項狀態變更事件 {#unified-control-state-change-events}
 
 所有表單控制項都透過 `AbstractControl` 上的 `events` observable（`FormControl`、`FormGroup`、`FormArray` 與 `FormRecord`），公開單一統一的**控制項狀態變更事件**串流。
 這個統一串流讓你能對**值**、**狀態**、**pristine**、**touched** 與 **reset** 狀態變更做出反應，也能對 **submit** 等**表單層級動作**做出反應，讓你用單一訂閱處理所有更新，而不必串接多個 observable。
@@ -538,7 +538,7 @@ control.events.subscribe((e) => {
 
 NOTE: 在值變更時，發出（emit）發生在此控制項的值被更新之後。父控制項的值（例如此 FormControl 是 FormGroup 的一部分時）會稍後才更新，因此從此事件的回呼中存取父控制項的值（使用 `value` 屬性），可能會取得尚未更新的值。改為訂閱父控制項的 `events`。
 
-## 管理表單控制項狀態
+## 管理表單控制項狀態 {#managing-form-control-state}
 
 反應式表單透過 **touched/untouched** 與 **pristine/dirty** 追蹤控制項狀態。Angular 在 DOM 互動期間自動更新這些狀態，但你也可以用程式化方式管理它們。
 
@@ -611,7 +611,7 @@ onSubmit() {
 
 當以程式化方式更新表單控制項時，你可以精確控制變更如何在表單階層中傳播，以及是否發出事件。
 
-### 了解事件發送
+### 了解事件發送 {#understanding-event-emission}
 
 預設 `emitEvent: true` 時，控制項的任何變更都會透過 `valueChanges` 與 `statusChanges` observable 發出事件。設定 `emitEvent: false` 會抑制這些發出，這在以程式方式設定值而不想觸發像自動儲存這樣的反應式行為、避免控制項之間的循環更新，或執行批次更新（事件應該只在最後發出一次）時很有用。
 
@@ -656,7 +656,7 @@ updatePostalCodeValidator(country: string) {
 
 HELPFUL: 若要在執行階段動態管理驗證器，請見表單驗證指南中的[在反應式表單中動態管理驗證器](guide/forms/form-validation#managing-validators-dynamically-in-reactive-forms)一節。
 
-## 用來縮小表單控制項型別的工具函式
+## 用來縮小表單控制項型別的工具函式 {#utility-functions-for-narrowing-form-control-types}
 
 Angular 提供四個工具函式，幫助判斷 `AbstractControl` 的具體型別。這些函式扮演**型別守衛**的角色，當它們回傳 `true` 時會縮小控制項型別，讓你能在同一個區塊中安全地存取子型別專屬的屬性。
 

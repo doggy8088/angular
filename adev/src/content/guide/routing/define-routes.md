@@ -189,7 +189,7 @@ const routes: Routes = [
 
 若你修改或移除了某條路由，有些使用者仍可能點選指向該路由的過時連結或書籤。你可以加入重新導向，把這些使用者導向適當的替代路由，而不是「找不到」頁面。
 
-## 頁面標題
+## 頁面標題 {#page-titles}
 
 你可以為每條路由關聯一個 **title**。Angular 會在路由啟用時自動更新[頁面標題](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title)。請務必為應用程式定義適當的頁面標題，因為這些標題是打造無障礙體驗的必要元素。
 
@@ -229,7 +229,7 @@ const routes: Routes = [
 
 路由標題也可以透過繼承 [`TitleStrategy`](/api/router/TitleStrategy) 抽象類別的服務來設定。預設情況下，Angular 使用 [`DefaultTitleStrategy`](/api/router/DefaultTitleStrategy)。
 
-### 使用 TitleStrategy 設定頁面標題
+### 使用 TitleStrategy 設定頁面標題 {#using-titlestrategy-for-page-titles}
 
 在需要集中控制文件標題組成方式的進階情境中，請實作 `TitleStrategy`。
 

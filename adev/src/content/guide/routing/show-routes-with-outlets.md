@@ -166,7 +166,7 @@ Angular 會把 outlet 的名稱與每條路由上定義的 `outlet` 屬性進行
 
 若想深入了解，請參閱 [RouterOutlet 的 API 文件](/api/router/RouterOutlet?tab=api)。
 
-## 把上下文資料傳給路由元件
+## 把上下文資料傳給路由元件 {#passing-contextual-data-to-routed-components}
 
 把上下文資料傳給路由元件，往往需要全域狀態或複雜的路由設定。為了簡化這件事，每個 `RouterOutlet` 都支援 `routerOutletData` 輸入。路由元件及其子元件可以使用 `ROUTER_OUTLET_DATA` 注入權杖，把這份資料當作訊號讀取，藉此進行 outlet 專屬的設定，而不必修改路由定義。
 

@@ -139,7 +139,7 @@ export class UserProfile {}
 
 **查詢永遠不會穿透元件邊界**。內容查詢只能從與元件本身相同的範本中取得結果。
 
-## 必要查詢
+## 必要查詢 {#required-queries}
 
 如果子查詢（`viewChild` 或 `contentChild`）找不到結果，它的值會是 `undefined`。當目標元素被 `@if` 或 `@for` 等控制流程陳述式隱藏時，就可能發生這種情況。因此，子查詢傳回的訊號，其值型別會包含 `undefined`。
 
@@ -452,7 +452,7 @@ export class CustomCard implements OnInit {
 
 `static` 選項不適用於 `@ViewChildren` 與 `@ContentChildren` 查詢。
 
-### 使用 QueryList
+### 使用 QueryList {#using-querylist}
 
 `@ViewChildren` 與 `@ContentChildren` 都提供了一個 `QueryList` 物件，其中包含結果清單。
 

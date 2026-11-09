@@ -15,7 +15,7 @@ NOTE: 在實作自訂策略之前，請先確認預設的路由行為無法滿�
 
 `withRouterConfig` 或 `RouterModule.forRoot` 允許提供額外的 `RouterConfigOptions`，來調整路由的行為。
 
-### 處理被取消的導覽
+### 處理被取消的導覽 {#handle-canceled-navigations}
 
 `canceledNavigationResolution` 控制在導覽被取消時，路由如何還原瀏覽器歷史紀錄。預設值是 `'replace'`，它會用 `location.replaceState` 回復到導覽前的 URL。實際上，這表示只要網址列已因該次導覽而更新（例如使用者按下瀏覽器的上一頁或下一頁按鈕），若導覽失敗或被守衛拒絕，該歷史紀錄項目就會被「回滾」的結果覆寫。
 改用 `'computed'` 則讓進行中的歷史索引與 Angular 導覽保持同步，因此取消一次上一頁導覽會觸發一次下一頁導覽（反之亦然），以回到原始頁面。
@@ -26,7 +26,7 @@ NOTE: 在實作自訂策略之前，請先確認預設的路由行為無法滿�
 provideRouter(routes, withRouterConfig({canceledNavigationResolution: 'computed'}));
 ```
 
-### 回應相同 URL 的導覽
+### 回應相同 URL 的導覽 {#react-to-same-url-navigations}
 
 `onSameUrlNavigation` 設定當使用者要求導覽到目前的 URL 時應如何處理。預設的 `'ignore'` 會略過處理，而 `'reload'` 則指示路由在其導覽管線中處理該 URL，而不是略過它。守衛與解析器是否重新執行，由 [`runGuardsAndResolvers`](api/router/RunGuardsAndResolvers) 決定；元件是否重用，則由[路由重用策略](#route-reuse-strategy)決定。
 
@@ -44,7 +44,7 @@ router.navigate(['/some-path'], {onSameUrlNavigation: 'reload'});
 
 TIP: 若你使用[路由資源](/guide/routing/data-fetching-with-resources#reloading-resources-without-renavigation)，可以呼叫資源的 `.reload()`，或更新在 `params` 中讀取的訊號，來按需重新整理資料，不需要設定 `onSameUrlNavigation` 或觸發路由導覽。
 
-### 控制參數繼承
+### 控制參數繼承 {#control-parameter-inheritance}
 
 `paramsInheritanceStrategy` 定義路由參數與資料如何從父路由向下流動。
 
@@ -106,7 +106,7 @@ export class Customer {
 }
 ```
 
-### 決定 URL 更新的時機
+### 決定 URL 更新的時機 {#decide-when-the-url-updates}
 
 `urlUpdateStrategy` 決定 Angular 何時寫入瀏覽器網址列。預設的 `'deferred'` 會等到導覽成功後才變更 URL。使用 `'eager'` 可在導覽一開始就立即更新。急切更新讓你在導覽因守衛或錯誤而失敗時，更容易呈現嘗試使用的 URL；但若守衛執行時間較長，可能會短暫顯示進行中的 URL。
 
@@ -116,7 +116,7 @@ export class Customer {
 provideRouter(routes, withRouterConfig({urlUpdateStrategy: 'eager'}));
 ```
 
-### 選擇預設的查詢參數處理方式
+### 選擇預設的查詢參數處理方式 {#choose-default-query-parameter-handling}
 
 `defaultQueryParamsHandling` 為 `Router.createUrlTree` 設定後備行為：當呼叫時未指定 `queryParamsHandling`，就以此為準。`'replace'` 是預設值，會換掉現有的查詢字串；`'merge'` 把提供的值與目前的值合併；`'preserve'` 則保留現有的查詢參數，除非你明確提供新的參數。
 
@@ -247,7 +247,7 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
 
 IMPORTANT: 繼承的路由[資源](guide/routing/data-fetching-with-resources#resource-inheritance)在搭配自訂 `RouteReuseStrategy` 時無法運作，若該策略分離了某條路由，卻沒有同時分離其所依賴資源的祖先路由。
 
-### 手動銷毀分離的路由控點
+### 手動銷毀分離的路由控點 {#manually-destroying-detached-route-handles}
 
 實作自訂 `RouteReuseStrategy` 時，若你決定丟棄某個 `DetachedRouteHandle` 而不重新接上，可能需要手動將其銷毀。例如，若你的策略有快取大小上限，或在一段時間後讓控點過期，你必須確保元件及其狀態被正確銷毀，以避免記憶體洩漏。
 

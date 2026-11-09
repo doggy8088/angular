@@ -8,7 +8,7 @@ TIP: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angula
 
 HELPFUL: 對於延遲載入的使用情境（例如你想延遲載入一個較大的元件），請考慮改用內建的 [`@defer` 功能](/guide/templates/defer)。`@defer` 功能可讓 `@defer` 區塊內的任何元件、指令與管道的程式碼，自動抽出為獨立的 JavaScript 區塊，並僅在必要時依據所設定的觸發條件載入。
 
-## 使用 NgComponentOutlet
+## 使用 NgComponentOutlet {#using-ngcomponentoutlet}
 
 `NgComponentOutlet` 是一個結構指令，可在範本中動態渲染指定的元件。
 
@@ -182,7 +182,7 @@ NOTE: 在元件渲染之前，`componentInstance` 屬性的值為 `null`。
 
 關於該指令功能的更多資訊，請參閱 [NgComponentOutlet API 參考文件](api/common/NgComponentOutlet)。
 
-## 使用 ViewContainerRef
+## 使用 ViewContainerRef {#using-viewcontainerref}
 
 **檢視容器**是 Angular 元件樹中的一個節點，可以容納內容。任何元件或指令都可以注入 `ViewContainerRef`，以取得對應於該元件或指令在 DOM 中位置的檢視容器參照。
 
@@ -268,13 +268,13 @@ export class AdminSettings {
 
 上面的範例會在收到按鈕點擊時，載入並顯示 `AdvancedSettings`。
 
-## 在建立時繫結 inputs、outputs 並設定 host 指令
+## 在建立時繫結 inputs、outputs 並設定 host 指令 {#binding-inputs-outputs-and-setting-host-directives-at-creation}
 
 動態建立元件時，手動設定 inputs 並訂閱 outputs 容易出錯。你通常需要撰寫額外的程式碼，才能在元件具現化後接上這些繫結。
 
 為簡化這個流程，`createComponent` 與 `ViewContainerRef.createComponent` 都支援傳入 `bindings` 陣列，搭配 `inputBinding()`、`outputBinding()` 與 `twoWayBinding()` 等輔助函式，預先設定 inputs 與 outputs。你也可以指定 `directives` 陣列來套用任何 host 指令。這讓你能以單一、宣告式的呼叫，透過程式以類似範本的繫結方式建立元件。
 
-### 使用 `ViewContainerRef.createComponent` 的 host 檢視
+### 使用 `ViewContainerRef.createComponent` 的 host 檢視 {#host-view-using-viewcontainerrefcreatecomponent}
 
 `ViewContainerRef.createComponent` 會建立一個元件，並自動將其 host 檢視與 host 元素插入容器檢視階層中容器所在的位置。當動態元件應成為容器邏輯與視覺結構的一部分時（例如新增清單項目或行內 UI），請使用這個方式。
 
@@ -342,7 +342,7 @@ export class Host {
 
 在上面的範例中，動態的 **AppWarning** 在建立時，其 `canClose` input 繫結到一個反應式訊號，`isExpanded` 狀態使用雙向繫結，並為 `close` 加上 output 監聽器。`FocusTrap` 與 `ThemeDirective` 則透過 `directives` 附加到 host 元素上。
 
-### 使用 `createComponent` + `hostElement` 將 Popup 附加到 `document.body`
+### 使用 `createComponent` + `hostElement` 將 Popup 附加到 `document.body` {#popup-attached-to-documentbody-with-createcomponent--hostelement}
 
 當需要在目前檢視階層之外渲染時（例如覆蓋層），請使用這個方式。所提供的 `hostElement` 會成為元件在 DOM 中的 host，因此 Angular 不會建立符合選擇器的新元素。你可以直接設定 **bindings**。
 

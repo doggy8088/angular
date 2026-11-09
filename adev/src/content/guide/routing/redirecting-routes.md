@@ -86,7 +86,7 @@ export const routes: Routes = [{path: 'news', redirectTo: '/blog', pathMatch: 'f
 1. 只有 `/news` 路徑會被重新導向至 `/blog`。
 2. 任何後續區段，例如 `/news/articles` 或 `/news/articles/1`，都不會使用新的 `/blog` 前綴進行重新導向。
 
-## 條件式重新導向
+## 條件式重新導向 {#conditional-redirects}
 
 `redirectTo` 屬性也可以接受一個函式，藉此為使用者的重新導向方式加入邏輯。
 

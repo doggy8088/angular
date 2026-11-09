@@ -10,11 +10,11 @@
   <docs-code header="app.css" path="adev/src/content/examples/signal-forms/src/login-validation-complete/app/app.css"/>
 </docs-code-multifile>
 
-## 驗證基礎
+## 驗證基礎 {#validation-basics}
 
 訊號表單的驗證是透過傳給 `form()` 的第二個引數——結構定義函式——來定義的。
 
-### 結構定義函式
+### 結構定義函式 {#the-schema-function}
 
 結構定義函式會收到一個 `SchemaPathTree` 物件，讓你定義驗證規則：
 
@@ -171,7 +171,7 @@ export class ContactComponent {
 
 `email()` 驗證規則使用標準的電子郵件格式正規表示式。它接受像 `user@example.com` 這樣的地址，但會拒絕像 `user@` 或 `@example.com` 這樣格式錯誤的地址。
 
-### min() 與 max()
+### min() 與 max() {#min-and-max}
 
 `min()` 與 `max()` 驗證規則處理數值：
 
@@ -222,7 +222,7 @@ ageForm = form(this.ageModel, (schemaPath) => {
 });
 ```
 
-### minDate() 與 maxDate()
+### minDate() 與 maxDate() {#mindate-and-maxdate}
 
 `minDate()` 與 `maxDate()` 驗證規則處理 `Date` 值，例如綁定到 `<input type="date">` 的欄位。它們也會設定該輸入框的 `min` 與 `max` 屬性。
 
@@ -397,7 +397,7 @@ export class OrderComponent {
 }
 ```
 
-## 驗證錯誤
+## 驗證錯誤 {#validation-errors}
 
 當驗證規則失敗時，它們會產生描述問題所在的錯誤物件。了解錯誤結構有助於你向使用者提供清楚的回饋。
 
@@ -482,7 +482,7 @@ TIP: 在範本中使用 `touched() && invalid()` 模式，可避免錯誤在使�
 
 內建驗證規則能處理常見情況，但你經常會需要自訂驗證邏輯，用於業務規則、複雜格式或特定領域的限制。
 
-### 使用 validate()
+### 使用 validate() {#using-validate}
 
 `validate()` 函式用來建立自訂驗證規則。它接收一個驗證器函式，該函式存取欄位上下文並傳回：
 
@@ -541,7 +541,7 @@ NOTE: 子欄位也有 `key` 訊號，陣列項目欄位則同時有 `key` 與 `i
 
 驗證失敗時，傳回包含 `kind` 與 `message` 的錯誤物件；驗證通過時，傳回 `null` 或 `undefined`。
 
-### 使用 validateTree()
+### 使用 validateTree() {#using-validatetree}
 
 `validateTree()` 函式用來建立自訂驗證規則，可以鎖定多個欄位，或為整個子樹提供複雜的驗證邏輯。
 
@@ -694,7 +694,7 @@ export class PasswordChangeComponent {
 
 如需完整範例，包括可重複使用的結構定義與判別聯集，請參閱[結構定義與結構定義的可組合性指南](guide/forms/signals/schemas)。
 
-## 非同步驗證
+## 非同步驗證 {#async-validation}
 
 非同步驗證處理需要外部資料來源的驗證，例如在伺服器上檢查使用者名稱是否可用，或對照 API 進行驗證。
 
@@ -768,7 +768,7 @@ export class UsernameFormComponent {
 
 `valid()` 訊號在驗證待處理期間會傳回 `false`，即使目前還沒有錯誤。`invalid()` 訊號則只在存在錯誤時才傳回 `true`。
 
-## 與結構定義驗證程式庫整合
+## 與結構定義驗證程式庫整合 {#integration-with-schema-validation-libraries}
 
 訊號表單內建支援符合 [Standard Schema](https://standardschema.dev/) 的程式庫，例如 [Zod](https://zod.dev/) 或 [Valibot](https://valibot.dev/)。這項整合透過 `validateStandardSchema` 函式提供。它讓你可以使用既有的結構定義，同時保有訊號表單反應式驗證的好處。
 

@@ -161,7 +161,7 @@ Angular 的編譯器會為 `@defer` 區塊中使用的每個元件、指令與�
 }
 ```
 
-##### 自訂 `idle` 行為
+##### 自訂 `idle` 行為 {#customizing-idle-behavior}
 
 你可以提供你自己的 `IdleService` 實作，並以 `provideIdleServiceWith` 在你的應用程式 providers 中註冊，來自訂 `idle` 觸發條件。
 

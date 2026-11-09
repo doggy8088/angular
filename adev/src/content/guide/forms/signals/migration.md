@@ -2,7 +2,7 @@
 
 本指南提供把既有程式碼庫遷移到 Signal Forms 的策略，重點放在與既有反應式表單的互通性。
 
-## 使用 `compatForm` 由上而下遷移
+## 使用 `compatForm` 由上而下遷移 {#top-down-migration-using-compatform}
 
 有時你可能會想在 Signal Form 中使用既有的反應式 `FormControl` 實例。這在控制項涉及下列情況時很有用：
 
@@ -266,7 +266,7 @@ this.form.patchValue({email: 'other@example.com'});
 console.log(this.emailControl.fieldTree().value()); // 'other@example.com'
 ```
 
-### 繫結 `SignalFormControl`
+### 繫結 `SignalFormControl` {#binding-signalformcontrol}
 
 要在 `FormGroup` 中使用 `SignalFormControl`，請把它作為控制項傳入，並在範本中使用 `.fieldTree` 繫結：
 

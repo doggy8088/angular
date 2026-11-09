@@ -135,7 +135,7 @@ export class App{
 
 如果事件處理常式陳述式的評估結果為 `false`，Angular 會自動呼叫 `preventDefault()`，類似於[原生事件處理常式 attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes#event_handler_attributes)。請一律優先明確呼叫 `preventDefault`，因為這種做法能讓程式碼的意圖一目了然。
 
-## 擴充事件處理
+## 擴充事件處理 {#extend-event-handling}
 
 Angular 的事件系統可以透過以 `EVENT_MANAGER_PLUGINS` 注入權杖註冊的自訂事件外掛來擴充。
 

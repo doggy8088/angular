@@ -4,7 +4,7 @@ Angular 在範本中有兩種變數宣告：區域範本變數與範本參照變
 
 HELPFUL: 在本指南中，「範本」並不是指整個 HTML 範本檔案。它只指檔案中某個特定的範本結構或運算式。
 
-## 使用 `@let` 的區域範本變數
+## 使用 `@let` 的區域範本變數 {#local-template-variables-with-let}
 
 Angular 的 `@let` 語法讓你能定義一個區域變數，並在整個範本中重複使用它，類似 [JavaScript `let` 語法](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let)。
 
@@ -124,7 +124,7 @@ Angular 的 `@let` 語法讓你能定義一個區域變數，並在整個範本�
 <input #taskInput placeholder="Enter task name" />
 ```
 
-### 將值指派給範本參照變數
+### 將值指派給範本參照變數 {#assigning-values-to-template-reference-variables}
 
 Angular 會根據變數宣告所在的元素，將值指派給範本變數。
 
@@ -151,7 +151,7 @@ Angular 會根據變數宣告所在的元素，將值指派給範本變數。
 <input #taskInput placeholder="Enter task name" />
 ```
 
-#### 將參照指派給 Angular 指令
+#### 將參照指派給 Angular 指令 {#assigning-a-reference-to-an-angular-directive}
 
 Angular 指令可能有一個 `exportAs` 屬性，定義該指令在範本中可被參照的名稱：
 

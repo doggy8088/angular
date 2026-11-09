@@ -40,7 +40,7 @@ export class App {
 
 若要了解更多，請參閱官方文件中的 [`NgModel`](/api/forms/NgModel)。
 
-## 元件之間的雙向繫結
+## 元件之間的雙向繫結 {#two-way-binding-between-components}
 
 相較於表單元素，在父元件與子元件之間運用雙向繫結需要更多設定。
 

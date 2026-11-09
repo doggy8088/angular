@@ -26,7 +26,7 @@ export class HighlightDirective {
 }
 ```
 
-## 注入宿主元素的標籤名稱
+## 注入宿主元素的標籤名稱 {#inject-the-host-elements-tag-name}
 
 若要取得宿主元素的標籤名稱，請使用 `HOST_TAG_NAME` token 注入它。
 
@@ -57,7 +57,7 @@ export class RoleButtonDirective {
 
 NOTE: 如果宿主元素可能沒有標籤名稱（例如 `ng-container` 或 `ng-template`），請把注入設為可選。
 
-## 用前向參考解決循環依賴
+## 用前向參考解決循環依賴 {#resolve-circular-dependencies-with-a-forward-reference}
 
 在 TypeScript 中，類別宣告的順序很重要。
 在定義類別之前，你無法直接參考它。

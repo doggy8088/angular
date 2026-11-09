@@ -68,7 +68,7 @@ export class App {
 
 ```
 
-## 自訂 output 名稱
+## 自訂 output 名稱 {#customizing-output-names}
 
 `output` 函式接受一個參數，可讓你為範本中的事件指定不同的名稱：
 
@@ -87,7 +87,7 @@ export class CustomSlider {
 
 雖然一般來說應避免為元件的 outputs 取別名，但這項功能在重新命名屬性時保留原始名稱的別名，或避免與原生 DOM 事件名稱衝突時非常有用。
 
-## 以程式方式訂閱 outputs
+## 以程式方式訂閱 outputs {#subscribing-to-outputs-programmatically}
 
 動態建立元件時，你可以從元件實例以程式方式訂閱 output 事件。`OutputRef` 型別包含一個 `subscribe` 方法：
 
@@ -123,7 +123,7 @@ eventSubscription.unsubscribe();
 
 關於 outputs 與 RxJS 之間互通性的詳情，請參閱 [RxJS 與元件及指令 outputs 的互通](ecosystem/rxjs-interop/output-interop)。
 
-## 使用 `@Output` 裝飾器宣告 outputs
+## 使用 `@Output` 裝飾器宣告 outputs {#declaring-outputs-with-the-output-decorator}
 
 TIP: 雖然 Angular 團隊建議新專案使用 `output` 函式，但原始的裝飾器式 `@Output` API 仍受到完整支援。
 

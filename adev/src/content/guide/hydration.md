@@ -224,7 +224,7 @@ bootstrapApplication(App, {
 
 有不少第三方函式庫仰賴 DOM 操作才能渲染，D3 圖表就是典型的例子。這些函式庫在未啟用水合時運作正常，但啟用水合後可能造成 DOM 不符錯誤。目前若你使用這類函式庫時遇到 DOM 不符錯誤，可以將 `ngSkipHydration` 屬性加到使用該函式庫渲染的元件上。
 
-## 操作 DOM 的第三方指令碼
+## 操作 DOM 的第三方指令碼 {#third-party-scripts-with-dom-manipulation}
 
 許多第三方指令碼（例如廣告追蹤與分析工具）會在水合發生前修改 DOM。這些指令碼可能造成水合錯誤，因為頁面不再符合 Angular 預期的結構。請儘量將這類指令碼延後到水合完成後再執行。可以考慮使用 [`AfterNextRender`](api/core/afterNextRender)，將指令碼延後到水合後程序完成才執行。
 

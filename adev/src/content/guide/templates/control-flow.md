@@ -93,7 +93,7 @@ NOTE: 與 `*ngFor` 不同，`@for` 區塊優先重複使用檢視。如果被追
 
 別名在巢狀 `@for` 區塊中很有用，讓內層 `@for` 區塊能讀取外層 `@for` 區塊的變數。
 
-### 以 `@empty` 區塊為 `@for` 區塊提供備援內容
+### 以 `@empty` 區塊為 `@for` 區塊提供備援內容 {#providing-a-fallback-for-for-blocks-with-the-empty-block}
 
 你可以選擇在 `@for` 區塊內容之後緊接著加入 `@empty` 區段。當集合中沒有任何項目時，會顯示 `@empty` 區塊的內容：
 

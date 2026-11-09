@@ -89,7 +89,7 @@ Angular 會強制規定，在範本中使用元件時，必要輸入_必須_被�
 
 `input` 函式接受設定物件作為第二個參數，讓你可以變更輸入的運作方式。
 
-### 輸入轉換
+### 輸入轉換 {#input-transforms}
 
 你可以指定 `transform` 函式，在 Angular 設定輸入時變更其值。
 
@@ -136,7 +136,7 @@ function appendPx(value: number): string {
 
 在上面的範例中，`widthPx` 輸入接受 `number`，而 `InputSignal` 屬性回傳 `string`。
 
-#### 內建轉換
+#### 內建轉換 {#built-in-transformations}
 
 Angular 為兩個最常見的情境提供內建轉換函式：將值強制轉換為布林值與數字。
 
@@ -173,7 +173,7 @@ export class CustomSlider {
 
 雖然一般來說應避免為元件輸入取別名，這個功能在重新命名屬性時保留原名稱別名，或避免與原生 DOM 元素屬性名稱衝突時，會很有用。
 
-## 模型輸入
+## 模型輸入 {#model-inputs}
 
 **模型輸入**是輸入的一種特殊類型，讓元件能將新值傳播回其父元件。
 
@@ -247,7 +247,7 @@ export class CustomCheckbox {
 
 關於輸出的更多細節，請參閱[以輸出建立自訂事件](guide/components/outputs)。
 
-### 自訂模型輸入
+### 自訂模型輸入 {#customizing-model-inputs}
 
 你可以比照標準輸入的方式，將模型輸入標記為[必要](#required-inputs)，或為它提供[別名](#input-aliases)。
 

@@ -4,7 +4,7 @@ Angular 訊號是一套能細緻追蹤狀態在應用程式中如何被使用、
 
 TIP: 在深入閱讀這份完整指南之前，先看看 Angular 的[入門要點](essentials/signals)。
 
-## 什麼是訊號？
+## 什麼是訊號？ {#what-are-signals}
 
 **訊號**是包住一個值的包裝器，當該值改變時，會通知有興趣的消費者。訊號可以包含任何值，從基本型別到複雜的資料結構皆可。
 
@@ -136,7 +136,7 @@ Angular 會在以下情況自動進入反應式上下文：
 
 在這些操作期間，Angular 會建立一個_即時_連接。如果被追蹤的訊號改變，Angular _最終_會重新執行消費者。
 
-### 反應式上下文斷言
+### 反應式上下文斷言 {#asserts-the-reactive-context}
 
 Angular 提供 `assertNotInReactiveContext` 輔助函式，用來斷言程式碼不是在反應式上下文中執行。請傳入呼叫端函式的參考，這樣當斷言失敗時，錯誤訊息就能指向正確的 API 入口點。相較於泛用的反應式上下文錯誤，這能產生更清楚、更可操作的錯誤訊息。
 
@@ -149,7 +149,7 @@ function subscribeToEvents() {
 }
 ```
 
-### 讀取但不追蹤依賴
+### 讀取但不追蹤依賴 {#reading-without-tracking-dependencies}
 
 在少數情況下，你可能會想在 `computed` 或 `effect` 這類反應式函式中執行會讀取訊號的程式碼，但_不_建立依賴關係。
 
@@ -230,7 +230,7 @@ effect(async () => {
 
 ## 進階主題
 
-### 訊號相等比較函式
+### 訊號相等比較函式 {#signal-equality-functions}
 
 建立訊號時，你可以選擇性地提供一個相等比較函式，用來檢查新值是否真的與前一個值不同。
 
@@ -250,7 +250,7 @@ data.set(['test']);
 
 HELPFUL: 預設情況下，訊號使用參考相等性（即 [`Object.is()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/is) 比較）。
 
-### 檢查訊號型別
+### 檢查訊號型別 {#type-checking-signals}
 
 你可以使用 `isSignal` 檢查一個值是否為 `Signal`：
 

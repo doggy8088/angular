@@ -6,7 +6,7 @@
 
 本指南深入說明欄位上下文 API，並展示常見的跨欄位模式。單一欄位的驗證請見[驗證指南](/guide/forms/signals/validation)。
 
-## 了解欄位上下文
+## 了解欄位上下文 {#understanding-the-field-context}
 
 訊號表單中的每個規則函式都會收到一個**欄位上下文**參數，它是一個物件，描述目前的欄位，並提供存取表單其他部分的方式。
 
@@ -167,7 +167,7 @@ export class PasswordForm {
 
 CRITICAL: 小心不要讀取依賴你自己欄位驗證的狀態，那會形成循環。例如，檢查父欄位是否有效的驗證器會造成無限迴圈，因為父欄位的有效性取決於其子欄位的有效性（其中包含你的驗證器）。
 
-## 使用 validateTree
+## 使用 validateTree {#using-validatetree}
 
 目前為止的範例都用 `validate()` 檢查個別欄位。有時你需要驗證一組欄位，其邏輯本質上就涉及群組中的多個欄位，並且要把錯誤直接指向其中的特定子欄位。`validateTree` 正適合這類情境。
 

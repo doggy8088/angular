@@ -32,7 +32,7 @@ export class ItemCounter {
 
 範本片段中的運算式或陳述式，會以宣告該片段的元件來評估，與片段實際算繪的位置無關。
 
-## 取得範本片段的參照
+## 取得範本片段的參照 {#getting-a-reference-to-a-template-fragment}
 
 你可以用下列三種方式之一取得範本片段的參照：
 
@@ -130,7 +130,7 @@ export class MyDirective {
 
 一旦你取得範本片段的 `TemplateRef` 物件參照，你可以用兩種方式之一算繪片段：在範本中使用 `NgTemplateOutlet` 指令，或在 TypeScript 程式碼中使用 `ViewContainerRef`。
 
-### 使用 `NgTemplateOutlet`
+### 使用 `NgTemplateOutlet` {#using-ngtemplateoutlet}
 
 來自 `@angular/common` 的 `NgTemplateOutlet` 指令接受一個 `TemplateRef`，並將片段算繪為帶有該出口之元素的**同層同級元素**。一般來說，你應該在 [`<ng-container>` 元素](/guide/templates/ng-container)上使用 `NgTemplateOutlet`。
 

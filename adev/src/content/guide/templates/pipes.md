@@ -44,7 +44,7 @@ export class ShoppingCart {
 
 若要了解 Angular 如何在地化數值，請參閱 [i18n 深入指南](/guide/i18n)。
 
-### 內建管道
+### 內建管道 {#built-in-pipes}
 
 Angular 在 `@angular/common` 套件中包含一組內建管道：
 

@@ -4,7 +4,7 @@
 
 TIP: 若你的應用程式使用 Angular Signals，請考慮使用[路由資源](/guide/routing/data-fetching-with-resources)，透過 `Resource` API 進行反應式資料擷取，並內建支援非阻擋式資料載入。
 
-## 什麼是資料解析器？
+## 什麼是資料解析器？ {#what-are-data-resolvers}
 
 資料解析器是實作 `ResolveFn` 函式的服務。它在路由啟用之前執行，可以從 API、資料庫或其他來源擷取資料。解析後的資料會透過 `ActivatedRoute` 提供給元件。
 
@@ -145,7 +145,7 @@ export class UserDetail {
 2. 透過訂閱路由事件管理錯誤
 3. 直接在解析器中處理錯誤
 
-### 在 `withNavigationErrorHandler` 中集中處理錯誤
+### 在 `withNavigationErrorHandler` 中集中處理錯誤 {#centralize-error-handling-in-withnavigationerrorhandler}
 
 [`withNavigationErrorHandler`](api/router/withNavigationErrorHandler) 功能提供了一個集中處理所有導覽錯誤（包含來自失敗的資料解析器的錯誤）的方式。這種方法把錯誤處理邏輯放在同一個地方，避免各解析器中出現重複的錯誤處理程式碼。
 

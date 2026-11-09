@@ -4,7 +4,7 @@
 
 NOTE: 關於注入器階層和提供者範圍的基本概念，請參閱[定義依賴提供者指南](guide/di/defining-dependency-providers#injector-hierarchy-in-angular)。
 
-## 注入器階層的類型
+## 注入器階層的類型 {#types-of-injector-hierarchies}
 
 Angular 有兩種注入器階層：
 
@@ -527,7 +527,7 @@ Emoji from FlowerService: 🌻
 注入器不需要在注入器樹中再往別處尋找。
 它一找到 `FlowerService` 就停下來，永遠不會看到紅色扶桑花 <code>🌺</code>。
 
-### 使用 `viewProviders` 陣列
+### 使用 `viewProviders` 陣列 {#using-the-viewproviders-array}
 
 使用 `viewProviders` 陣列，是在 `@Component()` 裝飾器中提供服務的另一種方式。
 使用 `viewProviders` 讓服務在 `<#VIEW>` 中可見。

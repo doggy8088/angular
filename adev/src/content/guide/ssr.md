@@ -334,7 +334,7 @@ export class Checkout {
 }
 ```
 
-## 透過 DI 存取 Document
+## 透過 DI 存取 Document {#accessing-document-via-di}
 
 在使用伺服器端渲染時，你應該避免直接參考 `document` 等瀏覽器專屬的全域變數。請改用 [`DOCUMENT`](api/core/DOCUMENT) token，以與平台無關的方式存取 document 物件。
 
@@ -358,7 +358,7 @@ export class CanonicalLinkService {
 
 HELPFUL: 對於管理 meta 標籤，Angular 提供了 `Meta` 服務。
 
-## 透過 DI 存取 Request 與 Response
+## 透過 DI 存取 Request 與 Response {#accessing-request-and-response-via-di}
 
 `@angular/core` 套件提供數個用來與伺服器端渲染環境互動的 token。這些 token 讓你在 SSR 期間能存取 Angular 應用程式中的關鍵資訊與物件。
 
@@ -449,7 +449,7 @@ IMPORTANT: 上述 token 在以下情境中會是 `null`：<ul class="docs-list">
 
 NOTE: `format` 選項只有在建置不產生伺服器時才會被考量。
 
-## 使用 HttpClient 時快取資料
+## 使用 HttpClient 時快取資料 {#caching-data-when-using-httpclient}
 
 `HttpClient` 在伺服器上執行時會快取對外發出的網路請求。這些資訊會被序列化，並作為伺服器傳送的初始 HTML 的一部分傳給瀏覽器。在瀏覽器中，`HttpClient` 會檢查快取中是否有資料，若有，就在應用程式初始渲染期間重用它，而不發出新的 HTTP 請求。一旦應用程式在瀏覽器中執行時變得[穩定](api/core/ApplicationRef#isStable)，`HttpClient` 就會停止使用快取。
 
@@ -482,7 +482,7 @@ IMPORTANT: 請把這個上限保持在你的應用程式所能允許的最小值
 
 CRITICAL: 在 SSR 期間，Fetch 實作會依照 [Fetch 標準](https://fetch.spec.whatwg.org/#concept-main-fetch) 的要求，在傳回回應之前讀取整個回應主體來驗證 `integrity`。Angular 只在 Fetch 傳回回應之後才強制執行 [`maxResponseBodySize`](/guide/ssr#configuring-the-response-body-size-limit)，因此這個上限並不限制完整性驗證期間所緩衝的資料。
 
-### 設定快取選項
+### 設定快取選項 {#configuring-the-caching-options}
 
 你可以透過設定 `HttpTransferCacheOptions`，來自訂 Angular 在伺服器端渲染（SSR）期間如何快取 HTTP 回應，以及在水合期間如何重用它們。  
 這個設定是透過在 `provideClientHydration()` 內使用 `withHttpTransferCacheOptions` 全域提供的。
@@ -586,7 +586,7 @@ withHttpTransferCacheOptions({
 http.get('/api/profile', {transferCache: {includeHeaders: ['CustomHeader']}});
 ```
 
-### 停用快取
+### 停用快取 {#disabling-caching}
 
 你可以全域或個別停用從伺服器送出之請求的 HTTP 快取。
 

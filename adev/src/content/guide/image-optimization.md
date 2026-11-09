@@ -115,7 +115,7 @@ IMPORTANT: 若要讓「fill」圖片正確渲染，它的父元素**必須**設�
 
 你可以依照[使用 fill 模式](#using-fill-mode)章節所述，調整背景圖片填滿容器的方式。
 
-## 使用佔位符
+## 使用佔位符 {#using-placeholders}
 
 ### 自動佔位符
 

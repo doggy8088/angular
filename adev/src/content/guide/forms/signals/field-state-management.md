@@ -6,7 +6,7 @@ Signal Forms 的欄位狀態讓你能回應使用者的互動，它提供了驗�
 
 當你用 [`form()`](api/forms/signals/form) 函式建立表單時，它會回傳一棵**欄位樹**——一種映照你表單模型的物件結構。樹中的每個欄位都能用點記法存取（例如 [`form.email`](api/forms/signals/FieldTree)）。
 
-### 存取欄位狀態
+### 存取欄位狀態 {#accessing-field-state}
 
 當你把欄位樹中的任何欄位當作函式呼叫時（例如 [`form.email()`](api/forms/signals/FieldState)），它會回傳一個 `FieldState` 物件，其中包含追蹤該欄位驗證、互動與可用性狀態的反應式訊號。例如，`invalid()` 訊號會告訴你該欄位是否有驗證錯誤：
 
@@ -182,7 +182,7 @@ NOTE: `message` 屬性是可選的。驗證器可以提供自訂錯誤訊息，�
 
 互動狀態會追蹤使用者是否與欄位互動過，支援像是「只在使用者碰過欄位後才顯示錯誤」這類模式。
 
-### 已觸碰狀態
+### 已觸碰狀態 {#touched-state}
 
 `touched()` 訊號追蹤使用者是否已聚焦並離開某個欄位，或該欄位是否被以程式化方式標記為已觸碰。只有可互動的欄位能變成已觸碰；隱藏、停用與唯讀欄位不會因使用者互動或 `markAsTouched()` 而變成已觸碰。
 
@@ -812,7 +812,7 @@ export class StyleExample {
 
 同時檢查 `touched()` 與驗證狀態，能確保樣式只在使用者與欄位互動後才出現。
 
-## 聚焦繫結到表單欄位的表單控制項
+## 聚焦繫結到表單欄位的表單控制項 {#focus-a-form-control-bound-to-a-form-field}
 
 Angular Signal Forms 在欄位狀態上提供了 `focusBoundControl()` 方法，讓你能以程式化方式把[焦點](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus)移到與指定表單欄位相關聯的表單控制項。
 

@@ -74,7 +74,7 @@ http.post<Config>('/api/config', newConfig).subscribe((config) => {
 
 IMPORTANT: 請記得對變更請求的 `Observable` 呼叫 `.subscribe()`，請求才會真正發出。
 
-## 設定 URL 參數
+## 設定 URL 參數 {#setting-url-parameters}
 
 使用 `params` 選項，指定應包含在請求 URL 中的請求參數。
 
@@ -108,7 +108,7 @@ http
 
 你可以使用自訂的 `HttpParameterCodec` 來建立 `HttpParams`，由它決定 `HttpClient` 如何將參數編碼進 URL。
 
-### 自訂參數編碼
+### 自訂參數編碼 {#custom-parameter-encoding}
 
 `HttpParams` 預設使用內建的 [`HttpUrlEncodingCodec`](api/common/http/HttpUrlEncodingCodec) 來編碼與解碼參數的鍵與值。
 
@@ -151,7 +151,7 @@ export class ApiService {
 }
 ```
 
-## 設定請求標頭
+## 設定請求標頭 {#setting-request-headers}
 
 使用 `headers` 選項，指定應包含在請求中的請求標頭。
 
@@ -185,7 +185,7 @@ http
   });
 ```
 
-## 與伺服器回應事件互動
+## 與伺服器回應事件互動 {#interacting-with-the-server-response-events}
 
 為了方便，`HttpClient` 預設回傳伺服器回傳資料（回應主體）的 `Observable`。有時我們會想檢視實際的回應，例如擷取特定的回應標頭。
 
@@ -204,7 +204,7 @@ http.get<Config>('/api/config', {observe: 'response'}).subscribe((res) => {
 如果傳給請求方法的 options 物件本身是字面物件，這會自動成立；但如果你把請求選項抽出到變數或輔助方法中，你可能需要明確將其指定為字面值，例如 `observe: 'response' as const`。
 </docs-callout>
 
-## 接收原始進度事件
+## 接收原始進度事件 {#receiving-raw-progress-events}
 
 除了回應主體或回應物件之外，`HttpClient` 也可以回傳一串原始「事件」，對應請求生命週期中的特定時刻。這些事件包括請求送出時、回應標頭回傳時，以及主體完成時。這些事件還可以包括「進度事件」，回報大型請求或回應主體的上傳與下載狀態。
 
@@ -286,7 +286,7 @@ http
   });
 ```
 
-## 進階 fetch 選項
+## 進階 fetch 選項 {#advanced-fetch-options}
 
 Angular 的 `HttpClient` 支援進階的 fetch API 選項，可以提升效能與使用者體驗。這些選項在使用 fetch 後端時可用，而 fetch 後端是預設後端。
 

@@ -101,7 +101,7 @@ export class MenuWithTooltip {}
 export class SpecializedMenuWithTooltip {}
 ```
 
-## 宿主指令的語義
+## 宿主指令的語義 {#host-directive-semantics}
 
 ### 指令執行順序
 

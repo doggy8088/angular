@@ -81,7 +81,7 @@ export class MyErrorHandler implements ErrorHandler {
 
 IMPORTANT: 如果 `@error` 區塊本身擲出錯誤，該錯誤會向上傳播到次一層外圍的 `@boundary`，否則 Angular 會將它視為未處理的應用程式錯誤。
 
-## 內容投影
+## 內容投影 {#content-projection}
 
 如果你的元件使用了[內容投影](guide/components/content-projection)，將 `<ng-content>` 包在 `@boundary` 中並不會捕捉來自投影內容的錯誤。那份內容屬於宣告它的檢視，而非接收元件的檢視。
 

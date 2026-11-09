@@ -30,7 +30,7 @@ NOTE: 結構定義回呼參數（這些範例中的 `schemaPath`）是一個 `Sc
 
 `FieldContext` 屬性與方法的完整詳情，請參閱[驗證指南](guide/forms/signals/validation)。
 
-## 用 `disabled()` 防止欄位更新
+## 用 `disabled()` 防止欄位更新 {#prevent-field-updates-with-disabled}
 
 `disabled()` 規則設定欄位的停用狀態。
 
@@ -105,7 +105,7 @@ export class Order {
 
 在這個範例中，當訂單總額低於 $50 時，優惠券代碼欄位會被停用。
 
-### 停用原因
+### 停用原因 {#disabled-reasons}
 
 停用欄位時，你可以回傳字串而非 `true`，為使用者提供面向使用者的說明：
 
@@ -260,7 +260,7 @@ export class Profile {
 }
 ```
 
-## 用 `readonly()` 顯示不可編輯的欄位
+## 用 `readonly()` 顯示不可編輯的欄位 {#display-uneditable-fields-with-readonly}
 
 `readonly()` 規則防止使用者更新欄位。`[FormField]` 指令會自動把這個狀態繫結到 HTML `readonly` 屬性，在防止編輯的同時，仍允許使用者聚焦並選取文字。
 
@@ -372,7 +372,7 @@ export class Document {
 | 使用者可聚焦／選取       | 否         | 否           | 是           |
 | 包含在 HTML 表單送出中   | 否         | 否           | 是           |
 
-## 用 `debounce()` 延遲輸入操作
+## 用 `debounce()` 延遲輸入操作 {#delay-input-operations-with-debounce}
 
 `debounce()` 規則會延遲表單模型的更新。這對效能最佳化，以及減少快速輸入期間不必要的操作很有用。
 

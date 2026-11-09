@@ -82,7 +82,7 @@ Angular 會依 effect 建立所在的上下文，為其定義兩種隱含行為�
 
 在這兩種情況下，如果 effect 執行期間至少有一個依賴發生改變，effect 會在變更偵測流程繼續往下走之前重新執行。
 
-## 銷毀 effect
+## 銷毀 effect {#destroying-effects}
 
 當元件或指令被銷毀時，Angular 會自動清理所有相關的 effect。
 
@@ -93,7 +93,7 @@ Angular 會依 effect 建立所在的上下文，為其定義兩種隱含行為�
 
 effect 會傳回一個 `EffectRef`。你可以使用該 ref 的 `destroy` 方法手動處置 effect。建立 effect 時，你也可以搭配 `manualCleanup` 選項來停用自動清理。請務必在這類 effect 不再需要時確實將它銷毀。
 
-## effect 清理函式
+## effect 清理函式 {#effect-cleanup-functions}
 
 當元件或指令被銷毀時，Angular 會自動清理所有相關的 effect。
 effect 可能會啟動長時間執行的操作，如果 effect 被銷毀、或在第一個操作完成前又再次執行，你應該取消這些操作。建立 effect 時，你的函式可以選擇性地接受一個 `onCleanup` 函式作為第一個參數。這個 `onCleanup` 函式讓你註冊一個回呼，該回呼會在 effect 下一次執行開始前、或 effect 被銷毀時被呼叫。

@@ -82,7 +82,7 @@ export class Registration {
 5. 請求完成，且 `pending()` 變成 `false`
 6. 錯誤依據回應更新
 
-## 使用 validateHttp() 進行 HTTP 驗證
+## 使用 validateHttp() 進行 HTTP 驗證 {#http-validation-with-validatehttp}
 
 `validateHttp()` 函式提供最常見形式的非同步驗證。當你需要對照 REST API 或任何 HTTP 端點進行驗證時，使用它。
 
@@ -241,7 +241,7 @@ validateHttp(schemaPath.field, {
 
 TIP: 所有可用選項請見 [httpResource API 文件](api/common/http/httpResource)。
 
-## 使用 validateAsync() 進行自訂非同步驗證
+## 使用 validateAsync() 進行自訂非同步驗證 {#custom-async-validation-with-validateasync}
 
 大多數應用程式應該使用 `validateHttp()` 進行非同步驗證。它以最少的設定處理 HTTP 請求，並涵蓋大多數使用情境。
 

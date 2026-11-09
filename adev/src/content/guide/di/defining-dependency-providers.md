@@ -11,7 +11,7 @@ Angular 提供兩種方式，讓服務可供注入：
 
 帶有 `providedIn: 'root'` 的 `@Injectable` 裝飾器對服務（類別）很好用，但你可能需要全域提供其他類型的值，例如設定物件、函式或原始值。Angular 為此提供了 `InjectionToken`。
 
-### 什麼是 InjectionToken？
+### 什麼是 InjectionToken？ {#what-is-an-injectiontoken}
 
 `InjectionToken` 是 Angular 依賴注入系統用來唯一識別可注入值的物件。可以把它想成一把特殊的鑰匙，讓你能在 Angular 的 DI 系統中儲存和擷取任何類型的值：
 
