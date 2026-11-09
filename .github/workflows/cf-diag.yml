@@ -1,0 +1,20 @@
+name: Diagnose Cloudflare auth (temporary)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check token and account secrets
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          echo "account_id length: ${#CF_ACCOUNT} (expect 32)"
+          echo "api_token length: ${#CF_TOKEN} (expect 40)"
+          echo -n "token verify endpoint HTTP: "
+          curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer ${CF_TOKEN}"
+          echo -n "pages project read HTTP: "
+          curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/dev-angular-tw" -H "Authorization: Bearer ${CF_TOKEN}"
