@@ -90,7 +90,7 @@ jobs:
         run: |
           for attempt in 1 2 3; do
             echo "=== Build attempt ${attempt} ==="
-            if bazel --host_jvm_args=-Xmx3g build //adev:build --//adev:prerender_adev=true --jobs=1 --local_ram_resources=4096; then
+            if bazel --host_jvm_args=-Xmx3g build //adev:build --//adev:prerender_adev=true --config=release --jobs=1 --local_ram_resources=4096; then
               exit 0
             fi
             echo "Attempt ${attempt} failed; retrying in 30s..."
