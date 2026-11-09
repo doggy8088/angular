@@ -22,7 +22,7 @@ HELPFUL: 本文件所述的實務做法適用於 Angular 2.0 與之後的版本�
 如果你目前使用的是 AngularJS，請參閱[從 AngularJS 升級](https://angular.io/guide/upgrade 'Upgrading from AngularJS')。
 _AngularJS_ 是 Angular 所有 v1.x 版本的名稱。
 
-## Angular 版本編號
+## Angular 版本編號 {#angular-versioning}
 
 Angular 的版本號代表該版本發布引入的變更程度。
 採用[語意化版本](https://semver.org/ 'Semantic Versioning Specification')，能幫助你理解更新到新版本可能造成的影響。
