@@ -174,3 +174,8 @@ build --flag_alias=ng_perf=//packages/compiler-cli:ng_perf
 # Load any settings which are specific to the current user. Needs to be *last* statement
 # in this config, as the user configuration should be able to overwrite flags from this file.
 try-import %workspace%/.bazelrc.user
+
+# --- zh-TW 部署管線：外部依賴改走 bazel-central mirror（2026-11-09） ---
+# github.com 的 release 檔案下載曾連續回 504 導致建置在 fetch 階段失敗；
+# storage.googleapis.com 的官方鏡像提供相同內容，先鏡像、失敗再回退原網址。
+common --experimental_downloader_config remote_downloader_config.bzl
