@@ -7,17 +7,22 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: Long-window upload-token polling
+      - name: Warm-up curl GET then Python token call
         env:
-          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: <redacted>
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          ok=0; fail=0
-          for i in $(seq 1 40); do
-            code=$(curl -s -o /dev/null -w "%{http_code}" "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/dev-angular-tw/upload-token" -H "Authorization: Bearer ${CF_TOKEN}")
-            ts=$(date -u +%H:%M:%S)
-            echo "try $i at $ts -> $code"
-            if [ "$code" = "200" ]; then ok=$((ok+1)); else fail=$((fail+1)); fi
-            sleep 20
-          done
-          echo "SUMMARY ok=$ok fail=$fail"
+          pip install -q requests
+          echo "== egress IP and colo"
+          curl -s "https://api.cloudflare.com/cdn-cgi/trace" | grep -E "^(ip|colo)=" || true
+          echo "== warm-up GETs (zones, project read)"
+          curl -s -o /dev/null -w "zones: %{http_code}\n" "https://api.cloudflare.com/client/v4/zones/d8415895d0d97ed5f9996bc4f228df08" -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"
+          curl -s -o /dev/null -w "project read: %{http_code}\n" "https://api.cloudflare.com/client/v4/accounts/${CLOUDFLARE_ACCOUNT_ID}/pages/projects/dev-angular-tw" -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}"
+          cat > probe3.py <<'PY'
+          import os, requests
+          tok = os.environ['CLOUDFLARE_API_TOKEN']; acct = os.environ['CLOUDFLARE_ACCOUNT_ID']
+          url = f'https://api.cloudflare.com/client/v4/accounts/{acct}/pages/projects/dev-angular-tw/upload-token'
+          r = requests.get(url, headers={'Authorization': f'Bearer {tok}'}, timeout=60)
+          print('python requests upload-token after warm-up:', r.status_code, r.text[:150])
+          PY
+          python3 probe3.py
