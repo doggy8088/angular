@@ -179,3 +179,11 @@ try-import %workspace%/.bazelrc.user
 # github.com 的 release 檔案下載曾連續回 504 導致建置在 fetch 階段失敗；
 # storage.googleapis.com 的官方鏡像提供相同內容，先鏡像、失敗再回退原網址。
 common --experimental_downloader_config remote_downloader_config.bzl
+
+# --- zh-TW 部署管線：distdir 與 repository cache（2026-11-09） ---
+# GitHub release 下載 504 時的雙保險：third_party/bazel-distdir 內收了曾被
+# 504 卡住的依賴原始檔（雜湊經 BCR source.json 驗證），Bazel 會先用本地檔；
+# repository cache 放在 workspace 內，讓 GitHub Actions 快取能跨建置保留
+# 已下載的外部依賴，下載成功過一次之後就不必再碰 GitHub。
+common --distdir=third_party/bazel-distdir
+common --repository_cache=.bazel-repository-cache
