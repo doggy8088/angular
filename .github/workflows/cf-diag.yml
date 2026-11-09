@@ -7,13 +7,22 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: Characterize the current secret inside the runner
+      - name: One process, two HTTP stacks, same token
         env:
-          T1: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: <redacted>
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          echo "length: ${#T1}"
-          echo -n "cfut_ prefix: "; case "$T1" in cfut_*) echo yes;; *) echo no;; esac
-          echo -n "curl verify: "
-          curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer ${T1}"
-          echo -n "curl upload-token: "
-          curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CLOUDFLARE_ACCOUNT_ID }}/pages/projects/dev-angular-tw/upload-token" -H "Authorization: Bearer ${T1}"
+          pip install -q requests
+          cat > probe2.py <<'PY'
+          import json, os, subprocess, requests
+          tok = os.environ['CLOUDFLARE_API_TOKEN']; acct = os.environ['CLOUDFLARE_ACCOUNT_ID']
+          url = f'https://api.cloudflare.com/client/v4/accounts/{acct}/pages/projects/dev-angular-tw/upload-token'
+          out = subprocess.run(['curl', '-s', url, '-H', f'Authorization: Bearer {tok}'],
+                               capture_output=True, text=True)
+          d = json.loads(out.stdout)
+          print('curl in-process:', d.get('success'), [e.get('code') for e in d.get('errors', [])])
+          r = requests.get(url, headers={'Authorization': f'Bearer {tok}'}, timeout=60)
+          print('requests UA sent:', r.request.headers.get('User-Agent'))
+          print('requests:', r.status_code, r.text[:150])
+          PY
+          python3 probe2.py
