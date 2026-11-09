@@ -72,8 +72,12 @@ jobs:
           cat _site/_headers
 
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: <redacted>
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy _site --project-name=angular-tw-v21 --branch=v21
+        # 不用 wrangler-action：它會用 pnpm 在 workspace 根目錄裝 wrangler 而被
+        # ERR_PNPM_ADDING_TO_ROOT 擋下（2026-11-09 zh-tw run 42577424671 實測）。
+        # 改用 npm 全域安裝 wrangler 後直接執行，環境變數由 secrets 注入。
+        env:
+          CLOUDFLARE_API_TOKEN: <redacted>
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npm install -g wrangler@3
+          wrangler pages deploy _site --project-name=angular-tw-v21 --branch=v21
