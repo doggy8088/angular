@@ -7,13 +7,22 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: Probe cf pages commands with existing token
+      - name: Bisect what the API rejects
         env:
-          CLOUDFLARE_API_TOKEN: <redacted>
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          npm install -g cf
-          echo "=== cf pages list ==="
-          cf pages list 2>&1 | head -30 || true
-          echo "=== cf pages deployments create --help ==="
-          cf pages deployments create --help 2>&1 | head -60 || true
+          V="https://api.cloudflare.com/client/v4/user/tokens/verify"
+          L="https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects"
+          echo -n "1) curl list endpoint, default UA: "
+          curl -s -o /dev/null -w "%{http_code}\n" "$L" -H "Authorization: Bearer ${CF_TOKEN}"
+          echo -n "2) curl verify, wrangler UA: "
+          curl -s -o /dev/null -w "%{http_code}\n" "$V" -H "Authorization: Bearer ${CF_TOKEN}" -H "User-Agent: wrangler/3.114.17"
+          echo -n "3) curl verify, cf UA guess: "
+          curl -s -o /dev/null -w "%{http_code}\n" "$V" -H "Authorization: Bearer ${CF_TOKEN}" -H "User-Agent: cf/1.0.0-beta.28"
+          echo -n "4) curl verify, lowercase authorization header: "
+          curl -s -o /dev/null -w "%{http_code}\n" "$V" -H "authorization: Bearer ${CF_TOKEN}"
+          echo -n "5) node fetch list endpoint: "
+          CF_TOKEN="$CF_TOKEN" L="$L" node -e "fetch(process.env.L,{headers:{Authorization:'Bearer '+process.env.CF_TOKEN}}).then(async r=>{console.log(r.status, JSON.stringify((await r.json()).errors||[]))}).catch(e=>console.log('ERR', e.message))"
+          echo -n "6) curl verify, no UA: "
+          curl -s -o /dev/null -w "%{http_code}\n" "$V" -H "Authorization: Bearer ${CF_TOKEN}" -H "User-Agent:"
