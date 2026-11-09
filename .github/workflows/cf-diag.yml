@@ -20,7 +20,7 @@ jobs:
             Cross-Origin-Embedder-Policy: credentialless
           HDR
           cat > upload.py <<'PY'
-          import base64, hashlib, json, os, sys
+          import base64, json, mimetypes, os
           import requests
           from blake3 import blake3
 
@@ -47,55 +47,31 @@ jobs:
           print('manifest:', manifest)
 
           r = requests.get(f'{API}/accounts/{ACCOUNT}/pages/projects/{PROJECT}/upload-token', headers=H)
+          jwt = r.json()['result']['jwt']
           print('upload-token:', r.status_code)
-          res = r.json()['result']
-          print('result type:', type(res).__name__, 'keys:', list(res) if isinstance(res, dict) else '-', 'len:', len(res) if isinstance(res, str) else '-')
-          jwt = res if isinstance(res, str) else res.get('token') or res.get('jwt')
-          import base64 as _b64
-          payload = jwt.split('.')[1]
-          payload += '=' * (-len(payload) % 4)
-          print('jwt claims:', json.loads(_b64.urlsafe_b64decode(payload)))
-
           JH = {'Authorization': f'Bearer {jwt}'}
-          ns = json.loads(_b64.urlsafe_b64decode(payload))['projectNamespace']
-          ASSETS = 'https://api.pages.cloudflare.com/pages/assets'
-          hashes = list(files)
-          variants = [
-              ('query', f'{ASSETS}/check-missing?assetNamespace={ns}', JH, {'hashes': hashes}),
-              ('body', f'{ASSETS}/check-missing', JH, {'hashes': hashes, 'assetNamespace': ns}),
-              ('header', f'{ASSETS}/check-missing', {**JH, 'X-Asset-Namespace': ns}, {'hashes': hashes}),
-          ]
-          style = None
-          for name, url, hdrs, body in variants:
-              r = requests.post(url, headers=hdrs, json=body)
-              print('check-missing', name, ':', r.status_code, r.text[:120])
-              if r.status_code == 200:
-                  style = name; missing = r.json()['result']; break
-          assert style, 'no variant worked'
 
-          def asset_url(path):
-              return f'{ASSETS}/{path}?assetNamespace={ns}' if style == 'query' else f'{ASSETS}/{path}'
-          def asset_headers():
-              return {**JH, 'X-Asset-Namespace': ns} if style == 'header' else JH
-          def asset_body(extra):
-              return {**extra, 'assetNamespace': ns} if style == 'body' else extra
+          r = requests.post(f'{API}/pages/assets/check-missing', headers=JH, json={'hashes': list(files)})
+          print('check-missing:', r.status_code)
+          missing = r.json()['result']
 
-          form = {}
+          payload = []
           for h in missing:
               rel, data = files[h]
-              form[h] = (os.path.basename(rel), base64.b64encode(data).decode())
-          r = requests.post(asset_url('upload'), headers=asset_headers(), files=form)
-          print('bulk upload:', r.status_code, r.text[:200])
+              payload.append({'key': h, 'value': base64.b64encode(data).decode(), 'base64': True,
+                              'metadata': {'contentType': mimetypes.guess_type(rel)[0] or 'application/octet-stream'}})
+          r = requests.post(f'{API}/pages/assets/upload', headers=JH, json=payload)
+          print('upload:', r.status_code, r.text[:200])
 
-          r = requests.post(asset_url('upsert-hashes'), headers=asset_headers(), json=asset_body({'hashes': hashes}))
-          print('upsert-hashes:', r.status_code, r.text[:150])
+          r = requests.post(f'{API}/pages/assets/upsert-hashes', headers=JH, json={'hashes': list(files)})
+          print('upsert-hashes:', r.status_code, r.text[:120])
 
           form = {'manifest': (None, json.dumps(manifest)), 'branch': (None, BRANCH),
-                  'commit_message': (None, 'stub deploy via API prototype'),
+                  'commit_message': (None, 'stub deploy via API prototype v2'),
                   'commit_dirty': (None, 'false')}
           for k, v in special.items():
               form[k] = (None, v)
           r = requests.post(f'{API}/accounts/{ACCOUNT}/pages/projects/{PROJECT}/deployments', headers=H, files=form)
-          print('create deployment:', r.status_code, r.text[:400])
+          print('create deployment:', r.status_code, r.text[:300])
           PY
           python3 upload.py
