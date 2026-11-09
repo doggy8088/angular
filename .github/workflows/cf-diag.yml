@@ -14,11 +14,6 @@ jobs:
         run: |
           pip install -q blake3 requests
           mkdir -p _stub/assets && echo '<h1>v21 stub</h1>' > _stub/index.html && echo 'body{color:red}' > _stub/assets/app.css
-          cat > _stub/_headers <<'HDR'
-          /*
-            Cross-Origin-Opener-Policy: same-origin
-            Cross-Origin-Embedder-Policy: credentialless
-          HDR
           cat > upload.py <<'PY'
           import base64, json, mimetypes, os
           import requests
