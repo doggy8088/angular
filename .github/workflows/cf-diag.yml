@@ -7,29 +7,14 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: Bisect the Authorization failure
+      - name: Wrangler whoami with stripped token
         env:
-          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: |
-          echo -n "1) curl Bearer full token: "
-          curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer ${CF_TOKEN}"
-          STRIPPED="${CF_TOKEN#cfut_}"
-          if [ "$STRIPPED" != "$CF_TOKEN" ]; then
-            echo "token has cfut_ prefix; stripped length: ${#STRIPPED}"
-            echo -n "2) curl Bearer without prefix: "
-            curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer ${STRIPPED}"
-          else
-            echo "token has NO cfut_ prefix"
-          fi
-          echo -n "3) node fetch (undici) Bearer full token: "
-          CF_TOKEN="$CF_TOKEN" node -e "fetch('https://api.cloudflare.com/client/v4/user/tokens/verify',{headers:{Authorization:'Bearer '+process.env.CF_TOKEN}}).then(async r=>{console.log(r.status, JSON.stringify((await r.json()).errors||[]))}).catch(e=>console.log('ERR', e.message))"
-
-      - name: Wrangler 4 whoami
-        env:
-          CLOUDFLARE_API_TOKEN: <redacted>
+          RAW_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          npm install -g wrangler@4
-          wrangler --version
-          wrangler whoami 2>&1 | head -8 || true
+          npm install -g wrangler@3
+          export CLOUDFLARE_API_TOKEN="${RAW_TOKEN#cfut_}"
+          echo "stripped token length: ${#CLOUDFLARE_API_TOKEN}"
+          wrangler whoami 2>&1 | head -12
+          echo "=== pages project list ==="
+          wrangler pages project list 2>&1 | head -8
