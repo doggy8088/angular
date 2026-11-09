@@ -126,6 +126,14 @@ jobs:
           EOF
           cat _site/_headers
 
+      - name: Archive site output (deploy fallback)
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-v21
+          path: _site
+          retention-days: 3
+          compression-level: 0
+
       - name: Deploy to Cloudflare Pages
         # 不用 wrangler-action：它會用 pnpm 在 workspace 根目錄裝 wrangler 而被
         # ERR_PNPM_ADDING_TO_ROOT 擋下（2026-11-09 zh-tw run 42577424671 實測）。
@@ -135,4 +143,16 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           pip install -q blake3 requests
-          python3 .github/scripts/pages_upload.py --project angular-tw-v21 --branch v21 --dir _site
+          # Cloudflare 對 GitHub runner 出口的 Token 驗證有「時間窗」現象：
+          # 同一台 runner 開工時可通、20 分鐘後可變 9106（2026-11-10 實測）。
+          # 部署步因此長時間重試（公開 repo Actions 分鐘免費），等窗開。
+          for attempt in 1 2 3 4 5 6; do
+            echo "=== Deploy attempt ${attempt} ==="
+            if python3 .github/scripts/pages_upload.py --project angular-tw-v21 --branch v21 --dir _site; then
+              exit 0
+            fi
+            echo "Deploy attempt ${attempt} failed; waiting 5 minutes for a better auth window..."
+            sleep 300
+          done
+          echo "Deploy failed after 6 attempts"
+          exit 1
