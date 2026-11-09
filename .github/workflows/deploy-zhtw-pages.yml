@@ -1,7 +1,9 @@
-name: Deploy zh-TW site to GitHub Pages
+name: Deploy zh-TW site to Cloudflare Pages
 
-# zh-tw 分支專屬：建置 adev（angular.dev）並部署到 GitHub Pages
-# 自訂網域：angular-dev.gh.miniasp.com（於 repo Pages 設定以 API 指定）
+# zh-tw 分支專屬：建置 adev（angular.dev）並部署到 Cloudflare Pages
+# 自訂網域：dev.angular.tw（Cloudflare Pages 專案 dev-angular-tw，直接上傳型）
+# 2026-11-09 自 GitHub Pages 遷移：GitHub Pages 無法自訂回應標頭，
+# Playground/WebContainer 需要 COOP/COEP 跨源隔離標頭，改由 _headers 提供。
 # 注意：上游 preview 建置使用 Google RBE 遠端建置，fork 無憑證可用，
 # 因此這裡改用 runner 本地 Bazel 建置（不加 --config=remote）。
 
@@ -12,8 +14,6 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
   # v2：第一輪 run（42512792694）的 job 被 GitHub 端取消成殭屍狀態、長期占用 v1 群組，
@@ -24,9 +24,6 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -58,11 +55,35 @@ jobs:
           ls _site | head -20
           test -f _site/index.html
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
+      - name: Add Cloudflare Pages headers
+        # 比照上游 adev/firebase.json 的標頭規則：全站 COOP/COEP 跨源隔離
+        # （Playground 的 WebContainer / SharedArrayBuffer 必需）、教學圖片
+        # 與 versions.json 的 CORP、service worker 不快取。
+        run: |
+          cat > _site/_headers <<'EOF'
+          /*
+            Cross-Origin-Opener-Policy: same-origin
+            Cross-Origin-Embedder-Policy: credentialless
 
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          /assets/images/tutorials/common/*
+            Cross-Origin-Resource-Policy: cross-origin
+            Access-Control-Allow-Origin: *
+
+          /assets/others/versions.json
+            Cross-Origin-Resource-Policy: cross-origin
+            Access-Control-Allow-Origin: *
+
+          /ngsw-worker.js
+            Cache-Control: no-cache
+
+          /ngsw.json
+            Cache-Control: no-cache
+          EOF
+          cat _site/_headers
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: <redacted>
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy _site --project-name=dev-angular-tw --branch=zh-tw
