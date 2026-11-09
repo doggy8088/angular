@@ -57,11 +57,12 @@ jobs:
           print('check-missing:', r.status_code, r.text[:200])
           missing = r.json()['result']
 
+          form = {}
           for h in missing:
               rel, data = files[h]
-              form = {h: (h, base64.b64encode(data))}
-              r = requests.post(f'{API}/pages/assets/upload', headers=JH, files=form)
-              print('upload', rel, r.status_code, r.text[:150])
+              form[h] = (os.path.basename(rel), base64.b64encode(data).decode())
+          r = requests.post(f'{API}/pages/assets/upload', headers=JH, files=form)
+          print('bulk upload:', r.status_code, r.text[:600])
 
           r = requests.post(f'{API}/pages/assets/upsert-hashes', headers=JH, json={'hashes': list(files)})
           print('upsert-hashes:', r.status_code, r.text[:150])
