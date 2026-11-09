@@ -61,7 +61,7 @@ jobs:
               payload.append({'key': h, 'value': base64.b64encode(data).decode(), 'base64': True,
                               'metadata': {'contentType': mimetypes.guess_type(rel)[0] or 'application/octet-stream'}})
           r = requests.post(f'{API}/pages/assets/upload', headers=JH, json=payload)
-          print('upload:', r.status_code, r.text[:200])
+          print('upload:', r.status_code, r.text[:800])
 
           r = requests.post(f'{API}/pages/assets/upsert-hashes', headers=JH, json={'hashes': list(files)})
           print('upsert-hashes:', r.status_code, r.text[:120])
@@ -73,5 +73,7 @@ jobs:
               form[k] = (None, v)
           r = requests.post(f'{API}/accounts/{ACCOUNT}/pages/projects/{PROJECT}/deployments', headers=H, files=form)
           print('create deployment:', r.status_code, r.text[:300])
+          r = requests.post(f'{API}/pages/assets/check-missing', headers=JH, json={'hashes': list(files)})
+          print('post check-missing:', r.status_code, r.text[:200])
           PY
           python3 upload.py
