@@ -1,0 +1,23 @@
+name: Diagnose Cloudflare auth (temporary)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Explore cf CLI and test auth with existing token
+        env:
+          CLOUDFLARE_API_TOKEN: <redacted>
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npm install -g cf
+          echo "=== version ==="
+          cf --version || true
+          echo "=== search: pages projects ==="
+          cf cli search "list pages projects" || true
+          echo "=== search: pages deployment ==="
+          cf cli search "create pages deployment by uploading files" || true
+          echo "=== auth whoami ==="
+          cf auth whoami || true
