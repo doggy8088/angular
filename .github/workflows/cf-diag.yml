@@ -51,6 +51,10 @@ jobs:
           res = r.json()['result']
           print('result type:', type(res).__name__, 'keys:', list(res) if isinstance(res, dict) else '-', 'len:', len(res) if isinstance(res, str) else '-')
           jwt = res if isinstance(res, str) else res.get('token') or res.get('jwt')
+          import base64 as _b64
+          payload = jwt.split('.')[1]
+          payload += '=' * (-len(payload) % 4)
+          print('jwt claims:', json.loads(_b64.urlsafe_b64decode(payload)))
 
           JH = {'Authorization': f'Bearer {jwt}'}
           r = requests.post('https://api.pages.cloudflare.com/pages/assets/check-missing', headers=JH, json={'hashes': list(files)})
