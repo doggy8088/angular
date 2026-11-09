@@ -48,7 +48,9 @@ jobs:
 
           r = requests.get(f'{API}/accounts/{ACCOUNT}/pages/projects/{PROJECT}/upload-token', headers=H)
           print('upload-token:', r.status_code)
-          jwt = r.json()['result']['token']
+          res = r.json()['result']
+          print('result type:', type(res).__name__, 'keys:', list(res) if isinstance(res, dict) else '-', 'len:', len(res) if isinstance(res, str) else '-')
+          jwt = res if isinstance(res, str) else res.get('token') or res.get('jwt')
 
           JH = {'Authorization': f'Bearer {jwt}'}
           r = requests.post(f'{API}/pages/assets/check-missing', headers=JH, json={'hashes': list(files)})
