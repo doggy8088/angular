@@ -1,0 +1,79 @@
+name: Deploy v21 mirror to Cloudflare Pages
+
+# v21 分支專屬：上游 21.2.x 的鏡像建置，發佈到 Cloudflare Pages 專案
+# angular-tw-v21，自訂網域 v21.angular.tw（英文原版鏡像，翻譯日後逐版補）。
+# 建置設定比照 zh-tw 的 deploy-zhtw-pages.yml（含 Bazel 記憶體上限與
+# _headers 跨源隔離標頭），僅版本參數（Node/pnpm）依本分支調整。
+
+on:
+  push:
+    branches: [v21]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-v21
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Setup pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.33.2 --activate
+          pnpm --version
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build adev (production)
+        run: pnpm bazel --host_jvm_args=-Xmx3g build //adev:build.production --jobs=1 --local_ram_resources=4096
+
+      - name: Collect static output
+        run: |
+          mkdir -p _site
+          cp -rL dist/bin/adev/dist/browser/. _site/
+          ls _site | head -20
+          test -f _site/index.html
+
+      - name: Add Cloudflare Pages headers
+        run: |
+          cat > _site/_headers <<'EOF'
+          /*
+            Cross-Origin-Opener-Policy: same-origin
+            Cross-Origin-Embedder-Policy: credentialless
+
+          /assets/images/tutorials/common/*
+            Cross-Origin-Resource-Policy: cross-origin
+            Access-Control-Allow-Origin: *
+
+          /assets/others/versions.json
+            Cross-Origin-Resource-Policy: cross-origin
+            Access-Control-Allow-Origin: *
+
+          /ngsw-worker.js
+            Cache-Control: no-cache
+
+          /ngsw.json
+            Cache-Control: no-cache
+          EOF
+          cat _site/_headers
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: <redacted>
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy _site --project-name=angular-tw-v21 --branch=v21
