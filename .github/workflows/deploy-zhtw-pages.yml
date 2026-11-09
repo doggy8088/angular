@@ -137,10 +137,17 @@ jobs:
           cat _site/_headers
 
       - name: Archive site output (deploy fallback)
+        # 產物含網址命名的目錄（路徑有冒號），upload-artifact 逐檔驗證會拒絕，
+        # 先包成單一 tar 再上傳；本步只是保險，失敗不得擋住部署。
+        continue-on-error: true
+        run: tar -cf site.tar -C _site .
+
+      - name: Upload site archive
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: site-zhtw
-          path: _site
+          path: site.tar
           retention-days: 3
           compression-level: 0
 
