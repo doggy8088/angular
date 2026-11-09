@@ -1,0 +1,158 @@
+name: Deploy v16 mirror to Cloudflare Pages
+
+# v16 分支專屬：上游 16.2.x（aio／angular.io 年代）的鏡像建置，發佈到
+# Cloudflare Pages 專案 angular-tw-v16，自訂網域 v16.angular.tw
+# （英文原版鏡像，翻譯日後逐版補）。aio 無 WebContainer，_headers 只留 ngsw 不快取。
+
+on:
+  push:
+    branches: [v16]
+  workflow_dispatch:
+    inputs:
+      attempt:
+        description: "Deployment attempt number (auto-incremented on auth failure)"
+        required: false
+        default: "1"
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: pages-v16
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+
+      - name: Probe Cloudflare auth (fail fast, re-dispatch on a fresh runner)
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ok=0
+          for i in 1 2 3; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/angular-tw-v16/upload-token" -H "Authorization: Bearer ${CF_TOKEN}")
+            echo "probe $i: HTTP $code"
+            if [ "$code" = "200" ]; then ok=1; break; fi
+            sleep 5
+          done
+          if [ "$ok" != "1" ]; then
+            attempt="${{ inputs.attempt || '1' }}"
+            if [ "$attempt" -lt 6 ]; then
+              next=$((attempt + 1))
+              echo "This runner cannot authenticate to Cloudflare (9106). Re-dispatching attempt $next on a fresh runner."
+              gh workflow run deploy-v16.yml --ref v16 -f attempt=$next
+            else
+              echo "Giving up after $attempt attempts."
+            fi
+            exit 1
+          fi
+          echo "Cloudflare auth OK on this runner."
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Setup Bazel
+        # 直接從 releases.bazel.build（Google 主機，下載穩定）取 Bazel 二進位，
+        # 不經 bazelisk 的 GitHub 下載。版本對應本分支 .bazelversion（5.0.0）。
+        run: |
+          for i in 1 2 3 4 5; do
+            if curl -sL --max-time 300 -o /tmp/bazel https://releases.bazel.build/5.0.0/release/bazel-5.0.0-linux-x86_64; then break; fi
+            echo "bazel download attempt $i failed; retrying..."; sleep 10
+          done
+          chmod +x /tmp/bazel
+          sudo mv /tmp/bazel /usr/local/bin/bazel
+          bazel --version
+
+      - name: Cache Bazel repository cache
+        # 外部依賴下載一次成功後就留在快取裡，之後的建置不必再碰 GitHub 下載
+        # （2026-11-09 GitHub release 下載連續 504 的因應）。金鑰綁 MODULE.bazel.lock。
+        uses: actions/cache@v4
+        with:
+          path: .bazel-repository-cache
+          key: bazel-repo-v16-${{ hashFiles('WORKSPACE', 'yarn.lock') }}
+          restore-keys: |
+            bazel-repo-v16-
+
+      - name: Build aio (production)
+        # 重試：2026-11-09 GitHub release 下載連續回 504，fetch 階段會隨機死在
+        # 不同依賴上；同一 job 內重跑時 Bazel 快取保留已下載的依賴，逐輪收斂。
+        run: |
+          for attempt in 1 2 3; do
+            echo "=== Build attempt ${attempt} ==="
+            if bazel --host_jvm_args=-Xmx3g build //aio:build --config=release --jobs=1 --local_ram_resources=4096; then
+              exit 0
+            fi
+            echo "Attempt ${attempt} failed; retrying in 30s..."
+            sleep 30
+          done
+          echo "Build failed after 3 attempts"
+          exit 1
+
+      - name: Collect static output
+        run: |
+          mkdir -p _site
+          IDX=$(find dist/bin/aio -name index.html | awk '{print length($0), $0}' | sort -n | head -1 | cut -d' ' -f2-)
+          echo "found index at: $IDX"
+          SRC=$(dirname "$IDX")
+          cp -rL "$SRC"/. _site/
+          ls _site | head -20
+          test -f _site/index.html
+
+      - name: Add Cloudflare Pages headers
+        run: |
+          cat > _site/_headers <<'EOF'
+          /ngsw-worker.js
+            Cache-Control: no-cache
+
+          /ngsw.json
+            Cache-Control: no-cache
+          EOF
+          cat _site/_headers
+
+      - name: Archive site output (deploy fallback)
+        # 產物含網址命名的目錄（路徑有冒號），upload-artifact 逐檔驗證會拒絕，
+        # 先包成單一 tar 再上傳；本步只是保險，失敗不得擋住部署。
+        continue-on-error: true
+        run: tar -cf site.tar -C _site .
+
+      - name: Upload site archive
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-v16
+          path: site.tar
+          retention-days: 3
+          compression-level: 0
+
+      - name: Deploy to Cloudflare Pages
+        # 不用 wrangler-action：它會用 pnpm 在 workspace 根目錄裝 wrangler 而被
+        # ERR_PNPM_ADDING_TO_ROOT 擋下（2026-11-09 zh-tw run 42577424671 實測）。
+        # 改用自實作的 Pages Direct Upload 協議上傳器（wrangler／cf CLI 對 cfut_ 前綴 Token 的認證會被 API 以 9106 拒絕，2026-11-09 實測）。
+        env:
+          CLOUDFLARE_API_TOKEN: <redacted>
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          pip install -q blake3 requests
+          # Cloudflare 對 GitHub runner 出口的 Token 驗證有「時間窗」現象：
+          # 同一台 runner 開工時可通、20 分鐘後可變 9106（2026-11-10 實測）。
+          # 部署步因此長時間重試（公開 repo Actions 分鐘免費），等窗開。
+          for attempt in 1 2 3 4 5 6; do
+            echo "=== Deploy attempt ${attempt} ==="
+            if python3 .github/scripts/pages_upload.py --project angular-tw-v16 --branch v16 --dir _site; then
+              exit 0
+            fi
+            echo "Deploy attempt ${attempt} failed; waiting 5 minutes for a better auth window..."
+            sleep 300
+          done
+          echo "Deploy failed after 6 attempts"
+          exit 1
