@@ -7,22 +7,17 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: One process, two HTTP stacks, same token
+      - name: Long-window upload-token polling
         env:
-          CLOUDFLARE_API_TOKEN: <redacted>
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          pip install -q requests
-          cat > probe2.py <<'PY'
-          import json, os, subprocess, requests
-          tok = os.environ['CLOUDFLARE_API_TOKEN']; acct = os.environ['CLOUDFLARE_ACCOUNT_ID']
-          url = f'https://api.cloudflare.com/client/v4/accounts/{acct}/pages/projects/dev-angular-tw/upload-token'
-          out = subprocess.run(['curl', '-s', url, '-H', f'Authorization: Bearer {tok}'],
-                               capture_output=True, text=True)
-          d = json.loads(out.stdout)
-          print('curl in-process:', d.get('success'), [e.get('code') for e in d.get('errors', [])])
-          r = requests.get(url, headers={'Authorization': f'Bearer {tok}'}, timeout=60)
-          print('requests UA sent:', r.request.headers.get('User-Agent'))
-          print('requests:', r.status_code, r.text[:150])
-          PY
-          python3 probe2.py
+          ok=0; fail=0
+          for i in $(seq 1 40); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/dev-angular-tw/upload-token" -H "Authorization: Bearer ${CF_TOKEN}")
+            ts=$(date -u +%H:%M:%S)
+            echo "try $i at $ts -> $code"
+            if [ "$code" = "200" ]; then ok=$((ok+1)); else fail=$((fail+1)); fi
+            sleep 20
+          done
+          echo "SUMMARY ok=$ok fail=$fail"
