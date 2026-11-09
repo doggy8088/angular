@@ -7,25 +7,29 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: Analyze secret shape (no values printed)
+      - name: Bisect the Authorization failure
         env:
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          echo "length: ${#CF_TOKEN}"
-          echo -n "charset [A-Za-z0-9_-] only: "; echo "$CF_TOKEN" | grep -qE '^[A-Za-z0-9_-]+$' && echo yes || echo NO
-          echo -n "contains space: "; case "$CF_TOKEN" in *" "*) echo yes;; *) echo no;; esac
-          echo -n "contains dot: "; case "$CF_TOKEN" in *.*) echo yes;; *) echo no;; esac
-          echo -n "contains equals: "; case "$CF_TOKEN" in *=*) echo yes;; *) echo no;; esac
-          echo -n "contains slash or plus: "; case "$CF_TOKEN" in */*|*+*) echo yes;; *) echo no;; esac
-          echo -n "prefix shape (first 5 chars are letters): "; echo "$CF_TOKEN" | cut -c1-5 | grep -qE '^[A-Za-z]+$' && echo yes || echo no
-          echo -n "has underscore in first 6 chars: "; echo "$CF_TOKEN" | cut -c1-6 | grep -q '_' && echo yes || echo no
+          echo -n "1) curl Bearer full token: "
+          curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer ${CF_TOKEN}"
+          STRIPPED="${CF_TOKEN#cfut_}"
+          if [ "$STRIPPED" != "$CF_TOKEN" ]; then
+            echo "token has cfut_ prefix; stripped length: ${#STRIPPED}"
+            echo -n "2) curl Bearer without prefix: "
+            curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer ${STRIPPED}"
+          else
+            echo "token has NO cfut_ prefix"
+          fi
+          echo -n "3) node fetch (undici) Bearer full token: "
+          CF_TOKEN="$CF_TOKEN" node -e "fetch('https://api.cloudflare.com/client/v4/user/tokens/verify',{headers:{Authorization:'Bearer '+process.env.CF_TOKEN}}).then(async r=>{console.log(r.status, JSON.stringify((await r.json()).errors||[]))}).catch(e=>console.log('ERR', e.message))"
 
-      - name: Wrangler with unsanitized debug log
+      - name: Wrangler 4 whoami
         env:
           CLOUDFLARE_API_TOKEN: <redacted>
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          WRANGLER_LOG: debug
-          WRANGLER_LOG_SANITIZE: "false"
         run: |
-          npm install -g wrangler@3
-          wrangler whoami 2>&1 | grep -iE "START CF API REQUEST|HEADERS|Authorization|User-Agent|Accept|Content-Type|ERROR|code" | head -20 || true
+          npm install -g wrangler@4
+          wrangler --version
+          wrangler whoami 2>&1 | head -8 || true
