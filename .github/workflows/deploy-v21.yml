@@ -38,6 +38,16 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Cache Bazel repository cache
+        # 外部依賴下載一次成功後就留在快取裡，之後的建置不必再碰 GitHub 下載
+        # （2026-11-09 GitHub release 下載連續 504 的因應）。金鑰綁 MODULE.bazel.lock。
+        uses: actions/cache@v4
+        with:
+          path: .bazel-repository-cache
+          key: bazel-repo-v21-${{ hashFiles('MODULE.bazel.lock') }}
+          restore-keys: |
+            bazel-repo-v21-
+
       - name: Build adev (production)
         # 重試：2026-11-09 GitHub release 下載連續回 504，fetch 階段會隨機死在
         # 不同依賴上；同一 job 內重跑時 Bazel 快取保留已下載的依賴，逐輪收斂。
