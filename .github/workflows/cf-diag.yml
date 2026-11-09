@@ -20,7 +20,7 @@ jobs:
           from blake3 import blake3
 
           TOKEN = os.environ['CF_TOKEN']; ACCOUNT = os.environ['CF_ACCOUNT']
-          PROJECT = 'angular-tw-v21'; BRANCH = 'v21'; ROOT = '_stub'
+          PROJECT = 'probe-upload-test'; BRANCH = 'probe'; ROOT = '_stub'
           API = 'https://api.cloudflare.com/client/v4'
           H = {'Authorization': f'Bearer {TOKEN}'}
 
@@ -62,7 +62,7 @@ jobs:
           print('upsert-hashes:', r.status_code, r.text[:120])
 
           form = {'manifest': (None, json.dumps(manifest)), 'branch': (None, BRANCH),
-                  'commit_message': (None, 'stub deploy via API prototype v2'),
+                  'commit_message': (None, 'probe stub deploy'), 'pages_build_output_dir': (None, '_stub'),
                   'commit_dirty': (None, 'false')}
           for k, v in special.items():
               form[k] = (None, v)

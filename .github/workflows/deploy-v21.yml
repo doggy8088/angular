@@ -1,0 +1,105 @@
+name: Deploy v21 mirror to Cloudflare Pages
+
+# v21 分支專屬：上游 21.2.x 的鏡像建置，發佈到 Cloudflare Pages 專案
+# angular-tw-v21，自訂網域 v21.angular.tw（英文原版鏡像，翻譯日後逐版補）。
+# 建置設定比照 zh-tw 的 deploy-zhtw-pages.yml（含 Bazel 記憶體上限與
+# _headers 跨源隔離標頭），僅版本參數（Node/pnpm）依本分支調整。
+
+on:
+  push:
+    branches: [v21]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-v21
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Setup pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@10.33.2 --activate
+          pnpm --version
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Cache Bazel repository cache
+        # 外部依賴下載一次成功後就留在快取裡，之後的建置不必再碰 GitHub 下載
+        # （2026-11-09 GitHub release 下載連續 504 的因應）。金鑰綁 MODULE.bazel.lock。
+        uses: actions/cache@v4
+        with:
+          path: .bazel-repository-cache
+          key: bazel-repo-v21-${{ hashFiles('MODULE.bazel.lock') }}
+          restore-keys: |
+            bazel-repo-v21-
+
+      - name: Build adev (production)
+        # 重試：2026-11-09 GitHub release 下載連續回 504，fetch 階段會隨機死在
+        # 不同依賴上；同一 job 內重跑時 Bazel 快取保留已下載的依賴，逐輪收斂。
+        run: |
+          for attempt in 1 2 3; do
+            echo "=== Build attempt ${attempt} ==="
+            if pnpm bazel --host_jvm_args=-Xmx3g build //adev:build.production --jobs=1 --local_ram_resources=4096; then
+              exit 0
+            fi
+            echo "Attempt ${attempt} failed; retrying in 30s..."
+            sleep 30
+          done
+          echo "Build failed after 3 attempts"
+          exit 1
+
+      - name: Collect static output
+        run: |
+          mkdir -p _site
+          cp -rL dist/bin/adev/dist/browser/. _site/
+          ls _site | head -20
+          test -f _site/index.html
+
+      - name: Add Cloudflare Pages headers
+        run: |
+          cat > _site/_headers <<'EOF'
+          /*
+            Cross-Origin-Opener-Policy: same-origin
+            Cross-Origin-Embedder-Policy: credentialless
+
+          /assets/images/tutorials/common/*
+            Cross-Origin-Resource-Policy: cross-origin
+            Access-Control-Allow-Origin: *
+
+          /assets/others/versions.json
+            Cross-Origin-Resource-Policy: cross-origin
+            Access-Control-Allow-Origin: *
+
+          /ngsw-worker.js
+            Cache-Control: no-cache
+
+          /ngsw.json
+            Cache-Control: no-cache
+          EOF
+          cat _site/_headers
+
+      - name: Deploy to Cloudflare Pages
+        # 不用 wrangler-action：它會用 pnpm 在 workspace 根目錄裝 wrangler 而被
+        # ERR_PNPM_ADDING_TO_ROOT 擋下（2026-11-09 zh-tw run 42577424671 實測）。
+        # 改用 npm 全域安裝 wrangler 後直接執行，環境變數由 secrets 注入。
+        env:
+          CLOUDFLARE_API_TOKEN: <redacted>
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          npm install -g wrangler@3
+          wrangler pages deploy _site --project-name=angular-tw-v21 --branch=v21
