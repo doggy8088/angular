@@ -20,7 +20,7 @@ jobs:
           from blake3 import blake3
 
           TOKEN = os.environ['CF_TOKEN']; ACCOUNT = os.environ['CF_ACCOUNT']
-          PROJECT = 'probe-upload-test'; BRANCH = 'probe'; ROOT = '_stub'
+          PROJECT = 'angular-tw-v21'; BRANCH = 'v21'; ROOT = '_stub'
           API = 'https://api.cloudflare.com/client/v4'
           H = {'Authorization': f'Bearer {TOKEN}'}
 
