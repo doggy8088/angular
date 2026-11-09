@@ -7,21 +7,27 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: Probe upload-token for both projects
+      - name: Compare token call styles
         env:
-          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: <redacted>
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          for proj in angular-tw-v21 dev-angular-tw; do
-            echo "== $proj"
-            curl -s -w "\nHTTP: %{http_code}\n" "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/${proj}/upload-token" -H "Authorization: Bearer ${CF_TOKEN}" | python3 -c "
-          import json,sys
-          raw = sys.stdin.read()
-          body, _, tail = raw.rpartition('HTTP: ')
-          try:
-              d = json.loads(body)
-              print('success:', d.get('success'), '| errors:', d.get('errors'), '| result keys:', list((d.get('result') or {}).keys()) if isinstance(d.get('result'), dict) else d.get('result'))
-          except Exception:
-              print('raw:', raw[:300])
-          print('HTTP:', tail.strip())"
-          done
+          pip install -q blake3 requests
+          mkdir -p _t && echo '<h1>token path test</h1>' > _t/index.html
+          cat > probe.py <<'PY'
+          import base64, os, requests
+          from blake3 import blake3
+          tok = os.environ['CLOUDFLARE_API_TOKEN']; acct = os.environ['CLOUDFLARE_ACCOUNT_ID']
+          url = f'https://api.cloudflare.com/client/v4/accounts/{acct}/pages/projects/dev-angular-tw/upload-token'
+          h = {'Authorization': f'Bearer {tok}'}
+          r = requests.Session().get(url, headers=h, timeout=60)
+          print('A session GET first:', r.status_code, r.text[:150])
+          data = open('_t/index.html', 'rb').read()
+          hh = blake3((base64.b64encode(data).decode() + 'html').encode()).hexdigest()[:32]
+          print('hashed:', hh)
+          r = requests.Session().get(url, headers=h, timeout=60)
+          print('B session GET after hashing:', r.status_code, r.text[:150])
+          r = requests.get(url, headers=h, timeout=60)
+          print('C plain GET:', r.status_code, r.text[:150])
+          PY
+          python3 probe.py
