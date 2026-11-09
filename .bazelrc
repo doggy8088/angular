@@ -178,3 +178,9 @@ build --flag_alias=ng_perf=//packages/compiler-cli:ng_perf
 # Load any settings which are specific to the current user. Needs to be *last* statement
 # in this config, as the user configuration should be able to overwrite flags from this file.
 try-import %workspace%/.bazelrc.user
+# GitHub release 下載 504 時的雙保險：third_party/bazel-distdir 內收了曾被
+# 504 卡住的依賴原始檔（雜湊經 BCR source.json 驗證），Bazel 會先用本地檔；
+# repository cache 放在 workspace 內，讓 GitHub Actions 快取能跨建置保留
+# 已下載的外部依賴，下載成功過一次之後就不必再碰 GitHub。
+common --distdir=third_party/bazel-distdir
+common --repository_cache=.bazel-repository-cache
