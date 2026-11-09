@@ -39,7 +39,19 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build adev (production)
-        run: pnpm bazel --host_jvm_args=-Xmx3g build //adev:build.production --jobs=1 --local_ram_resources=4096
+        # 重試：2026-11-09 GitHub release 下載連續回 504，fetch 階段會隨機死在
+        # 不同依賴上；同一 job 內重跑時 Bazel 快取保留已下載的依賴，逐輪收斂。
+        run: |
+          for attempt in 1 2 3; do
+            echo "=== Build attempt ${attempt} ==="
+            if pnpm bazel --host_jvm_args=-Xmx3g build //adev:build.production --jobs=1 --local_ram_resources=4096; then
+              exit 0
+            fi
+            echo "Attempt ${attempt} failed; retrying in 30s..."
+            sleep 30
+          done
+          echo "Build failed after 3 attempts"
+          exit 1
 
       - name: Collect static output
         run: |
