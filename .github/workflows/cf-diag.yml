@@ -18,3 +18,19 @@ jobs:
           curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer ${CF_TOKEN}"
           echo -n "pages project read HTTP: "
           curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/dev-angular-tw" -H "Authorization: Bearer ${CF_TOKEN}"
+
+      - name: Try wrangler itself
+        env:
+          CLOUDFLARE_API_TOKEN: <redacted>
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          WRANGLER_LOG: debug
+        run: |
+          npm install -g wrangler@3
+          wrangler --version
+          echo "=== whoami ==="
+          wrangler whoami || true
+          echo "=== pages project list ==="
+          wrangler pages project list || true
+          echo "=== deploy to nonexistent project (auth probe) ==="
+          mkdir -p _probe && echo probe > _probe/index.html
+          wrangler pages deploy _probe --project-name=diag-nonexistent-probe --branch=diag 2>&1 | tail -15 || true
