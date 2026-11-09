@@ -7,30 +7,25 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: Check token and account secrets
+      - name: Analyze secret shape (no values printed)
         env:
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          echo "account_id length: ${#CF_ACCOUNT} (expect 32)"
-          echo "api_token length: ${#CF_TOKEN} (expect 40)"
-          echo -n "token verify endpoint HTTP: "
-          curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer ${CF_TOKEN}"
-          echo -n "pages project read HTTP: "
-          curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/dev-angular-tw" -H "Authorization: Bearer ${CF_TOKEN}"
+          echo "length: ${#CF_TOKEN}"
+          echo -n "charset [A-Za-z0-9_-] only: "; echo "$CF_TOKEN" | grep -qE '^[A-Za-z0-9_-]+$' && echo yes || echo NO
+          echo -n "contains space: "; case "$CF_TOKEN" in *" "*) echo yes;; *) echo no;; esac
+          echo -n "contains dot: "; case "$CF_TOKEN" in *.*) echo yes;; *) echo no;; esac
+          echo -n "contains equals: "; case "$CF_TOKEN" in *=*) echo yes;; *) echo no;; esac
+          echo -n "contains slash or plus: "; case "$CF_TOKEN" in */*|*+*) echo yes;; *) echo no;; esac
+          echo -n "prefix shape (first 5 chars are letters): "; echo "$CF_TOKEN" | cut -c1-5 | grep -qE '^[A-Za-z]+$' && echo yes || echo no
+          echo -n "has underscore in first 6 chars: "; echo "$CF_TOKEN" | cut -c1-6 | grep -q '_' && echo yes || echo no
 
-      - name: Try wrangler itself
+      - name: Wrangler with unsanitized debug log
         env:
           CLOUDFLARE_API_TOKEN: <redacted>
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           WRANGLER_LOG: debug
+          WRANGLER_LOG_SANITIZE: "false"
         run: |
           npm install -g wrangler@3
-          wrangler --version
-          echo "=== whoami ==="
-          wrangler whoami || true
-          echo "=== pages project list ==="
-          wrangler pages project list || true
-          echo "=== deploy to nonexistent project (auth probe) ==="
-          mkdir -p _probe && echo probe > _probe/index.html
-          wrangler pages deploy _probe --project-name=diag-nonexistent-probe --branch=diag 2>&1 | tail -15 || true
+          wrangler whoami 2>&1 | grep -iE "START CF API REQUEST|HEADERS|Authorization|User-Agent|Accept|Content-Type|ERROR|code" | head -20 || true
