@@ -81,13 +81,23 @@ def main():
 
     def jwt_headers():
         if state["jwt"] is None or time.time() - state["fetched"] > 1500:
-            r = session.get(
-                f"{API}/accounts/{account}/pages/projects/{args.project}/upload-token",
-                headers=headers, timeout=60,
-            )
-            r.raise_for_status()
-            state["jwt"] = r.json()["result"]["jwt"]
-            state["fetched"] = time.time()
+            # The upload-token endpoint occasionally answers a transient 400;
+            # retry a few times and surface the error body when it persists.
+            last = None
+            for attempt in range(4):
+                r = session.get(
+                    f"{API}/accounts/{account}/pages/projects/{args.project}/upload-token",
+                    headers=headers, timeout=60,
+                )
+                if r.ok:
+                    state["jwt"] = r.json()["result"]["jwt"]
+                    state["fetched"] = time.time()
+                    break
+                last = r
+                print(f"upload-token attempt {attempt + 1}: HTTP {r.status_code} {r.text[:200]}", flush=True)
+                time.sleep(5 * (attempt + 1))
+            else:
+                last.raise_for_status()
         return {"Authorization": f"Bearer {state['jwt']}"}
 
     def post_assets(path, payload, timeout=300):
