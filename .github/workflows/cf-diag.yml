@@ -7,17 +7,13 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: Explore cf CLI and test auth with existing token
+      - name: Probe cf pages commands with existing token
         env:
           CLOUDFLARE_API_TOKEN: <redacted>
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           npm install -g cf
-          echo "=== version ==="
-          cf --version || true
-          echo "=== search: pages projects ==="
-          cf cli search "list pages projects" || true
-          echo "=== search: pages deployment ==="
-          cf cli search "create pages deployment by uploading files" || true
-          echo "=== auth whoami ==="
-          cf auth whoami || true
+          echo "=== cf pages list ==="
+          cf pages list 2>&1 | head -30 || true
+          echo "=== cf pages deployments create --help ==="
+          cf pages deployments create --help 2>&1 | head -60 || true
