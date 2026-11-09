@@ -7,22 +7,35 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: Bisect what the API rejects
+      - name: Capture CLI request headers via local echo server
         env:
-          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: <redacted>
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          V="https://api.cloudflare.com/client/v4/user/tokens/verify"
-          L="https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects"
-          echo -n "1) curl list endpoint, default UA: "
-          curl -s -o /dev/null -w "%{http_code}\n" "$L" -H "Authorization: Bearer ${CF_TOKEN}"
-          echo -n "2) curl verify, wrangler UA: "
-          curl -s -o /dev/null -w "%{http_code}\n" "$V" -H "Authorization: Bearer ${CF_TOKEN}" -H "User-Agent: wrangler/3.114.17"
-          echo -n "3) curl verify, cf UA guess: "
-          curl -s -o /dev/null -w "%{http_code}\n" "$V" -H "Authorization: Bearer ${CF_TOKEN}" -H "User-Agent: cf/1.0.0-beta.28"
-          echo -n "4) curl verify, lowercase authorization header: "
-          curl -s -o /dev/null -w "%{http_code}\n" "$V" -H "authorization: Bearer ${CF_TOKEN}"
-          echo -n "5) node fetch list endpoint: "
-          CF_TOKEN="$CF_TOKEN" L="$L" node -e "fetch(process.env.L,{headers:{Authorization:'Bearer '+process.env.CF_TOKEN}}).then(async r=>{console.log(r.status, JSON.stringify((await r.json()).errors||[]))}).catch(e=>console.log('ERR', e.message))"
-          echo -n "6) curl verify, no UA: "
-          curl -s -o /dev/null -w "%{http_code}\n" "$V" -H "Authorization: Bearer ${CF_TOKEN}" -H "User-Agent:"
+          cat > echo-server.js <<'JS'
+          const http = require('http');
+          const srv = http.createServer((req, res) => {
+            const out = { method: req.method, url: req.url, headers: {} };
+            for (const [k, v] of Object.entries(req.headers)) {
+              if (k.toLowerCase() === 'authorization') {
+                out.headers[k] = `<len=${v.length} startsWithBearer=${v.startsWith('Bearer ')} startsWithBearerSpace=${v.startsWith('Bearer  ')}>`;
+              } else {
+                out.headers[k] = v;
+              }
+            }
+            console.log('CAPTURED ' + JSON.stringify(out));
+            res.writeHead(400, { 'content-type': 'application/json' });
+            res.end(JSON.stringify({ success: false, errors: [{ code: 9999, message: 'echo' }], messages: [], result: null }));
+          });
+          srv.listen(8899, () => console.log('echo server up'));
+          JS
+          node echo-server.js > echo.log 2>&1 &
+          sleep 1
+          npm install -g wrangler@3 cf
+          echo "=== wrangler whoami via echo ==="
+          CLOUDFLARE_API_BASE_URL="http://127.0.0.1:8899/client/v4" wrangler whoami 2>&1 | head -4 || true
+          echo "=== cf pages list via echo ==="
+          CLOUDFLARE_API_BASE_URL="http://127.0.0.1:8899/client/v4" cf pages list 2>&1 | head -6 || true
+          sleep 1
+          echo "=== captured requests ==="
+          grep CAPTURED echo.log || echo "nothing captured"
