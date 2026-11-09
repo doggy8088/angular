@@ -1,0 +1,27 @@
+name: Diagnose Cloudflare auth (temporary)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  diag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Probe upload-token for both projects
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          for proj in angular-tw-v21 dev-angular-tw; do
+            echo "== $proj"
+            curl -s -w "\nHTTP: %{http_code}\n" "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/${proj}/upload-token" -H "Authorization: Bearer ${CF_TOKEN}" | python3 -c "
+          import json,sys
+          raw = sys.stdin.read()
+          body, _, tail = raw.rpartition('HTTP: ')
+          try:
+              d = json.loads(body)
+              print('success:', d.get('success'), '| errors:', d.get('errors'), '| result keys:', list((d.get('result') or {}).keys()) if isinstance(d.get('result'), dict) else d.get('result'))
+          except Exception:
+              print('raw:', raw[:300])
+          print('HTTP:', tail.strip())"
+          done
