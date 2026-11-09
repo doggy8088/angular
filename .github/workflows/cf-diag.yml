@@ -7,44 +7,13 @@ jobs:
   diag:
     runs-on: ubuntu-latest
     steps:
-      - name: Identify what the CLIs actually send
+      - name: Measure current secret state
         env:
-          CLOUDFLARE_API_TOKEN: <redacted>
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          cat > echo-server.js <<'JS'
-          const http = require('http');
-          const crypto = require('crypto');
-          const srv = http.createServer((req, res) => {
-            const a = req.headers['authorization'] || '';
-            const cred = a.replace(/^Bearer /, '');
-            const h = crypto.createHash('sha256').update(cred).digest('hex').slice(0, 12);
-            console.log(`CAPTURED method=${req.method} url=${req.url} credLen=${cred.length} credSha=${h} ua=${req.headers['user-agent']}`);
-            res.writeHead(400, { 'content-type': 'application/json' });
-            res.end(JSON.stringify({ success: false, errors: [{ code: 9999, message: 'echo' }], messages: [], result: null }));
-          });
-          srv.listen(8899, () => console.log('echo server up'));
-          JS
-          node echo-server.js > echo.log 2>&1 &
-          sleep 1
-          node -e "
-            const c = require('crypto');
-            const t = process.env.CLOUDFLARE_API_TOKEN;
-            const cand = {
-              full: t,
-              noPrefix: t.replace(/^cfut_/, ''),
-              first10: t.slice(0, 10),
-              first10AfterPrefix: t.replace(/^cfut_/, '').slice(0, 10),
-              last10: t.slice(-10),
-              prefixPlus5: t.slice(0, 10),
-            };
-            for (const [k, v] of Object.entries(cand)) console.log('CAND', k, 'len=' + v.length, 'sha=' + c.createHash('sha256').update(v).digest('hex').slice(0, 12));
-          "
-          npm install -g wrangler@3 cf
-          echo "=== wrangler pages project list via echo ==="
-          timeout 60 env CLOUDFLARE_API_BASE_URL="http://127.0.0.1:8899/client/v4" wrangler pages project list 2>&1 | head -3 || true
-          echo "=== cf pages list via echo ==="
-          timeout 60 env CLOUDFLARE_API_BASE_URL="http://127.0.0.1:8899/client/v4" cf pages list 2>&1 | head -3 || true
-          sleep 1
-          echo "=== captured ==="
-          grep CAPTURED echo.log || echo "nothing captured"
+          echo "token length now: ${#CF_TOKEN} (classic=40, cfut_=53)"
+          echo -n "curl verify now: "
+          curl -s -o /dev/null -w "%{http_code}\n" "https://api.cloudflare.com/client/v4/user/tokens/verify" -H "Authorization: Bearer ${CF_TOKEN}"
+          echo -n "starts with cfut_: "
+          case "$CF_TOKEN" in cfut_*) echo yes;; *) echo no;; esac
