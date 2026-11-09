@@ -57,18 +57,37 @@ jobs:
           print('jwt claims:', json.loads(_b64.urlsafe_b64decode(payload)))
 
           JH = {'Authorization': f'Bearer {jwt}'}
-          r = requests.post('https://api.pages.cloudflare.com/pages/assets/check-missing', headers=JH, json={'hashes': list(files)})
-          print('check-missing:', r.status_code, r.text[:200])
-          missing = r.json()['result']
+          ns = json.loads(_b64.urlsafe_b64decode(payload))['projectNamespace']
+          ASSETS = 'https://api.pages.cloudflare.com/pages/assets'
+          hashes = list(files)
+          variants = [
+              ('query', f'{ASSETS}/check-missing?assetNamespace={ns}', JH, {'hashes': hashes}),
+              ('body', f'{ASSETS}/check-missing', JH, {'hashes': hashes, 'assetNamespace': ns}),
+              ('header', f'{ASSETS}/check-missing', {**JH, 'X-Asset-Namespace': ns}, {'hashes': hashes}),
+          ]
+          style = None
+          for name, url, hdrs, body in variants:
+              r = requests.post(url, headers=hdrs, json=body)
+              print('check-missing', name, ':', r.status_code, r.text[:120])
+              if r.status_code == 200:
+                  style = name; missing = r.json()['result']; break
+          assert style, 'no variant worked'
+
+          def asset_url(path):
+              return f'{ASSETS}/{path}?assetNamespace={ns}' if style == 'query' else f'{ASSETS}/{path}'
+          def asset_headers():
+              return {**JH, 'X-Asset-Namespace': ns} if style == 'header' else JH
+          def asset_body(extra):
+              return {**extra, 'assetNamespace': ns} if style == 'body' else extra
 
           form = {}
           for h in missing:
               rel, data = files[h]
               form[h] = (os.path.basename(rel), base64.b64encode(data).decode())
-          r = requests.post('https://api.pages.cloudflare.com/pages/assets/upload', headers=JH, files=form)
-          print('bulk upload:', r.status_code, r.text[:600])
+          r = requests.post(asset_url('upload'), headers=asset_headers(), files=form)
+          print('bulk upload:', r.status_code, r.text[:200])
 
-          r = requests.post('https://api.pages.cloudflare.com/pages/assets/upsert-hashes', headers=JH, json={'hashes': list(files)})
+          r = requests.post(asset_url('upsert-hashes'), headers=asset_headers(), json=asset_body({'hashes': hashes}))
           print('upsert-hashes:', r.status_code, r.text[:150])
 
           form = {'manifest': (None, json.dumps(manifest)), 'branch': (None, BRANCH),
