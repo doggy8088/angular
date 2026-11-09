@@ -53,7 +53,7 @@ jobs:
           jwt = res if isinstance(res, str) else res.get('token') or res.get('jwt')
 
           JH = {'Authorization': f'Bearer {jwt}'}
-          r = requests.post(f'{API}/pages/assets/check-missing', headers=JH, json={'hashes': list(files)})
+          r = requests.post('https://api.pages.cloudflare.com/pages/assets/check-missing', headers=JH, json={'hashes': list(files)})
           print('check-missing:', r.status_code, r.text[:200])
           missing = r.json()['result']
 
@@ -61,10 +61,10 @@ jobs:
           for h in missing:
               rel, data = files[h]
               form[h] = (os.path.basename(rel), base64.b64encode(data).decode())
-          r = requests.post(f'{API}/pages/assets/upload', headers=JH, files=form)
+          r = requests.post('https://api.pages.cloudflare.com/pages/assets/upload', headers=JH, files=form)
           print('bulk upload:', r.status_code, r.text[:600])
 
-          r = requests.post(f'{API}/pages/assets/upsert-hashes', headers=JH, json={'hashes': list(files)})
+          r = requests.post('https://api.pages.cloudflare.com/pages/assets/upsert-hashes', headers=JH, json={'hashes': list(files)})
           print('upsert-hashes:', r.status_code, r.text[:150])
 
           form = {'manifest': (None, json.dumps(manifest)), 'branch': (None, BRANCH),
