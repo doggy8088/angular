@@ -152,7 +152,7 @@ return this.show ? $localize`Show Tabs` : $localize`Hide tabs`;
 
 關於自訂 ID 的更多資訊，請見[以自訂 ID 管理標記的文字][GuideI18nOptionalManageMarkedText]。
 
-### 加入有幫助的說明與意義
+### 加入有幫助的說明與意義 {#add-helpful-descriptions-and-meanings}
 
 若要正確翻譯文字訊息，請為譯者提供額外資訊或上下文。
 

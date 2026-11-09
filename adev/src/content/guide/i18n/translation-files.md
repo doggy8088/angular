@@ -15,7 +15,7 @@
    1. [翻譯替代運算式][GuideI18nCommonTranslationFilesTranslateAlternateExpressions]。
    1. [翻譯巢狀運算式][GuideI18nCommonTranslationFilesTranslateNestedExpressions]。
 
-## 擷取來源語言檔案
+## 擷取來源語言檔案 {#extract-the-source-language-file}
 
 若要擷取來源語言檔案，請完成下列動作。
 
@@ -78,7 +78,7 @@ HELPFUL: XMB 格式會產生 `.xmb` 來源語言檔案，但翻譯檔案使用�
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" region="extract-i18n-out-file"/>
 
-## 為每種語言建立一個翻譯檔案
+## 為每種語言建立一個翻譯檔案 {#create-a-translation-file-for-each-language}
 
 若要為某個地區設定（locale）或語言建立翻譯檔案，請完成下列動作。
 
@@ -114,7 +114,7 @@ HELPFUL: XMB 格式會產生 `.xmb` 來源語言檔案，但翻譯檔案使用�
 1. 將 `fr` 翻譯檔案移到 `src/locale` 目錄。
 1. 將 `fr` 翻譯檔案送交譯者。
 
-## 翻譯每個翻譯檔案
+## 翻譯每個翻譯檔案 {#translate-each-translation-file}
 
 除非你精通該語言，而且有時間編輯翻譯，否則你很可能會完成下列步驟。
 
@@ -153,7 +153,7 @@ IMPORTANT: 不要變更翻譯單元的 ID。
 如果你變更了文字或含義，`id` 屬性就會改變。
 有關管理文字更新與 ID 的更多資訊，請參閱[自訂 ID][GuideI18nOptionalManageMarkedText]。
 
-## 翻譯複數形式
+## 翻譯複數形式 {#translate-plurals}
 
 依每種語言的需要，新增或移除複數形式（plural cases）。
 
@@ -171,7 +171,7 @@ HELPFUL: 有關語言的複數規則，請參閱 [CLDR plural rules][GithubUnico
 
 <docs-code header="src/locale/messages.fr.xlf (<trans-unit>)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf" region="translated-plural"/>
 
-## 翻譯替代運算式
+## 翻譯替代運算式 {#translate-alternate-expressions}
 
 Angular 也會將替代的 `select` ICU 運算式擷取為個別的翻譯單元。
 
@@ -197,7 +197,7 @@ IMPORTANT: 翻譯文字時，必要時可以移動佔位符，但不要將它移
 
 <docs-code header="src/locale/messages.fr.xlf (<trans-unit>)" path="adev/src/content/examples/i18n/doc-files/messages.fr.xlf" region="translated-select"/>
 
-## 翻譯巢狀運算式
+## 翻譯巢狀運算式 {#translate-nested-expressions}
 
 Angular 處理巢狀運算式的方式，與處理替代運算式相同。
 Angular 會將運算式擷取為兩個翻譯單元。
