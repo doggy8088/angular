@@ -2,7 +2,10 @@ name: Deploy v14 mirror to Cloudflare Pages
 
 # v14 分支專屬：上游 14.3.x（aio／angular.io 年代）的鏡像建置，發佈到
 # Cloudflare Pages 專案 angular-tw-v14，自訂網域 v14.angular.tw
-# （英文原版鏡像，翻譯日後逐版補）。aio 無 WebContainer，_headers 只留 ngsw 不快取。
+# （英文原版鏡像，翻譯日後逐版補）。
+# 本年代改走 yarn CLI 路線：//aio:build 的 Bazel architect 目標在本分支已
+# 腐壞（--outputPath 被新版 architect-cli 拒絕），上游 CircleCI 亦以
+# `yarn --cwd aio build` 建置（presetup 會連根目錄一起 yarn install）。
 
 on:
   push:
@@ -28,7 +31,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
 
       - name: Probe Cloudflare auth (fail fast, re-dispatch on a fresh runner)
         env:
@@ -61,50 +63,29 @@ jobs:
         with:
           node-version-file: .nvmrc
 
-      - name: Setup Bazel
-        # 直接從 releases.bazel.build（Google 主機，下載穩定）取 Bazel 二進位，
-        # 不經 bazelisk 的 GitHub 下載。版本對應本分支 .bazelversion（5.0.0）。
+      - name: Build aio (yarn, production)
+        # 比照上游 CircleCI test_aio job：yarn --cwd aio build
+        # （prebuild→setup 含根目錄與 aio 的 yarn install、docs 產生；
+        # ~~build 為 ng build --configuration=stable，產出 aio/dist；
+        # post~~build 產生 404 頁）。
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
         run: |
-          for i in 1 2 3 4 5; do
-            if curl -sL --max-time 300 -o /tmp/bazel https://releases.bazel.build/5.0.0/release/bazel-5.0.0-linux-x86_64; then break; fi
-            echo "bazel download attempt $i failed; retrying..."; sleep 10
-          done
-          chmod +x /tmp/bazel
-          sudo mv /tmp/bazel /usr/local/bin/bazel
-          bazel --version
-
-      - name: Cache Bazel repository cache
-        # 外部依賴下載一次成功後就留在快取裡，之後的建置不必再碰 GitHub 下載
-        # （2026-11-09 GitHub release 下載連續 504 的因應）。金鑰綁 MODULE.bazel.lock。
-        uses: actions/cache@v4
-        with:
-          path: .bazel-repository-cache
-          key: bazel-repo-v14-${{ hashFiles('WORKSPACE', 'yarn.lock') }}
-          restore-keys: |
-            bazel-repo-v14-
-
-      - name: Build aio (production)
-        # 重試：2026-11-09 GitHub release 下載連續回 504，fetch 階段會隨機死在
-        # 不同依賴上；同一 job 內重跑時 Bazel 快取保留已下載的依賴，逐輪收斂。
-        run: |
-          for attempt in 1 2 3; do
+          for attempt in 1 2; do
             echo "=== Build attempt ${attempt} ==="
-            if bazel --host_jvm_args=-Xmx3g build //aio:build --jobs=1 --local_ram_resources=4096; then
+            if yarn --cwd aio build --progress=false; then
               exit 0
             fi
             echo "Attempt ${attempt} failed; retrying in 30s..."
             sleep 30
           done
-          echo "Build failed after 3 attempts"
+          echo "Build failed after 2 attempts"
           exit 1
 
       - name: Collect static output
         run: |
           mkdir -p _site
-          IDX=$(find dist/bin/aio -name index.html | awk '{print length($0), $0}' | sort -n | head -1 | cut -d' ' -f2-)
-          echo "found index at: $IDX"
-          SRC=$(dirname "$IDX")
-          cp -rL "$SRC"/. _site/
+          cp -rL aio/dist/. _site/
           ls _site | head -20
           test -f _site/index.html
 
@@ -120,8 +101,6 @@ jobs:
           cat _site/_headers
 
       - name: Archive site output (deploy fallback)
-        # 產物含網址命名的目錄（路徑有冒號），upload-artifact 逐檔驗證會拒絕，
-        # 先包成單一 tar 再上傳；本步只是保險，失敗不得擋住部署。
         continue-on-error: true
         run: tar -cf site.tar -C _site .
 
@@ -135,17 +114,11 @@ jobs:
           compression-level: 0
 
       - name: Deploy to Cloudflare Pages
-        # 不用 wrangler-action：它會用 pnpm 在 workspace 根目錄裝 wrangler 而被
-        # ERR_PNPM_ADDING_TO_ROOT 擋下（2026-11-09 zh-tw run 42577424671 實測）。
-        # 改用自實作的 Pages Direct Upload 協議上傳器（wrangler／cf CLI 對 cfut_ 前綴 Token 的認證會被 API 以 9106 拒絕，2026-11-09 實測）。
         env:
           CLOUDFLARE_API_TOKEN: <redacted>
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
           pip install -q blake3 requests
-          # Cloudflare 對 GitHub runner 出口的 Token 驗證有「時間窗」現象：
-          # 同一台 runner 開工時可通、20 分鐘後可變 9106（2026-11-10 實測）。
-          # 部署步因此長時間重試（公開 repo Actions 分鐘免費），等窗開。
           for attempt in 1 2 3 4 5 6; do
             echo "=== Deploy attempt ${attempt} ==="
             if python3 .github/scripts/pages_upload.py --project angular-tw-v14 --branch v14 --dir _site; then
