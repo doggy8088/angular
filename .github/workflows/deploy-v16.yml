@@ -101,9 +101,10 @@ jobs:
       - name: Collect static output
         run: |
           mkdir -p _site
-          IDX=$(find dist/bin/aio -name index.html | awk '{print length($0), $0}' | sort -n | head -1 | cut -d' ' -f2-)
-          echo "found index at: $IDX"
-          SRC=$(dirname "$IDX")
+          SRC=$(find dist/bin/aio -name index.html -printf '%h
+' | sort -u | while read d; do if [ -f "$d/ngsw-worker.js" ]; then echo "$(find "$d" -type f | wc -l) $d"; fi; done | sort -rn | head -1 | cut -d' ' -f2-)
+          echo "site root: $SRC"
+          test -n "$SRC"
           cp -rL "$SRC"/. _site/
           ls _site | head -20
           test -f _site/index.html
