@@ -58,12 +58,13 @@ jobs:
           echo "Cloudflare auth OK on this runner."
 
       - name: Setup Node.js
-        # 不用 .nvmrc 的 16.13：範例程式的傳遞依賴（node-releases 等）隨時間
-        # 升級後已要求 Node >=18（2026-11-10 實測 yarn install 被 engines 擋）。
-        # Angular 14 CLI 在 Node 18 上可正常建置。
+        # v11 工具鏈是 Node 14 年代：postcss 8.2.4 的 exports 用舊式資料夾
+        # 對應（Node 16+ 已移除，css-loader 會 require 不到 postcss/package.json），
+        # 且 aio check-environment 本就要求 <16。改用 14.21（仍保留 engines 放寬
+        # 偏離與 Python 3.10，範例依賴的 engines 問題靠 ignore-engines 處理）。
         uses: actions/setup-node@v4
         with:
-          node-version: '18.20.0'
+          node-version: '14.21.3'
 
       - name: Setup Python 3.10
         # 老 node-gyp（re2 等原生模組）用 Python 'rU' 模式，3.11+ 已移除；
@@ -85,7 +86,7 @@ jobs:
         # ~~build 為 ng build --configuration=stable，產出 aio/dist；
         # post~~build 產生 404 頁）。
         env:
-          NODE_OPTIONS: --max-old-space-size=6144 --openssl-legacy-provider
+          NODE_OPTIONS: --max-old-space-size=6144
         run: |
           for attempt in 1 2; do
             echo "=== Build attempt ${attempt} ==="
