@@ -71,8 +71,7 @@ jobs:
         run: |
           yarn config set ignore-engines true
           yarn config set ignore-optional true
-          cd aio && yarn config set ignore-engines true
-          cd aio && yarn config set ignore-optional true
+          (cd aio && yarn config set ignore-engines true && yarn config set ignore-optional true)
 
       - name: Build aio (yarn, production)
         # 比照上游 CircleCI test_aio job：yarn --cwd aio build
