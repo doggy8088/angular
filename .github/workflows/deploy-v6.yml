@@ -58,13 +58,12 @@ jobs:
           echo "Cloudflare auth OK on this runner."
 
       - name: Setup Node.js
-        # v6 工具鏈是 Node 14 年代：postcss 8.2.4 的 exports 用舊式資料夾
-        # 對應（Node 16+ 已移除，css-loader 會 require 不到 postcss/package.json），
-        # 且 aio check-environment 本就要求 <16。改用 14.21（仍保留 engines 放寬
-        # 偏離與 Python 3.10，範例依賴的 engines 問題靠 ignore-engines 處理）。
+        # v6 範例共用包含 node-sass（node-gyp 3.6／Python 2 年代），在 Node 14
+        # 編不過；Node 10 有官方預編譯 binary 可直接下載，且 engines 原生
+        # 吻合（>=10.9 <11），不需任何放寬偏離。Python 3.10 步保留備用。
         uses: actions/setup-node@v4
         with:
-          node-version: '14.21.3'
+          node-version: '10.24.1'
 
       - name: Setup Python 3.10
         # 老 node-gyp（re2 等原生模組）用 Python 'rU' 模式，3.11+ 已移除；

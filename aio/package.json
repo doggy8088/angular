@@ -66,7 +66,7 @@
     "~~http-server": "http-server"
   },
   "engines": {
-    "node": ">=10.9.0 <19.0.0",
+    "node": ">=10.9.0 <11.0.0",
     "yarn": ">=1.9.2 <2.0.0"
   },
   "private": true,
