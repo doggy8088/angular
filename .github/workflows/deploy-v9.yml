@@ -1,0 +1,148 @@
+name: Deploy v9 mirror to Cloudflare Pages
+
+# v9 分支專屬：上游 9.1.x（aio／angular.io 年代）的鏡像建置，發佈到
+# Cloudflare Pages 專案 angular-tw-v9，自訂網域 v9.angular.tw
+# （英文原版鏡像，翻譯日後逐版補）。
+# 本年代為純 yarn CLI 路線：aio 無 Bazel 建置目標，上游以
+# `yarn --cwd aio build` 建置（presetup 會連根目錄一起 yarn install）。
+
+on:
+  push:
+    branches: [v9]
+  workflow_dispatch:
+    inputs:
+      attempt:
+        description: "Deployment attempt number (auto-incremented on auth failure)"
+        required: false
+        default: "1"
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: pages-v9
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Probe Cloudflare auth (fail fast, re-dispatch on a fresh runner)
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ok=0
+          for i in 1 2 3; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/angular-tw-v9/upload-token" -H "Authorization: Bearer ${CF_TOKEN}")
+            echo "probe $i: HTTP $code"
+            if [ "$code" = "200" ]; then ok=1; break; fi
+            sleep 5
+          done
+          if [ "$ok" != "1" ]; then
+            attempt="${{ inputs.attempt || '1' }}"
+            if [ "$attempt" -lt 6 ]; then
+              next=$((attempt + 1))
+              echo "This runner cannot authenticate to Cloudflare (9106). Re-dispatching attempt $next on a fresh runner."
+              gh workflow run deploy-v9.yml --ref v9 -f attempt=$next
+            else
+              echo "Giving up after $attempt attempts."
+            fi
+            exit 1
+          fi
+          echo "Cloudflare auth OK on this runner."
+
+      - name: Setup Node.js
+        # v9 工具鏈是 Node 14 年代：postcss 8.2.4 的 exports 用舊式資料夾
+        # 對應（Node 16+ 已移除，css-loader 會 require 不到 postcss/package.json），
+        # 且 aio check-environment 本就要求 <16。改用 14.21（仍保留 engines 放寬
+        # 偏離與 Python 3.10，範例依賴的 engines 問題靠 ignore-engines 處理）。
+        uses: actions/setup-node@v4
+        with:
+          node-version: '14.21.3'
+
+      - name: Setup Python 3.10
+        # 老 node-gyp（re2 等原生模組）用 Python 'rU' 模式，3.11+ 已移除；
+        # 提供 3.10 讓 gyp 至少能執行（re2 為 optional，編不過也只是警告）。
+        # 不能用 ignore-optional 一刀切：@swc/core 的平台 binding 也是
+        # optional 依賴，略過會讓建置缺 binding 而失敗（2026-11-10 實測）。
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Relax yarn engine checks
+        run: |
+          yarn config set ignore-engines true
+          (cd aio && yarn config set ignore-engines true)
+
+      - name: Build aio (yarn, production)
+        # 比照上游 CircleCI test_aio job：yarn --cwd aio build
+        # （prebuild→setup 含根目錄與 aio 的 yarn install、docs 產生；
+        # ~~build 為 ng build --configuration=stable，產出 aio/dist；
+        # post~~build 產生 404 頁）。
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144
+        run: |
+          for attempt in 1 2; do
+            echo "=== Build attempt ${attempt} ==="
+            if yarn --cwd aio build --progress=false; then
+              exit 0
+            fi
+            echo "Attempt ${attempt} failed; retrying in 30s..."
+            sleep 30
+          done
+          echo "Build failed after 2 attempts"
+          exit 1
+
+      - name: Collect static output
+        run: |
+          mkdir -p _site
+          cp -rL aio/dist/. _site/
+          ls _site | head -20
+          test -f _site/index.html
+
+      - name: Add Cloudflare Pages headers
+        run: |
+          cat > _site/_headers <<'EOF'
+          /ngsw-worker.js
+            Cache-Control: no-cache
+
+          /ngsw.json
+            Cache-Control: no-cache
+          EOF
+          cat _site/_headers
+
+      - name: Archive site output (deploy fallback)
+        continue-on-error: true
+        run: tar -cf site.tar -C _site .
+
+      - name: Upload site archive
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-v9
+          path: site.tar
+          retention-days: 3
+          compression-level: 0
+
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: <redacted>
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          pip install -q blake3 requests
+          for attempt in 1 2 3 4 5 6; do
+            echo "=== Deploy attempt ${attempt} ==="
+            if python3 .github/scripts/pages_upload.py --project angular-tw-v9 --branch v9 --dir _site; then
+              exit 0
+            fi
+            echo "Deploy attempt ${attempt} failed; waiting 5 minutes for a better auth window..."
+            sleep 300
+          done
+          echo "Deploy failed after 6 attempts"
+          exit 1
