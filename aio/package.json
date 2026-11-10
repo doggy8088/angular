@@ -78,8 +78,8 @@
     "~~light-server": "light-server --bind=localhost --historyindex=/index.html --no-reload"
   },
   "engines": {
-    "node": ">=10.9.0 <11.0.0",
-    "yarn": ">=1.17.3 <=1.18.0"
+    "node": ">=10.9.0 <19.0.0",
+    "yarn": ">=1.17.3 <2"
   },
   "private": true,
   "dependencies": {
