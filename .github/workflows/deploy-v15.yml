@@ -101,7 +101,7 @@ jobs:
       - name: Collect static output
         run: |
           mkdir -p _site
-          SRC=$(find dist/bin/aio -name index.html -printf '%h\\n' | sort -u | while read d; do if [ -f "$d/ngsw-worker.js" ]; then echo "$(find "$d" -type f | wc -l) $d"; fi; done | sort -rn | head -1 | cut -d' ' -f2-)
+          if [ -f dist/bin/aio/build/index.html ]; then SRC=dist/bin/aio/build; else SRC=$(find dist/bin/aio -name index.html -printf '%h\\n' | sort -u | while read d; do if [ -f "$d/ngsw-worker.js" ]; then echo "$(find "$d" -type f | wc -l) $d"; fi; done | sort -rn | head -1 | cut -d' ' -f2-); fi
           echo "site root: $SRC"
           test -n "$SRC"
           cp -rL "$SRC"/. _site/
