@@ -1,22 +1,22 @@
-# Testing routing and navigation
+# 測試路由與導覽
 
-Testing routing and navigation is essential to ensure your application behaves correctly when users navigate between different routes. This guide covers various strategies for testing routing functionality in Angular applications.
+測試路由與導覽，對於確保使用者在不同路由之間導覽時應用程式行為正確至關重要。本指南涵蓋在 Angular 應用程式中測試路由功能的各種策略。
 
-## Prerequisites
+## 先決條件
 
-This guide assumes you are familiar with the following tools and libraries:
+本指南假設你已熟悉下列工具與程式庫：
 
-- **[Vitest](https://vitest.dev/)** - JavaScript testing framework that provides the testing syntax (`describe`, `it`, `expect`)
-- **[Angular Testing Utilities](guide/testing)** - Angular's built-in testing tools ([`TestBed`](api/core/testing/TestBed), [`ComponentFixture`](api/core/testing/ComponentFixture))
-- **[`RouterTestingHarness`](api/router/testing/RouterTestingHarness)** - Test harness for testing routed components with built-in navigation and component testing capabilities
+- **[Vitest](https://vitest.dev/)** - 提供測試語法（`describe`、`it`、`expect`）的 JavaScript 測試框架
+- **[Angular Testing Utilities](guide/testing)** - Angular 內建的測試工具（[`TestBed`](api/core/testing/TestBed)、[`ComponentFixture`](api/core/testing/ComponentFixture)）
+- **[`RouterTestingHarness`](api/router/testing/RouterTestingHarness)** - 用於測試路由元件的測試工具，內建導覽與元件測試功能
 
-## Testing scenarios
+## 測試情境
 
-### Route parameters
+### 路由參數
 
-Components often rely on route parameters from the URL to fetch data, like a user ID for a profile page.
+元件常需依賴 URL 中的路由參數來取得資料，例如個人檔案頁面要用到的使用者 ID。
 
-The following example shows how to test a `UserProfile` component that displays a user ID from the route.
+下列範例示範如何測試一個從路由顯示使用者 ID 的 `UserProfile` 元件。
 
 ```ts { header: 'user-profile.spec.ts'}
 import {TestBed} from '@angular/core/testing';
@@ -53,11 +53,11 @@ export class UserProfile {
 }
 ```
 
-### Route guards
+### 路由守衛
 
-Route guards control access to routes based on conditions like authentication or permissions. When testing guards, focus on mocking dependencies and verifying navigation outcomes.
+路由守衛會依驗證或權限等條件，控制路由的存取。測試守衛時，應著重於模擬相依性並驗證導覽結果。
 
-The following example tests an `authGuard` that allows navigation for authenticated users and redirects unauthenticated users to a login page.
+下列範例測試一個 `authGuard`：它允許已驗證的使用者導覽，並把未驗證的使用者重新導向到登入頁面。
 
 ```ts {header: 'auth.guard.spec.ts'}
 import {vi, type Mocked} from 'vitest';
@@ -122,11 +122,11 @@ export const authGuard: CanActivateFn = () => {
 };
 ```
 
-### Router outlets
+### 路由器 outlet
 
-Router outlet tests are more of an integration test since you're essentially testing the integration between the [`Router`](api/router/Router), the outlet, and the components being displayed.
+路由器 outlet 測試比較偏向整合測試，因為你實際上是在測試 [`Router`](api/router/Router)、outlet 與所顯示元件之間的整合。
 
-Here's an example of how to set up a test that verifies different components are displayed for different routes:
+下列範例示範如何設定測試，驗證不同路由會顯示不同元件：
 
 ```ts {header: 'app.spec.ts'}
 import {TestBed} from '@angular/core/testing';
@@ -193,17 +193,17 @@ import {RouterOutlet, RouterLink} from '@angular/router';
 export class App {}
 ```
 
-### Nested routes
+### 巢狀路由
 
-Testing nested routes ensures that both the parent and child components render correctly when navigating to nested URLs. This is important because nested routes involve multiple layers.
+測試巢狀路由，可以確保導覽到巢狀 URL 時，父元件與子元件都能正確渲染。這一點很重要，因為巢狀路由牽涉多個層次。
 
-You need to verify that:
+你需要驗證：
 
-1. The parent component renders properly.
-2. The child component renders within it.
-3. Ensure that both components can access their respective route data.
+1. 父元件正確渲染。
+2. 子元件在父元件內渲染。
+3. 確認兩個元件都能存取各自的路由資料。
 
-Here's an example of testing a parent-child route structure:
+下列是測試父子路由結構的範例：
 
 ```ts {header: 'nested-routes.spec.ts'}
 import {TestBed} from '@angular/core/testing';
@@ -259,13 +259,13 @@ export class Parent {}
 export class Child {}
 ```
 
-### Query parameters and fragments
+### 查詢參數與 fragment
 
-Query parameters (like `?search=angular&category=web`) and URL fragments (like `#section1`) provide additional data through the URL that doesn't affect which component loads, but does affect how the component behaves. Components that read query parameters through [`ActivatedRoute.queryParams`](api/router/ActivatedRoute#queryParams) need to be tested to ensure they handle different parameter scenarios correctly.
+查詢參數（如 `?search=angular&category=web`）與 URL fragment（如 `#section1`）會透過 URL 提供額外資料；它們不影響載入哪個元件，但會影響元件的行為。透過 [`ActivatedRoute.queryParams`](api/router/ActivatedRoute#queryParams) 讀取查詢參數的元件，需要經過測試，確保它能正確處理各種參數情境。
 
-Unlike route parameters that are part of the route definition, query parameters are optional and can change without triggering route navigation. This means you need to test both the initial loading and the reactive updates when query parameters change.
+與屬於路由定義一部分的路由參數不同，查詢參數是選擇性的，可以在不觸發路由導覽的情況下改變。這表示你既要測試初次載入，也要測試查詢參數改變時的反應式更新。
 
-Here's an example of how to test query parameters and fragments:
+下列範例示範如何測試查詢參數與 fragment：
 
 ```ts {header: 'search.spec.ts'}
 import {TestBed} from '@angular/core/testing';
@@ -310,11 +310,11 @@ export class Search {
 }
 ```
 
-## Best practices for router testing
+## 路由測試的最佳實務
 
-1. **Use RouterTestingHarness** - For testing routed components, use [`RouterTestingHarness`](api/router/testing/RouterTestingHarness) which provides a cleaner API and eliminates the need for test host components. It offers direct component access, built-in navigation, and better type safety. However, it isn't as suitable for some scenarios, such as testing named outlets, where you may need to create custom host components.
-2. **Handle external dependencies thoughtfully** - Prefer real implementations when possible for more realistic tests. If real implementations aren't feasible (e.g., external APIs), use fakes that approximate the real behavior. Use mocks or stubs only as a last resort, as they can make tests brittle and less reliable.
-3. **Test navigation state** - Verify both the navigation action and the resulting application state, including URL changes and component rendering.
-4. **Handle asynchronous operations** - Router navigation is asynchronous. Use `async/await` to properly handle timing in your tests.
-5. **Test error scenarios** - Include tests for invalid routes, failed navigation, and guard rejections to ensure your application handles edge cases gracefully.
-6. **Do not mock Angular Router** - Instead, provide real route configurations and use the harness to navigate. This makes your tests more robust and less likely to break on internal Angular updates, while also ensuring you catch real issues when the router updates since mocks can hide breaking changes.
+1. **使用 RouterTestingHarness**：測試路由元件時，使用 [`RouterTestingHarness`](api/router/testing/RouterTestingHarness)；它提供更簡潔的 API，省去測試宿主元件的需要，並提供直接存取元件、內建導覽與更好的型別安全性。不過，它不適合某些情境，例如測試具名 outlet，這時你可能需要建立自訂宿主元件。
+2. **審慎處理外部相依性**：盡可能優先使用真實實作，讓測試更貼近實際。若真實實作不可行（例如外部 API），請使用近似真實行為的假實作。模擬或 stub 只應作為最後手段，因為它們可能讓測試變得脆弱且不可靠。
+3. **測試導覽狀態**：同時驗證導覽動作與其後的應用程式狀態，包括 URL 變化與元件渲染。
+4. **處理非同步操作**：路由器導覽是非同步的。在測試中使用 `async/await`，妥善處理時機。
+5. **測試錯誤情境**：為無效路由、導覽失敗與守衛拒絕等情況撰寫測試，確保應用程式能妥善處理邊界案例。
+6. **不要模擬 Angular Router**：改為提供真實的路由設定，並使用測試工具進行導覽。這樣能讓測試更穩健，較不容易因 Angular 內部更新而壞掉；同時也能在路由器更新時抓到真正的問題，因為模擬可能會掩蓋破壞性變更。

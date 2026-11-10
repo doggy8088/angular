@@ -1,18 +1,18 @@
-# Attribute directives
+# 屬性指令
 
-Change the appearance or behavior of DOM elements and Angular components with attribute directives.
+使用屬性指令，改變 DOM 元素與 Angular 元件的外觀或行為。
 
-## Building an attribute directive
+## 建立屬性指令
 
-This section walks you through creating a highlight directive that sets the background color of the host element to yellow.
+本節將引導你建立一個醒目顯示指令，把宿主元素的背景顏色設為黃色。
 
-1. To create a directive, use the CLI command [`ng generate directive`](tools/cli/schematics).
+1. 若要建立指令，請使用 CLI 指令 [`ng generate directive`](tools/cli/schematics)。
 
    ```shell
    ng generate directive highlight
    ```
 
-   The CLI creates `src/app/highlight.directive.ts`, a corresponding test file `src/app/highlight.directive.spec.ts`.
+   CLI 會建立 `src/app/highlight.directive.ts`，以及對應的測試檔 `src/app/highlight.directive.spec.ts`。
 
    ```angular-ts
    import {Directive} from '@angular/core';
@@ -23,137 +23,137 @@ This section walks you through creating a highlight directive that sets the back
    export class HighlightDirective {}
    ```
 
-   The `@Directive()` decorator's configuration property specifies the directive's CSS attribute selector, `[appHighlight]`.
+   `@Directive()` 裝飾器的設定屬性指定了指令的 CSS 屬性選擇器 `[appHighlight]`。
 
-1. Import `ElementRef` from `@angular/core`.
-   `ElementRef` grants direct access to the host DOM element through its `nativeElement` property.
+1. 從 `@angular/core` 匯入 `ElementRef`。
+   `ElementRef` 透過其 `nativeElement` 屬性，讓你能直接存取宿主 DOM 元素。
 
-1. Add `ElementRef` in the directive's `constructor()` to [inject](guide/di) a reference to the host DOM element, the element to which you apply `appHighlight`.
+1. 在指令的 `constructor()` 中加入 `ElementRef`，以[注入](guide/di)宿主 DOM 元素的參照，也就是你套用 `appHighlight` 的那個元素。
 
-1. Add logic to the `HighlightDirective` class that sets the background to yellow.
+1. 在 `HighlightDirective` 類別中加入把背景設為黃色的邏輯。
 
    <docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.1.ts"/>
 
-IMPORTANT: Directives _do not_ support namespaces.
+IMPORTANT: 指令*不*支援命名空間。
 
 ```angular-html {avoid}
 <p app:Highlight>This is invalid</p>
 ```
 
-## Applying an attribute directive
+## 套用屬性指令
 
-To use the `HighlightDirective`, add a `<p>` element to the HTML template with the directive as an attribute.
+若要使用 `HighlightDirective`，請在 HTML 範本中加入一個 `<p>` 元素，並把指令作為其屬性。
 
 <docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.1.html" region="applied"/>
 
-Angular creates an instance of the `HighlightDirective` class and injects a reference to the `<p>` element into the directive's constructor, which sets the `<p>` element's background style to yellow.
+Angular 會建立 `HighlightDirective` 類別的執行個體，把 `<p>` 元素的參照注入指令的建構子，進而把 `<p>` 元素的背景樣式設為黃色。
 
-## Handling user events
+## 處理使用者事件
 
-This section shows you how to detect when a user mouses into or out of the element and to respond by setting or clearing the highlight color.
+本節示範如何偵測使用者把滑鼠移入或移出元素，並以設定或清除醒目顯示顏色來回應。
 
-1. Configure host event bindings using the `host` property in the `@Directive()` decorator.
+1. 使用 `@Directive()` 裝飾器中的 `host` 屬性，設定宿主事件繫結。
 
    <docs-code header="src/app/highlight.directive.ts (decorator)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.2.ts" region="decorator"/>
 
-1. Add two event handler methods, and map host element events to them via the `host` property.
+1. 加入兩個事件處理器方法，並透過 `host` 屬性把宿主元素事件對應到這些方法。
 
    <docs-code header="highlight.directive.ts (mouse-methods)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.2.ts" region="mouse-methods"/>
 
-Subscribe to events of the DOM element that hosts an attribute directive (the `<p>` in this case) by configuring event listeners on the directive's [`host` property](guide/components/host-elements#binding-to-the-host-element).
+在指令的 [`host` 屬性](guide/components/host-elements#binding-to-the-host-element)上設定事件監聽器，即可訂閱承載屬性指令的 DOM 元素（本例中是 `<p>`）的事件。
 
-HELPFUL: The handlers delegate to a helper method, `highlight()`, that sets the color on the host DOM element, `el`.
+HELPFUL: 這些處理器會委派給一個輔助方法 `highlight()`，由它在宿主 DOM 元素 `el` 上設定顏色。
 
-The complete directive is as follows:
+完整的指令如下：
 
 <docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.2.ts"/>
 
-The background color appears when the pointer hovers over the paragraph element and disappears as the pointer moves out.
+當指標懸停在段落元素上時，背景顏色會出現；指標移開時，背景顏色隨之消失。
 
-<img alt="Second Highlight" src="assets/images/guide/attribute-directives/highlight-directive-anim.gif">
+<img alt="第二次醒目顯示" src="assets/images/guide/attribute-directives/highlight-directive-anim.gif">
 
-## Passing values into an attribute directive
+## 把值傳入屬性指令
 
-This section walks you through setting the highlight color while applying the `HighlightDirective`.
+本節將引導你在套用 `HighlightDirective` 的同時設定醒目顯示顏色。
 
-1. In `highlight.directive.ts`, import `input` from `@angular/core`.
+1. 在 `highlight.directive.ts` 中，從 `@angular/core` 匯入 `input`。
 
    <docs-code header="highlight.directive.ts (imports)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" region="imports"/>
 
-1. Add an `appHighlight` `input` property.
+1. 加入一個 `appHighlight` `input` 屬性。
 
    <docs-code header="highlight.directive.ts" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" region="input"/>
 
-   The `input()` function adds metadata to the class that makes the directive's `appHighlight` property available for binding.
+   `input()` 函式會為類別加上中繼資料，讓指令的 `appHighlight` 屬性可以被繫結。
 
-1. In `app.component.ts`, add a `color` property to the `AppComponent`.
+1. 在 `app.component.ts` 中，為 `AppComponent` 加入一個 `color` 屬性。
 
    <docs-code header="app.component.ts (class)" path="adev/src/content/examples/attribute-directives/src/app/app.component.1.ts" region="class"/>
 
-1. To simultaneously apply the directive and the color, use property binding with the `appHighlight` directive selector, setting it equal to `color`.
+1. 若要同時套用指令與顏色，請以 `appHighlight` 指令選擇器進行屬性繫結，把它設為等於 `color`。
 
    <docs-code header="app.component.html (color)" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="color"/>
 
-   The `[appHighlight]` attribute binding performs two tasks:
-   - Applies the highlighting directive to the `<p>` element
-   - Sets the directive's highlight color with a property binding
+   `[appHighlight]` 屬性繫結會執行兩項工作：
+   - 把醒目顯示指令套用到 `<p>` 元素
+   - 以屬性繫結設定指令的醒目顯示顏色
 
-### Setting the value with user input
+### 以使用者輸入設定值
 
-This section guides you through adding radio buttons to bind your color choice to the `appHighlight` directive.
+本節將引導你加入單選按鈕，把你選擇的顏色繫結到 `appHighlight` 指令。
 
-1. Add markup to `app.component.html` for choosing a color as follows:
+1. 如下列方式，在 `app.component.html` 中加入用來選擇顏色的標記：
 
    <docs-code header="app.component.html (v2)" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="v2"/>
 
-2. Revise the `AppComponent.color` so that it has no initial value.
+2. 修改 `AppComponent.color`，讓它沒有初始值。
 
    <docs-code header="app.component.ts (class)" path="adev/src/content/examples/attribute-directives/src/app/app.component.ts" region="class"/>
 
-3. In `highlight.directive.ts`, revise `onMouseEnter` method so that it first tries to highlight with `appHighlight` and falls back to `red` if `appHighlight` is `undefined`.
+3. 在 `highlight.directive.ts` 中，修改 `onMouseEnter` 方法，讓它先嘗試以 `appHighlight` 醒目顯示，若 `appHighlight` 為 `undefined`，則退回使用 `red`。
    <docs-code header="highlight.directive.ts (mouse-enter)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.3.ts" region="mouse-enter"/>
 
-4. Serve your application to verify that the user can choose the color with the radio buttons.
+4. 啟動你的應用程式，確認使用者可以用單選按鈕選擇顏色。
 
-   <img alt="Animated gif of the refactored highlight directive changing color according to the radio button the user selects" src="assets/images/guide/attribute-directives/highlight-directive-v2-anim.gif">
+   <img alt="重構後的醒目顯示指令依使用者選取的單選按鈕改變顏色的動畫 gif" src="assets/images/guide/attribute-directives/highlight-directive-v2-anim.gif">
 
-## Binding to a second property
+## 繫結到第二個屬性
 
-This section guides you through configuring your application so the developer can set the default color.
+本節將引導你設定應用程式，讓開發者可以設定預設顏色。
 
-1. Add a second `input()` property to `HighlightDirective` called `defaultColor`.
+1. 為 `HighlightDirective` 加入第二個 `input()` 屬性，稱為 `defaultColor`。
 
    <docs-code header="highlight.directive.ts (defaultColor)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.ts" region="defaultColor"/>
 
-2. Revise the directive's `onMouseEnter` so that it first tries to highlight with the `appHighlight`, then with the `defaultColor`, and falls back to `red` if both properties are `undefined`.
+2. 修改指令的 `onMouseEnter`，讓它先嘗試以 `appHighlight` 醒目顯示，再嘗試 `defaultColor`，若兩者都是 `undefined`，則退回使用 `red`。
 
    <docs-code header="highlight.directive.ts (mouse-enter)" path="adev/src/content/examples/attribute-directives/src/app/highlight.directive.ts" region="mouse-enter"/>
 
-3. To bind to the `AppComponent.color` and fall back to "violet" as the default color, add the following HTML.
-   In this case, the `defaultColor` binding doesn't use square brackets, `[]`, because the value is a static string, not a dynamic expression.
+3. 若要繫結到 `AppComponent.color`，並以「violet」作為退回的預設顏色，請加入下列 HTML。
+   在這個例子中，`defaultColor` 繫結不使用方括號 `[]`，因為它的值是靜態字串，而不是動態運算式。
 
    <docs-code header="app.component.html (defaultColor)" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="defaultColor"/>
 
-   As with components, you can add multiple directive property bindings to a host element.
+   與元件一樣，你可以把多個指令屬性繫結加到一個宿主元素上。
 
-The default color is red if there is no default color binding.
-When the user chooses a color the selected color becomes the active highlight color.
+如果沒有預設顏色繫結，預設顏色就是紅色。
+當使用者選擇顏色時，選取的顏色會成為生效中的醒目顯示顏色。
 
-<img alt="Animated gif of final highlight directive that shows red color with no binding and violet with the default color set. When user selects color, the selection takes precedence." src="assets/images/guide/attribute-directives/highlight-directive-final-anim.gif">
+<img alt="最終版醒目顯示指令的動畫 gif：沒有繫結時顯示紅色，設定了預設顏色時顯示紫羅蘭色；使用者選取顏色時，以該選取為準" src="assets/images/guide/attribute-directives/highlight-directive-final-anim.gif">
 
-## Deactivating Angular processing with `NgNonBindable`
+## 使用 `NgNonBindable` 停用 Angular 處理
 
-To prevent expression evaluation in the browser, add `ngNonBindable` to the host element.
-`ngNonBindable` deactivates interpolation, directives, and binding in templates.
+若要防止瀏覽器中的運算式求值，在宿主元素上加上 `ngNonBindable`。
+`ngNonBindable` 會停用範本中的插值、指令和繫結。
 
-In the following example, the expression `{{ 1 + 1 }}` renders just as it does in your code editor, and does not display `2`.
+在以下範例中，運算式 `{{ 1 + 1 }}` 會就像在你的程式碼編輯器中一樣呈現，不會顯示 `2`。
 
 <docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="ngNonBindable"/>
 
-Applying `ngNonBindable` to an element stops binding for that element's child elements.
-However, `ngNonBindable` still lets directives work on the element where you apply `ngNonBindable`.
-In the following example, the `appHighlight` directive is still active but Angular does not evaluate the expression `{{ 1 + 1 }}`.
+把 `ngNonBindable` 套用到某個元素，會停止該元素的子元素的繫結。
+不過，`ngNonBindable` 仍然讓指令在你套用 `ngNonBindable` 的元素上運作。
+在以下範例中，`appHighlight` 指令仍然有效，但 Angular 不會對運算式 `{{ 1 + 1 }}` 求值。
 
 <docs-code header="app.component.html" path="adev/src/content/examples/attribute-directives/src/app/app.component.html" region="ngNonBindable-with-directive"/>
 
-If you apply `ngNonBindable` to a parent element, Angular disables interpolation and binding of any sort, such as property binding or event binding, for the element's children.
+如果你把 `ngNonBindable` 套用到父元素，Angular 會停用該元素子元素的任何形式的插值和繫結，例如屬性繫結或事件繫結。

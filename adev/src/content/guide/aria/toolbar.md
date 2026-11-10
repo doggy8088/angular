@@ -2,72 +2,13 @@
 </docs-decorative-header>
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/" title="Toolbar ARIA pattern"/>
-  <docs-pill href="/api/aria/toolbar/Toolbar" title="Toolbar API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/" title="工具列 ARIA 模式"/>
+  <docs-pill href="/api/aria/toolbar/Toolbar" title="Toolbar API 參考文件"/>
 </docs-pill-row>
 
-## Overview
+## 概觀
 
-A container for grouping related controls and actions with keyboard navigation, commonly used for text formatting, toolbars, and command panels.
-
-<docs-tab-group>
-  <docs-tab label="Basic">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/toolbar/src/basic/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/toolbar/src/basic/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/toolbar/src/basic/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/toolbar/src/basic/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Material">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/toolbar/src/basic/material/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/toolbar/src/basic/material/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/toolbar/src/basic/material/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/toolbar/src/basic/material/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Retro">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/toolbar/src/basic/retro/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/toolbar/src/basic/retro/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/toolbar/src/basic/retro/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/toolbar/src/basic/retro/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-</docs-tab-group>
-
-## Usage
-
-Toolbar works best for grouping related controls that users access frequently. Consider using toolbar when:
-
-- **Multiple related actions** - You have several controls that perform related functions (like text formatting buttons)
-- **Keyboard efficiency matters** - Users benefit from quick keyboard navigation through arrow keys
-- **Grouped controls** - You need to organize controls into logical sections with separators
-- **Frequent access** - Controls are used repeatedly within a workflow
-
-Avoid toolbar when:
-
-- A simple button group is sufficient - For just 2-3 unrelated actions, individual buttons work better
-- Controls aren't related - Toolbar implies a logical grouping; unrelated controls confuse users
-- Complex nested navigation - Deep hierarchies are better served by menus or navigation components
-
-## Features
-
-Angular's toolbar provides a fully accessible toolbar implementation with:
-
-- **Keyboard Navigation** - Navigate widgets with arrow keys, activate with Enter or Space
-- **Screen Reader Support** - Built-in ARIA attributes for assistive technologies
-- **Widget Groups** - Organize related widgets like radio button groups or toggle button groups
-- **Flexible Orientation** - Horizontal or vertical layouts with automatic keyboard navigation
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
-- **Bidirectional Text Support** - Automatically handles right-to-left (RTL) languages
-- **Configurable Focus** - Choose between wrapping navigation or hard stops at edges
-
-## Examples
-
-### Basic horizontal toolbar
-
-Horizontal toolbars organize controls from left to right, matching the common pattern in text editors and design tools. Arrow keys navigate between widgets, maintaining focus within the toolbar until users press Tab to move to the next page element.
+工具列是將相關控制項與動作分組在一起的容器，並支援鍵盤導覽，常用於文字格式化、工具列與命令面板。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -95,9 +36,68 @@ Horizontal toolbars organize controls from left to right, matching the common pa
   </docs-tab>
 </docs-tab-group>
 
-### Vertical toolbar
+## 使用方式
 
-Vertical toolbars stack controls top to bottom, useful for side panels or vertical command palettes. Up and down arrow keys navigate between widgets.
+當需要將使用者經常存取的相關控制項分組時，工具列最能發揮效果。符合下列情況時，可以考慮使用工具列：
+
+- **多個相關動作**：你有數個執行相關功能的控制項（例如文字格式化按鈕）
+- **鍵盤效率很重要**：使用者能受惠於以方向鍵快速進行鍵盤導覽
+- **控制項需要分組**：你需要用分隔線將控制項組織成邏輯區段
+- **頻繁存取**：控制項在工作流程中會被反覆使用
+
+下列情況應避免使用工具列：
+
+- 簡單的按鈕群組就足夠：若只有 2 至 3 個不相關的動作，個別按鈕的效果更好
+- 控制項彼此不相關：工具列隱含邏輯上的分組，不相關的控制項會讓使用者困惑
+- 複雜的巢狀導覽：深層階層更適合用選單或導覽元件
+
+## 功能特色
+
+Angular 的工具列提供完整無障礙的工具列實作，包含：
+
+- **鍵盤導覽**：以方向鍵在控制項之間導覽，以 Enter 或 Space 啟用
+- **螢幕閱讀器支援**：內建 ARIA 屬性，支援輔助技術
+- **控制項群組**：將相關控制項組織在一起，例如單選按鈕群組或切換按鈕群組
+- **彈性的方向**：水平或垂直版面，鍵盤導覽會自動配合
+- **以訊號為基礎的反應式狀態**：使用 Angular 訊號管理反應式狀態
+- **雙向文字支援**：自動處理由右至左（RTL）的語言
+- **可設定的焦點行為**：可選擇導覽循環繞回，或在邊緣硬性停止
+
+## 範例
+
+### 基本水平工具列
+
+水平工具列將控制項由左至右排列，符合文字編輯器與設計工具的常見模式。方向鍵可在控制項之間導覽，焦點會停留在工具列內，直到使用者按下 Tab 移到下一個頁面元素。
+
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/toolbar/src/basic/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/toolbar/src/basic/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/toolbar/src/basic/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/toolbar/src/basic/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/toolbar/src/basic/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/toolbar/src/basic/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/toolbar/src/basic/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/toolbar/src/basic/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/toolbar/src/basic/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/toolbar/src/basic/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/toolbar/src/basic/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/toolbar/src/basic/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
+
+### 垂直工具列
+
+垂直工具列將控制項由上至下堆疊，適合用於側邊面板或垂直命令面板。上下方向鍵可在控制項之間導覽。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -125,13 +125,13 @@ Vertical toolbars stack controls top to bottom, useful for side panels or vertic
   </docs-tab>
 </docs-tab-group>
 
-### Widget groups
+### 控制項群組
 
-Widget groups contain related controls that work together, like text alignment options or list formatting choices. Groups maintain their own internal state while participating in toolbar navigation.
+控制項群組包含協同運作的相關控制項，例如文字對齊選項或清單格式化選項。群組會維護自身的內部狀態，同時參與工具列導覽。
 
-In the examples above, the alignment buttons are wrapped in `ngToolbarWidgetGroup` with `role="radiogroup"` to create a mutually exclusive selection group.
+在上面的範例中，對齊按鈕被包在帶有 `role="radiogroup"` 的 `ngToolbarWidgetGroup` 中，建立出互斥的選取群組。
 
-The `multi` input controls whether multiple widgets within a group can be selected simultaneously:
+`multi` 輸入屬性可控制群組內是否能同時選取多個控制項：
 
 ```html {highlight: [15]}
 <!-- Single selection (radio group) -->
@@ -149,14 +149,14 @@ The `multi` input controls whether multiple widgets within a group can be select
 </div>
 ```
 
-### Disabled widgets
+### 停用的控制項
 
-Toolbars support two disabled modes:
+工具列支援兩種停用模式：
 
-1. **Soft-disabled** widgets remain focusable but visually indicate they're unavailable
-2. **Hard-disabled** widgets are completely removed from keyboard navigation.
+1. **軟停用**的控制項仍可取得焦點，但會以視覺方式表明無法使用
+2. **硬停用**的控制項會完全從鍵盤導覽中移除。
 
-By default, `softDisabled` is `true`, which allows disabled widgets to still receive focus. If you want to enable hard-disabled mode, set `[softDisabled]="false"` on the toolbar.
+`softDisabled` 預設為 `true`，讓停用的控制項仍能接收焦點。若要啟用硬停用模式，請在工具列上設定 `[softDisabled]="false"`。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -184,9 +184,9 @@ By default, `softDisabled` is `true`, which allows disabled widgets to still rec
   </docs-tab>
 </docs-tab-group>
 
-### Right-to-left (RTL) support
+### 由右至左（RTL）支援
 
-Toolbars automatically support right-to-left languages. Wrap the toolbar in a container with `dir="rtl"` to reverse the layout and keyboard navigation direction. Arrow key navigation adjusts automatically: left arrow moves to the next widget, right arrow to the previous.
+工具列會自動支援由右至左的語言。將工具列包在設定了 `dir="rtl"` 的容器中，即可反轉版面與鍵盤導覽方向。方向鍵導覽會自動調整：左方向鍵移到下一個控制項，右方向鍵移到上一個。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -214,56 +214,56 @@ Toolbars automatically support right-to-left languages. Wrap the toolbar in a co
   </docs-tab>
 </docs-tab-group>
 
-## APIs
+## API {#apis}
 
-### Toolbar Directive
+### Toolbar 指令
 
-The `ngToolbar` directive provides the container for toolbar functionality.
+`ngToolbar` 指令提供工具列功能的容器。
 
-#### Inputs
+#### 輸入屬性
 
-| Property       | Type                           | Default        | Description                                            |
-| -------------- | ------------------------------ | -------------- | ------------------------------------------------------ |
-| `orientation`  | `'vertical'` \| `'horizontal'` | `'horizontal'` | Whether toolbar is vertically or horizontally oriented |
-| `disabled`     | `boolean`                      | `false`        | Disables the entire toolbar                            |
-| `softDisabled` | `boolean`                      | `true`         | Whether disabled items can receive focus               |
-| `wrap`         | `boolean`                      | `true`         | Whether focus should wrap at the edges                 |
+| 屬性           | 類型                           | 預設值         | 說明                     |
+| -------------- | ------------------------------ | -------------- | ------------------------ |
+| `orientation`  | `'vertical' \| 'horizontal'`   | `'horizontal'` | 工具列為垂直或水平方向   |
+| `disabled`     | `boolean`                      | `false`        | 停用整個工具列           |
+| `softDisabled` | `boolean`                      | `true`         | 停用的項目是否能取得焦點 |
+| `wrap`         | `boolean`                      | `true`         | 焦點是否在邊緣繞回       |
 
-### ToolbarWidget Directive
+### ToolbarWidget 指令
 
-The `ngToolbarWidget` directive marks an element as a navigable widget within the toolbar.
+`ngToolbarWidget` 指令將元素標示為工具列內可導覽的控制項。
 
-#### Inputs
+#### 輸入屬性
 
-| Property   | Type      | Default | Description                                     |
-| ---------- | --------- | ------- | ----------------------------------------------- |
-| `id`       | `string`  | auto    | Unique identifier for the widget                |
-| `disabled` | `boolean` | `false` | Disables the widget                             |
-| `value`    | `V`       | -       | The value associated with the widget (required) |
+| 屬性       | 類型      | 預設值 | 說明                     |
+| ---------- | --------- | ------ | ------------------------ |
+| `id`       | `string`  | auto   | 控制項的唯一識別碼       |
+| `disabled` | `boolean` | `false`| 停用此控制項             |
+| `value`    | `V`       | -      | 與控制項關聯的值（必填） |
 
-#### Signals
+#### 訊號
 
-| Property   | Type              | Description                                 |
-| ---------- | ----------------- | ------------------------------------------- |
-| `active`   | `Signal<boolean>` | Whether the widget is currently focused     |
-| `selected` | `Signal<boolean>` | Whether the widget is selected (in a group) |
+| 屬性       | 類型              | 說明                             |
+| ---------- | ----------------- | -------------------------------- |
+| `active`   | `Signal<boolean>` | 此控制項目前是否取得焦點         |
+| `selected` | `Signal<boolean>` | 此控制項是否被選取（在群組內時） |
 
-### ToolbarWidgetGroup Directive
+### ToolbarWidgetGroup 指令
 
-The `ngToolbarWidgetGroup` directive groups related widgets together.
+`ngToolbarWidgetGroup` 指令將相關的控制項組成群組。
 
-#### Inputs
+#### 輸入屬性
 
-| Property   | Type      | Default | Description                              |
-| ---------- | --------- | ------- | ---------------------------------------- |
-| `disabled` | `boolean` | `false` | Disables all widgets in the group        |
-| `multi`    | `boolean` | `false` | Whether multiple widgets can be selected |
+| 屬性       | 類型      | 預設值  | 說明                   |
+| ---------- | --------- | ------- | ---------------------- |
+| `disabled` | `boolean` | `false` | 停用群組內的所有控制項 |
+| `multi`    | `boolean` | `false` | 是否能選取多個控制項   |
 
-### Related components
+### 相關元件
 
-Toolbar can contain various widget types including buttons, trees, and comboboxes. See individual component documentation for specific widget implementations.
+工具列可包含各種控制項類型，包括按鈕、樹狀結構與 combobox。特定控制項的實作方式請見各元件的文件。
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/" title="Toolbar ARIA pattern"/>
-  <docs-pill href="/api/aria/toolbar/Toolbar" title="Toolbar API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/" title="工具列 ARIA 模式"/>
+  <docs-pill href="/api/aria/toolbar/Toolbar" title="Toolbar API 參考文件"/>
 </docs-pill-row>

@@ -1,12 +1,12 @@
-# Testing services
+# 測試服務
 
-Services typically contain your application's business logic that components rely on. Testing services verifies that the logic works correctly in isolation, independent of any component or template.
+服務通常包含應用程式的業務邏輯，而元件仰賴這些邏輯。測試服務可以驗證這些邏輯在獨立狀態下是否正確運作，不受任何元件或範本影響。
 
-This guide uses [Vitest](https://vitest.dev/), which Angular CLI projects include by default. For more on testing setup, see the [testing overview guide](guide/testing#set-up-for-testing).
+本指南使用 [Vitest](https://vitest.dev/)，Angular CLI 專案預設即包含它。關於測試設定的更多資訊，請參閱[測試總覽指南](guide/testing#set-up-for-testing)。
 
-## Testing a service
+## 測試服務
 
-Consider a `Calculator` service that performs basic arithmetic:
+以一個執行基本算術運算的 `Calculator` 服務為例：
 
 ```ts { header: 'calculator.ts' }
 import {Injectable} from '@angular/core';
@@ -23,7 +23,7 @@ export class Calculator {
 }
 ```
 
-To test this service, configure a `TestBed`, which is Angular's testing utility for creating an isolated testing environment for each test. It sets up dependency injection and lets you retrieve service instances — simulating how Angular wires things together in a real application.
+若要測試這個服務，需要設定 `TestBed`；它是 Angular 的測試工具，能為每個測試建立獨立的測試環境。它會設定依賴注入，讓你取得服務的實例，模擬 Angular 在真正的應用程式中串連各部分的作法。
 
 ```ts { header: 'calculator.spec.ts' }
 import {TestBed} from '@angular/core/testing';
@@ -49,13 +49,13 @@ describe('Calculator', () => {
 });
 ```
 
-In the example above, the `beforeEach` block injects a fresh instance of the service before every test. This ensures each test runs in isolation with no leaked state from previous tests.
+在上例中，`beforeEach` 區塊會在每個測試之前注入服務的新實例。這能確保每個測試都在獨立狀態下執行，不會殘留先前測試的狀態。
 
-## Testing services with dependencies
+## 測試具有相依性的服務
 
-Most services depend on other services to run properly. By default, `TestBed` provides the real implementations of these dependencies, which means your tests exercise the actual code paths your application uses. Sometimes, however, a dependency may be complex, slow, or unpredictable. In those cases, you can substitute it with a controlled replacement.
+大多數服務需要相依於其他服務才能正常運作。`TestBed` 預設提供這些相依性的真正實作，也就是說，你的測試會執行應用程式實際使用的程式碼路徑。不過，有些相依性可能很複雜、緩慢，或結果不可預測。在這些情況下，你可以將它換成受控的替代實作。
 
-Consider an `OrderTotal` service that relies on a `TaxCalculator` to compute the final price of an order:
+以一個仰賴 `TaxCalculator` 計算訂單最終價格的 `OrderTotal` 服務為例：
 
 ```ts { header: 'tax-calculator.ts' }
 import {Injectable} from '@angular/core';
@@ -82,13 +82,13 @@ export class OrderTotal {
 }
 ```
 
-In this example, `OrderTotal` uses `inject()` to request `TaxCalculator` from Angular's dependency injection system. By default, `TestBed` provides the real `TaxCalculator` which is perfect for simple calculations like this. However, if `TaxCalculator` involved complex logic, network requests, or unpredictable results, you might want to substitute it with a controlled replacement.
+在這個範例中，`OrderTotal` 使用 `inject()` 向 Angular 的依賴注入系統請求 `TaxCalculator`。`TestBed` 預設提供真正的 `TaxCalculator`，對於像這樣簡單的計算非常合適。不過，如果 `TaxCalculator` 涉及複雜邏輯、網路請求或不可預測的結果，你可能會想將它換成受控的替代實作。
 
-### Replacing a dependency with a stub
+### 以 stub 取代相依性
 
-A stub is a way to replace a dependency or method with one that returns predictable values, which can make test results easier to verify.
+stub 是一種取代相依性或方法的方式，讓它傳回可預測的值，使測試結果更容易驗證。
 
-To test `OrderTotal` without relying on the real `TaxCalculator`, you can provide a stub in the `TestBed` configuration.
+若要在不仰賴真正 `TaxCalculator` 的情況下測試 `OrderTotal`，你可以在 `TestBed` 設定中提供一個 stub。
 
 ```ts { header: 'order-total.spec.ts' }
 import {TestBed} from '@angular/core/testing';
@@ -123,11 +123,11 @@ describe('OrderTotal', () => {
 });
 ```
 
-With this stub, whenever `OrderTotal` requests `TaxCalculator`, the `TestBed` knows to use the `taxCalculatorStub` instead. Because the stub always returns 5, the test verifies that `OrderTotal` correctly adds the tax value to the subtotal regardless of whether the tax rate changes in `TaxCalculator`.
+有了這個 stub，每當 `OrderTotal` 請求 `TaxCalculator` 時，`TestBed` 就知道要改用 `taxCalculatorStub`。由於 stub 永遠傳回 5，這個測試驗證了 `OrderTotal` 能正確地將稅額加到小計上，無論 `TaxCalculator` 中的稅率如何變化。
 
-### Verifying interactions with spies
+### 使用 spy 驗證互動
 
-A stub controls what a dependency returns, but sometimes you also need to verify that a service called its dependency with the correct arguments. This can be accomplished with spies, which track how a function is called. With Vitest, this functionality is built into `vi.fn()` and lets you assert on interactions between services.
+stub 能控制相依性傳回什麼，但有時你還需要驗證服務是否以正確的引數呼叫了它的相依性。這可以透過 spy 達成，spy 會追蹤函式被呼叫的方式。在 Vitest 中，這項功能內建於 `vi.fn()`，讓你能對服務之間的互動進行斷言。
 
 ```ts { header: 'order-total.spec.ts' }
 import {TestBed} from '@angular/core/testing';
@@ -163,10 +163,10 @@ describe('OrderTotal', () => {
 });
 ```
 
-The new test verifies that `OrderTotal` called `TaxCalculator.calculate` when computing the total. This is useful when verifying that the interaction between services happened correctly.
+新增的測試驗證了 `OrderTotal` 在計算總額時有呼叫 `TaxCalculator.calculate`。這在驗證服務之間的互動是否正確發生時很有用。
 
-## Testing HTTP services
+## 測試 HTTP 服務
 
-Many services use Angular's `HttpClient` to fetch data from a server. Angular provides dedicated testing utilities for `HttpClient` that let you control HTTP responses without making real network requests.
+許多服務使用 Angular 的 `HttpClient` 從伺服器取得資料。Angular 為 `HttpClient` 提供了專門的測試工具，讓你能控制 HTTP 回應，不必發出真正的網路請求。
 
-For details on testing services that use `HttpClient`, see the [HTTP testing guide](guide/http/testing).
+關於測試使用 `HttpClient` 的服務，詳情請參閱 [HTTP 測試指南](guide/http/testing)。

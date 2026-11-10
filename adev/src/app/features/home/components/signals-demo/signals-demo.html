@@ -1,17 +1,16 @@
 <div class="two-column-step">
   <div class="step-description">
-    <div class="header">Signals: Fine-Grained Reactivity</div>
+    <div class="header">Signals：細粒度反應性</div>
     <div class="description">
-      Type in the search box to filter the list. A
-      <code>computed</code> signal automatically recalculates the
-      <code>filteredItems</code> whenever the <code>searchTerm</code> signal changes.
+      在搜尋框中輸入即可篩選清單。每當 <code>searchTerm</code> 訊號變更，<code>computed</code>
+      訊號就會自動重新計算 <code>filteredItems</code>。
     </div>
 
     <div class="demo-display">
       <input
         [value]="searchTerm()"
         (input)="onSearch($event.target.value)"
-        placeholder="Search for fruit..."
+        placeholder="搜尋水果..."
         class="demo-input"
       />
       <div class="demo-list">
@@ -23,10 +22,10 @@
 
     <button
       class="docs-primary-btn"
-      [attr.text]="'Learn more about signals'"
+      [attr.text]="'深入了解 Signals'"
       routerLink="/guide/signals"
     >
-      Learn more about signals
+      深入了解 Signals
     </button>
   </div>
 

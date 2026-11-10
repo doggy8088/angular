@@ -1,10 +1,10 @@
-# Code coverage
+# 程式碼覆蓋率
 
-Code coverage reports show you any parts of your code base that might not be properly tested by your unit tests.
+程式碼覆蓋率報告會向你顯示程式碼庫中有哪些部分可能沒有被單元測試妥善測試到。
 
-## Prerequisites
+## 前置需求
 
-To generate code coverage reports with Vitest, you must install the `@vitest/coverage-v8` package:
+若要使用 Vitest 產生程式碼覆蓋率報告，你必須安裝 `@vitest/coverage-v8` 套件：
 
 <docs-code-multifile>
   <docs-code header="npm" language="shell">
@@ -21,17 +21,17 @@ To generate code coverage reports with Vitest, you must install the `@vitest/cov
   </docs-code>
 </docs-code-multifile>
 
-## Generating a report
+## 產生報告
 
-To generate a coverage report, add the `--coverage` flag to the `ng test` command:
+若要產生覆蓋率報告，請在 `ng test` 指令加上 `--coverage` 旗標：
 
 ```shell
 ng test --coverage
 ```
 
-After the tests run, the command creates a new `coverage/` directory in the project. Open the `index.html` file to see a report with your source code and code coverage values.
+測試執行完畢後，該指令會在專案中建立一個新的 `coverage/` 目錄。開啟 `index.html` 檔案，即可看到包含你的原始碼與程式碼覆蓋率數值的報告。
 
-If you want to create code-coverage reports every time you test, you can set the `coverage` option to `true` in your `angular.json` file:
+如果你希望每次測試時都建立程式碼覆蓋率報告，可以在 `angular.json` 檔案中將 `coverage` 選項設定為 `true`：
 
 ```json
 {
@@ -50,11 +50,11 @@ If you want to create code-coverage reports every time you test, you can set the
 }
 ```
 
-## Enforcing code coverage thresholds
+## 強制執行程式碼覆蓋率門檻
 
-The code coverage percentages let you estimate how much of your code is tested. If your team decides on a minimum amount to be unit tested, you can enforce this minimum in your configuration.
+程式碼覆蓋率百分比可以讓你估算有多少程式碼已被測試。如果你們團隊決定了單元測試的最低比例，你可以在設定中強制執行這個最低要求。
 
-For example, suppose you want the code base to have a minimum of 80% code coverage. To enable this, add the `coverageThresholds` option to your `angular.json` file:
+例如，假設你希望程式碼庫至少有 80% 的程式碼覆蓋率。若要啟用這個要求，請在 `angular.json` 檔案中加入 `coverageThresholds` 選項：
 
 ```json
 {
@@ -79,16 +79,16 @@ For example, suppose you want the code base to have a minimum of 80% code covera
 }
 ```
 
-Now, if your coverage drops below 80% when you run your tests, the command will fail.
+如此一來，當你執行測試時，如果覆蓋率低於 80%，該指令就會失敗。
 
-## Advanced configuration
+## 進階設定
 
-You can configure several other coverage options in your `angular.json` file:
+你可以在 `angular.json` 檔案中設定其他幾個覆蓋率選項：
 
-- `coverageInclude`: Glob patterns of files to include in the coverage report.
-- `coverageExclude`: Glob patterns of files to exclude in the coverage report.
-- `coverageReporters`: An array of reporters to use (e.g., `html`, `lcov`, `json`).
-- `coverageWatermarks`: An object specifying `[low, high]` watermarks for the HTML reporter, which can affect the color-coding of the report.
+- `coverageInclude`：要包含在覆蓋率報告中的檔案 Glob 模式。
+- `coverageExclude`：要從覆蓋率報告中排除的檔案 Glob 模式。
+- `coverageReporters`：要使用的報告器陣列（例如 `html`、`lcov`、`json`）。
+- `coverageWatermarks`：一個物件，指定 HTML 報告器的 `[low, high]` 浮水印值，可能影響報告的顏色標示。
 
 ```json
 {

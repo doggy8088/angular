@@ -1,8 +1,8 @@
 # NgModules
 
-IMPORTANT: The Angular team recommends using [standalone components](guide/components) instead of `NgModule` for all new code. Use this guide to understand existing code built with `@NgModule`.
+IMPORTANT: Angular 團隊建議所有新程式碼都使用[獨立元件](guide/components)，而不是 `NgModule`。請透過本指南了解以 `@NgModule` 建置的既有程式碼。
 
-An NgModule is a class marked by the `@NgModule` decorator. This decorator accepts _metadata_ that tells Angular how to compile component templates and configure dependency injection.
+NgModule 是以 `@NgModule` 裝飾器標記的類別。這個裝飾器接受的中繼資料（metadata）會告訴 Angular 如何編譯元件範本，以及如何設定依賴注入。
 
 ```typescript
 import {NgModule} from '@angular/core';
@@ -13,14 +13,14 @@ import {NgModule} from '@angular/core';
 export class CustomMenuModule {}
 ```
 
-An NgModule has two main responsibilities:
+NgModule 有兩項主要職責：
 
-- Declaring components, directives, and pipes that belong to the NgModule
-- Add providers to the injector for components, directives, and pipes that import the NgModule
+- 宣告屬於該 NgModule 的元件、指令與管道
+- 將提供者加入注入器，供匯入該 NgModule 的元件、指令與管道使用
 
 ## Declarations
 
-The `declarations` property of the `@NgModule` metadata declares the components, directives, and pipes that belong to the NgModule.
+`@NgModule` 中繼資料的 `declarations` 屬性，宣告屬於該 NgModule 的元件、指令與管道。
 
 ```typescript
 @NgModule({
@@ -31,9 +31,9 @@ The `declarations` property of the `@NgModule` metadata declares the components,
 export class CustomMenuModule {}
 ```
 
-In the example above, the components `CustomMenu` and `CustomMenuItem` belong to `CustomMenuModule`.
+在上例中，`CustomMenu` 與 `CustomMenuItem` 這兩個元件屬於 `CustomMenuModule`。
 
-The `declarations` property additionally accepts _arrays_ of components, directives, and pipes. These arrays, in turn, may also contain other arrays.
+`declarations` 屬性也可以接受由元件、指令與管道組成的陣列。這些陣列本身也可以再包含其他陣列。
 
 ```typescript
 const MENU_COMPONENTS = [CustomMenu, CustomMenuItem];
@@ -48,9 +48,9 @@ const WIDGETS = [MENU_COMPONENTS, CustomSlider];
 export class CustomMenuModule {}
 ```
 
-If Angular discovers any components, directives, or pipes declared in more than one NgModule, it reports an error.
+如果 Angular 發現有元件、指令或管道被宣告在一個以上的 NgModule 中，就會回報錯誤。
 
-Any components, directives, or pipes must be explicitly marked as `standalone: false` in order to be declared in an NgModule.
+任何元件、指令或管道都必須明確標記為 `standalone: false`，才能宣告在 NgModule 中。
 
 ```typescript
 @Component({
@@ -65,7 +65,7 @@ export class CustomMenu {
 
 ### imports
 
-Components declared in an NgModule may depend on other components, directives, and pipes. Add these dependencies to the `imports` property of the `@NgModule` metadata.
+宣告在 NgModule 中的元件，可能會依賴其他元件、指令與管道。請將這些相依性加入 `@NgModule` 中繼資料的 `imports` 屬性。
 
 ```typescript
 @NgModule({
@@ -77,11 +77,11 @@ Components declared in an NgModule may depend on other components, directives, a
 export class CustomMenuModule {}
 ```
 
-The `imports` array accepts other NgModules, as well as standalone components, directives, and pipes.
+`imports` 陣列可以接受其他 NgModule，以及獨立元件、指令與管道。
 
 ### exports
 
-An NgModule can _export_ its declared components, directives, and pipes such that they're available to other components and NgModules.
+NgModule 可以匯出（export）它所宣告的元件、指令與管道，讓其他元件與 NgModule 也能使用它們。
 
 ```typescript
 @NgModule({
@@ -95,7 +95,7 @@ An NgModule can _export_ its declared components, directives, and pipes such tha
 export class CustomMenuModule {}
 ```
 
-The `exports` property is not limited to declarations, however. An NgModule can also export any other components, directives, pipes, and NgModules that it imports.
+不過，`exports` 屬性不限於宣告的內容。NgModule 也可以匯出它所匯入的任何其他元件、指令、管道與 NgModule。
 
 ```typescript
 @NgModule({
@@ -110,12 +110,12 @@ export class CustomMenuModule {}
 
 ## `NgModule` providers
 
-TIP: See the [Dependency Injection guide](guide/di) for information on dependency injection and providers.
+TIP: 有關依賴注入與提供者的資訊，請參閱[依賴注入指南](guide/di)。
 
-An `NgModule` can specify `providers` for injected dependencies. These providers are available to:
+`NgModule` 可以為注入的相依性指定 `providers`。這些提供者可供下列目標使用：
 
-- Any standalone component, directive, or pipe that imports the NgModule, and
-- The `declarations` and `providers` of any _other_ NgModule that imports the NgModule.
+- 任何匯入該 NgModule 的獨立元件、指令或管道，以及
+- 任何匯入該 NgModule 的其他 NgModule 的 `declarations` 與 `providers`。
 
 ```typescript
 @NgModule({
@@ -136,18 +136,18 @@ export class CustomMenuModule {}
 export class UserProfileModule {}
 ```
 
-In the example above:
+在上例中：
 
-- The `CustomMenuModule` provides `OverlayManager`.
-- The `CustomMenu` and `CustomMenuItem` components can inject `OverlayManager` because they're declared in `CustomMenuModule`.
-- `UserProfile` can inject `OverlayManager` because its NgModule imports `CustomMenuModule`.
-- `UserDataClient` can inject `OverlayManager` because its NgModule imports `CustomMenuModule`.
+- `CustomMenuModule` 提供了 `OverlayManager`。
+- `CustomMenu` 與 `CustomMenuItem` 元件可以注入 `OverlayManager`，因為它們宣告在 `CustomMenuModule` 中。
+- `UserProfile` 可以注入 `OverlayManager`，因為它的 NgModule 匯入了 `CustomMenuModule`。
+- `UserDataClient` 可以注入 `OverlayManager`，因為它的 NgModule 匯入了 `CustomMenuModule`。
 
 ### The `forRoot` and `forChild` pattern
 
-Some NgModules define a static `forRoot` method that accepts some configuration and returns an array of providers. The name "`forRoot`" is a convention that indicates that these providers are intended to be added exclusively to the _root_ of your application during bootstrap.
+有些 NgModule 會定義靜態的 `forRoot` 方法，接受一些設定並回傳一組提供者。「`forRoot`」這個名稱是一種慣例，表示這些提供者應該在啟動（bootstrap）時，專門加入應用程式的根部（root）。
 
-Any providers included in this way are eagerly loaded, increasing the JavaScript bundle size of your initial page load.
+以這種方式加入的任何提供者都會被積極載入（eagerly loaded），進而增加初始頁面載入時的 JavaScript 套件大小。
 
 ```typescript
 bootstrapApplication(MyApplicationRoot, {
@@ -155,7 +155,7 @@ bootstrapApplication(MyApplicationRoot, {
 });
 ```
 
-Similarly, some NgModules may define a static `forChild` that indicates the providers are intended to be added to components within your application hierarchy.
+同樣地，有些 NgModule 可能會定義靜態的 `forChild`，表示這些提供者應該加入應用程式階層中的元件。
 
 ```typescript
 @Component({
@@ -169,11 +169,11 @@ export class UserProfile {
 
 ## Bootstrapping an application
 
-IMPORTANT: The Angular team recommends using [bootstrapApplication](api/platform-browser/bootstrapApplication) instead of `bootstrapModule` for all new code. Use this guide to understand existing applications bootstrapped with `@NgModule`.
+IMPORTANT: Angular 團隊建議所有新程式碼都使用 [bootstrapApplication](api/platform-browser/bootstrapApplication)，而不是 `bootstrapModule`。請透過本指南了解以 `@NgModule` 啟動的既有應用程式。
 
-The `@NgModule` decorator accepts an optional `bootstrap` array that may contain one or more components.
+`@NgModule` 裝飾器接受一個可選的 `bootstrap` 陣列，其中可以包含一個或多個元件。
 
-You can use the [`bootstrapModule`](/api/core/PlatformRef#bootstrapModule) method from either [`platformBrowser`](api/platform-browser/platformBrowser) or [`platformServer`](api/platform-server/platformServer) to start an Angular application. When run, this function locates any elements on the page with a CSS selector that matches the listed component(s) and renders those components on the page.
+你可以使用 [`platformBrowser`](api/platform-browser/platformBrowser) 或 [`platformServer`](api/platform-server/platformServer) 的 [`bootstrapModule`](/api/core/PlatformRef#bootstrapModule) 方法來啟動 Angular 應用程式。執行時，這個函式會在頁面上找出 CSS 選取器與所列元件相符的元素，並在頁面上渲染這些元件。
 
 ```typescript
 import {platformBrowser} from '@angular/platform-browser';
@@ -186,6 +186,6 @@ export class MyApplicationModule {}
 platformBrowser().bootstrapModule(MyApplicationModule);
 ```
 
-Components listed in `bootstrap` are automatically included in the NgModule's declarations.
+列在 `bootstrap` 中的元件會自動包含在 NgModule 的宣告中。
 
-When you bootstrap an application from an NgModule, the collected `providers` of this module and all of the `providers` of its `imports` are eagerly loaded and available to inject for the entire application.
+當你從 NgModule 啟動應用程式時，該模組收集到的 `providers`，以及它所有 `imports` 的 `providers`，都會被積極載入，並可供整個應用程式注入使用。

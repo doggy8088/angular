@@ -1,15 +1,15 @@
-# Managing async data with signals using the Resources API
+# 使用 Resource API 以訊號管理非同步資料
 
-Now that you've learned [how to derive state with linked signals](/tutorials/signals/3-deriving-state-with-linked-signals), let's explore how to handle asynchronous data with the Resource API. The Resource API provides a powerful way to manage async operations using signals, with built-in loading states, error handling, and request management.
+既然你已學會[如何使用連結訊號衍生狀態](/tutorials/signals/3-deriving-state-with-linked-signals)，接著來探索如何以 Resource API 處理非同步資料。Resource API 提供一個強大的方式，用訊號管理非同步操作，內建載入狀態、錯誤處理與請求管理。
 
-In this activity, you'll learn how to use the `resource()` function to load data asynchronously and how to handle different states of async operations by building a user profile loader that demonstrates the Resource API in action.
+在本活動中，你將學會如何使用 `resource()` 函式非同步載入資料，並透過建置一個使用者個人資料載入器來實際示範 Resource API，學會如何處理非同步操作的不同狀態。
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Import resource function and API">
-Add `resource` to your existing imports and import the fake API function.
+<docs-step title="匯入 resource 函式與 API">
+將 `resource` 加到你既有的匯入中，並匯入模擬的 API 函式。
 
 ```ts
 // Add resource to existing imports
@@ -20,8 +20,8 @@ import {getUserData} from './user-api';
 
 </docs-step>
 
-<docs-step title="Create a resource for user data">
-Add a property in the component class that creates a resource to load user data based on a user ID signal.
+<docs-step title="建立使用者資料的 resource">
+在元件類別中加入一個屬性，建立一個依使用者 ID 訊號載入使用者資料的 resource。
 
 ```ts
 userId = signal(1);
@@ -34,8 +34,8 @@ userResource = resource({
 
 </docs-step>
 
-<docs-step title="Add methods to interact with the resource">
-Add methods to change the user ID and reload the resource.
+<docs-step title="加入與 resource 互動的方法">
+加入變更使用者 ID 並重新載入 resource 的方法。
 
 ```ts
 loadUser(id: number) {
@@ -47,24 +47,24 @@ reloadUser() {
 }
 ```
 
-Changing the params signal automatically triggers a reload, or you can manually reload with `reload()`.
+變更 params 訊號會自動觸發重新載入，你也可以使用 `reload()` 手動重新載入。
 </docs-step>
 
-<docs-step title="Create computed signals for resource states">
-Add computed signals to access different states of the resource.
+<docs-step title="為 resource 狀態建立計算訊號">
+加入計算訊號，存取 resource 的不同狀態。
 
 ```ts
 isLoading = computed(() => this.userResource.status() === 'loading');
 hasError = computed(() => this.userResource.status() === 'error');
 ```
 
-Resources provide a `status()` signal that can be 'loading', 'success', or 'error', a `value()` signal for the loaded data, and a `hasValue()` method that safely checks if data is available.
+resource 提供 `status()` 訊號，其值可以是 'loading'、'success' 或 'error'；`value()` 訊號用於存放已載入的資料；`hasValue()` 方法則可安全地檢查資料是否可用。
 </docs-step>
 
-<docs-step title="Wire up the buttons and display resource states">
-The template structure is already provided. Now connect everything:
+<docs-step title="接上按鈕並顯示 resource 狀態">
+範本結構已經提供好了。現在把一切接起來：
 
-Part 1. **Add click handlers to the buttons:**
+第 1 部分：**為按鈕加入點選處理常式**
 
 ```html
 <button (click)="loadUser(1)">Load User 1</button>
@@ -73,7 +73,7 @@ Part 1. **Add click handlers to the buttons:**
 <button (click)="reloadUser()">Reload</button>
 ```
 
-Part 2. **Replace the placeholder with resource state handling:**
+第 2 部分：**將預留位置換成 resource 狀態處理**
 
 ```angular-html
 @if (isLoading()) {
@@ -88,23 +88,23 @@ Part 2. **Replace the placeholder with resource state handling:**
 }
 ```
 
-The resource provides different methods to check its state:
+resource 提供不同的方法來檢查其狀態：
 
-- `isLoading()` - true when fetching data
-- `hasError()` - true when an error occurred
-- `userResource.hasValue()` - true when data is available
-- `userResource.value()` - access the loaded data
-- `userResource.error()` - access error information
+- `isLoading()`：取得資料時為 true
+- `hasError()`：發生錯誤時為 true
+- `userResource.hasValue()`：有資料可用時為 true
+- `userResource.value()`：存取已載入的資料
+- `userResource.error()`：存取錯誤資訊
 
 </docs-step>
 
 </docs-workflow>
 
-Excellent! You've now learned how to use the Resource API with signals. Key concepts to remember:
+太棒了！你已學會如何將 Resource API 與訊號搭配使用。要記住的關鍵概念如下：
 
-- **Resources are reactive**: They automatically reload when params change
-- **Built-in state management**: Resources provide `status()`, `value()`, and `error()` signals
-- **Automatic cleanup**: Resources handle request cancellation and cleanup automatically
-- **Manual control**: You can manually reload or abort requests when needed
+- **resource 具有反應性**：params 改變時自動重新載入
+- **內建狀態管理**：resource 提供 `status()`、`value()` 與 `error()` 訊號
+- **自動清理**：resource 會自動處理請求取消與清理
+- **手動控制**：需要時，你可以手動重新載入或中止請求
 
-In the next lesson, you'll learn [how to pass data to components with input signals](/tutorials/signals/5-component-communication-with-signals)!
+在下一課中，你將學到[如何使用輸入訊號將資料傳給元件](/tutorials/signals/5-component-communication-with-signals)！

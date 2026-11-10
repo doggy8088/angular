@@ -2,13 +2,13 @@
 </docs-decorative-header>
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/listbox/" title="Listbox pattern"/>
-  <docs-pill href="/api?query=listbox#angular_aria_listbox" title="Listbox API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/listbox/" title="Listbox 模式"/>
+  <docs-pill href="/api?query=listbox#angular_aria_listbox" title="Listbox API 參考"/>
 </docs-pill-row>
 
-## Overview
+## 概觀
 
-A directive that displays a list of options for users to select from, supporting keyboard navigation, single or multiple selection, and screen reader support.
+這個指令會顯示一份選項清單供使用者選取，支援鍵盤導覽、單選或多選，以及螢幕閱讀器支援。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -36,47 +36,47 @@ A directive that displays a list of options for users to select from, supporting
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## 用法
 
-Listbox is a foundational directive used by the [Select](guide/aria/select), [Multiselect](guide/aria/multiselect), and [Autocomplete](guide/aria/autocomplete) patterns. For most dropdown needs, use those documented patterns instead.
+Listbox 是 [Select](guide/aria/select)、[Multiselect](guide/aria/multiselect) 與 [Autocomplete](guide/aria/autocomplete) 模式所使用的基礎指令。對於大多數下拉清單需求，請改用那些已文件化的模式。
 
-Consider using listbox directly when:
+在下列情況可以考慮直接使用 listbox：
 
-- **Building custom selection components** - Creating specialized interfaces with specific behavior
-- **Visible selection lists** - Displaying selectable items directly on the page (not in dropdowns)
-- **Custom integration patterns** - Integrating with unique popup or layout requirements
+- **建置自訂的選取元件**：建立具有特定行為的專門介面
+- **可見的選取清單**：把可選取的項目直接顯示在頁面上（不是放在下拉清單裡）
+- **自訂整合模式**：與獨特的彈出視窗或版面配置需求整合
 
-Avoid listbox when:
+在下列情況避免使用 listbox：
 
-- **Navigation menus are needed** - Use the [Menu](guide/aria/menu) directive for actions and commands
+- **需要導覽選單**：請使用 [Menu](guide/aria/menu) 指令來處理動作與指令
 
-## Features
+## 功能
 
-Angular's listbox provides a fully accessible list implementation with:
+Angular 的 listbox 提供完整無障礙的清單實作，包含：
 
-- **Keyboard Navigation** - Navigate options with arrow keys, select with Enter or Space
-- **Screen Reader Support** - Built-in ARIA attributes including role="listbox"
-- **Single or Multiple Selection** - `multi` attribute controls selection mode
-- **Horizontal or Vertical** - `orientation` attribute for layout direction
-- **Type-ahead Search** - Type characters to jump to matching options
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
+- **鍵盤導覽**：用方向鍵瀏覽選項、用 Enter 或空白鍵選取
+- **螢幕閱讀器支援**：內建 ARIA 屬性，包括 role="listbox"
+- **單選或多選**：`multi` 屬性控制選取模式
+- **水平或垂直**：`orientation` 屬性控制版面方向
+- **預先輸入搜尋**：輸入字元即可跳到相符的選項
+- **以訊號為基礎的反應性**：使用 Angular 訊號進行反應式狀態管理
 
-## Examples
+## 範例
 
-### Basic listbox
+### 基本 listbox
 
-Applications sometimes need selectable lists visible directly on the page rather than hidden in a dropdown. A standalone listbox provides keyboard navigation and selection for these visible list interfaces.
+應用程式有時需要把可選取的清單直接顯示在頁面上，而不是藏在下拉清單裡。獨立的 listbox 為這些可見的清單介面提供鍵盤導覽與選取功能。
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts">
   <docs-code header="app.ts" path="adev/src/content/examples/aria/listbox/src/basic/app/app.ts" />
   <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/basic/app/app.html" />
 </docs-code-multifile>
 
-The `values` model signal provides two-way binding to the selected items. With `selectionMode="explicit"`, users press Space or Enter to select options. For dropdown patterns that combine listbox with combobox and overlay positioning, see the [Select](guide/aria/select) pattern.
+`values` 模型訊號提供與已選取項目的雙向繫結。在 `selectionMode="explicit"` 之下，使用者按空白鍵或 Enter 來選取選項。把 listbox 與 combobox 及覆蓋層定位結合的下拉清單模式，請參閱 [Select](guide/aria/select) 模式。
 
-### Horizontal listbox
+### 水平 listbox
 
-Lists sometimes work better horizontally, such as toolbar-like interfaces or tab-style selections. The `orientation` attribute changes both the layout and keyboard navigation direction.
+清單有時以水平方式呈現效果更好，例如類似工具列的介面或分頁式的選取。`orientation` 屬性會同時改變版面配置與鍵盤導覽方向。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -104,13 +104,13 @@ Lists sometimes work better horizontally, such as toolbar-like interfaces or tab
   </docs-tab>
 </docs-tab-group>
 
-With `orientation="horizontal"`, left and right arrow keys navigate between options instead of up and down. The listbox automatically handles right-to-left (RTL) languages by reversing navigation direction.
+在 `orientation="horizontal"` 之下，左右方向鍵會在選項之間瀏覽，而不是上下方向鍵。Listbox 會自動處理由右至左（RTL）的語言，做法是反轉導覽方向。
 
-### Selection modes
+### 選取模式
 
-Listbox supports two selection modes that control when items become selected.
+Listbox 支援兩種選取模式，用來控制項目在什麼時候被選取。
 
-The `'follow'` mode automatically selects the focused item, providing faster interaction when selection changes frequently. The `'explicit'` mode requires Space or Enter to confirm selection, preventing accidental changes while navigating. Dropdown patterns typically use `'follow'` mode for single selection.
+`'follow'` 模式會自動選取取得焦點的項目，在選取頻繁變更時提供更快的互動。`'explicit'` 模式則需要用空白鍵或 Enter 確認選取，避免在瀏覽時不小心變更。下拉清單模式在單選時通常使用 `'follow'` 模式。
 
 #### Explicit
 
@@ -126,84 +126,84 @@ The `'follow'` mode automatically selects the focused item, providing faster int
   <docs-code header="app.html" path="adev/src/content/examples/aria/listbox/src/modes/app/follow/app.html" />
 </docs-code-multifile>
 
-| Mode         | Description                                                                                            |
+| 模式         | 說明                                                                                                   |
 | ------------ | ------------------------------------------------------------------------------------------------------ |
-| `'follow'`   | Automatically selects the focused item, providing faster interaction when selection changes frequently |
-| `'explicit'` | Requires Space or Enter to confirm selection, preventing accidental changes while navigating           |
+| `'follow'`   | 在選取頻繁變更時，會自動選取取得焦點的項目，提供更快的互動                                               |
+| `'explicit'` | 需要用空白鍵或 Enter 確認選取，避免在瀏覽時不小心變更                                                     |
 
-TIP: Dropdown patterns typically use `'follow'` mode for single selection.
+TIP: 下拉清單模式在單選時通常使用 `'follow'` 模式。
 
-## APIs
+## API {#apis}
 
-### Listbox Directive
+### Listbox 指令
 
-The `ngListbox` directive creates an accessible list of selectable options.
+`ngListbox` 指令建立可供選取選項的無障礙清單。
 
-#### Inputs
+#### 輸入屬性
 
-| Property         | Type                               | Default      | Description                                  |
-| ---------------- | ---------------------------------- | ------------ | -------------------------------------------- |
-| `id`             | `string`                           | auto         | Unique identifier for the listbox            |
-| `multi`          | `boolean`                          | `false`      | Enables multiple selection                   |
-| `orientation`    | `'vertical'` \| `'horizontal'`     | `'vertical'` | Layout direction of the list                 |
-| `wrap`           | `boolean`                          | `true`       | Whether focus wraps at list edges            |
-| `selectionMode`  | `'follow'` \| `'explicit'`         | `'follow'`   | How selection is triggered                   |
-| `focusMode`      | `'roving'` \| `'activedescendant'` | `'roving'`   | Focus management strategy                    |
-| `softDisabled`   | `boolean`                          | `true`       | Whether disabled items are focusable         |
-| `disabled`       | `boolean`                          | `false`      | Disables the entire listbox                  |
-| `readonly`       | `boolean`                          | `false`      | Makes listbox readonly                       |
-| `typeaheadDelay` | `number`                           | `500`        | Milliseconds before type-ahead search resets |
+| 屬性             | 型別                               | 預設值       | 說明                             |
+| ---------------- | ---------------------------------- | ------------ | -------------------------------- |
+| `id`             | `string`                           | auto         | listbox 的唯一識別碼             |
+| `multi`          | `boolean`                          | `false`      | 啟用多選                         |
+| `orientation`    | `'vertical' \| 'horizontal'`       | `'vertical'` | 清單的版面方向                   |
+| `wrap`           | `boolean`                          | `true`       | 焦點是否在清單邊緣繞回           |
+| `selectionMode`  | `'follow' \| 'explicit'`           | `'follow'`   | 選取的觸發方式                   |
+| `focusMode`      | `'roving' \| 'activedescendant'`   | `'roving'`   | 焦點管理策略                     |
+| `softDisabled`   | `boolean`                          | `true`       | 停用項目是否可以取得焦點         |
+| `disabled`       | `boolean`                          | `false`      | 停用整個 listbox                 |
+| `readonly`       | `boolean`                          | `false`      | 把 listbox 設為唯讀               |
+| `typeaheadDelay` | `number`                           | `500`        | 搶先輸入搜尋重置前的毫秒數       |
 
-#### Model
+#### 模型
 
-| Property | Type  | Description                               |
-| -------- | ----- | ----------------------------------------- |
-| `values` | `V[]` | Two-way bindable array of selected values |
+| 屬性     | 型別  | 說明                 |
+| -------- | ----- | -------------------- |
+| `values` | `V[]` | 可雙向繫結的已選取值陣列 |
 
-#### Signals
+#### 訊號
 
-| Property | Type          | Description                           |
-| -------- | ------------- | ------------------------------------- |
-| `values` | `Signal<V[]>` | Currently selected values as a signal |
+| 屬性     | 型別          | 說明                   |
+| -------- | ------------- | ---------------------- |
+| `values` | `Signal<V[]>` | 目前已選取的值（訊號形式） |
 
-#### Methods
+#### 方法
 
-| Method                     | Parameters                        | Description                                |
-| -------------------------- | --------------------------------- | ------------------------------------------ |
-| `scrollActiveItemIntoView` | `options?: ScrollIntoViewOptions` | Scrolls the active item into view          |
-| `gotoFirst`                | none                              | Navigates to the first item in the listbox |
+| 方法                       | 參數                              | 說明                     |
+| -------------------------- | --------------------------------- | ------------------------ |
+| `scrollActiveItemIntoView` | `options?: ScrollIntoViewOptions` | 把作用中項目捲動到可見範圍 |
+| `gotoFirst`                | 無                                | 導覽到 listbox 的第一個項目 |
 
-### Option Directive
+### Option 指令
 
-The `ngOption` directive marks an item within a listbox.
+`ngOption` 指令標記 listbox 中的項目。
 
-#### Inputs
+#### 輸入屬性
 
-| Property   | Type      | Default | Description                                      |
-| ---------- | --------- | ------- | ------------------------------------------------ |
-| `id`       | `string`  | auto    | Unique identifier for the option                 |
-| `value`    | `V`       | -       | The value associated with this option (required) |
-| `label`    | `string`  | -       | Optional label for screen readers                |
-| `disabled` | `boolean` | `false` | Whether this option is disabled                  |
+| 屬性       | 型別      | 預設值  | 說明                         |
+| ---------- | --------- | ------- | ---------------------------- |
+| `id`       | `string`  | auto    | 選項的唯一識別碼             |
+| `value`    | `V`       | -       | 與此選項關聯的值（必填）     |
+| `label`    | `string`  | -       | 供螢幕閱讀器使用的選用標籤   |
+| `disabled` | `boolean` | `false` | 此選項是否停用               |
 
-#### Signals
+#### 訊號
 
-| Property   | Type              | Description                     |
-| ---------- | ----------------- | ------------------------------- |
-| `selected` | `Signal<boolean>` | Whether this option is selected |
-| `active`   | `Signal<boolean>` | Whether this option has focus   |
+| 屬性       | 型別              | 說明             |
+| ---------- | ----------------- | ---------------- |
+| `selected` | `Signal<boolean>` | 此選項是否已選取 |
+| `active`   | `Signal<boolean>` | 此選項是否取得焦點 |
 
-### Related patterns
+### 相關模式
 
-Listbox is used by these documented dropdown patterns:
+Listbox 被下列已文件化的下拉清單模式使用：
 
-- **[Select](guide/aria/select)** - Single-selection dropdown pattern using readonly combobox + listbox
-- **[Multiselect](guide/aria/multiselect)** - Multiple-selection dropdown pattern using readonly combobox + listbox with `multi`
-- **[Autocomplete](guide/aria/autocomplete)** - Filterable dropdown pattern using combobox + listbox
+- **[Select](guide/aria/select)**：使用唯讀 combobox 加上 listbox 的單選下拉清單模式
+- **[Multiselect](guide/aria/multiselect)**：使用唯讀 combobox 加上 listbox 與 `multi` 的多選下拉清單模式
+- **[Autocomplete](guide/aria/autocomplete)**：使用 combobox 加上 listbox 的可篩選下拉清單模式
 
-For complete dropdown patterns with trigger, popup, and overlay positioning, see those pattern guides instead of using listbox alone.
+若需要包含觸發器、彈出視窗與覆蓋層定位的完整下拉清單模式，請參閱那些模式指南，不要只單獨使用 listbox。
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/listbox/" title="Listbox ARIA pattern"/>
-  <docs-pill href="/api/aria/listbox/Listbox" title="Listbox API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/listbox/" title="Listbox ARIA 模式"/>
+  <docs-pill href="/api/aria/listbox/Listbox" title="Listbox API 參考"/>
 </docs-pill-row>

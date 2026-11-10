@@ -1,19 +1,19 @@
-# Migration to Control Flow syntax
+# 遷移到控制流程語法
 
-[Control flow syntax](guide/templates/control-flow) is available from Angular v17. The new syntax is baked into the template, so you don't need to import `CommonModule` anymore.
+[控制流程語法](guide/templates/control-flow)自 Angular v17 起提供。新語法直接內建於範本中，因此你不再需要匯入 `CommonModule`。
 
-This schematic migrates all existing code in your application to use new Control Flow Syntax.
+此原理圖會把應用程式中所有現有程式碼，遷移為使用新的控制流程語法。
 
-Run the schematic using the following command:
+使用以下指令執行此原理圖：
 
 ```shell
 ng generate @angular/core:control-flow
 ```
 
-## Breaking changes
+## 破壞性變更
 
-### `@for` view reuse
+### `@for` 的檢視重用
 
-Using `@for` block if a property used in the `track` expression changes but the object reference remains the same (in-place modification), Angular updates the view's bindings (including component inputs) instead of destroying and recreating the element.
+如果 `@for` 區塊的 `track` 運算式中用到的屬性發生變化，但物件參照維持不變（就地修改），Angular 會更新檢視的繫結（包括元件的輸入），而不是銷毀並重新建立該元素。
 
-This differs from `*ngFor`, which would execute a remount (destroy and recreate) of the element in a similar scenario if the `trackBy` function returned a different value.
+這與 `*ngFor` 不同：在類似情況下，如果 `trackBy` 函式回傳了不同的值，`*ngFor` 會對該元素執行重新掛載（銷毀並重新建立）。

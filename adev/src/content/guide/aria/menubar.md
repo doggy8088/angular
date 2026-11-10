@@ -2,75 +2,13 @@
 </docs-decorative-header>
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/menubar/" title="Menubar ARIA pattern"/>
-  <docs-pill href="/api/aria/menu/MenuBar" title="Menubar API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/menubar/" title="Menubar ARIA 模式"/>
+  <docs-pill href="/api/aria/menu/MenuBar" title="Menubar API 參考文件"/>
 </docs-pill-row>
 
-## Overview
+## 概述
 
-The menubar is a horizontal navigation bar that provides persistent access to application menus. Menubars organize commands into logical categories like File, Edit, and View, helping users discover and execute application features through keyboard or mouse interaction.
-
-<docs-tab-group>
-  <docs-tab label="Basic">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Material">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Retro">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-</docs-tab-group>
-
-## Usage
-
-Menubars work well for organizing application commands into persistent, discoverable navigation.
-
-**Use menubars when:**
-
-- Building application command bars (such as File, Edit, View, Insert, Format)
-- Creating persistent navigation that stays visible across the interface
-- Organizing commands into logical top-level categories
-- Need horizontal menu navigation with keyboard support
-- Building desktop-style application interfaces
-
-**Avoid menubars when:**
-
-- Building dropdown menus for individual actions (use [Menu with trigger](guide/aria/menu) instead)
-- Creating context menus (use [Menu](guide/aria/menu) guide pattern)
-- Simple standalone action lists (use [Menu](guide/aria/menu) instead)
-- Mobile interfaces where horizontal space is limited
-- Navigation belongs in a sidebar or header navigation pattern
-
-## Features
-
-- **Horizontal navigation** - Left/Right arrow keys move between top-level categories
-- **Persistent visibility** - Always visible, not modal or dismissable
-- **Hover-to-open** - Submenus open on hover after first keyboard or click interaction
-- **Nested submenus** - Support multiple levels of menu depth
-- **Keyboard navigation** - Arrow keys, Enter/Space, Escape, and typeahead search
-- **Disabled states** - Disable entire menubar or individual items
-- **RTL support** - Automatic right-to-left language navigation
-
-## Examples
-
-### Basic menubar
-
-A menubar provides persistent access to application commands organized into top-level categories. Users navigate between categories with Left/Right arrows and open menus with Enter or Down arrow.
+功能表列是一條水平導覽列，讓使用者能隨時取用應用程式選單。功能表列將指令組織成 File、Edit、View 等邏輯分類，協助使用者透過鍵盤或滑鼠探索並執行應用程式功能。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -98,11 +36,73 @@ A menubar provides persistent access to application commands organized into top-
   </docs-tab>
 </docs-tab-group>
 
-Press Right arrow to move between File, Edit, and View. Press Enter or Down arrow to open a menu and navigate submenu items with Up/Down arrows.
+## 用法
 
-### Disabled menubar items
+功能表列很適合將應用程式指令組織成常駐且容易探索的導覽。
 
-Disable specific menu items or the entire menubar to prevent interaction. Control whether disabled items can receive keyboard focus with the `softDisabled` input.
+**適合使用功能表列的情況**：
+
+- 建立應用程式指令列（例如 File、Edit、View、Insert、Format）
+- 建立在整個介面中持續可見的導覽
+- 將指令組織成邏輯清晰的頂層分類
+- 需要支援鍵盤的水平選單導覽
+- 建立桌面風格的應用程式介面
+
+**避免使用功能表列的情況**：
+
+- 為個別動作建立下拉選單（改用[搭配觸發器的 Menu](guide/aria/menu)）
+- 建立內容選單（改用 [Menu](guide/aria/menu) 指南模式）
+- 簡單的獨立動作清單（改用 [Menu](guide/aria/menu)）
+- 水平空間有限的行動介面
+- 導覽應放在側邊欄或頁首導覽模式中
+
+## 功能
+
+- **水平導覽**：用左/右方向鍵在頂層分類之間移動
+- **持續可見**：永遠顯示，不是強制回應視窗，也無法關閉
+- **懸停開啟**：首次以鍵盤或點選互動後，子選單會在懸停時開啟
+- **巢狀子選單**：支援多層選單深度
+- **鍵盤導覽**：方向鍵、Enter/Space、Escape，以及搶先輸入搜尋（typeahead）
+- **停用狀態**：可停用整個功能表列或個別項目
+- **RTL 支援**：自動支援由右至左語言的導覽
+
+## 範例
+
+### 基本功能表列
+
+功能表列讓使用者能隨時取用依頂層分類組織的應用程式指令。使用者用左/右方向鍵在分類之間移動，並用 Enter 或下方向鍵開啟選單。
+
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/menubar/src/basic/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
+
+按下右方向鍵可在 File、Edit 與 View 之間移動。按下 Enter 或下方向鍵可開啟選單，並用上/下方向鍵導覽子選單項目。
+
+### 停用功能表列項目
+
+停用個別選單項目或整個功能表列，以防止互動。使用 `softDisabled` 輸入屬性控制停用項目是否能取得鍵盤焦點。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -130,11 +130,11 @@ Disable specific menu items or the entire menubar to prevent interaction. Contro
   </docs-tab>
 </docs-tab-group>
 
-When `[softDisabled]="true"` on the menubar, disabled items can receive focus but cannot be activated. When `[softDisabled]="false"`, disabled items are skipped during keyboard navigation.
+當功能表列的 `[softDisabled]="true"` 時，停用項目可以取得焦點，但無法啟用。當 `[softDisabled]="false"` 時，鍵盤導覽會跳過停用項目。
 
-### RTL support
+### RTL 支援
 
-Menubars automatically adapt to right-to-left (RTL) languages. Arrow key navigation reverses direction, and submenus position on the left side.
+功能表列會自動適應由右至左（RTL）語言。方向鍵導覽會反轉方向，子選單則定位在左側。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -162,37 +162,37 @@ Menubars automatically adapt to right-to-left (RTL) languages. Arrow key navigat
   </docs-tab>
 </docs-tab-group>
 
-The `dir="rtl"` attribute enables RTL mode. Left arrow moves right, Right arrow moves left, maintaining natural navigation for RTL language users.
+`dir="rtl"` 屬性可啟用 RTL 模式。左方向鍵改為往右移動、右方向鍵改為往左移動，讓 RTL 語言使用者能自然地導覽。
 
-## APIs
+## API {#apis}
 
-The menubar pattern uses directives from Angular's Aria library. See the [Menu guide](guide/aria/menu) for complete API documentation.
+功能表列模式使用 Angular Aria 程式庫中的指令。完整的 API 文件請見 [Menu 指南](guide/aria/menu)。
 
 ### MenuBar
 
-The horizontal container for top-level menu items.
+頂層選單項目的水平容器。
 
-#### Inputs
+#### 輸入屬性
 
-| Property       | Type      | Default | Description                                                   |
-| -------------- | --------- | ------- | ------------------------------------------------------------- |
-| `disabled`     | `boolean` | `false` | Disables the entire menubar                                   |
-| `wrap`         | `boolean` | `true`  | Whether keyboard navigation wraps from last to first item     |
-| `softDisabled` | `boolean` | `true`  | When `true`, disabled items are focusable but not interactive |
+| 屬性           | 型別      | 預設值  | 說明                                       |
+| -------------- | --------- | ------- | ------------------------------------------ |
+| `disabled`     | `boolean` | `false` | 停用整個功能表列                           |
+| `wrap`         | `boolean` | `true`  | 鍵盤導覽是否從最後一個項目繞回第一個項目   |
+| `softDisabled` | `boolean` | `true`  | 為 `true` 時，停用項目可取得焦點但無法互動 |
 
-See the [Menu API documentation](guide/aria/menu#apis) for complete details on all available inputs and signals.
+所有可用輸入屬性與訊號的完整說明，請見 [Menu API 文件](guide/aria/menu#apis)。
 
 ### MenuItem
 
-Individual items within the menubar. Same API as Menu - see [MenuItem](guide/aria/menu#menuitem).
+功能表列中的個別項目。API 與 Menu 相同，詳見 [MenuItem](guide/aria/menu#menuitem)。
 
-**Menubar-specific behavior:**
+**功能表列特有的行為**：
 
-- Left/Right arrows navigate between menubar items (vs Up/Down in vertical menus)
-- First keyboard interaction or click enables hover-to-open for submenus
-- Enter or Down arrow opens the submenu and focuses the first item
-- `aria-haspopup="menu"` indicates items with submenus
+- 以左/右方向鍵在功能表列項目之間導覽（垂直選單則用上/下方向鍵）
+- 首次以鍵盤互動或點選後，子選單會在懸停時開啟
+- Enter 或下方向鍵可開啟子選單，並將焦點移到第一個項目
+- `aria-haspopup="menu"` 表示該項目有子選單
 
 ### MenuTrigger
 
-Not typically used in menubars - MenuItem handles trigger behavior directly when it has an associated submenu. See [MenuTrigger](guide/aria/menu#menutrigger) for standalone menu trigger patterns.
+功能表列通常不使用 MenuTrigger：項目有關聯的子選單時，MenuItem 會直接處理觸發行為。獨立的選單觸發器模式詳見 [MenuTrigger](guide/aria/menu#menutrigger)。

@@ -1,23 +1,23 @@
-# @loading, @error and @placeholder blocks
+# @loading、@error 與 @placeholder 區塊
 
-Deferrable views let you define content to be shown in different loading states.
+可延遲檢視讓你定義在不同載入狀態下要顯示的內容。
 
 | Block          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@placeholder` | By default, defer blocks do not render any content before they are triggered. The `@placeholder` is an optional block that declares content to show before the deferred content loads. Angular replaces the placeholder with the deferred content after loading completes. While this block is optional, the Angular team recommends always including a placeholder. [Learn more in the full deferrable views documentation](guide/templates/defer) |
-| `@loading`     | This optional block allows you to declare content to be shown during the loading of any deferred dependencies.                                                                                                                                                                                                                                                                                                                                      |
-| `@error`       | This block allows you to declare content which is shown if deferred loading fails.                                                                                                                                                                                                                                                                                                                                                                  |
+| `@placeholder` | 在預設情況下，defer 區塊在被觸發之前不會渲染任何內容。`@placeholder` 是一個選用區塊，用來宣告在延遲內容載入之前要顯示的內容。載入完成後，Angular 會以延遲內容取代 placeholder。這個區塊雖然是選用的，但 Angular 團隊建議務必加上 placeholder。[在完整的可延遲檢視文件中了解更多](guide/templates/defer) |
+| `@loading`     | 這個選用區塊讓你宣告在載入延遲相依內容期間要顯示的內容。                                                                                                                                                                                                                                                                                                                                      |
+| `@error`       | 這個區塊讓你宣告在延遲載入失敗時要顯示的內容。                                                                                                                                                                                                                                                                                                                                                                  |
 
-The contents of all the above sub-blocks are eagerly loaded. Additionally, some features require a `@placeholder` block.
+上述所有子區塊的內容都會預先載入。此外，有些功能必須要有 `@placeholder` 區塊才能使用。
 
-In this activity, you'll learn how to use the `@loading`, `@error` and `@placeholder` blocks to manage the states of deferrable views.
+在這個練習中，你將學會如何使用 `@loading`、`@error` 與 `@placeholder` 區塊來管理可延遲檢視的狀態。
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Add `@placeholder` block">
-In your `app.ts`, add a `@placeholder` block to the `@defer` block.
+<docs-step title="加入 `@placeholder` 區塊">
+在 `app.ts` 中，為 `@defer` 區塊加入 `@placeholder` 區塊。
 
 ```angular-html {highlight:[3,4,5]}
 @defer {
@@ -29,8 +29,8 @@ In your `app.ts`, add a `@placeholder` block to the `@defer` block.
 
 </docs-step>
 
-<docs-step title="Configure the `@placeholder` block">
-The `@placeholder` block accepts an optional parameter to specify the `minimum` amount of time that this placeholder should be shown. This `minimum` parameter is specified in time increments of milliseconds (ms) or seconds (s). This parameter exists to prevent fast flickering of placeholder content in the case that the deferred dependencies are fetched quickly.
+<docs-step title="設定 `@placeholder` 區塊">
+`@placeholder` 區塊接受一個選用參數，用來指定 placeholder 至少要顯示多久的 `minimum` 時間。這個 `minimum` 參數以毫秒（ms）或秒（s）為單位指定。它的用途是避免延遲相依內容抓取太快時，placeholder 內容一閃而過。
 
 ```angular-html {highlight:[3,4,5]}
 @defer {
@@ -42,17 +42,17 @@ The `@placeholder` block accepts an optional parameter to specify the `minimum` 
 
 </docs-step>
 
-<docs-step title="Add `@loading` block">
-Next add a `@loading` block to the component template.
+<docs-step title="加入 `@loading` 區塊">
+接著，為元件範本加入 `@loading` 區塊。
 
-The `@loading` block accepts two optional parameters:
+`@loading` 區塊接受兩個選用參數：
 
-- `minimum`: the amount of time that this block should be shown
-- `after`: the amount of time to wait after loading begins before showing the loading template
+- `minimum`：這個區塊至少要顯示的時間
+- `after`：載入開始後，要等多久才顯示載入範本
 
-Both parameters are specified in time increments of milliseconds (ms) or seconds (s).
+兩個參數都以毫秒（ms）或秒（s）為單位指定。
 
-Update `app.ts` to include a `@loading` block with a minimum parameter of `1s` as well as an after parameter with the value 500ms to the @loading block.
+更新 `app.ts`，為 `@loading` 區塊加入 minimum 參數 `1s`，以及值為 500ms 的 after 參數。
 
 ```angular-html {highlight:[5,6,7]}
 @defer {
@@ -64,12 +64,12 @@ Update `app.ts` to include a `@loading` block with a minimum parameter of `1s` a
 }
 ```
 
-NOTE: this example uses two parameters, separated by the ; character.
+NOTE: 這個範例使用了兩個參數，以 ; 字元分隔。
 
 </docs-step>
 
-<docs-step title="Add `@error` block">
-Finally, add an `@error` block to the `@defer` block.
+<docs-step title="加入 `@error` 區塊">
+最後，為 `@defer` 區塊加入 `@error` 區塊。
 
 ```angular-html {highlight:[7,8,9]}
 @defer {
@@ -86,4 +86,4 @@ Finally, add an `@error` block to the `@defer` block.
 </docs-step>
 </docs-workflow>
 
-Congratulations! At this point, you have a good understanding about deferrable views. Keep up the great work and let's learn about triggers next.
+恭喜！到目前為止，你對可延遲檢視已經有不錯的理解了。繼續保持，下一步來學觸發條件。

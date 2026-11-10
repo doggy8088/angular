@@ -31,8 +31,8 @@
               <button
                 type="button"
                 class="docs-rename-file"
-                aria-label="rename file"
-                matTooltip="Rename file"
+                aria-label="重新命名檔案"
+                matTooltip="重新命名檔案"
                 matTooltipPosition="above"
                 (click)="onRenameButtonClick()"
               >
@@ -43,8 +43,8 @@
               <button
                 type="button"
                 class="docs-delete-file"
-                aria-label="Delete file"
-                matTooltip="Delete file"
+                aria-label="刪除檔案"
+                matTooltip="刪除檔案"
                 matTooltipPosition="above"
                 (click)="deleteFile(file.filename)"
               >
@@ -76,8 +76,8 @@
         type="button"
         class="adev-add-file"
         (click)="onAddButtonClick()"
-        aria-label="Add a new file"
-        matTooltip="Add a new file"
+        aria-label="新增檔案"
+        matTooltip="新增檔案"
         matTooltipPosition="above"
       >
         <docs-icon>add</docs-icon>
@@ -88,7 +88,7 @@
   <button
     class="adev-editor-download-button"
     type="button"
-    aria-label="Open current code in editor in an online editor"
+    aria-label="在線上編輯器中開啟目前的程式碼"
     [cdkMenuTriggerFor]="launcherMenu"
   >
     <docs-icon>launch</docs-icon>
@@ -97,22 +97,22 @@
   <ng-template #launcherMenu>
     <div class="adev-editor-dropdown" cdkMenu>
       <button cdkMenuItem (click)="openCurrentSolutionInFirebaseStudio()">
-        <span>Open in Firebase Studio </span>
+        <span>在 Firebase Studio 中開啟 </span>
         <img
           class="icon"
           src="assets/images/tutorials/common/firebase-studio_logo.svg"
           height="32"
         />
       </button>
-      <button cdkMenuItem (click)="openCurrentCodeInStackBlitz()">Open in StackBlitz</button>
+      <button cdkMenuItem (click)="openCurrentCodeInStackBlitz()">在 StackBlitz 中開啟</button>
     </div>
   </ng-template>
   <button
     class="adev-editor-download-button"
     type="button"
     (click)="downloadCurrentCodeEditorState()"
-    aria-label="Download current source code"
-    matTooltip="Download current source code"
+    aria-label="下載目前的原始碼"
+    matTooltip="下載目前的原始碼"
     matTooltipPosition="above"
   >
     <docs-icon>download</docs-icon>
@@ -134,7 +134,7 @@
             href="#"
             (click)="$event.preventDefault(); openFileAtLocation(error)"
           >
-            (line: {{ error.lineNumber }}:{{ error.characterPosition }})
+            （第 {{ error.lineNumber }} 行，第 {{ error.characterPosition }} 字元）
           </a>
           {{ error.message }}
         </li>

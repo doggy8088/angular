@@ -1,18 +1,18 @@
-# Custom Controls
+# 自訂控制項
 
-NOTE: This guide assumes familiarity with [Signal Forms essentials](essentials/signal-forms).
+NOTE: 本指南假設你已熟悉 [Signal Forms 基礎](essentials/signal-forms)。
 
-The browser's built-in form controls (like input, select, textarea) handle common cases, but applications often need specialized inputs. A date picker with calendar UI, a rich text editor with formatting toolbar, or a tag selector with autocomplete all require custom implementations.
+瀏覽器內建的表單控制項（如 input、select、textarea）可以處理常見情況，但應用程式常需要專門的輸入方式。附月曆 UI 的日期選擇器、附格式工具列的富文字編輯器，或附自動完成的標籤選擇器，都需要自訂實作。
 
-Signal Forms works with any component that implements specific interfaces. A **control interface** defines the properties and signals that allow your component to communicate with the form system. When your component implements one of these interfaces, the `[formField]` directive automatically connects your control to form state, validation, and data binding.
+Signal Forms 能與任何實作了特定介面的元件搭配運作。**控制項介面**定義了讓你的元件能與表單系統溝通的屬性與訊號。元件只要實作其中一個介面，`[formField]` 指令就會自動把你的控制項連接到表單狀態、驗證與資料綁定。
 
-## Creating a basic custom control
+## 建立基本的自訂控制項
 
-Let's start with a minimal implementation and add features as needed.
+我們先從最小可行的實作開始，再依需要加入功能。
 
-### Minimal input control
+### 最小輸入控制項
 
-A basic custom input only needs to implement the `FormValueControl` interface and define the required `value` model signal.
+基本的自訂輸入只需要實作 `FormValueControl` 介面，並定義必要的 `value` 模型訊號。
 
 ```angular-ts
 import {Component, model} from '@angular/core';
@@ -37,12 +37,12 @@ export class BasicInput implements FormValueControl<string> {
 }
 ```
 
-### Minimal checkbox control
+### 最小核取方塊控制項
 
-A checkbox-style control needs two things:
+核取方塊類型的控制項需要兩件事：
 
-1. Implement the `FormCheckboxControl` interface so the `FormField` directive will recognize it as a form control
-2. Provide a `checked` model signal
+1. 實作 `FormCheckboxControl` 介面，讓 `FormField` 指令把它辨識為表單控制項
+2. 提供 `checked` 模型訊號
 
 ```angular-ts
 import {Component, model, ChangeDetectionStrategy} from '@angular/core';
@@ -67,9 +67,9 @@ export class BasicToggle implements FormCheckboxControl {
 }
 ```
 
-### Using your custom control
+### 使用你的自訂控制項
 
-Once you've created a control, you can use it anywhere you would use a built-in input by adding the `FormField` directive to it:
+控制項建立好之後，在任何會用內建輸入的位置都能用它，只要在上面加上 `FormField` 指令即可：
 
 ```angular-ts
 import {Component, signal, ChangeDetectionStrategy} from '@angular/core';
@@ -109,99 +109,99 @@ export class Registration {
 }
 ```
 
-NOTE: The schema callback parameter (`schemaPath` in these examples) is a `SchemaPathTree` object that provides paths to all fields in your form. You can name this parameter anything you like.
+NOTE: 結構定義回呼參數（這些範例中的 `schemaPath`）是一個 `SchemaPathTree` 物件，提供表單中所有欄位的路徑。這個參數你可以取任何名字。
 
-The `[formField]` directive works identically for custom controls and built-in inputs. Signal Forms treats them the same - validation runs, state updates, and data binding works automatically.
+`[formField]` 指令對自訂控制項與內建輸入的運作方式完全相同。Signal Forms 一視同仁：驗證會執行、狀態會更新、資料綁定自動運作。
 
-## Understanding control interfaces
+## 了解控制項介面
 
-Now that you've seen custom controls in action, let's explore how they integrate with Signal Forms.
+看過自訂控制項實際運作後，接著來探討它們如何與 Signal Forms 整合。
 
-### Control interfaces
+### 控制項介面
 
-The `BasicInput` and `BasicToggle` components you created implement specific control interfaces that tell Signal Forms how to interact with them.
+你建立的 `BasicInput` 與 `BasicToggle` 元件實作了特定的控制項介面，告訴 Signal Forms 如何與它們互動。
 
 #### FormValueControl
 
-`FormValueControl` is the interface for most input types - text inputs, number inputs, date pickers, select dropdowns, and any control that edits a single value. When your component implements this interface:
+`FormValueControl` 是大多數輸入類型的介面：文字輸入、數字輸入、日期選擇器、select 下拉選單，以及任何編輯單一值的控制項。元件實作這個介面時：
 
-- **Required property**: Your component must provide a `value` model signal
-- **What the FormField directive does**: Binds the form field's value to your control's `value` signal
+- **必要屬性**：你的元件必須提供 `value` 模型訊號
+- **FormField 指令的行為**：把表單欄位的值綁定到你的控制項的 `value` 訊號
 
-IMPORTANT: Controls implementing `FormValueControl` must NOT have a `checked` property
+IMPORTANT: 實作 `FormValueControl` 的控制項不可以有 `checked` 屬性
 
 #### FormCheckboxControl
 
-`FormCheckboxControl` is the interface for checkbox-like controls - toggles, switches, and any control that represents a boolean on/off state. When your component implements this interface:
+`FormCheckboxControl` 是核取方塊類型控制項的介面：切換開關、開關，以及任何表示布林值開／關狀態的控制項。元件實作這個介面時：
 
-- **Required property**: Your component must provide a `checked` model signal
-- **What the FormField directive does**: Binds the form field's value to your control's `checked` signal
+- **必要屬性**：你的元件必須提供 `checked` 模型訊號
+- **FormField 指令的行為**：把表單欄位的值綁定到你的控制項的 `checked` 訊號
 
-IMPORTANT: Controls implementing `FormCheckboxControl` must NOT have a `value` property
+IMPORTANT: 實作 `FormCheckboxControl` 的控制項不可以有 `value` 屬性
 
-### Optional state properties
+### 可選的狀態屬性
 
-Both `FormValueControl` and `FormCheckboxControl` extend `FormUiControl` - a base interface that provides optional properties for integrating with form state.
+`FormValueControl` 與 `FormCheckboxControl` 都繼承自 `FormUiControl`，這是一個基礎介面，提供與表單狀態整合的可選屬性。
 
-All properties are optional. Implement only what your control needs.
+所有屬性都是可選的，只實作你的控制項需要的即可。
 
-#### Interaction state
+#### 互動狀態
 
-Track when users interact with your control:
+追蹤使用者何時與你的控制項互動：
 
-| Property  | Purpose                                          |
+| 屬性      | 用途                                             |
 | --------- | ------------------------------------------------ |
-| `touched` | Whether the user has interacted with the field   |
-| `dirty`   | Whether the value differs from its initial state |
+| `touched` | 使用者是否已與該欄位互動                         |
+| `dirty`   | 值是否與初始狀態不同                             |
 
-#### Validation state
+#### 驗證狀態
 
-Display validation feedback to users:
+向使用者顯示驗證回饋：
 
-| Property  | Purpose                                 |
-| --------- | --------------------------------------- |
-| `errors`  | Array of current validation errors      |
-| `valid`   | Whether the field is valid              |
-| `invalid` | Whether the field has validation errors |
-| `pending` | Whether async validation is in progress |
+| 屬性      | 用途                     |
+| --------- | ------------------------ |
+| `errors`  | 目前驗證錯誤的陣列       |
+| `valid`   | 欄位是否有效             |
+| `invalid` | 欄位是否有驗證錯誤       |
+| `pending` | 非同步驗證是否正在進行中 |
 
-#### Availability state
+#### 可用狀態
 
-Control whether users can interact with your field:
+控制使用者能否與你的欄位互動：
 
-| Property          | Purpose                                                  |
-| ----------------- | -------------------------------------------------------- |
-| `disabled`        | Whether the field is disabled                            |
-| `disabledReasons` | Reasons why the field is disabled                        |
-| `readonly`        | Whether the field is readonly (visible but not editable) |
-| `hidden`          | Whether the field is hidden from view                    |
+| 屬性              | 用途                                     |
+| ----------------- | ---------------------------------------- |
+| `disabled`        | 欄位是否已停用                           |
+| `disabledReasons` | 欄位被停用的原因                         |
+| `readonly`        | 欄位是否為唯讀（可見但不可編輯）         |
+| `hidden`          | 欄位是否已隱藏、不顯示                   |
 
-NOTE: `disabledReasons` is an array of `DisabledReason` objects. Each object has a `field` property (reference to the field tree) and an optional `message` property. Access the message via `reason.message`.
+NOTE: `disabledReasons` 是 `DisabledReason` 物件的陣列。每個物件都有一個 `field` 屬性（參照到欄位樹）與一個可選的 `message` 屬性。透過 `reason.message` 存取訊息。
 
-#### Validation constraints
+#### 驗證限制 {#validation-constraints}
 
-Receive validation constraint values from the form:
+從表單接收驗證限制的值：
 
-| Property    | Purpose                                              |
-| ----------- | ---------------------------------------------------- |
-| `required`  | Whether the field is required                        |
-| `min`       | Minimum numeric value (`undefined` if no constraint) |
-| `max`       | Maximum numeric value (`undefined` if no constraint) |
-| `minLength` | Minimum string length (undefined if no constraint)   |
-| `maxLength` | Maximum string length (undefined if no constraint)   |
-| `pattern`   | Array of regular expression patterns to match        |
+| 屬性        | 用途                                        |
+| ----------- | ------------------------------------------- |
+| `required`  | 欄位是否必填                                |
+| `min`       | 數值下限（沒有約束時為 `undefined`）        |
+| `max`       | 數值上限（沒有約束時為 `undefined`）        |
+| `minLength` | 字串長度下限（沒有約束時為 undefined）      |
+| `maxLength` | 字串長度上限（沒有約束時為 undefined）      |
+| `pattern`   | 要比對的正規表示式模式陣列                  |
 
-#### Field metadata
+#### 欄位中繼資料
 
-| Property | Purpose                                                            |
-| -------- | ------------------------------------------------------------------ |
-| `name`   | The field's name attribute (which is unique across forms and apps) |
+| 屬性   | 用途                                         |
+| ------ | -------------------------------------------- |
+| `name` | 欄位的 name 屬性（在表單與應用程式間全域唯一） |
 
-The "[Adding state signals](#adding-state-signals)" section below shows how to implement these properties in your controls.
+下方的「[加入狀態訊號](#adding-state-signals)」一節會展示如何在你的控制項中實作這些屬性。
 
-### How the FormField directive works
+### FormField 指令的運作方式 {#how-the-formfield-directive-works}
 
-The `[formField]` directive detects which interface your control implements and automatically binds the appropriate signals:
+`[formField]` 指令會偵測你的控制項實作了哪個介面，並自動綁定相應的訊號：
 
 ```angular-ts
 import {Component, signal, ChangeDetectionStrategy} from '@angular/core';
@@ -232,20 +232,20 @@ export class MyForm {
 }
 ```
 
-TIP: For complete coverage of creating and managing form models, see the [Form Models guide](guide/forms/signals/models).
+TIP: 想完整了解如何建立與管理表單模型，請見[表單模型指南](guide/forms/signals/models)。
 
-When you bind `[formField]="userForm.username"`, the FormField directive:
+當你綁定 `[formField]="userForm.username"` 時，FormField 指令會：
 
-1. Detects your control implements `FormValueControl`
-2. Internally accesses `userForm.username().value()` and binds it to your control's `value` model signal
-3. Binds form state signals (`disabled()`, `errors()`, etc.) to your control's optional input signals
-4. Updates occur automatically through signal reactivity
+1. 偵測到你的控制項實作了 `FormValueControl`
+2. 在內部存取 `userForm.username().value()`，並把它綁定到你的控制項的 `value` 模型訊號
+3. 把表單狀態訊號（`disabled()`、`errors()` 等）綁定到你的控制項的可選輸入訊號
+4. 透過訊號的反應性自動進行更新
 
-## Adding state signals
+## 加入狀態訊號 {#adding-state-signals}
 
-The minimal controls shown above work, but they don't respond to form state. You can add optional input signals to make your controls react to disabled state, display validation errors, and track user interaction.
+上面的最小控制項可以運作，但不會回應表單狀態。你可以加入可選的輸入訊號，讓你的控制項能對停用狀態做出反應、顯示驗證錯誤，並追蹤使用者互動。
 
-Here's a comprehensive example that implements common state properties:
+以下是一個實作了常見狀態屬性的完整範例：
 
 ```angular-ts
 import {Component, model, input, ChangeDetectionStrategy} from '@angular/core';
@@ -304,7 +304,7 @@ export class StatefulInput implements FormValueControl<string> {
 }
 ```
 
-As a result, you can use the control with validation and state management:
+如此一來，你就能搭配驗證與狀態管理來使用這個控制項：
 
 ```angular-ts
 import {Component, signal, ChangeDetectionStrategy} from '@angular/core';
@@ -333,17 +333,17 @@ export class Login {
 }
 ```
 
-When the user types an invalid email, the FormField directive automatically updates `invalid()` and `errors()`. Your control can display the validation feedback.
+當使用者輸入無效的 email 時，FormField 指令會自動更新 `invalid()` 與 `errors()`。你的控制項可以據此顯示驗證回饋。
 
-### Signal types for state properties
+### 狀態屬性的訊號型別
 
-Most state properties use `input()` (read-only from the form). Use `model()` for `touched` when your control updates it on user interaction. The `touched` property uniquely supports `model()`, `input()`, or `OutputRef` depending on your needs.
+大多數狀態屬性使用 `input()`（從表單端唯讀）。當你的控制項會在使用者互動時更新 `touched`，請改用 `model()`。`touched` 屬性獨特之處在於，它可以依你的需求使用 `model()`、`input()` 或 `OutputRef`。
 
-## Value transformation
+## 值轉換 {#value-transformation}
 
-Controls sometimes display values differently than the form model stores them - a date picker might display "January 15, 2024" while storing "2024-01-15", or a currency input might show "$1,234.56" while storing 1234.56.
+控制項顯示的值有時與表單模型儲存的值不同：日期選擇器可能顯示「January 15, 2024」，儲存的卻是「2024-01-15」；貨幣輸入可能顯示「$1,234.56」，儲存的卻是 1234.56。
 
-Use `linkedSignal()` (from `@angular/core`) to transform the model value for display, and handle input events to parse user input back to the storage format:
+使用 `linkedSignal()`（來自 `@angular/core`）把模型值轉換為顯示用的形式，並處理輸入事件，把使用者輸入剖析回儲存格式：
 
 ```angular-ts
 import {formatCurrency} from '@angular/common';
@@ -381,11 +381,11 @@ function parseCurrency(value: string): number {
 }
 ```
 
-## Validation integration
+## 驗證整合
 
-Controls display validation state but don't perform validation. Validation happens in the form schema - your control receives `invalid()` and `errors()` signals from the FormField directive and displays them (as shown in the StatefulInput example above).
+控制項會顯示驗證狀態，但不執行驗證。驗證發生在表單結構定義中：你的控制項從 FormField 指令接收 `invalid()` 與 `errors()` 訊號並顯示出來（如上方的 StatefulInput 範例所示）。
 
-The FormField directive also passes validation constraint values like `required`, `min`, `max`, `minLength`, `maxLength`, and `pattern`. Your control can use these to enhance the UI:
+FormField 指令也會傳入驗證限制的值，如 `required`、`min`、`max`、`minLength`、`maxLength` 與 `pattern`。你的控制項可以利用這些值強化 UI：
 
 ```ts
 export class NumberInput implements FormValueControl<number> {
@@ -398,9 +398,9 @@ export class NumberInput implements FormValueControl<number> {
 }
 ```
 
-When you add `min()` and `max()` validation rules to the schema, the FormField directive passes these values to your control. Use them to apply HTML5 attributes or show constraint hints in your template.
+當你把 `min()` 與 `max()` 驗證規則加入結構定義時，FormField 指令會把這些值傳給你的控制項。用它們來套用 HTML5 屬性，或在範本中顯示限制提示。
 
-IMPORTANT: Don't implement validation logic in your control. Define validation rules in the form schema and let your control display the results:
+IMPORTANT: 不要在控制項中實作驗證邏輯。把驗證規則定義在表單結構定義中，讓控制項顯示結果就好：
 
 ```ts {avoid}
 // Avoid: Validation in control
@@ -419,13 +419,13 @@ accountForm = form(this.accountModel, (schemaPath) => {
 });
 ```
 
-## Next steps
+## 下一步
 
-This guide covered building custom controls that integrate with Signal Forms. Related guides explore other aspects of Signal Forms:
+本指南說明了如何建立與 Signal Forms 整合的自訂控制項。相關指南探討了 Signal Forms 的其他面向：
 
 <docs-pill-row>
-  <docs-pill href="guide/forms/signals/models" title="Form models" />
-  <docs-pill href="guide/forms/signals/field-state-management" title="Field state management" />
-  <docs-pill href="guide/forms/signals/validation" title="Validation" />
+  <docs-pill href="guide/forms/signals/models" title="表單模型" />
+  <docs-pill href="guide/forms/signals/field-state-management" title="欄位狀態管理" />
+  <docs-pill href="guide/forms/signals/validation" title="驗證" />
   <!-- <docs-pill href="guide/forms/signals/arrays" title="Working with Arrays" /> -->
 </docs-pill-row>

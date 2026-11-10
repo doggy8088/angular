@@ -1,33 +1,33 @@
-# Drag and drop
+# 拖放
 
-## Overview
+## 概覽
 
-This page describes the drag and drop directives which lets you quickly create drag and drop interfaces with the following:
+本頁說明拖放指令，它們能讓你快速建立具備下列功能的拖放介面：
 
-- Free dragging
-- Create a list of reorderable draggable elements
-- Transfer draggable elements between lists
-- Dragging animations
-- Lock draggable elements along an axis or element
-- Add custom drag handles
-- Add previews on drag
-- Add custom drag placeholder
+- 自由拖曳
+- 建立一份可重新排序的可拖曳元素清單
+- 在清單之間移轉可拖曳元素
+- 拖曳動畫
+- 沿著某個軸或元素鎖定可拖曳元素
+- 加入自訂拖曳控點
+- 在拖曳時加入預覽
+- 加入自訂拖曳佔位元素
 
-For the full API reference, please see the [Angular CDK's drag and drop API reference page](api#angular_cdk_drag-drop).
+完整的 API 參考請參閱 [Angular CDK 的拖放 API 參考頁面](api#angular_cdk_drag-drop)。
 
-## Before you start
+## 開始之前
 
-### CDK Installation
+### 安裝 CDK
 
-The [Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) is a set of behavior primitives for building components. To use the drag and drop directives, first install `@angular/cdk` from npm. You can do this from your terminal using Angular CLI:
+[Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) 是一組用來建立元件的行為基礎元件。若要使用拖放指令，請先從 npm 安裝 `@angular/cdk`。你可以在終端機中使用 Angular CLI 完成：
 
 ```shell
 ng add @angular/cdk
 ```
 
-### Importing drag and drop
+### 匯入拖放功能
 
-To use drag and drop, import what you need from the directives in your component.
+若要使用拖放功能，請在元件中從這些指令匯入你需要的東西。
 
 ```ts
 import {Component} from '@angular/core';
@@ -41,9 +41,9 @@ import {CdkDrag} from '@angular/cdk/drag-drop';
 export class DragDropExample {}
 ```
 
-## Create draggable elements
+## 建立可拖曳元素
 
-You can make any element draggable by adding the `cdkDrag` directive. By default, all draggable elements support free dragging.
+加入 `cdkDrag` 指令，就能讓任何元素變得可拖曳。依預設，所有可拖曳元素都支援自由拖曳。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/overview/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/overview/app/app.html"/>
@@ -51,11 +51,11 @@ You can make any element draggable by adding the `cdkDrag` directive. By default
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/overview/app/app.css"/>
 </docs-code-multifile>
 
-## Create a list of reorderable draggable elements
+## 建立可重新排序的可拖曳元素清單
 
-Add the `cdkDropList` directive to a parent element to group draggable elements into a reorderable collection. This defines where draggable elements can be dropped. The draggable elements in the drop list group rearrange automatically as an element moves.
+把 `cdkDropList` 指令加到父元素上，就能把可拖曳元素分組為可重新排序的集合。這定義了可拖曳元素可以放置的位置。當元素移動時，放置清單群組中的可拖曳元素會自動重新排列。
 
-The drag and drop directives don't update your data model. To update the data model, listen to the `cdkDropListDropped` event (once the user finishes dragging) and update the data model manually.
+拖放指令不會更新你的資料模型。若要更新資料模型，請監聽 `cdkDropListDropped` 事件（在使用者完成拖曳時），並手動更新資料模型。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/sorting/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/sorting/app/app.html"/>
@@ -63,16 +63,16 @@ The drag and drop directives don't update your data model. To update the data mo
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/sorting/app/app.css"/>
 </docs-code-multifile>
 
-You can use the `CDK_DROP_LIST` injection token that can be used to reference instances of `cdkDropList`. For more information see the [dependency injection guide](/guide/di) and the [drop list injection token API](api/cdk/drag-drop/CDK_DROP_LIST).
+你可以使用 `CDK_DROP_LIST` 注入權杖來參照 `cdkDropList` 的執行個體。如需更多資訊，請參閱[依賴注入指南](/guide/di)與[放置清單注入權杖 API](api/cdk/drag-drop/CDK_DROP_LIST)。
 
-## Transfer draggable elements between lists
+## 在清單之間移轉可拖曳元素
 
-The `cdkDropList` directive supports transferring draggable elements between connected drop lists. There are two ways to connect one or more `cdkDropList` instances together:
+`cdkDropList` 指令支援在已連接的放置清單之間移轉可拖曳元素。把一個或多個 `cdkDropList` 執行個體連接在一起有兩種方式：
 
-- Set the `cdkDropListConnectedTo` property to another drop list.
-- Wrap the elements in an element with the `cdkDropListGroup` attribute.
+- 把 `cdkDropListConnectedTo` 屬性設為另一個放置清單。
+- 把元素包在帶有 `cdkDropListGroup` 屬性的元素中。
 
-The `cdkDropListConnectedTo` directive works both with a direct reference to another `cdkDropList` or by referencing the id of another drop container.
+`cdkDropListConnectedTo` 指令既可以搭配對另一個 `cdkDropList` 的直接參照，也可以參照另一個放置容器的 id。
 
 ```html
 <!-- This is valid -->
@@ -90,7 +90,7 @@ The `cdkDropListConnectedTo` directive works both with a direct reference to ano
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/connected-sorting/app/app.css"/>
 </docs-code-multifile>
 
-Use the `cdkDropListGroup` directive if you have an unknown number of connected drop lists to set up the connection automatically. Any new `cdkDropList` that is added under a group automatically connects to all other lists.
+如果你有數量不定的已連接放置清單，可以使用 `cdkDropListGroup` 指令來自動設定連接。任何加到群組底下的新 `cdkDropList` 都會自動連接到所有其他清單。
 
 ```angular-html
 <div cdkDropListGroup>
@@ -107,11 +107,11 @@ Use the `cdkDropListGroup` directive if you have an unknown number of connected 
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/connected-sorting-group/app/app.css"/>
 </docs-code-multifile>
 
-You can use the `CDK_DROP_LIST_GROUP` injection token that can be used to reference instances of `cdkDropListGroup`. For more information see the [dependency injection guide](/guide/di) and the [drop list group injection token API](api/cdk/drag-drop/CDK_DROP_LIST_GROUP).
+你可以使用 `CDK_DROP_LIST_GROUP` 注入權杖來參照 `cdkDropListGroup` 的執行個體。如需更多資訊，請參閱[依賴注入指南](/guide/di)與[放置清單群組注入權杖 API](api/cdk/drag-drop/CDK_DROP_LIST_GROUP)。
 
-### Selective dragging
+### 選擇性拖曳
 
-By default, a user can move `cdkDrag` elements from one container into another connected container. For more fine-grained control over which elements can be dropped into a container, use `cdkDropListEnterPredicate`. Angular calls the predicate whenever a draggable element enters a new container. Depending on whether the predicate returns true or false, the item may or may not be allowed into the new container.
+依預設，使用者可以把 `cdkDrag` 元素從一個容器移到另一個已連接的容器。若要更精細地控制哪些元素可以放入容器，請使用 `cdkDropListEnterPredicate`。每當可拖曳元素進入新容器時，Angular 都會呼叫這個述詞。依述詞傳回 true 或 false，該項目可能會、也可能不會被允許進入新容器。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/enter-predicate/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/enter-predicate/app/app.html"/>
@@ -119,9 +119,9 @@ By default, a user can move `cdkDrag` elements from one container into another c
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/enter-predicate/app/app.css"/>
 </docs-code-multifile>
 
-## Attach data
+## 附加資料
 
-You can associate some arbitrary data with both `cdkDrag` and `cdkDropList` by setting `cdkDragData` or `cdkDropListData`, respectively. You can bind to the events fired from both directives that will include this data, allowing you to easily identify the origin of the drag or drop interaction.
+分別設定 `cdkDragData` 或 `cdkDropListData`，就能把任意資料關聯到 `cdkDrag` 與 `cdkDropList`。你可以繫結到這兩個指令觸發的事件，這些事件會包含該資料，讓你能輕鬆辨識拖曳或放置互動的來源。
 
 ```angular-html
 @for (list of lists; track list) {
@@ -133,11 +133,11 @@ You can associate some arbitrary data with both `cdkDrag` and `cdkDropList` by s
 }
 ```
 
-## Dragging customizations
+## 拖曳自訂
 
-### Customize drag handle
+### 自訂拖曳控點
 
-By default, the user can drag the entire `cdkDrag` element to move it around. To restrict the user to only be able to do so using a handle element, add the `cdkDragHandle` directive to an element inside of `cdkDrag`. You can have as many `cdkDragHandle` elements as you want.
+依預設，使用者可以拖曳整個 `cdkDrag` 元素來移動它。若要限制使用者只能透過控點元素來拖曳，請把 `cdkDragHandle` 指令加到 `cdkDrag` 內部的元素上。你可以有任意數量的 `cdkDragHandle` 元素。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/custom-handle/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/custom-handle/app/app.html"/>
@@ -145,15 +145,15 @@ By default, the user can drag the entire `cdkDrag` element to move it around. To
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/custom-handle/app/app.css"/>
 </docs-code-multifile>
 
-You can use the `CDK_DRAG_HANDLE` injection token that can be used to reference instances of `cdkDragHandle`. For more information see the [dependency injection guide](/guide/di) and the [drag handle injection token API](api/cdk/drag-drop/CDK_DRAG_HANDLE).
+你可以使用 `CDK_DRAG_HANDLE` 注入權杖來參照 `cdkDragHandle` 的執行個體。如需更多資訊，請參閱[依賴注入指南](/guide/di)與[拖曳控點注入權杖 API](api/cdk/drag-drop/CDK_DRAG_HANDLE)。
 
-### Customize drag preview
+### 自訂拖曳預覽
 
-A preview element becomes visible when a `cdkDrag` element is being dragged. By default, the preview is a clone of the original element positioned next to the user's cursor.
+當 `cdkDrag` 元素被拖曳時，預覽元素會變得可見。依預設，預覽是原始元素的複製，位置就在使用者的游標旁邊。
 
-To customize the preview, provide a custom template via `*cdkDragPreview`. The custom preview won't match the size of the original dragged element since assumptions aren't made about the element's content. To match the size of the element for the drag preview, pass true to the `matchSize` input.
+若要自訂預覽，請透過 `*cdkDragPreview` 提供自訂範本。由於不會對元素的內容做任何假設，自訂預覽不會符合原始被拖曳元素的大小。若要讓拖曳預覽符合元素的大小，請把 true 傳給 `matchSize` 輸入。
 
-The cloned element removes its id attribute in order to avoid having multiple elements with the same id on the page. This will cause any CSS that targets that id not to be applied.
+複製出的元素會移除它的 id 屬性，以免頁面上有多個具有相同 id 的元素。這會導致任何以該 id 為目標的 CSS 都不會被套用。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/custom-preview/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/custom-preview/app/app.html"/>
@@ -161,25 +161,25 @@ The cloned element removes its id attribute in order to avoid having multiple el
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/custom-preview/app/app.css"/>
 </docs-code-multifile>
 
-You can use the `CDK_DRAG_PREVIEW` injection token that can be used to reference instances of `cdkDragPreview`. For more information see the [dependency injection guide](/guide/di) and the [drag preview injection token API](api/cdk/drag-drop/CDK_DRAG_PREVIEW).
+你可以使用 `CDK_DRAG_PREVIEW` 注入權杖來參照 `cdkDragPreview` 的執行個體。如需更多資訊，請參閱[依賴注入指南](/guide/di)與[拖曳預覽注入權杖 API](api/cdk/drag-drop/CDK_DRAG_PREVIEW)。
 
-### Customize drag insertion point
+### 自訂拖曳插入點
 
-By default, Angular inserts the `cdkDrag` preview into the `<body>` of the page in order to avoid issues with positioning and overflow. This may not be desirable in some cases because the preview won't have its inherited styles applied.
+依預設，Angular 會把 `cdkDrag` 預覽插入頁面的 `<body>`，以避免定位與溢位方面的問題。在某些情況下這可能不是理想的做法，因為預覽不會套用它繼承的樣式。
 
-You can change where Angular inserts the preview using the `cdkDragPreviewContainer` input on `cdkDrag`. The possible values are:
+你可以使用 `cdkDrag` 上的 `cdkDragPreviewContainer` 輸入，改變 Angular 插入預覽的位置。可能的值如下：
 
-| Value                         | Description                                                                            | Advantages                                                                                                                  | Disadvantages                                                                                                                                                             |
-| :---------------------------- | :------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `global`                      | Default value. Angular inserts the preview into the <body> or the closest shadow root. | Preview won't be affected by `z-index` or `overflow: hidden`. It also won't affect `:nth-child` selectors and flex layouts. | Doesn't retain inherited styles.                                                                                                                                          |
-| `parent`                      | Angular inserts the preview inside the parent of the element that is being dragged.    | Preview inherits the same styles as the dragged element.                                                                    | Preview may be clipped by `overflow: hidden` or be placed under other elements due to `z-index`. Furthermore, it can affect `:nth-child` selectors and some flex layouts. |
-| `ElementRef` or `HTMLElement` | Angular inserts the preview into the specified element.                                | Preview inherits styles from the specified container element.                                                               | Preview may be clipped by `overflow: hidden` or be placed under other elements due to `z-index`. Furthermore, it can affect `:nth-child` selectors and some flex layouts. |
+| 值                            | 說明                                                                           | 優點                                                                                       | 缺點                                                                                                   |
+| :---------------------------- | :----------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------- |
+| `global`                      | 預設值。Angular 會把預覽插入 <body> 或最近的 shadow root。                     | 預覽不會受到 `z-index` 或 `overflow: hidden` 影響，也不會影響 `:nth-child` 選擇器與 flex 版面配置。 | 不會保留繼承的樣式。                                                                                   |
+| `parent`                      | Angular 會把預覽插入正在被拖曳元素的父元素內。                                 | 預覽繼承與被拖曳元素相同的樣式。                                                           | 預覽可能會被 `overflow: hidden` 裁切，或因 `z-index` 而被放到其他元素底下。此外，它可能影響 `:nth-child` 選擇器與某些 flex 版面配置。 |
+| `ElementRef` or `HTMLElement` | Angular 會把預覽插入指定的元素。                                               | 預覽繼承指定容器元素的樣式。                                                               | 預覽可能會被 `overflow: hidden` 裁切，或因 `z-index` 而被放到其他元素底下。此外，它可能影響 `:nth-child` 選擇器與某些 flex 版面配置。 |
 
-Alternatively, you can modify the `CDK_DRAG_CONFIG` injection token to update `previewContainer` within the config if the value is `global` or `parent`. For more information see the [dependency injection guide](/guide/di), [drag config injection token API](api/cdk/drag-drop/CDK_DRAG_CONFIG), and the [drag drop config API](api/cdk/drag-drop/DragDropConfig).
+或者，如果值是 `global` 或 `parent`，你可以修改 `CDK_DRAG_CONFIG` 注入權杖，更新設定中的 `previewContainer`。如需更多資訊，請參閱[依賴注入指南](/guide/di)、[拖曳設定注入權杖 API](api/cdk/drag-drop/CDK_DRAG_CONFIG)與[拖放設定 API](api/cdk/drag-drop/DragDropConfig)。
 
-### Customize drag placeholder
+### 自訂拖曳佔位元素
 
-While a `cdkDrag` element is being dragged, the directive creates a placeholder element that shows where the element will be placed when dropped. By default, the placeholder is a clone of the element that is being dragged. You can replace the placeholder with a custom one using the `*cdkDragPlaceholder` directive:
+當 `cdkDrag` 元素被拖曳時，該指令會建立一個佔位元素，顯示元素放下後將被放置的位置。依預設，佔位元素是被拖曳元素的複製。你可以使用 `*cdkDragPlaceholder` 指令，把佔位元素換成自訂的：
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/custom-placeholder/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/custom-placeholder/app/app.html"/>
@@ -187,13 +187,13 @@ While a `cdkDrag` element is being dragged, the directive creates a placeholder 
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/custom-placeholder/app/app.css"/>
 </docs-code-multifile>
 
-You can use the `CDK_DRAG_PLACEHOLDER` injection token that can be used to reference instances of `cdkDragPlaceholder`. For more information see the [dependency injection guide](/guide/di) and the [drag placeholder injection token API](api/cdk/drag-drop/CDK_DRAG_PLACEHOLDER).
+你可以使用 `CDK_DRAG_PLACEHOLDER` 注入權杖來參照 `cdkDragPlaceholder` 的執行個體。如需更多資訊，請參閱[依賴注入指南](/guide/di)與[拖曳佔位元素注入權杖 API](api/cdk/drag-drop/CDK_DRAG_PLACEHOLDER)。
 
-### Customize drag root element
+### 自訂拖曳根元素
 
-Set the `cdkDragRootElement` attribute if there's an element that you want to make draggable but you don't have direct access to it.
+如果你想讓某個元素變得可拖曳，卻無法直接存取它，請設定 `cdkDragRootElement` 屬性。
 
-The attribute accepts a selector and looks up the DOM until it finds an element that matches the selector. If an element is found, it becomes draggable. This is useful for cases such as making a dialog draggable.
+該屬性接受一個選擇器，並向上查找 DOM，直到找到符合該選擇器的元素。如果找到元素，它就會變得可拖曳。這在讓對話框變得可拖曳等情況下很有用。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/root-element/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/root-element/app/app.html"/>
@@ -201,11 +201,11 @@ The attribute accepts a selector and looks up the DOM until it finds an element 
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/root-element/app/app.css"/>
 </docs-code-multifile>
 
-Alternatively, you can modify the `CDK_DRAG_CONFIG` injection token to update `rootElementSelector` within the config. For more information see the [dependency injection guide](/guide/di), [drag config injection token API](api/cdk/drag-drop/CDK_DRAG_CONFIG), and the [drag drop config API](api/cdk/drag-drop/DragDropConfig).
+或者，你可以修改 `CDK_DRAG_CONFIG` 注入權杖，更新設定中的 `rootElementSelector`。如需更多資訊，請參閱[依賴注入指南](/guide/di)、[拖曳設定注入權杖 API](api/cdk/drag-drop/CDK_DRAG_CONFIG)與[拖放設定 API](api/cdk/drag-drop/DragDropConfig)。
 
-### Set DOM position of a draggable element
+### 設定可拖曳元素的 DOM 位置
 
-By default, `cdkDrag` elements not in a `cdkDropList` move from their normal DOM position only when a user manually moves the element. Use the `cdkDragFreeDragPosition` input to explicitly set the element’s position. A common use case for this is restoring a draggable element's position after a user has navigated away and then returned.
+依預設，不在 `cdkDropList` 中的 `cdkDrag` 元素，只有在使用者手動移動元素時，才會離開它一般的 DOM 位置。使用 `cdkDragFreeDragPosition` 輸入可以明確設定元素的位置。常見的使用案例是在使用者離開又返回後，恢復可拖曳元素的位置。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/free-drag-position/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/free-drag-position/app/app.html"/>
@@ -213,9 +213,9 @@ By default, `cdkDrag` elements not in a `cdkDropList` move from their normal DOM
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/free-drag-position/app/app.css"/>
 </docs-code-multifile>
 
-### Restrict movement within an element
+### 限制在元素內移動
 
-To stop the user from being able to drag a `cdkDrag` element outside of another element, pass a CSS selector to the `cdkDragBoundary` attribute. This attribute accepts a selector and looks up the DOM until it finds an element that matches it. If a match is found, the element becomes the boundary that the draggable element can't be dragged outside of `cdkDragBoundary` can also be used when `cdkDrag` is placed inside a `cdkDropList`.
+若要防止使用者把 `cdkDrag` 元素拖到另一個元素之外，請把 CSS 選擇器傳給 `cdkDragBoundary` 屬性。這個屬性接受一個選擇器，並向上查找 DOM，直到找到符合的元素。如果找到符合項，該元素就成為邊界，可拖曳元素不能被拖到它之外。`cdkDragBoundary` 也可以在 `cdkDrag` 放在 `cdkDropList` 內部時使用。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/boundary/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/boundary/app/app.html"/>
@@ -223,11 +223,11 @@ To stop the user from being able to drag a `cdkDrag` element outside of another 
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/boundary/app/app.css"/>
 </docs-code-multifile>
 
-Alternatively, you can modify the `CDK_DRAG_CONFIG` injection token to update boundaryElement within the config. For more information see the [dependency injection guide](/guide/di), [drag config injection token API](api/cdk/drag-drop/CDK_DRAG_CONFIG), and the [drag drop config API](api/cdk/drag-drop/DragDropConfig).
+或者，你可以修改 `CDK_DRAG_CONFIG` 注入權杖，更新設定中的 boundaryElement。如需更多資訊，請參閱[依賴注入指南](/guide/di)、[拖曳設定注入權杖 API](api/cdk/drag-drop/CDK_DRAG_CONFIG)與[拖放設定 API](api/cdk/drag-drop/DragDropConfig)。
 
-### Restrict movement along an axis
+### 限制沿著某個軸移動
 
-By default, `cdkDrag` allows free movement in all directions. To restrict dragging to a specific axis, set `cdkDragLockAxis` to either "x" or "y"on `cdkDrag`. To restrict dragging for multiple draggable elements within `cdkDropList`, set `cdkDropListLockAxis` on `cdkDropList` instead.
+依預設，`cdkDrag` 允許在所有方向自由移動。若要把拖曳限制在特定軸上，請在 `cdkDrag` 上把 `cdkDragLockAxis` 設為 "x" 或 "y"。若要限制 `cdkDropList` 內多個可拖曳元素的拖曳，請改在 `cdkDropList` 上設定 `cdkDropListLockAxis`。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/axis-lock/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/axis-lock/app/app.html"/>
@@ -235,13 +235,13 @@ By default, `cdkDrag` allows free movement in all directions. To restrict draggi
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/axis-lock/app/app.css"/>
 </docs-code-multifile>
 
-Alternatively, you can modify the `CDK_DRAG_CONFIG` injection token to update `lockAxis` within the config. For more information see the [dependency injection guide](/guide/di), [drag config injection token API](api/cdk/drag-drop/CDK_DRAG_CONFIG), and the [drag drop config API](api/cdk/drag-drop/DragDropConfig).
+或者，你可以修改 `CDK_DRAG_CONFIG` 注入權杖，更新設定中的 `lockAxis`。如需更多資訊，請參閱[依賴注入指南](/guide/di)、[拖曳設定注入權杖 API](api/cdk/drag-drop/CDK_DRAG_CONFIG)與[拖放設定 API](api/cdk/drag-drop/DragDropConfig)。
 
-### Delay dragging
+### 延遲拖曳
 
-By default when the user puts their pointer down on a `cdkDrag`, the dragging sequence starts. This behavior might not be desirable in cases like fullscreen draggable elements on touch devices where the user might accidentally trigger a drag event as they scroll on the page.
+依預設，當使用者在 `cdkDrag` 上按住指標時，拖曳程序就會開始。在某些情況下這種行為可能不理想，例如觸控裝置上的全螢幕可拖曳元素，使用者在捲動頁面時可能不小心觸發拖曳事件。
 
-You can delay the dragging sequence using the `cdkDragStartDelay` input. The input waits for the user to hold down their pointer for the specified number of milliseconds before dragging the element.
+你可以使用 `cdkDragStartDelay` 輸入來延遲拖曳程序。這個輸入會等使用者按住指標達到指定的毫秒數後，才開始拖曳元素。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/delay-drag/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/delay-drag/app/app.html"/>
@@ -249,11 +249,11 @@ You can delay the dragging sequence using the `cdkDragStartDelay` input. The inp
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/delay-drag/app/app.css"/>
 </docs-code-multifile>
 
-Alternatively, you can modify the `CDK_DRAG_CONFIG` injection token to update dragStartDelay within the config. For more information see the [dependency injection guide](/guide/di), [drag config injection token API](api/cdk/drag-drop/CDK_DRAG_CONFIG), and the [drag drop config API](api/cdk/drag-drop/DragDropConfig).
+或者，你可以修改 `CDK_DRAG_CONFIG` 注入權杖，更新設定中的 `dragStartDelay`。如需更多資訊，請參閱[依賴注入指南](/guide/di)、[拖曳設定注入權杖 API](api/cdk/drag-drop/CDK_DRAG_CONFIG)與[拖放設定 API](api/cdk/drag-drop/DragDropConfig)。
 
-### Disable dragging
+### 停用拖曳
 
-If you want to disable dragging for a particular drag item, set the `cdkDragDisabled` input on a `cdkDrag` item to true or false. You can disable an entire list using the `cdkDropListDisabled` input on a `cdkDropList`. It is also possible to disable a specific handle via `cdkDragHandleDisabled` on `cdkDragHandle`.
+如果你想停用特定拖曳項目的拖曳功能，請把 `cdkDrag` 項目上的 `cdkDragDisabled` 輸入設為 true 或 false。你可以使用 `cdkDropList` 上的 `cdkDropListDisabled` 輸入停用整個清單。也可以透過 `cdkDragHandle` 上的 `cdkDragHandleDisabled` 停用特定的控點。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/disable-drag/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/disable-drag/app/app.html"/>
@@ -261,13 +261,13 @@ If you want to disable dragging for a particular drag item, set the `cdkDragDisa
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/disable-drag/app/app.css"/>
 </docs-code-multifile>
 
-Alternatively, you can modify the `CDK_DRAG_CONFIG` injection token to update `draggingDisabled` within the config. For more information see the [dependency injection guide](/guide/di), [drag config injection token API](api/cdk/drag-drop/CDK_DRAG_CONFIG), and the [drag drop config API](api/cdk/drag-drop/DragDropConfig).
+或者，你可以修改 `CDK_DRAG_CONFIG` 注入權杖，更新設定中的 `draggingDisabled`。如需更多資訊，請參閱[依賴注入指南](/guide/di)、[拖曳設定注入權杖 API](api/cdk/drag-drop/CDK_DRAG_CONFIG)與[拖放設定 API](api/cdk/drag-drop/DragDropConfig)。
 
-## Sorting customizations
+## 排序自訂
 
-### List orientation
+### 清單方向
 
-By default, the `cdkDropList` directive assumes lists are vertical. This can be changed by setting the `cdkDropListOrientation` property to horizontal.
+依預設，`cdkDropList` 指令假設清單是垂直的。把 `cdkDropListOrientation` 屬性設為 horizontal，就能改變這一點。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/horizontal-sorting/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/horizontal-sorting/app/app.html"/>
@@ -275,13 +275,13 @@ By default, the `cdkDropList` directive assumes lists are vertical. This can be 
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/horizontal-sorting/app/app.css"/>
 </docs-code-multifile>
 
-Alternatively, you can modify the `CDK_DRAG_CONFIG` injection token to update `listOrientation` within the config. For more information see the [dependency injection guide](/guide/di), [drag config injection token API](api/cdk/drag-drop/CDK_DRAG_CONFIG), and the [drag drop config API](api/cdk/drag-drop/DragDropConfig).
+或者，你可以修改 `CDK_DRAG_CONFIG` 注入權杖，更新設定中的 `listOrientation`。如需更多資訊，請參閱[依賴注入指南](/guide/di)、[拖曳設定注入權杖 API](api/cdk/drag-drop/CDK_DRAG_CONFIG)與[拖放設定 API](api/cdk/drag-drop/DragDropConfig)。
 
-### List wrapping
+### 清單換行
 
-By default, the `cdkDropList` sorts the draggable elements by moving them around using a CSS transform. This allows for the sorting to be animated which provides a better user experience. However this also comes with the drawback that the drop list works only in one direction: vertically or horizontally.
+依預設，`cdkDropList` 使用 CSS transform 移動可拖曳元素來進行排序。這讓排序可以動畫呈現，提供更好的使用者體驗。不過，這也有個缺點：放置清單只能在單一方向運作，也就是垂直或水平。
 
-If you have a sortable list that needs to wrap onto new lines, you can set `cdkDropListOrientation` attribute to `mixed`. This causes the list to use a different strategy of sorting the elements which involves moving them in the DOM. However the list can no longer animate the sorting action .
+如果你有需要換到新行的可排序清單，可以把 `cdkDropListOrientation` 屬性設為 `mixed`。這會讓清單改用不同的元素排序策略，也就是在 DOM 中移動元素。不過，清單就無法再以動畫呈現排序動作了。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/mixed-sorting/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/mixed-sorting/app/app.html"/>
@@ -289,9 +289,9 @@ If you have a sortable list that needs to wrap onto new lines, you can set `cdkD
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/mixed-sorting/app/app.css"/>
 </docs-code-multifile>
 
-### Selective sorting
+### 選擇性排序
 
-By default, `cdkDrag` elements are sorted into any position inside of a `cdkDropList`. To change this behavior, set the `cdkDropListSortPredicate` attribute which takes in a function. The predicate function is called whenever a draggable element is about to be moved into a new index within the drop list. If the predicate returns true, the item will be moved into the new index, otherwise it will keep its current position.
+依預設，`cdkDrag` 元素可以被排序到 `cdkDropList` 內的任何位置。若要改變這個行為，請設定接受函式的 `cdkDropListSortPredicate` 屬性。每當可拖曳元素即將被移到放置清單內的新索引時，就會呼叫這個述詞函式。如果述詞傳回 true，該項目會被移到新索引；否則會保持目前的位置。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/sort-predicate/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/sort-predicate/app/app.html"/>
@@ -299,9 +299,9 @@ By default, `cdkDrag` elements are sorted into any position inside of a `cdkDrop
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/sort-predicate/app/app.css"/>
 </docs-code-multifile>
 
-### Disable sorting
+### 停用排序
 
-There are cases where draggable elements can be dragged out of one `cdkDropList` into another, however the user shouldn't be able to sort them within the source list. For these cases, add the `cdkDropListSortingDisabled` attribute to prevent the draggable elements in a `cdkDropList` from sorting. This preserves the dragged element's initial position in the source list if it does not get dragged to a new valid position.
+有些情況下，可拖曳元素可以從一個 `cdkDropList` 拖到另一個，但使用者不應該能在來源清單內排序它們。對於這些情況，請加入 `cdkDropListSortingDisabled` 屬性，防止 `cdkDropList` 中的可拖曳元素進行排序。如果被拖曳的元素沒有被拖到新的有效位置，這能保留它在來源清單中的初始位置。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/disable-sorting/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/disable-sorting/app/app.html"/>
@@ -309,15 +309,15 @@ There are cases where draggable elements can be dragged out of one `cdkDropList`
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/disable-sorting/app/app.css"/>
 </docs-code-multifile>
 
-Alternatively, you can modify the `CDK_DRAG_CONFIG` injection token to update sortingDisabled within the config. For more information see the [dependency injection guide](/guide/di), [drag config injection token API](api/cdk/drag-drop/CDK_DRAG_CONFIG), and the [drag drop config API](api/cdk/drag-drop/DragDropConfig).
+或者，你可以修改 `CDK_DRAG_CONFIG` 注入權杖，更新設定中的 `sortingDisabled`。如需更多資訊，請參閱[依賴注入指南](/guide/di)、[拖曳設定注入權杖 API](api/cdk/drag-drop/CDK_DRAG_CONFIG)與[拖放設定 API](api/cdk/drag-drop/DragDropConfig)。
 
-### Copying items between lists
+### 在清單之間複製項目
 
-By default, when an item is dragged from one list to another, it is moved out of its original list. However, you can configure the directives to copy the item, leaving the original item in the source list.
+依預設，當項目從一個清單拖到另一個清單時，它會從原始清單移出。不過，你可以設定這些指令來複製項目，讓原始項目留在來源清單中。
 
-To enable copying, you can set the `cdkDropListHasAnchor` input. This tells the `cdkDropList` to create an "anchor" element that stays in the original container and doesn't move with the item. If the user moves the item back into the original container, the anchor is removed automatically. The anchor element can be styled by targeting the `.cdk-drag-anchor` CSS class.
+若要啟用複製，你可以設定 `cdkDropListHasAnchor` 輸入。這會告訴 `cdkDropList` 建立一個「anchor」元素，它會留在原始容器中，不隨項目移動。如果使用者把項目移回原始容器，這個 anchor 會自動被移除。你可以把 `.cdk-drag-anchor` CSS 類別作為目標，來為 anchor 元素設定樣式。
 
-Combining `cdkDropListHasAnchor` with `cdkDropListSortingDisabled` makes it possible to construct a list from which a user can copy items without being able to reorder the source list (e.g. a product list and a shopping cart).
+把 `cdkDropListHasAnchor` 與 `cdkDropListSortingDisabled` 組合起來，就能建立一份讓使用者可以複製項目、但無法重新排序來源清單的清單（例如產品清單與購物車）。
 
 <docs-code-multifile preview path="adev/src/content/examples/drag-drop/src/copy-list/app/app.ts">
   <docs-code header="app.html" path="adev/src/content/examples/drag-drop/src/copy-list/app/app.html"/>
@@ -325,41 +325,41 @@ Combining `cdkDropListHasAnchor` with `cdkDropListSortingDisabled` makes it poss
   <docs-code header="app.css" path="adev/src/content/examples/drag-drop/src/copy-list/app/app.css"/>
 </docs-code-multifile>
 
-## Customize animations
+## 自訂動畫
 
-Drag and drop supports animations for both:
+拖放功能支援以下兩種動畫：
 
-- Sorting a draggable element inside a list
-- Moving the draggable element from the position that the user dropped it to the final position inside the list
+- 在清單內排序可拖曳元素
+- 把可拖曳元素從使用者放下的位置移到清單內的最終位置
 
-To set up your animations, define a CSS transition that targets the transform property. The following classes can be used for animations:
+若要設定你的動畫，請定義一個以 transform 屬性為目標的 CSS transition。下列類別可以用於動畫：
 
-| CSS class name      | Result of adding transition                                                                                                                                                                                |
+| CSS 類別名稱        | 加入 transition 的效果                                                                                                                                                                                     |
 | :------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| .cdk-drag           | Animate draggable elements as they are being sorted.                                                                                                                                                       |
-| .cdk-drag-animating | Animate the draggable element from its dropped position to the final position within the `cdkDropList`.<br><br>This CSS class is applied to a `cdkDrag` element only when the dragging action has stopped. |
+| .cdk-drag           | 在可拖曳元素排序時為它們加上動畫。                                                                                                                                                                         |
+| .cdk-drag-animating | 把可拖曳元素從放下的位置以動畫移到 `cdkDropList` 內的最終位置。<br><br>這個 CSS 類別只在拖曳動作停止時才套用到 `cdkDrag` 元素。                                                                          |
 
-## Styling
+## 樣式
 
-Both `cdkDrag` and `cdkDropList` directives only apply essential styles needed for functionality. Applications can customize their styles by targeting these specified CSS classes.
+`cdkDrag` 與 `cdkDropList` 這兩個指令都只套用功能運作所必需的樣式。應用程式可以把這些指定的 CSS 類別作為目標，來自訂樣式。
 
-| CSS class name           | Description                                                                                                                                                                                                                                                                                             |
+| CSS 類別名稱             | 說明                                                                                                                                                                                                                                                                                                    |
 | :----------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| .cdk-drop-list           | Selector for the `cdkDropList` container elements.                                                                                                                                                                                                                                                      |
-| .cdk-drag                | Selector for `cdkDrag` elements.                                                                                                                                                                                                                                                                        |
-| .cdk-drag-disabled       | Selector for disabled `cdkDrag` elements.                                                                                                                                                                                                                                                               |
-| .cdk-drag-handle         | Selector for the host element of the `cdkDragHandle`.                                                                                                                                                                                                                                                   |
-| .cdk-drag-preview        | Selector for the drag preview element. This is the element that appears next to the cursor as a user drags an element in a sortable list.<br><br>The element looks exactly like the element that is being dragged unless customized with a custom template through `*cdkDragPreview`.                   |
-| .cdk-drag-placeholder    | Selector for the drag placeholder element. This is the element that is shown in the spot where the draggable element will be dragged to once the dragging action ends.<br><br>This element looks exactly like the element that is being sorted unless customized with the cdkDragPlaceholder directive. |
-| .cdk-drop-list-dragging  | Selector for `cdkDropList` container element that has a draggable element currently being dragged.                                                                                                                                                                                                      |
-| .cdk-drop-list-disabled  | Selector for `cdkDropList` container elements that are disabled.                                                                                                                                                                                                                                        |
-| .cdk-drop-list-receiving | Selector for `cdkDropList` container element that has a draggable element it can receive from a connected drop list that is currently being dragged.                                                                                                                                                    |
-| .cdk-drag-anchor         | Selector for the anchor element that is created when `cdkDropListHasAnchor` is enabled. This element indicates the position from which the dragged item started.                                                                                                                                        |
+| .cdk-drop-list           | `cdkDropList` 容器元素的選擇器。                                                                                                                                                                                                                                                                        |
+| .cdk-drag                | `cdkDrag` 元素的選擇器。                                                                                                                                                                                                                                                                        |
+| .cdk-drag-disabled       | 已停用的 `cdkDrag` 元素的選擇器。                                                                                                                                                                                                                                                                       |
+| .cdk-drag-handle         | `cdkDragHandle` 宿主元素的選擇器。                                                                                                                                                                                                                                                                      |
+| .cdk-drag-preview        | 拖曳預覽元素的選擇器。當使用者在可排序清單中拖曳元素時，這個元素會出現在游標旁邊。<br><br>除非透過 `*cdkDragPreview` 以自訂範本自訂，否則這個元素看起來與被拖曳的元素完全一樣。                                                                                                                             |
+| .cdk-drag-placeholder    | 拖曳佔位元素的選擇器。拖曳動作結束後，可拖曳元素將被拖到的位置會顯示這個元素。<br><br>除非以 cdkDragPlaceholder 指令自訂，否則這個元素看起來與被排序的元素完全一樣。                                                                                                                                       |
+| .cdk-drop-list-dragging  | 目前有可拖曳元素正在被拖曳的 `cdkDropList` 容器元素的選擇器。                                                                                                                                                                                                                                           |
+| .cdk-drop-list-disabled  | 已停用的 `cdkDropList` 容器元素的選擇器。                                                                                                                                                                                                                                        |
+| .cdk-drop-list-receiving | 有可接收的可拖曳元素（來自已連接的放置清單、目前正在被拖曳）的 `cdkDropList` 容器元素的選擇器。                                                                                                                                                                                                            |
+| .cdk-drag-anchor         | 啟用 `cdkDropListHasAnchor` 時所建立的 anchor 元素的選擇器。這個元素標示被拖曳項目開始的位置。                                                                                                                                                                                                        |
 
-## Dragging in a scrollable container
+## 在可捲動容器中拖曳
 
-If your draggable items are inside a scrollable container (e.g., a `div` with `overflow: auto`), automatic scrolling will not work unless the scrollable container has the `cdkScrollable` directive. Without it, the CDK cannot detect or control the scroll behavior of the container during drag operations.
+如果你的可拖曳項目位於可捲動容器內（例如帶有 `overflow: auto` 的 `div`），除非該可捲動容器有 `cdkScrollable` 指令，否則自動捲動將無法運作。沒有它，CDK 在拖曳操作期間就無法偵測或控制容器的捲動行為。
 
-## Integrations with other components
+## 與其他元件整合
 
-The CDK's drag-and-drop functionality can be integrated with different components. Common use cases include sortable `MatTable` components and sortable `MatTabGroup` components.
+CDK 的拖放功能可以與不同的元件整合。常見的使用案例包括可排序的 `MatTable` 元件與可排序的 `MatTabGroup` 元件。

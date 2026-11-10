@@ -1,76 +1,76 @@
-# Inspect the component tree
+# 檢視元件樹
 
-## Debug your application
+## 為你的應用程式除錯
 
-The **Components** tab lets you explore the structure of your application.
-You can visualize the component and directive instances in the DOM and inspect or modify their state.
+**Components** 分頁讓你探索應用程式的結構。
+你可以視覺化呈現 DOM 中的元件與指令實例，並檢視或修改它們的狀態。
 
-### Explore the application structure
+### 探索應用程式結構
 
-The component tree displays a hierarchical relationship of the _components and directives_ within your application.
+元件樹以階層關係呈現應用程式中的*元件與指令*。
 
-<img src="assets/images/guide/devtools/component-explorer.png" alt="A screenshot of the 'Components' tab showing a tree of Angular components and directives starting the root of the application.">
+<img src="assets/images/guide/devtools/component-explorer.png" alt="「Components」分頁的螢幕截圖，顯示一棵 Angular 元件與指令的樹，從應用程式的根節點開始。">
 
-Click the individual components or directives in the component explorer to select them and preview their properties.
-Angular DevTools displays properties and metadata on the right side of the component tree.
+在元件總管中點選個別元件或指令即可選取它們，並預覽它們的屬性。
+Angular DevTools 會在元件樹右側顯示屬性與中繼資料。
 
-To look up a component or directive by name use the search box above the component tree.
+若要依名稱查找元件或指令，請使用元件樹上方的搜尋框。
 
-<img src="assets/images/guide/devtools/search.png" alt="A screenshot of the 'Components' tab. The filter bar immediately underneath the tab is searching for 'todo' and all components with 'todo' in the name are highlighted in the tree. `app-todos` is currently selected and a sidebar to the right displays information about the component's properties. This includes a section of `@Output` fields and another section for other properties.">
+<img src="assets/images/guide/devtools/search.png" alt="「Components」分頁的螢幕截圖。分頁正下方的篩選列正在搜尋「todo」，樹中名稱含有「todo」的所有元件都被反白標示。目前選取的是 `app-todos`，右側邊欄顯示該元件的屬性資訊，其中包含一區 `@Output` 欄位，以及另一區其他屬性。">
 
-### Navigate to the host node
+### 前往主機節點
 
-To go to the host element of a particular component or directive, double-click it in the component explorer.
-Angular DevTools will open the Elements tab in Chrome or the Inspector tab in Firefox, and select the associated DOM node.
+若要前往特定元件或指令的主機元素，在元件總管中對它按兩下。
+Angular DevTools 會開啟 Chrome 的 Elements 分頁（或 Firefox 的 Inspector 分頁），並選取對應的 DOM 節點。
 
-### Navigate to source
+### 前往原始碼
 
-For components, Angular DevTools lets you navigate to the component definition in the Sources tab (Chrome) and Debugger tab (Firefox).
-After you select a particular component, click the icon at the top-right of the properties view:
+對於元件，Angular DevTools 讓你能在 Sources 分頁（Chrome）與 Debugger 分頁（Firefox）中前往元件定義。
+選取特定元件後，點選屬性檢視右上角的圖示：
 
-<img src="assets/images/guide/devtools/navigate-source.png" alt="A screenshot of the 'Components' tab. The properties view on the right is visible for a component and the mouse rests in the upper right corner of that view on top of a `<>` icon. An adjacent tooltip reads 'Open component source'.">
+<img src="assets/images/guide/devtools/navigate-source.png" alt="「Components」分頁的螢幕截圖。右側顯示某個元件的屬性檢視，滑鼠停在該檢視右上角的 `<>` 圖示上，旁邊的工具提示寫著「Open component source」。">
 
-### Update property value
+### 更新屬性值
 
-Like browsers' DevTools, the properties view lets you edit the value of an input, output, or other properties.
-Right-click on the property value and if edit functionality is available for this value type, a text input will appear.
-Type the new value and press `Enter` to apply this value to the property.
+和瀏覽器 DevTools 一樣，屬性檢視讓你編輯輸入、輸出或其他屬性的值。
+在屬性值上按右鍵，若該值類型支援編輯功能，就會出現文字輸入框。
+輸入新值並按下 `Enter`，即可將新值套用到該屬性。
 
-<img src="assets/images/guide/devtools/update-property.png" alt="A screenshot of the 'Components' tab with the properties view open for a component. An `@Input` named `todo` contains a `label` property which is currently selected and has been manually updated to the value 'Buy milk'.">
+<img src="assets/images/guide/devtools/update-property.png" alt="「Components」分頁的螢幕截圖，開啟了某個元件的屬性檢視。名為 `todo` 的 `@Input` 含有一個 `label` 屬性，該屬性目前被選取，且已手動更新為「Buy milk」。">
 
-### Access selected component or directive in console
+### 在主控台存取選取的元件或指令
 
-As a shortcut in the console, Angular DevTools provides access to instances of recently selected components or directives.
-Type `$ng0` to get a reference to the instance of the currently selected component or directive, and type `$ng1` for the previously selected instance, `$ng2` for the instance selected before that, and so on.
+Angular DevTools 提供了一個主控台捷徑，讓你存取最近選取的元件或指令實例。
+輸入 `$ng0` 可取得目前選取的元件或指令實例的參照，輸入 `$ng1` 取得前一個選取的實例，`$ng2` 取得再前一個，依此類推。
 
-<img src="assets/images/guide/devtools/access-console.png" alt="A screenshot of the 'Components' tab with the browser console underneath. In the console, the user has typed three commands, `$ng0`, `$ng1`, and `$ng2` to view the three most recently selected elements. After each statement, the console prints a different component reference.">
+<img src="assets/images/guide/devtools/access-console.png" alt="「Components」分頁的螢幕截圖，下方是瀏覽器主控台。使用者在主控台輸入了三個指令：`$ng0`、`$ng1` 與 `$ng2`，用來檢視最近選取的三個元素。每個指令之後，主控台都印出不同的元件參照。">
 
-### Select a directive or component
+### 選取指令或元件
 
-Similar to browsers' DevTools, you can inspect the page to select a particular component or directive.
-Click the **_Inspect element_** icon in the top left corner within Angular DevTools and hover over a DOM element on the page.
-The extension recognizes the associated directives and/or components and lets you select the corresponding element in the Component tree.
+和瀏覽器 DevTools 類似，你可以檢視頁面來選取特定元件或指令。
+點選 Angular DevTools 左上角的 **_Inspect element_** 圖示，再將滑鼠懸停在頁面上的 DOM 元素上。
+擴充功能會辨識相關聯的指令與元件，讓你在元件樹中選取對應的元素。
 
-<img src="assets/images/guide/devtools/inspect-element.png" alt="A screenshot of the 'Components' tab with an Angular todo application visible. In the very top-left corner of Angular DevTools, an icon of a screen with a mouse icon inside it is selected. The mouse rests on a todo element in the Angular application UI. The element is highlighted with a `<TodoComponent>` label displayed in an adjacent tooltip.">
+<img src="assets/images/guide/devtools/inspect-element.png" alt="「Components」分頁的螢幕截圖，畫面中可見一個 Angular 待辦事項應用程式。Angular DevTools 最左上角有一個被選取的圖示（螢幕裡有滑鼠圖示）。滑鼠停在 Angular 應用程式介面中的一個待辦事項元素上，該元素被反白標示，旁邊的工具提示顯示 `<TodoComponent>` 標籤。">
 
-### Inspect Deferrable views
+### 檢視可延遲檢視
 
-Alongside the directives, the directive tree also includes [`@defer` blocks](/guide/templates/defer).
+指令樹除了指令之外，也包含 [`@defer` 區塊](/guide/templates/defer)。
 
 <img src="assets/images/guide/devtools/defer-block.png" />
 
-Clicking a defer block shows more details in the properties sidebar: the different optional blocks (for example `@loading`, `@placeholder`, and `@error`), the configured triggers (defer triggers, prefetch triggers, and hydrate triggers), and timing options such as the `minimum` and `after` values.
+點選延遲區塊後，屬性邊欄會顯示更多細節：各種選用的區塊（例如 `@loading`、`@placeholder` 與 `@error`）、已設定的觸發條件（defer 觸發條件、prefetch 觸發條件與 hydrate 觸發條件），以及 `minimum`、`after` 等時間選項的值。
 
-### Hydration
+### 水合
 
-When [hydration](/guide/hydration) is enabled on your SSR/SSG application, the directive tree shows the hydration status of each component.
+當你的 SSR/SSG 應用程式啟用了[水合（hydration）](/guide/hydration)時，指令樹會顯示每個元件的水合狀態。
 
-In case of errors, an error message is displayed on the affected component.
+發生錯誤時，受影響的元件上會顯示錯誤訊息。
 
 <img src="assets/images/guide/devtools/hydration-status.png" />
 
-The hydration status can also be visualized on the application itself by enabling the overlay.
+你也可以啟用覆蓋層，將水合狀態直接視覺化呈現在應用程式本身上。
 
 <img src="assets/images/guide/devtools/hydration-overlay-ecom.png" />
 
-Here is an illustration of the hydration overlays on a Angular e-shop example app.
+上圖展示了水合覆蓋層在一個 Angular 電子商店範例應用程式上的呈現效果。

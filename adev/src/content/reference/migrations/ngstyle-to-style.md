@@ -1,41 +1,41 @@
-# Migration from NgStyle to style bindings
+# 從 NgStyle 遷移到 style 繫結
 
-This schematic migrates NgStyle directive usages to style bindings in your application.
-It will only migrate usages that are considered safe to migrate.
+此原理圖會把應用程式中 NgStyle 指令的用法，遷移為 style 繫結。
+它只會遷移被認為可安全遷移的用法。
 
-Run the schematic using the following command:
+使用以下指令執行此原理圖：
 
 ```bash
 ng generate @angular/core:ngstyle-to-style
 ```
 
-#### Before
+#### 遷移前
 
 ```html
 <div [ngStyle]="{'background-color': 'red'}"></div>
 ```
 
-#### After
+#### 遷移後
 
 ```html
 <div [style]="{'background-color': 'red'}"></div>
 ```
 
-## Configuration options
+## 設定選項
 
-The migration supports a few options for fine tuning the migration to your specific needs.
+這項遷移支援幾個選項，可依你的具體需求微調遷移方式。
 
 ### `--best-effort-mode`
 
-By default, the migration avoids migrating object references usages of `NgStyle`
-When the `--best-effort-mode` flag is enabled, `ngStyle` instances binded to object references are also migrated.
-This can be unsafe to migrate, for example if the binded object is mutated.
+依預設，遷移會避開以物件參照形式使用 `NgStyle` 的用法。
+啟用 `--best-effort-mode` 旗標後，繫結到物件參照的 `ngStyle` 實例也會被遷移。
+這樣遷移可能不安全，例如被繫結的物件遭到修改時。
 
 ```html
 <div [ngStyle]="styleObject"></div>
 ```
 
-to
+改為
 
 ```html
 <div [style]="styleObject"></div>

@@ -1,23 +1,23 @@
-# Async operations
+# 非同步操作
 
-Some validation requires data from external sources like backend APIs or third-party services. Signal Forms provides two functions for asynchronous validation: `validateHttp()` for HTTP-based validation and `validateAsync()` for custom resource-based validation.
+有些驗證需要來自外部來源的資料，例如後端 API 或第三方服務。Signal Forms 提供兩個函式用於非同步驗證：`validateHttp()` 用於以 HTTP 為基礎的驗證，`validateAsync()` 用於以自訂 resource 為基礎的驗證。
 
-## When to use async validation
+## 何時使用非同步驗證
 
-Use async validation when your validation logic requires external data. Some common examples include:
+當你的驗證邏輯需要外部資料時，使用非同步驗證。一些常見範例包括：
 
-- **Uniqueness checks** - Verify usernames or emails don't already exist
-- **Database lookups** - Check values against server-side data
-- **External API validation** - Validate addresses, tax IDs, or other data with third-party services
-- **Server-side business rules** - Apply validation rules that only the server can verify
+- **唯一性檢查**：確認使用者名稱或電子郵件是否已經存在
+- **資料庫查詢**：對照伺服器端資料檢查值
+- **外部 API 驗證**：透過第三方服務驗證地址、稅籍編號或其他資料
+- **伺服器端商業規則**：套用只有伺服器能驗證的驗證規則
 
-Don't use async validation for checks you can perform synchronously on the client. Use synchronous validation rules like `pattern()`, `email()`, or `validate()` for format validation and static rules.
+不要把可以在用戶端同步完成的檢查拿來做非同步驗證。對於格式驗證與靜態規則，請使用 `pattern()`、`email()` 或 `validate()` 等同步驗證規則。
 
-## How async validation works
+## 非同步驗證的運作方式
 
-Async validation runs only after all synchronous validation passes. While the validation executes, the field's `pending()` signal returns `true`. The validation can target errors to specific fields, and pending requests cancel automatically when field values change.
+非同步驗證只有在所有同步驗證都通過後才會執行。驗證執行期間，欄位的 `pending()` 訊號會回傳 `true`。驗證可以把錯誤指向特定欄位，而且當欄位值變更時，進行中的請求會自動取消。
 
-Here's an example checking username availability:
+以下是一個檢查使用者名稱可用性的範例：
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -73,22 +73,22 @@ export class Registration {
 }
 ```
 
-The validation flow works like this:
+驗證流程的運作方式如下：
 
-1. User types a value
-2. Synchronous validation rules run first
-3. If synchronous validation fails, async validation doesn't run
-4. If synchronous validation passes, async validation starts and `pending()` becomes `true`
-5. The request completes and `pending()` becomes `false`
-6. Errors update based on the response
+1. 使用者輸入一個值
+2. 同步驗證規則先執行
+3. 如果同步驗證失敗，非同步驗證不會執行
+4. 如果同步驗證通過，非同步驗證開始，且 `pending()` 變成 `true`
+5. 請求完成，且 `pending()` 變成 `false`
+6. 錯誤依據回應更新
 
-## HTTP validation with validateHttp()
+## 使用 validateHttp() 進行 HTTP 驗證 {#http-validation-with-validatehttp}
 
-The `validateHttp()` function provides the most common form of async validation. Use it when you need to validate against a REST API or any HTTP endpoint.
+`validateHttp()` 函式提供最常見形式的非同步驗證。當你需要對照 REST API 或任何 HTTP 端點進行驗證時，使用它。
 
-### Request function
+### request 函式
 
-The `request` function returns either a URL string or an `HttpResourceRequest` object. Return `undefined` to skip the validation:
+`request` 函式回傳一個 URL 字串或一個 `HttpResourceRequest` 物件。回傳 `undefined` 可以略過驗證：
 
 ```ts
 import {Component, signal} from '@angular/core';
@@ -134,7 +134,7 @@ export class Registration {
 }
 ```
 
-For POST requests or custom headers, return an `HttpResourceRequest` object:
+對於 POST 請求或自訂標頭，回傳一個 `HttpResourceRequest` 物件：
 
 ```ts
 request: ({value}) => ({
@@ -144,9 +144,9 @@ request: ({value}) => ({
 }) // prettier-ignore
 ```
 
-### Success and error handlers
+### 成功與錯誤處理器
 
-The `onSuccess` function receives the HTTP response and returns validation errors or `undefined` for valid values:
+`onSuccess` 函式接收 HTTP 回應，並回傳驗證錯誤，或針對有效值回傳 `undefined`：
 
 ```ts
 onSuccess: (response) => {
@@ -159,7 +159,7 @@ onSuccess: (response) => {
 } // prettier-ignore
 ```
 
-Return multiple errors when needed:
+有需要時可以回傳多個錯誤：
 
 ```ts
 onSuccess: (response) => {
@@ -180,7 +180,7 @@ onSuccess: (response) => {
 } // prettier-ignore
 ```
 
-The `onError` function handles request failures like network errors or HTTP errors:
+`onError` 函式處理請求失敗，例如網路錯誤或 HTTP 錯誤：
 
 ```ts
 onError: (error) => {
@@ -192,9 +192,9 @@ onError: (error) => {
 } // prettier-ignore
 ```
 
-### HTTP options
+### HTTP 選項
 
-Customize the HTTP request with the `options` parameter:
+透過 `options` 參數自訂 HTTP 請求：
 
 ```ts
 import {HttpHeaders} from '@angular/common/http';
@@ -221,24 +221,24 @@ validateHttp(schemaPath.field, {
 });
 ```
 
-TIP: See the [httpResource API documentation](api/common/http/httpResource) for all available options.
+TIP: 所有可用選項請見 [httpResource API 文件](api/common/http/httpResource)。
 
-## Custom async validation with validateAsync()
+## 使用 validateAsync() 進行自訂非同步驗證 {#custom-async-validation-with-validateasync}
 
-Most applications should use `validateHttp()` for async validation. It handles HTTP requests with minimal configuration and covers the majority of use cases.
+大多數應用程式應該使用 `validateHttp()` 進行非同步驗證。它以最少的設定處理 HTTP 請求，並涵蓋大多數使用情境。
 
-`validateAsync()` is a lower-level API that exposes Angular's resource primitive directly. It offers complete control but requires more code and familiarity with Angular's resource API.
+`validateAsync()` 是一個較低階的 API，它直接公開 Angular 的 resource 原語。它提供完整的控制，但需要更多程式碼，也需要熟悉 Angular 的 resource API。
 
-Consider `validateAsync()` only when `validateHttp()` can't meet your needs. Some examples include:
+只有在 `validateHttp()` 無法滿足你的需求時，才考慮 `validateAsync()`。一些範例包括：
 
-- **Non-HTTP validation** - WebSocket connections, IndexedDB lookups, or Web Worker computations
-- **Custom caching strategies** - Application-specific caching beyond simple memoization
-- **Complex retry logic** - Custom backoff strategies or conditional retries
-- **Direct resource access** - When you need the full resource lifecycle
+- **非 HTTP 驗證**：WebSocket 連線、IndexedDB 查詢，或 Web Worker 運算
+- **自訂快取策略**：超出簡單 memoization 的應用程式專屬快取
+- **複雜的重試邏輯**：自訂 backoff 策略或條件式重試
+- **直接存取 resource**：當你需要完整的 resource 生命週期時
 
-### Creating a custom validation rule
+### 建立自訂驗證規則
 
-The `validateAsync()` function requires four properties: `params`, `factory`, `onSuccess`, and `onError`. The `params` function returns the parameters for your resource, while `factory` creates the resource:
+`validateAsync()` 函式需要四個屬性：`params`、`factory`、`onSuccess` 與 `onError`。`params` 函式回傳你的 resource 的參數，而 `factory` 建立該 resource：
 
 ```ts
 import {Component, inject, signal, resource, Signal} from '@angular/core';
@@ -304,11 +304,11 @@ export class Registration {
 }
 ```
 
-The `params` function runs on every value change. Return `undefined` to skip validation. The `factory` function runs once during setup and receives params as a signal. The resource updates automatically when params change.
+`params` 函式在每次值變更時都會執行。回傳 `undefined` 可以略過驗證。`factory` 函式在設定期間只執行一次，並接收以訊號形式提供的 params。當 params 變更時，resource 會自動更新。
 
-### Using Observable-based services
+### 使用以 Observable 為基礎的服務
 
-If your application has existing services that return Observables, use `rxResource` from `@angular/core/rxjs-interop`:
+如果你的應用程式已有回傳 Observable 的服務，請使用來自 `@angular/core/rxjs-interop` 的 `rxResource`：
 
 ```ts
 import {Component, inject, signal, Signal} from '@angular/core';
@@ -348,15 +348,15 @@ export class Registration {
 }
 ```
 
-The `rxResource` function works directly with Observables and handles subscription cleanup automatically when the field value changes.
+`rxResource` 函式直接與 Observable 配合運作，並在欄位值變更時自動處理訂閱清理。
 
-## Debouncing
+## 去抖動
 
-The `debounce` rule delays when a user's input is committed to the form model. You can think of it as the rule holding back values until the user pauses typing. This is useful when downstream behavior shouldn't react to every keystroke, such as expensive derived computations, validation that flashes errors mid-word, or search filters that reapply on each character.
+`debounce` 規則會延遲使用者輸入被提交到表單模型的時機。你可以把它想成：這條規則會扣住值，直到使用者暫停輸入為止。這在下游行為不應該對每次按鍵都做出反應時很有用，例如成本高昂的衍生運算、會在單字打到一半時閃爍錯誤的驗證，或在每個字元輸入時都重新套用的搜尋篩選。
 
-Add the `debounce` rule inside a schema to delay how a form field's UI changes reach the form model. In its simplest form, `debounce(path, ms)` holds each UI change for the given number of milliseconds before writing it to the model. A new change within that window resets the timer.
+在 schema 中加入 `debounce` 規則，延遲表單欄位的 UI 變更抵達表單模型的時機。在最簡單的形式下，`debounce(path, ms)` 會把每次 UI 變更扣住指定的毫秒數，再寫入模型。在這個時間窗內出現的新變更會重設計時器。
 
-The following example applies `debounce` and `validateHttp` to the username field to delay the username availability check in a registration form until the user pauses typing:
+下列範例把 `debounce` 與 `validateHttp` 套用到使用者名稱欄位，延遲註冊表單中的使用者名稱可用性檢查，直到使用者暫停輸入為止：
 
 ```angular-ts
 import {Component, signal} from '@angular/core';
@@ -401,19 +401,19 @@ export class Registration {
 }
 ```
 
-With a 300 ms debounce, the model updates and validates only after the user pauses typing longer than the configured duration. For example, typing "signal forms" in a quick burst fires one validation request instead of twelve.
+在 300 毫秒的去抖動下，模型只有在使用者暫停輸入超過所設定的時間後，才會更新並進行驗證。例如，快速連續輸入「signal forms」只會觸發一次驗證請求，而不是十二次。
 
-### Touch flushes the model
+### 觸碰時立即寫入模型
 
-Regardless of the debounce duration, the framework writes the field's `controlValue()` to the model immediately when the field becomes touched. Native inputs become touched on blur, so a user who finishes typing and tabs away doesn't have to wait for the debounce timer to expire. Custom controls can mark the field as touched in response to any event they choose.
+不論去抖動的時間長短，當欄位變成 touched 時，框架會立即把欄位的 `controlValue()` 寫入模型。原生輸入會在失焦時變成 touched，因此打完字並以 Tab 切走的使用者，不必等去抖動計時器到期。自訂控制項可以因應它們選擇的任何事件，把欄位標記為 touched。
 
-In the typical case, this matters for form submission. When the user clicks a submit button, the focused input blurs, which touches that field and flushes its pending debounce before the submission handler runs.
+在典型情況下，這對表單送出很重要。當使用者點選送出按鈕時，聚焦中的輸入會失焦，這會觸碰該欄位，並在送出處理器執行前，清掉它待處理的去抖動。
 
-### Commit only on blur
+### 只在失焦時提交
 
-Some fields shouldn't update mid-typing at all, and instead should only update after the user has finished entering a value. For example, if you have a search filter that reapplies on every change or a form that triggers expensive derived state, it is often better for the model to wait until the user finishes typing.
+有些欄位根本不應該在輸入途中更新，而應該只在使用者完成值輸入後才更新。例如，如果你有一個在每次變更時都重新套用的搜尋篩選，或一個會觸發成本高昂衍生狀態的表單，模型等到使用者打完字再更新，往往是更好的做法。
 
-In these scenarios, pass `'blur'` instead of a duration to defer all updates until the field becomes touched:
+在這些情境中，傳入 `'blur'` 而不是時間長度，把所有更新延後到欄位變成 touched 為止：
 
 ```ts
 form(this.registrationModel, (schemaPath) => {
@@ -421,11 +421,11 @@ form(this.registrationModel, (schemaPath) => {
 });
 ```
 
-With `'blur'`, the model keeps its previous value while the user is typing. Sync and async validation, derived signals, and any reactive rules reading the field all see the previous value until the field becomes touched. This commonly occurs when the user blurs a native input, or when a custom control signals touch on its own.
+使用 `'blur'` 時，模型在使用者輸入期間會保留它的前一個值。同步與非同步驗證、衍生訊號，以及任何讀取該欄位的反應式規則，在欄位變成 touched 之前，看到的都是前一個值。這種情況通常發生在使用者讓原生輸入失焦時，或自訂控制項自行發出觸碰訊號時。
 
-### Custom timing logic
+### 自訂時機邏輯
 
-For timing logic that a duration or `'blur'` can't express, pass a `Debouncer` function. The function receives the field context and an [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal), and returns a `Promise<void>` that resolves when the model should update:
+對於時間長度或 `'blur'` 無法表達的時機邏輯，傳入一個 `Debouncer` 函式。這個函式接收欄位脈絡與一個 [`AbortSignal`](https://developer.mozilla.org/en-US/docs/Web/API/AbortSignal)，並回傳一個 `Promise<void>`，它在模型應該更新時 resolve：
 
 ```ts
 import {debounce, type Debouncer} from '@angular/forms/signals';
@@ -452,11 +452,11 @@ form(this.registrationModel, (schemaPath) => {
 });
 ```
 
-The `abortSignal` fires when the field is touched, or when its value changes before the debounce resolves. Resolve the promise on abort so your debouncer releases any pending timers. The framework writes the pending value to the model on touch, and discards it when a newer value arrives. See the [`debounce` API reference](api/forms/signals/debounce) for the full `Debouncer` signature.
+當欄位被觸碰，或它的值在去抖動 resolve 之前變更時，`abortSignal` 就會觸發。在 abort 時 resolve 這個 promise，讓你的 debouncer 釋放任何待處理的計時器。框架在觸碰時把待處理的值寫入模型，並在新值抵達時丟棄它。完整的 `Debouncer` 簽名請見 [`debounce` API 參考文件](api/forms/signals/debounce)。
 
-### Debouncing a single async validator
+### 只對單一非同步驗證器套用去抖動
 
-The `debounce` rule holds back every reaction to the field, from sync validation to derived signals to async validation. However, there are times when you want the opposite: cheap sync validators like `required` or `email` running immediately for instant feedback, while only the expensive async call waits for the user to settle. Both `validateHttp()` and `validateAsync()` accept their own [`debounce` option](api/forms/signals/validateAsync) that throttles just that validator:
+`debounce` 規則會扣住欄位的所有反應，從同步驗證、衍生訊號到非同步驗證。然而，有時你想要的剛好相反：像 `required` 或 `email` 這類便宜的同步驗證器立即執行以提供即時回饋，而只有成本高昂的非同步呼叫等使用者停下來。`validateHttp()` 與 `validateAsync()` 都接受它們自己的 [`debounce` 選項](api/forms/signals/validateAsync)，只節流那個驗證器：
 
 ```ts
 form(this.registrationModel, (schemaPath) => {
@@ -478,22 +478,22 @@ form(this.registrationModel, (schemaPath) => {
 });
 ```
 
-The model still updates on every keystroke, and any other rules attached to the field still react immediately. Only the HTTP request is debounced: each change waits 300 ms of quiet before firing, so a request only goes out once the user has paused typing.
+模型仍然在每次按鍵時更新，附著在欄位上的任何其他規則也仍然立即做出反應。只有 HTTP 請求被去抖動：每次變更都會等待 300 毫秒的安靜期才發出，因此請求只在使用者暫停輸入後才會送出。
 
-Choose between the two layers based on scope:
+依據範圍在兩個層級之間做選擇：
 
-| Option                                                        | When to use                                                                                                                         |
+| 選項                                                        | 使用時機                                                                                                                         |
 | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `debounce()` rule                                             | Sync validation, derived state, and submission should all wait until the field commits. The whole field shouldn't react mid-typing. |
-| `validateHttp({ debounce })` or `validateAsync({ debounce })` | Cheap sync validators should give immediate feedback, but expensive async calls should wait for the user to pause.                  |
+| `debounce()` 規則                                             | 同步驗證、衍生狀態與送出都應該等到欄位提交後。整個欄位不應該在輸入途中做出反應。 |
+| `validateHttp({ debounce })` 或 `validateAsync({ debounce })` | 便宜的同步驗證器應該提供即時回饋，但成本高昂的非同步呼叫應該等使用者暫停。                  |
 
-Both options accept a duration in milliseconds. Their custom-timing callbacks differ: the form-level rule takes a `Debouncer`, and the validator-level option takes a `DebounceTimer` from `@angular/core`. The two signatures are not interchangeable.
+兩個選項都接受以毫秒為單位的時間長度。它們的自訂時機回呼不同：表單層級的規則使用 `Debouncer`，驗證器層級的選項使用來自 `@angular/core` 的 `DebounceTimer`。這兩個簽名不可互換。
 
-## Composing resources in async validation with a factory
+## 以 factory 在非同步驗證中組合資源
 
-The built-in [`debounce` option](api/forms/signals/validateAsync) covers throttling, but `validateAsync()` exposes a deeper composition point: the `factory` function. The factory receives the params as a signal and returns a resource. Between those two points, you're free to compose whatever you need.
+內建的 [`debounce` 選項](api/forms/signals/validateAsync)涵蓋了節流，但 `validateAsync()` 公開了一個更深的組合點：`factory` 函式。這個 factory 以訊號形式接收 params，並回傳一個 resource。在這兩個點之間，你可以自由組合任何你需要的東西。
 
-In its simplest form, a factory wraps a single resource. A username-availability check can live as a method on the component class, and then be wired into `validateAsync` by reference:
+在最簡單的形式下，一個 factory 包裝單一 resource。使用者名稱可用性檢查可以作為元件類別上的一個方法存在，然後以參考方式接入 `validateAsync`：
 
 ```ts
 export class Registration {
@@ -525,11 +525,11 @@ export class Registration {
 }
 ```
 
-The `params` callback returns `undefined` for short usernames, signaling that validation should skip. With `debounce: 300` applied, the resource waits until the user pauses typing for 300 ms before acting on each change. It then runs the loader for valid usernames and stays idle once the debounced value settles to `undefined`.
+`params` 回呼針對短的使用者名稱回傳 `undefined`，表示應該略過驗證。在套用 `debounce: 300` 的情況下，resource 會等到使用者暫停輸入 300 毫秒後，才對每次變更採取行動。接著，它會針對有效的使用者名稱執行 loader，並在去抖動後的值穩定為 `undefined` 後保持閒置。
 
-### Combining debounce with additional logic
+### 結合去抖動與額外邏輯
 
-When you need logic beyond a plain duration debounce, use a custom factory to combine debouncing with that logic. A common case is caching validated responses. For example, once the server has confirmed a username, you don't need to ask again on subsequent keystrokes that revisit the same value.
+當你需要超出單純時間長度去抖動的邏輯時，使用自訂 factory 把去抖動與該邏輯結合。一個常見案例是快取已驗證的回應。例如，一旦伺服器已確認某個使用者名稱，後續按鍵再次回到相同值時，你不需要再問一次。
 
 ```ts
 export class Registration {
@@ -571,18 +571,18 @@ export class Registration {
 }
 ```
 
-The `cache` lives in the factory's closure, so it persists for the field's lifetime. Once the user has typed a username the server has already checked, the loader reads from the cache instead of making a new network request.
+`cache` 存在於 factory 的 closure 之中，因此它在欄位的整個生命週期中持續存在。一旦使用者輸入了伺服器已經檢查過的使用者名稱，loader 就會從快取讀取，而不是發出新的網路請求。
 
-## Understanding pending state
+## 了解 pending 狀態
 
-When async validation runs, the field's `pending()` signal returns `true`. During this time:
+當非同步驗證執行時，欄位的 `pending()` 訊號回傳 `true`。在此期間：
 
-- `valid()` returns `false`
-- `invalid()` returns `false`
-- `errors()` returns an empty array
-- `submit()` waits for validation to complete
+- `valid()` 回傳 `false`
+- `invalid()` 回傳 `false`
+- `errors()` 回傳一個空陣列
+- `submit()` 會等待驗證完成
 
-Show the pending state in your template to provide feedback:
+在你的範本中顯示 pending 狀態以提供回饋：
 
 ```angular-html
 <input [formField]="loginForm.username" />
@@ -598,7 +598,7 @@ Show the pending state in your template to provide feedback:
 }
 ```
 
-Disable form submission while validation is pending:
+在驗證 pending 期間停用表單送出：
 
 ```angular-html
 <button type="submit" [disabled]="loginForm().pending()">
@@ -610,11 +610,11 @@ Disable form submission while validation is pending:
 </button>
 ```
 
-TIP: See the [Field State Management guide](guide/forms/signals/field-state-management) for more patterns using `pending()`, `valid()`, and `invalid()` signals.
+TIP: 更多使用 `pending()`、`valid()` 與 `invalid()` 訊號的模式，請見[欄位狀態管理指南](guide/forms/signals/field-state-management)。
 
-### Validation execution order
+### 驗證執行順序
 
-Async validation only runs after synchronous validation passes. This prevents unnecessary server requests for invalid input:
+非同步驗證只有在同步驗證通過後才會執行。這能避免針對無效輸入發出不必要的伺服器請求：
 
 ```ts
 import {form, required, minLength, validateHttp} from '@angular/forms/signals';
@@ -642,17 +642,17 @@ form(model, (schemaPath) => {
 });
 ```
 
-This execution order improves performance by reducing server load and catching format errors instantly.
+這樣的執行順序能減少伺服器負載並即時抓出格式錯誤，進而提升效能。
 
-### Request cancellation
+### 請求取消
 
-When a field value changes, Signal Forms automatically cancels any pending async validation request for that field. This prevents race conditions and ensures validation always reflects the current value. You don't need to implement cancellation logic yourself.
+當欄位值變更時，Signal Forms 會自動取消該欄位任何進行中的非同步驗證請求。這能避免競態條件，並確保驗證永遠反映目前的值。你不需要自己實作取消邏輯。
 
-## Best practices
+## 最佳實務
 
-### Combine with synchronous validation
+### 與同步驗證結合
 
-Always validate format before making async requests. This catches errors instantly and prevents unnecessary server requests:
+在發出非同步請求之前，永遠先驗證格式。這能即時抓出錯誤，並避免不必要的伺服器請求：
 
 ```ts
 import {form, required, email, validateHttp} from '@angular/forms/signals';
@@ -680,9 +680,9 @@ form(model, (schemaPath) => {
 });
 ```
 
-### Skip validation when appropriate
+### 在適當時機略過驗證
 
-Return `undefined` from the `request` function to skip validation. Use this to avoid validating empty fields or values that don't meet minimum requirements:
+從 `request` 函式回傳 `undefined` 來略過驗證。用這個方式避免驗證空欄位，或未達最低要求的值：
 
 ```ts
 import {validateHttp} from '@angular/forms/signals';
@@ -709,9 +709,9 @@ validateHttp(schemaPath.username, {
 });
 ```
 
-### Handle errors gracefully
+### 優雅地處理錯誤
 
-Provide clear, user-friendly error messages. Log technical details for debugging but show simple messages to users:
+提供清楚、對使用者友善的錯誤訊息。把技術細節記錄下來供除錯使用，但向使用者顯示簡單的訊息：
 
 ```ts
 import {validateHttp} from '@angular/forms/signals';
@@ -739,9 +739,9 @@ validateHttp(schemaPath.field, {
 });
 ```
 
-### Show clear feedback
+### 顯示清楚的回饋
 
-Use the `pending()` signal to show when validation is happening. This helps users understand delays and provides better perceived performance:
+使用 `pending()` 訊號來顯示驗證何時正在進行。這能幫助使用者理解延遲，並提供更好的感知效能：
 
 ```angular-html
 @if (field().pending()) {
@@ -758,18 +758,18 @@ Use the `pending()` signal to show when validation is happening. This helps user
 }
 ```
 
-## Next steps
+## 後續步驟
 
-This guide covered async validation with `validateHttp()` and `validateAsync()`. Related guides explore other aspects of Signal Forms:
+本指南介紹了使用 `validateHttp()` 與 `validateAsync()` 的非同步驗證。相關指南探討了 Signal Forms 的其他面向：
 
 <docs-pill-row>
-  <docs-pill href="guide/forms/signals/validation" title="Validation"/>
-  <docs-pill href="guide/forms/signals/field-state-management" title="Field State Management"/>
+  <docs-pill href="guide/forms/signals/validation" title="驗證"/>
+  <docs-pill href="guide/forms/signals/field-state-management" title="欄位狀態管理"/>
 </docs-pill-row>
 
-For detailed API documentation, see:
+詳細的 API 文件請見：
 
-- [`validateHttp()`](api/forms/signals/validateHttp) - HTTP-based async validation
-- [`validateAsync()`](api/forms/signals/validateAsync) - Custom resource-based async validation
-- [`httpResource()`](api/common/http/httpResource) - Angular's HTTP resource API
-- [`resource()`](api/core/resource) - Angular's resource primitive
+- [`validateHttp()`](api/forms/signals/validateHttp)：以 HTTP 為基礎的非同步驗證
+- [`validateAsync()`](api/forms/signals/validateAsync)：以自訂 resource 為基礎的非同步驗證
+- [`httpResource()`](api/common/http/httpResource)：Angular 的 HTTP resource API
+- [`resource()`](api/core/resource)：Angular 的 resource 原語

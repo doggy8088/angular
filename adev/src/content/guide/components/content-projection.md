@@ -1,9 +1,8 @@
-# Content projection with ng-content
+# 使用 ng-content 進行內容投影
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先閱讀該指南。
 
-You often need to create components that act as containers for different types of content. For
-example, you may want to create a custom card component:
+你經常需要建立可作為不同類型內容容器的元件。例如，你可能想建立一個自訂卡片元件：
 
 ```angular-ts
 @Component({
@@ -15,7 +14,7 @@ export class CustomCard {
 }
 ```
 
-**You can use the `<ng-content>` element as a placeholder to mark where content should go**:
+**你可以使用 `<ng-content>` 元素作為佔位符，標示內容應該放置的位置**：
 
 ```angular-ts
 @Component({
@@ -27,12 +26,9 @@ export class CustomCard {
 }
 ```
 
-TIP: `<ng-content>` works similarly
-to [the native `<slot>` element](https://developer.mozilla.org/docs/Web/HTML/Element/slot),
-but with some Angular-specific functionality.
+TIP: `<ng-content>` 的運作方式類似[原生的 `<slot>` 元素](https://developer.mozilla.org/docs/Web/HTML/Element/slot)，但帶有一些 Angular 專屬功能。
 
-When you use a component with `<ng-content>`, any children of the component host element are
-rendered, or **projected**, at the location of that `<ng-content>`:
+當你使用帶有 `<ng-content>` 的元件時，元件宿主元素的任何子元素都會在該 `<ng-content>` 的位置算繪，也就是被**投影**過去：
 
 ```angular-ts
 // Component source
@@ -65,25 +61,15 @@ export class CustomCard {
 </custom-card>
 ```
 
-Angular refers to any children of a component passed this way as that component's **content**. This
-is distinct from the component's **view**, which refers to the elements defined in the component's
-template.
+Angular 將以這種方式傳給元件的任何子元素稱為該元件的**內容**。這與元件的**檢視**不同，檢視指的是元件範本中定義的元素。
 
-**The `<ng-content>` element is neither a component nor DOM element**. Instead, it is a special
-placeholder that tells Angular where to render content. Angular's compiler processes
-all `<ng-content>` elements at build-time. You cannot insert, remove, or modify `<ng-content>` at
-run time. You cannot add directives, styles, or arbitrary attributes to `<ng-content>`.
+**`<ng-content>` 元素既不是元件，也不是 DOM 元素**。它是一個特殊的佔位符，用來告訴 Angular 應該在哪裡算繪內容。Angular 的編譯器會在建置時期處理所有 `<ng-content>` 元素。你無法在執行時期插入、移除或修改 `<ng-content>`。你也無法為 `<ng-content>` 加上指令、樣式或任意屬性。
 
-IMPORTANT: You should not conditionally include `<ng-content>` with `@if`, `@for`, or `@switch`. Angular always
-instantiates and creates DOM nodes for content rendered to a `<ng-content>` placeholder, even if
-that `<ng-content>` placeholder is hidden. For conditional rendering of component content,
-see [Template fragments](api/core/ng-template).
+IMPORTANT: 你不應該用 `@if`、`@for` 或 `@switch` 條件式地包含 `<ng-content>`。即使該 `<ng-content>` 佔位符被隱藏，Angular 仍會一律具現化並為算繪到 `<ng-content>` 佔位符的內容建立 DOM 節點。如需條件式算繪元件內容，請參閱[範本片段](api/core/ng-template)。
 
-## Multiple content placeholders
+## 多個內容佔位符
 
-Angular supports projecting multiple different elements into different `<ng-content>` placeholders
-based on CSS selector. Expanding the card example from above, you could create two placeholders for
-a card title and a card body by using the `select` attribute:
+Angular 支援依據 CSS 選擇器，將多個不同的元素投影到不同的 `<ng-content>` 佔位符。擴充上面的卡片範例，你可以使用 `select` 屬性，建立卡片標題與卡片主體兩個佔位符：
 
 ```angular-ts
 @Component({
@@ -140,12 +126,9 @@ export class App {}
 </custom-card>
 ```
 
-The `<ng-content>` placeholder supports the same CSS selectors
-as [component selectors](guide/components/selectors).
+`<ng-content>` 佔位符支援的 CSS 選擇器，與[元件選擇器](guide/components/selectors)相同。
 
-If you include one or more `<ng-content>` placeholders with a `select` attribute and
-one `<ng-content>` placeholder without a `select` attribute, the latter captures all elements that
-did not match a `select` attribute:
+如果你同時包含一個或多個帶有 `select` 屬性的 `<ng-content>` 佔位符，以及一個不帶 `select` 屬性的 `<ng-content>` 佔位符，後者會擷取所有未符合任何 `select` 屬性的元素：
 
 ```angular-html
 <!-- Component template -->
@@ -178,12 +161,11 @@ did not match a `select` attribute:
 </custom-card>
 ```
 
-If a component does not include an `<ng-content>` placeholder without a `select` attribute, any
-elements that don't match one of the component's placeholders do not render into the DOM.
+如果元件沒有包含不帶 `select` 屬性的 `<ng-content>` 佔位符，任何未符合該元件佔位符的元素都不會算繪到 DOM 中。
 
-## Fallback content
+## 備用內容
 
-Angular can show _fallback content_ for a component's `<ng-content>` placeholder if that component doesn't have any matching child content. You can specify fallback content by adding child content to the `<ng-content>` element itself.
+如果元件沒有任何相符的子內容，Angular 可以為元件的 `<ng-content>` 佔位符顯示_備用內容_。你可以將子內容直接加到 `<ng-content>` 元素本身，來指定備用內容。
 
 ```angular-html
 <!-- Component template -->
@@ -213,11 +195,9 @@ Angular can show _fallback content_ for a component's `<ng-content>` placeholder
 </custom-card>
 ```
 
-## Aliasing content for projection
+## 為投影內容加上別名 {#aliasing-content-for-projection}
 
-Angular supports a special attribute, `ngProjectAs`, that allows you to specify a CSS selector on
-any element. Whenever an element with `ngProjectAs` is checked against an `<ng-content>`
-placeholder, Angular compares against the `ngProjectAs` value instead of the element's identity:
+Angular 支援一個特殊屬性 `ngProjectAs`，讓你可以在任何元素上指定 CSS 選擇器。當帶有 `ngProjectAs` 的元素要與 `<ng-content>` 佔位符比對時，Angular 會改以 `ngProjectAs` 的值來比對，而不是元素本身的身分：
 
 ```angular-html
 <!-- Component template -->
@@ -248,15 +228,15 @@ placeholder, Angular compares against the `ngProjectAs` value instead of the ele
 </custom-card>
 ```
 
-`ngProjectAs` supports only static values and cannot be bound to dynamic expressions.
+`ngProjectAs` 只支援靜態值，無法繫結到動態運算式。
 
-## Caveats
+## 注意事項
 
-### Projected content lives in the parent's view
+### 投影內容存活在父元件的檢視中
 
-Even though projected content is _rendered_ inside the receiving component, it is still owned by the component that declared it. Angular tracks it as part of the parent's view, which has a couple of side effects worth knowing about.
+即使投影內容是_算繪_在接收元件的內部，它仍然屬於宣告它的元件所有。Angular 將它追蹤為父元件檢視的一部分，這有幾個值得了解的副作用。
 
-**Change detection:** Projected content is checked when the _parent_ runs change detection. If the receiving component uses `OnPush`, Angular can skip checking that component's own template — but it won't skip the projected content, because that belongs to the parent.
+**變更偵測**：投影內容會在_父元件_執行變更偵測時被檢查。如果接收元件使用 `OnPush`，Angular 可以略過檢查該元件自己的範本，但不會略過投影內容，因為那屬於父元件。
 
 ```angular-html
 <!-- Parent template (default change detection) -->
@@ -266,12 +246,12 @@ Even though projected content is _rendered_ inside the receiving component, it i
 </onpush-wrapper>
 ```
 
-**Dependency injection:** Projected content gets its dependencies from the parent's injector, not from the receiving component's `viewProviders`. See [Providers and viewProviders](guide/di/hierarchical-dependency-injection) for details.
+**依賴注入**：投影內容的依賴來自父元件的注入器，而不是接收元件的 `viewProviders`。詳情請參閱[提供者與 viewProviders](guide/di/hierarchical-dependency-injection)。
 
-### Some library components don't support projected children
+### 有些函式庫元件不支援投影子元素
 
-Certain components — menus, tabs, lists — use `ContentChildren` to find their children and wire up behavior like keyboard navigation, focus management, or ARIA attributes. They're written assuming they own their children directly, so projecting external content into them tends to break things in subtle ways.
+某些元件，例如選單、頁籤、清單，會使用 `ContentChildren` 來尋找它們的子元素，並接上鍵盤導覽、焦點管理或 ARIA 屬性等行為。它們的撰寫方式假設自己直接擁有子元素，因此將外部內容投影進去，往往會以微妙的方式弄壞功能。
 
-For example, wrapping `<mat-menu-item>` elements in an extra layer and projecting them into `<mat-menu>` can silently break keyboard navigation and screen reader support. The query still finds the items, but the internal setup that makes them interactive may not work correctly when the items come from a different view context.
+例如，將 `<mat-menu-item>` 元素多包一層再投影到 `<mat-menu>` 中，可能會無聲地弄壞鍵盤導覽與螢幕閱讀器支援。查詢仍能找到這些項目，但當項目來自不同的檢視情境時，讓它們具備互動性的內部設定可能無法正確運作。
 
-If a library component manages its children's behavior, check its docs before reaching for content projection — it may not be supported.
+如果某個函式庫元件會管理其子元素的行為，在使用內容投影之前，請先查閱它的文件，該元件可能不支援內容投影。

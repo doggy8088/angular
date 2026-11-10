@@ -1,60 +1,60 @@
-# Error Encyclopedia
+# 錯誤百科
 
-## Runtime errors
+## 執行時期錯誤
 
-| Code      | Name                                                                                 |
+| 代碼      | 名稱                                                                                 |
 | :-------- | :----------------------------------------------------------------------------------- |
-| `NG0100`  | [Expression Changed After Checked](errors/NG0100)                                    |
-| `NG0200`  | [Circular Dependency in DI](errors/NG0200)                                           |
-| `NG0201`  | [No Provider Found](errors/NG0201)                                                   |
-| `NG0203`  | [`inject()` must be called from an injection context](errors/NG0203)                 |
-| `NG0204`  | [Invalid Injection Token](errors/NG0204)                                             |
-| `NG0205`  | [Injector has already been destroyed](errors/NG0205)                                 |
-| `NG0207`  | [EnvironmentProviders in wrong context](errors/NG0207)                               |
-| `NG0209`  | [Invalid multi provider](errors/NG0209)                                              |
-| `NG0300`  | [Selector Collision](errors/NG0300)                                                  |
-| `NG0301`  | [Export Not Found](errors/NG0301)                                                    |
-| `NG0302`  | [Pipe Not Found](errors/NG0302)                                                      |
-| `NG0401`  | [Missing platform](errors/NG0401)                                                    |
-| `NG0403`  | [Bootstrapped NgModule doesn't specify which component to initialize](errors/NG0403) |
-| `NG0500`  | [Hydration Node Mismatch](errors/NG0500)                                             |
-| `NG0501`  | [Hydration Missing Siblings](errors/NG0501)                                          |
-| `NG0502`  | [Hydration Missing Node](errors/NG0502)                                              |
-| `NG0503`  | [Hydration Unsupported Projection of DOM Nodes](errors/NG0503)                       |
-| `NG0504`  | [Skip hydration flag is applied to an invalid node](errors/NG0504)                   |
-| `NG0505`  | [No hydration info in server response](errors/NG0505)                                |
-| `NG0506`  | [NgZone remains unstable](errors/NG0506)                                             |
-| `NG0507`  | [HTML content was altered after SSR](errors/NG0507)                                  |
-| `NG0602`  | [Disallowed function call inside reactive context](errors/NG0602)                    |
-| `NG0750`  | [@defer dependencies failed to load](errors/NG0750)                                  |
-| `NG0751`  | [@defer behavior when HMR is enabled](errors/NG0751)                                 |
-| `NG0910`  | [Unsafe bindings on an iframe element](errors/NG0910)                                |
-| `NG0912`  | [Component ID generation collision](errors/NG0912)                                   |
-| `NG0913`  | [Runtime Performance Warnings](errors/NG0913)                                        |
-| `NG0919`  | [Circular Dependency Detected](errors/NG0919)                                        |
-| `NG0950`  | [Required input is accessed before a value is set](errors/NG0950)                    |
-| `NG0951`  | [Child query result is required but no value is available](errors/NG0951)            |
-| `NG0955`  | [Track expression resulted in duplicated keys for a given collection](errors/NG0955) |
-| `NG0956`  | [Tracking expression caused re-creation of the DOM structure](errors/NG0956)         |
-| `NG01002` | [Missing Control Value](errors/NG01002)                                              |
-| `NG01101` | [Wrong Async Validator Return Type](errors/NG01101)                                  |
-| `NG01203` | [Missing value accessor](errors/NG01203)                                             |
-| `NG01902` | [Orphan field in signal forms](errors/NG01902)                                       |
-| `NG02200` | [Missing Iterable Differ](errors/NG02200)                                            |
-| `NG02800` | [JSONP support in HttpClient configuration](errors/NG02800)                          |
-| `NG02802` | [Headers not transferred by HttpTransferCache](errors/NG02802)                       |
-| `NG05000` | [Hydration with unsupported Zone.js instance.](errors/NG05000)                       |
-| `NG05104` | [Root element was not found.](errors/NG05104)                                        |
+| `NG0100`  | [在檢查後變更了表達式](errors/NG0100)                                                |
+| `NG0200`  | [DI 中的循環依賴](errors/NG0200)                                                     |
+| `NG0201`  | [找不到提供者](errors/NG0201)                                                        |
+| `NG0203`  | [`inject()` 必須從注入情境中呼叫](errors/NG0203)                                     |
+| `NG0204`  | [無效的注入權杖](errors/NG0204)                                                      |
+| `NG0205`  | [注入器已被銷毀](errors/NG0205)                                                      |
+| `NG0207`  | [EnvironmentProviders 出現在錯誤的情境](errors/NG0207)                               |
+| `NG0209`  | [無效的多重提供者](errors/NG0209)                                                    |
+| `NG0300`  | [選擇器衝突](errors/NG0300)                                                          |
+| `NG0301`  | [找不到匯出](errors/NG0301)                                                          |
+| `NG0302`  | [找不到管道](errors/NG0302)                                                          |
+| `NG0401`  | [缺少平台](errors/NG0401)                                                            |
+| `NG0403`  | [啟動的 NgModule 未指定要初始化的元件](errors/NG0403)                                |
+| `NG0500`  | [水合節點不相符](errors/NG0500)                                                      |
+| `NG0501`  | [水合缺少同層節點](errors/NG0501)                                                    |
+| `NG0502`  | [水合缺少節點](errors/NG0502)                                                        |
+| `NG0503`  | [水合不支援 DOM 節點的投影](errors/NG0503)                                           |
+| `NG0504`  | [跳過水合旗標套用到無效的節點](errors/NG0504)                                        |
+| `NG0505`  | [伺服器回應中沒有水合資訊](errors/NG0505)                                            |
+| `NG0506`  | [NgZone 持續不穩定](errors/NG0506)                                                   |
+| `NG0507`  | [HTML 內容在 SSR 後遭到變更](errors/NG0507)                                          |
+| `NG0602`  | [在反應式情境中呼叫不允許的函式](errors/NG0602)                                      |
+| `NG0750`  | [@defer 依賴項目載入失敗](errors/NG0750)                                             |
+| `NG0751`  | [啟用 HMR 時的 @defer 行為](errors/NG0751)                                           |
+| `NG0910`  | [iframe 元素上的不安全繫結](errors/NG0910)                                                  |
+| `NG0912`  | [元件 ID 產生衝突](errors/NG0912)                                                    |
+| `NG0913`  | [執行時期效能警告](errors/NG0913)                                                    |
+| `NG0919`  | [偵測到循環依賴](errors/NG0919)                                                      |
+| `NG0950`  | [在設定值之前存取了必要輸入](errors/NG0950)                                          |
+| `NG0951`  | [子查詢結果為必要，但沒有可用的值](errors/NG0951)                                    |
+| `NG0955`  | [追蹤表達式為指定集合產生了重複的鍵](errors/NG0955)                                  |
+| `NG0956`  | [追蹤表達式導致 DOM 結構重新建立](errors/NG0956)                                     |
+| `NG01002` | [缺少控制項值](errors/NG01002)                                                       |
+| `NG01101` | [非同步驗證器傳回型別錯誤](errors/NG01101)                                           |
+| `NG01203` | [缺少值存取器](errors/NG01203)                                                       |
+| `NG01902` | [訊號表單中的孤立欄位](errors/NG01902)                                               |
+| `NG02200` | [缺少 Iterable Differ](errors/NG02200)                                               |
+| `NG02800` | [HttpClient 設定中的 JSONP 支援](errors/NG02800)                                     |
+| `NG02802` | [HttpTransferCache 未傳輸標頭](errors/NG02802)                                        |
+| `NG05000` | [使用不支援的 Zone.js 執行個體進行水合](errors/NG05000)                              |
+| `NG05104` | [找不到根元素](errors/NG05104)                                                       |
 
-## Compiler errors
+## 編譯器錯誤
 
-| Code     | Name                                                       |
-| :------- | :--------------------------------------------------------- |
-| `NG1001` | [Argument Not Literal](errors/NG1001)                      |
-| `NG2003` | [Missing Token](errors/NG2003)                             |
-| `NG2009` | [Invalid Shadow DOM selector](errors/NG2009)               |
-| `NG3003` | [Import Cycle Detected](errors/NG3003)                     |
-| `NG6100` | [NgModule.id Set to module.id anti-pattern](errors/NG6100) |
-| `NG8001` | [Invalid Element](errors/NG8001)                           |
-| `NG8002` | [Invalid Attribute](errors/NG8002)                         |
-| `NG8003` | [Missing Reference Target](errors/NG8003)                  |
+| 代碼     | 名稱                                                        |
+| :------- | :---------------------------------------------------------- |
+| `NG1001` | [引數不是字面值](errors/NG1001)                             |
+| `NG2003` | [缺少權杖](errors/NG2003)                                   |
+| `NG2009` | [無效的 Shadow DOM 選擇器](errors/NG2009)                   |
+| `NG3003` | [偵測到匯入循環](errors/NG3003)                             |
+| `NG6100` | [把 NgModule.id 設為 module.id 的反模式](errors/NG6100)     |
+| `NG8001` | [無效的元素](errors/NG8001)                                 |
+| `NG8002` | [無效的屬性](errors/NG8002)                                 |
+| `NG8003` | [缺少參照目標](errors/NG8003)                               |

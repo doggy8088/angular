@@ -3,7 +3,7 @@
     <iframe
       class="adev-embedded-editor-preview"
       allow="cross-origin-isolated"
-      title="Editor preview"
+      title="編輯器預覽"
       [src]="previewUrlForIFrame()"
     ></iframe>
   } @else {
@@ -14,25 +14,25 @@
     <div class="adev-embedded-editor-preview-loading">
       @switch (loadingProgressValue()) {
         @case (loadingEnum.NOT_STARTED) {
-          <span class="adev-embedded-editor-preview-loading-starting">Starting</span>
+          <span class="adev-embedded-editor-preview-loading-starting">啟動中</span>
         }
         @case (loadingEnum.BOOT) {
-          <span class="adev-embedded-editor-preview-loading-boot">Booting</span>
+          <span class="adev-embedded-editor-preview-loading-boot">開機中</span>
         }
         @case (loadingEnum.LOAD_FILES) {
-          <span class="adev-embedded-editor-preview-loading-load-files">Creating project</span>
+          <span class="adev-embedded-editor-preview-loading-load-files">建立專案中</span>
         }
         @case (loadingEnum.INSTALL) {
-          <span class="adev-embedded-editor-preview-loading-install">Installing packages</span>
+          <span class="adev-embedded-editor-preview-loading-install">安裝套件中</span>
         }
         @case (loadingEnum.START_DEV_SERVER) {
           <span class="adev-embedded-editor-preview-loading-start-dev-server">
-            Initializing dev server
+            初始化開發伺服器中
           </span>
         }
       }
       <progress
-        title="Preview progress"
+        title="預覽進度"
         [value]="loadingProgressValue()"
         [max]="loadingEnum.READY"
       ></progress>

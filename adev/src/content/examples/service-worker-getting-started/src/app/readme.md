@@ -1,9 +1,9 @@
-# Instructions for Angular Universal Example Download
+# Angular Universal 範例下載說明
 
-This is the downloaded sample code for the [Angular Universal (Standalone) guide](https://angular.dev/guide/ssr).
+這是 [Angular Universal（Standalone）指南](https://angular.dev/guide/ssr) 的下載範例程式碼。
 
-## Install and Run
+## 安裝與執行
 
-1. `npm install` to install the `node_module` packages
-2. `npm run dev:ssr` to launch the server and application
-3. Launch the browser to `http://localhost:4200`
+1. 執行 `npm install`，安裝 `node_module` 套件
+2. 執行 `npm run dev:ssr`，啟動伺服器與應用程式
+3. 在瀏覽器開啟 `http://localhost:4200`

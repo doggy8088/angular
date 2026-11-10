@@ -1,16 +1,16 @@
-# Reactive data fetching with `httpResource`
+# 使用 `httpResource` 進行反應式資料擷取
 
-IMPORTANT: `httpResource` is [experimental](reference/releases#experimental). It's ready for you to try, but it might change before it is stable.
+IMPORTANT: `httpResource` 目前仍屬[實驗性](reference/releases#experimental)功能。它已經可以試用，但在穩定下來之前仍可能變更。
 
-`httpResource` is a reactive wrapper around `HttpClient` that gives you the request status and response as signals. You can thus use these signals with `computed`, `effect`, `linkedSignal`, or any other reactive API. Because it's built on top of `HttpClient`, `httpResource` supports all the same features, such as interceptors.
+`httpResource` 是包裝在 `HttpClient` 之上的反應式封裝，它把請求狀態與回應以訊號的形式提供給你。因此，你可以把這些訊號搭配 `computed`、`effect`、`linkedSignal` 或其他任何反應式 API 使用。由於它建立在 `HttpClient` 之上，`httpResource` 支援所有相同的功能，例如攔截器。
 
-For more about Angular's `resource` pattern, see [Async reactivity with `resource`](/guide/signals/resource).
+關於 Angular 的 `resource` 模式，詳情請見[使用 `resource` 的非同步反應式處理](/guide/signals/resource)。
 
-## `Using httpResource`
+## `使用 httpResource`
 
-TIP: Make sure to include `provideHttpClient` in your application providers. See [Setting up HttpClient](/guide/http/setup) for details.
+TIP: 務必在你的應用程式 providers 中包含 `provideHttpClient`。詳情請見[設定 HttpClient](/guide/http/setup)。
 
-You can define an HTTP resource by returning a url:
+你可以透過回傳一個 url 來定義 HTTP resource：
 
 ```ts
 userId = input.required<string>();
@@ -18,13 +18,13 @@ userId = input.required<string>();
 user = httpResource(() => `/api/user/${userId()}`); // A reactive function as argument
 ```
 
-`httpResource` is reactive, meaning that whenever one of the signal it depends on changes (like `userId`), the resource will emit a new http request.
-If a request is already pending, the resource cancels the outstanding request before issuing a new one.
+`httpResource` 具備反應性，意思是只要它依賴的任一訊號改變（例如 `userId`），resource 就會發出新的 http 請求。
+如果已有請求正在進行中，resource 會先取消未完成的請求，再發出新請求。
 
-HELPFUL: `httpResource` differs from the `HttpClient` as it initiates the request _eagerly_. In contrast, the `HttpClient` only initiates requests upon subscription to the returned `Observable`.
+HELPFUL: `httpResource` 與 `HttpClient` 不同，它會「即刻」發起請求。相較之下，`HttpClient` 要等到傳回的 `Observable` 被訂閱後才會發起請求。
 
-For more advanced requests, you can define a request object similar to the request taken by `HttpClient`.
-Each property of the request object that should be reactive should be composed by a signal.
+對於較進階的請求，你可以定義一個請求物件，形式與 `HttpClient` 接受的請求類似。
+請求物件中需要具備反應性的每個屬性，都應由訊號組成。
 
 ```ts
 user = httpResource(() => ({
@@ -50,9 +50,9 @@ user = httpResource(() => ({
 }));
 ```
 
-TIP: Avoid using `httpResource` for _mutations_ like `POST` or `PUT`. Instead, prefer directly using the underlying `HttpClient` APIs.
+TIP: 避免使用 `httpResource` 進行「變更型」操作，例如 `POST` 或 `PUT`。請改為直接使用底層的 `HttpClient` API。
 
-The signals of the `httpResource` can be used in the template to control which elements should be displayed.
+`httpResource` 的訊號可用於範本中，控制應顯示哪些元素。
 
 ```angular-html
 @if(user.hasValue()) {
@@ -64,11 +64,11 @@ The signals of the `httpResource` can be used in the template to control which e
 }
 ```
 
-HELPFUL: Reading the `value` signal on a `resource` that is in error state throws at runtime. It is recommended to guard `value` reads with `hasValue()`.
+HELPFUL: 在處於錯誤狀態的 `resource` 上讀取 `value` 訊號，會在執行階段擲出錯誤。建議以 `hasValue()` 守衛 `value` 的讀取。
 
-### Response types
+### 回應型別
 
-By default, `httpResource` returns and parses the response as JSON. However, you can specify alternate return with additional functions on `httpResource`:
+`httpResource` 預設會將回應以 JSON 回傳並解析。不過，你可以透過 `httpResource` 上的其他函式指定替代的回傳形式：
 
 ```ts
 httpResource.text(() => ({ … })); // returns a string in value()
@@ -78,11 +78,11 @@ httpResource.blob(() => ({ … })); // returns a Blob object in value()
 httpResource.arrayBuffer(() => ({ … })); // returns an ArrayBuffer in value()
 ```
 
-## Response parsing and validation
+## 回應解析與驗證
 
-When fetching data, you may want to validate responses against a predefined schema, often using popular open-source libraries like [Zod](https://zod.dev) or [Valibot](https://valibot.dev). You can integrate validation libraries like this with `httpResource` by specifying a `parse` option. The return type of the `parse` function determines the type of the resource's `value`.
+擷取資料時，你可能想用預先定義的結構定義（schema）來驗證回應，常用的熱門開源函式庫有 [Zod](https://zod.dev) 或 [Valibot](https://valibot.dev)。你可以透過指定 `parse` 選項，把這類驗證函式庫整合進 `httpResource`。`parse` 函式的回傳型別，決定了 resource 的 `value` 型別。
 
-The following example uses Zod to parse and validate the response from the [StarWars API](https://swapi.info/). The resource is then typed the same as the output type of Zod’s parsing.
+下列範例使用 Zod 來解析並驗證來自 [StarWars API](https://swapi.info/) 的回應。resource 的型別隨之與 Zod 解析的輸出型別相同。
 
 ```ts
 const starWarsPersonSchema = z.object({
@@ -101,11 +101,11 @@ export class CharacterViewer {
 }
 ```
 
-## Testing an httpResource
+## 測試 httpResource
 
-Because `httpResource` is a wrapper around `HttpClient`, you can test `httpResource` with the exact same APIs as `HttpClient`. See [HttpClient Testing](/guide/http/testing) for details.
+由於 `httpResource` 是包裝在 `HttpClient` 之上的封裝，你可以用與 `HttpClient` 完全相同的 API 來測試 `httpResource`。詳情請見 [HttpClient 測試](/guide/http/testing)。
 
-The following example shows a unit test for code using `httpResource`.
+下列範例示範使用 `httpResource` 的程式碼的單元測試。
 
 ```ts
 TestBed.configureTestingModule({

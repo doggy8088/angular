@@ -1,53 +1,52 @@
-# Customizing route behavior
+# 自訂路由行為
 
-Angular Router provides powerful extension points that allow you to customize how routes behave in your application. While the default routing behavior works well for most applications, specific requirements often demand custom implementations for performance optimization, specialized URL handling, or complex routing logic.
+Angular 路由提供了強大的擴充點，讓你自訂路由在應用程式中的行為。雖然預設的路由行為對大多數應用程式來說都運作良好，但特定的需求往往需要針對效能最佳化、特殊的 URL 處理或複雜的路由邏輯進行自訂實作。
 
-Route customization can become valuable when your application needs:
+在下列情況下，自訂路由會很有價值：
 
-- **Component state preservation** across navigations to avoid re-fetching data
-- **Strategic lazy module loading** based on user behavior or network conditions
-- **External URL integration** or handling Angular routes alongside legacy systems
-- **Dynamic route matching** based on runtime conditions beyond simple path
-  patterns
+- **元件狀態保留**：在導覽之間保留狀態，避免重新擷取資料
+- **策略性的延遲模組載入**：依據使用者行為或網路狀況決定
+- **外部 URL 整合**：或讓 Angular 路由與舊有系統並存處理
+- **動態路由比對**：依據執行階段條件進行比對，而不只是簡單的路徑模式
 
-NOTE: Before implementing custom strategies, ensure the default router behavior doesn't meet your needs. Angular's default routing is optimized for common use cases and provides the best balance of performance and simplicity. Customizing route strategies can create additional code complexity and have performance implications on memory usage if not carefully managed.
+NOTE: 在實作自訂策略之前，請先確認預設的路由行為無法滿足你的需求。Angular 的預設路由已針對常見使用案例最佳化，在效能與簡潔之間取得了最佳平衡。自訂路由策略會增加程式碼複雜度，若管理不慎，也可能對記憶體用量造成影響。
 
-## Router configuration options
+## 路由設定選項 {#router-configuration-options}
 
-The `withRouterConfig` or `RouterModule.forRoot` allows providing additional `RouterConfigOptions` to adjust the Router’s behavior.
+`withRouterConfig` 或 `RouterModule.forRoot` 允許提供額外的 `RouterConfigOptions`，來調整路由的行為。
 
-### Handle canceled navigations
+### 處理被取消的導覽 {#handle-canceled-navigations}
 
-`canceledNavigationResolution` controls how the Router restores browser history when a navigation is canceled. The default value is `'replace'`, which reverts to the pre-navigation URL with `location.replaceState`. In practice, this means that any time the address bar has already been updated for the navigation, such as with the browser back or forward buttons, the history entry is overwritten with the "rollback" if the navigation fails or is rejected by a guard.
-Switching to `'computed'` keeps the in-flight history index in sync with the Angular navigation, so canceling a back button navigation triggers a forward navigation (and vice versa) to return to the original page.
+`canceledNavigationResolution` 控制在導覽被取消時，路由如何還原瀏覽器歷史紀錄。預設值是 `'replace'`，它會用 `location.replaceState` 回復到導覽前的 URL。實際上，這表示只要網址列已因該次導覽而更新（例如使用者按下瀏覽器的上一頁或下一頁按鈕），若導覽失敗或被守衛拒絕，該歷史紀錄項目就會被「回滾」的結果覆寫。
+改用 `'computed'` 則讓進行中的歷史索引與 Angular 導覽保持同步，因此取消一次上一頁導覽會觸發一次下一頁導覽（反之亦然），以回到原始頁面。
 
-This setting is most helpful when your app uses `urlUpdateStrategy: 'eager'` or when guards frequently cancel popstate navigations initiated by the browser.
+當你的應用程式使用 `urlUpdateStrategy: 'eager'`，或守衛經常取消由瀏覽器發起的 popstate 導覽時，這個設定最有幫助。
 
 ```ts
 provideRouter(routes, withRouterConfig({canceledNavigationResolution: 'computed'}));
 ```
 
-### React to same-URL navigations
+### 回應相同 URL 的導覽 {#react-to-same-url-navigations}
 
-`onSameUrlNavigation` configures what should happen when the user asks to navigate to the current URL. The default `'ignore'` skips work, while `'reload'` re-runs guards and resolvers and refreshes component instances.
+`onSameUrlNavigation` 設定當使用者要求導覽到目前的 URL 時應如何處理。預設的 `'ignore'` 會略過處理，而 `'reload'` 則會重新執行守衛與解析器，並重新整理元件實例。
 
-This is useful when you want repeated clicks on a list filter, left-nav item, or refresh button to trigger new data retrieval even though the URL does not change.
+當你希望使用者重複點選清單篩選器、左側導覽項目或重新整理按鈕時，即使 URL 沒有改變，也能觸發新的資料擷取，這個設定就很有用。
 
 ```ts
 provideRouter(routes, withRouterConfig({onSameUrlNavigation: 'reload'}));
 ```
 
-You can also control this behavior on individual navigations rather than globally. This allows you to keep the keep the default of `'ignore'` while selectively enabling reload behavior for specific use cases:
+你也可以針對個別導覽控制這個行為，而不是全域設定。這樣你就能保留 `'ignore'` 的預設值，同時為特定使用案例選擇性地啟用重新載入行為：
 
 ```ts
 router.navigate(['/some-path'], {onSameUrlNavigation: 'reload'});
 ```
 
-### Control parameter inheritance
+### 控制參數繼承 {#control-parameter-inheritance}
 
-`paramsInheritanceStrategy` defines how route parameters and data flow from parent routes.
+`paramsInheritanceStrategy` 定義路由參數與資料如何從父路由向下流動。
 
-With the default `'emptyOnly'`, child routes inherit params only when their path is empty or the parent does not declare a component.
+預設為 `'emptyOnly'` 時，子路由只在其路徑為空，或父路由未宣告元件時，才會繼承參數。
 
 ```ts
 provideRouter(routes, withRouterConfig({paramsInheritanceStrategy: 'always'}));
@@ -87,7 +86,7 @@ export class Customer {
 }
 ```
 
-Using `'always'` ensures matrix parameters, route data, and resolved values are available further down the route tree—handy when you share contextual identifiers across feature areas such as:
+使用 `'always'` 能確保矩陣參數、路由資料與解析後的值在路由樹的更下層也能使用——當你在不同功能區域之間共用情境識別碼時非常方便，例如：
 
 ```text {hideCopy}
 /org/:orgId/projects/:projectId/customers/:customerId
@@ -107,31 +106,31 @@ export class Customer {
 }
 ```
 
-### Decide when the URL updates
+### 決定 URL 更新的時機 {#decide-when-the-url-updates}
 
-`urlUpdateStrategy` determines when Angular writes to the browser address bar. The default `'deferred'` waits for a successful navigation before changing the URL. Use `'eager'` to update immediately when navigation starts. Eager updates make it easier to surface the attempted URL if navigation fails due to guards or errors, but can briefly show an in-progress URL if you have long-running guards.
+`urlUpdateStrategy` 決定 Angular 何時寫入瀏覽器網址列。預設的 `'deferred'` 會等到導覽成功後才變更 URL。使用 `'eager'` 可在導覽一開始就立即更新。急切更新讓你在導覽因守衛或錯誤而失敗時，更容易呈現嘗試使用的 URL；但若守衛執行時間較長，可能會短暫顯示進行中的 URL。
 
-Consider this when your analytics pipeline needs to see the attempted route even if guards block it.
+當你的分析管線即使在守衛阻擋時也需要看到嘗試使用的路由時，可以考慮這個設定。
 
 ```ts
 provideRouter(routes, withRouterConfig({urlUpdateStrategy: 'eager'}));
 ```
 
-### Choose default query parameter handling
+### 選擇預設的查詢參數處理方式 {#choose-default-query-parameter-handling}
 
-`defaultQueryParamsHandling` sets the fallback behavior for `Router.createUrlTree` when the call does not specify `queryParamsHandling`. `'replace'` is the default and swaps out the existing query string. `'merge'` combines the provided values with the current ones, and `'preserve'` keeps the existing query parameters unless you explicitly supply new ones.
+`defaultQueryParamsHandling` 為 `Router.createUrlTree` 設定後備行為：當呼叫時未指定 `queryParamsHandling`，就以此為準。`'replace'` 是預設值，會換掉現有的查詢字串；`'merge'` 把提供的值與目前的值合併；`'preserve'` 則保留現有的查詢參數，除非你明確提供新的參數。
 
 ```ts
 provideRouter(routes, withRouterConfig({defaultQueryParamsHandling: 'merge'}));
 ```
 
-This is especially helpful for search and filter pages to automatically retain existing filters when additional parameters are provided.
+這對搜尋與篩選頁面特別有幫助：在提供額外參數時，能自動保留現有的篩選條件。
 
-### Configure trailing slash handling
+### 設定尾隨斜線處理
 
-By default, the `Location` service strips trailing slashes from URLs on read.
+預設情況下，`Location` 服務在讀取 URL 時會去掉尾隨斜線。
 
-You can configure the `Location` service to force a trailing slash on all URLs written to the browser by providing the `TrailingSlashPathLocationStrategy` in your application.
+你可以在應用程式中提供 `TrailingSlashPathLocationStrategy`，設定 `Location` 服務，強制在寫入瀏覽器的所有 URL 上加上尾隨斜線。
 
 ```ts
 import {LocationStrategy, TrailingSlashPathLocationStrategy} from '@angular/common';
@@ -141,7 +140,7 @@ bootstrapApplication(App, {
 });
 ```
 
-You can also force the `Location` service to never have a trailing slash on all URLs written to the browser by providing the `NoTrailingSlashPathLocationStrategy` in your application.
+你也可以提供 `NoTrailingSlashPathLocationStrategy`，強制 `Location` 服務在寫入瀏覽器的所有 URL 上永遠不加尾隨斜線。
 
 ```ts
 import {LocationStrategy, NoTrailingSlashPathLocationStrategy} from '@angular/common';
@@ -151,49 +150,49 @@ bootstrapApplication(App, {
 });
 ```
 
-These strategies only affect the URL written to the browser.
-`Location.path()` and `Location.normalize()` will continue to strip trailing slashes when reading the URL.
+這些策略只影響寫入瀏覽器的 URL。
+`Location.path()` 與 `Location.normalize()` 在讀取 URL 時，仍會繼續去掉尾隨斜線。
 
-Angular Router exposes four main areas for customization:
+Angular 路由公開了四個主要的自訂領域：
 
   <docs-pill-row>
-    <docs-pill href="#route-reuse-strategy" title="Route reuse strategy"/>
-    <docs-pill href="#preloading-strategy" title="Preloading strategy"/>
-    <docs-pill href="#url-handling-strategy" title="URL handling strategy"/>
-    <docs-pill href="#custom-route-matchers" title="Custom route matchers"/>
+    <docs-pill href="#route-reuse-strategy" title="路由重用策略"/>
+    <docs-pill href="#preloading-strategy" title="預載策略"/>
+    <docs-pill href="#url-handling-strategy" title="URL 處理策略"/>
+    <docs-pill href="#custom-route-matchers" title="自訂路由比對器"/>
   </docs-pill-row>
 
-## Route reuse strategy
+## 路由重用策略 {#route-reuse-strategy}
 
-Route reuse strategy controls whether Angular destroys and recreates components during navigation or preserves them for reuse. By default, Angular destroys component instances when navigating away from a route and creates new instances when navigating back.
+路由重用策略控制 Angular 在導覽期間是銷毀並重新建立元件，還是保留元件以供重用。預設情況下，Angular 在導覽離開一條路由時會銷毀元件實例，在導覽回來時建立新的實例。
 
-### When to implement route reuse
+### 何時實作路由重用
 
-Custom route reuse strategies benefit applications that need:
+自訂路由重用策略對有下列需求的應用程式有益：
 
-- **Form state preservation** - Keep partially completed forms when users navigate away and return
-- **Expensive data retention** - Avoid re-fetching large datasets or complex calculations
-- **Scroll position maintenance** - Preserve scroll positions in long lists or infinite scroll implementations
-- **Tab-like interfaces** - Maintain component state when switching between tabs
+- **表單狀態保留**：使用者導覽離開再回來時，保留填寫到一半的表單
+- **昂貴資料的保留**：避免重新擷取大型資料集或複雜計算
+- **捲動位置維護**：在長清單或無限捲動的實作中保留捲動位置
+- **分頁式介面**：在分頁之間切換時維持元件狀態
 
-### Creating a custom route reuse strategy
+### 建立自訂路由重用策略
 
-Angular's `RouteReuseStrategy` class allows you to customize navigation behavior through the concept of "detached route handles."
+Angular 的 `RouteReuseStrategy` 類別讓你透過「分離路由控點」的概念，自訂導覽行為。
 
-"Detached route handles" are Angular's way of storing component instances and their entire view hierarchy. When a route is detached, Angular preserves the component instance, its child components, and all associated state in memory. This preserved state can later be reattached when navigating back to the route.
+「分離路由控點」是 Angular 儲存元件實例及其整個檢視階層的方式。當路由被分離時，Angular 會把元件實例、其子元件以及所有相關狀態保存在記憶體中。這份保留的狀態之後可以在導覽回到該路由時重新接上。
 
-The `RouteReuseStrategy` class provides the following methods that control the lifecycle of route components:
+`RouteReuseStrategy` 類別提供下列方法，控制路由元件的生命週期：
 
-| Method                                                                         | Description                                                                                                         |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| [`shouldDetach`](api/router/RouteReuseStrategy#shouldDetach)                   | Determines if a route should be stored for later reuse when navigating away                                         |
-| [`store`](api/router/RouteReuseStrategy#store)                                 | Stores the detached route handle when `shouldDetach` returns true                                                   |
-| [`shouldAttach`](api/router/RouteReuseStrategy#shouldAttach)                   | Determines if a stored route should be reattached when navigating to it                                             |
-| [`retrieve`](api/router/RouteReuseStrategy#retrieve)                           | Returns the previously stored route handle for reattachment                                                         |
-| [`shouldReuseRoute`](api/router/RouteReuseStrategy#shouldReuseRoute)           | Determines if the router should reuse the current route instance instead of destroying it during navigation         |
-| [`shouldDestroyInjector`](api/router/RouteReuseStrategy#shouldDestroyInjector) | (Experimental) Determines if the router should destroy the injector of a detached route when it is no longer stored |
+| 方法                                                                           | 說明                                                                                                |
+| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| [`shouldDetach`](api/router/RouteReuseStrategy#shouldDetach)                   | 判斷在導覽離開時，路由是否應被儲存以供之後重用                                                      |
+| [`store`](api/router/RouteReuseStrategy#store)                                 | 當 `shouldDetach` 回傳 true 時，儲存分離的路由控點                                                  |
+| [`shouldAttach`](api/router/RouteReuseStrategy#shouldAttach)                   | 判斷在導覽到該路由時，是否應重新接上已儲存的路由                                                    |
+| [`retrieve`](api/router/RouteReuseStrategy#retrieve)                           | 回傳先前儲存的路由控點以供重新接上                                                                  |
+| [`shouldReuseRoute`](api/router/RouteReuseStrategy#shouldReuseRoute)           | 判斷在導覽期間，路由是否應重用目前的路由實例，而不是將其銷毀                                        |
+| [`shouldDestroyInjector`](api/router/RouteReuseStrategy#shouldDestroyInjector) | （實驗性）判斷當分離的路由不再被儲存時，路由是否應銷毀其注入器                                                |
 
-The following example demonstrates a custom route reuse strategy that selectively preserves component state based on route metadata:
+下列範例示範了一個自訂路由重用策略，它依據路由中繼資料選擇性地保留元件狀態：
 
 ```ts
 import {
@@ -244,11 +243,11 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
 }
 ```
 
-### Manually destroying detached route handles
+### 手動銷毀分離的路由控點 {#manually-destroying-detached-route-handles}
 
-When implementing a custom `RouteReuseStrategy`, you may need to manually destroy a `DetachedRouteHandle` if you decide to discard it without reattaching it. For example, if your strategy has a cache size limit or expires handles after a certain time, you must ensure the component and its state are properly destroyed to avoid memory leaks.
+實作自訂 `RouteReuseStrategy` 時，若你決定丟棄某個 `DetachedRouteHandle` 而不重新接上，可能需要手動將其銷毀。例如，若你的策略有快取大小上限，或在一段時間後讓控點過期，你必須確保元件及其狀態被正確銷毀，以避免記憶體洩漏。
 
-Since `DetachedRouteHandle` is an opaque type, you cannot call a destroy method directly on it. Instead, use the `destroyDetachedRouteHandle` function provided by the Router.
+由於 `DetachedRouteHandle` 是不透明型別，你無法直接對它呼叫銷毀方法。請改用路由提供的 `destroyDetachedRouteHandle` 函式。
 
 ```ts
 import {destroyDetachedRouteHandle} from '@angular/router';
@@ -263,13 +262,13 @@ if (this.handles.size > MAX_CACHE_SIZE) {
 }
 ```
 
-NOTE: Avoid using the route path as the key when `canMatch` guards are involved, as it may lead to duplicate entries.
+NOTE: 當涉及 `canMatch` 守衛時，應避免使用路由路徑作為鍵，否則可能導致重複的項目。
 
-### (Experimental) Automatic cleanup of unused route injectors
+### （實驗性）自動清理未使用的路由注入器 {#experimental-automatic-cleanup-of-unused-route-injectors}
 
-By default, Angular does not destroy the injectors of detached routes, even if they are no longer stored by the `RouteReuseStrategy`. This is primarily because this level of memory management is not commonly needed for most applications.
+預設情況下，即使分離的路由不再被 `RouteReuseStrategy` 儲存，Angular 也不會銷毀它們的注入器。這主要是因為對大多數應用程式而言，這一層級的記憶體管理並不常用。
 
-To enable automatic cleanup of unused route injectors, you can use the `withExperimentalAutoCleanupInjectors` feature in your router configuration. This feature checks which routes are currently stored by the strategy after navigations and destroys the injectors of any detached routes that are not currently stored by the reuse strategy.
+若要啟用未使用路由注入器的自動清理，可在路由設定中使用 `withExperimentalAutoCleanupInjectors` 功能。此功能會在導覽後檢查策略目前儲存了哪些路由，並銷毀所有未被重用策略儲存的分離路由的注入器。
 
 ```ts
 import {provideRouter, withExperimentalAutoCleanupInjectors} from '@angular/router';
@@ -279,11 +278,11 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-If you do not provide a custom `RouteReuseStrategy` or your custom strategy extends `BaseRouteReuseStrategy`, injectors will now be destroyed when the route is inactive.
+若你沒有提供自訂的 `RouteReuseStrategy`，或你的自訂策略繼承自 `BaseRouteReuseStrategy`，注入器現在會在路由處於非作用中狀態時被銷毀。
 
-#### Cleanup with a custom `RouteReuseStrategy`
+#### 搭配自訂 `RouteReuseStrategy` 的清理
 
-If your application uses a custom `RouteReuseStrategy` _and_ the strategy does not extend `BaseRouteReuseStrategy`, you must implement `shouldDestroyInjector` to tell the router which routes should have their injectors destroyed:
+若你的應用程式使用自訂 `RouteReuseStrategy`，_而且_該策略沒有繼承 `BaseRouteReuseStrategy`，你必須實作 `shouldDestroyInjector`，告訴路由哪些路由的注入器應被銷毀：
 
 ```ts
 @Injectable()
@@ -296,7 +295,7 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
 }
 ```
 
-If your strategy ever stores a `DetachedRouteHandle`, you will also need to tell the Router about these so it does not destroy any injectors needed by that detached handle:
+若你的策略曾儲存 `DetachedRouteHandle`，你還需要把這些控點告訴路由，讓它不會銷毀該分離控點所需的任何注入器：
 
 ```ts
 @Injectable()
@@ -315,9 +314,9 @@ export class CustomRouteReuseStrategy implements RouteReuseStrategy {
 }
 ```
 
-### Configuring a route to use a custom route reuse strategy
+### 設定路由使用自訂路由重用策略
 
-Routes can opt into reuse behavior through route configuration metadata. This approach keeps the reuse logic separate from component code, making it easy to adjust behavior without modifying components:
+路由可以透過路由設定中繼資料選擇啟用重用行為。這種做法讓重用邏輯與元件程式碼分離，調整行為時不需要修改元件：
 
 ```ts
 export const routes: Routes = [
@@ -339,7 +338,7 @@ export const routes: Routes = [
 ];
 ```
 
-You can also configure a custom route reuse strategy at the application level through Angular's dependency injection system. In this case, Angular creates a single instance of the strategy that manages all route reuse decisions throughout the application:
+你也可以透過 Angular 的依賴注入系統，在應用程式層級設定自訂路由重用策略。在這種情況下，Angular 會建立策略的單一實例，管理整個應用程式的所有路由重用決策：
 
 ```ts
 export const appConfig: ApplicationConfig = {
@@ -350,20 +349,20 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## Preloading strategy
+## 預載策略 {#preloading-strategy}
 
-Preloading strategies determine when Angular loads lazy-loaded route modules in the background. While lazy loading improves initial load time by deferring module downloads, users still experience a delay when first navigating to a lazy route. Preloading strategies eliminate this delay by loading modules before users request them.
+預載策略決定 Angular 何時在背景載入延遲載入的路由模組。雖然延遲載入透過延後模組下載改善了初始載入時間，但使用者第一次導覽到延遲路由時仍會感受到延遲。預載策略透過在使用者請求之前先載入模組，消除了這個延遲。
 
-### Built-in preloading strategies
+### 內建的預載策略 {#built-in-preloading-strategies}
 
-Angular provides two preloading strategies out of the box:
+Angular 開箱即提供兩個預載策略：
 
-| Strategy                                            | Description                                                                                                      |
+| 策略                                                | 說明                                                                                                     |
 | --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| [`NoPreloading`](api/router/NoPreloading)           | The default strategy that disables all preloading. In other words, modules only load when users navigate to them |
-| [`PreloadAllModules`](api/router/PreloadAllModules) | Loads all lazy-loaded modules immediately after the initial navigation                                           |
+| [`NoPreloading`](api/router/NoPreloading)           | 預設策略，停用所有預載。換句話說，模組只在使用者導覽到它們時才載入 |
+| [`PreloadAllModules`](api/router/PreloadAllModules) | 在初始導覽後立即載入所有延遲載入的模組                                           |
 
-The `PreloadAllModules` strategy can be configured as follows:
+`PreloadAllModules` 策略的設定方式如下：
 
 ```ts
 import {ApplicationConfig} from '@angular/core';
@@ -375,11 +374,11 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-The `PreloadAllModules` strategy works well for small to medium applications where downloading all modules doesn't significantly impact performance. However, larger applications with many feature modules might benefit from more selective preloading.
+`PreloadAllModules` 策略很適合中小型應用程式：下載所有模組不會顯著影響效能。不過，擁有許多功能模組的大型應用程式，可能更適合更具選擇性的預載。
 
-### Creating a custom preloading strategy
+### 建立自訂預載策略
 
-Custom preloading strategies implement the `PreloadingStrategy` interface, which requires a single `preload` method. This method receives the route configuration and a function that triggers the actual module load. The strategy returns an Observable that emits when preloading completes or an empty Observable to skip preloading:
+自訂預載策略實作 `PreloadingStrategy` 介面，該介面要求一個 `preload` 方法。此方法接收路由設定，以及一個觸發實際模組載入的函式。策略會回傳一個 Observable，在預載完成時發出值，或回傳空的 Observable 以略過預載：
 
 ```ts
 import {Injectable} from '@angular/core';
@@ -399,7 +398,7 @@ export class SelectivePreloadingStrategy implements PreloadingStrategy {
 }
 ```
 
-This selective strategy checks route metadata to determine preloading behavior. Routes can opt into preloading through their configuration:
+這個選擇性策略會檢查路由中繼資料來決定預載行為。路由可以透過其設定選擇啟用預載：
 
 ```ts
 import {Routes} from '@angular/router';
@@ -423,23 +422,23 @@ export const routes: Routes = [
 ];
 ```
 
-### Performance considerations for preloading
+### 預載的效能考量
 
-Preloading impacts both network usage and memory consumption. Each preloaded module consumes bandwidth and increases the application's memory footprint. Mobile users on metered connections might prefer minimal preloading, while desktop users on fast networks can handle aggressive preloading strategies.
+預載同時影響網路用量與記憶體消耗。每個預載的模組都會消耗頻寬，並增加應用程式的記憶體足跡。在按流量計費的連線上，行動使用者可能偏好最少的預載；使用高速網路的桌面使用者則可以承受積極的預載策略。
 
-The timing of preloading also matters. Immediate preloading after initial load might compete with other critical resources like images or API calls. Strategies should consider the application's post-load behavior and coordinate with other background tasks to avoid performance degradation.
+預載的時機也很重要。在初始載入後立即預載，可能會與圖片或 API 呼叫等其他關鍵資源競爭。策略應考量應用程式在載入後的行為，並與其他背景任務協調，以避免效能下降。
 
-Browser resource limits also affect preloading behavior. Browsers limit concurrent HTTP connections, so aggressive preloading might queue behind other requests. Service workers can help by providing fine-grained control over caching and network requests, complementing the preloading strategy.
+瀏覽器的資源限制也會影響預載行為。瀏覽器會限制同時的 HTTP 連線數，因此積極的預載可能會排在其他請求之後。Service Worker 可以提供對快取與網路請求的細粒度控制，輔助預載策略。
 
-## URL handling strategy
+## URL 處理策略 {#url-handling-strategy}
 
-URL handling strategies determine which URLs the Angular router processes versus which ones it ignores. By default, Angular attempts to handle all navigation events within the application, but real-world applications often need to coexist with other systems, handle external links, or integrate with legacy applications that manage their own routes.
+URL 處理策略決定 Angular 路由處理哪些 URL、忽略哪些 URL。預設情況下，Angular 會嘗試處理應用程式內的所有導覽事件，但真實世界的應用程式經常需要與其他系統共存、處理外部連結，或與管理自身路由的舊有應用程式整合。
 
-The `UrlHandlingStrategy` class gives you control over this boundary between Angular-managed routes and external URLs. This becomes essential when migrating applications to Angular incrementally or when Angular applications need to share URL space with other frameworks.
+`UrlHandlingStrategy` 類別讓你控制 Angular 管理的路由與外部 URL 之間的界線。當把應用程式逐步遷移到 Angular，或 Angular 應用程式需要與其他框架共用 URL 空間時，這一點至關重要。
 
-### Implementing a custom URL handling strategy
+### 實作自訂 URL 處理策略
 
-Custom URL handling strategies extend the `UrlHandlingStrategy` class and implement three methods. The `shouldProcessUrl` method determines whether Angular should handle a given URL, `extract` returns the portion of the URL that Angular should process, and `merge` combines the URL fragment with the rest of the URL:
+自訂 URL 處理策略繼承 `UrlHandlingStrategy` 類別並實作三個方法。`shouldProcessUrl` 方法決定 Angular 是否應處理某個 URL，`extract` 回傳 Angular 應處理的 URL 部分，`merge` 則把 URL 片段與 URL 的其餘部分合併：
 
 ```ts
 import {Injectable} from '@angular/core';
@@ -464,11 +463,11 @@ export class CustomUrlHandlingStrategy implements UrlHandlingStrategy {
 }
 ```
 
-This strategy creates clear boundaries in the URL space. Angular handles `/app` and `/admin` paths while ignoring everything else. This pattern works well when migrating legacy applications where Angular controls specific sections while the legacy system maintains others.
+這個策略在 URL 空間中建立了明確的界線。Angular 處理 `/app` 與 `/admin` 路徑，忽略其他所有路徑。當遷移舊有應用程式、由 Angular 控制特定區段、舊有系統維護其他區段時，這種模式運作得很好。
 
-### Configuring a custom URL handling strategy
+### 設定自訂 URL 處理策略
 
-You can register a custom strategy through Angular's dependency injection system:
+你可以透過 Angular 的依賴注入系統註冊自訂策略：
 
 ```ts
 import {ApplicationConfig} from '@angular/core';
@@ -483,17 +482,17 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## Custom route matchers
+## 自訂路由比對器 {#custom-route-matchers}
 
-By default, Angular's router iterates through routes in the order they're defined, attempting to match the URL path against each route's path pattern. It supports static segments, parameterized segments (`:id`), and wildcards (`**`). The first route that matches wins, and the router stops searching.
+預設情況下，Angular 路由會依定義順序逐一檢查路由，嘗試把 URL 路徑與每條路由的路徑模式比對。它支援靜態區段、參數化區段（`:id`）與萬用字元（`**`）。第一條相符的路由獲勝，路由隨即停止搜尋。
 
-When applications require more sophisticated matching logic based on runtime conditions, complex URL patterns, or other custom rules, custom matchers provide this flexibility without compromising the simplicity of standard routes.
+當應用程式需要基於執行階段條件、複雜 URL 模式或其他自訂規則的更精細比對邏輯時，自訂比對器提供了這種彈性，同時不犧牲標準路由的簡潔。
 
-The router evaluates custom matchers during the route matching phase, before path matching occurs. When a matcher returns a successful match, it can also extract parameters from the URL, making them available to the activated component just like standard route parameters.
+路由會在路由比對階段（路徑比對發生之前）評估自訂比對器。當比對器回傳成功的比對結果時，它也可以從 URL 中抽取參數，讓這些參數能像標準路由參數一樣供啟用的元件使用。
 
-### Creating a custom matcher
+### 建立自訂比對器
 
-A custom matcher is a function that receives URL segments and returns either a match result with consumed segments and parameters, or null to indicate no match. The matcher function runs before Angular evaluates the route's path property:
+自訂比對器是一個函式，接收 URL 區段，並回傳包含已消耗區段與參數的比對結果，或回傳 null 表示不相符。比對器函式會在 Angular 評估路由的 path 屬性之前執行：
 
 ```ts
 import {Route, UrlSegment, UrlSegmentGroup, UrlMatchResult} from '@angular/router';
@@ -516,9 +515,9 @@ export function customMatcher(
 }
 ```
 
-### Implementing version-based routing
+### 實作以版本為基礎的路由
 
-Consider an API documentation site that needs to route based on version numbers in the URL. Different versions might have different component structures or feature sets:
+考慮一個 API 文件網站，它需要依據 URL 中的版本號進行路由。不同版本可能有不同的元件結構或功能集：
 
 ```ts
 import {Routes, UrlSegment, UrlMatchResult} from '@angular/router';
@@ -550,7 +549,7 @@ export const routes: Routes = [
 ];
 ```
 
-The component receives the extracted parameters through route inputs:
+元件透過路由輸入接收抽取出的參數：
 
 ```angular-ts
 import {Component, input, inject} from '@angular/core';
@@ -592,9 +591,9 @@ export class Documentation {
 }
 ```
 
-### Locale-aware routing
+### 感知語系的路由
 
-International applications often encode locale information in URLs. A custom matcher can extract locale codes and route to appropriate components while making the locale available as a parameter:
+國際化應用程式經常把語系資訊編碼在 URL 中。自訂比對器可以抽取語系代碼，路由到適當的元件，同時把語系作為參數提供：
 
 ```ts
 // Supported locales
@@ -627,9 +626,9 @@ export function localeMatcher(segments: UrlSegment[]): UrlMatchResult | null {
 }
 ```
 
-### Complex business logic matching
+### 複雜商業邏輯比對
 
-Custom matchers excel at implementing business rules that would be awkward to express in path patterns. Consider an e-commerce site where product URLs follow different patterns based on product type:
+自訂比對器擅長實作難以用路徑模式表達的商業規則。考慮一個電子商務網站，產品 URL 會依據產品類型遵循不同的模式：
 
 ```ts
 export function productMatcher(segments: UrlSegment[]): UrlMatchResult | null {
@@ -675,12 +674,12 @@ export function productMatcher(segments: UrlSegment[]): UrlMatchResult | null {
 }
 ```
 
-### Performance considerations for custom matchers
+### 自訂比對器的效能考量
 
-Custom matchers run for every navigation attempt until a match is found. As a result, complex matching logic can impact navigation performance, especially in applications with many routes. Keep matchers focused and efficient:
+自訂比對器會在每次導覽嘗試時執行，直到找到相符項為止。因此，複雜的比對邏輯可能影響導覽效能，在擁有許多路由的應用程式中尤其如此。讓比對器保持專注且有效率：
 
-- Return early when a match is impossible
-- Avoid expensive operations like API calls or complex regular expressions
-- Consider caching results for repeated URL patterns
+- 在不可能相符時提早回傳
+- 避免 API 呼叫或複雜正規表示式等昂貴操作
+- 考慮為重複出現的 URL 模式快取結果
 
-While custom matchers solve complex routing requirements elegantly, overuse can make route configuration harder to understand and maintain. Reserve custom matchers for scenarios where standard path matching genuinely falls short.
+自訂比對器能優雅地解決複雜的路由需求，但過度使用會讓路由設定更難理解與維護。請把自訂比對器保留給標準路徑比對確實不足的情境。

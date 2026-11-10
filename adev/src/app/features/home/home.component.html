@@ -4,31 +4,31 @@
     <div class="content">
       <div class="adev-banner-container">
         <a href="events/v21" class="adev-banner" target="_blank">
-          <h1 tabindex="-1">Angular v21 is here!</h1>
-          <p class="adev-banner-cta">🕹️ Start your adventure</p>
+          <h1 tabindex="-1">Angular v21 來了！</h1>
+          <p class="adev-banner-cta">🕹️ 開始你的冒險</p>
         </a>
 
         <div class="search-field">
-          <docs-text-field placeholder="search" (click)="openSearch()" />
+          <docs-text-field placeholder="搜尋" (click)="openSearch()" />
         </div>
       </div>
 
       @if (!isUwu) {
         <div class="title">
-          <h2>Productivity<br />Meets scalability</h2>
-          <h3>The framework for building scalable web apps with confidence</h3>
+          <h2>生產力<br />與擴充性兼備</h2>
+          <h3>讓你有信心建置可擴充 Web 應用程式的框架</h3>
         </div>
       } @else {
         <!-- UwU logo -->
         <div class="uwu">
-          <img src="assets/images/uwu.png" alt="Angular logo" />
+          <img src="assets/images/uwu.png" alt="Angular 標誌" />
         </div>
       }
 
       <div class="learn-angular">
         <a href="#learn-more" class="adev-cta">
-          <button class="docs-primary-btn" [attr.text]="'Get Started'" aria-label="Get Started">
-            Get Started
+          <button class="docs-primary-btn" [attr.text]="'開始使用'" aria-label="開始使用">
+            開始使用
           </button>
         </a>
         <div class="adev-arrow"></div>
@@ -37,15 +37,15 @@
   </section>
 
   <section class="features-section">
-    <h2 id="features">Features that actually <br />help you solve problems</h2>
+    <h2 id="features">真正能幫你<br />解決問題的功能</h2>
 
     <div ngTabs class="material-tabs">
       <div ngTabList selectionMode="follow" selectedTab="signals">
         <div class="tab-background"></div>
         <div ngTab value="signals">Signals</div>
-        <div ngTab value="control-flow">Control Flow</div>
-        <div ngTab value="deferrable-views">Deferrable Views</div>
-        <div ngTab value="hydration">Hydration</div>
+        <div ngTab value="control-flow">控制流程</div>
+        <div ngTab value="deferrable-views">可延遲檢視</div>
+        <div ngTab value="hydration">水合</div>
       </div>
 
       <div class="sliding-window">
@@ -85,7 +85,7 @@
   </section>
 
   <section class="selling-points">
-    <h2>Enabling you to build<br />smarter and faster</h2>
+    <h2>讓你建置得<br />更聰明、更快速</h2>
     <div class="cards">
       <a class="card" routerLink="/ai/develop-with-ai">
         <div class="icon-wrapper">
@@ -93,8 +93,7 @@
         </div>
         <div class="card-content">
           <h3>
-            <strong>AI-forward</strong> resources and integrations to supercharge your development
-            with AI
+            <strong>以 AI 為核心</strong>的資源與整合，讓你用 AI 大幅加速開發
           </h3>
         </div>
       </a>
@@ -105,8 +104,7 @@
         </div>
         <div class="card-content">
           <h3>
-            <strong>Opinionated & versatile,</strong> organized yet modular thanks to Angular
-            components and dependency injection
+            <strong>有主見又靈活，</strong>藉由 Angular 元件與依賴注入，既有組織又模組化
           </h3>
         </div>
       </a>
@@ -117,8 +115,7 @@
         </div>
         <div class="card-content">
           <h3>
-            <strong>Reactive</strong> and fast state updates with fine-grained reactivity based on
-            Angular Signals
+            <strong>反應式</strong>且快速的狀態更新，奠基於 Angular Signals 的細粒度反應性
           </h3>
         </div>
       </a>
@@ -129,8 +126,7 @@
         </div>
         <div class="card-content">
           <h3>
-            <strong>Fully featured</strong> platform where everything works together with Angular's
-            first-party modules for forms, routing, and more
+            <strong>功能完整</strong>的平台，Angular 官方的表單、路由等模組全都無縫協作
           </h3>
         </div>
       </a>
@@ -141,18 +137,17 @@
     <div class="wrapper">
       <div class="pattern"></div>
       <div class="content">
-        <h2>Where performance matters</h2>
+        <h2>效能至關重要</h2>
         <h3>
-          Trusted by millions to build fast, reliable applications that scale with the size of your
-          team
+          深受數百萬開發者信賴，用來建置快速、可靠、能隨團隊規模擴充的應用程式
         </h3>
         <button
           class="docs-primary-btn"
-          [attr.text]="'Get started'"
+          [attr.text]="'開始使用'"
           routerLink="/guide/performance"
         >
           <!-- TODO: LINK -->
-          Get started
+          開始使用
         </button>
       </div>
     </div>
@@ -160,7 +155,7 @@
 
   <section class="explore-section" id="learn-more">
     <div class="title">
-      <h2>Want to learn more about Angular?</h2>
+      <h2>想更了解 Angular 嗎？</h2>
       <div class="pattern"></div>
     </div>
 
@@ -169,11 +164,10 @@
       <a routerLink="/tutorials/learn-angular" class="explore-card">
         <div class="card-content">
           <p>
-            <span class="emphasis">New to Angular?</span>
-            Try our completely in browser tutorial lessons designed to give you hands on experience
-            with Angular.
+            <span class="emphasis">第一次接觸 Angular？</span>
+            試試我們完全在瀏覽器中進行的教學課程，帶你動手累積 Angular 實作經驗。
           </p>
-          <span class="fake-button">Start coding <docs-icon>arrow_forward</docs-icon></span>
+          <span class="fake-button">開始寫程式 <docs-icon>arrow_forward</docs-icon></span>
           <div class="editor-background"></div>
         </div>
       </a>
@@ -182,9 +176,8 @@
       <a routerLink="/ai" class="explore-card">
         <div class="card-content">
           <p>
-            <span class="emphasis">Are you an LLM or curious about AI in Angular?</span>
-            Head over to our AI section to find prompts, strategies, best practices, examples, and
-            more.
+            <span class="emphasis">你是 LLM，或對 Angular 中的 AI 感到好奇？</span>
+            前往我們的 AI 專區，尋找提示詞、策略、最佳實務、範例等更多內容。
           </p>
           <span class="fake-button">Angular + AI <docs-icon>arrow_forward</docs-icon></span>
           <div class="angular-mcp-container">
@@ -204,8 +197,8 @@
       <a routerLink="/overview" class="explore-card">
         <div class="card-content">
           <p>
-            <span class="emphasis">Why Angular?</span>
-            Learn about Angular, its benefits, and if it's right for you.
+            <span class="emphasis">為什麼選擇 Angular？</span>
+            了解 Angular、它的優勢，以及它是否適合你。
           </p>
           <div class="logo-background"></div>
         </div>
@@ -215,11 +208,10 @@
       <a routerLink="/essentials" class="explore-card">
         <div class="card-content">
           <p>
-            <span class="emphasis">More of a reader?</span>
-            Our essentials guides are designed to help you understand Angular fundamentals in the
-            time it would take to finish a cup of coffee (or a tea).
+            <span class="emphasis">比較喜歡閱讀？</span>
+            我們的精要指南能讓你在喝完一杯咖啡（或茶）的時間內，理解 Angular 的基礎。
           </p>
-          <span class="fake-button">Angular concepts <docs-icon>arrow_forward</docs-icon></span>
+          <span class="fake-button">Angular 概念 <docs-icon>arrow_forward</docs-icon></span>
         </div>
       </a>
     </div>
@@ -228,14 +220,14 @@
   <section class="learn-more-bottom-section" id="bottom">
     <div class="pattern"></div>
     <div class="content">
-      <h2>Want to learn more about Angular ?</h2>
+      <h2>想更了解 Angular 嗎？</h2>
       <button
         class="docs-primary-btn"
-        [attr.text]="'Learn more'"
-        aria-label="Learn more"
+        [attr.text]="'深入了解'"
+        aria-label="深入了解"
         routerLink="/overview"
       >
-        Learn more
+        深入了解
       </button>
     </div>
   </section>

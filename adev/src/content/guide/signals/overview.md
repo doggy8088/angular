@@ -1,20 +1,20 @@
-<docs-decorative-header title="Angular Signals" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
-Angular Signals is a system that granularly tracks how and where your state is used throughout an application, allowing the framework to optimize rendering updates.
+<docs-decorative-header title="Angular 訊號" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
+Angular 訊號是一套能細緻追蹤狀態在應用程式中如何被使用、以及在哪裡被使用的系統，讓框架得以最佳化渲染更新。
 </docs-decorative-header>
 
-TIP: Check out Angular's [Essentials](essentials/signals) before diving into this comprehensive guide.
+TIP: 在深入閱讀這份完整指南之前，先看看 Angular 的[入門要點](essentials/signals)。
 
-## What are signals?
+## 什麼是訊號？ {#what-are-signals}
 
-A **signal** is a wrapper around a value that notifies interested consumers when that value changes. Signals can contain any value, from primitives to complex data structures.
+**訊號**是包住一個值的包裝器，當該值改變時，會通知有興趣的消費者。訊號可以包含任何值，從基本型別到複雜的資料結構皆可。
 
-You read a signal's value by calling its getter function, which allows Angular to track where the signal is used.
+透過呼叫訊號的 getter 函式來讀取它的值，Angular 藉此追蹤訊號在哪裡被使用。
 
-Signals may be either _writable_ or _read-only_.
+訊號可以是可寫入的，也可以是唯讀的。
 
-### Writable signals
+### 可寫入訊號
 
-Writable signals provide an API for updating their values directly. You create writable signals by calling the `signal` function with the signal's initial value:
+可寫入訊號提供直接更新其值的 API。你可以呼叫 `signal` 函式並傳入訊號的初始值，來建立可寫入訊號：
 
 ```ts
 const count = signal(0);
@@ -23,24 +23,24 @@ const count = signal(0);
 console.log('The count is: ' + count());
 ```
 
-To change the value of a writable signal, either `.set()` it directly:
+若要改變可寫入訊號的值，可以直接用 `.set()` 設定：
 
 ```ts
 count.set(3);
 ```
 
-or use the `.update()` operation to compute a new value from the previous one:
+或使用 `.update()` 運算，從前一個值計算出新值：
 
 ```ts
 // Increment the count by 1.
 count.update((value) => value + 1);
 ```
 
-Writable signals have the type `WritableSignal`.
+可寫入訊號的型別是 `WritableSignal`。
 
-#### Converting writable signals to readonly
+#### 將可寫入訊號轉換為唯讀訊號
 
-`WritableSignal` provide a `asReadonly()` method that returns a readonly version of the signal. This is useful when you want to expose a signal's value to consumers without allowing them to modify it directly:
+`WritableSignal` 提供 `asReadonly()` 方法，會傳回該訊號的唯讀版本。當你想把訊號的值公開給消費者、又不希望他們直接修改時，這個方法很有用：
 
 ```ts
 @Injectable({providedIn: 'root'})
@@ -69,42 +69,42 @@ export class AwesomeCounter {
 }
 ```
 
-The readonly signal reflects any changes made to the original writable signal, but cannot be modified using `set()` or `update()` methods.
+唯讀訊號會反映原始可寫入訊號的所有變更，但無法用 `set()` 或 `update()` 方法修改。
 
-IMPORTANT: The readonly signals do **not** have any built-in mechanism that would prevent deep-mutation of their value.
+IMPORTANT: 唯讀訊號**並未**內建任何能防止其值被深層修改的機制。
 
-### Computed signals
+### 計算訊號 {#computed-signals}
 
-**Computed signals** are read-only signals that derive their value from other signals. You define computed signals using the `computed` function and specifying a derivation:
+**計算訊號**是唯讀訊號，其值衍生自其他訊號。你可以用 `computed` 函式並指定一段衍生邏輯來定義計算訊號：
 
 ```typescript
 const count: WritableSignal<number> = signal(0);
 const doubleCount: Signal<number> = computed(() => count() * 2);
 ```
 
-The `doubleCount` signal depends on the `count` signal. Whenever `count` updates, Angular knows that `doubleCount` needs to update as well.
+`doubleCount` 訊號依賴 `count` 訊號。每當 `count` 更新時，Angular 就知道 `doubleCount` 也需要更新。
 
-#### Computed signals are both lazily evaluated and memoized
+#### 計算訊號同時具備延遲求值與記憶化
 
-`doubleCount`'s derivation function does not run to calculate its value until the first time you read `doubleCount`. The calculated value is then cached, and if you read `doubleCount` again, it will return the cached value without recalculating.
+`doubleCount` 的衍生函式不會執行來計算其值，直到你第一次讀取 `doubleCount` 為止。計算出的值接著會被快取起來，之後再次讀取 `doubleCount` 時，會直接傳回快取的值，不再重新計算。
 
-If you then change `count`, Angular knows that `doubleCount`'s cached value is no longer valid, and the next time you read `doubleCount` its new value will be calculated.
+之後如果你改變 `count`，Angular 就知道 `doubleCount` 的快取值已失效，下次讀取 `doubleCount` 時會重新計算出新值。
 
-As a result, you can safely perform computationally expensive derivations in computed signals, such as filtering arrays.
+因此，你可以安心地在計算訊號中執行計算成本高昂的衍生運算，例如篩選陣列。
 
-#### Computed signals are not writable signals
+#### 計算訊號不是可寫入訊號
 
-You cannot directly assign values to a computed signal. That is,
+你無法直接對計算訊號指派值。也就是說，
 
 ```ts
 doubleCount.set(3);
 ```
 
-produces a compilation error, because `doubleCount` is not a `WritableSignal`.
+會產生編譯錯誤，因為 `doubleCount` 不是 `WritableSignal`。
 
-#### Computed signal dependencies are dynamic
+#### 計算訊號的依賴關係是動態的
 
-Only the signals actually read during the derivation are tracked. For example, in this `computed` the `count` signal is only read if the `showCount` signal is true:
+只有在衍生過程中實際被讀取的訊號才會被追蹤。例如，在這個 `computed` 中，只有當 `showCount` 訊號為 true 時，才會讀取 `count` 訊號：
 
 ```ts
 const showCount = signal(false);
@@ -118,29 +118,29 @@ const conditionalCount = computed(() => {
 });
 ```
 
-When you read `conditionalCount`, if `showCount` is `false` the "Nothing to see here!" message is returned _without_ reading the `count` signal. This means that if you later update `count` it will _not_ result in a recomputation of `conditionalCount`.
+當你讀取 `conditionalCount` 時，如果 `showCount` 為 `false`，會傳回 "Nothing to see here!" 訊息，且_不會_讀取 `count` 訊號。換句話說，之後就算你更新 `count`，也_不會_導致 `conditionalCount` 重新計算。
 
-If you set `showCount` to `true` and then read `conditionalCount` again, the derivation will re-execute and take the branch where `showCount` is `true`, returning the message which shows the value of `count`. Changing `count` will then invalidate `conditionalCount`'s cached value.
+如果你將 `showCount` 設為 `true` 後再次讀取 `conditionalCount`，衍生邏輯會重新執行並走 `showCount` 為 `true` 的分支，傳回顯示 `count` 值的訊息。此時改變 `count` 就會使 `conditionalCount` 的快取值失效。
 
-Note that dependencies can be removed during a derivation as well as added. If you later set `showCount` back to `false`, then `count` will no longer be considered a dependency of `conditionalCount`.
+請注意，依賴關係在衍生過程中可以被移除，也可以被新增。如果你之後把 `showCount` 設回 `false`，`count` 就不再被視為 `conditionalCount` 的依賴。
 
-## Reactive contexts
+## 反應式上下文 {#reactive-contexts}
 
-A **reactive context** is a runtime state where Angular monitors signal reads to establish a dependency. The code reading the signal is the _consumer_, and the signal being read is the _producer_.
+**反應式上下文**是一種執行階段狀態，Angular 在其中監控訊號的讀取以建立依賴關係。讀取訊號的程式碼是_消費者_，被讀取的訊號則是_生產者_。
 
-Angular automatically enters a reactive context when:
+Angular 會在以下情況自動進入反應式上下文：
 
-- Executing an `effect`, `afterRenderEffect` callback.
-- Evaluating a `computed` signal.
-- Evaluating a `linkedSignal`.
-- Evaluating a `resource`'s params or loader function.
-- Rendering a component template (including bindings in the [host property](guide/components/host-elements#binding-to-the-host-element)).
+- 執行 `effect`、`afterRenderEffect` 回呼時。
+- 求值 `computed` 訊號時。
+- 求值 `linkedSignal` 時。
+- 求值 `resource` 的 params 或 loader 函式時。
+- 渲染元件範本時（包括[宿主屬性](guide/components/host-elements#binding-to-the-host-element)中的繫結）。
 
-During these operations, Angular creates a _live_ connection. If a tracked signal changes, Angular will _eventually_ re-run the consumer.
+在這些操作期間，Angular 會建立一個_即時_連接。如果被追蹤的訊號改變，Angular _最終_會重新執行消費者。
 
-### Asserts the reactive context
+### 反應式上下文斷言 {#asserts-the-reactive-context}
 
-Angular provides the `assertNotInReactiveContext` helper function to assert that code is not executing within a reactive context. Pass a reference to the calling function so the error message points to the correct API entry point if the assertion fails. This produces a clearer, more actionable error message than a generic reactive context error.
+Angular 提供 `assertNotInReactiveContext` 輔助函式，用來斷言程式碼不是在反應式上下文中執行。請傳入呼叫端函式的參考，這樣當斷言失敗時，錯誤訊息就能指向正確的 API 入口點。相較於泛用的反應式上下文錯誤，這能產生更清楚、更可操作的錯誤訊息。
 
 ```ts
 import {assertNotInReactiveContext} from '@angular/core';
@@ -151,11 +151,11 @@ function subscribeToEvents() {
 }
 ```
 
-### Reading without tracking dependencies
+### 讀取但不追蹤依賴 {#reading-without-tracking-dependencies}
 
-Rarely, you may want to execute code which may read signals within a reactive function such as `computed` or `effect` _without_ creating a dependency.
+在少數情況下，你可能會想在 `computed` 或 `effect` 這類反應式函式中執行會讀取訊號的程式碼，但_不_建立依賴關係。
 
-For example, suppose that when `currentUser` changes, the value of a `counter` should be logged. You could create an `effect` which reads both signals:
+例如，假設當 `currentUser` 改變時，應該記錄 `counter` 的值。你可以建立一個同時讀取這兩個訊號的 `effect`：
 
 ```ts
 effect(() => {
@@ -163,9 +163,9 @@ effect(() => {
 });
 ```
 
-This example will log a message when _either_ `currentUser` or `counter` changes. However, if the effect should only run when `currentUser` changes, then the read of `counter` is only incidental and changes to `counter` shouldn't log a new message.
+這個範例會在 `currentUser` 或 `counter` _任一_改變時記錄訊息。然而，如果這個 effect 只應該在 `currentUser` 改變時執行，那麼讀取 `counter` 只是附帶的，`counter` 的改變不應該觸發新的記錄訊息。
 
-You can prevent a signal read from being tracked by calling its getter with `untracked`:
+你可以將訊號的讀取包在 `untracked` 中，來防止它被追蹤：
 
 ```ts
 effect(() => {
@@ -173,7 +173,7 @@ effect(() => {
 });
 ```
 
-`untracked` is also useful when an effect needs to invoke some external code which shouldn't be treated as a dependency:
+當 effect 需要呼叫某些不應被視為依賴的外部程式碼時，`untracked` 也很有用：
 
 ```ts
 effect(() => {
@@ -186,9 +186,9 @@ effect(() => {
 });
 ```
 
-### Reactive context and async operations
+### 反應式上下文與非同步操作
 
-The reactive context is only active for synchronous code. Any signal reads that occur after an asynchronous boundary will not be tracked as dependencies.
+反應式上下文只在同步程式碼中有效。任何在非同步邊界之後發生的訊號讀取，都不會被追蹤為依賴。
 
 ```ts {avoid}
 effect(async () => {
@@ -198,7 +198,7 @@ effect(async () => {
 });
 ```
 
-To ensure all signal reads are tracked, read signals before the `await`. This includes passing them as arguments to the awaited function, since arguments are evaluated synchronously:
+若要確保所有訊號讀取都被追蹤，請在 `await` 之前先讀取訊號。這也包括將它們作為引數傳給被等待的函式，因為引數是以同步方式求值的：
 
 ```ts {prefer}
 effect(async () => {
@@ -215,26 +215,26 @@ effect(async () => {
 });
 ```
 
-## Advanced derivations
+## 進階衍生
 
-While `computed` handles simple readonly derivations, you might find yourself needing a writable state that is dependent on other signals.
-For more information see the [Dependent state with linkedSignal](/guide/signals/linked-signal) guide.
+`computed` 能處理簡單的唯讀衍生，但你有時會需要依賴其他訊號的可寫入狀態。
+詳情請參閱[使用 linkedSignal 處理相依狀態](/guide/signals/linked-signal)指南。
 
-All signal APIs are synchronous— `signal`, `computed`, `input`, etc. However, applications often need to deal with data that is available asynchronously. A `Resource` gives you a way to incorporate async data into your application's signal-based code and still allow you to access its data synchronously. For more information see the [Async reactivity with resources](/guide/signals/resource) guide.
+所有訊號 API 都是同步的——`signal`、`computed`、`input` 等。然而，應用程式經常需要處理以非同步方式取得的資料。`Resource` 讓你可以將非同步資料納入應用程式以訊號為基礎的程式碼中，同時仍能以同步方式存取其資料。詳情請參閱[使用資源處理非同步反應式資料](/guide/signals/resource)指南。
 
-## Executing side effects on non-reactive APIs
+## 對非反應式 API 執行副作用
 
-Synchronous or asynchronous derivations are recommended when we want to react to state changes. However, this doesn't cover all the possible use cases, and you'll sometimes find yourself in a situation where you need to react to signal changes on non-reactive apis. Use `effect` or `afterRenderEffect` for those specific usecases. For more information see [Side effects for non-reactive APIs](/guide/signals/effect) guide.
+當我們想要對狀態變化做出反應時，建議使用同步或非同步的衍生。然而，這無法涵蓋所有使用情境，你有時會遇到需要在非反應式 API 上對訊號變化做出反應的情況。針對這些特定情境，請使用 `effect` 或 `afterRenderEffect`。詳情請參閱[非反應式 API 的副作用](/guide/signals/effect)指南。
 
-## Reading signals in `OnPush` components
+## 在 `OnPush` 元件中讀取訊號
 
-When you read a signal within an `OnPush` component's template, Angular tracks the signal as a dependency of that component. When the value of that signal changes, Angular automatically [marks](api/core/ChangeDetectorRef#markforcheck) the component to ensure it gets updated the next time change detection runs. Refer to the [Skipping component subtrees](best-practices/skipping-subtrees) guide for more information about `OnPush` components.
+當你在 `OnPush` 元件的範本中讀取訊號時，Angular 會把該訊號追蹤為該元件的依賴。當該訊號的值改變時，Angular 會自動[標記](api/core/ChangeDetectorRef#markforcheck)該元件，確保它在下次變更偵測執行時得到更新。關於 `OnPush` 元件的更多資訊，請參閱[略過元件子樹](best-practices/skipping-subtrees)指南。
 
-## Advanced topics
+## 進階主題
 
-### Signal equality functions
+### 訊號相等比較函式 {#signal-equality-functions}
 
-When creating a signal, you can optionally provide an equality function, which will be used to check whether the new value is actually different than the previous one.
+建立訊號時，你可以選擇性地提供一個相等比較函式，用來檢查新值是否真的與前一個值不同。
 
 ```ts
 import isEqual from 'lodash/isEqual';
@@ -247,13 +247,13 @@ const data = signal(['test'], {equal: isEqual});
 data.set(['test']);
 ```
 
-Equality functions can be provided to both writable and computed signals.
+可寫入訊號和計算訊號都可以提供相等比較函式。
 
-HELPFUL: By default, signals use referential equality ([`Object.is()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/is) comparison).
+HELPFUL: 預設情況下，訊號使用參考相等性（即 [`Object.is()`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/is) 比較）。
 
-### Type checking signals
+### 檢查訊號型別 {#type-checking-signals}
 
-You can use `isSignal` to check if a value is a `Signal`:
+你可以使用 `isSignal` 檢查一個值是否為 `Signal`：
 
 ```ts
 const count = signal(0);
@@ -264,7 +264,7 @@ isSignal(doubled); // true
 isSignal(42); // false
 ```
 
-To specifically check if a signal is writable, use `isWritableSignal`:
+若要特別檢查訊號是否可寫入，請使用 `isWritableSignal`：
 
 ```ts
 const count = signal(0);
@@ -274,6 +274,6 @@ isWritableSignal(count); // true
 isWritableSignal(doubled); // false
 ```
 
-## Using signals with RxJS
+## 搭配 RxJS 使用訊號
 
-See [RxJS interop with Angular signals](ecosystem/rxjs-interop) for details on interoperability between signals and RxJS.
+關於訊號與 RxJS 之間的互通性詳情，請參閱 [RxJS 與 Angular 訊號的互通](ecosystem/rxjs-interop)。

@@ -2,13 +2,13 @@
 </docs-decorative-header>
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/treeview/" title="Tree ARIA pattern"/>
-  <docs-pill href="/api/aria/tree/Tree" title="Tree API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/treeview/" title="樹狀結構 ARIA 模式"/>
+  <docs-pill href="/api/aria/tree/Tree" title="Tree API 參考文件"/>
 </docs-pill-row>
 
-## Overview
+## 概觀
 
-A tree displays hierarchical data where items can expand to reveal children or collapse to hide them. Users navigate with arrow keys, expand and collapse nodes, and optionally select items for navigation or data selection scenarios.
+樹狀結構用來顯示階層式資料，項目可以展開以顯示子項目，也可以收合將其隱藏。使用者以方向鍵導覽、展開與收合節點，並可視需要選取項目，用於導覽或資料選取等情境。
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tree/src/single-select/basic/app/app.ts">
   <docs-code header="TS" path="adev/src/content/examples/aria/tree/src/single-select/basic/app/app.ts"/>
@@ -16,42 +16,42 @@ A tree displays hierarchical data where items can expand to reveal children or c
   <docs-code header="CSS" path="adev/src/content/examples/aria/tree/src/single-select/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Usage
+## 使用方式
 
-Trees work well for displaying hierarchical data where users need to navigate through nested structures.
+當使用者需要在巢狀結構中導覽時，樹狀結構很適合顯示階層式資料。
 
-**Use trees when:**
+**適合使用樹狀結構的情況**：
 
-- Building file system navigation
-- Showing folder and document hierarchies
-- Creating nested menu structures
-- Displaying organization charts
-- Browsing hierarchical data
-- Implementing site navigation with nested sections
+- 建立檔案系統導覽
+- 顯示資料夾與文件的階層
+- 建立巢狀選單結構
+- 顯示組織圖
+- 瀏覽階層式資料
+- 實作含有巢狀區段的網站導覽
 
-**Avoid trees when:**
+**應避免使用樹狀結構的情況**：
 
-- Displaying flat lists (use [Listbox](guide/aria/listbox) instead)
-- Showing data tables (use [Grid](guide/aria/grid) instead)
-- Creating simple dropdowns (use [Select](guide/aria/select) instead)
-- Building breadcrumb navigation (use breadcrumb patterns)
+- 顯示平面清單（請改用 [Listbox](guide/aria/listbox)）
+- 顯示資料表（請改用 [Grid](guide/aria/grid)）
+- 建立簡單的下拉選單（請改用 [Select](guide/aria/select)）
+- 建立麵包屑導覽（請使用麵包屑模式）
 
-## Features
+## 功能特色
 
-- **Hierarchical navigation** - Nested tree structure with expand and collapse functionality
-- **Selection modes** - Single or multi-selection with explicit or follow-focus behavior
-- **Selection follows focus** - Optional automatic selection when focus changes
-- **Keyboard navigation** - Arrow keys, Home, End, and type-ahead search
-- **Expand/collapse** - Right/Left arrows or Enter to toggle parent nodes
-- **Disabled items** - Disable specific nodes with focus management
-- **Focus modes** - Roving tabindex or activedescendant focus strategies
-- **RTL support** - Right-to-left language navigation
+- **階層式導覽**：巢狀樹狀結構，具備展開與收合功能
+- **選取模式**：單選或多選，可選擇明確選取或選取跟隨焦點的行為
+- **選取跟隨焦點**：焦點變更時可選擇自動選取
+- **鍵盤導覽**：方向鍵、Home、End，以及輸入即搜尋（type-ahead）
+- **展開／收合**：以右／左方向鍵或 Enter 切換父節點
+- **停用項目**：停用特定節點並管理焦點
+- **焦點模式**：roving tabindex 或 activedescendant 焦點策略
+- **RTL 支援**：支援由右至左語言的導覽
 
-## Examples
+## 範例
 
-### Navigation tree
+### 導覽樹
 
-Use a tree for navigation where clicking items triggers actions rather than selecting them.
+當點選項目是觸發動作而非選取項目時，可將樹狀結構用於導覽。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -63,11 +63,11 @@ Use a tree for navigation where clicking items triggers actions rather than sele
   </docs-tab>
 </docs-tab-group>
 
-Set `[nav]="true"` to enable navigation mode. This uses `aria-current` to indicate the current page instead of selection.
+設定 `[nav]="true"` 即可啟用導覽模式。此模式會使用 `aria-current` 來表明目前頁面，而不是選取狀態。
 
-### Single selection
+### 單選
 
-Enable single selection for scenarios where users choose one item from the tree.
+在使用者需要從樹狀結構中選擇一個項目的情境下，啟用單選。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -86,11 +86,11 @@ Enable single selection for scenarios where users choose one item from the tree.
   </docs-tab>
 </docs-tab-group>
 
-Leave `[multi]="false"` (the default) for single selection. Users press Space to select the focused item.
+單選時保持 `[multi]="false"`（預設值）。使用者按下 Space 即可選取目前聚焦的項目。
 
-### Multi-selection
+### 多選
 
-Allow users to select multiple items from the tree.
+允許使用者從樹狀結構中選取多個項目。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -109,11 +109,11 @@ Allow users to select multiple items from the tree.
   </docs-tab>
 </docs-tab-group>
 
-Set `[multi]="true"` on the tree. Users select items individually with Space or select ranges with Shift+Arrow keys.
+在樹狀結構上設定 `[multi]="true"`。使用者以 Space 逐一選取項目，或以 Shift＋方向鍵選取範圍。
 
-### Selection follows focus
+### 選取跟隨焦點
 
-When selection follows focus, the focused item is automatically selected. This simplifies interaction for navigation scenarios.
+當選取跟隨焦點時，目前聚焦的項目會自動被選取。這能簡化導覽情境下的互動。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -132,11 +132,11 @@ When selection follows focus, the focused item is automatically selected. This s
   </docs-tab>
 </docs-tab-group>
 
-Set `[selectionMode]="'follow'"` on the tree. Selection automatically updates as users navigate with arrow keys.
+在樹狀結構上設定 `[selectionMode]="'follow'"`。當使用者以方向鍵導覽時，選取狀態會自動更新。
 
-### Disabled tree items
+### 停用的樹狀項目
 
-Disable specific tree nodes to prevent interaction. Control whether disabled items can receive focus.
+停用特定樹狀節點以防止互動，並可控制停用的項目是否能接收焦點。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -155,69 +155,69 @@ Disable specific tree nodes to prevent interaction. Control whether disabled ite
   </docs-tab>
 </docs-tab-group>
 
-When `[softDisabled]="true"` on the tree, disabled items can receive focus but cannot be activated or selected. When `[softDisabled]="false"`, disabled items are skipped during keyboard navigation.
+當樹狀結構的 `[softDisabled]="true"` 時，停用的項目可以接收焦點，但無法被啟用或選取。當 `[softDisabled]="false"` 時，停用的項目會在鍵盤導覽時被略過。
 
-## APIs
+## API {#apis}
 
 ### Tree
 
-The container directive that manages hierarchical navigation and selection.
+管理階層式導覽與選取的容器指令。
 
-#### Inputs
+#### 輸入屬性
 
-| Property        | Type                             | Default      | Description                                                   |
-| --------------- | -------------------------------- | ------------ | ------------------------------------------------------------- |
-| `disabled`      | `boolean`                        | `false`      | Disables the entire tree                                      |
-| `softDisabled`  | `boolean`                        | `true`       | When `true`, disabled items are focusable but not interactive |
-| `multi`         | `boolean`                        | `false`      | Whether multiple items can be selected                        |
-| `selectionMode` | `'explicit' \| 'follow'`         | `'explicit'` | Whether selection requires explicit action or follows focus   |
-| `nav`           | `boolean`                        | `false`      | Whether the tree is in navigation mode (uses `aria-current`)  |
-| `wrap`          | `boolean`                        | `true`       | Whether keyboard navigation wraps from last to first item     |
-| `focusMode`     | `'roving' \| 'activedescendant'` | `'roving'`   | Focus strategy used by the tree                               |
-| `values`        | `any[]`                          | `[]`         | Selected item values (supports two-way binding)               |
+| 屬性            | 類型                             | 預設值       | 說明                                         |
+| --------------- | -------------------------------- | ------------ | -------------------------------------------- |
+| `disabled`      | `boolean`                        | `false`      | 停用整個樹狀結構                             |
+| `softDisabled`  | `boolean`                        | `true`       | 為 `true` 時，停用的項目可取得焦點但無法互動 |
+| `multi`         | `boolean`                        | `false`      | 是否能選取多個項目                           |
+| `selectionMode` | `'explicit' \| 'follow'`         | `'explicit'` | 選取需要明確操作，或跟隨焦點                 |
+| `nav`           | `boolean`                        | `false`      | 是否為導覽模式（使用 `aria-current`）        |
+| `wrap`          | `boolean`                        | `true`       | 鍵盤導覽是否從最後一個項目繞回第一個項目     |
+| `focusMode`     | `'roving' \| 'activedescendant'` | `'roving'`   | 樹狀結構使用的焦點策略                       |
+| `values`        | `any[]`                          | `[]`         | 已選取的項目值（支援雙向綁定）               |
 
-#### Methods
+#### 方法
 
-| Method           | Parameters | Description                                   |
-| ---------------- | ---------- | --------------------------------------------- |
-| `expandAll`      | none       | Expands all tree nodes                        |
-| `collapseAll`    | none       | Collapses all tree nodes                      |
-| `selectAll`      | none       | Selects all items (only in multi-select mode) |
-| `clearSelection` | none       | Clears all selection                          |
+| 方法             | 參數 | 說明                         |
+| ---------------- | ---- | ---------------------------- |
+| `expandAll`      | none | 展開所有樹狀節點             |
+| `collapseAll`    | none | 收合所有樹狀節點             |
+| `selectAll`      | none | 選取所有項目（僅限多選模式） |
+| `clearSelection` | none | 清除所有選取                 |
 
 ### TreeItem
 
-An individual node in the tree that can contain child nodes.
+樹狀結構中的個別節點，可包含子節點。
 
-#### Inputs
+#### 輸入屬性
 
-| Property   | Type      | Default | Description                                             |
-| ---------- | --------- | ------- | ------------------------------------------------------- |
-| `value`    | `any`     | —       | **Required.** Unique value for this tree item           |
-| `disabled` | `boolean` | `false` | Disables this item                                      |
-| `expanded` | `boolean` | `false` | Whether the node is expanded (supports two-way binding) |
+| 屬性       | 類型      | 預設值  | 說明                           |
+| ---------- | --------- | ------- | ------------------------------ |
+| `value`    | `any`     | —       | **必填**。此樹狀項目的唯一值   |
+| `disabled` | `boolean` | `false` | 停用此項目                     |
+| `expanded` | `boolean` | `false` | 此節點是否展開（支援雙向綁定） |
 
-#### Signals
+#### 訊號
 
-| Property      | Type              | Description                          |
-| ------------- | ----------------- | ------------------------------------ |
-| `selected`    | `Signal<boolean>` | Whether the item is selected         |
-| `active`      | `Signal<boolean>` | Whether the item currently has focus |
-| `hasChildren` | `Signal<boolean>` | Whether the item has child nodes     |
+| 屬性          | 類型              | 說明                   |
+| ------------- | ----------------- | ---------------------- |
+| `selected`    | `Signal<boolean>` | 此項目是否被選取       |
+| `active`      | `Signal<boolean>` | 此項目目前是否取得焦點 |
+| `hasChildren` | `Signal<boolean>` | 此項目是否有子節點     |
 
-#### Methods
+#### 方法
 
-| Method     | Parameters | Description                 |
-| ---------- | ---------- | --------------------------- |
-| `expand`   | none       | Expands this node           |
-| `collapse` | none       | Collapses this node         |
-| `toggle`   | none       | Toggles the expansion state |
+| 方法       | 參數 | 說明         |
+| ---------- | ---- | ------------ |
+| `expand`   | none | 展開此節點   |
+| `collapse` | none | 收合此節點   |
+| `toggle`   | none | 切換展開狀態 |
 
 ### TreeGroup
 
-A container for child tree items.
+子樹狀項目的容器。
 
-This directive has no inputs, outputs, or methods. It serves as a container to organize child `ngTreeItem` elements:
+這個指令沒有輸入、輸出或方法。它作為容器，用來組織子 `ngTreeItem` 元素：
 
 ```angular-html
 <li ngTreeItem value="parent">

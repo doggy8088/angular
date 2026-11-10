@@ -1,11 +1,10 @@
-# Version compatibility
+# 版本相容性
 
-The following tables describe the versions of Node.js, TypeScript, and RxJS that each version of
-Angular requires.
+下列表格說明每個 Angular 版本所需的 Node.js、TypeScript 與 RxJS 版本。
 
-## Actively supported versions
+## 積極支援中的版本
 
-This table covers [Angular versions under active support](reference/releases#actively-supported-versions).
+本表涵蓋[積極支援中的 Angular 版本](reference/releases#actively-supported-versions)。
 
 | Angular            | Node.js                             | TypeScript     | RxJS               |
 | ------------------ | ----------------------------------- | -------------- | ------------------ |
@@ -16,11 +15,9 @@ This table covers [Angular versions under active support](reference/releases#act
 | 19.1.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0 | >=5.5.0 <5.8.0 | ^6.5.3 \|\| ^7.4.0 |
 | 19.0.x             | ^18.19.1 \|\| ^20.11.1 \|\| ^22.0.0 | >=5.5.0 <5.7.0 | ^6.5.3 \|\| ^7.4.0 |
 
-## Unsupported Angular versions
+## 不再支援的 Angular 版本
 
-This table covers Angular versions that are no longer under long-term support (LTS). This
-information was correct when each version went out of LTS and is provided without any further
-guarantees. It is listed here for historical reference.
+本表涵蓋已不在長期支援（LTS）期間內的 Angular 版本。這些資訊在各版本結束 LTS 時是正確的，在此提供但不附帶任何進一步的保證。列在這裡僅供歷史參考。
 
 | Angular            | Node.js                              | TypeScript     | RxJS               |
 | ------------------ | ------------------------------------ | -------------- | ------------------ |
@@ -50,9 +47,9 @@ guarantees. It is listed here for historical reference.
 | 9.1.x              | ^10.13.0 \|\| ^12.11.0               | >=3.6.0 <3.9.0 | ^6.5.3             |
 | 9.0.x              | ^10.13.0 \|\| ^12.11.0               | >=3.6.0 <3.8.0 | ^6.5.3             |
 
-### Before v9
+### v9 之前
 
-Until Angular v9, Angular and Angular CLI versions were not synced.
+在 Angular v9 之前，Angular 與 Angular CLI 的版本並未同步。
 
 | Angular                     | Angular CLI                 | Node.js             | TypeScript     | RxJS   |
 | --------------------------- | --------------------------- | ------------------- | -------------- | ------ |
@@ -69,56 +66,51 @@ Until Angular v9, Angular and Angular CLI versions were not synced.
 | 4.0.x \|\| 4.1.x            | 1.0.x \|\| 1.1.x \|\| 1.2.x | ^6.9.0              | >=2.1.6 <2.4.0 | ^5.0.1 |
 | 2.x                         | -                           | ^6.9.0              | >=1.8.0 <2.2.0 | ^5.0.1 |
 
-## Browser support
+## 瀏覽器支援 {#browser-support}
 
-Angular uses the ["widely available" Baseline](https://web.dev/baseline) to define browser
-support. For each major version, Angular supports browsers included in the Baseline of a
-chosen date near the release date for that major.
+Angular 使用「widely available」[Baseline](https://web.dev/baseline) 來定義瀏覽器支援。對每個主要版本，Angular 支援的瀏覽器，是在接近該主要版本發布日期所選定日期的 Baseline 中包含的瀏覽器。
 
-The "widely available" Baseline includes browsers released less than 30 months (2.5 years)
-of the chosen date within Baseline's core browser set (Chrome, Edge, Firefox, Safari) and
-targets supporting approximately 95% of web users.
+「widely available」Baseline 包含在所選日期之前 30 個月（2.5 年）內發布的瀏覽器，範圍限於 Baseline 的核心瀏覽器集合（Chrome、Edge、Firefox、Safari），目標是涵蓋約 95% 的 Web 使用者。
 
-| Angular | Baseline Date | Browser Set                 |
+| Angular | Baseline 日期 | 瀏覽器集合                  |
 | ------- | ------------- | --------------------------- |
-| v21     | 2025-10-20    | [Browser Set][browsers-v21] |
-| v20     | 2025-04-30    | [Browser Set][browsers-v20] |
+| v21     | 2025-10-20    | [瀏覽器集合][browsers-v21] |
+| v20     | 2025-04-30    | [瀏覽器集合][browsers-v20] |
 
 [browsers-v21]: https://web-platform-dx.github.io/web-features/supported-browsers/?widelyAvailableOnDate=2025-10-20&includeDownstream=false
 [browsers-v20]: https://web-platform-dx.github.io/web-features/supported-browsers/?widelyAvailableOnDate=2025-04-30&includeDownstream=false
 
-Angular versions prior to v20 support the following specific browser versions:
+v20 之前的 Angular 版本支援下列特定的瀏覽器版本：
 
-| Browser | Supported versions                          |
-| :------ | :------------------------------------------ |
-| Chrome  | 2 most recent versions                      |
-| Firefox | latest and extended support release \(ESR\) |
-| Edge    | 2 most recent major versions                |
-| Safari  | 2 most recent major versions                |
-| iOS     | 2 most recent major versions                |
-| Android | 2 most recent major versions                |
+| 瀏覽器  | 支援的版本                          |
+| :------ | :---------------------------------- |
+| Chrome  | 最近 2 個版本                       |
+| Firefox | 最新版與延伸支援版本（ESR）          |
+| Edge    | 最近 2 個主要版本                   |
+| Safari  | 最近 2 個主要版本                   |
+| iOS     | 最近 2 個主要版本                   |
+| Android | 最近 2 個主要版本                   |
 
-## Polyfills
+## Polyfill
 
-Angular is built on the latest standards of the web platform.
-Targeting such a wide range of browsers is challenging because they do not support all features of modern browsers.
-You compensate by loading polyfill scripts \("polyfills"\) for the browsers that you must support.
-See instructions on how to include polyfills into your project below.
+Angular 建立在 Web 平台的最新標準之上。
+要支援如此廣泛的瀏覽器是很有挑戰性的，因為它們並不支援現代瀏覽器的所有功能。
+你可以為必須支援的瀏覽器載入 polyfill 指令稿（「polyfills」）來彌補這一點。
+如何將 polyfill 加入你的專案，請參閱下方說明。
 
-IMPORTANT: The suggested polyfills are the ones that run full Angular applications.
-You might need additional polyfills to support features not covered by this list.
+IMPORTANT: 建議的 polyfill 是能執行完整 Angular 應用程式的那些。
+你可能需要額外的 polyfill，才能支援此清單未涵蓋的功能。
 
-HELPFUL: Polyfills cannot magically transform an old, slow browser into a modern, fast one.
+HELPFUL: Polyfill 沒有辦法神奇地把舊的、慢的瀏覽器變成現代的、快速的瀏覽器。
 
-## Enabling polyfills with CLI projects
+## 在 CLI 專案中啟用 polyfill
 
-The [Angular CLI](tools/cli) provides support for polyfills.
-If you are not using the CLI to create your projects, see [Polyfill instructions for non-CLI users](#polyfills-for-non-cli-users).
+[Angular CLI](tools/cli) 提供對 polyfill 的支援。
+如果你不是使用 CLI 來建立你的專案，請參閱[非 CLI 使用者的 polyfill 說明](#polyfills-for-non-cli-users)。
 
-The `polyfills` options of the [browser and test builder](tools/cli/cli-builder) can be a full path for a file \(Example: `src/polyfills.ts`\) or,
-relative to the current workspace or module specifier \(Example: `zone.js`\).
+[瀏覽器與測試建置器](tools/cli/cli-builder) 的 `polyfills` 選項可以是一個檔案的完整路徑（例如：`src/polyfills.ts`），或相對於目前工作區的路徑或模組指定符（例如：`zone.js`）。
 
-If you create a TypeScript file, make sure to include it in the `files` property of your `tsconfig` file.
+如果你建立一個 TypeScript 檔案，請確保將它包含在你的 `tsconfig` 檔案的 `files` 屬性中。
 
 ```json
 
@@ -135,11 +127,11 @@ If you create a TypeScript file, make sure to include it in the `files` property
 }
 ```
 
-## Polyfills for non-CLI users
+## 非 CLI 使用者的 polyfill {#polyfills-for-non-cli-users}
 
-If you are not using the CLI, add your polyfill scripts directly to the host web page \(`index.html`\).
+如果你不是使用 CLI，請將你的 polyfill 指令稿直接加入主機網頁（`index.html`）。
 
-For example:
+例如：
 
 <docs-code header="src/index.html" language="html">
 <!-- pre-zone polyfills -->

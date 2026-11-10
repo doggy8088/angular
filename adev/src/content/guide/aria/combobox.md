@@ -2,13 +2,13 @@
 </docs-decorative-header>
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/combobox/" title="Combobox ARIA pattern"/>
-  <docs-pill href="/api?query=combobox#angular_aria_combobox" title="Combobox API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/combobox/" title="Combobox ARIA 模式"/>
+  <docs-pill href="/api?query=combobox#angular_aria_combobox" title="Combobox API 參考"/>
 </docs-pill-row>
 
-## Overview
+## 概觀
 
-A directive that coordinates a text input with a popup, providing the primitive directive for autocomplete, select, and multiselect patterns.
+這個指令負責協調文字輸入與彈出視窗，提供自動完成、選取與多選模式所用的基礎指令。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -36,39 +36,39 @@ A directive that coordinates a text input with a popup, providing the primitive 
   </docs-tab>
 </docs-tab-group>
 
-## Usage
+## 用法
 
-Combobox is the primitive directive that coordinates a text input with a popup. It provides the foundation for autocomplete, select, and multiselect patterns. Consider using combobox directly when:
+Combobox 是負責協調文字輸入與彈出視窗的基礎指令。它是自動完成、選取與多選模式的基礎。在下列情況可以考慮直接使用 combobox：
 
-- **Building custom autocomplete patterns** - Creating specialized filtering or suggestion behavior
-- **Creating custom selection components** - Developing dropdowns with unique requirements
-- **Coordinating input with popup** - Pairing text input with listbox, tree, or dialog content
-- **Implementing specific filter modes** - Using manual, auto-select, or highlight behaviors
+- **建置自訂的自動完成模式**：建立專門的篩選或建議行為
+- **建立自訂的選取元件**：開發具有獨特需求的下拉清單
+- **協調輸入與彈出視窗**：把文字輸入與 listbox、tree 或 dialog 內容配對
+- **實作特定的篩選模式**：使用手動、自動選取或醒目提示行為
 
-Use documented patterns instead when:
+在下列情況，請改用已文件化的模式：
 
-- Standard autocomplete with filtering is needed - See the [Autocomplete pattern](guide/aria/autocomplete) for ready-to-use examples
-- Single-selection dropdowns are needed - See the [Select pattern](guide/aria/select) for complete dropdown implementation
-- Multiple-selection dropdowns are needed - See the [Multiselect pattern](guide/aria/multiselect) for multi-select with compact display
+- 需要標準的自動完成與篩選功能：請參閱 [Autocomplete 模式](guide/aria/autocomplete)，裡面有可直接使用的範例
+- 需要單選下拉清單：請參閱 [Select 模式](guide/aria/select)，裡面有完整的下拉清單實作
+- 需要多選下拉清單：請參閱 [Multiselect 模式](guide/aria/multiselect)，了解以精簡顯示呈現的多選功能
 
-NOTE: The [Autocomplete](guide/aria/autocomplete), [Select](guide/aria/select), and [Multiselect](guide/aria/multiselect) guides show documented patterns that combine this directive with [Listbox](guide/aria/listbox) for specific use cases.
+NOTE: [Autocomplete](guide/aria/autocomplete)、[Select](guide/aria/select) 與 [Multiselect](guide/aria/multiselect) 指南展示了已文件化的模式，它們把這個指令與 [Listbox](guide/aria/listbox) 結合，用於特定的使用情境。
 
-## Features
+## 功能
 
-Angular's combobox provides a fully accessible input-popup coordination system with:
+Angular 的 combobox 提供完整無障礙的輸入與彈出視窗協調系統，包含：
 
-- **Text Input with Popup** - Coordinates input field with popup content
-- **Three Filter Modes** - Manual, auto-select, or highlight behaviors
-- **Keyboard Navigation** - Arrow keys, Enter, Escape handling
-- **Screen Reader Support** - Built-in ARIA attributes including role="combobox" and aria-expanded
-- **Popup Management** - Automatic show/hide based on user interaction
-- **Signal-Based Reactivity** - Reactive state management using Angular signals
+- **文字輸入與彈出視窗**：協調輸入欄位與彈出內容
+- **三種篩選模式**：手動、自動選取或醒目提示行為
+- **鍵盤導覽**：處理方向鍵、Enter 與 Escape
+- **螢幕閱讀器支援**：內建 ARIA 屬性，包括 role="combobox" 與 aria-expanded
+- **彈出視窗管理**：依使用者互動自動顯示或隱藏
+- **以訊號為基礎的反應性**：使用 Angular 訊號進行反應式狀態管理
 
-## Examples
+## 範例
 
 ### Autocomplete
 
-An accessible input field that filters and suggests options as users type, helping them find and select values from a list.
+這是一個無障礙的輸入欄位，會在使用者輸入時篩選並建議選項，幫助他們從清單中找到並選取所需的值。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -96,11 +96,11 @@ An accessible input field that filters and suggests options as users type, helpi
   </docs-tab>
 </docs-tab-group>
 
-The `filterMode="manual"` setting gives complete control over filtering and selection. The input updates a signal that filters the options list. Users navigate with arrow keys and select with Enter or click. This mode provides the most flexibility for custom filtering logic. See the [Autocomplete guide](guide/aria/autocomplete) for complete filtering patterns and examples.
+`filterMode="manual"` 設定讓你能完整控制篩選與選取。輸入會更新一個訊號，由它篩選選項清單。使用者用方向鍵瀏覽、用 Enter 或點選來選取。這個模式為自訂篩選邏輯提供了最大的彈性。完整的篩選模式與範例，請參閱 [Autocomplete 指南](guide/aria/autocomplete)。
 
-### Readonly mode
+### 唯讀模式
 
-A pattern that combines a readonly combobox with listbox to create single-selection dropdowns with keyboard navigation and screen reader support.
+這個模式把唯讀的 combobox 與 listbox 結合，建立具有鍵盤導覽與螢幕閱讀器支援的單選下拉清單。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -128,13 +128,13 @@ A pattern that combines a readonly combobox with listbox to create single-select
   </docs-tab>
 </docs-tab-group>
 
-The `readonly` attribute prevents typing in the input field. The popup opens on click or arrow keys. Users navigate options with keyboard and select with Enter or click.
+`readonly` 屬性可防止在輸入欄位中打字。彈出視窗會在點選或按方向鍵時開啟。使用者以鍵盤瀏覽選項，並用 Enter 或點選來選取。
 
-This configuration provides the foundation for the [Select](guide/aria/select) and [Multiselect](guide/aria/multiselect) patterns. See those guides for complete dropdown implementations with triggers and overlay positioning.
+這個設定是 [Select](guide/aria/select) 與 [Multiselect](guide/aria/multiselect) 模式的基礎。完整的下拉清單實作（包含觸發器與覆蓋層定位），請參閱那些指南。
 
-### Dialog popup
+### 對話框彈出視窗
 
-Popups sometimes need modal behavior with a backdrop and focus trap. The combobox dialog directive provides this pattern for specialized use cases.
+彈出視窗有時需要搭配背景與焦點陷阱的強制回應行為。combobox 的對話框指令為特殊使用情境提供了這個模式。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -162,64 +162,64 @@ Popups sometimes need modal behavior with a backdrop and focus trap. The combobo
   </docs-tab>
 </docs-tab-group>
 
-The `ngComboboxDialog` directive creates a modal popup using the native dialog element. This provides backdrop behavior and focus trapping. Use dialog popups when the selection interface requires modal interaction or when the popup content is complex enough to warrant full-screen focus.
+`ngComboboxDialog` 指令使用原生 dialog 元素建立強制回應的彈出視窗，提供背景行為與焦點陷阱。當選取介面需要強制回應互動，或彈出內容複雜到需要全螢幕焦點時，請使用對話框彈出視窗。
 
-## APIs
+## API {#apis}
 
-### Combobox Directive
+### Combobox 指令
 
-The `ngCombobox` directive coordinates a text input with a popup.
+`ngCombobox` 指令負責協調文字輸入與彈出視窗。
 
-#### Inputs
+#### 輸入屬性
 
-| Property         | Type                                           | Default    | Description                                      |
-| ---------------- | ---------------------------------------------- | ---------- | ------------------------------------------------ |
-| `filterMode`     | `'manual'` \| `'auto-select'` \| `'highlight'` | `'manual'` | Controls selection behavior                      |
-| `disabled`       | `boolean`                                      | `false`    | Disables the combobox                            |
-| `readonly`       | `boolean`                                      | `false`    | Makes combobox readonly (for Select/Multiselect) |
-| `firstMatch`     | `V`                                            | -          | Value of first matching item for auto-select     |
-| `alwaysExpanded` | `boolean`                                      | `false`    | Keeps popup always open                          |
+| 屬性             | 型別                                           | 預設值     | 說明                             |
+| ---------------- | ---------------------------------------------- | ---------- | -------------------------------- |
+| `filterMode`     | `'manual'` \| `'auto-select'` \| `'highlight'` | `'manual'` | 控制選取行為                     |
+| `disabled`       | `boolean`                                      | `false`    | 停用 combobox                    |
+| `readonly`       | `boolean`                                      | `false`    | 把 combobox 設為唯讀（供 Select/Multiselect 使用） |
+| `firstMatch`     | `V`                                            | -          | 自動選取時第一個符合項目的值     |
+| `alwaysExpanded` | `boolean`                                      | `false`    | 讓彈出視窗保持開啟               |
 
-**Filter Modes:**
+**篩選模式**：
 
-- **`'manual'`** - User controls filtering and selection explicitly. The popup shows options based on your filtering logic. Users select with Enter or click. This mode provides the most flexibility.
-- **`'auto-select'`** - Input value automatically updates to the first matching option as users type. Requires the `firstMatch` input for coordination. See the [Autocomplete guide](guide/aria/autocomplete#auto-select-mode) for examples.
-- **`'highlight'`** - Highlights matching text without changing the input value. Users navigate with arrow keys and select with Enter.
+- **`'manual'`**：由使用者明確控制篩選與選取。彈出視窗依你的篩選邏輯顯示選項。使用者以 Enter 或點選來選取。這個模式提供最大的彈性。
+- **`'auto-select'`**：使用者輸入時，輸入值會自動更新為第一個符合的選項。需要透過 `firstMatch` 輸入屬性來協調。範例請參閱 [Autocomplete 指南](guide/aria/autocomplete#auto-select-mode)。
+- **`'highlight'`**：醒目提示符合的文字，但不變更輸入值。使用者以方向鍵瀏覽，並用 Enter 選取。
 
-#### Signals
+#### 訊號
 
-| Property   | Type              | Description                     |
-| ---------- | ----------------- | ------------------------------- |
-| `expanded` | `Signal<boolean>` | Whether popup is currently open |
+| 屬性       | 型別              | 說明                 |
+| ---------- | ----------------- | -------------------- |
+| `expanded` | `Signal<boolean>` | 彈出視窗目前是否開啟 |
 
-#### Methods
+#### 方法
 
-| Method     | Parameters | Description            |
-| ---------- | ---------- | ---------------------- |
-| `open`     | none       | Opens the combobox     |
-| `close`    | none       | Closes the combobox    |
-| `expand`   | none       | Expands the combobox   |
-| `collapse` | none       | Collapses the combobox |
+| 方法       | 參數 | 說明           |
+| ---------- | ---- | -------------- |
+| `open`     | 無   | 開啟 combobox  |
+| `close`    | 無   | 關閉 combobox  |
+| `expand`   | 無   | 展開 combobox  |
+| `collapse` | 無   | 收合 combobox  |
 
-### ComboboxInput Directive
+### ComboboxInput 指令
 
-The `ngComboboxInput` directive connects an input element to the combobox.
+`ngComboboxInput` 指令把輸入元素連接到 combobox。
 
-#### Model
+#### 模型
 
-| Property | Type     | Description                              |
-| -------- | -------- | ---------------------------------------- |
-| `value`  | `string` | Two-way bindable value using `[(value)]` |
+| 屬性    | 型別     | 說明                              |
+| ------- | -------- | --------------------------------- |
+| `value` | `string` | 使用 `[(value)]` 雙向繫結的值     |
 
-The input element receives keyboard handling and ARIA attributes automatically.
+輸入元素會自動獲得鍵盤處理與 ARIA 屬性。
 
-### ComboboxPopup Directive
+### ComboboxPopup 指令
 
-The `ngComboboxPopup` directive (host directive) manages popup visibility and coordination. Typically used with `ngComboboxPopupContainer` in an `ng-template` or with CDK Overlay.
+`ngComboboxPopup` 指令（主機指令）管理彈出視窗的可見性與協調。通常在 `ng-template` 中搭配 `ngComboboxPopupContainer` 使用，或搭配 CDK Overlay 使用。
 
-### ComboboxPopupContainer Directive
+### ComboboxPopupContainer 指令
 
-The `ngComboboxPopupContainer` directive marks an `ng-template` as the popup content.
+`ngComboboxPopupContainer` 指令把 `ng-template` 標記為彈出內容。
 
 ```html
 <ng-template ngComboboxPopupContainer>
@@ -227,11 +227,11 @@ The `ngComboboxPopupContainer` directive marks an `ng-template` as the popup con
 </ng-template>
 ```
 
-Used with Popover API or CDK Overlay for positioning.
+搭配 Popover API 或 CDK Overlay 來定位。
 
-### ComboboxDialog Directive
+### ComboboxDialog 指令
 
-The `ngComboboxDialog` directive creates a modal combobox popup.
+`ngComboboxDialog` 指令建立強制回應的 combobox 彈出視窗。
 
 ```html
 <dialog ngComboboxDialog>
@@ -239,17 +239,17 @@ The `ngComboboxDialog` directive creates a modal combobox popup.
 </dialog>
 ```
 
-Use for modal popup behavior with backdrop and focus trap.
+用於需要背景與焦點陷阱的強制回應彈出行為。
 
-### Related patterns and directives
+### 相關模式與指令
 
-Combobox is the primitive directive for these documented patterns:
+Combobox 是下列已文件化模式的基礎指令：
 
-- **[Autocomplete](guide/aria/autocomplete)** - Filtering and suggestions pattern (uses Combobox with filter modes)
-- **[Select](guide/aria/select)** - Single selection dropdown pattern (uses Combobox with `readonly`)
-- **[Multiselect](guide/aria/multiselect)** - Multiple selection pattern (uses Combobox with `readonly` + multi-enabled Listbox)
+- **[Autocomplete](guide/aria/autocomplete)**：篩選與建議模式（搭配篩選模式使用 Combobox）
+- **[Select](guide/aria/select)**：單選下拉清單模式（搭配 `readonly` 使用 Combobox）
+- **[Multiselect](guide/aria/multiselect)**：多選模式（搭配 `readonly` 與啟用多選的 Listbox 使用 Combobox）
 
-Combobox typically combines with:
+Combobox 通常會與下列項目結合：
 
-- **[Listbox](guide/aria/listbox)** - Most common popup content
-- **[Tree](guide/aria/tree)** - Hierarchical popup content (see Tree guide for examples)
+- **[Listbox](guide/aria/listbox)**：最常見的彈出內容
+- **[Tree](guide/aria/tree)**：階層式彈出內容（範例請參閱 Tree 指南）

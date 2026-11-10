@@ -1,17 +1,17 @@
-# Animating your applications with `animate.enter` and `animate.leave`
+# 使用 `animate.enter` 與 `animate.leave` 為應用程式加入動畫
 
-Well-designed animations can make your application more intuitive and engaging, but they aren't just cosmetic.
-Animations can improve your application and the user experience in a number of ways:
+設計良好的動畫能讓應用程式更直覺、更吸引人，但它不只是裝飾。
+動畫能從多方面改善應用程式與使用者體驗：
 
-- Without animations, web page transitions can seem abrupt and jarring
-- Motion greatly enhances the user experience, so animations give users a chance to detect the application's response to their actions
-- Good animations can smoothly direct the user's attention throughout a workflow
+- 沒有動畫時，網頁轉場容易顯得突兀生硬
+- 動態效果能大幅提升使用者體驗，讓使用者察覺應用程式對其操作的回應
+- 良好的動畫能在整個工作流程中順暢地引導使用者的注意力
 
-Angular provides `animate.enter` and `animate.leave` to animate your application's elements. These two features apply enter and leave CSS classes at the appropriate times or call functions to apply animations from third party libraries. `animate.enter` and `animate.leave` are not directives. They are special API supported directly by the Angular compiler. They can be used directly on elements and also as a host binding.
+Angular 提供 `animate.enter` 與 `animate.leave` 來為應用程式的元素加入動畫。這兩個功能會在適當的時機套用進入與離開的 CSS 類別，或呼叫函式以套用第三方函式庫的動畫。`animate.enter` 與 `animate.leave` 不是指令，而是由 Angular 編譯器直接支援的特殊 API。它們可以直接用在元素上，也可以作為宿主繫結使用。
 
 ## `animate.enter`
 
-You can use `animate.enter` to animate elements as they _enter_ the DOM. You can define enter animations using CSS classes with either transitions or keyframe animations.
+你可以用 `animate.enter` 讓元素在*進入* DOM 時播放動畫。你可以用 CSS 類別搭配轉場或關鍵影格動畫來定義進入動畫。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/enter.ts">
     <docs-code header="enter.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/enter.ts" />
@@ -19,13 +19,13 @@ You can use `animate.enter` to animate elements as they _enter_ the DOM. You can
     <docs-code header="enter.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/enter.css"/>
 </docs-code-multifile>
 
-When the animation completes, Angular removes the class or classes that you specified in `animate.enter` from the DOM. Animation classes are only present while the animation is active.
+動畫完成後，Angular 會從 DOM 移除你在 `animate.enter` 中指定的類別。動畫類別只會在動畫進行期間存在。
 
-NOTE: When using multiple keyframe animations or transition properties on an element, Angular removes all classes only _after_ the longest animation has completed.
+NOTE: 在同一個元素上使用多個關鍵影格動畫或轉場屬性時，Angular 會等到最長的那個動畫完成後，才移除所有類別。
 
-You can use `animate.enter` with any other Angular features, such as control flow or dynamic expressions. `animate.enter` accepts both a single class string (with multiple classes separated by spaces), or an array of class strings.
+你可以將 `animate.enter` 與任何其他 Angular 功能搭配使用，例如控制流程或動態運算式。`animate.enter` 接受單一類別字串（多個類別以空格分隔），或類別字串陣列。
 
-A quick note about using CSS transitions: If you choose to use transitions instead of keyframe animations, the classes added to the element with `animate.enter` represent the state that the transition will animate _to_. Your base element CSS is what the element will look like when no animations run, which is likely similar to the end state of the CSS transition. So you would still need to pair it with `@starting-style` to have an appropriate _from_ state for your transition to work.
+順帶說明 CSS 轉場的用法：若你選擇使用轉場而非關鍵影格動畫，透過 `animate.enter` 加入元素的類別，代表的是轉場要動畫到的目標狀態。當沒有動畫執行時，元素基礎 CSS 的外觀，通常會與 CSS 轉場的結束狀態相似。因此，你仍需要搭配 `@starting-style`，讓轉場有適當的起始狀態才能正常運作。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/enter-binding.ts">
     <docs-code header="enter-binding.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/enter-binding.ts" />
@@ -35,7 +35,7 @@ A quick note about using CSS transitions: If you choose to use transitions inste
 
 ## `animate.leave`
 
-You can use `animate.leave` to animate elements as they _leave_ the DOM. You can define leave animations using CSS classes with either transforms or keyframe animations.
+你可以用 `animate.leave` 讓元素在*離開* DOM 時播放動畫。你可以用 CSS 類別搭配 transform 或關鍵影格動畫來定義離開動畫。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/leave.ts">
     <docs-code header="leave.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave.ts" />
@@ -43,11 +43,11 @@ You can use `animate.leave` to animate elements as they _leave_ the DOM. You can
     <docs-code header="leave.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave.css"/>
 </docs-code-multifile>
 
-When the animation completes, Angular automatically removes the animated element from the DOM.
+動畫完成後，Angular 會自動把該元素從 DOM 移除。
 
-NOTE: When using multiple keyframe animations or transition properties on an element, Angular waits to remove the element only _after_ the longest of those animations has completed.
+NOTE: 在同一個元素上使用多個關鍵影格動畫或轉場屬性時，Angular 會等到其中最長的那個動畫完成後，才移除元素。
 
-`animate.leave` can also be used with signals, and other bindings. You can use `animate.leave` with a single class or multiple classes. Either specify it as a simple string with spaces or a string array.
+`animate.leave` 也可以搭配訊號與其他繫結使用。你可以為 `animate.leave` 指定單一類別或多個類別，用以空格分隔的簡單字串或字串陣列指定皆可。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-binding.ts">
     <docs-code header="leave-binding.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-binding.ts" />
@@ -55,9 +55,9 @@ NOTE: When using multiple keyframe animations or transition properties on an ele
     <docs-code header="leave-binding.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-binding.css"/>
 </docs-code-multifile>
 
-### Element removal order
+### 元素移除順序 {#element-removal-order}
 
-There is some nuance to how `animate.leave` animations are run and when an animation will occur. `animate.leave` works if it is placed on the element that is being removed, and if `animate.leave` is placed on an element that is a _descendent_ of the element being removed, those child animations will happen _before_ the parent node is removed from the DOM. This ensures that you can confidently animate away child elements without the parent node disappearing prematurely.
+`animate.leave` 動畫如何執行、何時發生，其中有些細微差別。當 `animate.leave` 放在正被移除的元素上時，它會生效；而若 `animate.leave` 放在被移除元素的*後代*元素上，這些子元素動畫會在父節點從 DOM 移除*之前*先執行。這能確保你可以放心地讓子元素以動畫離場，父節點不會提早消失。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-parent.ts">
     <docs-code header="leave.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-parent.ts" />
@@ -65,9 +65,9 @@ There is some nuance to how `animate.leave` animations are run and when an anima
     <docs-code header="leave.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-parent.css"/>
 </docs-code-multifile>
 
-## Event Bindings, Functions, and Third-party Libraries
+## 事件繫結、函式與第三方函式庫
 
-Both `animate.enter` and `animate.leave` support event binding syntax that allows for function calls. You can use this syntax to call a function in your component code or utilize third-party animation libraries, like [GSAP](https://gsap.com/), [anime.js](https://animejs.com/), or any other JavaScript animation library.
+`animate.enter` 與 `animate.leave` 都支援事件繫結語法，可以用來呼叫函式。你可以利用這個語法呼叫元件程式碼中的函式，或使用第三方動畫函式庫，例如 [GSAP](https://gsap.com/)、[anime.js](https://animejs.com/)，或任何其他 JavaScript 動畫函式庫。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-event.ts">
     <docs-code header="leave-event.ts" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-event.ts" />
@@ -75,39 +75,39 @@ Both `animate.enter` and `animate.leave` support event binding syntax that allow
     <docs-code header="leave-event.css" path="adev/src/content/examples/animations/src/app/enter-and-leave/leave-event.css"/>
 </docs-code-multifile>
 
-The `$event` object has the type `AnimationCallbackEvent`. It includes the element as the `target` and provides an `animationComplete()` function to notify the framework when the animation finishes.
+`$event` 物件的型別為 `AnimationCallbackEvent`。它包含作為 `target` 的元素，並提供 `animationComplete()` 函式，用來在動畫結束時通知框架。
 
-IMPORTANT: You **must** call the `animationComplete()` function when using `animate.leave` for Angular to remove the element.
+IMPORTANT: 使用 `animate.leave` 時，你**必須**呼叫 `animationComplete()` 函式，Angular 才會移除元素。
 
-If you don't call `animationComplete()` when using `animate.leave`, Angular calls the function automatically after a four-second delay. You can configure the duration of the delay by providing the token `MAX_ANIMATION_TIMEOUT` in milliseconds.
+若你在使用 `animate.leave` 時沒有呼叫 `animationComplete()`，Angular 會在延遲四秒後自動呼叫該函式。你可以以毫秒為單位提供 `MAX_ANIMATION_TIMEOUT` token，來設定這段延遲的長度。
 
 ```typescript
   { provide: MAX_ANIMATION_TIMEOUT, useValue: 6000 }
 ```
 
-## Compatibility with Legacy Angular Animations
+## 與舊版 Angular 動畫的相容性
 
-You cannot use legacy animations alongside `animate.enter` and `animate.leave` within the same component. Doing so would result in enter classes remaining on the element or leaving nodes not being removed. It is otherwise fine to use both legacy animations and the new `animate.enter` and `animate.leave` animations within the same _application_. The only caveat is content projection. If you are projecting content from one component with legacy animations into another component with `animate.enter` or `animate.leave`, or vice versa, this will result in the same behavior as if they are used together in the same component. This is not supported.
+你不能在同一個元件內同時使用舊版動畫與 `animate.enter`、`animate.leave`。這樣做會導致進入類別殘留在元素上，或離開的節點無法被移除。但在同一個*應用程式*內同時使用舊版動畫與新的 `animate.enter`、`animate.leave` 動畫則沒有問題。唯一的例外是內容投影：若你把帶有舊版動畫的元件內容投影到帶有 `animate.enter` 或 `animate.leave` 的元件中（或反過來），其行為會與在同一個元件內一起使用相同，這是不支援的。
 
-## Testing
+## 測試
 
-TestBed provides built-in support for enabling or disabling animations in your test environment. CSS animations require a browser to run, and many of the APIs are not available in a test environment. By default, TestBed disables animations for you in your test environments.
+TestBed 內建支援在測試環境中啟用或停用動畫。CSS 動畫需要瀏覽器才能執行，許多相關 API 在測試環境中無法使用。TestBed 預設會在你的測試環境中停用動畫。
 
-If you want to test that the animations are animating in a browser test, for example an end-to-end test, you can configure TestBed to enable animations by specifying `animationsEnabled: true` in your test configuration.
+若你想測試動畫是否真的在瀏覽器測試（例如端到端測試）中播放，可以在測試設定中指定 `animationsEnabled: true`，將 TestBed 設定為啟用動畫。
 
 ```typescript
 TestBed.configureTestingModule({animationsEnabled: true});
 ```
 
-This will configure animations in your test environment to behave normally.
+這樣就會讓測試環境中的動畫正常運作。
 
-NOTE: Some test environments do not emit animation events like `animationstart`, `animationend` and their transition event equivalents.
+NOTE: 有些測試環境不會發出 `animationstart`、`animationend` 這類動畫事件，以及它們對應的轉場事件。
 
-## More on Angular animations
+## 深入了解 Angular 動畫
 
-You might also be interested in the following:
+你可能也會對以下內容有興趣：
 
 <docs-pill-row>
-  <docs-pill href="guide/animations/css" title="Complex Animations with CSS"/>
-  <docs-pill href="guide/routing/route-transition-animations" title="Route transition animations"/>
+  <docs-pill href="guide/animations/css" title="使用 CSS 的複雜動畫"/>
+  <docs-pill href="guide/routing/route-transition-animations" title="路由轉場動畫"/>
 </docs-pill-row>

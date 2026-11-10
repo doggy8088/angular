@@ -1,66 +1,62 @@
-# Template type checking
+# 範本型別檢查
 
-## Overview of template type checking
+## 範本型別檢查總覽
 
-Just as TypeScript catches type errors in your code, Angular checks the expressions and bindings within the templates of your application and can report any type errors it finds.
-Angular currently has three modes of doing this, depending on the value of the `fullTemplateTypeCheck` and `strictTemplates` flags in [Angular's compiler options](reference/configs/angular-compiler-options).
+就像 TypeScript 會抓出你程式碼中的型別錯誤一樣，Angular 會檢查你應用程式範本中的運算式與繫結，並能回報它找到的任何型別錯誤。
+Angular 目前有三種檢查模式，取決於 [Angular 編譯器選項](reference/configs/angular-compiler-options) 中 `fullTemplateTypeCheck` 與 `strictTemplates` 旗標的值。
 
-### Basic mode
+### 基本模式
 
-In the most basic type-checking mode, with the `fullTemplateTypeCheck` flag set to `false`, Angular validates only top-level expressions in a template.
+在最基本的型別檢查模式中（`fullTemplateTypeCheck` 旗標設為 `false`），Angular 只驗證範本中的最上層運算式。
 
-If you write `<map [city]="user.address.city">`, the compiler verifies the following:
+如果你寫了 `<map [city]="user.address.city">`，編譯器會驗證下列事項：
 
-- `user` is a property on the component class
-- `user` is an object with an address property
-- `user.address` is an object with a city property
+- `user` 是元件類別上的一個屬性
+- `user` 是一個帶有 address 屬性的物件
+- `user.address` 是一個帶有 city 屬性的物件
 
-The compiler does not verify that the value of `user.address.city` is assignable to the city input of the `<map>` component.
+編譯器不會驗證 `user.address.city` 的值是否可指派給 `<map>` 元件的 city 輸入。
 
-The compiler also has some major limitations in this mode:
+編譯器在這個模式下也有一些主要限制：
 
-- Importantly, it doesn't check embedded views, such as `*ngIf`, `*ngFor`, other `<ng-template>` embedded view.
-- It doesn't figure out the types of `#refs`, the results of pipes, or the type of `$event` in event bindings.
+- 重要的是，它不會檢查內嵌檢視，例如 `*ngIf`、`*ngFor` 或其他 `<ng-template>` 內嵌檢視。
+- 它不會推斷 `#refs` 的型別、管道的結果，或事件繫結中 `$event` 的型別。
 
-In many cases, these things end up as type `any`, which can cause subsequent parts of the expression to go unchecked.
+在許多情況下，這些東西最終會是 `any` 型別，導致運算式後續的部分未經檢查。
 
-### Full mode
+### 完整模式
 
-If the `fullTemplateTypeCheck` flag is set to `true`, Angular is more aggressive in its type-checking within templates.
-In particular:
+如果 `fullTemplateTypeCheck` 旗標設為 `true`，Angular 在範本中的型別檢查會更加積極。具體來說：
 
-- Embedded views \(such as those within an `*ngIf` or `*ngFor`\) are checked
-- Pipes have the correct return type
-- Local references to directives and pipes have the correct type \(except for any generic parameters, which will be `any`\)
+- 檢查內嵌檢視（例如 `*ngIf` 或 `*ngFor` 內的檢視）
+- 管道具有正確的傳回型別
+- 指向指令與管道的本機參考具有正確的型別（任何泛型參數除外，那些會是 `any`）
 
-The following still have type `any`.
+下列項目的型別仍然是 `any`。
 
-- Local references to DOM elements
-- The `$event` object
-- Safe navigation expressions
+- 指向 DOM 元素的本機參考
+- `$event` 物件
+- 安全導覽運算式
 
-IMPORTANT: The `fullTemplateTypeCheck` flag has been deprecated in Angular 13.
-The `strictTemplates` family of compiler options should be used instead.
+IMPORTANT: `fullTemplateTypeCheck` 旗標已在 Angular 13 中棄用。應改用 `strictTemplates` 系列的編譯器選項。
 
-### Strict mode
+### 嚴格模式 {#strict-mode}
 
-Angular maintains the behavior of the `fullTemplateTypeCheck` flag, and introduces a third "strict mode".
-Strict mode is a superset of full mode, and is accessed by setting the `strictTemplates` flag to true.
-This flag supersedes the `fullTemplateTypeCheck` flag.
+Angular 保留了 `fullTemplateTypeCheck` 旗標的行為，並引入第三種「嚴格模式」。嚴格模式是完整模式的超集，透過將 `strictTemplates` 旗標設為 true 來啟用。這個旗標會取代 `fullTemplateTypeCheck` 旗標。
 
-In addition to the full mode behavior, Angular does the following:
+除了完整模式的行為之外，Angular 還會執行下列事項：
 
-- Verifies that component/directive bindings are assignable to their `input()`s
-- Obeys TypeScript's `strictNullChecks` flag when validating the preceding mode
-- Infers the correct type of components/directives, including generics
-- Infers template context types where configured \(for example, allowing correct type-checking of `NgFor`\)
-- Infers the correct type of `$event` in component/directive, DOM, and animation event bindings
-- Infers the correct type of local references to DOM elements, based on the tag name \(for example, the type that `document.createElement` would return for that tag\)
+- 驗證元件／指令的繫結可指派給它們的 `input()`
+- 在驗證前述模式時遵循 TypeScript 的 `strictNullChecks` 旗標
+- 推斷元件／指令的正確型別，包括泛型
+- 在有設定的地方推斷範本脈絡型別（舉例來說，讓 `NgFor` 能被正確地型別檢查）
+- 推斷元件／指令、DOM 與動畫事件繫結中 `$event` 的正確型別
+- 根據標籤名稱，推斷指向 DOM 元素之本機參考的正確型別（舉例來說，就是 `document.createElement` 對該標籤會傳回的型別）
 
-## Checking of `*ngFor`
+## `*ngFor` 的檢查
 
-The three modes of type-checking treat embedded views differently.
-Consider the following example.
+三種型別檢查模式對內嵌檢視的處理方式不同。
+請看下列範例。
 
 ```ts {header:"User interface"}
 interface User {
@@ -79,59 +75,59 @@ interface User {
 </div>
 ```
 
-The `<h2>` and the `<span>` are in the `*ngFor` embedded view.
-In basic mode, Angular doesn't check either of them.
-However, in full mode, Angular checks that `config` and `user` exist and assumes a type of `any`.
-In strict mode, Angular knows that the `user` in the `<span>` has a type of `User`, and that `address` is an object with a `city` property of type `string`.
+`<h2>` 與 `<span>` 位於 `*ngFor` 內嵌檢視中。
+在基本模式下，Angular 兩者都不檢查。
+在完整模式下，Angular 會檢查 `config` 與 `user` 是否存在，並假設其型別為 `any`。
+在嚴格模式下，Angular 知道 `<span>` 中的 `user` 型別是 `User`，且 `address` 是一個帶有 `string` 型別 `city` 屬性的物件。
 
-## Troubleshooting template errors
+## 範本錯誤疑難排解 {#troubleshooting-template-errors}
 
-With strict mode, you might encounter template errors that didn't arise in either of the previous modes.
-These errors often represent genuine type mismatches in the templates that were not caught by the previous tooling.
-If this is the case, the error message should make it clear where in the template the problem occurs.
+使用嚴格模式時，你可能會遇到前兩種模式下都不會出現的範本錯誤。
+這些錯誤往往代表範本中真正的型別不符，先前的工具並沒有抓出來。
+如果是這種情況，錯誤訊息應該能清楚指出範本中問題發生的位置。
 
-There can also be false positives when the typings of an Angular library are either incomplete or incorrect, or when the typings don't quite line up with expectations as in the following cases.
+當 Angular 程式庫的型別定義不完整或不正確，或是型別定義與預期不完全一致時，也可能出現誤報，如下列情況。
 
-- When a library's typings are wrong or incomplete \(for example, missing `null | undefined` if the library was not written with `strictNullChecks` in mind\)
-- When a library's input types are too narrow and the library hasn't added appropriate metadata for Angular to figure this out.
-  This usually occurs with disabled or other common Boolean inputs used as attributes, for example, `<input disabled>`.
+- 當程式庫的型別定義錯誤或不完整時（舉例來說，如果程式庫撰寫時沒有考慮 `strictNullChecks`，就可能缺少 `null | undefined`）
+- 當程式庫的輸入型別太窄，且程式庫沒有加入適當的中繼資料讓 Angular 推斷出來時。
+  這通常發生在 disabled 或其他常見的、被用作屬性的布林輸入上，舉例來說，`<input disabled>`。
 
-- When using `$event.target` for DOM events \(because of the possibility of event bubbling, `$event.target` in the DOM typings doesn't have the type you might expect\)
+- 在 DOM 事件中使用 `$event.target` 時（因為事件冒泡的可能性，DOM 型別定義中的 `$event.target` 並沒有你可能預期的型別）
 
-In case of a false positive like these, there are a few options:
+遇到這類誤報時，有幾個選擇：
 
-- Use the `$any()` type-cast function in certain contexts to opt out of type-checking for a part of the expression
-- Disable strict checks entirely by setting `strictTemplates: false` in the application's TypeScript configuration file, `tsconfig.json`
-- Disable certain type-checking operations individually, while maintaining strictness in other aspects, by setting a _strictness flag_ to `false`
-- If you want to use `strictTemplates` and `strictNullChecks` together, opt out of strict null type checking specifically for input bindings using `strictNullInputTypes`
+- 在特定脈絡下使用 `$any()` 型別轉換函式，讓運算式的一部分退出型別檢查
+- 在應用程式的 TypeScript 設定檔 `tsconfig.json` 中設定 `strictTemplates: false`，完全停用嚴格檢查
+- 把某個_嚴格旗標_設為 `false`，單獨停用特定的型別檢查操作，同時在其他方面保持嚴格
+- 如果你想同時使用 `strictTemplates` 與 `strictNullChecks`，可以使用 `strictNullInputTypes`，特別針對輸入繫結退出嚴格的 null 型別檢查
 
-Unless otherwise commented, each following option is set to the value for `strictTemplates` \(`true` when `strictTemplates` is `true` and conversely, the other way around\).
+除非另有註明，下列每個選項的值都跟隨 `strictTemplates`（`strictTemplates` 為 `true` 時就是 `true`，反之亦然）：
 
-| Strictness flag              | Effect                                                                                                                                                                                                                                                                                                                                                                        |
-| :--------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `strictInputTypes`           | Whether the assignability of a binding expression to the `@Input()` field is checked. Also affects the inference of directive generic types.                                                                                                                                                                                                                                  |
-| `strictInputAccessModifiers` | Whether access modifiers such as `private`/`protected`/`readonly` are honored when assigning a binding expression to an `@Input()` or `input()`. If disabled, the access modifiers of the input are ignored; only the type is checked. This option is `false` by default, even with `strictTemplates` set to `true`. Note: This checking only applies to inputs, not outputs. |
-| `strictNullInputTypes`       | Whether `strictNullChecks` is honored when checking `@Input()` bindings \(per `strictInputTypes`\). Turning this off can be useful when using a library that was not built with `strictNullChecks` in mind.                                                                                                                                                                   |
-| `strictAttributeTypes`       | Whether to check `@Input()` bindings that are made using text attributes. For example, `<input matInput disabled="true">` \(setting the `disabled` property to the string `'true'`\) vs `<input matInput [disabled]="true">` \(setting the `disabled` property to the boolean `true`\).                                                                                       |
-| `strictSafeNavigationTypes`  | Whether the return type of safe navigation operations \(for example, `user?.name` will be correctly inferred based on the type of `user`\). If disabled, `user?.name` will be of type `any`.                                                                                                                                                                                  |
-| `strictDomLocalRefTypes`     | Whether local references to DOM elements will have the correct type. If disabled `ref` will be of type `any` for `<input #ref>`.                                                                                                                                                                                                                                              |
-| `strictOutputEventTypes`     | Whether `$event` will have the correct type for event bindings to component/directive an `@Output()`, or to animation events. If disabled, it will be `any`.                                                                                                                                                                                                                  |
-| `strictDomEventTypes`        | Whether `$event` will have the correct type for event bindings to DOM events. If disabled, it will be `any`.                                                                                                                                                                                                                                                                  |
-| `strictContextGenerics`      | Whether the type parameters of generic components will be inferred correctly \(including any generic bounds\). If disabled, any type parameters will be `any`.                                                                                                                                                                                                                |
-| `strictLiteralTypes`         | Whether object and array literals declared in the template will have their type inferred. If disabled, the type of such literals will be `any`. This flag is `true` when _either_ `fullTemplateTypeCheck` or `strictTemplates` is set to `true`.                                                                                                                              |
+| 嚴格旗標             | 效果                                                                                                                                                                                                                                                                                  |
+| :-------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `strictInputTypes`          | 是否檢查繫結運算式對 `@Input()` 欄位的可指派性。也會影響指令泛型型別的推斷。                                                                                                                                            |
+| `strictInputAccessModifiers` | 把繫結運算式指派給 `@Input()` 或 `input()` 時，是否遵循 `private`／`protected`／`readonly` 等存取修飾詞。如果停用，輸入的存取修飾詞會被忽略，只檢查型別。這個選項預設為 `false`，即使 `strictTemplates` 設為 `true` 也是如此。注意：這項檢查只適用於輸入，不適用於輸出。 |
+| `strictNullInputTypes`      | 檢查 `@Input()` 繫結時是否遵循 `strictNullChecks`（依 `strictInputTypes`）。使用撰寫時沒有考慮 `strictNullChecks` 的程式庫時，關閉這個選項會很有用。                                                                             |
+| `strictAttributeTypes`      | 是否檢查使用文字屬性建立的 `@Input()` 繫結。舉例來說，`<input matInput disabled="true">`（把 `disabled` 屬性設為字串 `'true'`）對比 `<input matInput [disabled]="true">`（把 `disabled` 屬性設為布林值 `true`）。 |
+| `strictSafeNavigationTypes` | 是否正確推斷安全導覽運算的傳回型別（舉例來說，`user?.name` 會根據 `user` 的型別被正確推斷）。如果停用，`user?.name` 會是 `any` 型別。                                                                                            |
+| `strictDomLocalRefTypes`    | 指向 DOM 元素的本機參考是否具有正確的型別。如果停用，`<input #ref>` 的 `ref` 會是 `any` 型別。                                                                                                                                                        |
+| `strictOutputEventTypes`    | `$event` 在繫結到元件／指令的 `@Output()` 或動畫事件的事件繫結中，是否具有正確的型別。如果停用，它會是 `any`。                                                                                                                            |
+| `strictDomEventTypes`       | `$event` 在繫結到 DOM 事件的事件繫結中，是否具有正確的型別。如果停用，它會是 `any`。                                                                                                                                                                            |
+| `strictContextGenerics`     | 泛型元件的型別參數是否會被正確推斷（包括任何泛型邊界）。如果停用，任何型別參數都會是 `any`。                                                                                                                          |
+| `strictLiteralTypes`        | 在範本中宣告的物件與陣列字面值，其型別是否會被推斷。如果停用，這類字面值的型別會是 `any`。當 `fullTemplateTypeCheck` 或 `strictTemplates` 任一設為 `true` 時，這個旗標即為 `true`。                                                                                                                                         |
 
-If you still have issues after troubleshooting with these flags, fall back to full mode by disabling `strictTemplates`.
+如果用這些旗標疑難排解後仍然有問題，可以停用 `strictTemplates`，退回完整模式。
 
-If that doesn't work, an option of last resort is to turn off full mode entirely with `fullTemplateTypeCheck: false`.
+如果這樣還不行，最後的手段是以 `fullTemplateTypeCheck: false` 完全關閉完整模式。
 
-A type-checking error that you cannot resolve with any of the recommended methods can be the result of a bug in the template type-checker itself.
-If you get errors that require falling back to basic mode, it is likely to be such a bug.
-If this happens, [file an issue](https://github.com/angular/angular/issues) so the team can address it.
+任何建議方法都無法解決的型別檢查錯誤，可能是範本型別檢查器本身的錯誤所致。
+如果你遇到的錯誤需要退回基本模式，那很可能就是這類錯誤。
+如果發生這種情況，請[提出 issue](https://github.com/angular/angular/issues)，讓團隊處理。
 
-## Inputs and type-checking
+## 輸入與型別檢查
 
-The template type checker checks whether a binding expression's type is compatible with that of the corresponding directive input.
-As an example, consider the following component:
+範本型別檢查器會檢查繫結運算式的型別，是否與對應指令輸入的型別相容。
+舉例來說，請看下列元件：
 
 ```angular-ts
 export interface User {
@@ -147,7 +143,7 @@ export class UserDetailComponent {
 }
 ```
 
-The `AppComponent` template uses this component as follows:
+`AppComponent` 範本使用這個元件的方式如下：
 
 ```angular-ts
 @Component({
@@ -159,65 +155,65 @@ export class AppComponent {
 }
 ```
 
-Here, during type checking of the template for `AppComponent`, the `[user]="selectedUser"` binding corresponds with the `UserDetailComponent.user` input.
-Therefore, Angular assigns the `selectedUser` property to `UserDetailComponent.user`, which would result in an error if their types were incompatible.
-TypeScript checks the assignment according to its type system, obeying flags such as `strictNullChecks` as they are configured in the application.
+在這裡，對 `AppComponent` 範本進行型別檢查時，`[user]="selectedUser"` 繫結對應到 `UserDetailComponent.user` 輸入。
+因此，Angular 會把 `selectedUser` 屬性指派給 `UserDetailComponent.user`，如果兩者的型別不相容，就會產生錯誤。
+TypeScript 依其型別系統檢查這次指派，並遵循應用程式中設定的 `strictNullChecks` 等旗標。
 
-Avoid run-time type errors by providing more specific in-template type requirements to the template type checker.
-Make the input type requirements for your own directives as specific as possible by providing template-guard functions in the directive definition.
-See [Improving template type checking for custom directives](/guide/directives/structural-directives#improving-template-type-checking-for-custom-directives) in this guide.
+為範本型別檢查器提供更具體的範本內型別要求，以避免執行階段的型別錯誤。
+在指令定義中提供範本守衛函式，讓你自己的指令的輸入型別要求盡可能具體。
+請參閱本指南的[改善自訂指令的範本型別檢查](/guide/directives/structural-directives#improving-template-type-checking-for-custom-directives)。
 
-### Strict null checks
+### 嚴格的 null 檢查 {#strict-null-checks}
 
-When you enable `strictTemplates` and the TypeScript flag `strictNullChecks`, typecheck errors might occur for certain situations that might not easily be avoided.
+當你啟用 `strictTemplates` 與 TypeScript 旗標 `strictNullChecks` 時，某些不容易避開的情況可能會出現型別檢查錯誤。
 For example:
 
-- A nullable value that is bound to a directive from a library which did not have `strictNullChecks` enabled.
+- 一個可為 null 的值，被繫結到來自某個未啟用 `strictNullChecks` 的程式庫的指令。
 
-  For a library compiled without `strictNullChecks`, its declaration files will not indicate whether a field can be `null` or not.
-  For situations where the library handles `null` correctly, this is problematic, as the compiler will check a nullable value against the declaration files which omit the `null` type.
-  As such, the compiler produces a type-check error because it adheres to `strictNullChecks`.
+  對於未以 `strictNullChecks` 編譯的程式庫，它的宣告檔案不會指出欄位是否可以是 `null`。
+  對於程式庫能正確處理 `null` 的情況，這會造成問題，因為編譯器會拿可為 null 的值去對照省略了 `null` 型別的宣告檔案。
+  因此，編譯器因為遵循 `strictNullChecks` 而產生型別檢查錯誤。
 
-- Using the `async` pipe with an Observable which you know will emit synchronously.
+- 把 `async` 管道用在你明知會同步發出值的 Observable 上。
 
-  The `async` pipe currently assumes that the Observable it subscribes to can be asynchronous, which means that it's possible that there is no value available yet.
-  In that case, it still has to return something —which is `null`.
-  In other words, the return type of the `async` pipe includes `null`, which might result in errors in situations where the Observable is known to emit a non-nullable value synchronously.
+  `async` 管道目前假設它訂閱的 Observable 可能是非同步的，也就是說，可能還沒有可用的值。
+  在這種情況下，它仍然必須傳回某個東西，也就是 `null`。
+  換句話說，`async` 管道的傳回型別包含 `null`，在已知 Observable 會同步發出不可為 null 的值的情況下，這可能會導致錯誤。
 
-There are two potential workarounds to the preceding issues:
+針對上述問題，有兩個可能的因應方法：
 
-- In the template, include the non-null assertion operator `!` at the end of a nullable expression, such as
+- 在範本中，在可為 null 的運算式結尾加上非 null 斷言運算子 `!`，例如
 
 ```html
 <user-detail [user]="user!"></user-detail>
 ```
 
-In this example, the compiler disregards type incompatibilities in nullability, just as in TypeScript code.
-In the case of the `async` pipe, notice that the expression needs to be wrapped in parentheses, as in
+在這個範例中，編譯器會忽略可空性方面的型別不相容，就像在 TypeScript 程式碼中一樣。
+如果是 `async` 管道的情況，請注意運算式需要用括號包起來，例如
 
 ```html
 <user-detail [user]="(user$ | async)!"></user-detail>
 ```
 
-- Disable strict null checks in Angular templates completely.
+- 完全停用 Angular 範本中的嚴格 null 檢查。
 
-  When `strictTemplates` is enabled, it is still possible to disable certain aspects of type checking.
-  Setting the option `strictNullInputTypes` to `false` disables strict null checks within Angular templates.
-  This flag applies for all components that are part of the application.
+  啟用 `strictTemplates` 時，仍然可以停用型別檢查的某些方面。
+  把選項 `strictNullInputTypes` 設為 `false`，就能停用 Angular 範本中的嚴格 null 檢查。
+  這個旗標適用於應用程式中的所有元件。
 
-### Advice for library authors
+### 給程式庫作者的建議
 
-As a library author, you can take several measures to provide an optimal experience for your users.
-First, enabling `strictNullChecks` and including `null` in an input's type, as appropriate, communicates to your consumers whether they can provide a nullable value or not.
-Additionally, it is possible to provide type hints that are specific to the template type checker.
-See [Improving template type checking for custom directives](/guide/directives/structural-directives#improving-template-type-checking-for-custom-directives), and [Input setter coercion](#input-setter-coercion).
+身為程式庫作者，你可以採取幾項措施，為使用者提供最佳體驗。
+首先，啟用 `strictNullChecks`，並在適當時把 `null` 包含在輸入的型別中，能告訴你的使用者他們是否可以提供可為 null 的值。
+此外，你也可以提供範本型別檢查器專屬的型別提示。
+請參閱[改善自訂指令的範本型別檢查](/guide/directives/structural-directives#improving-template-type-checking-for-custom-directives)，以及[輸入 setter 強制轉型](#input-setter-coercion)。
 
-## Input setter coercion
+## 輸入 setter 強制轉型 {#input-setter-coercion}
 
-Occasionally it is desirable for the `input()` property of a directive or component to alter the value bound to it, typically using a `transform` function for the input.
-As an example, consider this custom button component:
+有時候，我們會希望指令或元件的 `input()` 屬性改變繫結到它的值，通常是使用輸入的 `transform` 函式。
+舉例來說，請看這個自訂按鈕元件：
 
-Consider the following directive:
+請看下列指令：
 
 ```angular-ts
 @Component({
@@ -233,22 +229,22 @@ class SubmitButton {
 }
 ```
 
-Here, the `disabled` input of the component is being passed on to the `<button>` in the template.
-All of this works as expected, as long as a `boolean` value is bound to the input.
-But, suppose a consumer uses this input in the template as an attribute:
+在這裡，元件的 `disabled` 輸入被傳遞給範本中的 `<button>`。
+只要有 `boolean` 值繫結到該輸入，這一切都會如預期般運作。
+但假設使用者在範本中把這個輸入用作屬性：
 
 ```html
 <submit-button disabled></submit-button>
 ```
 
-This has the same effect as the binding:
+這與下列繫結有相同的效果：
 
 ```html
 <submit-button [disabled]="''"></submit-button>
 ```
 
-At runtime, the input will be set to the empty string, which is not a `boolean` value.
-Angular component libraries that deal with this problem often "coerce" the value into the right type in the setter:
+在執行階段，該輸入會被設為空字串，而空字串不是 `boolean` 值。
+處理這個問題的 Angular 元件程式庫，通常會在 setter 中把值「強制轉型」為正確的型別：
 
 ```ts
 
@@ -258,13 +254,13 @@ set disabled(value: boolean) {
 
 ```
 
-It would be ideal to change the type of `value` here, from `boolean` to `boolean|''`, to match the set of values which are actually accepted by the setter.
-TypeScript prior to version 4.3 requires that both the getter and setter have the same type, so if the getter should return a `boolean` then the setter is stuck with the narrower type.
+理想情況下，應該把這裡 `value` 的型別從 `boolean` 改為 `boolean|''`，以符合 setter 實際接受的值的集合。
+4.3 版之前的 TypeScript 要求 getter 與 setter 具有相同的型別，因此如果 getter 應該傳回 `boolean`，setter 就只能使用較窄的型別。
 
-If the consumer has Angular's strictest type checking for templates enabled, this creates a problem: the empty string \(`''`\) is not actually assignable to the `disabled` field, which creates a type error when the attribute form is used.
+如果使用者啟用了 Angular 最嚴格的範本型別檢查，這會造成問題：空字串（`''`）實際上不可指派給 `disabled` 欄位，使用屬性形式時就會產生型別錯誤。
 
-As a workaround for this problem, Angular supports checking a wider, more permissive type for `@Input()` than is declared for the input field itself.
-Enable this by adding a static property with the `ngAcceptInputType_` prefix to the component class:
+作為這個問題的因應方法，Angular 支援為 `@Input()` 檢查比輸入欄位本身所宣告更寬、更寬容的型別。
+在元件類別中加入一個帶有 `ngAcceptInputType_` 前綴的靜態屬性，即可啟用這項功能：
 
 ```ts
 class SubmitButton {
@@ -283,21 +279,21 @@ class SubmitButton {
 }
 ```
 
-Since TypeScript 4.3, the setter could have been declared to accept `boolean|''` as type, making the input setter coercion field obsolete.
-As such, input setters coercion fields have been deprecated.
+自 TypeScript 4.3 起，setter 可以宣告為接受 `boolean|''` 型別，使得輸入 setter 強制轉型欄位變得不再需要。
+因此，輸入 setter 強制轉型欄位已被棄用。
 
-This field does not need to have a value.
-Its existence communicates to the Angular type checker that the `disabled` input should be considered as accepting bindings that match the type `boolean|''`.
-The suffix should be the `@Input` _field_ name.
+這個欄位不需要有值。
+它的存在告訴 Angular 型別檢查器，`disabled` 輸入應被視為接受符合 `boolean|''` 型別的繫結。
+後綴應該是 `@Input` _欄位_的名稱。
 
-Care should be taken that if an `ngAcceptInputType_` override is present for a given input, then the setter should be able to handle any values of the overridden type.
+要注意的是，如果某個輸入有 `ngAcceptInputType_` 覆寫，那麼 setter 應該能夠處理該覆寫型別的任何值。
 
-## Disabling type checking using `$any()`
+## 使用 `$any()` 停用型別檢查
 
-Disable checking of a binding expression by surrounding the expression in a call to the `$any()` cast pseudo-function.
-The compiler treats it as a cast to the `any` type just like in TypeScript when a `<any>` or `as any` cast is used.
+把運算式包在 `$any()` 轉換偽函式的呼叫中，即可停用對該繫結運算式的檢查。
+編譯器會把它視為轉換為 `any` 型別，就像在 TypeScript 中使用 `<any>` 或 `as any` 轉換一樣。
 
-In the following example, casting `person` to the `any` type suppresses the error `Property address does not exist`.
+在下列範例中，把 `person` 轉換為 `any` 型別，抑制了 `Property address does not exist` 錯誤。
 
 ```angular-ts
 @Component({

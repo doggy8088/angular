@@ -1,17 +1,17 @@
-# Deriving state with computed signals
+# 使用計算訊號衍生狀態
 
-Now that you've learned [how to create and update signals](/tutorials/signals/1-creating-your-first-signal), let's learn about computed signals. Computed signals are derived values that automatically update when their dependencies change. They're perfect for creating reactive calculations based on other signals.
+既然你已學會[如何建立和更新訊號](/tutorials/signals/1-creating-your-first-signal)，接著來認識計算訊號。計算訊號是衍生值，會在其相依性改變時自動更新。它們非常適合依據其他訊號建立反應式計算。
 
-In this activity, you'll learn how to use the `computed()` function to create derived state that updates automatically when the underlying signals change.
+在本活動中，你將學到如何使用 `computed()` 函式建立衍生狀態，它會在底層訊號改變時自動更新。
 
-Let's enhance our user status system by adding computed values that derive information from our user status signal. The starter code now includes three status options: `'online'`, `'away'`, and `'offline'`.
+來強化我們的使用者狀態系統，加入從使用者狀態訊號衍生資訊的計算值。起始程式碼現在包含三種狀態選項：`'online'`、`'away'` 與 `'offline'`。
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Import computed function">
-Add `computed` to your existing imports.
+<docs-step title="匯入 computed 函式">
+將 `computed` 加到你既有的匯入中。
 
 ```ts
 // Add computed to existing imports
@@ -20,18 +20,18 @@ import {Component, signal, computed, ChangeDetectionStrategy} from '@angular/cor
 
 </docs-step>
 
-<docs-step title="Create a computed signal for notifications">
-Add a computed signal that determines if notifications should be enabled based on user status.
+<docs-step title="建立用於通知的計算訊號">
+加入一個計算訊號，依使用者狀態判斷是否應啟用通知。
 
 ```ts
 notificationsEnabled = computed(() => this.userStatus() === 'online');
 ```
 
-This computed signal will automatically recalculate whenever the `userStatus` signal changes. Notice how we call `this.userStatus()` inside the computed function to read the signal's value.
+這個計算訊號會在 `userStatus` 訊號改變時自動重新計算。注意，我們在計算函式內呼叫 `this.userStatus()` 來讀取訊號的值。
 </docs-step>
 
-<docs-step title="Create a computed signal for a descriptive message">
-Add a computed signal that creates a descriptive message based on the user status.
+<docs-step title="建立用於描述訊息的計算訊號">
+加入一個計算訊號，依使用者狀態建立一段描述訊息。
 
 ```ts
 statusMessage = computed(() => {
@@ -49,11 +49,11 @@ statusMessage = computed(() => {
 });
 ```
 
-This shows how computed signals can handle more complex logic with switch statements and string transformations.
+這展示了計算訊號如何以 switch 陳述式與字串轉換，處理更複雜的邏輯。
 </docs-step>
 
-<docs-step title="Create a computed signal that calculates working hours availability">
-Add a computed signal that calculates if the user is within their working hours.
+<docs-step title="建立計算工作時間可用性的計算訊號">
+加入一個計算訊號，計算使用者目前是否在工作時間內。
 
 ```ts
 isWithinWorkingHours = computed(() => {
@@ -64,13 +64,13 @@ isWithinWorkingHours = computed(() => {
 });
 ```
 
-This demonstrates how computed signals can perform calculations and combine multiple data sources. The value updates automatically when the `userStatus` changes.
+這示範了計算訊號如何進行計算，並結合多個資料來源。當 `userStatus` 改變時，值會自動更新。
 </docs-step>
 
-<docs-step title="Display the computed values in the template">
-The template already has placeholders showing "Loading...". Replace them with your computed signals:
+<docs-step title="在範本中顯示計算值">
+範本中已有顯示 "Loading..." 的預留位置。將它們換成你的計算訊號：
 
-1. For notifications, replace `Loading...` with an `@if` block:
+1. 通知部分，將 `Loading...` 換成 `@if` 區塊：
 
    ```angular-html
    @if (notificationsEnabled()) {
@@ -80,13 +80,13 @@ The template already has placeholders showing "Loading...". Replace them with yo
    }
    ```
 
-1. For the message, replace `Loading...` with:
+1. 訊息部分，將 `Loading...` 換成：
 
    ```angular-html
    {{ statusMessage() }}
    ```
 
-1. For working hours, replace `Loading...` with an `@if` block:
+1. 工作時間部分，將 `Loading...` 換成 `@if` 區塊：
 
    ```angular-html
    @if (isWithinWorkingHours()) {
@@ -96,18 +96,18 @@ The template already has placeholders showing "Loading...". Replace them with yo
    }
    ```
 
-Notice how computed signals are called just like regular signals - with parentheses!
+注意，計算訊號的呼叫方式和一般訊號一樣，都要加上括號！
 </docs-step>
 
 </docs-workflow>
 
-Excellent! You've now learned how to create computed signals.
+太棒了！你已學會如何建立計算訊號。
 
-Here are some key points to remember:
+以下是要記住的幾個重點：
 
-- **Computed signals are reactive**: They automatically update when their dependencies change
-- **They're read-only**: You can't directly set computed values, they're derived from other signals
-- **They can contain complex logic**: Use them for calculations, transformations, and derived state
-- **They provide a way to make performant computations based on dynamic state**: Angular only recalculates them when their dependencies actually change
+- **計算訊號具有反應性**：在其相依性改變時自動更新
+- **唯讀**：你無法直接設定計算值，它們是從其他訊號衍生而來
+- **可包含複雜邏輯**：可用於計算、轉換與衍生狀態
+- **提供基於動態狀態的高效能計算方式**：Angular 只在其相依性真正改變時，才會重新計算它們
 
-In the next lesson, you'll learn about [a different way to derive state with linkedSignals](/tutorials/signals/3-deriving-state-with-linked-signals)!
+在下一課中，你將學到[以另一種方式使用 linkedSignal 衍生狀態](/tutorials/signals/3-deriving-state-with-linked-signals)！

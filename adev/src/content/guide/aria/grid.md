@@ -2,13 +2,13 @@
 </docs-decorative-header>
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/grid/" title="Grid ARIA pattern"/>
-  <docs-pill href="/api?query=grid#angular_aria_grid" title="Grid API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/grid/" title="Grid ARIA 模式"/>
+  <docs-pill href="/api?query=grid#angular_aria_grid" title="Grid API 參考"/>
 </docs-pill-row>
 
-## Overview
+## 概觀
 
-A grid enables users to navigate two-dimensional data or interactive elements using directional arrow keys, Home, End, and Page Up/Down. Grids work for data tables, calendars, spreadsheets, and layout patterns that group related interactive elements.
+格線讓使用者可以使用方向鍵、Home、End 與 Page Up/Down，瀏覽二維資料或互動元素。格線適用於資料表、行事曆、試算表，以及把相關互動元素分組的版面配置模式。
 
 <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/grid/src/overview/basic/app/app.ts">
   <docs-code header="TS" path="adev/src/content/examples/aria/grid/src/overview/basic/app/app.ts"/>
@@ -16,40 +16,40 @@ A grid enables users to navigate two-dimensional data or interactive elements us
   <docs-code header="CSS" path="adev/src/content/examples/aria/grid/src/overview/basic/app/app.css"/>
 </docs-code-multifile>
 
-## Usage
+## 用法
 
-Grids work well for data or interactive elements organized in rows and columns where users need keyboard navigation in multiple directions.
+當資料或互動元素以列與欄的方式組織、而使用者需要在多個方向上進行鍵盤導覽時，格線就很好用。
 
-**Use grids when:**
+**適合使用格線的情況**：
 
-- Building interactive data tables with editable or selectable cells
-- Creating calendars or date pickers
-- Implementing spreadsheet-like interfaces
-- Grouping interactive elements (buttons, checkboxes) to reduce tab stops on a page
-- Building interfaces requiring two-dimensional keyboard navigation
+- 建立具有可編輯或可選取儲存格的互動式資料表
+- 建立行事曆或日期選擇器
+- 實作類似試算表的介面
+- 把互動元素（按鈕、核取方塊）分組，減少頁面上的 Tab 停靠點
+- 建立需要二維鍵盤導覽的介面
 
-**Avoid grids when:**
+**避免使用格線的情況**：
 
-- Displaying simple read-only tables (use semantic HTML `<table>` instead)
-- Showing single-column lists (use [Listbox](guide/aria/listbox) instead)
-- Displaying hierarchical data (use [Tree](guide/aria/tree) instead)
-- Building forms without tabular layout (use standard form controls)
+- 顯示簡單的唯讀表格（請改用語意化的 HTML `<table>`）
+- 顯示單欄清單（請改用 [Listbox](guide/aria/listbox)）
+- 顯示階層式資料（請改用 [Tree](guide/aria/tree)）
+- 建立沒有表格版面配置的表單（請使用標準表單控制項）
 
-## Features
+## 功能
 
-- **Two-dimensional navigation** - Arrow keys move between cells in all directions
-- **Focus modes** - Choose between roving tabindex or activedescendant focus strategies
-- **Selection support** - Optional cell selection with single or multi-select modes
-- **Wrapping behavior** - Configure how navigation wraps at grid edges (continuous, loop, or nowrap)
-- **Range selection** - Select multiple cells with modifier keys or dragging
-- **Disabled states** - Disable the entire grid or individual cells
-- **RTL support** - Automatic right-to-left language navigation
+- **二維導覽**：方向鍵可以在所有方向上於儲存格之間移動
+- **焦點模式**：可以在 roving tabindex 或 activedescendant 這兩種焦點策略之間選擇
+- **選取支援**：選擇性的儲存格選取，支援單選或多選模式
+- **換行行為**：設定導覽在格線邊緣如何換行（continuous、loop 或 nowrap）
+- **範圍選取**：使用輔助鍵或拖曳選取多個儲存格
+- **停用狀態**：停用整個格線或個別儲存格
+- **RTL 支援**：自動支援由右至左語言的導覽
 
-## Examples
+## 範例
 
-### Data table grid
+### 資料表格線
 
-Use a grid for interactive tables where users need to navigate between cells using arrow keys. This example shows a basic data table with keyboard navigation.
+對於使用者需要用方向鍵在儲存格之間瀏覽的互動式表格，請使用格線。這個範例示範一個具有鍵盤導覽的基本資料表。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -68,11 +68,11 @@ Use a grid for interactive tables where users need to navigate between cells usi
   </docs-tab>
 </docs-tab-group>
 
-Apply the `ngGrid` directive to the table element, `ngGridRow` to each row, and `ngGridCell` to each cell.
+把 `ngGrid` 指令套用到表格元素，把 `ngGridRow` 套用到每一列，把 `ngGridCell` 套用到每個儲存格。
 
-### Calendar grid
+### 行事曆格線
 
-Calendars are a common use case for grids. This example shows a month view where users navigate dates using arrow keys.
+行事曆是格線常見的使用情境。這個範例示範月檢視畫面，使用者可以用方向鍵瀏覽日期。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -98,11 +98,11 @@ Calendars are a common use case for grids. This example shows a month view where
   </docs-tab>
 </docs-tab-group>
 
-Users can activate a date by pressing Enter or Space when focused on a cell.
+當焦點在某個儲存格上時，使用者可以按 Enter 或空白鍵來啟用日期。
 
-### Layout grid
+### 版面配置格線
 
-Use a layout grid to group interactive elements and reduce tab stops. This example shows a grid of pill buttons.
+使用版面配置格線把互動元素分組，減少 Tab 停靠點。這個範例示範一組膠囊按鈕組成的格線。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -128,11 +128,11 @@ Use a layout grid to group interactive elements and reduce tab stops. This examp
   </docs-tab>
 </docs-tab-group>
 
-Instead of tabbing through each button, users navigate with arrow keys and only one button receives tab focus.
+使用者不必逐一用 Tab 逐個經過每個按鈕，而是用方向鍵瀏覽，只有一個按鈕會接收 Tab 焦點。
 
-### Selection and focus modes
+### 選取與焦點模式
 
-Enable selection with `[enableSelection]="true"` and configure how focus and selection interact.
+把 `[enableSelection]="true"` 設好來啟用選取，並設定焦點與選取如何互動。
 
 ```angular-html
 <table
@@ -149,68 +149,68 @@ Enable selection with `[enableSelection]="true"` and configure how focus and sel
 </table>
 ```
 
-**Selection modes:**
+**選取模式**：
 
-- `follow`: Focused cell is automatically selected
-- `explicit`: Users select cells with Space or click
+- `follow`：取得焦點的儲存格會自動被選取
+- `explicit`：使用者用空白鍵或點選來選取儲存格
 
-**Focus modes:**
+**焦點模式**：
 
-- `roving`: Focus moves to cells using `tabindex` (better for simple grids)
-- `activedescendant`: Focus stays on grid container, `aria-activedescendant` indicates active cell (better for virtual scrolling)
+- `roving`：焦點使用 `tabindex` 在儲存格之間移動（較適合簡單的格線）
+- `activedescendant`：焦點停留在格線容器上，`aria-activedescendant` 會指出目前作用中的儲存格（較適合虛擬捲動）
 
-## APIs
+## API {#apis}
 
 ### Grid
 
-The container directive that provides keyboard navigation and focus management for rows and cells.
+為列與儲存格提供鍵盤導覽與焦點管理的容器指令。
 
-#### Inputs
+#### 輸入屬性
 
-| Property               | Type                                 | Default    | Description                                                   |
-| ---------------------- | ------------------------------------ | ---------- | ------------------------------------------------------------- |
-| `enableSelection`      | `boolean`                            | `false`    | Whether selection is enabled for the grid                     |
-| `disabled`             | `boolean`                            | `false`    | Disables the entire grid                                      |
-| `softDisabled`         | `boolean`                            | `true`     | When `true`, disabled cells are focusable but not interactive |
-| `focusMode`            | `'roving' \| 'activedescendant'`     | `'roving'` | Focus strategy used by the grid                               |
-| `rowWrap`              | `'continuous' \| 'loop' \| 'nowrap'` | `'loop'`   | Navigation wrapping behavior along rows                       |
-| `colWrap`              | `'continuous' \| 'loop' \| 'nowrap'` | `'loop'`   | Navigation wrapping behavior along columns                    |
-| `multi`                | `boolean`                            | `false`    | Whether multiple cells can be selected                        |
-| `selectionMode`        | `'follow' \| 'explicit'`             | `'follow'` | Whether selection follows focus or requires explicit action   |
-| `enableRangeSelection` | `boolean`                            | `false`    | Enable range selections with modifier keys or dragging        |
+| 屬性                   | 型別                                 | 預設值     | 說明                                       |
+| ---------------------- | ------------------------------------ | ---------- | ------------------------------------------ |
+| `enableSelection`      | `boolean`                            | `false`    | 格線是否啟用選取                           |
+| `disabled`             | `boolean`                            | `false`    | 停用整個格線                               |
+| `softDisabled`         | `boolean`                            | `true`     | 為 `true` 時，停用儲存格可取得焦點但無法互動 |
+| `focusMode`            | `'roving' \| 'activedescendant'`     | `'roving'` | 格線使用的焦點策略                         |
+| `rowWrap`              | `'continuous' \| 'loop' \| 'nowrap'` | `'loop'`   | 沿列導覽時的繞回行為                       |
+| `colWrap`              | `'continuous' \| 'loop' \| 'nowrap'` | `'loop'`   | 沿欄導覽時的繞回行為                       |
+| `multi`                | `boolean`                            | `false`    | 是否可選取多個儲存格                       |
+| `selectionMode`        | `'follow' \| 'explicit'`             | `'follow'` | 選取是否跟隨焦點，或需要明確的操作         |
+| `enableRangeSelection` | `boolean`                            | `false`    | 啟用以輔助鍵或拖曳進行的範圍選取           |
 
 ### GridRow
 
-Represents a row within a grid and serves as a container for grid cells.
+代表格線中的一列，是格線儲存格的容器。
 
-#### Inputs
+#### 輸入屬性
 
-| Property   | Type     | Default | Description                           |
-| ---------- | -------- | ------- | ------------------------------------- |
-| `rowIndex` | `number` | auto    | The index of this row within the grid |
+| 屬性       | 型別     | 預設值 | 說明                 |
+| ---------- | -------- | ------ | -------------------- |
+| `rowIndex` | `number` | auto   | 此列在格線中的索引   |
 
 ### GridCell
 
-Represents an individual cell within a grid row.
+代表格線列中的個別儲存格。
 
-#### Inputs
+#### 輸入屬性
 
-| Property      | Type                         | Default        | Description                                             |
-| ------------- | ---------------------------- | -------------- | ------------------------------------------------------- |
-| `id`          | `string`                     | auto           | Unique identifier for the cell                          |
-| `role`        | `string`                     | `'gridcell'`   | Cell role: `gridcell`, `columnheader`, or `rowheader`   |
-| `disabled`    | `boolean`                    | `false`        | Disables this cell                                      |
-| `selected`    | `boolean`                    | `false`        | Whether the cell is selected (supports two-way binding) |
-| `selectable`  | `boolean`                    | `true`         | Whether the cell can be selected                        |
-| `rowSpan`     | `number`                     | —              | Number of rows the cell spans                           |
-| `colSpan`     | `number`                     | —              | Number of columns the cell spans                        |
-| `rowIndex`    | `number`                     | —              | Row index of the cell                                   |
-| `colIndex`    | `number`                     | —              | Column index of the cell                                |
-| `orientation` | `'vertical' \| 'horizontal'` | `'horizontal'` | Orientation for widgets within the cell                 |
-| `wrap`        | `boolean`                    | `true`         | Whether widget navigation wraps within the cell         |
+| 屬性          | 型別                         | 預設值         | 說明                                       |
+| ------------- | ---------------------------- | -------------- | ------------------------------------------ |
+| `id`          | `string`                     | auto           | 儲存格的唯一識別碼                         |
+| `role`        | `string`                     | `'gridcell'`   | 儲存格角色：`gridcell`、`columnheader` 或 `rowheader` |
+| `disabled`    | `boolean`                    | `false`        | 停用此儲存格                               |
+| `selected`    | `boolean`                    | `false`        | 儲存格是否已選取（支援雙向繫結）           |
+| `selectable`  | `boolean`                    | `true`         | 儲存格是否可以選取                         |
+| `rowSpan`     | `number`                     | —              | 儲存格跨越的列數                           |
+| `colSpan`     | `number`                     | —              | 儲存格跨越的欄數                           |
+| `rowIndex`    | `number`                     | —              | 儲存格的列索引                             |
+| `colIndex`    | `number`                     | —              | 儲存格的欄索引                             |
+| `orientation` | `'vertical' \| 'horizontal'` | `'horizontal'` | 儲存格內小工具的方向                       |
+| `wrap`        | `boolean`                    | `true`         | 儲存格內的小工具導覽是否繞回               |
 
-#### Signals
+#### 訊號
 
-| Property | Type              | Description                          |
-| -------- | ----------------- | ------------------------------------ |
-| `active` | `Signal<boolean>` | Whether the cell currently has focus |
+| 屬性     | 型別              | 說明                   |
+| -------- | ----------------- | ---------------------- |
+| `active` | `Signal<boolean>` | 儲存格目前是否取得焦點 |

@@ -1,11 +1,11 @@
-<docs-decorative-header title="Server-side & hybrid rendering" imgSrc="adev/src/assets/images/overview.svg"> <!-- markdownlint-disable-line -->
-Learn about different ways you can optimize the performance of your application with different rendering strategies.
+<docs-decorative-header title="伺服器端與混合渲染" imgSrc="adev/src/assets/images/overview.svg"> <!-- markdownlint-disable-line -->
+了解如何運用不同的渲染策略來最佳化應用程式的效能。
 </docs-decorative-header>
 
-One of the top priorities of any developer is ensuring that their application is as performant as possible. These guides are here to help you follow best practices for building performant applications by taking advantage of different rendering strategies.
+每位開發者的首要目標之一，就是確保應用程式的效能盡可能好。這些指南將協助你運用不同的渲染策略，遵循最佳實務來打造高效能的應用程式。
 
-| Guides Types                                          | Description                                                                                                                                                                             |
+| 指南類型                                          | 說明                                                                                                                                                                             |
 | :---------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Server and hybrid rendering](/guide/ssr)             | Learn how to leverage rendering pages on the server to improve load times.                                                                                                              |
-| [Hydration](/guide/hydration)                         | A process to improve application performance by restoring its state after server-side rendering and reusing existing DOM structure as much as possible.                                 |
-| [Incremental Hydration](/guide/incremental-hydration) | Incremental hydration is an advanced type of hydration that can leave sections of your application dehydrated and incrementally trigger hydration of those sections as they are needed. |
+| [Server and hybrid rendering](/guide/ssr)             | 了解如何運用在伺服器上渲染頁面來改善載入時間。                                                                                                              |
+| [Hydration](/guide/hydration)                         | 透過在伺服器端渲染後還原應用程式狀態，並盡可能重用既有的 DOM 結構，來改善應用程式效能的過程。                                 |
+| [漸進式水合](/guide/incremental-hydration) | 漸進式水合是一種進階的水合方式，能讓應用程式的某些區塊保持未水合狀態，並在需要時漸進觸發這些區塊的水合。 |

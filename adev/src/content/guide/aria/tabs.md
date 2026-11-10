@@ -2,74 +2,13 @@
 </docs-decorative-header>
 
 <docs-pill-row>
-  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/" title="Tabs ARIA pattern"/>
-  <docs-pill href="/api/aria/tabs/Tabs" title="Tabs API Reference"/>
+  <docs-pill href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/" title="Tabs ARIA 模式"/>
+  <docs-pill href="/api/aria/tabs/Tabs" title="Tabs API 參考文件"/>
 </docs-pill-row>
 
-## Overview
+## 概述
 
-Tabs display layered content sections where only one panel is visible at a time. Users switch between panels by clicking tab buttons or using arrow keys to navigate the tab list.
-
-<docs-tab-group>
-  <docs-tab label="Basic">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Material">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-
-  <docs-tab label="Retro">
-    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.ts">
-      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.ts"/>
-      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.html"/>
-      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.css"/>
-    </docs-code-multifile>
-  </docs-tab>
-</docs-tab-group>
-
-## Usage
-
-Tabs work well for organizing related content into distinct sections where users switch between different views or categories.
-
-**Use tabs when:**
-
-- Organizing related content into distinct sections
-- Creating settings panels with multiple categories
-- Building documentation with multiple topics
-- Implementing dashboards with different views
-- Showing content where users need to switch contexts
-
-**Avoid tabs when:**
-
-- Building sequential forms or wizards (use a stepper pattern)
-- Navigating between pages (use router navigation)
-- Showing single content sections (no need for tabs)
-- Having more than 7-8 tabs (consider a different layout)
-
-## Features
-
-- **Selection modes** - Tabs activate automatically on focus or require manual activation
-- **Keyboard navigation** - Arrow keys, Home, and End for efficient tab navigation
-- **Orientation** - Horizontal or vertical tab list layouts
-- **Lazy content** - Tab panels render only when first activated
-- **Disabled tabs** - Disable individual tabs with focus management
-- **Focus modes** - Roving tabindex or activedescendant focus strategies
-- **RTL support** - Right-to-left language navigation
-
-## Examples
-
-### Selection follows focus
-
-When selection follows focus, tabs activate immediately as you navigate with arrow keys. This provides instant feedback and works well for lightweight content.
+分頁以分層方式顯示內容區段，一次只顯示一個面板。使用者點選分頁按鈕，或用方向鍵導覽分頁清單，就能在面板之間切換。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -97,11 +36,72 @@ When selection follows focus, tabs activate immediately as you navigate with arr
   </docs-tab>
 </docs-tab-group>
 
-Set `[selectionMode]="'follow'"` on the tab list to enable this behavior.
+## 用法
 
-### Manual activation
+分頁很適合將相關內容組織成不同區段，讓使用者在不同檢視或分類之間切換。
 
-With manual activation, arrow keys move focus between tabs without changing the selected tab. Users press Space or Enter to activate the focused tab.
+**適合使用分頁的情況**：
+
+- 將相關內容組織成不同區段
+- 建立具有多個分類的設定面板
+- 建立具有多個主題的文件
+- 實作具有不同檢視的儀表板
+- 顯示需要使用者切換情境的內容
+
+**避免使用分頁的情況**：
+
+- 建立循序表單或精靈（改用 stepper 模式）
+- 在頁面之間導覽（改用路由導覽）
+- 顯示單一內容區段（不需要分頁）
+- 分頁超過 7-8 個（考慮改用其他版面配置）
+
+## 功能
+
+- **選取模式**：分頁可在取得焦點時自動啟用，或需要手動啟用
+- **鍵盤導覽**：用方向鍵、Home 與 End 有效地導覽分頁
+- **方向**：水平或垂直的分頁清單版面配置
+- **延遲內容**：分頁面板只在首次啟用時才算繪
+- **停用分頁**：停用個別分頁，並管理焦點
+- **焦點模式**：roving tabindex 或 activedescendant 焦點策略
+- **RTL 支援**：支援由右至左語言的導覽
+
+## 範例
+
+### 選取跟隨焦點
+
+當選取跟隨焦點時，你用方向鍵導覽，分頁就會立即啟用。這能提供即時回饋，很適合輕量的內容。
+
+<docs-tab-group>
+  <docs-tab label="Basic">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Material">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/material/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+
+  <docs-tab label="Retro">
+    <docs-code-multifile preview hideCode path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.ts">
+      <docs-code header="app.ts" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.ts"/>
+      <docs-code header="app.html" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.html"/>
+      <docs-code header="app.css" path="adev/src/content/examples/aria/tabs/src/selection-follows-focus/retro/app/app.css"/>
+    </docs-code-multifile>
+  </docs-tab>
+</docs-tab-group>
+
+在分頁清單上設定 `[selectionMode]="'follow'"`，即可啟用這個行為。
+
+### 手動啟用
+
+採用手動啟用時，方向鍵只會在分頁之間移動焦點，不會改變選取的分頁。使用者需按 Space 或 Enter 來啟用取得焦點的分頁。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -129,11 +129,11 @@ With manual activation, arrow keys move focus between tabs without changing the 
   </docs-tab>
 </docs-tab-group>
 
-Use `[selectionMode]="'explicit'"` for heavy content panels to avoid unnecessary rendering.
+對於內容較重的面板，使用 `[selectionMode]="'explicit'"`，可避免不必要的算繪。
 
-### Vertical tabs
+### 垂直分頁
 
-Arrange tabs vertically for interfaces like settings panels or navigation sidebars.
+將分頁垂直排列，適用於設定面板或導覽側邊欄等介面。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -161,11 +161,11 @@ Arrange tabs vertically for interfaces like settings panels or navigation sideba
   </docs-tab>
 </docs-tab-group>
 
-Set `[orientation]="'vertical'"` on the tab list. Navigation changes to Up/Down arrow keys.
+在分頁清單上設定 `[orientation]="'vertical'"`。導覽會改用上/下方向鍵。
 
-### Lazy content rendering
+### 延遲算繪內容
 
-Use the `ngTabContent` directive on an `ng-template` to defer rendering tab panels until they're first shown.
+在 `ng-template` 上使用 `ngTabContent` 指令，可延後算繪分頁面板，直到面板首次顯示時才算繪。
 
 ```angular-html
 <div ngTabs>
@@ -190,11 +190,11 @@ Use the `ngTabContent` directive on an `ng-template` to defer rendering tab pane
 </div>
 ```
 
-By default, content remains in the DOM after the panel is hidden. Set `[preserveContent]="false"` to remove content when the panel is deactivated.
+依預設，內容在面板隱藏後仍會保留在 DOM 中。設定 `[preserveContent]="false"`，即可在面板停用時移除內容。
 
-### Disabled tabs
+### 停用分頁
 
-Disable specific tabs to prevent user interaction. Control whether disabled tabs can receive keyboard focus.
+停用個別分頁，以防止使用者互動。可控制停用分頁是否能取得鍵盤焦點。
 
 <docs-tab-group>
   <docs-tab label="Basic">
@@ -222,70 +222,70 @@ Disable specific tabs to prevent user interaction. Control whether disabled tabs
   </docs-tab>
 </docs-tab-group>
 
-When `[softDisabled]="true"` on the tab list, disabled tabs can receive focus but cannot be activated. When `[softDisabled]="false"`, disabled tabs are skipped during keyboard navigation.
+當分頁清單的 `[softDisabled]="true"` 時，停用分頁可以取得焦點，但無法啟用。當 `[softDisabled]="false"` 時，鍵盤導覽會跳過停用分頁。
 
-## APIs
+## API {#apis}
 
 ### Tabs
 
-The container directive that coordinates tab lists and panels.
+協調分頁清單與面板的容器指令。
 
-This directive has no inputs or outputs. It serves as the root container for `ngTabList`, `ngTab`, and `ngTabPanel` directives.
+這個指令沒有輸入或輸出。它是 `ngTabList`、`ngTab` 與 `ngTabPanel` 指令的根容器。
 
 ### TabList
 
-The container for tab buttons that manages selection and keyboard navigation.
+分頁按鈕的容器，負責管理選取狀態與鍵盤導覽。
 
-#### Inputs
+#### 輸入屬性
 
-| Property        | Type                         | Default        | Description                                                        |
-| --------------- | ---------------------------- | -------------- | ------------------------------------------------------------------ |
-| `orientation`   | `'horizontal' \| 'vertical'` | `'horizontal'` | Tab list layout direction                                          |
-| `wrap`          | `boolean`                    | `false`        | Whether keyboard navigation wraps from last to first tab           |
-| `softDisabled`  | `boolean`                    | `true`         | When `true`, disabled tabs are focusable but not activatable       |
-| `selectionMode` | `'follow' \| 'explicit'`     | `'follow'`     | Whether tabs activate on focus or require explicit activation      |
-| `selectedTab`   | `any`                        | —              | The value of the currently selected tab (supports two-way binding) |
+| 屬性            | 類型                         | 預設值         | 說明                                         |
+| --------------- | ---------------------------- | -------------- | -------------------------------------------- |
+| `orientation`   | `'horizontal' \| 'vertical'` | `'horizontal'` | 分頁清單的版面方向                           |
+| `wrap`          | `boolean`                    | `false`        | 鍵盤導覽是否從最後一個分頁繞回第一個分頁     |
+| `softDisabled`  | `boolean`                    | `true`         | 為 `true` 時，停用的分頁可取得焦點但無法啟用 |
+| `selectionMode` | `'follow' \| 'explicit'`     | `'follow'`     | 分頁在取得焦點時啟用，或需要明確啟用         |
+| `selectedTab`   | `any`                        | —              | 目前選取的分頁值（支援雙向綁定）             |
 
 ### Tab
 
-An individual tab button.
+個別的分頁按鈕。
 
-#### Inputs
+#### 輸入屬性
 
-| Property   | Type      | Default | Description                             |
-| ---------- | --------- | ------- | --------------------------------------- |
-| `value`    | `any`     | —       | **Required.** Unique value for this tab |
-| `disabled` | `boolean` | `false` | Disables this tab                       |
+| 屬性       | 類型      | 預設值  | 說明                     |
+| ---------- | --------- | ------- | ------------------------ |
+| `value`    | `any`     | —       | **必填**。此分頁的唯一值 |
+| `disabled` | `boolean` | `false` | 停用此分頁               |
 
-#### Signals
+#### 訊號
 
-| Property   | Type              | Description                           |
-| ---------- | ----------------- | ------------------------------------- |
-| `selected` | `Signal<boolean>` | Whether the tab is currently selected |
-| `active`   | `Signal<boolean>` | Whether the tab currently has focus   |
+| 屬性       | 類型              | 說明                   |
+| ---------- | ----------------- | ---------------------- |
+| `selected` | `Signal<boolean>` | 此分頁目前是否被選取   |
+| `active`   | `Signal<boolean>` | 此分頁目前是否取得焦點 |
 
 ### TabPanel
 
-The content panel associated with a tab.
+與分頁關聯的內容面板。
 
-#### Inputs
+#### 輸入屬性
 
-| Property          | Type      | Default | Description                                                |
-| ----------------- | --------- | ------- | ---------------------------------------------------------- |
-| `value`           | `any`     | —       | **Required.** Must match the `value` of the associated tab |
-| `preserveContent` | `boolean` | `true`  | Whether to keep panel content in DOM after deactivation    |
+| 屬性              | 類型      | 預設值 | 說明                                    |
+| ----------------- | --------- | ------ | --------------------------------------- |
+| `value`           | `any`     | —      | **必填**。必須與關聯分頁的 `value` 相同 |
+| `preserveContent` | `boolean` | `true` | 停用後是否將面板內容保留在 DOM 中       |
 
-#### Signals
+#### 訊號
 
-| Property  | Type              | Description                            |
-| --------- | ----------------- | -------------------------------------- |
-| `visible` | `Signal<boolean>` | Whether the panel is currently visible |
+| 屬性      | 類型              | 說明               |
+| --------- | ----------------- | ------------------ |
+| `visible` | `Signal<boolean>` | 此面板目前是否可見 |
 
 ### TabContent
 
-A structural directive for lazy rendering tab panel content.
+用於延遲算繪分頁面板內容的結構指令。
 
-This directive has no inputs, outputs, or methods. Apply it to an `ng-template` element inside a tab panel:
+這個指令沒有輸入、輸出或方法。將它套用到分頁面板內的 `ng-template` 元素：
 
 ```angular-html
 <div ngTabPanel value="tab1">

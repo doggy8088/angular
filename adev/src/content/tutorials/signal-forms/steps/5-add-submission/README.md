@@ -1,22 +1,22 @@
-# Add form submission
+# 加入表單提交
 
-Finally, let's learn how to handle form submission. You'll learn how to use the `submit()` function to run async operations when the form is valid, and disable the submit button when the form has errors.
+最後，來學如何處理表單提交。你將學到如何使用 `submit()` 函式，在表單有效時執行非同步操作，並在表單有錯誤時停用提交按鈕。
 
-In this activity, you'll learn how to:
+在本活動中，你將學到如何：
 
-- Import the `submit()` function
-- Create a submission handler method
-- Use `submit()` to run logic only when valid
-- Disable the submit button based on form state
+- 匯入 `submit()` 函式
+- 建立提交處理方法
+- 使用 `submit()` 只在表單有效時執行邏輯
+- 依表單狀態停用提交按鈕
 
-Let's complete the form!
+來完成這個表單吧！
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Import the submit function">
-Import the `submit` function from `@angular/forms/signals`:
+<docs-step title="匯入 submit 函式">
+從 `@angular/forms/signals` 匯入 `submit` 函式：
 
 ```ts
 import {form, FormField, required, email, submit} from '@angular/forms/signals';
@@ -24,8 +24,8 @@ import {form, FormField, required, email, submit} from '@angular/forms/signals';
 
 </docs-step>
 
-<docs-step title="Add the onSubmit method">
-In your component class, add an `onSubmit()` method that handles form submission:
+<docs-step title="加入 onSubmit 方法">
+在元件類別中，加入處理表單提交的 `onSubmit()` 方法：
 
 ```ts
 onSubmit(event: Event) {
@@ -38,11 +38,11 @@ onSubmit(event: Event) {
 }
 ```
 
-The `submit()` function only runs your async callback if the form is valid. It also handles the form's submission state automatically.
+`submit()` 函式只會在表單有效時執行你的非同步回呼。它也會自動處理表單的提交狀態。
 </docs-step>
 
-<docs-step title="Bind the submit handler to the form">
-In your template, bind the `onSubmit()` method to the form's submit event:
+<docs-step title="將提交處理常式繫結到表單">
+在範本中，將 `onSubmit()` 方法繫結到表單的 submit 事件：
 
 ```html
 <form (submit)="onSubmit($event)"></form>
@@ -50,18 +50,18 @@ In your template, bind the `onSubmit()` method to the form's submit event:
 
 </docs-step>
 
-<docs-step title="Disable the button when form is invalid">
-Update the submit button to be disabled when the form is invalid:
+<docs-step title="在表單無效時停用按鈕">
+更新提交按鈕，讓它在表單無效時停用：
 
 ```html
 <button type="submit" [disabled]="loginForm().invalid()">Log in</button>
 ```
 
-This prevents submission when the form has validation errors.
+這樣可在表單有驗證錯誤時避免提交。
 </docs-step>
 
 </docs-workflow>
 
-Congratulations! You've built a complete login form with Signal Forms.
+恭喜！你已使用 Signal Forms 建置出一個完整的登入表單。
 
-Ready to see what you've learned and explore advanced topics? Continue to [the next steps](/tutorials/signal-forms/6-next-steps)!
+想看看自己學到了什麼，並探索進階主題嗎？繼續前往[下一步](/tutorials/signal-forms/6-next-steps)！

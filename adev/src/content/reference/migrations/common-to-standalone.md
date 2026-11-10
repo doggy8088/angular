@@ -1,22 +1,22 @@
-# Convert CommonModule usage to standalone imports
+# 將 CommonModule 轉換為獨立 imports
 
-This migration helps projects remove imports of the `CommonModule` inside components by adding the minimal set of directive and pipe imports each template requires (for example, `NgIf`, `NgFor`, `AsyncPipe`, etc.).
+這項遷移能協助專案移除元件中對 `CommonModule` 的匯入，改為加入每個範本所需的最小指令與管道匯入集合（例如 `NgIf`、`NgFor`、`AsyncPipe` 等）。
 
-Run the schematic using the following command:
+使用以下指令執行此原理圖：
 
 ```shell
 ng generate @angular/core:common-to-standalone
 ```
 
-## Options
+## 選項
 
-| Option | Details                                                                                                                       |
-| :----- | :---------------------------------------------------------------------------------------------------------------------------- |
-| `path` | The path (relative to project root) to migrate. Defaults to `./`. Use this to incrementally migrate a subset of your project. |
+| 選項   | 說明                                                                                     |
+| :----- | :--------------------------------------------------------------------------------------- |
+| `path` | 要遷移的路徑（相對於專案根目錄）。預設為 `./`。可以用它來漸進式地遷移專案的一部分。       |
 
-## Example
+## 範例
 
-Before:
+遷移前：
 
 ```angular-ts
 import {Component} from '@angular/core';
@@ -37,7 +37,7 @@ export class Example {
 }
 ```
 
-After running the migration (component imports added, CommonModule removed):
+執行遷移後（已加入元件所需的 imports，並移除了 CommonModule）：
 
 ```angular-ts
 import {Component} from '@angular/core';

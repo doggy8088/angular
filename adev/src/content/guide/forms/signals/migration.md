@@ -1,23 +1,20 @@
-# Migrating existing forms to Signal Forms
+# 把既有表單遷移到 Signal Forms
 
-This guide provides strategies for migrating existing codebases to Signal Forms, focusing on interoperability with
-existing Reactive Forms.
+本指南提供把既有程式碼庫遷移到 Signal Forms 的策略，重點放在與既有反應式表單的互通性。
 
-## Top-down migration using `compatForm`
+## 使用 `compatForm` 由上而下遷移 {#top-down-migration-using-compatform}
 
-Sometimes you may want to use existing reactive `FormControl` instances within a Signal Form. This is useful for
-controls that involve:
+有時你可能會想在 Signal Form 中使用既有的反應式 `FormControl` 實例。這在控制項涉及下列情況時很有用：
 
-- Complex asynchronous logic.
-- Intricate RxJS operators that are not yet ported.
-- Integration with existing third-party libraries.
+- 複雜的非同步邏輯。
+- 尚未移植的繁複 RxJS 運算子。
+- 與既有第三方函式庫整合。
 
-### Integrating a `FormControl` into a signal form
+### 把 `FormControl` 整合進 Signal Form
 
-Consider an existing `passwordControl` that uses a specialized `enterprisePasswordValidator`. Instead of rewriting the
-validator, you can bridge the control into your signal state.
+假設有一個既有的 `passwordControl`，使用專門的 `enterprisePasswordValidator`。與其重寫驗證器，不如把這個控制項橋接進你的訊號狀態。
 
-We can do it using `compatForm`:
+我們可以用 `compatForm` 做到這一點：
 
 ```typescript
 import {signal} from '@angular/core';
@@ -48,7 +45,7 @@ const isPasswordValid = f.password().valid();
 const passwordErrors = f.password().errors(); // Returns CompatValidationError if the existing validator fails
 ```
 
-In the template, use standard reactive syntax by binding the underlying control:
+在範本中，繫結底層控制項，使用標準的反應式語法：
 
 ```angular-html
 <form novalidate>
@@ -81,10 +78,9 @@ In the template, use standard reactive syntax by binding the underlying control:
   <docs-code header="app.html" path="adev/src/content/examples/signal-forms/src/compat-form-control-integration/app/app.html"/>
 </docs-code-multifile>
 
-### Integrating a `FormGroup` into a signal form
+### 把 `FormGroup` 整合進 Signal Form
 
-You can also wrap an entire `FormGroup`. This is common when a reusable sub-section of a form—such as an
-**Address Block**—is still managed by existing Reactive Forms.
+你也可以包裝整個 `FormGroup`。當表單中某個可重用的子區塊（例如**地址區塊**）仍由既有的反應式表單管理時，這種情況很常見。
 
 ```typescript
 import {signal} from '@angular/core';
@@ -109,8 +105,7 @@ const f = compatForm(checkoutModel, (p) => {
 });
 ```
 
-The `shippingAddress` field acts as a branch in your Signal Form tree. You can bind these nested controls in your
-template by accessing the underlying existing controls via `.control()`:
+`shippingAddress` 欄位在你的 Signal Form 樹中扮演分支的角色。你可以在範本中透過 `.control()` 存取底層的既有控制項，來繫結這些巢狀控制項：
 
 ```angular-html
 <form novalidate>
@@ -179,9 +174,9 @@ template by accessing the underlying existing controls via `.control()`:
   <docs-code header="app.html" path="adev/src/content/examples/signal-forms/src/compat-form-group-integration/app/app.html"/>
 </docs-code-multifile>
 
-### Accessing values
+### 存取值
 
-While `compatForm` proxies value access on the `FormControl` level, the full form value preserves the control:
+雖然 `compatForm` 會在 `FormControl` 層級代理值的存取，但完整的表單值仍保留著控制項本身：
 
 ```typescript
 const passwordControl = new FormControl('password' /** ... */);
@@ -196,7 +191,7 @@ form.password().value(); // 'password'
 form().value(); // { email: '', password: FormControl}
 ```
 
-If you need the whole form value, you'd have to build it manually:
+若你需要整份表單值，就必須手動組合：
 
 ```typescript
 const formValue = computed(() => ({
@@ -205,12 +200,11 @@ const formValue = computed(() => ({
 })); // {email: '', password: ''}
 ```
 
-## Bottom-up migration
+## 由下而上遷移
 
-### Integrating a Signal Form into a `FormGroup`
+### 把 Signal Form 整合進 `FormGroup`
 
-You can use `SignalFormControl` to expose a signal-based form as a standard `FormControl`. This is useful when you want
-to migrate leaf nodes of a form to Signals while keeping the parent `FormGroup` structure.
+你可以使用 `SignalFormControl`，把以訊號為基礎的表單公開為標準的 `FormControl`。當你想把表單的葉節點遷移到訊號、同時保留父 `FormGroup` 結構時，這很有用。
 
 ```typescript
 import {Component, signal} from '@angular/core';
@@ -235,9 +229,9 @@ export class UserProfile {
 }
 ```
 
-The `SignalFormControl` synchronizes values bi-directionally between the **Signal Forms** system and the **Reactive Forms** system:
+`SignalFormControl` 會在 **Signal Forms** 系統與**反應式表單**系統之間雙向同步值：
 
-- **Signal -> Reactive**: Updating the value via Signal Forms updates the Reactive Form control immediately.
+- **Signal -> Reactive**：透過 Signal Forms 更新值，會立即更新反應式表單控制項。
 
 ```typescript
 // Signal Forms update
@@ -247,7 +241,7 @@ this.emailControl.fieldTree().value.set('new@example.com');
 console.log(this.form.value); // {email: 'new@example.com'}
 ```
 
-- **Reactive -> Signal**: Updating the value via the parent `FormGroup` updates the Signal Forms state.
+- **Reactive -> Signal**：透過父 `FormGroup` 更新值，會更新 Signal Forms 的狀態。
 
 ```typescript
 // Reactive Forms update
@@ -257,9 +251,9 @@ this.form.patchValue({email: 'other@example.com'});
 console.log(this.emailControl.fieldTree().value()); // 'other@example.com'
 ```
 
-### Binding `SignalFormControl`
+### 繫結 `SignalFormControl` {#binding-signalformcontrol}
 
-To use `SignalFormControl` in a `FormGroup`, pass it as a control and bind it in the template using `.fieldTree`:
+要在 `FormGroup` 中使用 `SignalFormControl`，請把它作為控制項傳入，並在範本中使用 `.fieldTree` 繫結：
 
 ```typescript
 readonly emailControl = new SignalFormControl('', (p) => { required(p); });
@@ -286,11 +280,11 @@ readonly form = new FormGroup({
 <input [formControl]="emailControl" />
 ```
 
-### Why `SignalFormControl` takes a value instead of a signal
+### 為什麼 `SignalFormControl` 接收值而非訊號
 
-In standard Signal Forms, you create a form by passing a signal: `form(mySignal)`.
+在標準的 Signal Forms 中，你是把訊號傳入來建立表單：`form(mySignal)`。
 
-However, `SignalFormControl` takes a **raw value** (like a string or object) as its first argument:
+然而，`SignalFormControl` 的第一個引數接收的是**原始值**（例如字串或物件）：
 
 ```typescript
 // Takes a raw value, not a signal
@@ -299,20 +293,19 @@ const userControl = new SignalFormControl({
 });
 ```
 
-`SignalFormControl` creates the signal internally to intercept writes and trigger the **synchronous updates** expected by Reactive Forms.
+`SignalFormControl` 會在內部建立訊號，以攔截寫入，並觸發反應式表單所預期的**同步更新**。
 
-You can still access the internal signal via `.sourceValue`:
+你仍然可以透過 `.sourceValue` 存取內部訊號：
 
 ```typescript
 const value = userControl.sourceValue();
 ```
 
-### Disabling/Enabling control
+### 停用／啟用控制項
 
-Imperative APIs for changing the enabled/disabled state (like `enable()`, `disable()`) are intentionally not supported
-in `SignalFormControl`. This is because the state of the control should be derived from the signal state and rules.
+用於變更啟用／停用狀態的命令式 API（例如 `enable()`、`disable()`），在 `SignalFormControl` 中刻意不予支援。這是因為控制項的狀態應該源自訊號狀態與規則。
 
-Attempting to call disable/enable would throw an error.
+嘗試呼叫 disable/enable 會擲出錯誤。
 
 ```typescript {avoid}
 import {signal, effect} from '@angular/core';
@@ -335,7 +328,7 @@ export class UserProfile {
 }
 ```
 
-Instead, use disabled rule:
+改用 disabled 規則：
 
 ```typescript {prefer}
 import {signal} from '@angular/core';
@@ -358,12 +351,11 @@ export class UserProfile {
 }
 ```
 
-### Dynamic manipulation
+### 動態操作
 
-Imperative APIs for adding or removing validators (like `addValidators()`, `removeValidators()`, `setValidators()`) are
-intentionally not supported in `SignalFormControl`.
+用於新增或移除驗證器的命令式 API（例如 `addValidators()`、`removeValidators()`、`setValidators()`），在 `SignalFormControl` 中刻意不予支援。
 
-Attempting to call these methods will throw an error.
+嘗試呼叫這些方法會擲出錯誤。
 
 ```typescript {avoid}
 export class UserProfile {
@@ -382,7 +374,7 @@ export class UserProfile {
 }
 ```
 
-Instead, use `applyWhen` rule to conditionally apply validators:
+改用 `applyWhen` 規則，有條件地套用驗證器：
 
 ```typescript {prefer}
 import {signal} from '@angular/core';
@@ -405,18 +397,15 @@ export class UserProfile {
 }
 ```
 
-### Manual Error Selection
+### 手動選取錯誤
 
-The `setErrors()` and `markAsPending()` methods are not supported. In Signal Forms, errors are derived from validation
-rules and async validation status. If you need to report an error, it should be done declaratively via a validation rule
-in the schema.
+`setErrors()` 與 `markAsPending()` 方法不受支援。在 Signal Forms 中，錯誤源自驗證規則與非同步驗證狀態。若你需要回報錯誤，應該透過結構定義中的驗證規則，以宣告方式完成。
 
-## Automatic status classes
+## 自動狀態類別 {#automatic-status-classes}
 
-Reactive/Template Forms automatically adds [class attributes](/guide/forms/template-driven-forms#track-control-states) (
-such as `.ng-valid` or `.ng-dirty`) to facilitate styling control states. Signal Forms does not do that.
+反應式／範本表單會自動加上[類別屬性](/guide/forms/template-driven-forms#track-control-states)（例如 `.ng-valid` 或 `.ng-dirty`），以便為控制項狀態套用樣式。Signal Forms 不會這樣做。
 
-If you want to preserve this behavior, you can provide the `NG_STATUS_CLASSES` preset:
+若你想保留這個行為，可以提供 `NG_STATUS_CLASSES` 預設集：
 
 ```typescript
 import {provideSignalFormsConfig} from '@angular/forms/signals';
@@ -431,7 +420,7 @@ bootstrapApplication(App, {
 });
 ```
 
-You can also provide your own custom configuration to apply whatever classes you wish based on you custom logic:
+你也可以提供自己的自訂設定，依你的自訂邏輯套用任何你想要的類別：
 
 ```typescript
 import {provideSignalFormsConfig} from '@angular/forms/signals';

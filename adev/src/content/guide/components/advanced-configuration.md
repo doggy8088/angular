@@ -1,38 +1,28 @@
-# Advanced component configuration
+# 元件進階設定
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先閱讀該指南。
 
 ## ChangeDetectionStrategy
 
-The `@Component` decorator accepts a `changeDetection` option that controls the component's **change
-detection mode**. There are two change detection mode options.
+`@Component` 裝飾器接受 `changeDetection` 選項，用來控制元件的**變更偵測模式**。變更偵測模式有兩個選項。
 
-**`ChangeDetectionStrategy.Eager`/`Default`** is, unsurprisingly, the default strategy. In this mode,
-Angular checks whether the component's DOM needs an update whenever any activity may have occurred
-application-wide. Activities that trigger this checking include user interaction, network response,
-timers, and more.
+**`ChangeDetectionStrategy.Eager`/`Default`** 正如其名，是預設策略。在此模式下，只要全應用程式範圍內可能發生任何活動，Angular 就會檢查元件的 DOM 是否需要更新。會觸發這項檢查的活動包括使用者互動、網路回應、計時器等。
 
-**`ChangeDetectionStrategy.OnPush`** is an optional mode that reduces the amount of checking Angular
-needs to perform. In this mode, the framework only checks if a component's DOM needs an update when:
+**`ChangeDetectionStrategy.OnPush`** 是選擇性使用的模式，可減少 Angular 需要執行的檢查量。在此模式下，框架只在下列情況才檢查元件的 DOM 是否需要更新：
 
-- A component input has changes as a result of a binding in a template, or
-- An event listener in this component runs
-- The component is explicitly marked for check, via `ChangeDetectorRef.markForCheck` or something which wraps it, like `AsyncPipe`.
+- 元件輸入因範本中的繫結而變更，或
+- 此元件中的事件監聽器執行
+- 元件被明確標記為需要檢查，透過 `ChangeDetectorRef.markForCheck`，或透過包裝它的方法，例如 `AsyncPipe`。
 
-Additionally, when an OnPush component is checked, Angular _also_ checks all of its ancestor
-components, traversing upwards through the application tree.
+此外，當 OnPush 元件被檢查時，Angular 也會一併檢查它的所有祖先元件，沿著應用程式樹向上遍歷。
 
 ## PreserveWhitespaces
 
-By default, Angular removes and collapses superfluous whitespace in templates, most commonly from
-newlines and indentation. You can change this setting by explicitly setting `preserveWhitespaces` to
-`true` in a component's metadata.
+Angular 預設會移除並收合範本中多餘的空白，最常見的是換行與縮排。你可以將元件中繼資料中的 `preserveWhitespaces` 明確設定為 `true`，來變更這項設定。
 
-## Custom element schemas
+## 自訂元素結構定義
 
-By default, Angular throws an error when it encounters an unknown HTML element. You can
-disable this behavior for a component by including `CUSTOM_ELEMENTS_SCHEMA` in the `schemas`
-property in your component metadata.
+Angular 預設在遇到未知的 HTML 元素時會擲出錯誤。你可以在元件中繼資料的 `schemas` 屬性中加入 `CUSTOM_ELEMENTS_SCHEMA`，為該元件停用這項行為。
 
 ```angular-ts
 import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
@@ -45,4 +35,4 @@ import {Component, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 export class ComponentWithCustomElements { }
 ```
 
-Angular does not support any other schemas at this time.
+Angular 目前不支援其他任何結構定義。

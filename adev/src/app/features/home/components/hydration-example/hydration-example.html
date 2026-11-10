@@ -1,10 +1,10 @@
-<div class="header">Hydration</div>
+<div class="header">水合</div>
 <div class="description">
-  Hydration is the process that restores the server-side rendered application on the client
+  水合是在用戶端還原伺服器端渲染應用程式的過程
 
   <p>
-    This demo showcases Angular's hydration strategies, allowing you to simulate network latency and
-    observe how different components hydrate based on their configured triggers.
+    這個演示展示了 Angular 的水合策略，讓你模擬網路延遲，
+    觀察不同元件如何依照各自設定的觸發條件進行水合。
   </p>
 </div>
 
@@ -16,13 +16,13 @@
         <div class="card config-card">
           <h3 class="sidebar-title font-mono">
             <docs-icon>schedule</docs-icon>
-            Simulation Config
+            模擬設定
           </h3>
 
           <div class="config-controls">
             <div class="control-group">
               <div class="label-row">
-                <label>Network Latency</label>
+                <label>網路延遲</label>
                 <span class="latency-value font-mono">{{ latency() }}ms</span>
               </div>
               <input
@@ -42,14 +42,14 @@
               class="btn-reset"
             >
               <docs-icon>refresh</docs-icon>
-              Reset Lifecycle
+              重設生命週期
             </button>
           </div>
         </div>
 
         <!-- Terminal Log -->
         <div class="terminal">
-          <h3 class="terminal-title font-mono">Hydration Engine Log</h3>
+          <h3 class="terminal-title font-mono">水合引擎記錄</h3>
           <div class="terminal-body font-mono custom-scrollbar">
             @for (evt of eventQueue(); track $index) {
               <div class="log-entry animate-in">
@@ -59,7 +59,7 @@
               </div>
             }
             @if (eventQueue().length === 0) {
-              <div class="log-placeholder">Awaiting app bootstrap...</div>
+              <div class="log-placeholder">等待應用程式啟動...</div>
             }
           </div>
         </div>
@@ -89,18 +89,18 @@
                   <div class="spinner-outer"></div>
                   <div class="spinner-inner"></div>
                 </div>
-                <p class="ssr-title">Generating SSR Markup...</p>
+                <p class="ssr-title">產生 SSR 標記中...</p>
               </div>
             }
 
             <div class="viewport-flex">
               <div class="viewport-header">
                 <div class="header-text">
-                  <h4 class="viewport-title">Component Strategies</h4>
-                  <p class="viewport-subtitle">Mixing eager and deferred hydration triggers.</p>
+                  <h4 class="viewport-title">元件策略</h4>
+                  <p class="viewport-subtitle">混合即時與延遲的水合觸發條件。</p>
                 </div>
                 <div class="viewport-stats">
-                  <div class="stats-label">Main App</div>
+                  <div class="stats-label">主應用程式</div>
                   <div class="stats-value font-tabular">{{ progress() }}%</div>
                 </div>
               </div>
@@ -130,7 +130,7 @@
                       </div>
                       @if (card.clickCount > 0) {
                         <div class="click-badge font-tabular animate-zoom">
-                          <span class="badge-label">CLICKS:</span> {{ card.clickCount }}
+                          <span class="badge-label">點擊次數：</span> {{ card.clickCount }}
                         </div>
                       }
                     </div>
@@ -144,17 +144,17 @@
                       @if (card.isHydrating) {
                         <div class="tag tag-deferred animate-slide-in">
                           <span class="tag-dot spin"></span>
-                          Hydrating...
+                          水合中...
                         </div>
                       } @else if (!card.isHydrated) {
                         <div class="tag tag-deferred">
                           <span class="tag-dot pulse"></span>
-                          Static
+                          靜態
                         </div>
                       } @else {
                         <div class="tag tag-hydrated animate-slide-in">
                           <span class="tag-dot"></span>
-                          Hydrated
+                          已水合
                         </div>
                       }
                     </div>
@@ -184,33 +184,32 @@
     <!-- Explanatory Feature Cards -->
     <div class="explainer-grid">
       <div class="explainer-item">
-        <h5 class="explainer-title"><span class="dot-red"></span> Eager Hydration</h5>
+        <h5 class="explainer-title"><span class="dot-red"></span> 即時水合</h5>
         <p class="explainer-text">
-          Essential components (like navigation or top-fold content) hydrate as soon as the main
-          application bundle is ready.
+          重要元件（如導覽或首屏內容）會在主應用程式套件就緒後立即水合。
         </p>
       </div>
       <div class="explainer-item">
-        <h5 class="explainer-title"><span class="dot-violet"></span> Incremental Hydration</h5>
+        <h5 class="explainer-title"><span class="dot-violet"></span> 漸進水合</h5>
         <p class="explainer-text">
-          Use hydration triggers like <code>on interaction</code> or <code>on timer</code> to delay
-          JS execution for non-critical elements.
+          使用 <code>on interaction</code> 或 <code>on timer</code> 等水合觸發條件，
+          延後非關鍵元素的 JS 執行。
         </p>
       </div>
       <div class="explainer-item">
-        <h5 class="explainer-title"><span class="dot-green"></span> Event Replay</h5>
+        <h5 class="explainer-title"><span class="dot-green"></span> 事件重播</h5>
         <p class="explainer-text">
-          User clicks are never lost. Angular records events during the "Static" phase and
-          re-dispatches them once hydrated.
+          使用者的點擊永遠不會遺失。Angular 會在「靜態」階段記錄事件，
+          並在水合完成後重新派送它們。
         </p>
       </div>
     </div>
   </div>
   <button
     class="docs-primary-btn"
-    [attr.text]="'Learn more about hydration'"
+    [attr.text]="'深入了解水合'"
     routerLink="/guide/hydration"
   >
-    Learn more about hydration
+    深入了解水合
   </button>
 </div>

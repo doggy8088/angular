@@ -1,24 +1,24 @@
-# Unit testing
+# 單元測試
 
-Testing your Angular application helps you check that it is working as you expect. Unit tests are crucial for catching bugs early, ensuring code quality, and facilitating safe refactoring.
+測試你的 Angular 應用程式，能協助你確認它是否如預期般運作。單元測試對於及早發現錯誤、確保程式碼品質，以及讓重構更安全，都至關重要。
 
-NOTE: This guide covers the default testing setup for new Angular CLI projects, which uses Vitest. If you are migrating an existing project from Karma, see the [Migrating from Karma to Vitest guide](guide/testing/migrating-to-vitest). Karma is still supported; for more information, see the [Karma testing guide](guide/testing/karma).
+NOTE: 本指南介紹新建 Angular CLI 專案的預設測試設定，使用的是 Vitest。如果你要將既有專案從 Karma 遷移，請參閱[從 Karma 遷移至 Vitest 指南](guide/testing/migrating-to-vitest)。Karma 仍受支援；更多資訊請參閱 [Karma 測試指南](guide/testing/karma)。
 
-## Set up for testing
+## 測試設定 {#set-up-for-testing}
 
-The Angular CLI downloads and installs everything you need to test an Angular application with the [Vitest testing framework](https://vitest.dev). New projects include `vitest` and `jsdom` by default.
+Angular CLI 會下載並安裝使用 [Vitest 測試框架](https://vitest.dev)測試 Angular 應用程式所需的一切。新專案預設包含 `vitest` 與 `jsdom`。
 
-Vitest runs your unit tests in a Node.js environment. To simulate the browser's DOM, Vitest uses a library called `jsdom`. This allows for faster test execution by avoiding the overhead of launching a browser. You can swap `jsdom` for an alternative like `happy-dom` by installing it and uninstalling `jsdom`. Currently, `jsdom` and `happy-dom` are the supported DOM emulation libraries.
+Vitest 在 Node.js 環境中執行你的單元測試。為了模擬瀏覽器的 DOM，Vitest 使用一個名為 `jsdom` 的函式庫。這樣可以避免啟動瀏覽器的額外負擔，讓測試執行得更快。你可以安裝 `happy-dom` 並解除安裝 `jsdom`，改用 `happy-dom` 作為替代方案。目前受支援的 DOM 模擬函式庫為 `jsdom` 與 `happy-dom`。
 
-The project you create with the CLI is immediately ready to test. Run the [`ng test`](cli/test) command:
+用 CLI 建立的專案開箱即可執行測試。執行 [`ng test`](cli/test) 指令：
 
 ```shell
 ng test
 ```
 
-The `ng test` command builds the application in _watch mode_ and launches the [Vitest test runner](https://vitest.dev).
+`ng test` 指令會以_監看模式_建置應用程式，並啟動 [Vitest 測試執行器](https://vitest.dev)。
 
-The console output looks like this:
+主控台輸出如下：
 
 ```shell
  ✓ src/app/app.spec.ts (3)
@@ -31,26 +31,26 @@ The console output looks like this:
    Duration  2.46s (transform 615ms, setup 2ms, collect 2.21s, tests 5ms)
 ```
 
-The `ng test` command also watches your files for changes. If you modify a file and save it, the tests will run again.
+`ng test` 指令也會監看你的檔案變更。如果你修改檔案並儲存，測試會再次執行。
 
-## Configuration
+## 設定
 
-The Angular CLI handles most of the Vitest configuration for you. You can customize the test behavior by modifying the `test` target options in your `angular.json` file.
+Angular CLI 會為你處理大部分的 Vitest 設定。你可以修改 `angular.json` 檔案中的 `test` 目標選項，來自訂測試行為。
 
-### Angular.json options
+### Angular.json 選項
 
-- `include`: Glob patterns for files to include for testing. Defaults to `['**/*.spec.ts', '**/*.test.ts']`.
-- `exclude`: Glob patterns for files to exclude from testing.
-- `setupFiles`: A list of paths to global setup files (e.g., polyfills or global mocks) that are executed before your tests.
-- `providersFile`: The path to a file that exports a default array of Angular providers for the test environment. This is useful for setting up global test providers which are injected into your tests.
-- `coverage`: A boolean to enable or disable code coverage reporting. Defaults to `false`.
-- `browsers`: An array of browser names to run tests in a real browser (e.g., `["chromium"]`). Requires a browser provider to be installed. See the [Running tests in a browser](#running-tests-in-a-browser) section for more details.
+- `include`：要納入測試的檔案 glob 模式。預設為 `['**/*.spec.ts', '**/*.test.ts']`。
+- `exclude`：要從測試中排除的檔案 glob 模式。
+- `setupFiles`：全域設定檔案的路徑清單（例如 polyfills 或全域 mock），會在你的測試之前執行。
+- `providersFile`：匯出 Angular providers 預設陣列、供測試環境使用的檔案路徑。這對於設定注入到測試中的全域測試 providers 很有用。
+- `coverage`：用來啟用或停用程式碼覆蓋率報告的布林值。預設為 `false`。
+- `browsers`：要在真正的瀏覽器中執行測試的瀏覽器名稱陣列（例如 `["chromium"]`）。需要安裝瀏覽器 provider。詳情請參閱[在瀏覽器中執行測試](#running-tests-in-a-browser)一節。
 
-### Global test setup and providers
+### 全域測試設定與 providers
 
-The `setupFiles` and `providersFile` options are particularly useful for managing global test configuration.
+`setupFiles` 與 `providersFile` 選項對於管理全域測試設定特別有用。
 
-For example, you could create a `src/test-providers.ts` file to provide `provideHttpClientTesting` to all your tests:
+例如，你可以建立一個 `src/test-providers.ts` 檔案，為所有測試提供 `provideHttpClientTesting`：
 
 ```typescript {header: "src/test-providers.ts"}
 import {EnvironmentProviders, Provider} from '@angular/core';
@@ -61,7 +61,7 @@ const testProviders: (Provider | EnvironmentProviders)[] = [provideHttpClientTes
 export default testProviders;
 ```
 
-You would then reference this file in your `angular.json`:
+接著在你的 `angular.json` 中引用這個檔案：
 
 ```json
 {
@@ -80,15 +80,15 @@ You would then reference this file in your `angular.json`:
 }
 ```
 
-HELPFUL: When creating new TypeScript files for test setup or providers, like `src/test-providers.ts`, ensure they are included in your project's test TypeScript configuration file (typically `tsconfig.spec.json`). This allows the TypeScript compiler to properly process these files during testing.
+HELPFUL: 建立像 `src/test-providers.ts` 這樣的新 TypeScript 檔案作為測試設定或 providers 時，請確保它們有被納入專案的測試 TypeScript 設定檔（通常是 `tsconfig.spec.json`）。這樣 TypeScript 編譯器才能在測試期間正確處理這些檔案。
 
-### Advanced Vitest configuration
+### 進階 Vitest 設定 {#advanced-vitest-configuration}
 
-For advanced use cases, you can provide a custom Vitest configuration file using the `configFile` option in `angular.json`.
+對於進階使用情境，你可以使用 `angular.json` 中的 `configFile` 選項，提供自訂的 Vitest 設定檔。
 
-IMPORTANT: While using a custom configuration enables advanced options, the Angular team does not provide support for the contents of the configuration file or for any third-party plugins. The CLI will also override certain properties (`test.projects`, `test.include`) to ensure proper integration.
+IMPORTANT: 使用自訂設定雖然能啟用進階選項，但 Angular 團隊不支援設定檔的內容或任何第三方外掛。CLI 也會覆寫某些屬性（`test.projects`、`test.include`）以確保正確整合。
 
-You can create a Vitest configuration file (e.g., `vitest-base.config.ts`) and reference it in your `angular.json`:
+你可以建立一個 Vitest 設定檔（例如 `vitest-base.config.ts`），並在 `angular.json` 中引用它：
 
 ```json
 {
@@ -107,29 +107,29 @@ You can create a Vitest configuration file (e.g., `vitest-base.config.ts`) and r
 }
 ```
 
-You can also generate a base configuration file using the CLI:
+你也可以使用 CLI 產生基礎設定檔：
 
 ```shell
 ng generate config vitest
 ```
 
-This creates a `vitest-base.config.ts` file that you can customize.
+這會建立一個 `vitest-base.config.ts` 檔案，供你自訂。
 
-HELPFUL: Read more about Vitest configuration in the [official Vitest documentation](https://vitest.dev/config/).
+HELPFUL: 關於 Vitest 設定的更多資訊，請參閱 [Vitest 官方文件](https://vitest.dev/config/)。
 
-## Code coverage
+## 程式碼覆蓋率
 
-You can generate a code coverage report by adding the `--coverage` flag to the `ng test` command. The report is generated in the `coverage/` directory.
+在 `ng test` 指令加上 `--coverage` 旗標，即可產生程式碼覆蓋率報告。報告會產生在 `coverage/` 目錄中。
 
-For more detailed information, see the [Code coverage guide](guide/testing/code-coverage).
+更詳細的資訊請參閱[程式碼覆蓋率指南](guide/testing/code-coverage)。
 
-## Running tests in a browser
+## 在瀏覽器中執行測試 {#running-tests-in-a-browser}
 
-While the default Node.js environment is faster for most unit tests, you can also run your tests in a real browser. This is useful for tests that rely on browser-specific APIs (like rendering) or for debugging.
+雖然預設的 Node.js 環境對大多數單元測試來說速度較快，你也可以在真正的瀏覽器中執行測試。這對於仰賴瀏覽器專屬 API（例如渲染）的測試，或除錯時很有用。
 
-To run tests in a browser, you must first install a browser provider. Read more about Vitest's browser mode in the [official documentation](https://vitest.dev/guide/browser).
+若要在瀏覽器中執行測試，你必須先安裝瀏覽器 provider。關於 Vitest 瀏覽器模式的更多資訊，請參閱[官方文件](https://vitest.dev/guide/browser)。
 
-Once the provider is installed, you can run your tests in the browser by configuring the `browsers` option in `angular.json` or by using the `--browsers` CLI flag. Tests run in a headed browser by default. If the `CI` environment variable is set, headless mode is used instead. To explicitly control headless mode, you can suffix the browser name with `Headless` (e.g., `chromiumHeadless`).
+provider 安裝完成後，你可以透過設定 `angular.json` 中的 `browsers` 選項，或使用 `--browsers` CLI 旗標，在瀏覽器中執行測試。測試預設在有介面的瀏覽器中執行。如果設定了 `CI` 環境變數，則改用無頭模式。若要明確控制無頭模式，可以在瀏覽器名稱後加上 `Headless` 後綴（例如 `chromiumHeadless`）。
 
 ```bash
 # Example for Playwright (headed)
@@ -145,11 +145,11 @@ ng test --browsers=chrome
 ng test --browsers=chromeHeadless
 ```
 
-Choose one of the following browser providers based on your needs:
+請依需求選擇下列其中一個瀏覽器 provider：
 
 ### Playwright
 
-[Playwright](https://playwright.dev/) is a browser automation library that supports Chromium, Firefox, and WebKit.
+[Playwright](https://playwright.dev/) 是一個瀏覽器自動化函式庫，支援 Chromium、Firefox 與 WebKit。
 
 <docs-code-multifile>
   <docs-code header="npm" language="shell">
@@ -168,7 +168,7 @@ Choose one of the following browser providers based on your needs:
 
 ### WebdriverIO
 
-[WebdriverIO](https://webdriver.io/) is a browser and mobile automation test framework that supports Chrome, Firefox, Safari, and Edge.
+[WebdriverIO](https://webdriver.io/) 是一個瀏覽器與行動裝置自動化測試框架，支援 Chrome、Firefox、Safari 與 Edge。
 
 <docs-code-multifile>
   <docs-code header="npm" language="shell">
@@ -187,7 +187,7 @@ Choose one of the following browser providers based on your needs:
 
 ### Preview
 
-The `@vitest/browser-preview` provider is designed for WebContainer environments like StackBlitz and is not intended for use in CI/CD.
+`@vitest/browser-preview` provider 是為 StackBlitz 這類 WebContainer 環境設計的，不適合用在 CI/CD 中。
 
 <docs-code-multifile>
   <docs-code header="npm" language="shell">
@@ -204,41 +204,41 @@ The `@vitest/browser-preview` provider is designed for WebContainer environments
   </docs-code>
 </docs-code-multifile>
 
-HELPFUL: For more advanced browser-specific configuration, see the [Advanced Vitest configuration](#advanced-vitest-configuration) section.
+HELPFUL: 更多進階的瀏覽器專屬設定，請參閱[進階 Vitest 設定](#advanced-vitest-configuration)一節。
 
-## Other test frameworks
+## 其他測試框架
 
-You can also unit test an Angular application with other testing libraries and test runners. Each library and runner has its own installation procedures, configuration, and syntax.
+你也可以使用其他測試函式庫與測試執行器來對 Angular 應用程式進行單元測試。每個函式庫與執行器都有各自的安裝程序、設定與語法。
 
-## Testing in continuous integration
+## 在持續整合中測試
 
-A robust test suite is a key part of a continuous integration (CI) pipeline. CI servers let you automate your tests to run on every commit and pull request.
+健全的測試套件是持續整合（CI）管線的重要一環。CI 伺服器讓你能自動在每次提交與提取請求時執行測試。
 
-To test your Angular application in a CI server, run the standard test command:
+若要在 CI 伺服器中測試你的 Angular 應用程式，請執行標準測試指令：
 
 ```shell
 ng test
 ```
 
-Most CI servers set a `CI=true` environment variable, which `ng test` detects. This automatically configures your tests to run in a non-interactive, single-run mode.
+大多數 CI 伺服器會設定 `CI=true` 環境變數，`ng test` 能偵測到它。這會自動將你的測試設定為以非互動、單次執行模式執行。
 
-If your CI server does not set this variable, or if you need to force single-run mode manually, you can use the `--no-watch` and `--no-progress` flags:
+如果你的 CI 伺服器沒有設定這個變數，或你需要手動強制使用單次執行模式，可以使用 `--no-watch` 與 `--no-progress` 旗標：
 
 ```shell
 ng test --no-watch --no-progress
 ```
 
-## More information on testing
+## 更多測試資訊
 
-After you've set up your application for testing, you might find the following testing guides useful.
+應用程式的測試設定完成後，下列測試指南可能對你有幫助。
 
 |                                                                    | Details                                                                           |
 | :----------------------------------------------------------------- | :-------------------------------------------------------------------------------- |
-| [Code coverage](guide/testing/code-coverage)                       | How much of your app your tests are covering and how to specify required amounts. |
-| [Testing services](guide/testing/services)                         | How to test the services your application uses.                                   |
-| [Basics of testing components](guide/testing/components-basics)    | Basics of testing Angular components.                                             |
-| [Component testing scenarios](guide/testing/components-scenarios)  | Various kinds of component testing scenarios and use cases.                       |
-| [Testing attribute directives](guide/testing/attribute-directives) | How to test your attribute directives.                                            |
-| [Testing pipes](guide/testing/pipes)                               | How to test pipes.                                                                |
-| [Debugging tests](guide/testing/debugging)                         | Common testing bugs.                                                              |
-| [Testing utility APIs](guide/testing/utility-apis)                 | Angular testing features.                                                         |
+| [程式碼覆蓋率](guide/testing/code-coverage)                       | 你的測試涵蓋了應用程式的多少部分，以及如何指定所需的涵蓋量。 |
+| [測試服務](guide/testing/services)                         | 如何測試你的應用程式所使用的服務。                                   |
+| [測試元件基礎](guide/testing/components-basics)    | Angular 元件測試的基礎。                                             |
+| [元件測試情境](guide/testing/components-scenarios)  | 各種元件測試情境與使用案例。                       |
+| [測試屬性指令](guide/testing/attribute-directives) | 如何測試你的屬性指令。                                            |
+| [測試管道](guide/testing/pipes)                               | 如何測試管道。                                                                |
+| [除錯測試](guide/testing/debugging)                         | 常見的測試錯誤。                                                              |
+| [測試工具 API](guide/testing/utility-apis)                 | Angular 測試功能。                                                         |

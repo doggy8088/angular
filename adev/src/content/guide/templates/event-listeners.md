@@ -1,10 +1,10 @@
-# Adding event listeners
+# 新增事件監聽器
 
-Angular supports defining event listeners on an element in your template by specifying the event name inside parentheses along with a statement that runs every time the event occurs.
+Angular 支援在範本中為元素定義事件監聽器：將事件名稱寫在括號內，並附上一段在每次事件發生時執行的陳述式。
 
-## Listening to native events
+## 監聽原生事件
 
-When you want to add event listeners to an HTML element, you wrap the event with parentheses, `()`, which allows you to specify a listener statement.
+當你想為 HTML 元素新增事件監聽器時，將事件名稱以括號 `()` 包起來，這樣你就能指定監聽器陳述式。
 
 ```angular-ts
 @Component({
@@ -20,13 +20,13 @@ export class App{
 }
 ```
 
-In this example, Angular calls `updateField` every time the `<input>` element emits a `keyup` event.
+在這個範例中，每當 `<input>` 元素發出 `keyup` 事件，Angular 就會呼叫 `updateField`。
 
-You can add listeners for any native events, such as: `click`, `keydown`, `mouseover`, etc. To learn more, check out the [all available events on elements on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Element#events).
+你可以為任何原生事件新增監聽器，例如：`click`、`keydown`、`mouseover` 等。如需了解更多，請參閱 [MDN 上元素的所有可用事件](https://developer.mozilla.org/en-US/docs/Web/API/Element#events)。
 
-## Accessing the event argument
+## 存取事件引數
 
-In every template event listener, Angular provides a variable named `$event` that contains a reference to the event object.
+在每個範本事件監聽器中，Angular 都會提供一個名為 `$event` 的變數，其中包含事件物件的參照。
 
 ```angular-ts
 @Component({
@@ -42,9 +42,9 @@ export class App {
 }
 ```
 
-## Using key modifiers
+## 使用按鍵修飾符 {#using-key-modifiers}
 
-When you want to capture specific keyboard events for a specific key, you might write some code like the following:
+當你想為特定按鍵捕捉特定的鍵盤事件時，你可能會寫出如下的程式碼：
 
 ```angular-ts
 @Component({
@@ -62,7 +62,7 @@ export class App {
 }
 ```
 
-However, since this is a common scenario, Angular lets you filter the events by specifying a specific key using the period (`.`) character. By doing so, code can be simplified to:
+然而，由於這是常見的情境，Angular 讓你可以使用句點（`.`）字元指定特定按鍵來篩選事件。如此一來，程式碼可以簡化為：
 
 ```angular-ts
 @Component({
@@ -78,29 +78,29 @@ export class App{
 }
 ```
 
-You can also add additional key modifiers:
+你也可以加入額外的按鍵修飾符：
 
 ```angular-html
 <!-- Matches shift and enter -->
 <input type="text" (keyup.shift.enter)="updateField($event)" />
 ```
 
-Angular supports the modifiers `alt`, `control`, `meta`, and `shift`.
+Angular 支援 `alt`、`control`、`meta` 與 `shift` 等修飾符。
 
-You can specify the key or code that you would like to bind to keyboard events. The key and code fields are a native part of the browser keyboard event object. By default, event binding assumes you want to use the [Key values for keyboard events](https://developer.mozilla.org/docs/Web/API/UI_Events/Keyboard_event_key_values).
+你可以指定要繫結到鍵盤事件的按鍵或代碼。按鍵與代碼欄位是瀏覽器鍵盤事件物件的原生部分。依預設，事件繫結假設你想使用[鍵盤事件的 Key 值](https://developer.mozilla.org/docs/Web/API/UI_Events/Keyboard_event_key_values)。
 
-Angular also allows you to specify [Code values for keyboard events](https://developer.mozilla.org/docs/Web/API/UI_Events/Keyboard_event_code_values) by providing a built-in `code` suffix.
+Angular 也允許你提供內建的 `code` 後綴，來指定[鍵盤事件的 Code 值](https://developer.mozilla.org/docs/Web/API/UI_Events/Keyboard_event_code_values)。
 
 ```angular-html
 <!-- Matches alt and left shift -->
 <input type="text" (keydown.code.alt.shiftleft)="updateField($event)" />
 ```
 
-This can be useful for handling keyboard events consistently across different operating systems. For example, when using the Alt key on macOS devices, the `key` property reports the key based on the character already modified by the Alt key. This means that a combination like Alt + S reports a `key` value of `'ß'`. The `code` property, however, corresponds to the physical or virtual button pressed rather than the character produced.
+這在跨不同作業系統一致地處理鍵盤事件時很有用。例如，在 macOS 裝置上使用 Alt 鍵時，`key` 屬性會回報已經過 Alt 鍵修飾的字元所對應的按鍵。這意味著像 Alt + S 這樣的組合會回報 `'ß'` 的 `key` 值。然而，`code` 屬性對應的是被按下的實體或虛擬按鈕，而不是產生的字元。
 
-## Listening on global targets
+## 監聽全域目標
 
-Global target names can be used to prefix an event. The 3 supported global targets are `window`, `document` and `body`.
+全域名稱可以用來作為事件的前綴。支援的 3 個全域目標是 `window`、`document` 與 `body`。
 
 ```angular-ts
 @Component({
@@ -114,9 +114,9 @@ Global target names can be used to prefix an event. The 3 supported global targe
 export class MyView {}
 ```
 
-## Preventing event default behavior
+## 防止事件的預設行為
 
-If your event handler should replace the native browser behavior, you can use the event object's [`preventDefault` method](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault):
+如果你的事件處理常式應取代瀏覽器的原生行為，你可以使用事件物件的 [`preventDefault` 方法](https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault)：
 
 ```angular-ts
 @Component({
@@ -133,15 +133,15 @@ export class App{
 }
 ```
 
-If the event handler statement evaluates to `false`, Angular automatically calls `preventDefault()`, similar to [native event handler attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes#event_handler_attributes). _Always prefer explicitly calling `preventDefault`_, as this approach makes the code's intent obvious.
+如果事件處理常式陳述式的評估結果為 `false`，Angular 會自動呼叫 `preventDefault()`，類似於[原生事件處理常式 attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes#event_handler_attributes)。請一律優先明確呼叫 `preventDefault`，因為這種做法能讓程式碼的意圖一目了然。
 
-## Extend event handling
+## 擴充事件處理 {#extend-event-handling}
 
-Angular’s event system is extensible via custom event plugins registered with the `EVENT_MANAGER_PLUGINS` injection token.
+Angular 的事件系統可以透過以 `EVENT_MANAGER_PLUGINS` 注入權杖註冊的自訂事件外掛來擴充。
 
-### Implementing Event Plugin
+### 實作事件外掛
 
-To create a custom event plugin, extend the `EventManagerPlugin` class and implement the required methods.
+若要建立自訂事件外掛，請繼承 `EventManagerPlugin` 類別並實作所需的方法。
 
 ```ts
 import {Injectable} from '@angular/core';
@@ -184,7 +184,7 @@ export class DebounceEventPlugin extends EventManagerPlugin {
 }
 ```
 
-Register your custom plugin using the `EVENT_MANAGER_PLUGINS` token in your application's providers:
+使用 `EVENT_MANAGER_PLUGINS` 權杖，在你的應用程式 providers 中註冊你的自訂外掛：
 
 ```ts
 import {bootstrapApplication} from '@angular/platform-browser';
@@ -203,7 +203,7 @@ bootstrapApplication(App, {
 });
 ```
 
-Once registered, you can use your custom event syntax in templates, as well as with the `host` property:
+註冊後，你可以在範本中使用你的自訂事件語法，也可以搭配 `host` 屬性使用：
 
 ```angular-ts
 @Component({

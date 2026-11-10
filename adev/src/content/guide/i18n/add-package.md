@@ -1,33 +1,33 @@
-# Add the localize package
+# 新增 localize 套件
 
-To take advantage of the localization features of Angular, use the [Angular CLI][CliMain] to add the `@angular/localize` package to your project.
+若要運用 Angular 的在地化功能，請使用 [Angular CLI][CliMain] 將 `@angular/localize` 套件新增至你的專案。
 
-To add the `@angular/localize` package, use the following command to update the `package.json` and TypeScript configuration files in your project.
+若要新增 `@angular/localize` 套件，請使用下列指令，更新專案中的 `package.json` 與 TypeScript 設定檔。
 
 <docs-code language="shell" path="adev/src/content/examples/i18n/doc-files/commands.sh" region="add-localize"/>
 
-It adds `types: ["@angular/localize"]` in the TypeScript configuration files.
-It also adds line `/// <reference types="@angular/localize" />` at the top of the `main.ts` file which is the reference to the type definition.
+它會在 TypeScript 設定檔中加入 `types: ["@angular/localize"]`。
+它也會在 `main.ts` 檔案頂部加入 `/// <reference types="@angular/localize" />` 這一行，作為型別定義的參照。
 
-HELPFUL: For more information about `package.json` and `tsconfig.json` files, see [Workspace npm dependencies][GuideNpmPackages] and [TypeScript Configuration][GuideTsConfig]. To learn about Triple-slash Directives visit [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html#-reference-types-).
+HELPFUL: 關於 `package.json` 與 `tsconfig.json` 檔案的更多資訊，請見[工作區 npm 相依性][GuideNpmPackages]與 [TypeScript 設定][GuideTsConfig]。若要了解 Triple-slash Directives，請造訪 [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/triple-slash-directives.html#-reference-types-)。
 
-If `@angular/localize` is not installed and you try to build a localized version of your project (for example, while using the `i18n` attributes in templates), the [Angular CLI][CliMain] will generate an error, which would contain the steps that you can take to enable i18n for your project.
+若未安裝 `@angular/localize`，而你嘗試建置專案的在地化版本（例如在範本中使用 `i18n` 屬性時），[Angular CLI][CliMain] 會產生錯誤，錯誤訊息中會包含為專案啟用 i18n 的步驟。
 
-## Options
+## 選項
 
-| OPTION             | DESCRIPTION                                                                                                                                                                                   | VALUE TYPE | DEFAULT VALUE |
-| :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- | :------------ |
-| `--project`        | The name of the project.                                                                                                                                                                      | `string`   |
-| `--use-at-runtime` | If set, then `$localize` can be used at runtime. Also `@angular/localize` gets included in the `dependencies` section of `package.json`, rather than `devDependencies`, which is the default. | `boolean`  | `false`       |
+| 選項               | 說明                                                                                                                                                                          | 值型別     | 預設值        |
+| :----------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------- | :------------ |
+| `--project`        | 專案名稱。                                                                                                                                                                    | `string`   |
+| `--use-at-runtime` | 設定後，`$localize` 即可在執行時使用。此外，`@angular/localize` 會被加入 `package.json` 的 `dependencies` 區段，而不是預設的 `devDependencies`。                              | `boolean`  | `false`       |
 
-For more available options, see `ng add` in [Angular CLI][CliMain].
+更多可用選項，請見 [Angular CLI][CliMain] 中的 `ng add`。
 
-## What's next
+## 下一步
 
 <docs-pill-row>
-  <docs-pill href="guide/i18n/locale-id" title="Refer to locales by ID"/>
+  <docs-pill href="guide/i18n/locale-id" title="以 ID 參照地區設定"/>
 </docs-pill-row>
 
-[CliMain]: cli 'CLI Overview and Command Reference | Angular'
-[GuideNpmPackages]: reference/configs/npm-packages 'Workspace npm dependencies | Angular'
+[CliMain]: cli 'CLI 總覽與指令參考 | Angular'
+[GuideNpmPackages]: reference/configs/npm-packages '工作區 npm 相依性 | Angular'
 [GuideTsConfig]: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html 'TypeScript Configuration'

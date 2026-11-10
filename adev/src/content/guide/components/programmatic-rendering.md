@@ -1,23 +1,16 @@
-# Programmatically rendering components
+# 以程式方式渲染元件
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先讀該指南。
 
-In addition to using a component directly in a template, you can also dynamically render components
-programmatically. This is helpful for situations when a component is unknown initially (thus can not
-be referenced in a template directly) and it depends on some conditions.
+除了直接在範本中使用元件之外，你也可以透過程式動態渲染元件。當某個元件一開始未知（因此無法直接在範本中參照），且其使用取決於某些條件時，這非常有幫助。
 
-There are two main ways to render a component programmatically: in a template using `NgComponentOutlet`,
-or in your TypeScript code using `ViewContainerRef`.
+透過程式渲染元件主要有兩種方式：在範本中使用 `NgComponentOutlet`，或在 TypeScript 程式碼中使用 `ViewContainerRef`。
 
-HELPFUL: for lazy-loading use-cases (for example if you want to delay loading of a heavy component), consider
-using the built-in [`@defer` feature](/guide/templates/defer) instead. The `@defer` feature allows the code
-of any components, directives, and pipes inside the `@defer` block to be extracted into separate JavaScript
-chunks automatically and loaded only when necessary, based on the configured triggers.
+HELPFUL: 對於延遲載入的使用情境（例如你想延遲載入一個較大的元件），請考慮改用內建的 [`@defer` 功能](/guide/templates/defer)。`@defer` 功能可讓 `@defer` 區塊內的任何元件、指令與管道的程式碼，自動抽出為獨立的 JavaScript 區塊，並僅在必要時依據所設定的觸發條件載入。
 
-## Using NgComponentOutlet
+## 使用 NgComponentOutlet {#using-ngcomponentoutlet}
 
-`NgComponentOutlet` is a structural directive that dynamically renders a given component in a
-template.
+`NgComponentOutlet` 是一個結構指令，可在範本中動態渲染指定的元件。
 
 ```angular-ts
 @Component({/*...*/})
@@ -41,9 +34,9 @@ export class CustomDialog {
 }
 ```
 
-### Passing inputs to dynamically rendered components
+### 將 inputs 傳給動態渲染的元件
 
-You can pass inputs to the dynamically rendered component using the `ngComponentOutletInputs` property. This property accepts an object where keys are input names and values are the input values.
+你可以使用 `ngComponentOutletInputs` 屬性，將 inputs 傳給動態渲染的元件。這個屬性接受一個物件，其鍵為 input 名稱，值為 input 的值。
 
 ```angular-ts
 @Component({
@@ -71,11 +64,11 @@ export class ProfileView {
 }
 ```
 
-The inputs are updated whenever the `greetingInputs` signal changes, keeping the dynamic component in sync with the parent's state.
+每當 `greetingInputs` 訊號變更時，inputs 就會更新，讓動態元件與父元件的狀態保持同步。
 
-### Providing content projection
+### 提供內容投射
 
-Use `ngComponentOutletContent` to pass projected content to the dynamically rendered component. This is useful when the dynamic component uses `<ng-content>` to display content.
+使用 `ngComponentOutletContent` 將投射內容傳給動態渲染的元件。當動態元件使用 `<ng-content>` 顯示內容時，這非常有用。
 
 ```angular-ts
 @Component({
@@ -115,11 +108,11 @@ export class DynamicCard {
 }
 ```
 
-NOTE: Hydration does not support projecting DOM nodes created with native DOM APIs. This causes an [NG0503 error](/errors/NG0503). Use Angular APIs to create projected content or add `ngSkipHydration` to the component.
+NOTE: 水合（hydration）不支援投射以原生 DOM API 建立的 DOM 節點。這會導致 [NG0503 錯誤](/errors/NG0503)。請使用 Angular API 來建立投射內容，或為元件加上 `ngSkipHydration`。
 
-### Providing injectors
+### 提供 injectors
 
-You can provide a custom injector to the dynamically created component using `ngComponentOutletInjector`. This is useful for providing component-specific services or configuration.
+你可以使用 `ngComponentOutletInjector`，為動態建立的元件提供自訂 injector。這在提供元件專屬的服務或設定時非常有用。
 
 ```angular-ts
 export const THEME_DATA = new InjectionToken<string>('THEME_DATA', {
@@ -148,9 +141,9 @@ export class DynamicPanel {
 }
 ```
 
-### Accessing the component instance
+### 存取元件實例
 
-You can access the dynamically created component's instance using the directive's `exportAs` feature:
+你可以使用指令的 `exportAs` 功能，存取動態建立之元件的實例：
 
 ```angular-ts
 @Component({
@@ -177,20 +170,15 @@ export class CounterHost {
 }
 ```
 
-NOTE: The `componentInstance` property is `null` before the component is rendered.
+NOTE: 在元件渲染之前，`componentInstance` 屬性的值為 `null`。
 
-See the [NgComponentOutlet API reference](api/common/NgComponentOutlet) for more information on the
-directive's capabilities.
+關於該指令功能的更多資訊，請參閱 [NgComponentOutlet API 參考文件](api/common/NgComponentOutlet)。
 
-## Using ViewContainerRef
+## 使用 ViewContainerRef {#using-viewcontainerref}
 
-A **view container** is a node in Angular's component tree that can contain content. Any component
-or directive can inject `ViewContainerRef` to get a reference to a view container corresponding to
-that component or directive's location in the DOM.
+**檢視容器**是 Angular 元件樹中的一個節點，可以容納內容。任何元件或指令都可以注入 `ViewContainerRef`，以取得對應於該元件或指令在 DOM 中位置的檢視容器參照。
 
-You can use the `createComponent`method on `ViewContainerRef` to dynamically create and render a
-component. When you create a new component with a `ViewContainerRef`, Angular appends it into the
-DOM as the next sibling of the component or directive that injected the `ViewContainerRef`.
+你可以使用 `ViewContainerRef` 上的 `createComponent` 方法，動態建立並渲染元件。當你以 `ViewContainerRef` 建立新元件時，Angular 會將它附加到 DOM 中，作為注入該 `ViewContainerRef` 的元件或指令的下一個同層元素。
 
 ```angular-ts
 @Component({
@@ -222,7 +210,7 @@ export class InnerItem {
 }
 ```
 
-In the example above, clicking the "Load content" button results in the following DOM structure
+在上面的範例中，點擊「Load content」按鈕會產生以下的 DOM 結構
 
 ```angular-html
 <outer-container>
@@ -235,13 +223,11 @@ In the example above, clicking the "Load content" button results in the followin
 </outer-container>
 ```
 
-## Lazy-loading components
+## 延遲載入元件
 
-HELPFUL: if you want to lazy-load some components, you may consider using the built-in [`@defer` feature](/guide/templates/defer)
-instead.
+HELPFUL: 如果你想延遲載入某些元件，可以考慮改用內建的 [`@defer` 功能](/guide/templates/defer)。
 
-If your use-case is not covered by the `@defer` feature, you can use either `NgComponentOutlet` or
-`ViewContainerRef` with a standard JavaScript [dynamic import](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/import).
+如果你的使用情境不在 `@defer` 功能的涵蓋範圍內，你可以使用 `NgComponentOutlet` 或 `ViewContainerRef`，搭配標準的 JavaScript [動態 import](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Operators/import)。
 
 ```angular-ts
 @Component({
@@ -272,19 +258,19 @@ export class AdminSettings {
 }
 ```
 
-The example above loads and displays the `AdvancedSettings` upon receiving a button click.
+上面的範例會在收到按鈕點擊時，載入並顯示 `AdvancedSettings`。
 
-## Binding inputs, outputs and setting host directives at creation
+## 在建立時繫結 inputs、outputs 並設定 host 指令 {#binding-inputs-outputs-and-setting-host-directives-at-creation}
 
-When dynamically creating components, manually setting inputs and subscribing to outputs can be error-prone. You often need to write extra code just to wire up bindings after the component is instantiated.
+動態建立元件時，手動設定 inputs 並訂閱 outputs 容易出錯。你通常需要撰寫額外的程式碼，才能在元件具現化後接上這些繫結。
 
-To simplify this, both `createComponent` and `ViewContainerRef.createComponent` support passing a `bindings` array with helpers like `inputBinding()`, `outputBinding()`, and `twoWayBinding()` to configure inputs and outputs up front. You can also specify a `directives` array to apply any host directives. This enables creating components programmatically with template-like bindings in a single, declarative call.
+為簡化這個流程，`createComponent` 與 `ViewContainerRef.createComponent` 都支援傳入 `bindings` 陣列，搭配 `inputBinding()`、`outputBinding()` 與 `twoWayBinding()` 等輔助函式，預先設定 inputs 與 outputs。你也可以指定 `directives` 陣列來套用任何 host 指令。這讓你能以單一、宣告式的呼叫，透過程式以類似範本的繫結方式建立元件。
 
-### Host view using `ViewContainerRef.createComponent`
+### 使用 `ViewContainerRef.createComponent` 的 host 檢視 {#host-view-using-viewcontainerrefcreatecomponent}
 
-`ViewContainerRef.createComponent` creates a component and automatically inserts its host view and host element into the container’s view hierarchy at the container’s location. Use this when the dynamic component should become part of the container’s logical and visual structure (for example, adding list items or inline UI).
+`ViewContainerRef.createComponent` 會建立一個元件，並自動將其 host 檢視與 host 元素插入容器檢視階層中容器所在的位置。當動態元件應成為容器邏輯與視覺結構的一部分時（例如新增清單項目或行內 UI），請使用這個方式。
 
-By contrast, the standalone `createComponent` API does not attach the new component to any existing view or DOM location — it returns a `ComponentRef` and gives you explicit control over where to place the component’s host element.
+相較之下，獨立的 `createComponent` API 不會將新元件附加到任何現有的檢視或 DOM 位置，它會傳回一個 `ComponentRef`，並讓你明確控制元件 host 元素的放置位置。
 
 ```angular-ts
 import {Component, input, model, output} from '@angular/core';
@@ -346,11 +332,11 @@ export class Host {
 }
 ```
 
-In the example above, the dynamic **AppWarning** is created with its `canClose` input bound to a reactive signal, a two-way binding on its `isExpanded` state, and an output listener for `close`. The `FocusTrap` and `ThemeDirective` are attached to the host element via `directives`.
+在上面的範例中，動態的 **AppWarning** 在建立時，其 `canClose` input 繫結到一個反應式訊號，`isExpanded` 狀態使用雙向繫結，並為 `close` 加上 output 監聽器。`FocusTrap` 與 `ThemeDirective` 則透過 `directives` 附加到 host 元素上。
 
-### Popup attached to `document.body` with `createComponent` + `hostElement`
+### 使用 `createComponent` + `hostElement` 將 Popup 附加到 `document.body` {#popup-attached-to-documentbody-with-createcomponent--hostelement}
 
-Use this when rendering outside the current view hierarchy (e.g., overlays). The provided `hostElement` becomes the component’s host in the DOM, so Angular doesn’t create a new element matching the selector. Lets you configure **bindings** directly.
+當需要在目前檢視階層之外渲染時（例如覆蓋層），請使用這個方式。所提供的 `hostElement` 會成為元件在 DOM 中的 host，因此 Angular 不會建立符合選擇器的新元素。你可以直接設定 **bindings**。
 
 ```ts
 import {

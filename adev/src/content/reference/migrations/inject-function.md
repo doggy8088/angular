@@ -1,16 +1,16 @@
-# Migration to the `inject` function
+# 遷移到 `inject` 函式
 
-Angular's [`inject`](/api/core/inject) function offers more accurate types and better compatibility with standard decorators, compared to constructor-based injection.
+與建構函式注入相比，Angular 的 [`inject`](/api/core/inject) 函式能提供更精確的型別，也與標準裝飾器有更好的相容性。
 
-This schematic converts constructor-based injection in your classes to use the [`inject`](/api/core/inject) function instead.
+此原理圖會把你類別中的建構函式注入，轉換為改用 [`inject`](/api/core/inject) 函式。
 
-Run the schematic using the following command:
+使用以下指令執行此原理圖：
 
 ```shell
 ng generate @angular/core:inject
 ```
 
-#### Before
+#### 遷移前
 
 ```typescript
 import {Component, Inject, Optional} from '@angular/core';
@@ -26,7 +26,7 @@ export class MyComp {
 }
 ```
 
-#### After
+#### 遷移後
 
 ```typescript
 import {Component, inject} from '@angular/core';
@@ -40,31 +40,24 @@ export class MyComp {
 }
 ```
 
-## Migration options
+## 遷移選項
 
-The migration includes several options to customize its output.
+這項遷移包含幾個選項，可自訂其輸出。
 
 ### `path`
 
-Determines which sub-path in your project should be migrated. Pass in `.` or leave it blank to
-migrate the entire directory.
+決定要遷移專案中的哪個子路徑。傳入 `.` 或留空，即可遷移整個目錄。
 
 ### `migrateAbstractClasses`
 
-Angular doesn't validate that parameters of abstract classes are injectable. This means that the
-migration can't reliably migrate them to [`inject`](/api/core/inject) without risking breakages which is why they're
-disabled by default. Enable this option if you want abstract classes to be migrated, but note
-that you may have to **fix some breakages manually**.
+Angular 不會驗證抽象類別的參數是否可注入。也就是說，遷移無法可靠地把它們遷移到 [`inject`](/api/core/inject)，而不冒著造成破壞的風險，因此預設停用。如果你想遷移抽象類別，可以啟用這個選項，但請注意，你可能必須**手動修正一些破壞**。
 
 ### `backwardsCompatibleConstructors`
 
-By default the migration tries to clean up the code as much as it can, which includes deleting
-parameters from the constructor, or even the entire constructor if it doesn't include any code.
-In some cases this can lead to compilation errors when classes with Angular decorators inherit from
-other classes with Angular decorators. If you enable this option, the migration will generate an
-additional constructor signature to keep it backwards compatible, at the expense of more code.
+依預設，遷移會盡可能地清理程式碼，包括刪除建構函式的參數；如果建構函式裡沒有任何程式碼，甚至會刪除整個建構函式。
+在某些情況下，當帶有 Angular 裝飾器的類別繼承自其他同樣帶有 Angular 裝飾器的類別時，這可能會導致編譯錯誤。如果你啟用這個選項，遷移會產生一個額外的建構函式簽章來保持向後相容，代價是程式碼會變多。
 
-#### Before
+#### 遷移前
 
 ```typescript
 import {Component} from '@angular/core';
@@ -76,7 +69,7 @@ export class MyComp {
 }
 ```
 
-#### After
+#### 遷移後
 
 ```ts
 import { Component } from '@angular/core';
@@ -95,17 +88,11 @@ private service = inject(MyService);
 
 ### `nonNullableOptional`
 
-If injection fails for a parameter with the `@Optional` decorator, Angular returns `null` which
-means that the real type of any `@Optional` parameter will be `| null`. However, because decorators
-cannot influence their types, there is a lot of existing code whose type is incorrect. The type is
-fixed in `inject()` which can cause new compilation errors to show up. If you enable this option,
-the migration will produce a non-null assertion after the `inject()` call to match the old type,
-at the expense of potentially hiding type errors.
+如果帶有 `@Optional` 裝飾器的參數注入失敗，Angular 會回傳 `null`，也就是說，任何 `@Optional` 參數的實際型別都會是 `| null`。然而，由於裝飾器無法影響自身的型別，現有程式碼中有很多型別並不正確。這個型別在 `inject()` 中會被修正，這可能會讓新的編譯錯誤浮現。如果你啟用這個選項，遷移會在 `inject()` 呼叫後加上非空斷言，以符合舊有的型別，代價是可能隱藏型別錯誤。
 
-**NOTE:** non-null assertions won't be added to parameters that are already typed to be nullable,
-because the code that depends on them likely already accounts for their nullability.
+**NOTE:** 對於型別已經可為 null 的參數，不會加上非空斷言，因為依賴這些參數的程式碼很可能已經考慮到它們可為 null 的特性。
 
-#### Before
+#### 遷移前
 
 ```typescript
 import {Component, Inject, Optional} from '@angular/core';
@@ -120,7 +107,7 @@ export class MyComp {
 }
 ```
 
-#### After
+#### 遷移後
 
 ```typescript
 import {Component, inject} from '@angular/core';

@@ -1,48 +1,48 @@
-<docs-decorative-header title="Template syntax" imgSrc="adev/src/assets/images/templates.svg"> <!-- markdownlint-disable-line -->
-In Angular, a template is a chunk of HTML.
-Use special syntax within a template to leverage many of Angular's features.
+<docs-decorative-header title="範本語法" imgSrc="adev/src/assets/images/templates.svg"> <!-- markdownlint-disable-line -->
+在 Angular 中，範本是一段 HTML。
+在範本中使用特殊語法，就能運用 Angular 的許多功能。
 </docs-decorative-header>
 
-TIP: Check out Angular's [Essentials](essentials/templates) before diving into this comprehensive guide.
+TIP: 在深入這份完整指南之前，先看看 Angular 的[入門要點](essentials/templates)。
 
-Every Angular component has a **template** that defines the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model) that the component renders onto the page. By using templates, Angular is able to automatically keep your page up-to-date as data changes.
+每個 Angular 元件都有一個**範本**，用來定義該元件渲染到頁面上的 [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model)。透過範本，Angular 能在資料變更時自動讓頁面保持最新狀態。
 
-Templates are usually found within either the `template` property of a `*.ts` file or the `*.html` file. To learn more, check out the [in-depth components guide](/guide/components).
+範本通常位於 `*.ts` 檔案的 `template` 屬性中，或是 `*.html` 檔案裡。若要了解更多，請參閱[元件深入指南](/guide/components)。
 
-## How do templates work?
+## 範本如何運作？
 
-Templates are based on [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) syntax, with additional features such as built-in template functions, data binding, event listening, variables, and more.
+範本以 [HTML](https://developer.mozilla.org/en-US/docs/Web/HTML) 語法為基礎，並額外提供內建範本函式、資料繫結、事件監聽、變數等功能。
 
-Angular compiles templates into JavaScript in order to build up an internal understanding of your application. One of the benefits of this are built-in rendering optimizations that Angular applies to your application automatically.
+Angular 會把範本編譯成 JavaScript，以便在內部建立對應用程式的理解。這麼做的其中一個好處，就是 Angular 會自動為你的應用程式套用內建的渲染優化。
 
-### Differences from standard HTML
+### 與標準 HTML 的差異
 
-Some differences between templates and standard HTML syntax include:
+範本與標準 HTML 語法之間的一些差異包括：
 
-- Comments in the template source code are not included in the rendered output
-- Component and directive elements can be self-closed (e.g., `<UserProfile />`)
-- Attributes with certain characters (i.e., `[]`, `()`, etc.) have special meaning to Angular. See [binding docs](guide/templates/binding) and [adding event listeners docs](guide/templates/event-listeners) for more information.
-- The `@` character has a special meaning to Angular for adding dynamic behavior, such as [control flow](guide/templates/control-flow), to templates. You can include a literal `@` character by escaping it as an HTML entity code (`&commat;` or `&#64;`).
-- Angular ignores and collapses unnecessary whitespace characters. See [whitespace in templates](guide/templates/whitespace) for more details.
-- Angular may add comment nodes to a page as placeholders for dynamic content, but developers can ignore these.
+- 範本原始碼中的註解不會包含在渲染輸出中
+- 元件與指令元素可以自我閉合（例如 `<UserProfile />`）
+- 帶有特定字元的屬性（例如 `[]`、`()` 等）對 Angular 有特殊意義。詳情請參閱[繫結文件](guide/templates/binding)與[加入事件監聽器文件](guide/templates/event-listeners)。
+- `@` 字元對 Angular 有特殊意義，可用來為範本加入動態行為，例如[控制流程](guide/templates/control-flow)。若要包含字面的 `@` 字元，請將它轉義為 HTML 實體碼（`&commat;` 或 `&#64;`）。
+- Angular 會忽略並折疊不必要的空白字元。詳情請參閱[範本中的空白](guide/templates/whitespace)。
+- Angular 可能會在頁面中加入註解節點，作為動態內容的預留位置，開發者可以忽略這些節點。
 
-In addition, while most HTML syntax is valid template syntax, Angular does not support `<script>` element in templates. For more information, see the [Security](best-practices/security) page.
+此外，雖然大多數 HTML 語法都是有效的範本語法，但 Angular 不支援在範本中使用 `<script>` 元素。詳情請參閱[安全性](best-practices/security)頁面。
 
-## What's next?
+## 接下來呢？
 
-You might also be interested in the following:
+你可能也會對以下主題感興趣：
 
-| Topics                                                                      | Details                                                                                 |
+| 主題                                                                      | 說明                                                                                 |
 | :-------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------- |
-| [Binding dynamic text, properties, and attributes](guide/templates/binding) | Bind dynamic data to text, properties and attributes.                                   |
-| [Adding event listeners](guide/templates/event-listeners)                   | Respond to events in your templates.                                                    |
-| [Two-way binding](guide/templates/two-way-binding)                          | Simultaneously binds a value and propagate changes.                                     |
-| [Control flow](guide/templates/control-flow)                                | Conditionally show, hide and repeat elements.                                           |
-| [Pipes](guide/templates/pipes)                                              | Transform data declaratively.                                                           |
-| [Slotting child content with ng-content](guide/templates/ng-content)        | Control how components render content.                                                  |
-| [Create template fragments with ng-template](guide/templates/ng-template)   | Declare a template fragment.                                                            |
-| [Grouping elements with ng-container](guide/templates/ng-container)         | Group multiple elements together or mark a location for rendering.                      |
-| [Variables in templates](guide/templates/variables)                         | Learn about variable declarations.                                                      |
-| [Deferred loading with @defer](guide/templates/defer)                       | Create deferrable views with `@defer`.                                                  |
-| [Expression syntax](guide/templates/expression-syntax)                      | Learn similarities and differences between Angular expressions and standard JavaScript. |
-| [Whitespace in templates](guide/templates/whitespace)                       | Learn how Angular handles whitespace.                                                   |
+| [繫結動態文字、屬性與特性](guide/templates/binding) | 將動態資料繫結到文字、屬性與特性。                                   |
+| [加入事件監聽器](guide/templates/event-listeners)                   | 回應範本中的事件。                                                    |
+| [雙向繫結](guide/templates/two-way-binding)                          | 同時繫結一個值並傳播變更。                                     |
+| [控制流程](guide/templates/control-flow)                                | 條件式地顯示、隱藏與重複元素。                                           |
+| [管道](guide/templates/pipes)                                              | 以宣告方式轉換資料。                                                           |
+| [使用 ng-content 嵌入子內容](guide/templates/ng-content)        | 控制元件如何渲染內容。                                                  |
+| [使用 ng-template 建立範本片段](guide/templates/ng-template)   | 宣告一個範本片段。                                                            |
+| [使用 ng-container 群組元素](guide/templates/ng-container)         | 將多個元素群組在一起，或標記一個渲染位置。                      |
+| [範本中的變數](guide/templates/variables)                         | 了解變數宣告。                                                      |
+| [使用 @defer 延遲載入](guide/templates/defer)                       | 使用 `@defer` 建立可延遲的檢視。                                                  |
+| [運算式語法](guide/templates/expression-syntax)                      | 了解 Angular 運算式與標準 JavaScript 的異同。 |
+| [範本中的空白](guide/templates/whitespace)                       | 了解 Angular 如何處理空白。                                                   |
