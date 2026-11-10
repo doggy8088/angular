@@ -1,0 +1,138 @@
+name: Deploy v11 mirror to Cloudflare Pages
+
+# v11 分支專屬：上游 11.2.x（aio／angular.io 年代）的鏡像建置，發佈到
+# Cloudflare Pages 專案 angular-tw-v11，自訂網域 v11.angular.tw
+# （英文原版鏡像，翻譯日後逐版補）。
+# 本年代為純 yarn CLI 路線：aio 無 Bazel 建置目標，上游以
+# `yarn --cwd aio build` 建置（presetup 會連根目錄一起 yarn install）。
+
+on:
+  push:
+    branches: [v11]
+  workflow_dispatch:
+    inputs:
+      attempt:
+        description: "Deployment attempt number (auto-incremented on auth failure)"
+        required: false
+        default: "1"
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: pages-v11
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Probe Cloudflare auth (fail fast, re-dispatch on a fresh runner)
+        env:
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ok=0
+          for i in 1 2 3; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT}/pages/projects/angular-tw-v11/upload-token" -H "Authorization: Bearer ${CF_TOKEN}")
+            echo "probe $i: HTTP $code"
+            if [ "$code" = "200" ]; then ok=1; break; fi
+            sleep 5
+          done
+          if [ "$ok" != "1" ]; then
+            attempt="${{ inputs.attempt || '1' }}"
+            if [ "$attempt" -lt 6 ]; then
+              next=$((attempt + 1))
+              echo "This runner cannot authenticate to Cloudflare (9106). Re-dispatching attempt $next on a fresh runner."
+              gh workflow run deploy-v11.yml --ref v11 -f attempt=$next
+            else
+              echo "Giving up after $attempt attempts."
+            fi
+            exit 1
+          fi
+          echo "Cloudflare auth OK on this runner."
+
+      - name: Setup Node.js
+        # 不用 .nvmrc 的 16.13：範例程式的傳遞依賴（node-releases 等）隨時間
+        # 升級後已要求 Node >=18（2026-11-10 實測 yarn install 被 engines 擋）。
+        # Angular 14 CLI 在 Node 18 上可正常建置。
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18.20.0'
+
+      - name: Relax yarn engine checks
+        run: |
+          yarn config set ignore-engines true
+          cd aio && yarn config set ignore-engines true
+
+      - name: Build aio (yarn, production)
+        # 比照上游 CircleCI test_aio job：yarn --cwd aio build
+        # （prebuild→setup 含根目錄與 aio 的 yarn install、docs 產生；
+        # ~~build 為 ng build --configuration=stable，產出 aio/dist；
+        # post~~build 產生 404 頁）。
+        env:
+          NODE_OPTIONS: --max-old-space-size=6144 --openssl-legacy-provider
+        run: |
+          for attempt in 1 2; do
+            echo "=== Build attempt ${attempt} ==="
+            if yarn --cwd aio build --progress=false; then
+              exit 0
+            fi
+            echo "Attempt ${attempt} failed; retrying in 30s..."
+            sleep 30
+          done
+          echo "Build failed after 2 attempts"
+          exit 1
+
+      - name: Collect static output
+        run: |
+          mkdir -p _site
+          cp -rL aio/dist/. _site/
+          ls _site | head -20
+          test -f _site/index.html
+
+      - name: Add Cloudflare Pages headers
+        run: |
+          cat > _site/_headers <<'EOF'
+          /ngsw-worker.js
+            Cache-Control: no-cache
+
+          /ngsw.json
+            Cache-Control: no-cache
+          EOF
+          cat _site/_headers
+
+      - name: Archive site output (deploy fallback)
+        continue-on-error: true
+        run: tar -cf site.tar -C _site .
+
+      - name: Upload site archive
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-v11
+          path: site.tar
+          retention-days: 3
+          compression-level: 0
+
+      - name: Deploy to Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: <redacted>
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          pip install -q blake3 requests
+          for attempt in 1 2 3 4 5 6; do
+            echo "=== Deploy attempt ${attempt} ==="
+            if python3 .github/scripts/pages_upload.py --project angular-tw-v11 --branch v11 --dir _site; then
+              exit 0
+            fi
+            echo "Deploy attempt ${attempt} failed; waiting 5 minutes for a better auth window..."
+            sleep 300
+          done
+          echo "Deploy failed after 6 attempts"
+          exit 1
