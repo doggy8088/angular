@@ -15,7 +15,7 @@ Angular CLI MCP server 提供多個工具，協助你的開發工作流程。預
 | `onpush_zoneless_migration` | 分析 Angular 程式碼，並提供逐步、迭代的計畫，將其遷移至 `OnPush` 變更偵測，這是邁向無區域化應用程式的前置條件。                                           |      ✅      |     ✅      |
 | `search_documentation`      | 搜尋位於 <https://angular.dev> 的 Angular 官方文件。任何關於 Angular 的問題，例如 API、教學與最佳實務，都應使用此工具來回答。             |      ❌      |     ✅      |
 
-### 實驗性工具
+### 實驗性工具 {#experimental-tools}
 
 有些工具尚新或尚未完整測試，因此以實驗／預覽狀態提供。使用 [`--experimental-tool`](#command-options) 選項逐一啟用它們，並請謹慎使用。
 
@@ -131,7 +131,7 @@ ng mcp
 }
 ```
 
-## 指令選項
+## 指令選項 {#command-options}
 
 `mcp` 指令可以透過下列選項進行設定，這些選項會以引數形式傳入你 IDE 的 MCP 設定中：
 
