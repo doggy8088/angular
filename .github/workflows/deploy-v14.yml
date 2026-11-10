@@ -59,9 +59,17 @@ jobs:
           echo "Cloudflare auth OK on this runner."
 
       - name: Setup Node.js
+        # 不用 .nvmrc 的 16.13：範例程式的傳遞依賴（node-releases 等）隨時間
+        # 升級後已要求 Node >=18（2026-11-10 實測 yarn install 被 engines 擋）。
+        # Angular 14 CLI 在 Node 18 上可正常建置。
         uses: actions/setup-node@v4
         with:
-          node-version-file: .nvmrc
+          node-version: '18.20.0'
+
+      - name: Relax yarn engine checks
+        run: |
+          yarn config set ignore-engines true
+          cd aio && yarn config set ignore-engines true
 
       - name: Build aio (yarn, production)
         # 比照上游 CircleCI test_aio job：yarn --cwd aio build
