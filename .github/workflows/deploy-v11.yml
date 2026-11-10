@@ -65,13 +65,19 @@ jobs:
         with:
           node-version: '18.20.0'
 
+      - name: Setup Python 3.10
+        # 老 node-gyp（re2 等原生模組）用 Python 'rU' 模式，3.11+ 已移除；
+        # 提供 3.10 讓 gyp 至少能執行（re2 為 optional，編不過也只是警告）。
+        # 不能用 ignore-optional 一刀切：@swc/core 的平台 binding 也是
+        # optional 依賴，略過會讓建置缺 binding 而失敗（2026-11-10 實測）。
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
       - name: Relax yarn engine checks
-        # ignore-optional：re2（protractor 生態的 optional 原生模組）在新版
-        # Python 的 node-gyp 上必炸且有時會變致命；建站不需要它，整批略過。
         run: |
           yarn config set ignore-engines true
-          yarn config set ignore-optional true
-          (cd aio && yarn config set ignore-engines true && yarn config set ignore-optional true)
+          (cd aio && yarn config set ignore-engines true)
 
       - name: Build aio (yarn, production)
         # 比照上游 CircleCI test_aio job：yarn --cwd aio build
