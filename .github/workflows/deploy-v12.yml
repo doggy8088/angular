@@ -76,7 +76,7 @@ jobs:
         # ~~build 為 ng build --configuration=stable，產出 aio/dist；
         # post~~build 產生 404 頁）。
         env:
-          NODE_OPTIONS: --max-old-space-size=6144
+          NODE_OPTIONS: --max-old-space-size=6144 --openssl-legacy-provider
         run: |
           for attempt in 1 2; do
             echo "=== Build attempt ${attempt} ==="
