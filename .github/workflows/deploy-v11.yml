@@ -66,9 +66,13 @@ jobs:
           node-version: '18.20.0'
 
       - name: Relax yarn engine checks
+        # ignore-optional：re2（protractor 生態的 optional 原生模組）在新版
+        # Python 的 node-gyp 上必炸且有時會變致命；建站不需要它，整批略過。
         run: |
           yarn config set ignore-engines true
+          yarn config set ignore-optional true
           cd aio && yarn config set ignore-engines true
+          cd aio && yarn config set ignore-optional true
 
       - name: Build aio (yarn, production)
         # 比照上游 CircleCI test_aio job：yarn --cwd aio build
