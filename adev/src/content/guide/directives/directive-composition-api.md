@@ -176,10 +176,10 @@ export class EvenMoreCustomTooltip { }
 
 可以這樣理解：宿主指令符合項代表的是 `Partial<YourDirective>`，也就是只公開在 `hostDirectives` 中明確列出的輸入與輸出的部分套用；而範本符合項代表的是擁有完整公開 API 的完整指令。
 
+```ts
 @Directive({selector: '[hoverable]'})
 export class Hoverable {}
 
-```ts
 @Component({
   selector: 'app-button',
   hostDirectives: [Hoverable],

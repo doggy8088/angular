@@ -128,6 +128,9 @@ export class App {}
 
 `<ng-content>` 佔位符支援的 CSS 選擇器，與[元件選擇器](guide/components/selectors)相同。
 
+IMPORTANT: 若使用屬性或類別選擇器，必須以靜態方式設定，例如 `class="within"`。
+動態繫結如 `[class.within]="isWithin()"` 不會被 `select` 選擇器看見。
+
 如果你同時包含一個或多個帶有 `select` 屬性的 `<ng-content>` 佔位符，以及一個不帶 `select` 屬性的 `<ng-content>` 佔位符，後者會擷取所有未符合任何 `select` 屬性的元素：
 
 ```angular-html

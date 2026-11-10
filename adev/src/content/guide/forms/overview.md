@@ -293,7 +293,7 @@ NOTE: `NgModel` 會觸發第二次變更偵測，以避免 `ExpressionChangedAft
 
 1. 向 view 查詢表單輸入元素，並為測試建立一個自訂的 "input" 事件。
 1. 將輸入的新值設為 _Red_，並在表單輸入元素上分派 "input" 事件。
-1. 透過測試 fixture 執行變更偵測。
+1. 使用 `await fixture.whenStable()` 等待更新處理完成。
 1. 斷言元件 `favoriteColor` 屬性的值與輸入的值相符。
 
 下列測試驗證從模型到 view 的資料流。
@@ -303,7 +303,6 @@ NOTE: `NgModel` 會觸發第二次變更偵測，以避免 `ExpressionChangedAft
 以下是模型到 view 測試所執行的步驟。
 
 1. 使用元件實例設定 `favoriteColor` 屬性的值。
-1. 透過測試 fixture 執行變更偵測。
 1. 使用 `await fixture.whenStable()` 等待下一次渲染。
 1. 向 view 查詢表單輸入元素。
 1. 斷言輸入值與元件實例中 `favoriteColor` 屬性的值相符。

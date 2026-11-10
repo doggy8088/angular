@@ -15,6 +15,7 @@ mod analyzer;
 pub mod compiler;
 pub mod evaluator;
 pub mod fs;
+pub mod perf;
 pub mod physical_fs;
 pub mod query;
 pub mod resource_loader;
@@ -31,9 +32,8 @@ pub use test_analyzer::{TestAnalyzer, TestAnalyzerOptions};
 pub mod wasm;
 
 pub use analyzer::{
-    flatten_class_info, resolve_declaration_async, resolve_to_dts, strip_extension_str,
-    ApfImportStrategy, ParsedFileAnalysis, PrefixImportStrategy, ReferenceEmitStrategy,
-    WireContext, WireMode,
+    flatten_class_info, resolve_declaration_async, strip_extension_str, ApfImportStrategy,
+    ParsedFileAnalysis, PrefixImportStrategy, ReferenceEmitStrategy, WireContext, WireMode,
 };
 pub use compiler::{AnalysisIterator, Analyzer, SharedQuery, Spawner};
 pub use evaluator::cross_file::{

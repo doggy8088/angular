@@ -263,7 +263,7 @@ ng generate component ProfileEditor
 
 </docs-step>
 <docs-step title="產生表單控制項">
-`FormBuilder` 服務有三個方法：`control()`、`group()` 與 `array()`。這些是在元件類別中產生實例的工廠方法，包括表單控制項、表單群組與表單陣列。使用 `group` 方法建立 `profileForm` 控制項。
+`FormBuilder` 服務有四個方法：`control()`、`group()`、`record()` 與 `array()`。這些是在元件類別中產生實例的工廠方法，包括表單控制項、表單群組、表單記錄與表單陣列。使用 `group` 方法建立 `profileForm` 控制項。
 
 <docs-code header="profile-editor.component.ts (form builder)" path="adev/src/content/examples/reactive-forms/src/app/profile-editor/profile-editor.component.2.ts" region="form-builder"/>
 

@@ -28,10 +28,7 @@ pub enum QueryKey {
     /// analysis, so any query may read it without forming a cycle.
     AnalyzeFileEvaluated(FileId),
     /// Wire-projected [`crate::AnalysisResult`] and chunk grouping info for a file.
-    AnalyzeFileWire {
-        file_id: FileId,
-        is_optimized: bool,
-    },
+    AnalyzeFileWire { file_id: FileId, is_optimized: bool },
     /// Parsed AST and semantic index for a source file in a self-contained arena.
     ParseFile(FileId),
     /// All declarations (components/directives/pipes) transitively exported by an NgModule.
@@ -53,10 +50,6 @@ pub enum QueryKey {
     /// Singleton: the tsconfig's `.d.ts` files that may declare each ambient module, keyed by
     /// the `declare module '<specifier>'` name, found by a textual scan rather than a parse.
     AmbientModuleFiles,
-    /// Singleton: the tsconfig's `.d.ts` files that may declare each ambient global value, keyed
-    /// by identifier name, indexed via `oxc_parser` with a recycled arena allocator (without
-    /// building semantic models or caching [`ParsedFile`]s for non-matching `.d.ts` files).
-    AmbientGlobalFiles,
     /// Singleton: entrypoint IDs and global extra imports for `generateExtraImportsInLocalMode`.
     LocalExtraImports,
 }
@@ -78,9 +71,50 @@ impl QueryKey {
             | Self::NgModuleScopeRegistry
             | Self::ProgramFiles
             | Self::AmbientModuleFiles
-            | Self::AmbientGlobalFiles
             | Self::LocalExtraImports => None,
         }
+    }
+
+    /// Variant names, indexed by [`Self::kind_index`]. The perf layer maps a query span's
+    /// `kind` field back to its name here.
+    pub const KIND_NAMES: [&'static str; 13] = [
+        "AnalyzeFileSemantic",
+        "AnalyzeFileSyntax",
+        "AnalyzeFileEvaluated",
+        "AnalyzeFileWire",
+        "ParseFile",
+        "NgModuleExportsScope",
+        "NgModuleImportsScope",
+        "ModuleExportMap",
+        "ComponentMapping",
+        "NgModuleScopeRegistry",
+        "ProgramFiles",
+        "AmbientModuleFiles",
+        "LocalExtraImports",
+    ];
+
+    /// Position of this key's variant in [`Self::KIND_NAMES`].
+    pub fn kind_index(&self) -> usize {
+        match self {
+            Self::AnalyzeFileSemantic(_) => 0,
+            Self::AnalyzeFileSyntax(_) => 1,
+            Self::AnalyzeFileEvaluated(_) => 2,
+            Self::AnalyzeFileWire { .. } => 3,
+            Self::ParseFile(_) => 4,
+            Self::NgModuleExportsScope(_) => 5,
+            Self::NgModuleImportsScope(_) => 6,
+            Self::ModuleExportMap(_) => 7,
+            Self::ComponentMapping => 8,
+            Self::NgModuleScopeRegistry => 9,
+            Self::ProgramFiles => 10,
+            Self::AmbientModuleFiles => 11,
+            Self::LocalExtraImports => 12,
+        }
+    }
+
+    /// The variant name, used as the perf span's display name and summary key.
+    pub fn name(&self) -> &'static str {
+        Self::KIND_NAMES[self.kind_index()]
     }
 }
 
@@ -89,9 +123,6 @@ pub type ModuleExportMap = std::collections::HashMap<(FileId, String), String>;
 
 /// Ambient module specifier → the `.d.ts` files that may declare it, in tsconfig order.
 pub type AmbientModuleFiles = std::collections::HashMap<String, Vec<FileId>>;
-
-/// Ambient global identifier → the `.d.ts` files that may declare it as a value, in tsconfig order.
-pub type AmbientGlobalFiles = std::collections::HashMap<String, Vec<FileId>>;
 
 #[derive(Clone, Debug, Default, PartialEq, Eq)]
 pub struct LocalExtraImportsData {
@@ -138,8 +169,6 @@ pub enum QueryValue {
     ProgramFiles(Arc<Vec<FileId>>),
     /// Candidate files per ambient module specifier ([`QueryKey::AmbientModuleFiles`]).
     AmbientModuleFiles(Arc<AmbientModuleFiles>),
-    /// Candidate files per ambient global identifier ([`QueryKey::AmbientGlobalFiles`]).
-    AmbientGlobalFiles(Arc<AmbientGlobalFiles>),
     /// Cached entrypoint IDs and global extra imports ([`QueryKey::LocalExtraImports`]).
     LocalExtraImports(Arc<LocalExtraImportsData>),
 }
@@ -168,9 +197,12 @@ impl std::fmt::Debug for QueryValue {
             Self::ScopeRegistry(_) => write!(f, "ScopeRegistry"),
             Self::ProgramFiles(v) => write!(f, "ProgramFiles({} files)", v.len()),
             Self::AmbientModuleFiles(v) => write!(f, "AmbientModuleFiles({} modules)", v.len()),
-            Self::AmbientGlobalFiles(v) => write!(f, "AmbientGlobalFiles({} globals)", v.len()),
             Self::LocalExtraImports(v) => {
-                write!(f, "LocalExtraImports({} imports)", v.global_extra_imports.len())
+                write!(
+                    f,
+                    "LocalExtraImports({} imports)",
+                    v.global_extra_imports.len()
+                )
             }
         }
     }

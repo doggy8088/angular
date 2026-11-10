@@ -31,11 +31,13 @@ export class Search {
 }
 ```
 
-`debounced` 接收來源訊號與以毫秒為單位的等待時間。傳回的資源的 `value()` 永遠包含最後一個已定下來的值，`status()` 則告訴你新值是否仍在等待中。
+`debounced` 接收來源訊號與以毫秒為單位的等待時間。傳回的資源的 `value()` 包含最後一個已定下來的值，`status()` 則告訴你新值是否仍在等待中。
 
 ## 防抖期間的狀態
 
-防抖計時器倒數期間，`status()` 為 `'loading'`，`value()` 傳回先前已解析的值。計時器到期時，資源會定為 `'resolved'`。若來源訊號拋出錯誤，資源會立即進入 `'error'`，不會啟動計時器。
+在已解析的值之後、防抖計時器倒數期間，`status()` 為 `'loading'`，`value()` 傳回先前已解析的值。計時器到期時，資源會定為 `'resolved'`。
+
+若來源訊號拋出錯誤，資源會立即進入 `'error'`，`value()` 會拋出錯誤，且不會啟動計時器。來源訊號停止拋出錯誤後，資源會停留在 `'error'`，直到新的等待時間結束，才變成 `'resolved'`。
 
 完整的狀態清單及其 `value()` 行為，請參閱 [Resource 狀態](/guide/signals/resource#resource-status)。
 

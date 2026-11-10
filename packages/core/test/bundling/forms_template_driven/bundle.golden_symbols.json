@@ -1,6 +1,7 @@
 {
   "chunks": {
     "main": [
+      "ABSTRACT_CONTROL",
       "AFTER_RENDER_SEQUENCES_TO_ADD",
       "ANIMATIONS",
       "APPLICATION_IS_STABLE_TIMEOUT",
@@ -223,7 +224,6 @@
       "RendererFactory2",
       "RendererStyleFlags2",
       "RequiredValidator",
-      "ResourceParamsStatus",
       "RetrievingInjector",
       "RootComponent",
       "RuntimeError",
@@ -371,7 +371,6 @@
       "allLeavingAnimations",
       "allocExpando",
       "allocLFrame",
-      "angularZoneInstanceIdProperty",
       "appendChild",
       "applyContainer",
       "applyForeignNodes",
@@ -859,7 +858,6 @@
       "nextNgElementId",
       "nextNotification",
       "ngOnChangesSetInput",
-      "ngZoneInstanceId",
       "noSideEffects",
       "nodeAnimationRuntime",
       "noop",

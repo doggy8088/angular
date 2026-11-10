@@ -20,6 +20,8 @@ pub struct ResolvedTsConfig {
     pub implicit_standalone: bool,
     pub emit_declaration_only: bool,
     pub experimental_local_compilation: bool,
+    /// `angularCompilerOptions._isAngularCoreCompilation`, or `None` when unset.
+    pub is_angular_core_compilation: Option<bool>,
     pub merged_compiler_options: serde_json::Map<String, serde_json::Value>,
 }
 
@@ -84,10 +86,10 @@ pub fn load_and_resolve_tsconfig(
     let allow_js = resolved_compiler_options.allow_js.unwrap_or(false);
 
     if !resolved_include.is_empty() {
-        let mut expanded: Vec<PathBuf> =
-            expand_globs(base_dir, &resolved_include, &resolved_exclude, allow_js, fs)
-                .into_iter()
-                .collect();
+        let mut expanded: Vec<PathBuf> = tracing::info_span!("ExpandGlobs")
+            .in_scope(|| expand_globs(base_dir, &resolved_include, &resolved_exclude, allow_js, fs))
+            .into_iter()
+            .collect();
         expanded.sort();
         for f in expanded {
             if seen_files.insert(f.clone()) {
@@ -158,6 +160,9 @@ pub fn load_and_resolve_tsconfig(
         .and_then(|v| v.as_str())
         .map(|mode| mode == "experimental-local" || mode == "local")
         .unwrap_or(false);
+    let is_angular_core_compilation = merged_compiler_options
+        .get("_isAngularCoreCompilation")
+        .and_then(|v| v.as_bool());
 
     Ok(ResolvedTsConfig {
         files,
@@ -174,6 +179,7 @@ pub fn load_and_resolve_tsconfig(
         implicit_standalone,
         emit_declaration_only,
         experimental_local_compilation,
+        is_angular_core_compilation,
         merged_compiler_options,
     })
 }
@@ -438,6 +444,7 @@ fn resolve_extended_options_recursive(
             .join(path)
     };
 
+    crate::perf::count(crate::perf::Counter::FsCanonicalizeCalls, 1);
     let canonical = abs_path.canonicalize().unwrap_or_else(|_| abs_path.clone());
     if !visited.insert(canonical.clone()) {
         return Err(format!(
@@ -1202,6 +1209,34 @@ mod tests {
         assert_eq!(config.compiler_options.allow_js, Some(true));
     }
 
+    /// `_isAngularCoreCompilation` keeps "unset" apart from `false`: only an unset flag falls back
+    /// to detecting `@angular/core` from its `r3_symbols.ts`.
+    #[test]
+    fn test_is_angular_core_compilation_is_inherited() {
+        let fs = crate::fs::OverlayFileSystem::new_with_overlay();
+        fs.upsert_file(
+            PathBuf::from("/virtual/base.json"),
+            r#"{"angularCompilerOptions": {"_isAngularCoreCompilation": true}}"#.to_string(),
+        );
+        for (tsconfig, expected) in [
+            (r#"{"extends": "./base.json", "files": []}"#, Some(true)),
+            (
+                r#"{"extends": "./base.json", "angularCompilerOptions": {"_isAngularCoreCompilation": false}, "files": []}"#,
+                Some(false),
+            ),
+            (
+                r#"{"bazelOptions": {"angularCompilerOptions": {"_isAngularCoreCompilation": true}}, "files": []}"#,
+                Some(true),
+            ),
+            (r#"{"files": []}"#, None),
+        ] {
+            fs.upsert_file(PathBuf::from("/virtual/tsconfig.json"), tsconfig.to_string());
+            let config =
+                load_and_resolve_tsconfig(Path::new("/virtual/tsconfig.json"), &fs).unwrap();
+            assert_eq!(config.is_angular_core_compilation, expected, "{tsconfig}");
+        }
+    }
+
     #[test]
     fn test_expand_globs_virtual() {
         let fs = crate::fs::OverlayFileSystem::new_with_overlay();
@@ -1829,10 +1864,7 @@ mod tests {
         // bazelOptions.rootDirs is a tsc_wrapped setting, so compilerOptions.rootDirs wins and
         // resolves relative to the base config's directory.
         let expected_root = PathBuf::from("/virtual/base/base_co");
-        assert_eq!(
-            config.compiler_options.root_dirs,
-            Some(vec![expected_root])
-        );
+        assert_eq!(config.compiler_options.root_dirs, Some(vec![expected_root]));
         assert_eq!(
             config.merged_compiler_options.get("rootDirs"),
             Some(&serde_json::json!(["/virtual/base/base_co"]))
@@ -1869,11 +1901,9 @@ mod tests {
             .to_string(),
         );
 
-        let config = load_and_resolve_tsconfig(
-            Path::new("/VirtualWorkspace/MyProject/tsconfig.json"),
-            &fs,
-        )
-        .unwrap();
+        let config =
+            load_and_resolve_tsconfig(Path::new("/VirtualWorkspace/MyProject/tsconfig.json"), &fs)
+                .unwrap();
 
         assert_eq!(
             config.merged_compiler_options.get("rootDirs"),
@@ -1936,10 +1966,25 @@ mod tests {
         let config = load_and_resolve_tsconfig(Path::new("/virtual/tsconfig.json"), &fs).unwrap();
         let merged = &config.merged_compiler_options;
 
-        assert_eq!(merged.get("rootDirs"), Some(&serde_json::json!(["/virtual/co"])));
-        assert_eq!(merged.get("noResolve"), Some(&serde_json::Value::Bool(false)));
-        for key in ["preserveSymlinks", "emitDeclarationOnly", "typeCheck", "googmodule"] {
-            assert_eq!(merged.get(key), None, "bazelOptions.{key} leaked into the merged options");
+        assert_eq!(
+            merged.get("rootDirs"),
+            Some(&serde_json::json!(["/virtual/co"]))
+        );
+        assert_eq!(
+            merged.get("noResolve"),
+            Some(&serde_json::Value::Bool(false))
+        );
+        for key in [
+            "preserveSymlinks",
+            "emitDeclarationOnly",
+            "typeCheck",
+            "googmodule",
+        ] {
+            assert_eq!(
+                merged.get(key),
+                None,
+                "bazelOptions.{key} leaked into the merged options"
+            );
         }
         assert!(!config.preserve_symlinks);
         assert!(!config.emit_declaration_only);
@@ -2035,7 +2080,9 @@ mod tests {
 
         assert!(!config.generate_extra_imports_in_local_mode);
         assert_eq!(
-            config.merged_compiler_options.get("annotateForClosureCompiler"),
+            config
+                .merged_compiler_options
+                .get("annotateForClosureCompiler"),
             Some(&serde_json::Value::Bool(false))
         );
         // Values the child doesn't set come from the base.
@@ -2054,8 +2101,14 @@ mod tests {
             PathBuf::from("/virtual/child.json"),
             r#"{"extends": "./base.json"}"#.to_string(),
         );
-        fs.upsert_file(PathBuf::from("/virtual/src/a.ts"), "export const a = 1;".to_string());
-        fs.upsert_file(PathBuf::from("/virtual/other/b.ts"), "export const b = 1;".to_string());
+        fs.upsert_file(
+            PathBuf::from("/virtual/src/a.ts"),
+            "export const a = 1;".to_string(),
+        );
+        fs.upsert_file(
+            PathBuf::from("/virtual/other/b.ts"),
+            "export const b = 1;".to_string(),
+        );
 
         let config = load_and_resolve_tsconfig(Path::new("/virtual/child.json"), &fs).unwrap();
         assert_eq!(config.files, vec![PathBuf::from("/virtual/src/a.ts")]);

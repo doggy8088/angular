@@ -228,6 +228,21 @@ bootstrapApplication(App, {
 
 許多第三方指令碼（例如廣告追蹤與分析工具）會在水合發生前修改 DOM。這些指令碼可能造成水合錯誤，因為頁面不再符合 Angular 預期的結構。請儘量將這類指令碼延後到水合完成後再執行。可以考慮使用 [`AfterNextRender`](api/core/afterNextRender)，將指令碼延後到水合後程序完成才執行。
 
+### CDN 與瀏覽器擴充功能 {#cdns-and-browser-extensions}
+
+應用程式以外的程式碼可能會在水合開始前變更來自伺服器的 HTML。這類錯誤在你的電腦上往往看不見，因為它們不會發生在你的本機伺服器上。
+
+**會變更 HTML 的 CDN**。有些 CDN 功能會在 HTML 傳往瀏覽器的途中變更它。例如，有些功能會移除註解節點與空白，但水合需要這些節點。另一個例子是 Cloudflare 預設開啟的 Email Address Obfuscation（電子郵件地址混淆）功能，這項功能會把電子郵件地址改成像 `<span class="__cf_email__" data-cfemail="...">` 這樣的元素。它也會變更 `mailto:` 連結，並加入一個指令碼把內容改回來。如果這個指令碼在水合開始前沒有執行，Angular 會在預期是文字的地方找到一個元素。你的本機伺服器沒有使用 CDN，所以應用程式在你的電腦上可以正常運作，只在生產環境中失敗。
+
+**瀏覽器擴充功能**。有些瀏覽器擴充功能會在水合開始前變更頁面，例如一鍵撥號工具、翻譯工具與密碼管理員。你無法控制這些擴充功能。只有安裝了它們的使用者會遇到問題，因此你可能只會看到部分使用者的錯誤。
+
+要修正這類錯誤：
+
+- 在被變更內容周圍的元件宿主上加入 `ngSkipHydration`。在你撰寫該內容的範本中加入，例如：`<app-contact ngSkipHydration><a href="tel:...">...</a></app-contact>`。Angular 接著會在瀏覽器中重新算繪這段內容，藉此移除那些變更。這個屬性只能用在元件宿主元素上，所以你不能把它加到 `<a>` 元素上。更多資訊請見[如何為特定元件略過水合](#how-to-skip-hydration-for-particular-components)。
+- 關閉應用程式的 CDN 功能。在 Cloudflare 中，於安全性設定關閉 [Email Address Obfuscation](https://developers.cloudflare.com/waf/tools/scrape-shield/email-address-obfuscation/)，或使用 [Configuration Rule](https://developers.cloudflare.com/rules/configuration-rules/settings/)，針對應用程式的 host 停用它。
+
+NOTE: Cloudflare 的 `<!--email_off-->` 註解在 Angular 範本中沒有幫助，因為編譯器會從範本中移除註解。
+
 ## 漸進式水合
 
 漸進式水合是水合的進階形式，能更細緻地控制水合發生的時機。詳情請見[漸進式水合指南](guide/incremental-hydration)。

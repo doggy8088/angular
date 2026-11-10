@@ -22,7 +22,7 @@
 1. 開發一個動態建立表單控制項的元件。
 
 你建立的表單使用輸入驗證與樣式來改善使用者體驗。
-它有一個 Submit 按鈕，只有在所有使用者輸入都有效時才會啟用，並以顏色標示與錯誤訊息標記無效的輸入。
+它有一個 Save 按鈕，只有在所有使用者輸入都有效時才會啟用，並以顏色標示與錯誤訊息標記無效的輸入。
 
 這個基本版本可以逐步演進，支援更豐富多樣的問題、更優雅的算繪，以及更好的使用者體驗。
 
@@ -65,7 +65,7 @@
 ### 組合表單群組
 
 動態表單使用服務，依表單模型建立分組的輸入控制項集合。
-下列 `QuestionControlService` 收集一組 `FormGroup` 執行個體，它們會取用問題模型中的中繼資料。
+下列 `QuestionControlService` 會根據問題模型中的中繼資料，建立一個由 `FormControl` 執行個體組成的 `FormGroup`。
 你可以指定預設值與驗證規則。
 
 <docs-code header="question-control.service.ts" path="adev/src/content/examples/dynamic-form/src/app/question-control.service.ts"/>
@@ -77,7 +77,7 @@
 
 `DynamicFormQuestionComponent` 負責依資料繫結的問題物件中的值，算繪個別問題的詳細內容。
 表單仰賴 [`[formGroup]` 指令](api/forms/FormGroupDirective 'API reference') 把範本 HTML 連接到底層的控制項物件。
-`DynamicFormQuestionComponent` 會建立表單群組，並以問題模型中定義的控制項填入，同時指定顯示與驗證規則。
+`DynamicFormQuestionComponent` 會接收由 `QuestionControlService` 建立的表單群組，並為其問題算繪控制項，依據該處設定的規則顯示驗證狀態。
 
 <docs-code-multifile>
   <docs-code header="dynamic-form-question.component.html" path="adev/src/content/examples/dynamic-form/src/app/dynamic-form-question.component.html"/>
