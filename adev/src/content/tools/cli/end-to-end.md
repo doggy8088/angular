@@ -1,10 +1,10 @@
-# End to End Testing
+# 端到端測試
 
-End-to-end or (E2E) testing is a form of testing used to assert your entire application works as expected from start to finish or _"end-to-end"_. E2E testing differs from unit testing in that it is completely decoupled from the underlying implementation details of your code. It is typically used to validate an application in a way that mimics the way a user would interact with it. This page serves as a guide to getting started with end-to-end testing in Angular using the Angular CLI.
+端到端（E2E）測試是一種測試形式，用來驗證整個應用程式從頭到尾、也就是「端到端」是否如預期運作。E2E 測試與單元測試不同，它完全不依賴程式碼底層的實作細節，通常用來以模擬使用者實際操作的方式驗證應用程式。本頁是使用 Angular CLI 在 Angular 中開始進行端到端測試的指南。
 
-## Setup E2E Testing
+## 設定 E2E 測試
 
-The Angular CLI downloads and installs everything you need to run end-to-end tests for your Angular application.
+Angular CLI 會下載並安裝執行 Angular 應用程式端到端測試所需的一切。
 
 <docs-code language="shell">
 
@@ -12,7 +12,7 @@ ng e2e
 
 </docs-code>
 
-The `ng e2e` command will first check your project for the "e2e" target. If it can't locate it, the CLI will then prompt you which e2e package you would like to use and walk you through the setup.
+`ng e2e` 指令會先在你的專案中尋找 "e2e" 目標。若找不到，CLI 會接著詢問你想使用哪個 e2e 套件，並引導你完成設定。
 
 <docs-code language="shell">
 
@@ -34,11 +34,11 @@ Puppeteer
 
 </docs-code>
 
-If you don't find the test runner you would like you use from the list above, you can add manually add a package using `ng add`.
+若你在上表中找不到想使用的測試執行器，可以用 `ng add` 手動新增套件。
 
-## Running E2E Tests
+## 執行 E2E 測試
 
-Now that your application is configured for end-to-end testing we can now run the same command to execute your tests.
+應用程式設定好端到端測試後，現在就可以執行同一個指令來跑測試。
 
 <docs-code language="shell">
 
@@ -46,13 +46,13 @@ ng e2e
 
 </docs-code>
 
-Note, their isn't anything "special" about running your tests with any of the integrated e2e packages. The `ng e2e` command is really just running the `e2e` builder under the hood. You can always [create your own custom builder](tools/cli/cli-builder#creating-a-builder) named `e2e` and run it using `ng e2e`.
+請注意，用任何整合的 e2e 套件執行測試都沒有什麼「特殊」之處。`ng e2e` 指令實際上只是在底層執行 `e2e` 建置器。你隨時可以[建立自己的自訂建置器](tools/cli/cli-builder#creating-a-builder)，將其命名為 `e2e`，再用 `ng e2e` 執行它。
 
-## More information on end-to-end testing tools
+## 更多端到端測試工具資訊
 
-| Testing Tool | Details                                                                                                              |
-| :----------- | :------------------------------------------------------------------------------------------------------------------- |
-| Cypress      | [Getting started with Cypress](https://docs.cypress.io/guides/end-to-end-testing/writing-your-first-end-to-end-test) |
-| Nightwatch   | [Getting started with Nightwatch](https://nightwatchjs.org/guide/writing-tests/introduction.html)                    |
-| WebdriverIO  | [Getting started with Webdriver.io](https://webdriver.io/docs/gettingstarted)                                        |
-| Puppeteer    | [Getting started with Puppeteer](https://pptr.dev)                                                                   |
+| 測試工具    | 詳細資訊                                                                                                     |
+| :---------- | :------------------------------------------------------------------------------------------------------------------- |
+| Cypress     | [Cypress 入門](https://docs.cypress.io/guides/end-to-end-testing/writing-your-first-end-to-end-test) |
+| Nightwatch  | [Nightwatch 入門](https://nightwatchjs.org/guide/writing-tests/introduction.html)                    |
+| WebdriverIO | [Webdriver.io 入門](https://webdriver.io/docs/gettingstarted)                                        |
+| Puppeteer   | [Puppeteer 入門](https://pptr.dev)                                                                   |

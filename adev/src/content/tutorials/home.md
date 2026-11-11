@@ -1,12 +1,12 @@
-# Tutorials
+# 教學
 
-Welcome to the Angular tutorials! These tutorials will guide you through the core concepts of the framework, and get you started building performant, scalable apps.
+歡迎來到 Angular 教學！這些教學會帶你了解這個框架的核心概念，幫助你開始建置高效能、可擴充的應用程式。
 
 <docs-card-container>
-  <docs-card title="Learn Angular in your browser" link="Start coding" href="tutorials/learn-angular" imgSrc="adev/src/assets/images/learn-angular-browser.svg">
-    via the Playground
+  <docs-card title="在瀏覽器中學 Angular" link="開始寫程式" href="tutorials/learn-angular" imgSrc="adev/src/assets/images/learn-angular-browser.svg">
+    透過 Playground
   </docs-card>
-  <docs-card title="Build your first Angular app locally" link="Start coding" href="tutorials/first-app" imgSrc="adev/src/assets/images/learn-angular-local.svg">
-    via npm
+  <docs-card title="在本機建置你的第一個 Angular 應用程式" link="開始寫程式" href="tutorials/first-app" imgSrc="adev/src/assets/images/learn-angular-local.svg">
+    透過 npm
   </docs-card>
 </docs-card-container>

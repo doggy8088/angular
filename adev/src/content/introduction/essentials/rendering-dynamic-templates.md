@@ -1,14 +1,14 @@
-<docs-decorative-header title="Rendering Dynamic Templates" imgSrc="adev/src/assets/images/templates.svg"> <!-- markdownlint-disable-line -->
-Use Angular's template syntax to create dynamic HTML.
+<docs-decorative-header title="算繪動態範本" imgSrc="adev/src/assets/images/templates.svg"> <!-- markdownlint-disable-line -->
+使用 Angular 的範本語法，建立動態 HTML。
 </docs-decorative-header>
 
-What you've learned so far enables you to break an application up into components of HTML, but this limits you to static templates (i.e., content that doesn't change). The next step is to learn how to make use of Angular's template syntax to create dynamic HTML.
+到目前為止你學到的內容，讓你能把應用程式拆解成由 HTML 組成的元件，但這會讓你受限於靜態範本（也就是不會變動的內容）。下一步，是學習如何運用 Angular 的範本語法來建立動態 HTML。
 
-## Rendering Dynamic Data
+## 算繪動態資料 {#rendering-dynamic-data}
 
-When you need to display dynamic content in your template, Angular uses the double curly brace syntax in order to distinguish between static and dynamic content.
+當你需要在範本中顯示動態內容時，Angular 使用雙大括號語法來區分靜態與動態內容。
 
-Here is a simplified example from a `TodoListItem` component.
+以下是一個取自 `TodoListItem` 元件的簡化範例。
 
 ```ts
 @Component({
@@ -22,21 +22,21 @@ export class TodoListItem {
 }
 ```
 
-When Angular renders the component you'll see the output:
+當 Angular 算繪這個元件時，你會看到以下輸出：
 
 ```html
 <p>Title: Read cup of coffee</p>
 ```
 
-This syntax declares an **interpolation** between the dynamic data property inside of the HTML. As a result, whenever the data changes, Angular will automatically update the DOM reflecting the new value of the property.
+這種語法在 HTML 內的動態資料屬性之間宣告了一個**插值**。因此，每當資料變更時，Angular 就會自動更新 DOM，以反映屬性的新值。
 
-## Dynamic Properties
+## 動態屬性 {#dynamic-properties}
 
-When you need to dynamically set the value of standard DOM properties on an HTML element, the property is wrapped in square brackets to inform Angular that the declared value should be interpreted as a JavaScript-like statement ([with some Angular enhancements](guide/templates/interpolation)) instead of a plain string.
+當你需要動態設定 HTML 元素上標準 DOM 屬性的值時，要把屬性包在方括號中，讓 Angular 知道所宣告的值應該被解讀為類似 JavaScript 的陳述式（[並帶有一些 Angular 的增強](guide/templates/interpolation)），而不是純字串。
 
-For example, a common example of dynamically updating properties in your HTML is determining whether the form submit button should be disabled based on whether the form is valid or not.
+舉例來說，在 HTML 中動態更新屬性的一個常見例子，就是依表單是否有效，來決定表單的送出按鈕是否應該停用。
 
-Wrap the desired property in square brackets to tell Angular that the assigned value is dynamic (i.e., not a static string).
+把想要設定的屬性包在方括號中，告訴 Angular 所指派的值是動態的（也就是說，不是靜態字串）。
 
 ```ts
 @Component({
@@ -50,15 +50,15 @@ export class SignUpForm {
 }
 ```
 
-In this example, because `formIsInvalid` is true, the rendered HTML would be:
+在這個範例中，由於 `formIsInvalid` 為 true，算繪出的 HTML 會是：
 
 ```html
 <button type="submit" disabled>Submit</button>
 ```
 
-## Dynamic Attributes
+## 動態屬性值 {#dynamic-attributes}
 
-In the event you want to dynamically bind custom HTML attributes (e.g., `aria-`, `data-`, etc.), you might be inclined to wrap the custom attributes with the same square brackets.
+如果你想要動態繫結自訂的 HTML 屬性值（例如 `aria-`、`data-` 等），你可能會想用同樣的方括號把自訂屬性值包起來。
 
 ```ts
 @Component({
@@ -72,7 +72,7 @@ export class AppBanner {
 }
 ```
 
-Unfortunately, this will not work because custom HTML attributes are not standard DOM properties. In order for this to work as intended, we need to prepend the custom HTML attribute with the `attr.` prefix.
+可惜的是，這樣做行不通，因為自訂 HTML 屬性值並不是標準的 DOM 屬性。若要讓它按預期運作，我們需要在自訂 HTML 屬性值前面加上 `attr.` 前置詞。
 
 ```ts
 @Component({
@@ -86,10 +86,10 @@ export class AppBanner {
 }
 ```
 
-## Next Step
+## 下一步 {#next-step}
 
-Now that you have dynamic data and templates in the application, it's time to learn how to enhance templates by conditionally hiding or showing certain elements, looping over elements, and more.
+現在你的應用程式已經有了動態資料與範本，接著來學習如何強化範本：有條件地隱藏或顯示某些元素、逐一處理多個元素等等。
 
 <docs-pill-row>
-  <docs-pill title="Conditionals and Loops" href="essentials/conditionals-and-loops" />
+  <docs-pill title="條件與迴圈" href="essentials/conditionals-and-loops" />
 </docs-pill-row>

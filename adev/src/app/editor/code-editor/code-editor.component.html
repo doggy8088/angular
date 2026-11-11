@@ -14,7 +14,7 @@
           @if (tab.isActive && canDeleteFile(file.filename)) {
           <button
             class="docs-delete-file"
-            aria-label="Delete file"
+            aria-label="刪除檔案"
             (click)="deleteFile(file.filename)"
           >
             <docs-icon>delete</docs-icon>
@@ -38,7 +38,7 @@
       }
     </mat-tab-group>
 
-    <button class="adev-add-file" (click)="onAddButtonClick()" aria-label="Add a new file">
+    <button class="adev-add-file" (click)="onAddButtonClick()" aria-label="新增檔案">
       <docs-icon>add</docs-icon>
     </button>
   </div>
@@ -47,7 +47,7 @@
     class="adev-editor-download-button"
     type="button"
     (click)="downloadCurrentCodeEditorState()"
-    aria-label="Download current code in editor"
+    aria-label="下載編輯器目前的程式碼"
   >
     <docs-icon>download</docs-icon>
   </button>
@@ -62,7 +62,7 @@
   </button>
   <ul>
     @for (error of errors(); track error) {
-    <li>(line: {{ error.lineNumber }}:{{ error.characterPosition }}) {{ error.message }}</li>
+    <li>（第 {{ error.lineNumber }} 行，第 {{ error.characterPosition }} 字元）{{ error.message }}</li>
     }
   </ul>
 </div>

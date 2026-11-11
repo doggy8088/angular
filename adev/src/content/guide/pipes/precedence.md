@@ -1,28 +1,28 @@
-# Pipe precedence in template expressions
+# 範本運算式中管道的優先順序
 
-Sometimes you want to choose between two values, based on some condition, before passing the choice to the pipe.
-You could use the JavaScript ternary operator (`?:`) in the template to make that choice.
+有時候，你想先根據某個條件在兩個值之間做選擇，再把選擇結果傳給管道。
+你可以在範本中使用 JavaScript 三元運算子（`?:`）來做這個選擇。
 
-Beware! The pipe operator has a higher precedence than the JavaScript ternary operator (`?:`).
+注意！管道運算子的優先順序高於 JavaScript 三元運算子（`?:`）。
 
-If you simply write the expression as if it were evaluated left-to-right, you might be surprised by the result. For example,
+如果你只是把運算式寫成由左至右求值的樣子，結果可能會出乎你的意料。例如，
 
 ```ts
 condition ? a : b | pipe
 ```
 
-is parsed as
+會被解析為
 
 ```ts
 condition ? a : (b | pipe)
 ```
 
-The value of `b` passes through `pipe`; the value of `a` *will not*.
+`b` 的值會經過 `pipe`；`a` 的值*不會*。
 
-If you want the pipe to apply to the result of the ternary expression, wrap the entire expression in parentheses. For example,
+如果你想讓管道套用到三元運算式的結果，請把整個運算式包在括號中。例如，
 
 ```ts
 (condition ? a : b) | pipe
 ```
 
-In general, you should always use parentheses to be sure Angular evaluates the expression as you intend.
+一般來說，你應該一律使用括號，確保 Angular 會依照你的意圖對運算式求值。

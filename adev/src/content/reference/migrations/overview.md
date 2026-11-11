@@ -1,24 +1,24 @@
-# Migrations
+# 遷移
 
-Learn about how you can migrate your existing angular project to the latest features incrementally.
+了解如何把你現有的 Angular 專案，漸進式地遷移到最新功能。
 
 <docs-card-container>
-  <docs-card title="Standalone" link="Migrate now" href="reference/migrations/standalone">
-    Standalone components provide a simplified way to build Angular applications. Standalone components specify their dependencies directly instead of getting them through NgModules.
+  <docs-card title="獨立元件" link="立即遷移" href="reference/migrations/standalone">
+    獨立元件提供了一種更簡化的方式來建立 Angular 應用程式。獨立元件直接指定自己的依賴，而不是透過 NgModules 取得。
     
-    Standalone components, directives, and pipes aim to streamline the authoring experience by reducing the need for NgModules.
+    獨立元件、指令與管道旨在減少對 NgModules 的需求，簡化撰寫體驗。
   </docs-card>
-  <docs-card title="`ModuleWithProviders`" link="Migrate now" href="reference/migrations/module-with-providers">
-    ModuleWithProviders has been optional since Angular version 7. But with Ivy the metadata present in metadata.json is no longer required, instead Ivy relies on the generic type for ModuleWithProviders to get the correct type information. 
+  <docs-card title="`ModuleWithProviders`" link="立即遷移" href="reference/migrations/module-with-providers">
+    ModuleWithProviders 自 Angular 第 7 版起即為可選。但有了 Ivy，metadata.json 中的中繼資料不再是必需的，Ivy 改為依賴 ModuleWithProviders 的泛型型別來取得正確的型別資訊。 
    
-    Angular version 9 deprecates ModuleWithProviders without a generic type. A future version of Angular will remove the default generic type, making an explicit type required.
+    Angular 第 9 版棄用未帶泛型型別的 ModuleWithProviders。未來版本將移除預設的泛型型別，使明確指定型別成為必要。
   </docs-card>
-  <docs-card title="Typed Forms" link="Migrate now" href="reference/migrations/typed-forms">
-    In previous Angular versions, most of the Form APIs included `any` somewhere in their types, and interacting with the structure of the controls, or the values themselves, was not type-safe.
+  <docs-card title="型別化表單" link="立即遷移" href="reference/migrations/typed-forms">
+    在先前的 Angular 版本中，大多數表單 API 的型別中都包含 `any`，與控制項的結構或值本身的互動並不具備型別安全性。
 
-    Strictly typed reactive forms add type safety and the types enable a variety of other improvements, such as better autocomplete in IDEs, and an explicit way to specify form structure.
+    嚴格型別化的反應式表單加入了型別安全性，這些型別也帶來了各種其他改進，例如 IDE 中更好的自動完成，以及明確指定表單結構的方式。
   </docs-card>
-    <docs-card title="Control Flow Syntax" link="Migrate now" href="reference/migrations/control-flow">
-    Control Flow Syntax is available with Angular 17 release and allows you to use more ergonomic syntax which is close to javascript, better type checking and lazy load part of the component. It replaces the need to imports CommonModule to use functionalities like *ngFor,`*ngIf. 
+    <docs-card title="控制流程語法" link="立即遷移" href="reference/migrations/control-flow">
+    控制流程語法隨 Angular 17 發布提供，讓你能使用更符合人體工學、接近 JavaScript 的語法，具備更好的型別檢查，並能延遲載入元件的一部分。它取代了匯入 CommonModule 來使用 *ngFor、`*ngIf 等功能的需求。 
   </docs-card>
 </docs-card-container>

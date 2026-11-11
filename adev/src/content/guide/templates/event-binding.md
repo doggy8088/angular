@@ -1,83 +1,83 @@
-# Event binding
+# 事件繫結 {#event-binding}
 
-Event binding lets you listen for and respond to user actions such as keystrokes, mouse movements, clicks, and touches.
+事件繫結讓你可以監聽並回應使用者操作，例如按鍵、滑鼠移動、點選和觸控。
 
-## Binding to events
+## 繫結到事件 {#binding-to-events}
 
-HELPFUL: For information on binding to properties, see [Property binding](guide/templates/property-binding).
+HELPFUL: 如需繫結到屬性的資訊，請參閱[屬性繫結](guide/templates/property-binding)。
 
-To bind to an event you use the Angular event binding syntax.
-This syntax consists of a target event name within parentheses to the left of an equal sign, and a quoted template statement to the right.
+要繫結到事件，你要使用 Angular 事件繫結語法。
+這個語法由等號左邊括號內的目標事件名稱，以及右邊引號括起來的範本陳述式組成。
 
-Create the following example; the target event name is `click` and the template statement is `onSave()`.
+建立下列範例；目標事件名稱是 `click`，範本陳述式是 `onSave()`。
 
 <docs-code language="html" header="Event binding syntax">
 <button (click)="onSave()">Save</button>
 </docs-code>
 
-The event binding listens for the button's click events and calls the component's `onSave()` method whenever a click occurs.
+事件繫結會監聽按鈕的 click 事件，並在每次發生點選時呼叫元件的 `onSave()` 方法。
 
 <img src='assets/images/guide/template-syntax/syntax-diagram.svg' alt="Syntax diagram">
 
-### Determining an event target
+### 決定事件目標 {#determining-an-event-target}
 
-To determine an event target, Angular checks if the name of the target event matches an event property of a known directive.
+要決定事件目標，Angular 會檢查目標事件的名稱，是否符合已知指令的事件屬性。
 
-Create the following example: (Angular checks to see if `myClick` is an event on the custom `ClickDirective`)
+建立下列範例：（Angular 會檢查 `myClick` 是否為自訂 `ClickDirective` 上的事件）
 
 <docs-code path="adev/src/content/examples/event-binding/src/app/app.component.html" visibleRegion="custom-directive" header="src/app/app.component.html"/>
 
-If the target event name, `myClick` fails to match an output property of `ClickDirective`, Angular will instead bind to the `myClick` event on the underlying DOM element.
+如果目標事件名稱 `myClick` 不符合 `ClickDirective` 的輸出屬性，Angular 會改為繫結到底層 DOM 元素上的 `myClick` 事件。
 
-## Binding to keyboard events
+## 繫結到鍵盤事件 {#binding-to-keyboard-events}
 
-You can bind to keyboard events using Angular's binding syntax. You can specify the key or code that you would like to bind to keyboard events. The `key` and `code` fields are a native part of the browser keyboard event object. By default, event binding assumes you want to use the `key` field on the keyboard event. You can also use the `code` field.
+你可以使用 Angular 的繫結語法繫結到鍵盤事件。你可以指定想繫結到鍵盤事件的按鍵（key）或代碼（code）。`key` 與 `code` 欄位是瀏覽器鍵盤事件物件的原生部分。依預設，事件繫結假設你想使用鍵盤事件的 `key` 欄位。你也可以使用 `code` 欄位。
 
-Combinations of keys can be separated by a `.` (period). For example, `keydown.enter` will allow you to bind events to the `enter` key. You can also use modifier keys, such as `shift`, `alt`, `control`, and the `command` keys from Mac. The following example shows how to bind a keyboard event to `keydown.shift.t`.
+按鍵組合可以用 `.`（句點）分隔。例如，`keydown.enter` 讓你可以將事件繫結到 `enter` 鍵。你也可以使用修飾鍵，例如 `shift`、`alt`、`control`，以及 Mac 的 `command` 鍵。下列範例示範如何將鍵盤事件繫結到 `keydown.shift.t`。
 
    ```html
    <input (keydown.shift.t)="onKeydown($event)" />
    ```
 
-Depending on the operating system, some key combinations might create special characters instead of the key combination that you expect. MacOS, for example, creates special characters when you use the option and shift keys together. If you bind to `keydown.shift.alt.t`, on macOS, that combination produces a `ˇ` character instead of a `t`, which doesn't match the binding and won't trigger your event handler. To bind to `keydown.shift.alt.t` on macOS, use the `code` keyboard event field to get the correct behavior, such as `keydown.code.shiftleft.altleft.keyt` shown in this example.
+視作業系統而定，某些按鍵組合可能會產生特殊字元，而不是你預期的按鍵組合。例如，在 macOS 上同時使用 option 與 shift 鍵時，會產生特殊字元。如果你繫結到 `keydown.shift.alt.t`，在 macOS 上這個組合會產生 `ˇ` 字元而不是 `t`，不符合繫結，因此不會觸發你的事件處理常式。要在 macOS 上繫結到 `keydown.shift.alt.t`，請使用 `code` 鍵盤事件欄位來取得正確的行為，例如這個範例所示的 `keydown.code.shiftleft.altleft.keyt`。
 
    ```html
    <input (keydown.code.shiftleft.altleft.keyt)="onKeydown($event)" />
    ```
 
-The `code` field is more specific than the `key` field. The `key` field always reports `shift`, whereas the `code` field will specify `leftshift` or `rightshift`. When using the `code` field, you might need to add separate bindings to catch all the behaviors you want. Using the `code` field avoids the need to handle OS specific behaviors such as the `shift + option` behavior on macOS.
+`code` 欄位比 `key` 欄位更精確。`key` 欄位永遠只回報 `shift`，而 `code` 欄位會指明 `leftshift` 或 `rightshift`。使用 `code` 欄位時，你可能需要加入個別的繫結，才能涵蓋所有你想要的行為。使用 `code` 欄位，可以避免處理作業系統特定的行為，例如 macOS 上的 `shift + option` 行為。
 
-For more information, visit the full reference for [key](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values) and [code](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values) to help build out your event strings.
+如需更多資訊，請造訪 [key](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values) 與 [code](https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values) 的完整參考，協助你建立事件字串。
 
-## Binding to passive events
+## 繫結到被動事件 {#binding-to-passive-events}
 
-Angular also supports [passive event](https://developer.chrome.com/en/docs/lighthouse/best-practices/uses-passive-event-listeners/) listeners.
+Angular 也支援[被動事件](https://developer.chrome.com/en/docs/lighthouse/best-practices/uses-passive-event-listeners/)監聽器。
 
-This is an advanced technique that is not necessary for most applications. You may find this useful if you need to optimize handling of frequently occurring events that are causing performance problems.
+這是一項進階技術，大多數應用程式並不需要。如果你需要最佳化處理頻繁發生且造成效能問題的事件，你可能會覺得它很有用。
 
-For example, use the following steps to make a scroll event passive.
+例如，使用下列步驟讓 scroll 事件變成被動。
 
-1. Create a file `zone-flags.ts` under `src` directory.
-2. Add the following line into this file.
+1. 在 `src` 目錄下建立一個檔案 `zone-flags.ts`。
+2. 在這個檔案中加入下列程式行。
 
    ```typescript
    (window as any)['__zone_symbol__PASSIVE_EVENTS'] = ['scroll'];
    ```
 
-3. In the `src/polyfills.ts` file, before importing zone.js, import the newly created `zone-flags`.
+3. 在 `src/polyfills.ts` 檔案中，在匯入 zone.js 之前，匯入剛建立的 `zone-flags`。
 
    ```typescript
    import './zone-flags';
    import 'zone.js';  // Included with Angular CLI.
    ```
 
-After those steps, if you add event listeners for the `scroll` event, the listeners will be `passive`.
+完成這些步驟後，如果你為 `scroll` 事件加入事件監聽器，這些監聽器就會是被動的（passive）。
 
-## What's next
+## 下一步 {#whats-next}
 
 <docs-pill-row>
-  <docs-pill href="guide/templates/event-binding" title="How event binding works"/>
-  <docs-pill href="guide/templates/property-binding" title="Property binding"/>
-  <docs-pill href="guide/templates/interpolation" title="Text interpolation"/>
-  <docs-pill href="guide/templates/two-way-binding" title="Two-way binding"/>
+  <docs-pill href="guide/templates/event-binding" title="事件繫結如何運作"/>
+  <docs-pill href="guide/templates/property-binding" title="屬性繫結"/>
+  <docs-pill href="guide/templates/interpolation" title="文字插值"/>
+  <docs-pill href="guide/templates/two-way-binding" title="雙向繫結"/>
 </docs-pill-row>

@@ -1,12 +1,10 @@
-# Model inputs
+# 模型輸入
 
-**Model inputs** are a special type of input that enable a component to propagate new values
-back to another component.
+**模型輸入**是輸入的一種特殊類型，讓元件能將新值傳播回另一個元件。
 
-HELPFUL: Model inputs are currently in [developer preview](/guide/releases#developer-preview).
+HELPFUL: 模型輸入目前處於[開發者預覽](/guide/releases#developer-preview)階段。
 
-When creating a component, you can define a model input similarly to how you create a standard
-input.
+建立元件時，你可以比照建立標準輸入的方式，定義模型輸入。
 
 ```typescript
 import {Component, model, input} from '@angular/core';
@@ -21,11 +19,9 @@ export class CustomCheckbox {
 }
 ```
 
-Both types of input allow someone to bind a value into the property. However, **model inputs allow
-the component author to write values into the property**.
+兩種類型的輸入都允許他人將值繫結到屬性中。不過，**模型輸入允許元件作者將值寫入屬性**。
 
-In other respects, you can use model inputs the same way you use standard inputs. You can read the
-value by calling the signal function, including in reactive contexts like `computed` and `effect`.
+在其他方面，模型輸入的運作方式與標準輸入類似。你可以呼叫訊號函式來讀取其值，包括在 `computed` 與 `effect` 這類反應式情境中。
 
 ```typescript
 import {Component, model, input} from '@angular/core';
@@ -45,13 +41,11 @@ export class CustomCheckbox {
 }
 ```
 
-When a component writes a new value into a model input, Angular can propagate the new value back
-to the component that is binding a value into that input. This is called **two-way binding** because
-values can flow in both directions.
+當元件將新值寫入模型輸入時，Angular 能將新值傳播回正在將值繫結到該輸入的元件。這稱為**雙向繫結**，因為值可以在兩個方向流動。
 
-## Two-way binding with signals
+## 以訊號進行雙向繫結 {#two-way-binding-with-signals}
 
-You can bind a writable signal to a model input.
+你可以將可寫訊號繫結到模型輸入。
 
 ```typescript
 @Component({
@@ -65,14 +59,11 @@ export class UserProfile {
 }
 ```
 
-In the above example, the `CustomCheckbox` can write values into its `checked` model input, which
-then propagates those values back to the `isAdmin` signal in `UserProfile`. This binding keeps that
-values of `checked` and `isAdmin` in sync. Notice that the binding passes the `isAdmin` signal
-itself, not the _value_ of the signal.
+在上面的範例中，`CustomCheckbox` 可以將值寫入它的 `checked` 模型輸入，這些值接著會傳播回 `UserProfile` 中的 `isAdmin` 訊號。這個繫結讓 `checked` 與 `isAdmin` 的值保持同步。請注意，這個繫結傳遞的是 `isAdmin` 訊號本身，而不是訊號的_值_。
 
-## Two-way binding with plain properties
+## 與純屬性進行雙向繫結 {#two-way-binding-with-plain-properties}
 
-You can bind a plain JavaScript property to a model input.
+你可以將純 JavaScript 屬性繫結到模型輸入。
 
 ```typescript
 @Component({
@@ -86,15 +77,11 @@ export class UserProfile {
 }
 ```
 
-In the example above, the `CustomCheckbox` can write values into its `checked` model input, which
-then propagates those values back to the `isAdmin` property in `UserProfile`. This binding keeps
-that values of `checked` and `isAdmin` in sync.
+在上面的範例中，`CustomCheckbox` 可以將值寫入它的 `checked` 模型輸入，這些值接著會傳播回 `UserProfile` 中的 `isAdmin` 屬性。這個繫結讓 `checked` 與 `isAdmin` 的值保持同步。
 
-## Implicit `change` events
+## 隱含的 `change` 事件 {#implicit-change-events}
 
-When you declare a model input in a component or directive, Angular automatically creates a
-corresponding [output](/guide/inputs-outputs) for that model. The output's name is the model
-input's name suffixed with "Change".
+當你在元件或指令中宣告模型輸入時，Angular 會自動為該模型建立對應的[輸出](/guide/inputs-outputs)。輸出的名稱是模型輸入的名稱加上「Change」後綴。
 
 ```typescript
 @Directive({...})
@@ -105,34 +92,24 @@ export class CustomCheckbox {
 }
 ```
 
-Angular emits this change event whenever you write a new value into the model input by calling
-its `set` or `update` methods.
+每當你透過呼叫模型輸入的 `set` 或 `update` 方法將新值寫入它時，Angular 就會發出這個變更事件。
 
-## Customizing model inputs
+## 自訂模型輸入 {#customizing-model-inputs}
 
-You can mark a model input as required or provide an alias in the same way as a
-[standard input](/guide/signal-inputs).
+你可以比照[標準輸入](/guide/signal-inputs)的方式，將模型輸入標記為必要，或為它提供別名。
 
-Model inputs do not support input transforms.
+模型輸入不支援輸入轉換。
 
-## Differences between `model()` and `input()`
+## `model()` 與 `input()` 的差異 {#differences-between-model-and-input}
 
-Both `input()` and `model()` functions are ways to define signal-based inputs in Angular, but they
-differ in a few ways:
-1. `model()` defines **both** an input and an output. The output's name is always the name of the
-input suffixed with `Change` to support two-way bindings. It will be up to the consumer of your
-directive to decide if they want to use just the input, just the output, or both.
-2. `ModelSignal` is a `WritableSignal` which means that its value can be changed from anywhere
-using the `set` and `update` methods. When a new value is assigned, the `ModelSignal` will emit
-to its output. This is different from `InputSignal` which is read-only and can only be changed
-through the template.
-3. Model inputs do not support input transforms while signal inputs do.
+`input()` 與 `model()` 函式都是在 Angular 中定義以訊號為基礎的輸入的方式，但兩者有幾點差異：
+1. `model()` 同時定義**輸入與輸出**。輸出的名稱永遠是輸入名稱加上 `Change` 後綴，以支援雙向繫結。要只使用輸入、只使用輸出，或兩者都用，由你的指令使用者自行決定。
+2. `ModelSignal` 是 `WritableSignal`，意思是它的值可以用 `set` 與 `update` 方法從任何地方變更。當新值被指派時，`ModelSignal` 會向其輸出發送。這與 `InputSignal` 不同，`InputSignal` 是唯讀的，只能透過範本變更。
+3. 模型輸入不支援輸入轉換，訊號輸入則支援。
 
-## When to use model inputs
+## 何時使用模型輸入 {#when-to-use-model-inputs}
 
-Use model inputs in components that exist to modify a value based on user interaction.
-Custom form controls, such as a date picker or combobox, should use model inputs for their
-primary value.
+在存在目的是依據使用者互動修改某個值的元件中，請使用模型輸入。
+自訂表單控制項，例如日期選擇器或 combobox，應該以模型輸入作為其主要值。
 
-Avoid using model inputs as a convenience to avoid introducing an additional class property for
-containing local state.
+請避免把模型輸入當成方便的捷徑，用來省去為存放本地狀態而新增類別屬性。

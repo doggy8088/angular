@@ -1,34 +1,34 @@
-# Introduction to Angular animations
+# Angular 動畫簡介
 
-Animation provides the illusion of motion: HTML elements change styling over time.
-Well-designed animations can make your application more fun and straightforward to use, but they aren't just cosmetic.
-Animations can improve your application and user experience in a number of ways:
+動畫能營造出運動的幻覺：HTML 元素的樣式會隨時間改變。
+設計良好的動畫能讓應用程式更有趣、更直覺易用，但它不只是裝飾。
+動畫能從多方面改善應用程式與使用者體驗：
 
-* Without animations, web page transitions can seem abrupt and jarring
-* Motion greatly enhances the user experience, so animations give users a chance to detect the application's response to their actions
-* Good animations intuitively call the user's attention to where it is needed
+* 沒有動畫時，網頁轉場容易顯得突兀生硬
+* 動態效果能大幅提升使用者體驗，讓使用者有機會察覺應用程式對其操作的回應
+* 良好的動畫能直覺地把使用者的注意力引導到需要的地方
 
-Typically, animations involve multiple style *transformations* over time.
-An HTML element can move, change color, grow or shrink, fade, or slide off the page.
-These changes can occur simultaneously or sequentially. You can control the timing of each transformation.
+通常，動畫涉及隨時間進行的多個樣式*轉換*。
+一個 HTML 元素可以移動、改變顏色、放大或縮小、淡入淡出，或滑出頁面。
+這些變化可以同時或依序發生。你可以控制每個轉換的時間。
 
-Angular's animation system is built on CSS functionality, which means you can animate any property that the browser considers animatable.
-This includes positions, sizes, transforms, colors, borders, and more.
-The W3C maintains a list of animatable properties on its [CSS Transitions](https://www.w3.org/TR/css-transitions-1) page.
+Angular 的動畫系統建構在 CSS 功能之上，也就是說，凡是瀏覽器視為可動畫化的屬性，你都能為它加入動畫。
+這包括位置、大小、transform、顏色、邊框等等。
+W3C 在其 [CSS Transitions](https://www.w3.org/TR/css-transitions-1) 頁面上維護了一份可動畫化屬性的清單。
 
-## About this guide
+## 關於本指南 {#about-this-guide}
 
-This guide covers the basic Angular animation features to get you started on adding Angular animations to your project.
+本指南涵蓋 Angular 動畫的基本功能，帶你開始把 Angular 動畫加到專案中。
 
-## Getting started
+## 開始使用
 
-The main Angular modules for animations are `@angular/animations` and `@angular/platform-browser`.
+動畫相關的主要 Angular 模組是 `@angular/animations` 與 `@angular/platform-browser`。
 
-To get started with adding Angular animations to your project, import the animation-specific modules along with standard Angular functionality.
+要開始把 Angular 動畫加到專案中，請連同標準 Angular 功能一起匯入動畫專用模組。
 
 <docs-workflow>
-<docs-step title="Enabling the animations module">
-Import `provideAnimationsAsync` from `@angular/platform-browser/animations/async` and add it to the providers list in the `bootstrapApplication` function call.
+<docs-step title="啟用動畫模組">
+從 `@angular/platform-browser/animations/async` 匯入 `provideAnimationsAsync`，並把它加入 `bootstrapApplication` 函式呼叫的 providers 清單中。
 
 <docs-code header="Enabling Animations" language="ts" linenums>
 bootstrapApplication(AppComponent, {
@@ -38,14 +38,14 @@ bootstrapApplication(AppComponent, {
 });
 </docs-code>
 
-<docs-callout important title="If you need immediate animations in your application">
-  If you need to have an animation happen immediately when your application is loaded,
-  you will want to switch to the eagerly loaded animations module. Import `provideAnimations`
-  from `@angular/platform-browser/animations` instead, and use `provideAnimations` **in place of**
-  `provideAnimationsAsync` in the `bootstrapApplication` function call.
+<docs-callout important title="若你的應用程式需要立即播放的動畫">
+  若你需要在應用程式載入時立即發生動畫，
+  你會想改用急切載入的動畫模組。改從 `@angular/platform-browser/animations` 匯入 `provideAnimations`，
+  並在 `bootstrapApplication` 函式呼叫中用 `provideAnimations` **取代**
+  `provideAnimationsAsync`。
 </docs-callout>
 
-For `NgModule` based applications import `BrowserAnimationsModule`, which introduces the animation capabilities into your Angular root application module.
+對於以 `NgModule` 為基礎的應用程式，請匯入 `BrowserAnimationsModule`，它會把動畫功能引入你的 Angular 根應用程式模組。
 
 <docs-code header="src/app/app.module.ts" path="adev/src/content/examples/animations/src/app/app.module.1.ts"/>
 </docs-step>
@@ -86,20 +86,20 @@ ng g component open-close
 
 </docs-code>
 
-This will create the component at `src/app/open-close.component.ts`.
+這會在 `src/app/open-close.component.ts` 建立該元件。
 
-### Animation state and styles
+### 動畫狀態與樣式
 
-Use Angular's [`state()`](api/animations/state) function to define different states to call at the end of each transition.
-This function takes two arguments:
-A unique name like `open` or `closed` and a `style()` function.
+使用 Angular 的 [`state()`](api/animations/state) 函式，定義要在每個轉場結束時呼叫的不同狀態。
+這個函式接受兩個參數：
+一個唯一的名稱（例如 `open` 或 `closed`）與一個 `style()` 函式。
 
-Use the `style()` function to define a set of styles to associate with a given state name.
-You must use *camelCase* for style attributes that contain dashes, such as `backgroundColor` or wrap them in quotes, such as `'background-color'`.
+使用 `style()` 函式定義一組要與指定狀態名稱關聯的樣式。
+對於含有連字號的樣式屬性，你必須使用*駝峰式命名*，例如 `backgroundColor`，或把它們用引號包起來，例如 `'background-color'`。
 
-Let's see how Angular's [`state()`](api/animations/state) function works with the `style⁣­(⁠)` function to set CSS style attributes.
-In this code snippet, multiple style attributes are set at the same time for the state.
-In the `open` state, the button has a height of 200 pixels, an opacity of 1, and a yellow background color.
+我們來看看 Angular 的 [`state()`](api/animations/state) 函式如何與 `style⁣­(⁠)` 函式搭配，設定 CSS 樣式屬性。
+在這段程式碼中，同一時間為該狀態設定了多個樣式屬性。
+在 `open` 狀態下，按鈕的高度為 200 像素、不透明度為 1，背景色為黃色。
 
 <docs-code header="src/app/open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="state1"/>
 
@@ -132,7 +132,7 @@ animate (duration)
 
 </docs-code>
 
-or
+或
 
 <docs-code language="typescript">
 
@@ -140,42 +140,42 @@ animate ('duration delay easing')
 
 </docs-code>
 
-The first part, `duration`, is required.
-The duration can be expressed in milliseconds as a number without quotes, or in seconds with quotes and a time specifier.
-For example, a duration of a tenth of a second can be expressed as follows:
+第一個部分 `duration` 是必填的。
+持續時間可以用不加引號的數字以毫秒表示，或用加引號並帶時間單位的字串以秒表示。
+例如，十分之一秒的持續時間可以這樣表示：
 
-* As a plain number, in milliseconds:
+* 用純數字，以毫秒計：
     `100`
 
-* In a string, as milliseconds:
+* 用字串，以毫秒計：
     `'100ms'`
 
-* In a string, as seconds:
+* 用字串，以秒計：
     `'0.1s'`
 
-The second argument, `delay`, has the same syntax as `duration`.
-For example:
+第二個參數 `delay` 的語法與 `duration` 相同。
+例如：
 
-* Wait for 100ms and then run for 200ms: `'0.2s 100ms'`
+* 等待 100ms，然後執行 200ms：`'0.2s 100ms'`
 
-The third argument, `easing`, controls how the animation [accelerates and decelerates](https://easings.net) during its runtime.
-For example, `ease-in` causes the animation to begin slowly, and to pick up speed as it progresses.
+第三個參數 `easing` 控制動畫在執行期間如何[加速與減速](https://easings.net)。
+例如，`ease-in` 會讓動畫一開始緩慢，隨著進行逐漸加快。
 
-* Wait for 100ms, run for 200ms.
-    Use a deceleration curve to start out fast and slowly decelerate to a resting point:
+* 等待 100ms，執行 200ms。
+    使用減速曲線，快速起步再緩緩減速到靜止點：
     `'0.2s 100ms ease-out'`
 
-* Run for 200ms, with no delay.
-    Use a standard curve to start slow, accelerate in the middle, and then decelerate slowly at the end:
+* 執行 200ms，無延遲。
+    使用標準曲線，緩慢起步、中段加速、結尾再緩緩減速：
     `'0.2s ease-in-out'`
 
-* Start immediately, run for 200ms.
-    Use an acceleration curve to start slow and end at full velocity:
+* 立即開始，執行 200ms。
+    使用加速曲線，緩慢起步並以全速結束：
     `'0.2s ease-in'`
 
-HELPFUL: See the Material Design website's topic on [Natural easing curves](https://material.io/design/motion/speed.html#easing) for general information on easing curves.
+HELPFUL: 關於緩動曲線的一般資訊，請見 Material Design 網站的[自然緩動曲線](https://material.io/design/motion/speed.html#easing)主題。
 
-This example provides a state transition from `open` to `closed` with a 1-second transition between states.
+這個範例提供了一個從 `open` 到 `closed` 的狀態轉場，兩個狀態之間的轉場時間為 1 秒。
 
 <docs-code header="src/app/open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="transition1"/>
 
@@ -200,25 +200,25 @@ HELPFUL: Some additional notes on using styles within [`state`](api/animations/s
 
     </docs-code>
 
-### Triggering the animation
+### 觸發動畫
 
-An animation requires a *trigger*, so that it knows when to start.
-The `trigger()` function collects the states and transitions, and gives the animation a name, so that you can attach it to the triggering element in the HTML template.
+動畫需要一個*觸發器*，它才知道何時開始。
+`trigger()` 函式收集各個狀態與轉場，並為動畫取一個名字，讓你可以把它附加到 HTML 範本中的觸發元素上。
 
-The `trigger()` function describes the property name to watch for changes.
-When a change occurs, the trigger initiates the actions included in its definition.
-These actions can be transitions or other functions, as we'll see later on.
+`trigger()` 函式描述要監看變化的屬性名稱。
+當變化發生時，觸發器會啟動其定義中包含的動作。
+這些動作可以是轉場或其他函式，後面會再看到。
 
-In this example, we'll name the trigger `openClose`, and attach it to the `button` element.
-The trigger describes the open and closed states, and the timings for the two transitions.
+在這個範例中，我們將觸發器命名為 `openClose`，並把它附加到 `button` 元素上。
+觸發器描述了開啟與關閉狀態，以及兩個轉場的時間。
 
-HELPFUL: Within each `trigger()` function call, an element can only be in one state at any given time.
-However, it's possible for multiple triggers to be active at once.
+HELPFUL: 在每次 `trigger()` 函式呼叫中，一個元素在任一時間點只能處於一種狀態。
+不過，多個觸發器可以同時處於作用中。
 
-### Defining animations and attaching them to the HTML template
+### 定義動畫並附加到 HTML 範本
 
-Animations are defined in the metadata of the component that controls the HTML element to be animated.
-Put the code that defines your animations under the `animations:` property within the `@Component()` decorator.
+動畫定義在控制要加入動畫的 HTML 元素的元件中繼資料中。
+把定義動畫的程式碼放在 `@Component()` 裝飾器內的 `animations:` 屬性下。
 
 <docs-code header="src/app/open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="component"/>
 
@@ -231,25 +231,25 @@ Then, you can bind the trigger to a template expression using standard Angular p
 
 </docs-code>
 
-The animation is executed or triggered when the expression value changes to a new state.
+當運算式的值變成新狀態時，動畫就會執行或被觸發。
 
-The following code snippet binds the trigger to the value of the `isOpen` property.
+以下程式碼片段把觸發器繫結到 `isOpen` 屬性的值。
 
 <docs-code header="src/app/open-close.component.html" path="adev/src/content/examples/animations/src/app/open-close.component.1.html" visibleRegion="trigger"/>
 
-In this example, when the `isOpen` expression evaluates to a defined state of `open` or `closed`, it notifies the trigger `openClose` of a state change.
-Then it's up to the `openClose` code to handle the state change and kick off a state change animation.
+在這個範例中，當 `isOpen` 運算式求值為已定義的 `open` 或 `closed` 狀態時，它會通知觸發器 `openClose` 有狀態變化。
+接著就由 `openClose` 的程式碼處理狀態變化，並啟動狀態變化動畫。
 
-For elements entering or leaving a page \(inserted or removed from the DOM\), you can make the animations conditional.
-For example, use `*ngIf` with the animation trigger in the HTML template.
+對於進入或離開頁面的元素（插入 DOM 或從 DOM 移除），你可以讓動畫有條件地執行。
+例如，在 HTML 範本中搭配動畫觸發器使用 `*ngIf`。
 
-HELPFUL: In the component file, set the trigger that defines the animations as the value of the `animations:` property in the `@Component()` decorator.
+HELPFUL: 在元件檔案中，把定義動畫的觸發器設為 `@Component()` 裝飾器中 `animations:` 屬性的值。
 
-In the HTML template file, use the trigger name to attach the defined animations to the HTML element to be animated.
+在 HTML 範本檔案中，使用觸發器名稱把已定義的動畫附加到要加入動畫的 HTML 元素上。
 
-### Code review
+### 程式碼回顧
 
-Here are the code files discussed in the transition example.
+以下是轉場範例中討論過的程式碼檔案。
 
 <docs-code-multifile>
     <docs-code header="src/app/open-close.component.ts" path="adev/src/content/examples/animations/src/app/open-close.component.ts" visibleRegion="component"/>
@@ -257,44 +257,44 @@ Here are the code files discussed in the transition example.
     <docs-code header="src/app/open-close.component.css" path="adev/src/content/examples/animations/src/app/open-close.component.css"/>
 </docs-code-multifile>
 
-### Summary
+### 小結
 
-You learned to add animation to a transition between two states, using `style()` and [`state()`](api/animations/state) along with `animate()` for the timing.
+你學會了如何使用 `style()` 與 [`state()`](api/animations/state)，再搭配負責時間的 `animate()`，為兩個狀態之間的轉場加入動畫。
 
-Learn about more advanced features in Angular animations under the Animation section, beginning with advanced techniques in [transition and triggers](guide/animations/transition-and-triggers).
+關於 Angular 動畫的進階功能，請見「動畫」章節，從[轉場與觸發器](guide/animations/transition-and-triggers)的進階技巧開始。
 
-## Animations API summary
+## 動畫 API 總覽 {#animations-api-summary}
 
-The functional API provided by the `@angular/animations` module provides a domain-specific language \(DSL\) for creating and controlling animations in Angular applications.
-See the [API reference](api#animations) for a complete listing and syntax details of the core functions and related data structures.
+`@angular/animations` 模組提供的函式式 API，提供了一套領域專用語言（DSL），用來在 Angular 應用程式中建立與控制動畫。
+核心函式與相關資料結構的完整清單與語法細節，請見 [API 參考文件](api#animations)。
 
-| Function name                     | What it does                                                                                                                                                                                                |
+| 函式名稱                          | 功能                                                                                                                                                                                                |
 |:---                               |:---                                                                                                                                                                                                         |
-| `trigger()`                       | Kicks off the animation and serves as a container for all other animation function calls. HTML template binds to `triggerName`. Use the first argument to declare a unique trigger name. Uses array syntax. |
-| `style()`                         | Defines one or more CSS styles to use in animations. Controls the visual appearance of HTML elements during animations. Uses object syntax.                                                                 |
-| [`state()`](api/animations/state) | Creates a named set of CSS styles that should be applied on successful transition to a given state. The state can then be referenced by name within other animation functions.                              |
-| `animate()`                       | Specifies the timing information for a transition. Optional values for `delay` and `easing`. Can contain `style()` calls within.                                                                            |
-| `transition()`                    | Defines the animation sequence between two named states. Uses array syntax.                                                                                                                                 |
-| `keyframes()`                     | Allows a sequential change between styles within a specified time interval. Use within `animate()`. Can include multiple `style()` calls within each `keyframe()`. Uses array syntax.                       |
-| [`group()`](api/animations/group) | Specifies a group of animation steps \(*inner animations*\) to be run in parallel. Animation continues only after all inner animation steps have completed. Used within `sequence()` or `transition()`.     |
-| `query()`                         | Finds one or more inner HTML elements within the current element.                                                                                                                                           |
-| `sequence()`                      | Specifies a list of animation steps that are run sequentially, one by one.                                                                                                                                  |
-| `stagger()`                       | Staggers the starting time for animations for multiple elements.                                                                                                                                            |
-| `animation()`                     | Produces a reusable animation that can be invoked from elsewhere. Used together with `useAnimation()`.                                                                                                      |
-| `useAnimation()`                  | Activates a reusable animation. Used with `animation()`.                                                                                                                                                    |
-| `animateChild()`                  | Allows animations on child components to be run within the same timeframe as the parent.                                                                                                                    |
+| `trigger()`                       | 啟動動畫，並作為所有其他動畫函式呼叫的容器。HTML 範本會繫結到 `triggerName`。用第一個參數宣告一個唯一的觸發器名稱。使用陣列語法。 |
+| `style()`                         | 定義一個或多個要在動畫中使用的 CSS 樣式。在動畫期間控制 HTML 元素的外觀。使用物件語法。                                                                 |
+| [`state()`](api/animations/state) | 建立一組具名的 CSS 樣式，在成功轉場到指定狀態時套用。之後可以在其他動畫函式中以名稱參照該狀態。                              |
+| `animate()`                       | 指定轉場的時間資訊。可選的值有 `delay` 與 `easing`。內部可以包含 `style()` 呼叫。                                                                            |
+| `transition()`                    | 定義兩個具名狀態之間的動畫序列。使用陣列語法。                                                                                                                                 |
+| `keyframes()`                     | 允許在指定時間區間內依序在樣式之間變化。用在 `animate()` 內部。每個 `keyframe()` 內部可以包含多個 `style()` 呼叫。使用陣列語法。                       |
+| [`group()`](api/animations/group) | 指定一組要平行執行的動畫步驟（*內部動畫*）。所有內部動畫步驟都完成後，動畫才會繼續。用在 `sequence()` 或 `transition()` 內部。     |
+| `query()`                         | 在目前元素內尋找一個或多個內部 HTML 元素。                                                                                                                                           |
+| `sequence()`                      | 指定一份要依序一個接一個執行的動畫步驟清單。                                                                                                                                  |
+| `stagger()`                       | 讓多個元素的動畫起始時間錯開。                                                                                                                                            |
+| `animation()`                     | 產生一個可從其他地方呼叫的可重複使用動畫。與 `useAnimation()` 搭配使用。                                                                                                      |
+| `useAnimation()`                  | 啟用一個可重複使用的動畫。與 `animation()` 搭配使用。                                                                                                                                                    |
+| `animateChild()`                  | 讓子元件的動畫能在與父元件相同的時間範圍內執行。                                                                                                                    |
 
 </table>
 
-## More on Angular animations
+## 深入了解 Angular 動畫
 
-HELPFUL: Check out this [presentation](https://www.youtube.com/watch?v=rnTK9meY5us), shown at the AngularConnect conference in November 2017, and the accompanying [source code](https://github.com/matsko/animationsftw.in).
+HELPFUL: 可以看看這場在 2017 年 11 月 AngularConnect 大會發表的[演講](https://www.youtube.com/watch?v=rnTK9meY5us)，以及其隨附的[原始碼](https://github.com/matsko/animationsftw.in)。
 
-You might also be interested in the following:
+你可能也會對以下內容有興趣：
 
 <docs-pill-row>
-  <docs-pill href="guide/animations/transition-and-triggers" title="Transition and triggers"/>
-  <docs-pill href="guide/animations/complex-sequences" title="Complex animation sequences"/>
-  <docs-pill href="guide/animations/reusable-animations" title="Reusable animations"/>
-  <docs-pill href="guide/animations/route-animations" title="Route transition animations"/>
+  <docs-pill href="guide/animations/transition-and-triggers" title="轉場與觸發器"/>
+  <docs-pill href="guide/animations/complex-sequences" title="複雜動畫序列"/>
+  <docs-pill href="guide/animations/reusable-animations" title="可重複使用的動畫"/>
+  <docs-pill href="guide/animations/route-animations" title="路由轉場動畫"/>
 </docs-pill-row>

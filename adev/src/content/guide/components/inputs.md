@@ -1,10 +1,10 @@
-# Accepting data with input properties
+# 以輸入屬性接受資料
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+Tip: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先閱讀該指南。
 
-Tip: If you're familiar with other web frameworks, input properties are similar to _props_.
+Tip: 如果你熟悉其他網頁框架，輸入屬性類似 _props_。
 
-When creating a component, you can mark specific class properties as **bindable** by adding the `@Input` decorator on the property:
+建立元件時，你可以在屬性上加上 `@Input` 裝飾器，將特定的類別屬性標記為**可繫結**：
 
 <docs-code language="ts" highlight="[3]">
 @Component({...})
@@ -13,27 +13,27 @@ export class CustomSlider {
 }
 </docs-code>
 
-This lets you bind to the property in a template:
+這讓你可以在範本中繫結到該屬性：
 
 ```html
 <custom-slider [value]="50" />
 ```
 
-Angular refers to properties marked with the `@Input` decorator as **inputs**. When using a component, you pass data to it by setting its inputs.
+Angular 將以 `@Input` 裝飾器標記的屬性稱為 **inputs**。使用元件時，你可以透過設定其輸入來傳遞資料給它。
 
-**Angular records inputs statically at compile-time**. Inputs cannot be added or removed at run-time.
+**Angular 在編譯時期靜態記錄輸入**。輸入無法在執行時期加入或移除。
 
-When extending a component class, **inputs are inherited by the child class.**
+擴充元件類別時，**輸入會由子類別繼承**。
 
-**Input names are case-sensitive.**
+**輸入名稱區分大小寫**。
 
-## Customizing inputs
+## 自訂輸入 {#customizing-inputs}
 
-The `@Input` decorator accepts a config object that lets you change the way that input works.
+`@Input` 裝飾器接受設定物件，讓你可以變更輸入的運作方式。
 
-### Required inputs
+### 必要輸入 {#required-inputs}
 
-You can specify the `required` option to enforce that a given input must always have a value.
+你可以指定 `required` 選項，強制規定某個輸入必須一律有值。
 
 <docs-code language="ts" highlight="[3]">
 @Component({...})
@@ -42,11 +42,11 @@ export class CustomSlider {
 }
 </docs-code>
 
-If you try to use a component without specifying all of its required inputs, Angular reports an error at build-time.
+如果你嘗試使用某個元件，卻沒有指明它的所有必要輸入，Angular 會在建置時期回報錯誤。
 
-### Input transforms
+### 輸入轉換 {#input-transforms}
 
-You can specify a `transform` function to change the value of an input when it's set by Angular.
+你可以指定 `transform` 函式，在 Angular 設定輸入時變更其值。
 
 <docs-code language="ts" highlight="[6]">
 @Component({
@@ -66,17 +66,17 @@ function trimString(value: string | undefined) {
 <custom-slider [label]="systemVolume" />
 ```
 
-In the example above, whenever the value of `systemVolume` changes, Angular runs `trimString` and sets `label` to the result.
+在上面的範例中，只要 `systemVolume` 的值變更，Angular 就會執行 `trimString`，並將 `label` 設為其結果。
 
-The most common use-case for input transforms is to accept a wider range of value types in templates, often including `null` and `undefined`.
+輸入轉換最常見的應用情境，是在範本中接受更廣泛的值型別，通常包括 `null` 與 `undefined`。
 
-**Input transform function must be statically analyzable at build-time.** You cannot set transform functions conditionally or as the result of an expression evaluation.
+**輸入轉換函式必須能在建置時期靜態分析**。你無法有條件地設定轉換函式，也無法將它設為運算式求值的結果。
 
-**Input transform functions should always be [pure functions](https://en.wikipedia.org/wiki/Pure_function).** Relying on state outside of the transform function can lead to unpredictable behavior.
+**輸入轉換函式應該一律是[純函式](https://en.wikipedia.org/wiki/Pure_function)**。仰賴轉換函式以外的狀態，可能導致不可預測的行為。
 
-#### Type checking
+#### 型別檢查
 
-When you specify an input transform, the type of the transform function's parameter determines the types of values that can be set to the input in a template.
+當你指定輸入轉換時，轉換函式的參數型別，決定了範本中可以設定給該輸入的值有哪些型別。
 
 <docs-code language="ts">
 @Component({...})
@@ -89,11 +89,11 @@ function appendPx(value: number) {
 }
 </docs-code>
 
-In the example above, the `widthPx` input accepts a `number` while the property on the class is a `string`.
+在上面的範例中，`widthPx` 輸入接受 `number`，而類別上的屬性是 `string`。
 
-#### Built-in transformations
+#### 內建轉換 {#built-in-transformations}
 
-Angular includes two built-in transform functions for the two most common scenarios: coercing values to boolean and numbers.
+Angular 為兩個最常見的情境提供內建轉換函式：將值強制轉換為布林值與數字。
 
 <docs-code language="ts">
 import {Component, Input, booleanAttribute, numberAttribute} from '@angular/core';
@@ -105,14 +105,13 @@ export class CustomSlider {
 }
 </docs-code>
 
-`booleanAttribute` imitates the behavior of standard
-HTML [boolean attributes](https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML), where the _presence_ of the attribute indicates a "true" value. However, Angular's `booleanAttribute` treats the literal string `"false"` as the boolean `false`.
+`booleanAttribute` 模仿標準 HTML [布林屬性](https://developer.mozilla.org/en-US/docs/Glossary/Boolean/HTML)的行為，也就是屬性的_存在_即表示「true」值。不過，Angular 的 `booleanAttribute` 會將字面字串 `"false"` 視為布林值 `false`。
 
-`numberAttribute` attempts to parse the given value to a number, producing `NaN` if parsing fails.
+`numberAttribute` 會嘗試將給定的值剖析為數字，剖析失敗時產生 `NaN`。
 
-### Input aliases
+### 輸入別名 {#input-aliases}
 
-You can specify the `alias` option to change the name of an input in templates.
+你可以指定 `alias` 選項，變更輸入在範本中的名稱。
 
 <docs-code language="ts" highlight="[3]">
 @Component({...})
@@ -125,15 +124,15 @@ export class CustomSlider {
 <custom-slider [sliderValue]="50" />
 ```
 
-This alias does not affect usage of the property in TypeScript code.
+這個別名不影響該屬性在 TypeScript 程式碼中的使用方式。
 
-While you should generally avoid aliasing inputs for components, this feature can be useful for renaming properties while preserving an alias for the original name or for avoiding collisions with the name of native DOM element properties.
+雖然一般來說應避免為元件輸入取別名，這個功能在重新命名屬性時保留原名稱別名，或避免與原生 DOM 元素屬性名稱衝突時，會很有用。
 
-The `@Input` decorator also accepts the alias as its first parameter in place of the config object.
+`@Input` 裝飾器也接受以別名作為第一個參數，來取代設定物件。
 
-## Inputs with getters and setters
+## 帶有 getter 與 setter 的輸入
 
-A property implemented with a getter and setter can be an input:
+以 getter 與 setter 實作的屬性也可以是輸入：
 
 <docs-code language="ts">
 export class CustomSlider {
@@ -150,7 +149,7 @@ export class CustomSlider {
 }
 </docs-code>
 
-You can even create a _write-only_ input by only defining a public setter:
+你甚至可以只定義公開的 setter，來建立_唯寫_輸入：
 
 <docs-code language="ts">
 export class CustomSlider {
@@ -163,13 +162,13 @@ export class CustomSlider {
 }
 </docs-code>
 
-Prefer using <span style="text-decoration:underline;">input transforms</span> instead of getters and setters if possible.
+如果可以，請優先使用<span style="text-decoration:underline;">輸入轉換</span>，而非 getter 與 setter。
 
-Avoid complex or costly getters and setters. Angular may invoke an input's setter multiple times, which may negatively impact application performance if the setter performs any costly behaviors, such as DOM manipulation.
+應避免複雜或成本高昂的 getter 與 setter。Angular 可能多次呼叫輸入的 setter，如果 setter 執行任何成本高昂的行為（例如 DOM 操作），可能對應用程式效能造成負面影響。
 
-## Specify inputs in the `@Component` decorator
+## 在 `@Component` 裝飾器中指明輸入
 
-In addition to the `@Input` decorator, you can also specify a component's inputs with the `inputs` property in the `@Component` decorator. This can be useful when a component inherits a property from a base class:
+除了 `@Input` 裝飾器之外，你也可以用 `@Component` 裝飾器中的 `inputs` 屬性，來指明元件的輸入。當元件從基底類別繼承某個屬性時，這會很有用：
 
 <docs-code language="ts" highlight="[4]">
 // `CustomSlider` inherits the `disabled` property from `BaseSlider`.
@@ -180,7 +179,7 @@ In addition to the `@Input` decorator, you can also specify a component's inputs
 export class CustomSlider extends BaseSlider { }
 </docs-code>
 
-You can additionally specify an input alias in the `inputs` list by putting the alias after a colon in the string:
+你也可以在 `inputs` 清單的字串中，在冒號後面指明輸入別名：
 
 <docs-code language="ts" highlight="[4]">
 // `CustomSlider` inherits the `disabled` property from `BaseSlider`.
@@ -191,8 +190,8 @@ You can additionally specify an input alias in the `inputs` list by putting the 
 export class CustomSlider extends BaseSlider { }
 </docs-code>
 
-## Choosing input names
+## 選擇輸入名稱 {#choosing-input-names}
 
-Avoid choosing input names that collide with properties on DOM elements like HTMLElement. Name collisions introduce confusion about whether the bound property belongs to the component or the DOM element.
+應避免選擇會與 HTMLElement 等 DOM 元素屬性衝突的輸入名稱。名稱衝突會讓人混淆被繫結的屬性究竟屬於元件還是 DOM 元素。
 
-Avoid adding prefixes for component inputs like you would with component selectors. Since a given element can only host one component, any custom properties can be assumed to belong to the component.
+應避免像元件選擇器那樣，為元件輸入加上前綴。由於一個給定的元素只能承載一個元件，任何自訂屬性都可以假定屬於該元件。

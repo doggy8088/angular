@@ -1,93 +1,93 @@
-# Class and style binding
+# 類別與樣式繫結 {#class-and-style-binding}
 
-Use class and style bindings to add and remove CSS class names from an element's `class` attribute and to set styles dynamically.
+使用類別與樣式繫結，可以從元素的 `class` attribute 中加入和移除 CSS 類別名稱，並動態設定樣式。
 
-## Binding to a single CSS `class`
+## 繫結到單一 CSS `class` {#binding-to-a-single-css-class}
 
-To create a single class binding, type the following:
+要建立單一類別繫結，請輸入下列內容：
 
 `[class.sale]="onSale"`
 
-Angular adds the class when the bound expression, `onSale` is truthy, and it removes the class when the expression is falsy—with the exception of `undefined`. The behavior of `undefined` is specifically useful when multiple bindings to the same class exist across different directives on an element. 
+當繫結運算式 `onSale` 為 truthy 時，Angular 會加入該類別；當運算式為 falsy 時，則會移除該類別，但 `undefined` 是例外。`undefined` 的這個行為，在同一個元素上跨多個指令對同一個類別有多個繫結時特別有用。
 
-## Binding to multiple CSS classes
+## 繫結到多個 CSS 類別 {#binding-to-multiple-css-classes}
 
-To bind to multiple classes, type the following:
+要繫結到多個類別，請輸入下列內容：
 
 `[class]="classExpression"`
 
-The expression can be one of:
+運算式可以是下列其中之一：
 
-* A space-delimited string of class names.
-* An object with class names as the keys and truthy or falsy expressions as the values.
-* An array of class names.
+* 以空白分隔的類別名稱字串。
+* 以類別名稱為鍵、以 truthy 或 falsy 運算式為值的物件。
+* 類別名稱的陣列。
 
-With the object format, Angular adds a class only if its associated value is truthy.
+使用物件格式時，Angular 只會在類別的關聯值為 truthy 時加入該類別。
 
-IMPORTANT: With any object-like expression—such as `object`, `Array`, `Map`, or `Set` —the identity of the object must change for Angular to update the class list.
-Updating the property without changing object identity has no effect.
+IMPORTANT: 使用任何物件類型的運算式（例如 `object`、`Array`、`Map` 或 `Set`）時，物件的同一性必須改變，Angular 才會更新類別清單。
+只更新屬性而不改變物件同一性，不會有效果。
 
-If there are multiple bindings to the same class name, Angular uses styling precedence to determine which binding to use.
+如果同一個類別名稱有多個繫結，Angular 會使用樣式優先順序來決定要使用哪一個繫結。
 
-The following table summarizes class binding syntax.
+下表摘要整理了類別繫結語法。
 
-| Binding Type         | Syntax                      | Input Type                                                                  | Example Input Values |
+| 繫結類型             | 語法                        | 輸入類型                                                                    | 輸入值範例                   |
 |:---                  |:---                         |:---                                                                         |:---                  |
-| Single class binding | `[class.sale]="onSale"`     | <code>boolean | undefined | null</code>                       | `true`, `false`                      |
-| Multi-class binding  | `[class]="classExpression"` | `string`                                                                    | `"my-class-1 my-class-2 my-class-3"` |
-| Multi-class binding  | `[class]="classExpression"` | <code>Record<string, boolean | undefined | null></code> | `{foo: true, bar: false}`            |
-| Multi-class binding  | `[class]="classExpression"` | <code>Array<string></code>                                            | `['foo', 'bar']`                     |
+| 單一類別繫結         | `[class.sale]="onSale"`     | <code>boolean | undefined | null</code>                                   | `true`, `false`                      |
+| 多類別繫結           | `[class]="classExpression"` | `string`                                                                    | `"my-class-1 my-class-2 my-class-3"` |
+| 多類別繫結           | `[class]="classExpression"` | <code>Record<string, boolean | undefined | null></code>                   | `{foo: true, bar: false}`            |
+| 多類別繫結           | `[class]="classExpression"` | <code>Array<string></code>                                                  | `['foo', 'bar']`                     |
 
-## Binding to a single style
+## 繫結到單一樣式 {#binding-to-a-single-style}
 
-To create a single style binding, use the prefix `style` followed by a dot and the name of the CSS style.
+要建立單一樣式繫結，請使用前綴 `style`，後面接一個點，再接 CSS 樣式的名稱。
 
-For example, to set the `width` style, type the following:  `[style.width]="width"`
+例如，要設定 `width` 樣式，請輸入下列內容： `[style.width]="width"`
 
-Angular sets the property to the value of the bound expression, which is usually a string. Optionally, you can add a unit extension like `em` or `%`, which requires a number type.
+Angular 會將屬性設為繫結運算式的值，該值通常是字串。你也可以選擇性地加上單位後綴，例如 `em` 或 `%`，這需要數字型別。
 
-1. To write a style in dash-case, type the following:
+1. 要以 dash-case 寫樣式，請輸入下列內容：
 
     <docs-code language="html"><nav [style.background-color]="expression"></nav></docs-code>
 
-2. To write a style in camelCase, type the following:
+2. 要以 camelCase 寫樣式，請輸入下列內容：
 
     <docs-code language="html"><nav [style.backgroundColor]="expression"></nav></docs-code>
 
-## Binding to multiple styles
+## 繫結到多個樣式 {#binding-to-multiple-styles}
 
-To toggle multiple styles, bind to the `[style]` attribute—for example, `[style]="styleExpression"`.  The `styleExpression` can be one of:
+要切換多個樣式，請繫結到 `[style]` attribute，例如 `[style]="styleExpression"`。`styleExpression` 可以是下列其中之一：
 
-* A string list of styles such as `"width: 100px; height: 100px; background-color: cornflowerblue;"`.
-* An object with style names as the keys and style values as the values, such as `{width: '100px', height: '100px', backgroundColor: 'cornflowerblue'}`.
+* 樣式的字串清單，例如 `"width: 100px; height: 100px; background-color: cornflowerblue;"`。
+* 以樣式名稱為鍵、以樣式值為值的物件，例如 `{width: '100px', height: '100px', backgroundColor: 'cornflowerblue'}`。
 
-Note that binding an array to `[style]` is not supported.
+請注意，不支援將陣列繫結到 `[style]`。
 
-IMPORTANT: When binding `[style]` to an object expression, the identity of the object must change for Angular to update the class list.
-Updating the property without changing object identity has no effect.
+IMPORTANT: 將 `[style]` 繫結到物件運算式時，物件的同一性必須改變，Angular 才會更新類別清單。
+只更新屬性而不改變物件同一性，不會有效果。
 
-### Single and multiple-style binding example
+### 單一與多樣式繫結範例 {#single-and-multiple-style-binding-example}
 
 <docs-code path="adev/src/content/examples/attribute-binding/src/app/single-and-multiple-style-binding.component.ts" header="nav-bar.component.ts"/>
 
-If there are multiple bindings to the same style attribute, Angular uses styling precedence to determine which binding to use.
+如果同一個樣式 attribute 有多個繫結，Angular 會使用樣式優先順序來決定要使用哪一個繫結。
 
-The following table summarizes style binding syntax.
+下表摘要整理了樣式繫結語法。
 
-| Binding Type                    | Syntax                      | Input Type                                                                 | Example Input Values |
+| 繫結類型                | 語法                        | 輸入類型                                                                   | 輸入值範例                          |
 |:---                             |:---                         |:---                                                                        |:---                  |
-| Single style binding            | `[style.width]="width"`     | <code>string | undefined | null</code>                       | `"100px"`                           |
-| Single style binding with units | `[style.width.px]="width"`  | <code>number | undefined | null</code>                       | `100`                               |
-| Multi-style binding             | `[style]="styleExpression"` | `string`                                                                   | `"width: 100px; height: 100px"`     |
-| Multi-style binding             | `[style]="styleExpression"` | <code>Record<string, string | undefined | null></code> | `{width: '100px', height: '100px'}` |
+| 單一樣式繫結                    | `[style.width]="width"`     | <code>string | undefined | null</code>                                   | `"100px"`                           |
+| 帶單位的單一樣式繫結            | `[style.width.px]="width"`  | <code>number | undefined | null</code>                                   | `100`                               |
+| 多樣式繫結                      | `[style]="styleExpression"` | `string`                                                                   | `"width: 100px; height: 100px"`     |
+| 多樣式繫結                      | `[style]="styleExpression"` | <code>Record<string, string | undefined | null></code>                   | `{width: '100px', height: '100px'}` |
 
-## Styling precedence
+## 樣式優先順序 {#styling-precedence}
 
-A single HTML element can have its CSS class list and style values bound to multiple sources (for example, host bindings from multiple directives).
+單一 HTML 元素的 CSS 類別清單與樣式值，可以繫結到多個來源（例如，來自多個指令的宿主繫結）。
 
-## What’s next
+## 下一步 {#whats-next}
 
 <docs-pill-row>
-  <docs-pill href="/guide/components/styling" title="Component Styling"/>
-  <docs-pill href="/guide/animations" title="Introduction to Angular animations"/>
+  <docs-pill href="/guide/components/styling" title="元件樣式"/>
+  <docs-pill href="/guide/animations" title="Angular 動畫簡介"/>
 </docs-pill-row>

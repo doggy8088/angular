@@ -1,27 +1,27 @@
-# Understanding Pipes
+# 了解管道
 
-Use pipes to transform strings, currency amounts, dates, and other data for display.
+使用管道來轉換字串、貨幣金額、日期與其他資料，以便顯示。
 
-## What is a pipe
+## 什麼是管道 {#what-is-a-pipe}
 
-Pipes are simple functions to use in templates to accept an input value and return a transformed value. Pipes are useful because you can use them throughout your application, while only declaring each pipe once.
-For example, you would use a pipe to show a date as **April 15, 1988** rather than the raw string format.
+管道是在範本中使用的簡單函式，接受輸入值並回傳轉換後的值。管道很實用，因為你只需宣告每個管道一次，就能在整個應用程式中使用它們。
+例如，你可以用管道把日期顯示為 **April 15, 1988**，而不是原始的字串格式。
 
-You can create your own custom pipes to expose reusable transformations in templates.
+你可以建立自己的自訂管道，在範本中提供可重複使用的轉換。
 
-## Built-in pipes
+## 內建管道 {#built-in-pipes}
 
-Angular provides built-in pipes for typical data transformations, including transformations for internationalization (i18n), which use locale information to format data.
-The following are commonly used built-in pipes for data formatting:
+Angular 提供用於典型資料轉換的內建管道，包括使用地區設定資訊來格式化資料的國際化（i18n）轉換。
+以下是常用的資料格式化內建管道：
 
-- [`DatePipe`](api/common/DatePipe): Formats a date value according to locale rules.
-- [`UpperCasePipe`](api/common/UpperCasePipe): Transforms text to all upper case.
-- [`LowerCasePipe`](api/common/LowerCasePipe): Transforms text to all lower case.
-- [`CurrencyPipe`](api/common/CurrencyPipe): Transforms a number to a currency string, formatted according to locale rules.
-- [`DecimalPipe`](/api/common/DecimalPipe): Transforms a number into a string with a decimal point, formatted according to locale rules.
-- [`PercentPipe`](api/common/PercentPipe): Transforms a number to a percentage string, formatted according to locale rules.
-- [`AsyncPipe`](api/common/AsyncPipe): Subscribe and unsubscribe to an asynchronous source such as an observable.
-- [`JsonPipe`](api/common/JsonPipe): Display a component object property to the screen as JSON for debugging.
+- [`DatePipe`](api/common/DatePipe): 依地區設定規則格式化日期值。
+- [`UpperCasePipe`](api/common/UpperCasePipe): 將文字轉換為全部大寫。
+- [`LowerCasePipe`](api/common/LowerCasePipe): 將文字轉換為全部小寫。
+- [`CurrencyPipe`](api/common/CurrencyPipe): 將數字轉換為貨幣字串，依地區設定規則格式化。
+- [`DecimalPipe`](/api/common/DecimalPipe): 將數字轉換為帶小數點的字串，依地區設定規則格式化。
+- [`PercentPipe`](api/common/PercentPipe): 將數字轉換為百分比字串，依地區設定規則格式化。
+- [`AsyncPipe`](api/common/AsyncPipe): 訂閱與取消訂閱非同步來源，例如 observable。
+- [`JsonPipe`](api/common/JsonPipe): 把元件物件屬性以 JSON 顯示在畫面上，供除錯使用。
 
-Note: For a complete list of built-in pipes, see the [pipes API documentation](/api/common#pipes "Pipes API reference summary").
-To learn more about using pipes for internationalization (i18n) efforts, see [formatting data based on locale](/guide/i18n/format-data-locale).
+NOTE: 內建管道的完整清單，請參閱[管道 API 文件](/api/common#pipes "Pipes API reference summary")。
+如需深入了解如何把管道用於國際化（i18n），請參閱[依地區設定格式化資料](/guide/i18n/format-data-locale)。

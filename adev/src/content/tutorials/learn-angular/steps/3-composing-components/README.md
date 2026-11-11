@@ -1,30 +1,30 @@
-# Composing Components
+# 組合元件
 
-You've learned to update the component template, component logic and components styles, but how do you use a component in your application?
+你已經學會更新元件範本、元件邏輯與元件樣式，但要如何在應用程式中使用元件呢？
 
-The `selector` property of the component configuration gives you a name to use when referencing the component in another template. You use the `selector` like an HTML tag, for example `app-user` would be `<app-user />` in the template
+元件設定的 `selector` 屬性提供了一個名稱，讓你在其他範本中參照該元件。你可以像使用 HTML 標籤一樣使用 `selector`，例如 `app-user` 在範本中就是 `<app-user />`。
 
-In this activity you'll learn how to compose components.
+在這個練習中，你將學習如何組合元件。
 
 <hr/>
 
-In this example, there are two components `UserComponent` and `AppComponent`.
+在本範例中，有兩個元件：`UserComponent` 和 `AppComponent`。
 
 <docs-workflow>
 
-<docs-step title="Add a reference to `UserComponent`">
-Update the `AppComponent` template to include a reference to the `UserComponent` which uses the selector `app-user`. Be sure to add `UserComponent` to the imports array of `AppComponent`, this makes it available for use in the `AppComponent` template.
+<docs-step title="加上對 `UserComponent` 的參照">
+更新 `AppComponent` 範本，加入對 `UserComponent` 的參照，它使用的 selector 是 `app-user`。別忘了把 `UserComponent` 加到 `AppComponent` 的 imports 陣列中，這樣它才能在 `AppComponent` 範本中使用。
 
 ```ts
 template: `<app-user />`,
 imports: [UserComponent]
 ```
 
-The component now displays the message `Username: youngTech`. You can update the template code to include more markup.
+元件現在會顯示訊息 `Username: youngTech`。你可以更新範本程式碼，加入更多標記。
 </docs-step>
 
-<docs-step title="Add more markup">
-Because you can use any HTML markup that you want in a template, try updating the template for `AppComponent` to also include more HTML elements. This example will add a `<section>` element as the parent of the `<app-user>` element.
+<docs-step title="加上更多標記">
+由於你在範本中可以使用任何想要的 HTML 標記，不妨試著更新 `AppComponent` 的範本，加入更多 HTML 元素。本範例會把 `<section>` 元素加為 `<app-user>` 元素的父元素。
 
 ```ts
 template: `<section><app-user /></section>`,
@@ -33,6 +33,6 @@ template: `<section><app-user /></section>`,
 </docs-step>
 
 </docs-workflow>
-You can use as much HTML markup and as many components as you need to bring your app idea to reality. You can even have multiple copies of your component on the same page.
+你可以使用任意多的 HTML 標記與元件，把你的應用程式構想化為現實。你甚至可以在同一個頁面上放多份相同的元件。
 
-That's a great segue, how would you conditionally show a component based on data? Head to the next section to find out.
+這正好帶出下一個問題：要如何依資料決定是否顯示某個元件呢？前往下一節找答案。

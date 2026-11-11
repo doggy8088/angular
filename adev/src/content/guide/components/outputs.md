@@ -1,8 +1,8 @@
-# Custom events with outputs
+# 使用 outputs 的自訂事件
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+Tip: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先讀該指南。
 
-Angular components can define custom events by assigning a property to a new `EventEmitter` and adding the `@Output` decorator:
+Angular 元件可以透過將屬性指派給新的 `EventEmitter` 並加上 `@Output` 裝飾器，來定義自訂事件：
 
 <docs-code language="ts" highlight="">
 @Component({...})
@@ -15,23 +15,23 @@ export class ExpandablePanel {
 <expandable-panel (panelClosed)="savePanelState()" />
 ```
 
-You can emit an event by calling the `emit` method on the `EventEmitter`:
+你可以呼叫 `EventEmitter` 上的 `emit` 方法來發出事件：
 
 <docs-code language="ts" highlight="">
   this.panelClosed.emit();
 </docs-code>
 
-Angular refers to properties marked with the `@Output` decorator as **outputs**. You can use outputs to pass data to other components, similar to native browser events like `click`.
+Angular 將以 `@Output` 裝飾器標記的屬性稱為 **outputs**。你可以使用 outputs 將資料傳遞給其他元件，類似 `click` 等原生瀏覽器事件。
 
-**Angular custom events do not bubble up the DOM**.
+**Angular 自訂事件不會沿 DOM 向上冒泡**。
 
-**Output names are case-sensitive.**
+**Output 名稱區分大小寫**。
 
-When extending a component class, **outputs are inherited by the child class.**
+擴充元件類別時，**outputs 會由子類別繼承**。
 
-## Emitting event data
+## 發出事件資料
 
-You can pass event data when calling `emit`:
+呼叫 `emit` 時，你可以傳遞事件資料：
 
 <docs-code language="ts" highlight="">
 // You can emit primitive values.
@@ -44,15 +44,15 @@ this.thumbDropped.emit({
 })
 </docs-code>
 
-When defining an event listener in a template, you can access the event data from the `$event` variable:
+在範本中定義事件監聽器時，你可以從 `$event` 變數存取事件資料：
 
 ```html
 <custom-slider (valueChanged)="logValue($event)" />
 ```
 
-## Customizing output names
+## 自訂 output 名稱 {#customizing-output-names}
 
-The `@Output` decorator accepts a parameter that lets you specify a different name for the event in a template:
+`@Output` 裝飾器接受一個參數，可讓你為範本中的事件指定不同的名稱：
 
 <docs-code language="ts" highlight="">
 @Component({...})
@@ -65,13 +65,13 @@ export class CustomSlider {
 <custom-slider (valueChanged)="saveVolume()" />
 ```
 
-This alias does not affect usage of the property in TypeScript code.
+這個別名不會影響該屬性在 TypeScript 程式碼中的使用方式。
 
-While you should generally avoid aliasing outputs for components, this feature can be useful for renaming properties while preserving an alias for the original name or for avoiding collisions with the name of native DOM events.
+雖然一般來說應避免為元件的 outputs 取別名，但這項功能在重新命名屬性時保留原始名稱的別名，或避免與原生 DOM 事件名稱衝突時非常有用。
 
-## Specify outputs in the `@Component` decorator
+## 在 `@Component` 裝飾器中指定 outputs
 
-In addition to the `@Output` decorator, you can also specify a component's outputs with the `outputs` property in the `@Component` decorator. This can be useful when a component inherits a property from a base class:
+除了 `@Output` 裝飾器之外，你也可以使用 `@Component` 裝飾器中的 `outputs` 屬性來指定元件的 outputs。當元件從基底類別繼承屬性時，這非常有用：
 
 <docs-code language="ts" highlight="">
 // `CustomSlider` inherits the `valueChanged` property from `BaseSlider`.
@@ -82,7 +82,7 @@ In addition to the `@Output` decorator, you can also specify a component's outpu
 export class CustomSlider extends BaseSlider {}
 </docs-code>
 
-You can additionally specify an output alias in the `outputs` list by putting the alias after a colon in the string:
+你也可以在 `outputs` 清單中指定 output 別名，方法是在字串中以冒號分隔，並在冒號後寫上別名：
 
 <docs-code language="ts" highlight="">
 // `CustomSlider` inherits the `valueChanged` property from `BaseSlider`.
@@ -93,10 +93,10 @@ You can additionally specify an output alias in the `outputs` list by putting th
 export class CustomSlider extends BaseSlider {}
 </docs-code>
 
-## Choosing event names
+## 選擇事件名稱 {#choosing-event-names}
 
-Avoid choosing output names that collide with events on DOM elements like HTMLElement. Name collisions introduce confusion about whether the bound property belongs to the component or the DOM element.
+避免選擇會與 HTMLElement 等 DOM 元素上的事件衝突的 output 名稱。名稱衝突會讓人混淆所繫結的屬性究竟屬於元件還是 DOM 元素。
 
-Avoid adding prefixes for component outputs like you would with component selectors. Since a given element can only host one component, any custom properties can be assumed to belong to the component.
+避免像為元件選擇器那樣，為元件 outputs 加上前綴。由於一個元素只能承載一個元件，任何自訂屬性都可以假定屬於該元件。
 
-Always use [camelCase](https://en.wikipedia.org/wiki/Camel_case) output names. Avoid prefixing output names with "on".
+一律使用 [camelCase](https://en.wikipedia.org/wiki/Camel_case) 作為 output 名稱。避免在 output 名稱前加上「on」前綴。

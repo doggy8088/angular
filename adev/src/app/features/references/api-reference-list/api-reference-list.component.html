@@ -1,7 +1,7 @@
 <div class="adev-reference-list-page">
   <header>
-    <h6>Getting Started</h6>
-    <h1 tabindex="-1">API Reference</h1>
+    <h6>入門</h6>
+    <h1 tabindex="-1">API 參考</h1>
   </header>
 
   @if (featuredGroup().items.length) {
@@ -11,7 +11,7 @@
   <form class="adev-reference-list-form">
     <docs-text-field
       name="query"
-      placeholder="Filter"
+      placeholder="篩選"
       [ngModel]="query()"
       (ngModelChange)="query.set($event)"
     />
@@ -19,7 +19,7 @@
     <div class="adev-reference-list-form-part-two">
       <docs-slide-toggle
         buttonId="includeDeprecated"
-        label="Show @deprecated"
+        label="顯示 @deprecated"
         name="includeDeprecated"
         [ngModel]="includeDeprecated()"
         (ngModelChange)="includeDeprecated.set($event)"

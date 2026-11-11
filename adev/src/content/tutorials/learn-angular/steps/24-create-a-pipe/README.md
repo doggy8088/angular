@@ -1,12 +1,12 @@
-# Create a custom pipe
+# 建立自訂管道
 
-You can create custom pipes in Angular to fit your data transformation needs.
+你可以在 Angular 中建立自訂管道，滿足你的資料轉換需求。
 
-In this activity you will create a custom pipe and use it in your template.
+在這個練習中，你將建立一個自訂管道並在範本中使用它。
 
 <hr>
 
-A pipe is a TypeScript class with a `@Pipe` decorator. Here's an example:
+管道是一個帶有 `@Pipe` 裝飾器的 TypeScript 類別。範例如下：
 
 ```ts
 import {Pipe, PipeTransform} from '@angular/core';
@@ -22,18 +22,18 @@ export class StarPipe implements PipeTransform {
 }
 ```
 
-The `StarPipe` accepts a string value and returns that string with stars around it. Take note that:
+`StarPipe` 接受一個字串值，並回傳在該字串前後加上星星的字串。請注意：
 
-- the name in the `@Pipe` decorator configuration is what will be used in the template
-- the `transform` function is where you put your logic
+- `@Pipe` 裝飾器組態中的 name，就是在範本中會使用的名稱
+- `transform` 函式是你放置邏輯的地方
 
-Alright, it's your turn to give this a try — you'll create the `ReversePipe`:
+好了，換你來試試看——你將建立 `ReversePipe`：
 
 <docs-workflow>
 
-<docs-step title="Create the `ReversePipe`">
+<docs-step title="建立 `ReversePipe`">
 
-In `reverse.pipe.ts` add the `@Pipe` decorator to the `ReversePipe` class and provide the following configuration:
+在 `reverse.pipe.ts` 中，為 `ReversePipe` 類別加上 `@Pipe` 裝飾器，並提供以下組態：
 
 ```ts
 @Pipe({
@@ -44,9 +44,9 @@ In `reverse.pipe.ts` add the `@Pipe` decorator to the `ReversePipe` class and pr
 
 </docs-step>
 
-<docs-step title="Implement the `transform` function">
+<docs-step title="實作 `transform` 函式">
 
-Now the `ReversePipe` class is a pipe. Update the `transform` function to add the reversing logic:
+現在 `ReversePipe` 類別是一個管道了。更新 `transform` 函式，加上反轉的邏輯：
 
 <docs-code language="ts" highlight="[3,4,5,6,7,8,9]">
 export class ReversePipe implements PipeTransform {
@@ -65,8 +65,8 @@ export class ReversePipe implements PipeTransform {
 
 </docs-step>
 
-<docs-step title="Use the `ReversePipe` in the template"></docs-step>
-With the pipe logic implemented, the final step is to use it in the template. In `app.component.ts` include the pipe in the template and add it to the component imports:
+<docs-step title="在範本中使用 `ReversePipe`"></docs-step>
+管道邏輯實作完成後，最後一步是在範本中使用它。在 `app.component.ts` 中，把管道包含進範本，並把它加到元件的 imports 中：
 
 <docs-code language="ts" highlight="[3,4]">
 @Component({
@@ -78,4 +78,4 @@ With the pipe logic implemented, the final step is to use it in the template. In
 
 </docs-workflow>
 
-And with that you've done it. Congratulations on completing this activity. You now know how to use pipes and even how to implement your own custom pipes.
+就這樣，你做到了。恭喜你完成這個練習。你現在知道如何使用管道，甚至如何實作自己的自訂管道了。

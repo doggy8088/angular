@@ -1,10 +1,8 @@
-# Component selectors
+# 元件選擇器
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+Tip: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先讀該指南。
 
-Every component defines
-a [CSS selector](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors) that determines how
-the component is used:
+每個元件都會定義一個 [CSS 選擇器](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors)，決定該元件的使用方式：
 
 <docs-code language="ts" highlight="[2]">
 @Component({
@@ -14,7 +12,7 @@ the component is used:
 export class ProfilePhoto { }
 </docs-code>
 
-You use a component by creating a matching HTML element in the templates of _other_ components:
+你透過在_其他_元件的範本中建立相符的 HTML 元素來使用元件：
 
 <docs-code language="ts" highlight="[3]">
 @Component({
@@ -26,42 +24,31 @@ You use a component by creating a matching HTML element in the templates of _oth
 export class UserProfile { }
 </docs-code>
 
-**Angular matches selectors statically at compile-time**. Changing the DOM at run-time, either via
-Angular bindings or with DOM APIs, does not affect the components rendered.
+**Angular 會在編譯時期靜態比對選擇器**。在執行時期更動 DOM，無論是透過 Angular 繫結還是 DOM API，都不會影響所渲染的元件。
 
-**An element can match exactly one component selector.** If multiple component selectors match a
-single element, Angular reports an error.
+**一個元素恰好只能比對一個元件選擇器**。如果有多個元件選擇器比對到同一個元素，Angular 會回報錯誤。
 
-**Component selectors are case-sensitive.**
+**元件選擇器區分大小寫**。
 
-## Types of selectors
+## 選擇器的類型
 
-Angular supports a limited subset
-of [basic CSS selector types](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors) in
-component selectors:
+Angular 在元件選擇器中，支援[基本 CSS 選擇器類型](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors)的一個有限子集：
 
-| **Selector type**  | **Description**                                                                                                 | **Examples**                  |
+| **選擇器類型**     | **說明**                                                                                                 | **範例**                      |
 | ------------------ | --------------------------------------------------------------------------------------------------------------- | ----------------------------- |
-| Type selector      | Matches elements based on their HTML tag name, or node name.                                                    | `profile-photo`               |
-| Attribute selector | Matches elements based on the presence of an HTML attribute and, optionally, an exact value for that attribute. | `[dropzone]` `[type="reset"]` |
-| Class selector     | Matches elements based on the presence of a CSS class.                                                          | `.menu-item`                  |
+| 類型選擇器         | 依據元素的 HTML 標籤名稱或節點名稱來比對元素。                                                    | `profile-photo`               |
+| 屬性選擇器         | 依據元素是否具有某個 HTML 屬性，並可選擇性地比對該屬性的精確值來比對元素。 | `[dropzone]` `[type="reset"]` |
+| 類別選擇器         | 依據元素是否具有某個 CSS 類別來比對元素。                                                          | `.menu-item`                  |
 
-For attribute values, Angular supports matching an exact attribute value with the equals (`=`)
-operator. Angular does not support other attribute value operators.
+對於屬性值，Angular 支援使用等號（`=`）運算子比對精確的屬性值。Angular 不支援其他屬性值運算子。
 
-Angular component selectors do not support combinators, including
-the [descendant combinator](https://developer.mozilla.org/en-US/docs/Web/CSS/Descendant_combinator)
-or [child combinator](https://developer.mozilla.org/en-US/docs/Web/CSS/Child_combinator).
+Angular 元件選擇器不支援組合子，包括[後代組合子](https://developer.mozilla.org/en-US/docs/Web/CSS/Descendant_combinator)或[子組合子](https://developer.mozilla.org/en-US/docs/Web/CSS/Child_combinator)。
 
-Angular component selectors do not support
-specifying [namespaces](https://developer.mozilla.org/en-US/docs/Web/SVG/Namespaces_Crash_Course).
+Angular 元件選擇器不支援指定[命名空間](https://developer.mozilla.org/en-US/docs/Web/SVG/Namespaces_Crash_Course)。
 
-### The `:not` pseudo-class
+### `:not` 偽類別
 
-Angular supports [the `:not` pseudo-class](https://developer.mozilla.org/en-US/docs/Web/CSS/:not).
-You can append this pseudo-class to any other selector to narrow which elements a component's
-selector matches. For example, you could define a `[dropzone]` attribute selector and prevent
-matching `textarea` elements:
+Angular 支援 [`:not` 偽類別](https://developer.mozilla.org/en-US/docs/Web/CSS/:not)。你可以將這個偽類別附加到任何其他選擇器之後，以縮小元件選擇器的比對範圍。例如，你可以定義一個 `[dropzone]` 屬性選擇器，並防止它比對到 `textarea` 元素：
 
 <docs-code language="ts" highlight="[2]">
 @Component({
@@ -71,12 +58,11 @@ matching `textarea` elements:
 export class DropZone { }
 </docs-code>
 
-Angular does not support any other pseudo-classes or pseudo-elements in component selectors.
+Angular 不支援在元件選擇器中使用任何其他偽類別或偽元素。
 
-### Combining selectors
+### 組合選擇器
 
-You can combine multiple selectors by concatenating them. For example, you can match `<button>`
-elements that specify `type="reset"`:
+你可以透過串連多個選擇器來組合它們。例如，你可以比對指定了 `type="reset"` 的 `<button>` 元素：
 
 <docs-code language="ts" highlight="[2]">
 @Component({
@@ -86,7 +72,7 @@ elements that specify `type="reset"`:
 export class ResetButton { }
 </docs-code>
 
-You can also define multiple selectors with a comma-separated list:
+你也可以使用逗號分隔的清單來定義多個選擇器：
 
 <docs-code language="ts" highlight="[2]">
 @Component({
@@ -96,36 +82,23 @@ You can also define multiple selectors with a comma-separated list:
 export class DropZone { }
 </docs-code>
 
-Angular creates a component for each element that matches _any_ of the selectors in the list.
+Angular 會為比對到清單中_任何_選擇器的每個元素建立一個元件。
 
-## Choosing a selector
+## 如何選擇選擇器 {#choosing-a-selector}
 
-The vast majority of components should use a custom element name as their selector. All custom
-element names should include a hyphen as described
-by [the HTML specification](https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name).
-By default, Angular reports an error if it encounters a custom tag name that does not match any
-available components, preventing bugs due to mistyped component names.
+絕大多數元件應使用自訂元素名稱作為其選擇器。所有自訂元素名稱都應包含連字號，如 [HTML 規格](https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name)所述。依預設，當 Angular 遇到不符合任何可用元件的自訂標籤名稱時，會回報錯誤，以防止因元件名稱打錯而產生的錯誤。
 
-See [Advanced component configuration](guide/components/advanced-configuration) for details on
-using [native custom elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components) in
-Angular templates.
+關於在 Angular 範本中使用[原生自訂元素](https://developer.mozilla.org/en-US/docs/Web/Web_Components)的詳情，請參閱[進階元件設定](guide/components/advanced-configuration)。
 
-### Selector prefixes
+### 選擇器前綴 {#selector-prefixes}
 
-The Angular team recommends using a short, consistent prefix for all the custom components
-defined inside your project. For example, if you were to build YouTube with Angular, you might
-prefix your components with `yt-`, with components like `yt-menu`, `yt-player`, etc. Namespacing
-your selectors like this makes it immediately clear where a particular component comes from. By
-default, the Angular CLI uses `app-`.
+Angular 團隊建議為專案內定義的所有自訂元件，使用簡短且一致的前綴。例如，如果你要用 Angular 打造 YouTube，你可能會為元件加上 `yt-` 前綴，像是 `yt-menu`、`yt-player` 等元件。像這樣為選擇器加上命名空間，能讓人一眼就看出特定元件的來源。依預設，Angular CLI 使用 `app-`。
 
-Angular uses the `ng` selector prefix for its own framework APIs. Never use `ng` as a selector
-prefix for your own custom components.
+Angular 將 `ng` 選擇器前綴保留給它自己的框架 API。切勿將 `ng` 作為你自己自訂元件的選擇器前綴。
 
-### When to use an attribute selector
+### 何時使用屬性選擇器
 
-You should consider an attribute selector when you want to create a component on a standard native
-element. For example, if you want to create a custom button component, you can take advantage of the
-standard `<button>` element by using an attribute selector:
+當你想在標準原生元素上建立元件時，應考慮使用屬性選擇器。例如，如果你想建立一個自訂按鈕元件，你可以利用標準的 `<button>` 元素，使用屬性選擇器：
 
 <docs-code language="ts" highlight="[2]">
 @Component({
@@ -135,13 +108,8 @@ standard `<button>` element by using an attribute selector:
 export class YouTubeUploadButton { }
 </docs-code>
 
-This approach allows consumers of the component to directly use all the element's standard APIs
-without extra work. This is especially valuable for ARIA attributes such as `aria-label`.
+這種做法可讓元件的使用者直接使用該元素的所有標準 API，無需額外工作。這對 `aria-label` 等 ARIA 屬性特別有價值。
 
-Angular does not report errors when it encounters custom attributes that don't match an available
-component. When using components with attribute selectors, consumers may forget to import the
-component or its NgModule, resulting in the component not rendering.
-See [Importing and using components](guide/components/importing) for more information.
+當 Angular 遇到不符合任何可用元件的自訂屬性時，不會回報錯誤。使用具有屬性選擇器的元件時，使用者可能忘記匯入該元件或其 NgModule，導致元件無法渲染。更多資訊請參閱[匯入與使用元件](guide/components/importing)。
 
-Components that define attribute selectors should use lowercase, dash-case attributes. You can
-follow the same prefixing recommendation described above.
+定義屬性選擇器的元件，應使用小寫、以連字號分隔（dash-case）的屬性。你可以遵循上面說明的相同前綴建議。

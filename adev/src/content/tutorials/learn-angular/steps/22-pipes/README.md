@@ -1,12 +1,12 @@
-# Pipes
+# 管道
 
-Pipes are functions that are used to transform data in templates. In general, pipes are "pure" functions that don't cause side effects. Angular has a number of helpful built-in pipes you can import and use in your components. You can also create a custom pipe.
+管道是用來在範本中轉換資料的函式。一般來說，管道是「純粹」函式，不會造成副作用。Angular 有許多好用的內建管道，你可以匯入並在元件中使用。你也可以建立自訂管道。
 
-In this activity you will import a pipe and use it in the template.
+在這個練習中，你將匯入一個管道並在範本中使用它。
 
 <hr>
 
-To use a pipe in a template include it in an interpolated expression. Check out this example:
+要在範本中使用管道，請把它包含在插值運算式中。看看這個範例：
 
 <docs-code language="ts" highlight="[1,5,6]">
 import {UpperCasePipe} from '@angular/common';
@@ -21,12 +21,12 @@ class AppComponent {
 }
 </docs-code>
 
-Now, it's your turn to give this a try:
+現在，換你來試試看：
 
 <docs-workflow>
 
-<docs-step title="Import the `LowerCase` pipe">
-First, update `app.component.ts` by adding the file level import for `LowerCasePipe` from `@angular/common`.
+<docs-step title="匯入 `LowerCase` 管道">
+首先，更新 `app.component.ts`，從 `@angular/common` 加上 `LowerCasePipe` 的檔案層級匯入。
 
 ```ts
 import { LowerCasePipe } from '@angular/common';
@@ -34,8 +34,8 @@ import { LowerCasePipe } from '@angular/common';
 
 </docs-step>
 
-<docs-step title="Add the pipe to the template imports">
-Next, update `@Component()` decorator `imports` to include a reference to `LowerCasePipe`
+<docs-step title="把管道加到範本的 imports 中">
+接著，更新 `@Component()` 裝飾器的 `imports`，加入對 `LowerCasePipe` 的參照
 
 <docs-code language="ts" highlight="[3]">
 @Component({
@@ -46,8 +46,8 @@ Next, update `@Component()` decorator `imports` to include a reference to `Lower
 
 </docs-step>
 
-<docs-step title="Add the pipe to the template">
-Finally, in `app.component.ts` update the template to include the `lowercase` pipe:
+<docs-step title="把管道加到範本中">
+最後，在 `app.component.ts` 中更新範本，加入 `lowercase` 管道：
 
 ```ts
 template: `{{username | lowercase }}`
@@ -57,6 +57,6 @@ template: `{{username | lowercase }}`
 
 </docs-workflow>
 
-Pipes can also accept parameters which can be used to configure their output. Find out more in the next activity.
+管道也可以接受參數，用來組態它們的輸出。在下一個練習中了解更多。
 
-P.S. you are doing great ⭐️
+P.S. 你做得很好 ⭐️

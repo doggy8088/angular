@@ -1,13 +1,13 @@
-# Using a pipe in a template
+# 在範本中使用管道
 
-To apply a pipe, use the pipe operator (`|`) within a template expression as shown in the following code example.
+若要套用管道，請在範本運算式中使用管道運算子（`|`），如下列程式碼範例所示。
 
 <docs-code header="app.component.html">
 <p>The hero's birthday is {{ birthday | date }}</p>
 </docs-code>
 
-The component's `birthday` value flows through the pipe operator (`|`) to the [`DatePipe`](api/common/DatePipe) whose pipe name is `date`.
-The pipe renders the date in the default format like **Apr 07, 2023**.
+元件的 `birthday` 值會流經管道運算子（`|`），傳給管道名稱為 `date` 的 [`DatePipe`](api/common/DatePipe)。
+管道會以預設格式渲染日期，例如 **Apr 07, 2023**。
 
 <docs-code header="app.component.ts" preview>
 import { Component } from '@angular/core';
@@ -23,31 +23,31 @@ export class AppComponent {
 }
 </docs-code>
 
-## Additional parameters for pipes
+## 管道的額外參數 {#additional-parameters-for-pipes}
 
-Pipes can take additional parameters that configure the transformation. Parameters can be optional or required.
+管道可以接受用來設定轉換方式的額外參數。參數可以是選擇性的，也可以是必填的。
 
-For example, the `date` pipe takes optional parameters that control the date's display format.
-To specify the parameter, follow the pipe name with a colon (`:`) and the parameter value (the format).
+例如，`date` 管道接受控制日期顯示格式的選擇性參數。
+若要指定參數，請在管道名稱後面加上冒號（`:`），再接著參數值（即格式）。
 
 <docs-code header="app.component.html">
 <p>The hero's birthday is in {{ birthday | date:'yyyy' }}</p>
 </docs-code>
 
-Pipes can also take multiple parameters. You can pass multiple parameters by separating these via colons (`:`).
-For example, the `date` pipe accepts a second optional parameter for controlling the timezone.
+管道也可以接受多個參數。你可以用冒號（`:`）分隔，傳入多個參數。
+例如，`date` 管道接受第二個選擇性參數，用來控制時區。
 
 <docs-code header="app.component.html">
 <p>The current time is: {{ currentTime | date:'hh:mm':'UTC' }}</p>
 </docs-code>
 
-This will display the current time (like `10:53`) in the `UTC` timezone.
+這會以 `UTC` 時區顯示目前時間（例如 `10:53`）。
 
-## Chaining pipes
+## 串連管道 {#chaining-pipes}
 
-You can connect multiple pipes so that the output of one pipe becomes the input to the next.
+你可以串連多個管道，讓一個管道的輸出成為下一個管道的輸入。
 
-The following example passes a date to the `DatePipe` and then forwards the result to the [`UpperCasePipe`](api/common/UpperCasePipe 'API reference') pipe.
+下列範例把日期傳給 `DatePipe`，再把結果轉交給 [`UpperCasePipe`](api/common/UpperCasePipe 'API reference') 管道。
 
 <docs-code header="app.component.html">
 <p>The hero's birthday is {{ birthday | date }}</p>

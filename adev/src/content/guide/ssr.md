@@ -1,18 +1,18 @@
-# Server-side rendering
+# 伺服器端算繪
 
-Server-side rendering (SSR) is a process that involves rendering pages on the server, resulting in initial HTML content which contains initial page state. Once the HTML content is delivered to a browser, Angular initializes the application and utilizes the data contained within the HTML.
+伺服器端算繪 (SSR) 是在伺服器上算繪頁面的流程，產生的初始 HTML 內容包含頁面的初始狀態。HTML 內容送達瀏覽器後，Angular 會初始化應用程式，並運用 HTML 中包含的資料。
 
-## Why use SSR?
+## 為什麼使用 SSR？
 
-The main advantages of SSR as compared to client-side rendering (CSR) are:
+與用戶端算繪 (CSR) 相比，SSR 的主要優勢包括：
 
-- **Improved performance**: SSR can improve the performance of web applications by delivering fully rendered HTML to the client, which the browser can parse and display even before it downloads the application JavaScript. This can be especially beneficial for users on low-bandwidth connections or mobile devices.
-- **Improved Core Web Vitals**: SSR results in performance improvements that can be measured using [Core Web Vitals (CWV)](https://web.dev/learn-core-web-vitals/) statistics, such as reduced First Contentful Paint ([FCP](https://developer.chrome.com/en/docs/lighthouse/performance/first-contentful-paint/)) and Largest Contentful Paint ([LCP](https://web.dev/lcp/)), as well as Cumulative Layout Shift ([CLS](https://web.dev/cls/)).
-- **Better SEO**: SSR can improve the search engine optimization (SEO) of web applications by making it easier for search engines to crawl and index the content of the application.
+- **改善效能：** SSR 將完整算繪的 HTML 交付給用戶端，瀏覽器甚至在下載應用程式的 JavaScript 之前就能解析並顯示，藉此改善 Web 應用程式的效能。這對低頻寬連線或行動裝置上的使用者特別有幫助。
+- **改善 Core Web Vitals：** SSR 帶來的效能提升可以用 [Core Web Vitals (CWV)](https://web.dev/learn-core-web-vitals/) 統計資料來衡量，例如降低首次內容繪製 ([FCP](https://developer.chrome.com/en/docs/lighthouse/performance/first-contentful-paint/)) 與最大內容繪製 ([LCP](https://web.dev/lcp/))，以及累計版面位移 ([CLS](https://web.dev/cls/))。
+- **更好的 SEO：** SSR 讓搜尋引擎更容易爬取並索引應用程式的內容，藉此改善 Web 應用程式的搜尋引擎最佳化 (SEO)。
 
-## Enable server-side rendering
+## 啟用伺服器端算繪
 
-To create a **new** project with SSR, run:
+若要建立啟用 SSR 的**新**專案，請執行：
 
 <docs-code language="shell">
 
@@ -20,7 +20,7 @@ ng new --ssr
 
 </docs-code>
 
-To add SSR to an **existing** project, use the Angular CLI `ng add` command.
+若要為**既有**專案加入 SSR，請使用 Angular CLI 的 `ng add` 指令。
 
 <docs-code language="shell">
 
@@ -28,7 +28,7 @@ ng add @angular/ssr
 
 </docs-code>
 
-These commands create and update application code to enable SSR and adds extra files to the project structure.
+這些指令會建立並更新應用程式程式碼以啟用 SSR，並在專案結構中加入額外檔案。
 
 <docs-code language="text">
 
@@ -41,37 +41,37 @@ my-app
 
 </docs-code>
 
-To verify that the application is server-side rendered, run it locally with `ng serve`. The initial HTML request should contain application content.
+若要驗證應用程式已進行伺服器端算繪，請用 `ng serve` 在本機執行它。初始的 HTML 請求應該包含應用程式內容。
 
-## Configure server-side rendering
+## 設定伺服器端算繪
 
-The `server.ts` file configures a Node.js Express server and Angular server-side rendering. `CommonEngine` is used to render an Angular application.
+`server.ts` 檔案設定了 Node.js Express 伺服器與 Angular 伺服器端算繪。`CommonEngine` 用來算繪 Angular 應用程式。
 
 <docs-code path="adev/src/content/examples/ssr/server.ts" visibleLines="[31,45]"></docs-code>
 
-The `render` method of `CommonEngine` accepts an object with the following properties:
+`CommonEngine` 的 `render` 方法接受具有下列屬性的物件：
 
-| Properties          | Details                                                                                  | Default Value |
-| ------------------- | ---------------------------------------------------------------------------------------- | ------------- |
-| `bootstrap`         | A method which returns an `NgModule` or a promise which resolves to an `ApplicationRef`. |               |
-| `providers`         | An array of platform level providers for the current request.                            |               |
-| `url`               | The url of the page to render.                                                           |               |
-| `inlineCriticalCss` | Whether to reduce render blocking requests by inlining critical CSS.                     | `true`        |
-| `publicPath`        | Base path for browser files and assets.                                                  |               |
-| `document`          | The initial DOM to use for bootstrapping the server application.                         |               |
-| `documentFilePath`  | File path of the initial DOM to use to bootstrap the server application.                 |               |
+| 屬性                | 詳細說明                                              | 預設值 |
+| ------------------- | ----------------------------------------------------- | ------ |
+| `bootstrap`         | 回傳 `NgModule` 或解析為 `ApplicationRef` 的 promise 的方法。 |        |
+| `providers`         | 目前請求的平台層級提供者陣列。                        |        |
+| `url`               | 要算繪的頁面 URL。                                    |        |
+| `inlineCriticalCss` | 是否透過行內化關鍵 CSS 來減少阻擋算繪的請求。         | `true` |
+| `publicPath`        | 瀏覽器檔案與資產的基底路徑。                          |        |
+| `document`          | 用於啟動伺服器應用程式的初始 DOM。                    |        |
+| `documentFilePath`  | 用於啟動伺服器應用程式的初始 DOM 檔案路徑。           |        |
 
-Angular CLI will scaffold an initial server implementation focused on server-side rendering your Angular application. This server can be extended to support other features such as API routes, redirects, static assets, and more. See [Express documentation](https://expressjs.com/) for more details.
+Angular CLI 會先產生一個初始的伺服器實作，專注於對你的 Angular 應用程式進行伺服器端算繪。這個伺服器可以擴充以支援 API 路由、重新導向、靜態資產等其他功能。詳情請參閱 [Express 文件](https://expressjs.com/)。
 
-## Hydration
+## 水合
 
-Hydration is the process that restores the server side rendered application on the client. This includes things like reusing the server rendered DOM structures, persisting the application state, transferring application data that was retrieved already by the server, and other processes. Hydration is enabled by default when you use SSR. You can find more info in [the hydration guide](guide/hydration).
+水合是將伺服器端算繪的應用程式在用戶端還原的流程。這包括重複使用伺服器算繪的 DOM 結構、保留應用程式狀態、傳輸伺服器已經擷取的應用程式資料，以及其他流程。只要使用 SSR，水合預設就會啟用。你可以在[水合指南](guide/hydration)中找到更多資訊。
 
-## Caching data when using HttpClient
+## 使用 HttpClient 時快取資料 {#caching-data-when-using-httpclient}
 
-[`HttpClient`](api/common/http/HttpClient) cached outgoing network requests when running on the server. This information is serialized and transferred to the browser as part of the initial HTML sent from the server. In the browser, `HttpClient` checks whether it has data in the cache and if so, reuses it instead of making a new HTTP request during initial application rendering. `HttpClient` stops using the cache once an application becomes [stable](api/core/ApplicationRef#isStable) while running in a browser.
+[`HttpClient`](api/common/http/HttpClient) 在伺服器上執行時，會快取向外送出的網路請求。這些資訊會被序列化，並作為伺服器送出的初始 HTML 的一部分傳輸到瀏覽器。在瀏覽器中，`HttpClient` 會檢查快取中是否有資料，若有，就會重複使用它，而不在應用程式初始算繪期間發出新的 HTTP 請求。當應用程式在瀏覽器中執行並變得[穩定](api/core/ApplicationRef#isStable)後，`HttpClient` 就會停止使用快取。
 
-`HttpClient` caches all `HEAD` and `GET` requests by default. You can configure the cache by using [`withHttpTransferCacheOptions`](/api/platform-browser/withHttpTransferCacheOptions) when providing hydration.
+`HttpClient` 依預設會快取所有 `HEAD` 與 `GET` 請求。你可以在提供水合功能時，使用 [`withHttpTransferCacheOptions`](/api/platform-browser/withHttpTransferCacheOptions) 設定快取。
 
 <docs-code language="typescript">
 
@@ -85,11 +85,11 @@ bootstrapApplication(AppComponent, {
 
 </docs-code>
 
-## Authoring server-compatible components
+## 撰寫與伺服器相容的元件 {#authoring-server-compatible-components}
 
-Some common browser APIs and capabilities might not be available on the server. Applications cannot make use of browser-specific global objects like `window`, `document`, `navigator`, or `location` as well as certain properties of `HTMLElement`.
+某些常見的瀏覽器 API 與功能在伺服器上可能無法使用。應用程式無法使用 `window`、`document`、`navigator` 或 `location` 等瀏覽器專屬的全域物件，以及 `HTMLElement` 的某些屬性。
 
-In general, code which relies on browser-specific symbols should only be executed in the browser, not on the server. This can be enforced through the [`afterRender`](api/core/afterRender) and [`afterNextRender`](api/core/afterNextRender) lifecycle hooks. These are only executed on the browser and skipped on the server.
+一般而言，依賴瀏覽器專屬符號的程式碼應該只在瀏覽器中執行，而不是在伺服器上。這可以透過 [`afterRender`](api/core/afterRender) 與 [`afterNextRender`](api/core/afterNextRender) 生命週期鉤子來強制執行。這些鉤子只在瀏覽器上執行，在伺服器上會被跳過。
 
 <docs-code language="typescript">
 
@@ -112,6 +112,6 @@ export class MyComponent {
 
 </docs-code>
 
-## Using Angular Service Worker
+## 使用 Angular Service Worker
 
-If you are using Angular on the server in combination with the Angular service worker, the behavior deviates from the normal server-side rendering behavior. The initial server request will be rendered on the server as expected. However, after that initial request, subsequent requests are handled by the service worker and always client-side rendered.
+如果你在伺服器上使用 Angular 並搭配 Angular service worker，其行為會與一般的伺服器端算繪行為有所不同。初始的伺服器請求會如預期在伺服器上算繪。然而，在該初始請求之後，後續請求都由 service worker 處理，且一律在用戶端算繪。

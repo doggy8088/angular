@@ -1,112 +1,95 @@
-# Component Lifecycle
+# 元件生命週期
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+Tip: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先讀該指南。
 
-A component's **lifecycle** is the sequence of steps that happen between the component's creation
-and its destruction. Each step represents a different part of Angular's process for rendering
-components and checking them for updates over time.
+元件的**生命週期**，是從元件建立到銷毀之間所經歷的一連串步驟。每個步驟代表 Angular 渲染元件、並隨時間檢查其更新的不同環節。
 
-In your components, you can implement **lifecycle hooks** to run code during these steps.
-Lifecycle hooks that relate to a specific component instance are implemented as methods on your
-component class. Lifecycle hooks that relate the Angular application as a whole are implemented
-as functions that accept a callback.
+你可以在元件中實作**生命週期鉤子**，在這些步驟期間執行程式碼。與特定元件實例相關的生命週期鉤子，會以你元件類別上的方法來實作；與整個 Angular 應用程式相關的生命週期鉤子，則以接受回呼的函式形式實作。
 
-A component's lifecycle is tightly connected to how Angular checks your components for changes over
-time. For the purposes of understanding this lifecycle, you only need to know that Angular walks
-your application tree from top to bottom, checking template bindings for changes. The lifecycle
-hooks described below run while Angular is doing this traversal. This traversal visits each
-component exactly once, so you should always avoid making further state changes in the middle of the
-process.
+元件的生命週期與 Angular 如何隨時間檢查元件的變更緊密相關。為了理解這個生命週期，你只需要知道：Angular 會由上而下走訪你的應用程式樹，檢查範本繫結是否有變更。以下說明的生命週期鉤子，會在 Angular 執行這趟走訪時執行。這趟走訪恰好造訪每個元件一次，因此你應避免在這個過程進行到一半時再更動狀態。
 
-## Summary
+## 摘要
 
 <div class="docs-table docs-scroll-track-transparent">
   <table>
     <tr>
-      <td><strong>Phase</strong></td>
-      <td><strong>Method</strong></td>
-      <td><strong>Summary</strong></td>
+      <td><strong>階段</strong></td>
+      <td><strong>方法</strong></td>
+      <td><strong>摘要</strong></td>
     </tr>
     <tr>
-      <td>Creation</td>
+      <td>建立</td>
       <td><code>constructor</code></td>
       <td>
         <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor" target="_blank">
-          Standard JavaScript class constructor
-        </a>. Runs when Angular instantiates the component.
+          標準 JavaScript 類別建構子
+        </a>。在 Angular 具現化元件時執行。
       </td>
     </tr>
     <tr>
-      <td rowspan="7">Change<p>Detection</td>
+      <td rowspan="7">變更<p>偵測</td>
       <td><code>ngOnInit</code>
       </td>
-      <td>Runs once after Angular has initialized all the component's inputs.</td>
+      <td>在 Angular 初始化元件的所有 inputs 之後執行一次。</td>
     </tr>
     <tr>
       <td><code>ngOnChanges</code></td>
-      <td>Runs every time the component's inputs have changed.</td>
+      <td>每當元件的 inputs 變更時執行。</td>
     </tr>
     <tr>
       <td><code>ngDoCheck</code></td>
-      <td>Runs every time this component is checked for changes.</td>
+      <td>每當檢查此元件是否有變更時執行。</td>
     </tr>
     <tr>
       <td><code>ngAfterViewInit</code></td>
-      <td>Runs once after the component's <em>view</em> has been initialized.</td>
+      <td>在元件的 <em>view</em> 初始化之後執行一次。</td>
     </tr>
     <tr>
       <td><code>ngAfterContentInit</code></td>
-      <td>Runs once after the component's <em>content</em> has been initialized.</td>
+      <td>在元件的 <em>content</em> 初始化之後執行一次。</td>
     </tr>
     <tr>
       <td><code>ngAfterViewChecked</code></td>
-      <td>Runs every time the component's view has been checked for changes.</td>
+      <td>每當檢查元件的檢視是否有變更時執行。</td>
     </tr>
     <tr>
       <td><code>ngAfterContentChecked</code></td>
-      <td>Runs every time this component content has been checked for changes.</td>
+      <td>每當檢查此元件的內容是否有變更時執行。</td>
     </tr>
     <tr>
-      <td rowspan="2">Rendering</td>
+      <td rowspan="2">渲染</td>
       <td><code>afterNextRender</code></td>
-      <td>Runs once the next time that <strong>all</strong> components have been rendered to the DOM.</td>
+      <td>在下一次<strong>所有</strong>元件都渲染至 DOM 時執行一次。</td>
     </tr>
     <tr>
       <td><code>afterRender</code></td>
-      <td>Runs every time <strong>all</strong> components have been rendered to the DOM.</td>
+      <td>每當<strong>所有</strong>元件都渲染至 DOM 時執行。</td>
     </tr>
     <tr>
-      <td>Destruction</td>
+      <td>銷毀</td>
       <td><code>ngOnDestroy</code></td>
-      <td>Runs once before the component is destroyed.</td>
+      <td>在元件銷毀前執行一次。</td>
     </tr>
   </table>
 </div>
 
 ### ngOnInit
 
-The `ngOnInit` method runs after Angular has initialized all the components inputs with their
-initial values. A component's `ngOnInit` runs exactly once.
+`ngOnInit` 方法會在 Angular 以初始值初始化元件的所有 inputs 之後執行。元件的 `ngOnInit` 恰好執行一次。
 
-This step happens _before_ the component's own template is initialized. This means that you can
-update the component's state based on its initial input values.
+這個步驟發生在元件自身的範本初始化_之前_。這表示你可以依據元件 inputs 的初始值來更新元件的狀態。
 
 ### ngOnChanges
 
-The `ngOnChanges` method runs after any component inputs have changed.
+`ngOnChanges` 方法會在任何元件 inputs 變更之後執行。
 
-This step happens _before_ the component's own template is checked. This means that you can update
-the component's state based on its initial input values.
+這個步驟發生在檢查元件自身的範本_之前_。這表示你可以依據元件 inputs 的初始值來更新元件的狀態。
 
-During initialization, the first `ngOnChanges` runs before `ngOnInit`.
+在初始化期間，第一個 `ngOnChanges` 會在 `ngOnInit` 之前執行。
 
-#### Inspecting changes
+#### 檢視變更 {#inspecting-changes}
 
-The `ngOnChanges` method accepts one `SimpleChanges` argument. This object is
-a [`Record`](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type)
-mapping each component input name to a `SimpleChange` object. Each `SimpleChange` contains the
-input's previous value, its current value, and a flag for whether this is the first time the input
-has changed.
+`ngOnChanges` 方法接受一個 `SimpleChanges` 引數。這個物件是一個 [`Record`](https://www.typescriptlang.org/docs/handbook/utility-types.html#recordkeys-type)，將每個元件 input 名稱對應到一個 `SimpleChange` 物件。每個 `SimpleChange` 都包含該 input 的前一個值、目前值，以及一個旗標，表示這是否為該 input 第一次變更。
 
 ```ts
 @Component({
@@ -126,20 +109,15 @@ export class UserProfile {
 }
 ```
 
-If you provide an `alias` for any input properties, the `SimpleChanges` Record still uses the
-TypeScript property name as a key, rather than the alias.
+若你為任何 input 屬性提供了 `alias`，`SimpleChanges` 這個 Record 仍會以 TypeScript 屬性名稱作為鍵，而不是使用別名。
 
 ### ngOnDestroy
 
-The `ngOnDestroy` method runs once just before a component is destroyed. Angular destroys a
-component when it is no longer shown on the page, such as being hidden by `NgIf` or upon navigating
-to another page.
+`ngOnDestroy` 方法會在元件銷毀前執行一次。當元件不再顯示於頁面上時，Angular 會銷毀該元件，例如被 `NgIf` 隱藏，或導覽至其他頁面時。
 
 #### DestroyRef
 
-As an alternative to the `ngOnDestroy` method, you can inject an instance of `DestroyRef`. You can
-register a callback to be invoked upon the component's destruction by calling the `onDestroy` method
-of `DestroyRef`.
+除了 `ngOnDestroy` 方法之外，你也可以注入 `DestroyRef` 的一個實例。呼叫 `DestroyRef` 的 `onDestroy` 方法，即可註冊一個在元件銷毀時被呼叫的回呼。
 
 ```ts
 @Component({
@@ -154,95 +132,63 @@ export class UserProfile {
 }
 ```
 
-You can pass the `DestroyRef` instance to functions or classes outside your component. Use this
-pattern if you have other code that should run some cleanup behavior when the component is
-destroyed.
+你可以將 `DestroyRef` 實例傳給元件之外的函式或類別。當元件銷毀時，若有其他程式碼需要執行某些清理行為，請使用這個模式。
 
-You can also use `DestroyRef` to keep setup code close to cleanup code, rather than putting
-all cleanup code in the `ngOnDestroy` method.
+你也可以使用 `DestroyRef`，讓設定程式碼靠近清理程式碼，而不必將所有清理程式碼都放在 `ngOnDestroy` 方法中。
 
 ### ngDoCheck
 
-The `ngDoCheck` method runs before every time Angular checks a component's template for changes.
+`ngDoCheck` 方法會在 Angular 每次檢查元件範本是否有變更之前執行。
 
-You can use this lifecycle hook to manually check for state changes outside of Angular's normal
-change detection, manually updating the component's state.
+你可以使用這個生命週期鉤子，在 Angular 一般的變更偵測之外手動檢查狀態變更，並手動更新元件的狀態。
 
-This method runs very frequently and can significantly impact your page's performance. Avoid
-defining this hook whenever possible, only using it when you have no alternative.
+這個方法執行得非常頻繁，可能大幅影響頁面的效能。請盡可能避免定義這個鉤子，只在別無選擇時才使用。
 
-During initialization, the first `ngDoCheck` runs after `ngOnInit`.
+在初始化期間，第一個 `ngDoCheck` 會在 `ngOnInit` 之後執行。
 
 ### ngAfterViewInit
 
-The `ngAfterViewInit` method runs once after all the children in the component's template (its
-_view_) have been initialized.
+`ngAfterViewInit` 方法會在元件範本中的所有子元素（其 _view_）初始化之後執行一次。
 
-You can use this lifecycle hook to read the results of
-[view queries](guide/components/queries#view-queries). While you can access the initialized state of
-these queries, attempting to change any state in this method results in an
-[ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100)
+你可以使用這個生命週期鉤子來讀取[檢視查詢](guide/components/queries#view-queries)的結果。雖然你可以存取這些查詢已初始化的狀態，但在這個方法中嘗試變更任何狀態，都會導致 [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100)。
 
 ### ngAfterContentInit
 
-The `ngAfterContentInit` method runs once after all the children nested inside the component (
-its _content_) have been initialized.
+`ngAfterContentInit` 方法會在巢狀置於元件內的所有子元素（其 _content_）初始化之後執行一次。
 
-You can use this lifecycle hook to read the results of
-[content queries](guide/components/queries#content-queries). While you can access the initialized
-state of these queries, attempting to change any state in this method results in an
-[ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100)
+你可以使用這個生命週期鉤子來讀取[內容查詢](guide/components/queries#content-queries)的結果。雖然你可以存取這些查詢已初始化的狀態，但在這個方法中嘗試變更任何狀態，都會導致 [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100)。
 
 ### ngAfterViewChecked
 
-The `ngAfterViewChecked` method runs every time the children in the component's template (its
-_view_) have been checked for changes.
+`ngAfterViewChecked` 方法會在元件範本中的所有子元素（其 _view_）檢查完變更之後，每次都執行。
 
-This method runs very frequently and can significantly impact your page's performance. Avoid
-defining this hook whenever possible, only using it when you have no alternative.
+這個方法執行得非常頻繁，可能大幅影響頁面的效能。請盡可能避免定義這個鉤子，只在別無選擇時才使用。
 
-While you can access the updated state of [view queries](guide/components/queries#view-queries)
-here, attempting to
-change any state in this method results in
-an [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100).
+雖然你可以在這裡存取[檢視查詢](guide/components/queries#view-queries)的更新後狀態，但在這個方法中嘗試變更任何狀態，都會導致 [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100)。
 
 ### ngAfterContentChecked
 
-The `ngAfterContentChecked` method runs every time the children nested inside the component (its
-_content_) have been checked for changes.
+`ngAfterContentChecked` 方法會在巢狀置於元件內的所有子元素（其 _content_）檢查完變更之後，每次都執行。
 
-This method runs very frequently and can significantly impact your page's performance. Avoid
-defining this hook whenever possible, only using it when you have no alternative.
+這個方法執行得非常頻繁，可能大幅影響頁面的效能。請盡可能避免定義這個鉤子，只在別無選擇時才使用。
 
-While you can access the updated state
-of [content queries](guide/components/queries#content-queries) here, attempting to
-change any state in this method results in
-an [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100).
+雖然你可以在這裡存取[內容查詢](guide/components/queries#content-queries)的更新後狀態，但在這個方法中嘗試變更任何狀態，都會導致 [ExpressionChangedAfterItHasBeenCheckedError](errors/NG0100)。
 
-### afterRender and afterNextRender
+### afterRender 與 afterNextRender {#afterrender-and-afternextrender}
 
-The `afterRender` and `afterNextRender` functions let you register a **render callback** to be
-invoked after Angular has finished rendering _all components_ on the page into the DOM.
+`afterRender` 與 `afterNextRender` 函式可讓你註冊一個**渲染回呼**，在 Angular 完成將頁面上的_所有元件_渲染至 DOM 之後被呼叫。
 
-These functions are different from the other lifecycle hooks described in this guide. Rather than a
-class method, they are standalone functions that accept a callback. The execution of render
-callbacks are not tied to any specific component instance, but instead an application-wide hook.
+這些函式與本指南中說明的其他生命週期鉤子不同。它們不是類別方法，而是接受回呼的獨立函式。渲染回呼的執行並不綁定任何特定的元件實例，而是應用程式層級的鉤子。
 
-`afterRender` and `afterNextRender` must be called in
-an [injection context](guide/di/dependency-injection-context), typically a
-component's constructor.
+`afterRender` 與 `afterNextRender` 必須在[注入情境](guide/di/dependency-injection-context)中呼叫，通常是在元件的建構子中。
 
-You can use render callbacks to perform manual DOM operations.
-See [Using DOM APIs](guide/components/dom-apis) for guidance on working with the DOM in Angular.
+你可以使用渲染回呼來執行手動的 DOM 操作。關於在 Angular 中處理 DOM 的指引，請參閱[使用 DOM API](guide/components/dom-apis)。
 
-Render callbacks do not run during server-side rendering or during build-time pre-rendering.
+渲染回呼不會在伺服器端渲染或建置時預渲染期間執行。
 
-#### afterRender phases
+#### afterRender 的階段
 
-When using `afterRender` or `afterNextRender`, you can optionally specify a `phase`. The phase
-gives you control over the sequencing of DOM operations, letting you sequence _write_ operations
-before _read_ operations in order to minimize
-[layout thrashing](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing).
+使用 `afterRender` 或 `afterNextRender` 時，你可以選擇性地指定一個 `phase`。階段讓你能控制 DOM 操作的先後順序，例如將_寫入_操作排在_讀取_操作之前，以盡量減少[版面抖動](https://web.dev/avoid-large-complex-layouts-and-layout-thrashing)。
 
 ```ts
 import {Component, ElementRef, afterNextRender, AfterRenderPhase} from '@angular/core';
@@ -267,23 +213,20 @@ export class UserProfile {
 }
 ```
 
-There are four phases, run in the following order:
+共有四個階段，依以下順序執行：
 
-| Phase            | Description                                                                                                                                                                                           |
+| 階段             | 說明                                                                                                                                                                                           |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `EarlyRead`      | Use this phase to read any layout-affecting DOM properties and styles that are strictly necessary for subsequent calculation. Avoid this phase if possible, preferring the `Write` and `Read` phases. |
-| `MixedReadWrite` | Default phase. Use for any operations need to both read and write layout-affecting properties and styles. Avoid this phase if possible, preferring the explicit `Write` and `Read` phases.            |
-| `Write`          | Use this phase to write layout-affecting DOM properties and styles.                                                                                                                                   |
-| `Read`           | Use this phase to read any layout-affecting DOM properties.                                                                                                                                           |
+| `EarlyRead`      | 使用此階段讀取任何會影響版面、且後續計算嚴格需要的 DOM 屬性與樣式。請盡可能避免使用此階段，優先使用 `Write` 與 `Read` 階段。 |
+| `MixedReadWrite` | 預設階段。用於需要同時讀取與寫入會影響版面的屬性與樣式的操作。請盡可能避免使用此階段，優先使用明確的 `Write` 與 `Read` 階段。            |
+| `Write`          | 使用此階段寫入會影響版面的 DOM 屬性與樣式。                                                                                                                                   |
+| `Read`           | 使用此階段讀取任何會影響版面的 DOM 屬性。                                                                                                                                           |
 
-## Lifecycle interfaces
+## 生命週期介面
 
-Angular provides a TypeScript interface for each lifecycle method. You can optionally import
-and `implement` these interfaces to ensure that your implementation does not have any typos or
-misspellings.
+Angular 為每個生命週期方法提供了一個 TypeScript 介面。你可以選擇匯入並 `implement` 這些介面，確保你的實作沒有錯字或拼寫錯誤。
 
-Each interface has the same name as the corresponding method without the `ng` prefix. For example,
-the interface for `ngOnInit` is `OnInit`.
+每個介面的名稱都與對應的方法相同，但不含 `ng` 前綴。例如，`ngOnInit` 的介面是 `OnInit`。
 
 ```ts
 @Component({
@@ -296,11 +239,11 @@ export class UserProfile implements OnInit {
 }
 ```
 
-## Execution order
+## 執行順序
 
-The following diagrams show the execution order of Angular's lifecycle hooks.
+以下圖表顯示 Angular 生命週期鉤子的執行順序。
 
-### During initialization
+### 初始化期間
 
 ```mermaid
 graph TD;
@@ -317,7 +260,7 @@ end
 CHANGE--Rendering-->afterRender
 ```
 
-### Subsequent updates
+### 後續更新
 
 ```mermaid
 graph TD;
@@ -330,9 +273,6 @@ end
 CHANGE--Rendering-->afterRender
 ```
 
-### Ordering with directives
+### 與指令的順序關係
 
-When you put one or more directives on the same element as a component, either in a template or with
-the `hostDirectives` property, the framework does not guarantee any ordering of a given lifecycle
-hook between the component and the directives on a single element. Never depend on an observed
-ordering, as this may change in later versions of Angular.
+當你在與元件相同的元素上放置一個或多個指令時，無論是在範本中還是透過 `hostDirectives` 屬性，框架都不保證在同一個元素上，某個生命週期鉤子在元件與指令之間的執行順序。切勿依賴觀察到的順序，因為這在 Angular 的後續版本中可能會改變。

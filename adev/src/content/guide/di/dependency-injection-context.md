@@ -1,21 +1,22 @@
-# Injection context
+# 注入上下文
 
-The dependency injection (DI) system relies internally on a runtime context where the current injector is available.
-This means that injectors can only work when code is executed in such a context.
+依賴注入（DI）系統在內部仰賴一個執行階段上下文，目前的注入器在這個上下文中可供使用。
 
-The injection context is available in these situations:
+這表示注入器只有在程式碼於這樣的上下文中執行時，才能運作。
 
-* During construction (via the `constructor`) of a class being instantiated by the DI system, such as an `@Injectable` or `@Component`.
-* In the initializer for fields of such classes.
-* In the factory function specified for `useFactory` of a `Provider` or an `@Injectable`.
-* In the `factory` function specified for an `InjectionToken`.
-* Within a stack frame that runs in an injection context.
+注入上下文在以下情境中可供使用：
 
-Knowing when you are in an injection context will allow you to use the [`inject`](api/core/inject) function to inject instances.
+* 在正由 DI 系統實例化的類別（例如 `@Injectable` 或 `@Component`）的建構期間（透過 `constructor`）。
+* 在這類類別的欄位初始化器中。
+* 在為 `Provider` 或 `@Injectable` 的 `useFactory` 指定的工廠函式中。
+* 在為 `InjectionToken` 指定的 `factory` 函式中。
+* 在於注入上下文中執行的堆疊框架內。
 
-## Class constructors
+知道自己何時處於注入上下文中，將能讓你使用 [`inject`](api/core/inject) 函式來注入實例。
 
-Every time the DI system instantiates a class, it does so in an injection context. This is handled by the framework itself. The constructor of the class is executed in that runtime context, which also allows injection of a token using the [`inject`](api/core/inject) function.
+## 類別建構子 {#class-constructors}
+
+每當 DI 系統實例化一個類別時，都是在注入上下文中進行的。這由框架本身處理。類別的建構子會在該執行階段上下文中執行，這也讓你可以使用 [`inject`](api/core/inject) 函式來注入 token。
 
 <docs-code language="typescript" highlight="[[3],[6]]">
 class MyComponent  {
@@ -28,11 +29,11 @@ class MyComponent  {
 }
 </docs-code>
 
-## Stack frame in context
+## 上下文中的堆疊框架
 
-Some APIs are designed to be run in an injection context. This is the case, for example, with router guards. This allows the use of [`inject`](api/core/inject) within the guard function to access a service.
+有些 API 被設計成在注入上下文中執行。例如，路由守衛就是如此。這讓 [`inject`](api/core/inject) 可以在守衛函式中用來存取某個服務。
 
-Here is an example for `CanActivateFn`
+以下是一個 `CanActivateFn` 的範例：
 
 <docs-code language="typescript" highlight="[3]">
 const canActivateTeam: CanActivateFn =
@@ -41,10 +42,10 @@ const canActivateTeam: CanActivateFn =
     };
 </docs-code>
 
-## Run within an injection context
+## 在注入上下文中執行 {#run-within-an-injection-context}
 
-When you want to run a given function in an injection context without already being in one, you can do so with `runInInjectionContext`.
-This requires access to a given injector, like the `EnvironmentInjector`, for example:
+當你想在注入上下文中執行一個指定的函式、但自己還不在注入上下文中時，可以使用 `runInInjectionContext` 來做到。
+這需要能存取一個指定的注入器，例如 `EnvironmentInjector`：
 
 <docs-code header="src/app/heroes/hero.service.ts" language="typescript"
            highlight="[9]">
@@ -62,12 +63,12 @@ export class HeroService {
 }
 </docs-code>
 
-Note that `inject` will return an instance only if the injector can resolve the required token.
+請注意，只有當注入器能解析所需的 token 時，`inject` 才會傳回實例。
 
-## Asserts the context
+## 斷言上下文 {#asserts-the-context}
 
-Angular provides the `assertInInjectionContext` helper function to assert that the current context is an injection context.
+Angular 提供 `assertInInjectionContext` 輔助函式，用來斷言目前的上下文是注入上下文。
 
-## Using DI outside of a context
+## 在上下文之外使用 DI
 
-Calling [`inject`](api/core/inject) or calling `assertInInjectionContext` outside of an injection context will throw [error NG0203](/errors/NG0203).
+在注入上下文之外呼叫 [`inject`](api/core/inject) 或呼叫 `assertInInjectionContext`，將會擲出[錯誤 NG0203](/errors/NG0203)。

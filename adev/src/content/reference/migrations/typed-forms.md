@@ -1,12 +1,12 @@
-# Typed Forms Migration
+# 型別化表單遷移
 
-As of Angular 14, reactive forms are strictly typed by default.
+自 Angular 14 起，反應式表單預設為嚴格型別化。
 
-## Overview of Typed Forms
+## 型別化表單概觀
 
-<docs-video src="https://www.youtube.com/embed/L-odCf4MfJc" title="Angular Typed Forms"/>
+<docs-video src="https://www.youtube.com/embed/L-odCf4MfJc" title="Angular 型別化表單"/>
 
-With Angular reactive forms, you explicitly specify a *form model*. As a simple example, consider this basic user login form:
+使用 Angular 反應式表單時，你會明確指定一個*表單模型*。簡單舉例來說，請看這個基本的使用者登入表單：
 
 ```ts
 const login = new FormGroup({
@@ -15,23 +15,23 @@ const login = new FormGroup({
 });
 ```
 
-Angular provides many APIs for interacting with this `FormGroup`. For example, you may call `login.value`, `login.controls`, `login.patchValue`, etc. (For a full API reference, see the [API documentation](api/forms/FormGroup).)
+Angular 提供許多 API 來與這個 `FormGroup` 互動。例如，你可以呼叫 `login.value`、`login.controls`、`login.patchValue` 等。（完整的 API 參考請參閱 [API 文件](api/forms/FormGroup)。）
 
-In previous Angular versions, most of these APIs included `any` somewhere in their types, and interacting with the structure of the controls, or the values themselves, was not type-safe. For example: you could write the following invalid code:
+在先前的 Angular 版本中，大多數這些 API 的型別中都包含 `any`，與控制項的結構或值本身的互動並不具備型別安全性。例如：你可以寫出下列無效的程式碼：
 
 ```ts
 const emailDomain = login.value.email.domain;
 ```
 
-With strictly typed reactive forms, the above code does not compile, because there is no `domain` property on `email`.
+有了嚴格型別化的反應式表單，上面的程式碼無法編譯，因為 `email` 上沒有 `domain` 屬性。
 
-In addition to the added safety, the types enable a variety of other improvements, such as better autocomplete in IDEs, and an explicit way to specify form structure.
+除了增加安全性之外，這些型別也帶來了各種其他改進，例如 IDE 中更好的自動完成，以及明確指定表單結構的方式。
 
-These improvements currently apply only to *reactive* forms (not [*template-driven* forms](guide/forms/template-driven-forms)).
+這些改進目前僅適用於*反應式*表單（不適用於[*範本驅動*表單](guide/forms/template-driven-forms)）。
 
-## Automated Untyped Forms Migration
+## 自動化的無型別表單遷移
 
-When upgrading to Angular 14, an included migration will automatically replace all the forms classes in your code with corresponding untyped versions. For example, the snippet from above would become:
+升級到 Angular 14 時，隨附的遷移會自動將你程式碼中的所有表單類別，替換為對應的無型別版本。例如，上面的程式碼片段會變成：
 
 ```ts
 const login = new UntypedFormGroup({
@@ -40,4 +40,4 @@ const login = new UntypedFormGroup({
 });
 ```
 
-Each `Untyped` symbol has exactly the same semantics as in previous Angular versions, so your application should continue to compile as before. By removing the `Untyped` prefixes, you can incrementally enable the types.
+每個 `Untyped` 符號的語意與先前 Angular 版本完全相同，因此你的應用程式應能和以前一樣繼續編譯。移除 `Untyped` 前綴，即可逐步啟用這些型別。

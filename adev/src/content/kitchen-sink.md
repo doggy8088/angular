@@ -1,135 +1,135 @@
-<docs-decorative-header title="Kitchen sink" imgSrc="assets/images/components.svg"> <!-- markdownlint-disable-line -->
-This is a visual list of all custom components and styles for Angular.dev.
+<docs-decorative-header title="元件總覽" imgSrc="assets/images/components.svg"> <!-- markdownlint-disable-line -->
+這是 Angular.dev 所有自訂元件與樣式的視覺清單。
 </docs-decorative-header>
 
-As a design system, this page contains visual and Markdown authoring guidance for:
+作為一套設計系統，本頁包含視覺與 Markdown 撰寫指引，主題包括：
 
-* Custom Angular docs elements: [`docs-card`](#cards), [`docs-callout`](#callouts), [`docs-pill`](#pills), and [`docs-steps`](#workflow)
-* Custom text elements: [alerts](#alerts)
-* Code examples: [`docs-code`](#code)
-* Built-in Markdown styled elements: links, lists, [headers](#headers), [horizontal lines](#horizontal-line-divider), [tables](#tables)
-* and more!
+- 自訂的 Angular 文件元素：[`docs-card`](#cards)、[`docs-callout`](#callouts)、[`docs-pill`](#pills) 與 [`docs-steps`](#workflow)
+- 自訂文字元素：[警示](#alerts)
+- 程式碼範例：[`docs-code`](#code)
+- 內建並套用樣式的 Markdown 元素：連結、清單、[標題](#headers)、[水平線](#horizontal-line-divider)、[表格](#tables)
+- 以及更多！
 
-Get ready to:
+準備好要來：
 
-1. Write...
-2. great...
-3. docs!
+1. 撰寫……
+2. 優質的……
+3. 文件！
 
-## Headers (h2)
+## 標題（h2） {#headers-h2}
 
-### Smaller headers (h3)
+### 較小的標題（h3）
 
-#### Even smaller (h4)
+#### 更小的標題（h4）
 
-##### Even more smaller (h5)
+##### 再更小的標題（h5）
 
-###### The smallest! (h6)
+###### 最小的標題！（h6）
 
-## Cards
+## 卡片 {#cards}
 
 <docs-card-container>
-  <docs-card title="What is Angular?" link="Platform Overview" href="tutorials/first-app">
+  <docs-card title="什麼是 Angular？" link="平台總覽" href="tutorials/first-app">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare ligula nisi
   </docs-card>
-  <docs-card title="Second Card" link="Try It Now" href="essentials/what-is-angular">
+  <docs-card title="第二張卡片" link="立即試用" href="essentials/what-is-angular">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare ligula nisi
   </docs-card>
-    <docs-card title="No Link Card">
+    <docs-card title="無連結卡片">
     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ornare ligula nisi
   </docs-card>
 </docs-card-container>
 
-### `<docs-card>` Attributes
+### `<docs-card>` 屬性
 
-| Attributes               | Details                                           |
-|:---                      |:---                                               |
-| `<docs-card-container>`  | All cards must be nested inside a container       |
-| `title`                  | Card title                                        |
-| card body contents       | Anything between `<docs-card>` and `</docs-card>` |
-| `link`                   | (Optional) Call to Action link text               |
-| `href`                   | (Optional) Call to Action link href               |
+| 屬性                    | 說明                                              |
+| :---------------------- | :------------------------------------------------ |
+| `<docs-card-container>` | 所有卡片都必須巢狀放在容器裡面                    |
+| `title`                 | 卡片標題                                          |
+| 卡片主體內容            | 介於 `<docs-card>` 與 `</docs-card>` 之間的任何內容 |
+| `link`                  | （選填）行動呼籲連結文字                          |
+| `href`                  | （選填）行動呼籲連結的 href                       |
 
-## Callouts
+## 提示框 {#callouts}
 
-<docs-callout title="Title of a callout that is helpful">
+<docs-callout title="一個實用提示框的標題">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus metus blandit semper faucibus. Sed blandit diam quis tellus maximus, ac scelerisque ex egestas. Ut euismod lobortis mauris pretium iaculis. Quisque ullamcorper, elit ut lacinia blandit, magna sem finibus urna, vel suscipit tortor dolor id risus.
 </docs-callout>
 
-<docs-callout critical title="Title of a callout that is critical">
+<docs-callout critical title="一個關鍵提示框的標題">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus metus blandit semper faucibus. Sed blandit diam quis tellus maximus, ac scelerisque ex egestas. Ut euismod lobortis mauris pretium iaculis. Quisque ullamcorper, elit ut lacinia blandit, magna sem finibus urna, vel suscipit tortor dolor id risus.
 </docs-callout>
 
-<docs-callout important title="Title of a callout that is important">
+<docs-callout important title="一個重要提示框的標題">
   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus metus blandit semper faucibus. Sed blandit diam quis tellus maximus, ac scelerisque ex egestas. Ut euismod lobortis mauris pretium iaculis. Quisque ullamcorper, elit ut lacinia blandit, magna sem finibus urna, vel suscipit tortor dolor id risus.
 </docs-callout>
 
-### `<docs-callout>` Attributes
+### `<docs-callout>` 屬性
 
-| Attributes                                     | Details                                                   |
-|:---                                            |:---                                                       |
-| `title`                                        | Callout title                                             |
-| card body contents                             | Anything between `<docs-callout>` and `</docs-callout>`   |
-| `helpful` (default) | `critical` | `important` | (Optional) Adds styling and icons based on severity level |
+| 屬性                                             | 說明                                                      |
+| :----------------------------------------------- | :-------------------------------------------------------- |
+| `title`                                          | 提示框標題                                                |
+| 卡片主體內容                                     | 介於 `<docs-callout>` 與 `</docs-callout>` 之間的任何內容 |
+| `helpful`（預設）\| `critical` \| `important`    | （選填）依嚴重程度加上樣式與圖示                          |
 
-## Pills
+## 膠囊按鈕 {#pills}
 
-Pill rows are helpful as a sort of navigation with links to helpful resources.
+膠囊按鈕列很適合當作一種導覽，連結到實用的資源。
 
 <docs-pill-row>
-  <docs-pill href="#pill-row" title="Link"/>
-  <docs-pill href="#pill-row" title="Link"/>
-  <docs-pill href="#pill-row" title="Link"/>
-  <docs-pill href="#pill-row" title="Link"/>
-  <docs-pill href="#pill-row" title="Link"/>
-  <docs-pill href="#pill-row" title="Link"/>
+  <docs-pill href="#pill-row" title="連結"/>
+  <docs-pill href="#pill-row" title="連結"/>
+  <docs-pill href="#pill-row" title="連結"/>
+  <docs-pill href="#pill-row" title="連結"/>
+  <docs-pill href="#pill-row" title="連結"/>
+  <docs-pill href="#pill-row" title="連結"/>
 </docs-pill-row>
 
-### `<docs-pill>` Attributes
+### `<docs-pill>` 屬性
 
-| Attributes               | Details                                      |
-|:---                      |:---                                          |
-| `<docs-pill-row`         | All pills must be nested inside a pill row   |
-| `title`                  | Pill text                                    |
-| `href`                   | Pill href                                    |
+| 屬性             | 說明                               |
+| :--------------- | :--------------------------------- |
+| `<docs-pill-row` | 所有膠囊按鈕都必須巢狀放在按鈕列裡 |
+| `title`          | 膠囊按鈕文字                       |
+| `href`           | 膠囊按鈕的 href                    |
 
-Pills may also be used inline by themselves, but we haven't built that out yet.
+膠囊按鈕也可以單獨行內使用，不過我們還沒把那種用法做出來。
 
-## Alerts
+## 警示 {#alerts}
 
-Alerts are just special paragraphs. They are helpful to call out (not to be confused with call-out) something that's a bit more urgent. They gain font size from context and are available in many levels. Try not to use alerts to render too much content, but rather to enhance and call attention to surrounding content.
+警示就是特殊的段落。它們很適合用來特別標示（別和提示框搞混）比較緊急的事情。它們的字體大小由上下文決定，而且有許多等級可用。盡量不要用警示來呈現太多內容，而是用來強化周圍的內容並吸引讀者注意。
 
-Style alerts starting on a new line in Markdown using the format `SEVERITY_LEVEL` + `:` + `ALERT_TEXT`.
+警示的撰寫方式是在 Markdown 中另起一行，使用 `SEVERITY_LEVEL` + `:` + `ALERT_TEXT` 的格式。
 
-Note: Use Note for ancillary/additional information that's not _essential_ to the main text.
+Note: 使用 Note 來提供附帶或補充的資訊，這些資訊對正文來說並非不可或缺。
 
-Tip: Use Tip to call out a specific task/action users can perform, or a fact that plays directly into a task/action.
+Tip: 使用 Tip 來特別標示使用者可以執行的特定工作或動作，或是與某個工作或動作直接相關的事實。
 
-TODO: Use TODO for incomplete documentation that you plan to expand soon. You can also assign the TODO, e.g. TODO(emmatwersky): Text.
+TODO: 使用 TODO 來標示你打算近期擴充的未完成文件。你也可以指派 TODO 的負責人，例如 TODO(emmatwersky)：文字。
 
-QUESTION: Use Question to pose a question to the reader, kind of like a mini-quiz that they should be able to answer.
+QUESTION: 使用 Question 向讀者提出問題，有點像他們應該能夠回答的迷你測驗。
 
-Summary: Use Summary to provide a two- or three-sentence synopsis of the page or section content, so readers can figure out whether this is the right place for them.
+Summary: 使用 Summary 提供頁面或章節內容兩三句話的摘要，讓讀者判斷這裡是不是他們要找的地方。
 
-TLDR: Use TL;DR (or TLDR) if you can provide the essential information about a page or section in a sentence or two. For example, TLDR: Rhubarb is a cat.
+TLDR: 如果你能用一兩句話提供頁面或章節的關鍵資訊，就使用 TL;DR（或 TLDR）。例如，TLDR：Rhubarb 是一隻貓。
 
-CRITICAL: Use Critical to call out potential bad stuff or alert the reader they ought to be careful before doing something. For example, Warning: Running `rm` with the `-f` option will delete write-protected files or directories without prompting you.
+CRITICAL: 使用 Critical 來特別標示潛在的壞事，或提醒讀者在做某件事之前務必小心。例如，警告：在 `rm` 指令加上 `-f` 選項，會在不提示的情況下刪除寫入保護的檔案或目錄。
 
-IMPORTANT: Use Important for information that's crucial to comprehending the text or to completing some task.
+IMPORTANT: 使用 Important 來標示對理解正文，或完成某項工作至關重要的資訊。
 
-HELPFUL: Use Best practice to call out practices that are known to be successful or better than alternatives.
+HELPFUL: 使用 Best practice 來特別標示已知成功，或是比其他替代方案更好的實務做法。
 
-Note: Heads up `developers`! Alerts _can_ have a [link](#alerts) and other nested styles (but try to **use this sparingly**)!.
+Note: 各位 `developers` 注意！警示裡面可以有[連結](#alerts)和其他巢狀樣式（但請盡量**少用**）！
 
-## Code
+## 程式碼 {#code}
 
-You can display `code` using the built in triple backtick:
+你可以使用內建的三個反引號來顯示 `code`：
 
 ```ts
 example code
 ```
 
-Or using the `<docs-code>` element.
+或是使用 `<docs-code>` 元素。
 
 <docs-code header="Your first example" language="ts" linenums>
 import { Component } from '@angular/core';
@@ -141,9 +141,9 @@ import { Component } from '@angular/core';
 export class ComponentOverviewComponent {}
 </docs-code>
 
-### Styling the example
+### 為範例套用樣式
 
-Here's a code example fully styled:
+這是一個完整套用了樣式的程式碼範例：
 
 <docs-code
   path="hello-world/src/app/app.component-old.ts"
@@ -156,30 +156,30 @@ Here's a code example fully styled:
   visibleLines="[13,28]">
 </docs-code>
 
-We also have styling for the terminal, just set the language as `shell`:
+我們也有終端機的樣式，只要把語言設為 `shell`：
 
 <docs-code language="shell">
   npm install @angular/material --save
 </docs-code>
 
-#### `<docs-code>` Attributes
+#### `<docs-code>` 屬性
 
-| Attributes               | Type        | Details                                              |
-|:---                      |:---         |:---                                                  |
-| code                     | `string`    | Anything between tags is treated as code             |
-| `path`                   | `string`    | Path to code example (root: `content/examples/`)     |
-| `header`                 | `string`    | Title of the example (default: `file-name`)          |
-| `language`               | `string`    | code language                                        |
-| `linenums`               | `boolean`   | (False) displays line numbers                        |
-| `highlight`              | `string of number[]` | lines highlighted                           |
-| `diff`                   | `string`    | path to changed code                                 |
-| `visibleLines`           | `string of number[]` | range of lines for collapse mode            |
-| `visibleRegion`          | `string`    | **DEPRECATED** FOR `visibleLines`                    |
-| `preview`                | `boolean`   | (False) display preview                              |
+| 屬性           | 類型                 | 說明                                       |
+| :------------- | :------------------- | :----------------------------------------- |
+| code           | `string`             | 標籤之間的任何內容都會被視為程式碼         |
+| `path`         | `string`             | 程式碼範例的路徑（根目錄：`content/examples/`） |
+| `header`       | `string`             | 範例的標題（預設值：`file-name`）          |
+| `language`     | `string`             | 程式碼語言                                 |
+| `linenums`     | `boolean`            | （False）顯示行號                          |
+| `highlight`    | `string of number[]` | 被醒目標示的行                             |
+| `diff`         | `string`             | 已變更程式碼的路徑                         |
+| `visibleLines` | `string of number[]` | 摺疊模式下顯示的行範圍                     |
+| `visibleRegion` | `string`             | **已棄用**，改用 `visibleLines`              |
+| `preview`      | `boolean`            | （False）顯示預覽                          |
 
-### Multifile examples
+### 多檔案範例
 
-You can create multifile examples by wrapping the examples inside a `<docs-code-multifile>`.
+你可以把範例包在 `<docs-code-multifile>` 裡面，建立多檔案範例。
 
 <docs-code-multifile
   path="hello-world/src/app/app.component.ts"
@@ -197,19 +197,19 @@ You can create multifile examples by wrapping the examples inside a `<docs-code-
     highlight="[2]"/>
 </docs-code-multifile>
 
-#### `<docs-code-multifile>` Attributes
+#### `<docs-code-multifile>` 屬性
 
-| Attributes               | Type        | Details                                          |
-|:---                      |:---         |:---                                              |
-| body contents            | `string`    | nested tabs of `docs-code` examples              |
-| `path`                   | `string`    | Path to code example for preview and external link |
-| `preview`                | `boolean`   | (False) display preview                          |
+| 屬性          | 類型      | 說明                                 |
+| :------------ | :-------- | :----------------------------------- |
+| 主體內容      | `string`  | 巢狀的 `docs-code` 範例分頁          |
+| `path`        | `string`  | 範例的路徑，用於預覽與外部連結       |
+| `preview`     | `boolean` | （False）顯示預覽                    |
 
-### Adding `preview` to your code example
+### 為你的程式碼範例加上 `preview`
 
-Adding the `preview` flag builds a running example of the code below the code snippet. This also automatically adds a button to open the running example in Stackblitz.
+加上 `preview` 旗標，會在程式碼片段下方建立一個可以實際執行的範例。這同時也自動加上一個按鈕，能在 Stackblitz 中開啟這個可執行的範例。
 
-Note: `preview` only works with standalone.
+Note: `preview` 只能搭配獨立元件使用。
 
 #### built-in-template-functions
 
@@ -240,96 +240,96 @@ Note: `preview` only works with standalone.
     path="user-input/src/app/click-me2.component.ts" linenums/>
 </docs-code-multifile>
 
-## Workflow
+## 流程步驟 {#workflow}
 
-Style numbered steps using `<docs-step>`. Numbering is created using CSS (handy!).
+使用 `<docs-step>` 來為編號步驟套用樣式。編號是透過 CSS 產生的（很方便！）。
 
-### `<docs-workflow>` and `<docs-step>` Attributes
+### `<docs-workflow>` 與 `<docs-step>` 屬性
 
-| Attributes               | Details                                           |
-|:---                      |:---                                               |
-| `<docs-workflow>`        | All steps must be nested inside a workflow        |
-| `title`                  | Step title                                        |
-| step body contents       | Anything between `<docs-step>` and `</docs-step>` |
+| 屬性               | 說明                                                |
+| :----------------- | :-------------------------------------------------- |
+| `<docs-workflow>`  | 所有步驟都必須巢狀放在 workflow 裡面                |
+| `title`            | 步驟標題                                            |
+| 步驟主體內容       | 介於 `<docs-step>` 與 `</docs-step>` 之間的任何內容 |
 
-Steps must start on a new line, and can contain `docs-code`s and other nested elements and styles.
+步驟必須另起新行，內容可以包含 `docs-code` 與其他巢狀元素及樣式。
 
 <docs-workflow>
 
-<docs-step title="Install the Angular CLI">
-  You use the Angular CLI to create projects, generate application and library code, and perform a variety of ongoing development tasks such as testing, bundling, and deployment.
+<docs-step title="安裝 Angular CLI">
+  你會使用 Angular CLI 來建立專案、產生應用程式與函式庫程式碼，並執行各種持續性的開發工作，例如測試、打包與部署。
 
-  To install the Angular CLI, open a terminal window and run the following command:
+  要安裝 Angular CLI，請開啟終端機視窗並執行下列指令：
 
   <docs-code language="shell">
     npm install -g @angular/cli
   </docs-code>
 </docs-step>
 
-<docs-step title="Create a workspace and initial application">
-  You develop apps in the context of an Angular workspace.
+<docs-step title="建立工作區與初始應用程式">
+  你會在 Angular 工作區的脈絡中開發應用程式。
 
-  To create a new workspace and initial starter app:
+  要建立新的工作區與初始的入門應用程式：
 
-* Run the CLI command `ng new` and provide the name `my-app`, as shown here:
+* 執行 CLI 指令 `ng new`，並提供名稱 `my-app`，如下所示：
     <docs-code language="shell">
       ng new my-app
     </docs-code>
 
-* The ng new command prompts you for information about features to include in the initial app. Accept the defaults by pressing the Enter or Return key.
+* ng new 指令會提示你提供初始應用程式要包含哪些功能的資訊。按下 Enter 或 Return 鍵，接受預設值即可。
 
-  The Angular CLI installs the necessary Angular npm packages and other dependencies. This can take a few minutes.
+  Angular CLI 會安裝必要的 Angular npm 套件與其他相依項目。這可能需要幾分鐘的時間。
 
-  The CLI creates a new workspace and a simple Welcome app, ready to run.
+  CLI 會建立一個新的工作區和一個簡單的 Welcome 應用程式，隨時可以執行。
 </docs-step>
 
-<docs-step title="Run the application">
-  The Angular CLI includes a server, for you to build and serve your app locally.
+<docs-step title="執行應用程式">
+  Angular CLI 內含一個伺服器，讓你在本機建置並提供你的應用程式。
 
-  1. Navigate to the workspace folder, such as `my-app`.
-  2. Run the following command:
+  1. 前往工作區資料夾，例如 `my-app`。
+  2. 執行下列指令：
     <docs-code language="shell">
       cd my-app
       ng serve --open
     </docs-code>
 
-  The `ng serve` command launches the server, watches your files, and rebuilds the app as you make changes to those files.
+  `ng serve` 指令會啟動伺服器、監看你的檔案，並在你變更這些檔案時重建應用程式。
 
-  The `--open` (or just `-o`) option automatically opens your browser to <http://localhost:4200/>.
-  If your installation and setup was successful, you should see a page similar to the following.
+  `--open`（或簡寫的 `-o`）選項會自動把你的瀏覽器開啟到 <http://localhost:4200/>。
+  如果你的安裝與設定成功，你應該會看到類似下面這樣的頁面。
 </docs-step>
 
-<docs-step title="Final step">
-  That's all the docs components! Now:
+<docs-step title="最後一個步驟">
+  文件元件就介紹到這裡！接下來：
 
   <docs-pill-row>
-    <docs-pill href="#pill-row" title="Go"/>
-    <docs-pill href="#pill-row" title="write"/>
-    <docs-pill href="#pill-row" title="great"/>
-    <docs-pill href="#pill-row" title="docs!"/>
+    <docs-pill href="#pill-row" title="開始"/>
+    <docs-pill href="#pill-row" title="撰寫"/>
+    <docs-pill href="#pill-row" title="優質"/>
+    <docs-pill href="#pill-row" title="文件！"/>
   </docs-pill-row>
 </docs-step>
 
 </docs-workflow>
 
-## Images and video
+## 圖片與影片
 
-You can add images using the semantic Markdown image:
+你可以使用語意化的 Markdown 圖片語法來加入圖片：
 
-![Rhubarb the cat](./images/kitchen-sink/rhubarb.jpg "Optional title")
+![貓咪 Rhubarb](./images/kitchen-sink/rhubarb.jpg "選填標題")
 
-### Add `#small` and `#medium` to change the image size
+### 加上 `#small` 與 `#medium` 來改變圖片大小
 
-![Rhubarb the small cat](./images/kitchen-sink/rhubarb.jpg#small)
-![Rhubarb the medium cat](./images/kitchen-sink/rhubarb.jpg#medium)
+![小隻的貓咪 Rhubarb](./images/kitchen-sink/rhubarb.jpg#small)
+![中型的貓咪 Rhubarb](./images/kitchen-sink/rhubarb.jpg#medium)
 
-Embedded videos are created with `docs-video` and just need a `src` and `alt`:
+嵌入的影片是使用 `docs-video` 建立的，只需要 `src` 與 `alt`：
 
 <docs-video src="https://www.youtube.com/embed/O47uUnJjbJc" alt=""/>
 
-## Charts & Graphs
+## 圖表
 
-Write diagrams and charts using [Mermaid](http://mermaid.js.org/) by setting the code language to `mermaid`, all theming is built-in.
+使用 [Mermaid](http://mermaid.js.org/) 來撰寫圖表，只要把程式碼語言設為 `mermaid`，所有主題樣式都已內建。
 
 ```mermaid
     graph TD;
@@ -354,10 +354,11 @@ Write diagrams and charts using [Mermaid](http://mermaid.js.org/) by setting the
       "Rats" : 15
 ```
 
-## Horizontal Line Divider
+## 水平分隔線 {#horizontal-line-divider}
 
-This can be used to separate page sections, like we're about to do below.  These styles will be added by default, nothing custom needed.
+這可以用來分隔頁面的章節，就像我們下面要做的那樣。這些樣式預設就會被加入，不需要任何自訂。
 
 <hr/>
 
-The end!
+結束！
+

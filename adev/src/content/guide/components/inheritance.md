@@ -1,11 +1,10 @@
-# Inheritance
+# 繼承
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+Tip: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先閱讀該指南。
 
-Angular components are TypeScript classes and participate in standard JavaScript inheritance
-semantics.
+Angular 元件是 TypeScript 類別，遵循標準的 JavaScript 繼承語意。
 
-A component can extend any base class:
+元件可以擴充任何基底類別：
 
 ```ts
 export class ListboxBase {
@@ -18,11 +17,9 @@ export class CustomListbox extends ListboxBase {
 }
 ```
 
-## Extending other components and directives
+## 擴充其他元件與指令
 
-When a component extends another component or a directive, it inherits all the metadata defined in
-the base class's decorator and the base class's decorated members. This includes the selector,
-template, styles, host bindings, inputs, outputs, lifecycle methods, and any other settings.
+當元件擴充另一個元件或指令時，它會繼承基底類別裝飾器中定義的全部中繼資料，以及基底類別中被裝飾的成員。這包括選擇器、範本、樣式、宿主繫結、輸入、輸出、生命週期方法，以及任何其他設定。
 
 ```ts
 @Component({
@@ -58,17 +55,13 @@ export class CustomListbox extends ListboxBase {
 }
 ```
 
-In the example above, `CustomListbox` inherits all the information associated with `ListboxBase`,
-overriding the selector and template with its own values. `CustomListbox` has two inputs (`value`
-and `disabled`) and two event listeners (`keydown` and `click`).
+在上面的範例中，`CustomListbox` 繼承了與 `ListboxBase` 相關的所有資訊，並以自己的值覆寫選擇器與範本。`CustomListbox` 有兩個輸入（`value` 與 `disabled`）和兩個事件監聽器（`keydown` 與 `click`）。
 
-Child classes end up with the _union_ of all of their ancestors' inputs, outputs, and host bindings
-and their own.
+子類別最終會擁有其所有祖先的輸入、輸出與宿主繫結，以及自身成員的_聯集_。
 
-### Forwarding injected dependencies
+### 轉交注入的依賴
 
-If a base class relies on dependency injection, the child class must explicitly pass these
-dependencies to `super`.
+如果基底類別使用依賴注入，子類別必須明確將這些依賴傳給 `super`。
 
 ```ts
 @Component({ ... })
@@ -84,11 +77,9 @@ export class CustomListbox extends ListboxBase {
 }
 ```
 
-### Overriding lifecycle methods
+### 覆寫生命週期方法
 
-If a base class defines a lifecycle method, such as `ngOnInit`, a child class that also
-implements `ngOnInit` _overrides_ the base class's implementation. If you want to preserve the base
-class's lifecycle method, explicitly call the method with `super`:
+如果基底類別定義了生命週期方法，例如 `ngOnInit`，同樣實作 `ngOnInit` 的子類別會_覆寫_基底類別的實作。如果你想保留基底類別的生命週期方法，請以 `super` 明確呼叫該方法：
 
 ```ts
 @Component({ ... })

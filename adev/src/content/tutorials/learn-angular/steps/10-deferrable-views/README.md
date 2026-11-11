@@ -1,20 +1,20 @@
-# Deferrable Views
+# 可延遲檢視
 
-Sometimes in app development, you end up with a lot of components that you need to reference in your app, but some of those don't need to be loaded right away for various reasons.
+在應用程式開發中，你有時會累積很多需要在應用程式中參照的元件，但基於各種原因，其中一些並不需要立刻載入。
 
-Maybe they are below the visible fold or are heavy components that aren't interacted with until later. In that case, we can load some of those resources later with deferrable views.
+它們可能位於頁面折疊線下方，或是要到稍後才會被互動的重型元件。在這種情況下，我們可以使用可延遲檢視，稍後再載入其中一些資源。
 
-In this activity, you'll learn how to use deferrable views to defer load a section of your component template.
+在這個練習中，你將學習如何使用可延遲檢視，延遲載入元件範本中的一個區塊。
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Add a `@defer` block around the comments component">
+<docs-step title="在留言元件外加上 `@defer` 區塊">
 
-In your app, the blog post page has a comment component after the post details.
+在你的應用程式中，部落格文章頁面在文章詳細資訊之後有一個留言元件。
 
-Wrap the comment component with a `@defer` block to defer load it.
+用 `@defer` 區塊包住留言元件，延遲載入它。
 
 ```html
 @defer {
@@ -22,13 +22,13 @@ Wrap the comment component with a `@defer` block to defer load it.
 }
 ```
 
-The code above is an example of how to use a basic `@defer` block. By default `@defer` will load the `comments` component when the browser is idle.
+上面的程式碼示範如何使用基本的 `@defer` 區塊。`@defer` 預設會在瀏覽器閒置時載入 `comments` 元件。
 
 </docs-step>
 
-<docs-step title="Add a placeholder">
+<docs-step title="加上 `@placeholder`">
 
-Add a `@placeholder` block to the `@defer` block. The `@placeholder` block is where you put html that will show before the deferred loading starts. The content in `@placeholder` blocks is eagerly loaded.
+為 `@defer` 區塊加上 `@placeholder` 區塊。`@placeholder` 區塊用來放置在延遲載入開始之前要顯示的 HTML。`@placeholder` 區塊中的內容會被預先載入。
 
 <docs-code language="html" highlight="[3,4,5]">
 @defer {
@@ -40,9 +40,9 @@ Add a `@placeholder` block to the `@defer` block. The `@placeholder` block is wh
 
 </docs-step>
 
-<docs-step title="Add a loading block">
+<docs-step title="加上 loading 區塊">
 
-Add a `@loading` block to the `@defer` block. The `@loading` block is where you put html that will show _while_ the deferred content is actively being fetched, but hasn't finished yet. The content in `@loading` blocks is eagerly loaded.
+為 `@defer` 區塊加上 `@loading` 區塊。`@loading` 區塊用來放置在延遲內容正在擷取、尚未完成時要顯示的 HTML。`@loading` 區塊中的內容會被預先載入。
 
 <docs-code language="html" highlight="[5,6,7]">
 @defer {
@@ -56,9 +56,9 @@ Add a `@loading` block to the `@defer` block. The `@loading` block is where you 
 
 </docs-step>
 
-<docs-step title="Add a minimum duration">
+<docs-step title="加上最短持續時間">
 
-Both `@placeholder` and `@loading` sections have optional parameters to prevent flickering from occurring when loading happens quickly. `@placeholder` has `minimum` and `@loading` has `minimum` and `after`. Add a `minimum` duration to the `@loading` block so it will be rendered for at least 2 seconds.
+`@placeholder` 和 `@loading` 區塊都有選擇性參數，可以避免載入太快時發生閃爍。`@placeholder` 有 `minimum`，`@loading` 有 `minimum` 和 `after`。為 `@loading` 區塊加上 `minimum` 持續時間，讓它至少渲染 2 秒。
 
 <docs-code language="html" highlight="[5]">
 @defer {
@@ -72,9 +72,9 @@ Both `@placeholder` and `@loading` sections have optional parameters to prevent 
 
 </docs-step>
 
-<docs-step title="Add a viewport trigger">
+<docs-step title="加上 viewport 觸發條件">
 
-Deferrable views have a number of trigger options. Add a viewport trigger so the content will defer load once it enters the viewport.
+可延遲檢視有多種觸發選項。加上 viewport 觸發條件，讓內容在進入 viewport 後延遲載入。
 
 <docs-code language="html" highlight="[1]">
 @defer (on viewport) {
@@ -84,9 +84,9 @@ Deferrable views have a number of trigger options. Add a viewport trigger so the
 
 </docs-step>
 
-<docs-step title="Add content">
+<docs-step title="加上內容">
 
-A viewport trigger is best used when you're deferring content that's far enough down the page that it needs to be scrolled to see. So let's add some content to our blog post. You can either write your own, or you can copy the content below and put it inside the `<article>` element.
+當你要延遲的內容位於頁面夠下方、需要捲動才能看到時，最適合使用 viewport 觸發條件。所以我們來為部落格文章加上一些內容。你可以自己寫，也可以用複製以下內容，放進 `<article>` 元素中。
 
 <docs-code language="html" highlight="[1]">
 <article>
@@ -99,14 +99,14 @@ A viewport trigger is best used when you're deferring content that's far enough 
 </article>
 </docs-code>
 
-Once you've added this code, now scroll down to see the deferred content load once you scroll it into the viewport.
+加上這段程式碼後，現在向下捲動，看看延遲的內容在捲入 viewport 時載入。
 
 </docs-step>
 
 </docs-workflow>
 
-In the activity, you've learned how to use deferrable views in your applications. Great work. 🙌
+在這個練習中，你學會了如何在應用程式中使用可延遲檢視。做得很好。🙌
 
-There's even more you can do with them, like different triggers, prefetching, and `@error` blocks.
+你還可以用它們做更多事，例如不同的觸發條件、預先擷取，以及 `@error` 區塊。
 
-If you would like to learn more, check out the [documentation for Deferrable views](guide/defer).
+如果你想了解更多，請查看[可延遲檢視文件](guide/defer)。

@@ -1,21 +1,21 @@
-# Define a Route
+# 定義路由
 
-Now that you've set up the app to use Angular Router, you need to define the routes.
+現在你已經把應用程式設定好使用 Angular Router，接下來需要定義路由。
 
-In this activity, you'll learn how to add and configure routes with your app.
+在這個練習中，你將學習如何為應用程式加上路由並進行組態。
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Define a route in `app.routes.ts`">
+<docs-step title="在 `app.routes.ts` 中定義路由">
 
-In your app, there are two pages to display: (1) Home Page and (2) User Page.
+在你的應用程式中，有兩個頁面要顯示：（1）首頁和（2）使用者頁面。
 
-To define a route, add a route object to the `routes` array in `app.routes.ts` that contains:
+要定義路由，請在 `app.routes.ts` 的 `routes` 陣列中加上一個路由物件，包含：
 
-- The `path` of the route (which automatically starts at the root path (i.e., `/`))
-- The `component` that you want the route to display
+- 路由的 `path`（它會自動從根路徑開始，也就是 `/`）
+- 你希望該路由顯示的 `component`
 
 ```ts
 import {Routes} from '@angular/router';
@@ -30,17 +30,17 @@ export const routes: Routes = [
 ];
 ```
 
-The code above is an example of how `HomeComponent` can be added as a route. Now go ahead and implement this along with the `UserComponent` in the playground.
+上面的程式碼示範如何把 `HomeComponent` 加為一條路由。現在就在 playground 中實作它，並一併加上 `UserComponent`。
 
-Use `'user'` for the path of `UserComponent`.
+`UserComponent` 的路徑請使用 `'user'`。
 
 </docs-step>
 
-<docs-step title="Add title to route definition">
+<docs-step title="為路由定義加上標題">
 
-In addition to defining the routes correctly, Angular Router also enables you to set the page title whenever users are navigating by adding the `title` property to each route.
+除了正確定義路由之外，Angular Router 也讓你能為每條路由加上 `title` 屬性，在使用者導覽時設定頁面標題。
 
-In `app.routes.ts`, add the `title` property to the default route (`path: ''`) and the `user` route. Here's an example:
+在 `app.routes.ts` 中，為預設路由（`path: ''`）和 `user` 路由加上 `title` 屬性。範例如下：
 
 <docs-code language="ts" highlight="[8]">
 import {Routes} from '@angular/router';
@@ -60,6 +60,6 @@ component: HomeComponent,
 
 </docs-workflow>
 
-In the activity, you've learned how to define and configure routes in your Angular app. Nice work. 🙌
+在這個練習中，你學會了如何在 Angular 應用程式中定義路由並進行組態。做得好。🙌
 
-The journey to fully enabling routing in your app is almost complete, keep going.
+在應用程式中完整啟用路由的旅程就快完成了，繼續前進。

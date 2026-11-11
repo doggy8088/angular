@@ -60,11 +60,11 @@
           (click)="answerRevealed() ? handleResetAnswer() : handleRevealAnswer()"
           [disabled]="!canRevealAnswer()"
           class="docs-reveal-answer-button adev-reveal-desktop-button docs-primary-btn"
-          [attr.text]="answerRevealed() ? 'Reset' : 'Reveal Answer'"
-          [attr.aria-label]="answerRevealed() ? 'Reset' : 'Reveal Answer'"
+          [attr.text]="answerRevealed() ? '重設' : '顯示答案'"
+          [attr.aria-label]="answerRevealed() ? '重設' : '顯示答案'"
           [class.adev-reset-answer-button]="answerRevealed()"
         >
-          {{ answerRevealed() ? 'Reset' : 'Reveal Answer' }}
+          {{ answerRevealed() ? '重設' : '顯示答案' }}
         </button>
       }
 
@@ -116,11 +116,11 @@
             (click)="answerRevealed() ? handleResetAnswer() : handleRevealAnswer()"
             [disabled]="!canRevealAnswer()"
             class="docs-reveal-answer-button adev-reveal-mobile-button docs-primary-btn"
-            [attr.text]="answerRevealed() ? 'Reset' : 'Reveal Answer'"
-            [attr.aria-label]="answerRevealed() ? 'Reset' : 'Reveal Answer'"
+            [attr.text]="answerRevealed() ? '重設' : '顯示答案'"
+            [attr.aria-label]="answerRevealed() ? '重設' : '顯示答案'"
             [class.adev-reset-answer-button]="answerRevealed()"
           >
-            {{ answerRevealed() ? 'Reset' : 'Reveal Answer' }}
+            {{ answerRevealed() ? '重設' : '顯示答案' }}
           </button>
         }
       </div>
@@ -137,7 +137,7 @@
             class="adev-nav-list"
           />
           @if (nextTutorialPath()) {
-            <a [routerLink]="'/' + nextTutorialPath()">Next Tutorial</a>
+            <a [routerLink]="'/' + nextTutorialPath()">下一個教學</a>
           }
         </div>
       }

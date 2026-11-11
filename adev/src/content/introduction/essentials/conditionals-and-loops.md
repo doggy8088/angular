@@ -1,20 +1,20 @@
-<docs-decorative-header title="Conditionals and Loops" imgSrc="adev/src/assets/images/directives.svg"> <!-- markdownlint-disable-line -->
-Conditionally show and/or repeat content based on dynamic data.
+<docs-decorative-header title="條件與迴圈" imgSrc="adev/src/assets/images/directives.svg"> <!-- markdownlint-disable-line -->
+依據動態資料，有條件地顯示及／或重複內容。
 </docs-decorative-header>
 
-One of the advantages of using a framework like Angular is that it provides built-in solutions for common problems that developers encounter. Examples of this include: displaying content based on a certain condition, rendering a list of items based on application data, etc.
+使用像 Angular 這樣的框架，優點之一是它為開發者常見的問題提供了內建的解決方案。例如：依據特定條件顯示內容、依據應用程式資料算繪項目清單等等。
 
-To solve this problem, Angular uses built-in control flow blocks, which tell the framework when and how your templates should be rendered.
+為了解決這類問題，Angular 使用內建的控制流程區塊，告訴框架應該在何時、以何種方式算繪你的範本。
 
-## Conditional rendering
+## 條件式算繪 {#conditional-rendering}
 
-One of the most common scenarios that developers encounter is the desire to show or hide content in templates based on a condition.
+開發者最常遇到的情境之一，就是想依據某個條件，在範本中顯示或隱藏內容。
 
-A common example of this is whether or not to display certain controls on the screen based on the user's permission level.
+一個常見的例子是，依據使用者的權限等級，決定是否在畫面上顯示特定的控制項。
 
-### `@if` block
+### `@if` 區塊 {#if-block}
 
-Similar to JavaScript's `if` statement, Angular uses `@if` control flow blocks to conditionally hide and show part of a template and its contents.
+和 JavaScript 的 `if` 陳述式類似，Angular 使用 `@if` 控制流程區塊，有條件地隱藏與顯示範本的一部分及其內容。
 
 ```ts
 // user-controls.component.ts
@@ -32,15 +32,15 @@ export class UserControls {
 }
 ```
 
-In this example, Angular only renders the `<button>` element if the `isAdmin` property is true. Otherwise, it does not appear on the page.
+在這個範例中，Angular 只有在 `isAdmin` 屬性為 true 時，才會算繪 `<button>` 元素。否則，它就不會出現在頁面上。
 
-### `@else` block
+### `@else` 區塊 {#else-block}
 
-While the `@if` block can be helpful in many situations, it's common to also show fallback UI when the condition is not met.
+雖然 `@if` 區塊在許多情況下很有幫助，但當條件不成立時，通常也需要顯示備用的 UI。
 
-For example, in the `UserControls` component, rather than show a blank screen, it would be helpful to users to know that they're not able to see anything because they're not authenticated.
+例如，在 `UserControls` 元件中，與其顯示一片空白的畫面，不如讓使用者知道他們是因為尚未通過驗證，才看不到任何內容，這樣對使用者更有幫助。
 
-When you need a fallback, similar to JavaScript's `else` clause, add an `@else` block to accomplish the same effect.
+當你需要備用內容時，就像 JavaScript 的 `else` 子句一樣，加入 `@else` 區塊即可達到相同的效果。
 
 ```ts
 // user-controls.component.ts
@@ -60,13 +60,13 @@ export class UserControls {
 }
 ```
 
-## Rendering a list
+## 算繪清單 {#rendering-a-list}
 
-Another common scenario developers encounter is the need to render a list of items.
+開發者另一個常見的情境，是需要算繪一份項目清單。
 
-### `@for` block
+### `@for` 區塊 {#for-block}
 
-Similar to JavaScript’s `for...of` loops, Angular provides the `@for` block for rendering repeated elements.
+和 JavaScript 的 `for...of` 迴圈類似，Angular 提供了 `@for` 區塊，用來算繪重複的元素。
 
 ```html
 <!-- ingredient-list.component.html -->
@@ -93,20 +93,20 @@ export class IngredientList {
 }
 ```
 
-However, unlike a standard `for...of` loop, you might've noticed that there's an additional `track` keyword.
+不過，和標準的 `for...of` 迴圈不同，你可能已經注意到，這裡多了一個 `track` 關鍵字。
 
-#### `track` property
+#### `track` 屬性 {#track-property}
 
-When Angular renders a list of elements with `@for`, those items can later change or move. Angular needs to track each element through any reordering, usually by treating a property of the item as a unique identifier or key.
+當 Angular 用 `@for` 算繪元素清單時，其中的項目之後可能會變更或移動。Angular 需要在任何重新排序的過程中追蹤每個元素，通常的做法是把項目的某個屬性當作唯一識別碼或鍵。
 
-This ensures any updates to the list are reflected correctly in the UI and tracked properly within Angular, especially in the case of stateful elements or animations.
+這樣能確保清單的任何更新都正確地反映在 UI 上，並在 Angular 內部被妥善追蹤，特別是對於有狀態的元素或動畫而言。
 
-To accomplish this, we can provide a unique key to Angular with the `track` keyword.
+為了做到這一點，我們可以用 `track` 關鍵字，為 Angular 提供一個唯一的鍵。
 
-## Next Step
+## 下一步 {#next-step}
 
-With the ability to determine when and how templates are rendered, it's time to learn how we handle an important aspect of most applications: handling user input.
+有了決定範本何時、如何算繪的能力之後，接著來學習如何處理大多數應用程式的一個重要面向：處理使用者輸入。
 
 <docs-pill-row>
-  <docs-pill title="Handling User Interaction" href="essentials/handling-user-interaction" />
+  <docs-pill title="處理使用者互動" href="essentials/handling-user-interaction" />
 </docs-pill-row>
