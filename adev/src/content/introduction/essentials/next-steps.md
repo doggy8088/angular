@@ -1,33 +1,33 @@
-<docs-decorative-header title="Next Steps" imgSrc="adev/src/assets/images/roadmap.svg"> <!-- markdownlint-disable-line -->
+<docs-decorative-header title="下一步" imgSrc="adev/src/assets/images/roadmap.svg"> <!-- markdownlint-disable-line -->
 </docs-decorative-header>
 
-Now that you have been introduced to the main concepts of Angular - you're ready to put what you learned into practice with our interactive tutorials and learn more with our in-depth guides.
+現在你已經認識了 Angular 的主要概念，接下來可以透過我們的互動式教學把學到的東西付諸實作，並從深入指南中了解更多。
 
 ## Playground
 
-Try out Angular in an interactive code editor to further explore the concepts you've learned.
+在互動式程式碼編輯器中試用 Angular，進一步探索你學到的概念。
 
 <docs-pill-row>
-  <docs-pill title="Play with Angular!" href="playground" />
+  <docs-pill title="動手玩 Angular！" href="playground" />
 </docs-pill-row>
 
-## Tutorials
+## 教學
 
-Put these main concepts into practice with our in-browser tutorial or build your first app locally with the Angular CLI.
+透過瀏覽器內的教學把這些主要概念付諸實作，或用 Angular CLI 在本機建立你的第一個應用程式。
 
 <docs-pill-row>
-  <docs-pill title="Learn Angular's fundamentals" href="tutorials/learn-angular" />
-  <docs-pill title="Build your first Angular app" href="tutorials/first-app" />
+  <docs-pill title="學習 Angular 基礎" href="tutorials/learn-angular" />
+  <docs-pill title="建立你的第一個 Angular 應用程式" href="tutorials/first-app" />
 </docs-pill-row>
 
-## In-depth Guides
+## 深入指南
 
-Here are some in-depth guides you might be interested in reading:
+以下幾篇深入指南，你可能會有興趣閱讀：
 
 <docs-pill-row>
-  <docs-pill title="Components In-depth Guide" href="guide/components/importing" />
-  <docs-pill title="Template In-depth Guide" href="guide/templates" />
-  <docs-pill title="Forms In-depth Guide" href="/guide/forms" />
+  <docs-pill title="元件深入指南" href="guide/components/importing" />
+  <docs-pill title="範本深入指南" href="guide/templates" />
+  <docs-pill title="表單深入指南" href="/guide/forms" />
 </docs-pill-row>
 
-To see the rest of our in-depth guides, check out the main navigation.
+想看其餘的深入指南，請查看主導覽列。

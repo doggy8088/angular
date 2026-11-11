@@ -1,10 +1,10 @@
-# Getting started with service workers
+# 開始使用 service worker
 
-This document explains how to enable Angular service worker support in projects that you created with the [Angular CLI](tools/cli). It then uses an example to show you a service worker in action, demonstrating loading and basic caching.
+本文件說明如何在使用 [Angular CLI](tools/cli) 建立的專案中啟用 Angular service worker 支援，接著透過範例實際示範 service worker 的運作，展示載入與基本快取的行為。
 
-## Adding a service worker to your project
+## 將 service worker 加入你的專案 {#adding-a-service-worker-to-your-project}
 
-To set up the Angular service worker in your project, run the following CLI command:
+若要在專案中設定 Angular service worker，請執行下列 CLI 指令：
 
 ```shell
 
@@ -12,19 +12,19 @@ ng add @angular/pwa
 
 ```
 
-The CLI configures your application to use service workers with the following actions:
+CLI 會透過下列動作，將你的應用程式設定為使用 service worker：
 
-1. Adds the `@angular/service-worker` package to your project.
-1. Enables service worker build support in the CLI.
-1. Imports and registers the service worker with the application's root providers.
-1. Updates the `index.html` file:
-   - Includes a link to add the `manifest.webmanifest` file
-   - Adds a meta tag for `theme-color`
-1. Installs icon files to support the installed Progressive Web App (PWA).
-1. Creates the service worker configuration file called [`ngsw-config.json`](ecosystem/service-workers/config),
-   which specifies the caching behaviors and other settings.
+1. 將 `@angular/service-worker` 套件加入你的專案。
+1. 在 CLI 中啟用 service worker 建置支援。
+1. 匯入 service worker，並向應用程式的根 providers 註冊。
+1. 更新 `index.html` 檔案：
+   - 加入連結，引入 `manifest.webmanifest` 檔案
+   - 加入 `theme-color` 的 meta 標籤
+1. 安裝圖示檔案，以支援安裝後的 Progressive Web App（PWA）。
+1. 建立名為 [`ngsw-config.json`](ecosystem/service-workers/config) 的 service worker 設定檔，
+   用來指定快取行為與其他設定。
 
-Now, build the project:
+接著，建置專案：
 
 ```shell
 
@@ -32,12 +32,12 @@ ng build
 
 ```
 
-The CLI project is now set up to use the Angular service worker.
+CLI 專案現在已設定完成，可以使用 Angular service worker。
 
-## Service worker in action: a tour
+## Service worker 實際運作：導覽
 
-This section demonstrates a service worker in action,
-using an example application. To enable service worker support during local development, use the production configuration with the following command:
+本節使用範例應用程式，實際示範 service worker 的運作。
+若要在本機開發期間啟用 service worker 支援，請使用正式環境設定，執行下列指令：
 
 ```shell
 
@@ -45,8 +45,8 @@ ng serve --configuration=production
 
 ```
 
-Alternatively, you can use the [`http-server package`](https://www.npmjs.com/package/http-server) from
-npm, which supports service worker applications. Run it without installation using:
+或者，你也可以使用 npm 上的 [`http-server package`](https://www.npmjs.com/package/http-server)，
+它支援 service worker 應用程式。執行下列指令即可在不安裝的情況下使用：
 
 ```shell
 
@@ -54,116 +54,116 @@ npx http-server -p 8080 -c-1 dist/&lt;project-name&gt;/browser
 
 ```
 
-This will serve your application with service worker support at http://localhost:8080.
+這樣就能在 http://localhost:8080 以支援 service worker 的方式提供你的應用程式。
 
-### Initial load
+### 首次載入
 
-With the server running on port `8080`, point your browser at `http://localhost:8080`.
-Your application should load normally.
+讓伺服器在連接埠 `8080` 上執行後，將瀏覽器指向 `http://localhost:8080`。
+你的應用程式應該會正常載入。
 
-TIP: When testing Angular service workers, it's a good idea to use an incognito or private window in your browser to ensure the service worker doesn't end up reading from a previous leftover state, which can cause unexpected behavior.
+TIP: 測試 Angular service worker 時，建議使用瀏覽器的無痕或私密視窗，確保 service worker 不會讀到先前殘留的狀態，以免造成非預期的行為。
 
-HELPFUL: If you are not using HTTPS, the service worker will only be registered when accessing the application on `localhost`.
+HELPFUL: 若你不是使用 HTTPS，service worker 只會在存取 `localhost` 上的應用程式時才註冊。
 
-### Simulating a network issue
+### 模擬網路問題
 
-To simulate a network issue, disable network interaction for your application.
+若要模擬網路問題，請停用應用程式的網路互動。
 
-In Chrome:
+在 Chrome 中：
 
-1. Select **Tools** > **Developer Tools** (from the Chrome menu located in the top right corner).
-1. Go to the **Network tab**.
-1. Select **Offline** in the **Throttling** dropdown menu.
+1. 選取 **Tools** > **Developer Tools**（從 Chrome 右上角的選單進入）。
+1. 前往 **Network tab**。
+1. 在 **Throttling** 下拉選單中選取 **Offline**。
 
-<img alt="The offline option in the Network tab is selected" src="assets/images/guide/service-worker/offline-option.png">
+<img alt="Network 分頁中的離線選項已被選取" src="assets/images/guide/service-worker/offline-option.png">
 
-Now the application has no access to network interaction.
+現在應用程式已無法進行網路互動。
 
-For applications that do not use the Angular service worker, refreshing now would display Chrome's Internet disconnected page that says "There is no Internet connection".
+對於未使用 Angular service worker 的應用程式，此時重新整理會顯示 Chrome 的網路中斷頁面，上面寫著「There is no Internet connection」。
 
-With the addition of an Angular service worker, the application behavior changes.
-On a refresh, the page loads normally.
+加入 Angular service worker 後，應用程式的行為就不同了。
+重新整理時，頁面會正常載入。
 
-Look at the Network tab to verify that the service worker is active.
+查看 Network 分頁，確認 service worker 已在運作。
 
-<img alt="Requests are marked as from ServiceWorker" src="assets/images/guide/service-worker/sw-active.png">
+<img alt="請求被標示為來自 ServiceWorker" src="assets/images/guide/service-worker/sw-active.png">
 
-HELPFUL: Under the "Size" column, the requests state is `(ServiceWorker)`.
-This means that the resources are not being loaded from the network.
-Instead, they are being loaded from the service worker's cache.
+HELPFUL: 在「Size」欄位下，請求的狀態是 `(ServiceWorker)`。
+這表示資源不是從網路載入的，
+而是從 service worker 的快取載入。
 
-### What's being cached?
+### 哪些內容被快取了？
 
-Notice that all of the files the browser needs to render this application are cached.
-The `ngsw-config.json` boilerplate configuration is set up to cache the specific resources used by the CLI:
+請注意，瀏覽器呈現這個應用程式所需的全部檔案都已被快取。
+`ngsw-config.json` 的範本設定會快取 CLI 所使用的特定資源：
 
 - `index.html`
 - `favicon.ico`
-- Build artifacts (JS and CSS bundles)
-- Anything under `assets`
-- Images and fonts directly under the configured `outputPath` (by default `./dist/<project-name>/`) or `resourcesOutputPath`.
-  See the documentation for `ng build` for more information about these options.
+- 建置產物（JS 與 CSS 套件）
+- `assets` 下的所有內容
+- 直接位於所設定的 `outputPath`（預設為 `./dist/<project-name>/`）或 `resourcesOutputPath` 之下的圖片與字型。
+  這些選項的更多資訊，請參閱 `ng build` 的文件。
 
-IMPORTANT: The generated `ngsw-config.json` includes a limited list of cacheable fonts and images extensions. In some cases, you might want to modify the glob pattern to suit your needs.
+IMPORTANT: 產生的 `ngsw-config.json` 只包含有限的可快取字型與圖片副檔名清單。在某些情況下，你可能需要修改 glob 模式以符合你的需求。
 
-IMPORTANT: If `resourcesOutputPath` or `assets` paths are modified after the generation of configuration file, you need to change the paths manually in `ngsw-config.json`.
+IMPORTANT: 如果 `resourcesOutputPath` 或 `assets` 路徑在設定檔產生之後被修改，你需要手動修改 `ngsw-config.json` 中的路徑。
 
-### Making changes to your application
+### 修改你的應用程式
 
-Now that you've seen how service workers cache your application, the next step is understanding how updates work.
-Make a change to the application, and watch the service worker install the update:
+現在你已經了解 service worker 如何快取你的應用程式，下一步是了解更新如何運作。
+對應用程式做一項變更，並觀察 service worker 如何安裝更新：
 
-1. If you're testing in an incognito window, open a second blank tab.
-   This keeps the incognito and the cache state alive during your test.
+1. 如果你正在無痕視窗中測試，請再開一個空白分頁。
+   這樣能在測試期間保持無痕模式與快取狀態存活。
 
-1. Close the application tab, but not the window.
-   This should also close the Developer Tools.
+1. 關閉應用程式分頁，但不要關閉視窗。
+   這也會一併關閉 Developer Tools。
 
-1. Shut down `http-server` (Ctrl-c).
-1. Open `src/app/app.component.html` for editing.
-1. Change the text `Welcome to {{title}}!` to `Bienvenue à {{title}}!`.
-1. Build and run the server again:
+1. 關閉 `http-server`（Ctrl-c）。
+1. 開啟 `src/app/app.component.html` 進行編輯。
+1. 將文字 `Welcome to {{title}}!` 改為 `Bienvenue à {{title}}!`。
+1. 再次建置並執行伺服器：
 
 ```shell
     ng build
     npx http-server -p 8080 -c-1 dist/<project-name>/browser
 ```
 
-### Updating your application in the browser
+### 在瀏覽器中更新你的應用程式
 
-Now look at how the browser and service worker handle the updated application.
+接著看看瀏覽器與 service worker 如何處理更新後的應用程式。
 
-1. Open [http://localhost:8080](http://localhost:8080) again in the same window.
-   What happens?
+1. 在同一個視窗中再次開啟 [http://localhost:8080](http://localhost:8080)。
+   發生了什麼事？
 
-   <img alt="It still says Welcome to Service Workers!" src="assets/images/guide/service-worker/welcome-msg-en.png">
+   <img alt="它仍顯示 Welcome to Service Workers!" src="assets/images/guide/service-worker/welcome-msg-en.png">
 
-   What went wrong?
-   _Nothing, actually!_
-   The Angular service worker is doing its job and serving the version of the application that it has **installed**, even though there is an update available.
-   In the interest of speed, the service worker doesn't wait to check for updates before it serves the application that it has cached.
+   哪裡出錯了？
+   _其實什麼都沒出錯！_
+   Angular service worker 正在做它的工作，提供它已**安裝**的應用程式版本，即使已有更新可用。
+   為了速度，service worker 在提供已快取的應用程式之前，不會先等待檢查更新。
 
-   Look at the `http-server` logs to see the service worker requesting `/ngsw.json`.
+   查看 `http-server` 的記錄，可以看到 service worker 正在請求 `/ngsw.json`。
 
    ```text
    [2023-09-07T00:37:24.372Z]  "GET /ngsw.json?ngsw-cache-bust=0.9365263935102124" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
    ```
 
-   This is how the service worker checks for updates.
+   這就是 service worker 檢查更新的方式。
 
-1. Refresh the page.
+1. 重新整理頁面。
 
-   <img alt="The text has changed to say Bienvenue à app!" src="assets/images/guide/service-worker/welcome-msg-fr.png">
+   <img alt="文字已改為 Bienvenue à app!" src="assets/images/guide/service-worker/welcome-msg-fr.png">
 
-   The service worker installed the updated version of your application _in the background_, and the next time the page is loaded or reloaded, the service worker switches to the latest version.
+   service worker 已在_背景_安裝更新後的應用程式版本，下次載入或重新載入頁面時，service worker 就會切換到最新版本。
 
-## Service worker configuration
+## Service worker 設定
 
-Angular service workers support comprehensive configuration options through the `SwRegistrationOptions` interface, providing fine-grained control over registration behavior, caching, and script execution.
+Angular service worker 透過 `SwRegistrationOptions` 介面支援完整的設定選項，讓你能精細控制註冊行為、快取與指令碼執行。
 
-### Enabling and disabling service workers
+### 啟用與停用 service worker
 
-The `enabled` option controls whether the service worker will be registered and related services will attempt to communicate with it.
+`enabled` 選項控制是否註冊 service worker，以及相關服務是否嘗試與它通訊。
 
 ```ts
 
@@ -180,9 +180,9 @@ export const appConfig: ApplicationConfig = {
 
 ```
 
-### Cache control with updateViaCache
+### 使用 updateViaCache 控制快取
 
-The `updateViaCache` option controls how the browser consults the HTTP cache during service worker updates. This provides fine-grained control over when the browser fetches updated service worker scripts and imported modules.
+`updateViaCache` 選項控制瀏覽器在 service worker 更新期間如何查閱 HTTP 快取。這讓你能精細控制瀏覽器何時擷取更新後的 service worker 指令碼與匯入的模組。
 
 ```ts
 
@@ -197,15 +197,15 @@ export const appConfig: ApplicationConfig = {
 
 ```
 
-The `updateViaCache` option accepts the following values:
+`updateViaCache` 選項接受下列值：
 
-- **`'imports'`** - The HTTP cache is consulted for the service worker script's imported scripts, but not for the service worker script itself
-- **`'all'`** - The HTTP cache is consulted for both the service worker script and its imported scripts
-- **`'none'`** - The HTTP cache is not consulted for the service worker script or its imported scripts
+- **`'imports'`**：查閱 HTTP 快取以取得 service worker 指令碼所匯入的指令碼，但不查閱 service worker 指令碼本身
+- **`'all'`**：同時查閱 HTTP 快取以取得 service worker 指令碼與其匯入的指令碼
+- **`'none'`**：不查閱 HTTP 快取以取得 service worker 指令碼或其匯入的指令碼
 
-### ES Module support with type option
+### 使用 type 選項支援 ES Module
 
-The `type` option enables specifying the script type when registering service workers, providing support for ES module features in your service worker scripts.
+`type` 選項讓你在註冊 service worker 時指定指令碼類型，讓你的 service worker 指令碼能支援 ES module 功能。
 
 ```ts
 
@@ -220,14 +220,14 @@ export const appConfig: ApplicationConfig = {
 
 ```
 
-The `type` option accepts the following values:
+`type` 選項接受下列值：
 
-- **`'classic'`** (default) - Traditional service worker script execution. ES module features such as `import` and `export` are NOT allowed in the script
-- **`'module'`** - Registers the script as an ES module. Allows use of `import`/`export` syntax and module features
+- **`'classic'`**（預設）：傳統的 service worker 指令碼執行方式。指令碼中不允許使用 `import` 與 `export` 等 ES module 功能
+- **`'module'`**：將指令碼註冊為 ES module。允許使用 `import`/`export` 語法與模組功能
 
-### Registration scope control
+### 註冊範圍控制
 
-The `scope` option defines the service worker's registration scope, determining what range of URLs it can control.
+`scope` 選項定義 service worker 的註冊範圍，決定它能控制的 URL 範圍。
 
 ```ts
 
@@ -242,13 +242,13 @@ export const appConfig: ApplicationConfig = {
 
 ```
 
-- Controls which URLs the service worker can intercept and manage
-- By default, the scope is the directory containing the service worker script
-- Used when calling `ServiceWorkerContainer.register()`
+- 控制 service worker 可以攔截與管理哪些 URL
+- 預設情況下，範圍是包含 service worker 指令碼的目錄
+- 在呼叫 `ServiceWorkerContainer.register()` 時使用
 
-### Registration strategy configuration
+### 註冊策略設定
 
-The `registrationStrategy` option defines when the service worker will be registered with the browser, providing control over the timing of registration.
+`registrationStrategy` 選項定義 service worker 何時向瀏覽器註冊，讓你能控制註冊的時機。
 
 ```ts
 
@@ -263,11 +263,11 @@ export const appConfig: ApplicationConfig = {
 
 ```
 
-Available registration strategies:
+可用的註冊策略：
 
-- **`'registerWhenStable:timeout'`** (default: `'registerWhenStable:30000'`) - Register as soon as the application stabilizes (no pending micro-/macro-tasks) but no later than the specified timeout in milliseconds
-- **`'registerImmediately'`** - Register the service worker immediately
-- **`'registerWithDelay:timeout'`** - Register with a delay of the specified timeout in milliseconds
+- **`'registerWhenStable:timeout'`**（預設：`'registerWhenStable:30000'`）：在應用程式穩定後（沒有待處理的 micro-/macro-tasks）就註冊，但不晚於指定的逾時時間（毫秒）
+- **`'registerImmediately'`**：立即註冊 service worker
+- **`'registerWithDelay:timeout'`**：延遲指定的逾時時間（毫秒）後再註冊
 
 ```ts
 
@@ -293,7 +293,7 @@ export const delayedConfig: ApplicationConfig = {
 
 ```
 
-You can also provide an Observable factory function for custom registration timing:
+你也可以提供 Observable 工廠函式，來自訂註冊時機：
 
 ```ts
 import { timer } from 'rxjs';
@@ -309,14 +309,14 @@ export const customConfig: ApplicationConfig = {
 
 ```
 
-## More on Angular service workers
+## 深入了解 Angular service worker
 
-You might also be interested in the following:
+你可能也會對下列內容有興趣：
 
 <docs-pill-row>
-  <docs-pill href="ecosystem/service-workers/config" title="Configuration file"/>
-  <docs-pill href="ecosystem/service-workers/communications" title="Communicating with the Service Worker"/>
-  <docs-pill href="ecosystem/service-workers/push-notifications" title="Push notifications"/>
-  <docs-pill href="ecosystem/service-workers/devops" title="Service Worker devops"/>
-  <docs-pill href="ecosystem/service-workers/app-shell" title="App shell pattern"/>
+  <docs-pill href="ecosystem/service-workers/config" title="設定檔"/>
+  <docs-pill href="ecosystem/service-workers/communications" title="與 Service Worker 通訊"/>
+  <docs-pill href="ecosystem/service-workers/push-notifications" title="推播通知"/>
+  <docs-pill href="ecosystem/service-workers/devops" title="Service Worker DevOps"/>
+  <docs-pill href="ecosystem/service-workers/app-shell" title="App shell 模式"/>
 </docs-pill-row>

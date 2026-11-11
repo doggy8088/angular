@@ -1,14 +1,14 @@
 <header>
-  <h1>API Reference</h1>
+  <h1>API 參考</h1>
 </header>
 
 <div class="adev-reference-list-filter">
   <div class="adev-reference-list-query-filter">
-    <docs-text-field name="query" placeholder="Filter" [(ngModel)]="query" />
+    <docs-text-field name="query" placeholder="篩選" [(ngModel)]="query" />
   </div>
 
   <div class="adev-reference-list-status">
-    <mat-chip-listbox multiple="true" aria-label="Status selection">
+    <mat-chip-listbox multiple="true" aria-label="狀態選擇">
       <!-- null indicates to not re-order the object keys -->
       @for (stat of statuses | keyvalue:null; track $index) {
         <mat-chip-option [selected]="isStatusSelected(stat.value)" (click)="setStatus(stat.value)">
@@ -18,7 +18,7 @@
     </mat-chip-listbox>
   </div>
 
-  <p class="adev-reference-list-type-filter-label">Filter by Identifier type</p>
+  <p class="adev-reference-list-type-filter-label">依識別碼類型篩選</p>
   <ul class="adev-reference-list-type-filter">
     @for (itemType of itemTypes; track itemType) {
       <li
@@ -37,6 +37,6 @@
   <adev-api-items-section [group]="group" />
 } @empty {
   <div class="adev-reference-list-empty">
-    <p>No API items found.</p>
+    <p>找不到 API 項目。</p>
   </div>
 }

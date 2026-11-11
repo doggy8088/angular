@@ -29,13 +29,13 @@
         <span class="adev-item-title" [attr.title]="apiItem.title">{{ apiItem.title }}</span>
       </a>
       @if (apiItem.deprecated) {
-        <span class="adev-item-attribute" matTooltip="Deprecated"> &lt;!&gt; </span>
+        <span class="adev-item-attribute" matTooltip="已淘汰"> &lt;!&gt; </span>
       }
       @if(apiItem.experimental) {
-        <span class="adev-item-attribute" matTooltip="Experimental"> 🧪 </span>
+        <span class="adev-item-attribute" matTooltip="實驗性"> 🧪 </span>
       }
       @if(apiItem.developerPreview) {
-        <span class="adev-item-attribute" matTooltip="Developer Preview"> 🚧 </span>
+        <span class="adev-item-attribute" matTooltip="開發者預覽"> 🚧 </span>
       }
     </li>
   }

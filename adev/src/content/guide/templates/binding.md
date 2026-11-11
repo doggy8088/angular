@@ -1,10 +1,10 @@
-# Binding dynamic text, properties and attributes
+# 繫結動態文字、屬性與 attribute
 
-In Angular, a **binding** creates a dynamic connection between a component's template and its data. This connection ensures that changes to the component's data automatically update the rendered template.
+在 Angular 中，**繫結**會在元件的範本與其資料之間建立動態連接。這個連接能確保元件資料的變更會自動更新算繪後的範本。
 
-## Render dynamic text with text interpolation
+## 以文字插值算繪動態文字 {#render-dynamic-text-with-text-interpolation}
 
-You can bind dynamic text in templates with double curly braces, which tells Angular that it is responsible for the expression inside and ensuring it is updated correctly. This is called **text interpolation**.
+你可以使用雙大括號在範本中繫結動態文字，這會告訴 Angular，它負責處理其中的運算式，並確保其正確更新。這稱為**文字插值**。
 
 ```angular-ts
 @Component({
@@ -18,14 +18,14 @@ export class AppComponent {
 }
 ```
 
-In this example, when the snippet is rendered to the page, Angular will replace `{{ theme }}` with `dark`.
+在這個範例中，當程式碼片段算繪到頁面時，Angular 會將 `{{ theme }}` 取代為 `dark`。
 
 ```angular-html
 <!-- Rendered Output -->
 <p>Your color preference is dark.</p>
 ```
 
-Bindings that change over time should read values from [signals](/guide/signals). Angular tracks the signals read in the template, and updates the rendered page when those signal values change.
+會隨時間變化的繫結，應從[訊號](/guide/signals)讀取值。Angular 會追蹤範本中讀取到的訊號，並在那些訊號值變更時更新算繪後的頁面。
 
 ```angular-ts
 @Component({
@@ -43,102 +43,104 @@ export class AppComponent {
 }
 ```
 
-For more details, see the [Signals guide](/guide/signals).
+如需更多細節，請參閱[訊號指南](/guide/signals)。
 
-Continuing the theme example, if a user clicks on a button that updates the `theme` signal to `'light'` after the page loads, the page updates accordingly to:
+延續主題的範例，如果使用者在頁面載入後點選按鈕，將 `theme` 訊號更新為 `'light'`，頁面就會相應更新為：
 
 ```angular-html
 <!-- Rendered Output -->
 <p>Your color preference is light.</p>
 ```
 
-You can use text interpolation anywhere you would normally write text in HTML.
+你可以在任何通常會在 HTML 中寫文字的地方使用文字插值。
 
-All expression values are converted to a string. Objects and arrays are converted using the value’s `toString` method.
+所有運算式的值都會轉換為字串。物件與陣列則使用該值的 `toString` 方法進行轉換。
 
-## Binding dynamic properties and attributes
+## 繫結動態屬性與 attribute {#binding-dynamic-properties-and-attributes}
 
-Angular supports binding dynamic values into object properties and HTML attributes with square brackets.
+Angular 支援以中括號將動態值繫結到物件屬性與 HTML attribute。
 
-You can bind to properties on an HTML element's DOM instance, a [component](guide/components) instance, or a [directive](guide/directives) instance.
+你可以繫結到 HTML 元素的 DOM 實例、[元件](guide/components)實例或[指令](guide/directives)實例上的屬性。
 
-### Native element properties
+### 原生元素屬性
 
-Every HTML element has a corresponding DOM representation. For example, each `<button>` HTML element corresponds to an instance of `HTMLButtonElement` in the DOM. In Angular, you use property bindings to set values directly to the DOM representation of the element.
+每個 HTML 元素都有對應的 DOM 表示。例如，每個 `<button>` HTML 元素都對應到 DOM 中 `HTMLButtonElement` 的一個實例。在 Angular 中，你使用屬性繫結將值直接設定到元素的 DOM 表示上。
 
 ```angular-html
 <!-- Bind the `disabled` property on the button element's DOM object -->
 <button [disabled]="isFormValid()">Save</button>
 ```
 
-In this example, every time `isFormValid` changes, Angular automatically sets the `disabled` property of the `HTMLButtonElement` instance.
+在這個範例中，每當 `isFormValid` 變更時，Angular 會自動設定 `HTMLButtonElement` 實例的 `disabled` 屬性。
 
-### Component and directive properties
+### 元件與指令屬性
 
-When an element is an Angular component, you can use property bindings to set component input properties using the same square bracket syntax.
+當元素是 Angular 元件時，你可以用相同的中括號語法，以屬性繫結設定元件的輸入屬性。
 
 ```angular-html
 <!-- Bind the `value` property on the `MyListbox` component instance. -->
 <my-listbox [value]="mySelection()" />
 ```
 
-In this example, every time `mySelection` changes, Angular automatically sets the `value` property of the `MyListbox` instance.
+在這個範例中，每當 `mySelection` 變更時，Angular 會自動設定 `MyListbox` 實例的 `value` 屬性。
 
-You can bind to directive properties as well.
+你也可以繫結到指令屬性。
 
 ```angular-html
 <!-- Bind to the `ngSrc` property of the `NgOptimizedImage` directive  -->
 <img [ngSrc]="profilePhotoUrl()" alt="The current user's profile photo">
 ```
 
-### Attributes
+### Attribute
 
-When you need to set HTML attributes that do not have corresponding DOM properties, such as ARIA attributes or SVG attributes, you can bind attributes to elements in your template with the `attr.` prefix.
+當你需要設定沒有對應 DOM 屬性的 HTML attribute（例如 ARIA attribute 或 SVG attribute）時，你可以使用 `attr.` 前綴，將 attribute 繫結到範本中的元素。
 
+<!-- prettier-ignore -->
 ```angular-html
 <!-- Bind the `role` attribute on the `<ul>` element to the component's `listRole` property. -->
 <ul [attr.role]="listRole()">
 ```
 
-In this example, every time `listRole` changes, Angular automatically sets the `role` attribute of the `<ul>` element by calling `setAttribute`.
+在這個範例中，每當 `listRole` 變更時，Angular 會呼叫 `setAttribute`，自動設定 `<ul>` 元素的 `role` attribute。
 
-If the value of an attribute binding is `null`, Angular removes the attribute by calling `removeAttribute`.
+如果 attribute 繫結的值為 `null`，Angular 會呼叫 `removeAttribute` 移除該 attribute。
 
-### Text interpolation in properties and attributes
+### 屬性與 attribute 中的文字插值
 
-You can also use text interpolation syntax in properties and attributes by using the double curly brace syntax instead of square braces around the property or attribute name. When using this syntax, Angular treats the assignment as a property binding.
+你也可以在屬性與 attribute 中使用文字插值語法：以雙大括號語法取代屬性或 attribute 名稱周圍的中括號。使用這種語法時，Angular 會將該指派視為屬性繫結。
 
 ```angular-html
 <!-- Binds a value to the `alt` property of the image element's DOM object. -->
 <img src="profile-photo.jpg" alt="Profile photo of {{ firstName() }}" >
 ```
 
-To bind to an attribute with the text interpolation syntax, prefix the attribute name with `attr.`
+若要以文字插值語法繫結到 attribute，請在 attribute 名稱前加上 `attr.` 前綴。
 
 ```angular-html
 <button attr.aria-label="Save changes to {{ objectType() }}">
 ```
 
-## CSS class and style property bindings
+## CSS 類別與樣式屬性繫結 {#css-class-and-style-property-bindings}
 
-Angular supports additional features for binding CSS classes and CSS style properties to elements.
+Angular 為將 CSS 類別與 CSS 樣式屬性繫結到元素提供了額外的功能。
 
-### CSS classes
+### CSS 類別
 
-You can create a CSS class binding to conditionally add or remove a CSS class on an element based on whether the bound value is [truthy or falsy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy).
+你可以建立 CSS 類別繫結，依繫結值為 [truthy 或 falsy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy)，有條件地在元素上加入或移除 CSS 類別。
 
+<!-- prettier-ignore -->
 ```angular-html
 <!-- When `isExpanded` is truthy, add the `expanded` CSS class. -->
 <ul [class.expanded]="isExpanded()">
 ```
 
-You can also bind directly to the `class` property. Angular accepts three types of value:
+你也可以直接繫結到 `class` 屬性。Angular 接受三種類型的值：
 
-| Description of `class` value                                                                                                                                      | TypeScript type       |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| A string containing one or more CSS classes separated by spaces                                                                                                   | `string`              |
-| An array of CSS class strings                                                                                                                                     | `string[]`            |
-| An object where each property name is a CSS class name and each corresponding value determines whether that class is applied to the element, based on truthiness. | `Record<string, any>` |
+| `class` 值的說明                                                                               | TypeScript 型別       |
+| ---------------------------------------------------------------------------------------------- | --------------------- |
+| 包含一或多個以空白分隔的 CSS 類別的字串                                                        | `string`              |
+| CSS 類別字串的陣列                                                                             | `string[]`            |
+| 一個物件，其每個屬性名稱都是 CSS 類別名稱，每個對應值依 truthiness 決定該類別是否套用到元素上 | `Record<string, any>` |
 
 ```angular-ts
 @Component({
@@ -159,17 +161,18 @@ export class UserProfile {
 }
 ```
 
-The above example renders the following DOM:
+上述範例會算繪出下列 DOM：
 
+<!-- prettier-ignore -->
 ```angular-html
 <ul class="full-width outlined"> ... </ul>
 <section class="expandable elevated"> ... </section>
 <button class="highlighted"> ... </button>
 ```
 
-Angular ignores any string values that are not valid CSS class names.
+Angular 會忽略任何不是有效 CSS 類別名稱的字串值。
 
-When using static CSS classes, directly binding `class`, and binding specific classes, Angular intelligently combines all of the classes in the rendered result.
+當同時使用靜態 CSS 類別、直接繫結 `class` 以及繫結特定類別時，Angular 會智慧地將所有類別合併到算繪結果中。
 
 ```angular-ts
 @Component({
@@ -182,42 +185,45 @@ export class Listbox {
 }
 ```
 
-In the example above, Angular renders the `ul` element with all three CSS classes.
+在上述範例中，Angular 會以三個 CSS 類別算繪 `ul` 元素。
 
+<!-- prettier-ignore -->
 ```angular-html
 <ul class="list box expanded">
 ```
 
-Angular does not guarantee any specific order of CSS classes on rendered elements.
+Angular 不保證算繪後元素上 CSS 類別的任何特定順序。
 
-When binding `class` to an array or an object, Angular compares the previous value to the current value with the triple-equals operator (`===`). You must create a new object or array instance when you modify these values in order for Angular to apply any updates.
+當把 `class` 繫結到陣列或物件時，Angular 會以三等號運算子（`===`）比較先前的值與目前的值。當你修改這些值時，必須建立新的物件或陣列實例，Angular 才會套用任何更新。
 
-If an element has multiple bindings for the same CSS class, Angular resolves collisions by following its style precedence order.
+如果一個元素對同一個 CSS 類別有多個繫結，Angular 會依照其樣式優先順序解決衝突。
 
-NOTE: Class bindings do not support space-separated class names in a single key. They also don't support mutations on objects as the reference of the binding remains the same. If you need one or the other, use the [ngClass](/api/common/NgClass) directive.
+NOTE: 類別繫結不支援在單一鍵中使用以空白分隔的類別名稱。它們也不支援對物件的變更（mutation），因為繫結的參照維持不變。如果你需要其中任一行為，請使用 [ngClass](/api/common/NgClass) 指令。
 
-### CSS style properties
+### CSS 樣式屬性 {#css-style-properties}
 
-You can also bind to CSS style properties directly on an element.
+你也可以直接繫結到元素上的 CSS 樣式屬性。
 
+<!-- prettier-ignore -->
 ```angular-html
 <!-- Set the CSS `display` property based on the `isExpanded` property. -->
 <section [style.display]="isExpanded() ? 'block' : 'none'">
 ```
 
-You can further specify units for CSS properties that accept units.
+對於接受單位的 CSS 屬性，你可以進一步指定單位。
 
+<!-- prettier-ignore -->
 ```angular-html
 <!-- Set the CSS `height` property to a pixel value based on the `sectionHeightInPixels` property. -->
 <section [style.height.px]="sectionHeightInPixels()">
 ```
 
-You can also set multiple style values in one binding. Angular accepts the following types of value:
+你也可以在一個繫結中設定多個樣式值。Angular 接受下列類型的值：
 
-| Description of `style` value                                                                                              | TypeScript type       |
-| ------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| A string containing zero or more CSS declarations, such as `"display: flex; margin: 8px"`.                                | `string`              |
-| An object where each property name is a CSS property name and each corresponding value is the value of that CSS property. | `Record<string, any>` |
+| `style` 值的說明                                                          | TypeScript 型別       |
+| ------------------------------------------------------------------------- | --------------------- |
+| 包含零或多個 CSS 宣告的字串，例如 `"display: flex; margin: 8px"`          | `string`              |
+| 一個物件，其每個屬性名稱都是 CSS 屬性名稱，每個對應值是該 CSS 屬性的值    | `Record<string, any>` |
 
 ```angular-ts
 @Component({
@@ -236,13 +242,15 @@ export class UserProfile {
 }
 ```
 
-The above example renders the following DOM.
+上述範例會算繪出下列 DOM。
 
+<!-- prettier-ignore -->
 ```angular-html
 <ul style="display: flex; padding: 8px"> ... </ul>
 <section style="border: 1px solid black; font-weight: bold"> ... </section>
 ```
 
-When binding `style` to an object, Angular compares the previous value to the current value with the triple-equals operator (`===`). You must create a new object instance when you modify these values in order to Angular to apply any updates.
+當把 `style` 繫結到物件時，Angular 會以三等號運算子（`===`）比較先前的值與目前的值。當你修改這些值時，必須建立新的物件實例，Angular 才會套用任何更新。
 
-If an element has multiple bindings for the same style property, Angular resolves collisions by following its style precedence order.
+如果一個元素對同一個樣式屬性有多個繫結，Angular 會依照其樣式優先順序解決衝突。
+

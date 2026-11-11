@@ -1,32 +1,32 @@
-# Server and hybrid rendering
+# 伺服器端與混合渲染
 
-Angular ships all applications as client-side rendered (CSR) by default. While this approach delivers a initial payload that's lightweight, it introduces trade-offs including slower load times, degraded performance metrics, and higher resource demands since the user's device performs most of the computations. As a result, many applications achieve significant performance improvements by integrating server-side rendering (SSR) into a hybrid rendering strategy.
+Angular 預設將所有應用程式以用戶端渲染（CSR）的方式交付。雖然這種做法的初始負載較輕量，但它帶來一些取捨，包括載入時間較慢、效能指標較差，以及資源需求較高，因為大部分運算都由使用者的裝置執行。因此，許多應用程式透過將伺服器端渲染（SSR）納入混合渲染策略，獲得了顯著的效能提升。
 
-## What is hybrid rendering?
+## 什麼是混合渲染？
 
-Hybrid rendering allows developers to leverage the benefits of server-side rendering (SSR), pre-rendering (also known as "static site generation" or SSG) and client-side rendering (CSR) to optimize your Angular application. It gives you fine-grained control over how the different parts of your app are rendered to give your users the best experience possible.
+混合渲染讓開發者能善用伺服器端渲染（SSR）、預先渲染（也稱為「靜態網站生成」或 SSG）與用戶端渲染（CSR）的優點，來最佳化你的 Angular 應用程式。它讓你能細緻地控制應用程式不同部分的渲染方式，為使用者提供最佳體驗。
 
-## Setting up hybrid rendering
+## 設定混合渲染
 
-You can create a **new** project with hybrid rendering by using the server-side rendering flag (i.e., `--ssr`) with the Angular CLI `ng new` command:
+你可以在使用 Angular CLI 的 `ng new` 指令時加上伺服器端渲染旗標（即 `--ssr`），來建立一個採用混合渲染的**新**專案：
 
 ```shell
 ng new --ssr
 ```
 
-You can also enable hybrid rendering by adding server-side rendering to an existing project with the `ng add` command:
+你也可以用 `ng add` 指令為既有專案加入伺服器端渲染，來啟用混合渲染：
 
 ```shell
 ng add @angular/ssr
 ```
 
-NOTE: By default, Angular prerenders your entire application and generates a server file. To disable this and create a fully static app, set `outputMode` to `static`. To enable SSR, update the server routes to use `RenderMode.Server`. For more details, see [`Server routing`](#server-routing) and [`Generate a fully static application`](#generate-a-fully-static-application).
+NOTE: 預設情況下，Angular 會預先渲染你的整個應用程式，並產生一個伺服器檔案。若要停用此行為並建立完全靜態的應用程式，請將 `outputMode` 設為 `static`。若要啟用 SSR，請更新伺服器路由以使用 `RenderMode.Server`。詳情請參閱 [`Server routing`](#server-routing) 與 [`Generate a fully static application`](#generate-a-fully-static-application)。
 
-## Server routing
+## 伺服器路由 {#server-routing}
 
-### Configuring server routes
+### 設定伺服器路由
 
-You can create a server route config by declaring an array of [`ServerRoute`](api/ssr/ServerRoute 'API reference') objects. This configuration typically lives in a file named `app.routes.server.ts`.
+你可以宣告一個由 [`ServerRoute`](api/ssr/ServerRoute 'API reference') 物件組成的陣列，來建立伺服器路由設定。這個設定通常放在名為 `app.routes.server.ts` 的檔案中。
 
 ```typescript
 // app.routes.server.ts
@@ -52,7 +52,7 @@ export const serverRoutes: ServerRoute[] = [
 ];
 ```
 
-You can add this config to your application with [`provideServerRendering`](api/ssr/provideServerRendering 'API reference') using the [`withRoutes`](api/ssr/withRoutes 'API reference') function:
+你可以使用 [`withRoutes`](api/ssr/withRoutes 'API reference') 函式，透過 [`provideServerRendering`](api/ssr/provideServerRendering 'API reference') 將這個設定加入你的應用程式：
 
 ```typescript
 import { provideServerRendering, withRoutes } from '@angular/ssr';
@@ -67,7 +67,7 @@ const serverConfig: ApplicationConfig = {
 };
 ```
 
-When using the [App shell pattern](ecosystem/service-workers/app-shell), you must specify the component to be used as the app shell for client-side rendered routes. To do this, use the [`withAppShell`](api/ssr/withAppShell 'API reference') feature:
+使用 [App shell 模式](ecosystem/service-workers/app-shell)時，你必須指定用來作為用戶端渲染路由 app shell 的元件。要做到這一點，請使用 [`withAppShell`](api/ssr/withAppShell 'API reference') 功能：
 
 ```typescript
 import { provideServerRendering, withRoutes, withAppShell } from '@angular/ssr';
@@ -84,61 +84,61 @@ const serverConfig: ApplicationConfig = {
 };
 ```
 
-### Rendering modes
+### 渲染模式
 
-The server routing configuration lets you specify how each route in your application should render by setting a [`RenderMode`](api/ssr/RenderMode 'API reference'):
+伺服器路由設定讓你可以透過設定 [`RenderMode`](api/ssr/RenderMode 'API reference')，來指定應用程式中每條路由應該如何渲染：
 
-| Rendering mode      | Description                                                                                                 |
+| Rendering mode      | 說明                                                                                                 |
 | ------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **Server (SSR)**    | Renders the application on the server for each request, sending a fully populated HTML page to the browser. |
-| **Client (CSR)**    | Renders the application in the browser. This is the default Angular behavior.                               |
-| **Prerender (SSG)** | Prerenders the application at build time, generating static HTML files for each route.                      |
+| **Server (SSR)**    | 針對每個請求在伺服器上渲染應用程式，並將內容完整的 HTML 頁面傳送給瀏覽器。 |
+| **Client (CSR)**    | 在瀏覽器中渲染應用程式。這是 Angular 的預設行為。                               |
+| **Prerender (SSG)** | 在建置時預先渲染應用程式，為每條路由產生靜態 HTML 檔案。                      |
 
-#### Choosing a rendering mode
+#### 選擇渲染模式
 
-Each rendering mode has different benefits and drawbacks. You can choose rendering modes based on the specific needs of your application.
+每種渲染模式都有不同的優點與缺點。你可以依應用程式的具體需求選擇渲染模式。
 
-##### Client-side rendering (CSR)
+##### 用戶端渲染（CSR）
 
-Client-side rendering has the simplest development model, as you can write code that assumes it always runs in a web browser. This lets you use a wide range of client-side libraries that also assume they run in a browser.
+用戶端渲染的開發模型最簡單，因為你可以假設程式碼總是在網頁瀏覽器中執行來撰寫它。這讓你能使用各種同樣假設自己在瀏覽器中執行的用戶端函式庫。
 
-Client-side rendering generally has worse performance than other rendering modes, as it must download, parse, and execute your page's JavaScript before the user can see any rendered content. If your page fetches more data from the server as it renders, users also have to wait for those additional requests before they can view the complete content.
+用戶端渲染的效能通常比其他渲染模式差，因為它必須先下載、解析並執行頁面的 JavaScript，使用者才能看到任何渲染出的內容。如果你的頁面在渲染時還要從伺服器擷取更多資料，使用者還必須等待這些額外請求完成，才能看到完整內容。
 
-If your page is indexed by search crawlers, client-side rendering may negatively affect search engine optimization (SEO), as search crawlers have limits to how much JavaScript they execute when indexing a page.
+如果你的頁面會被搜尋爬蟲建立索引，用戶端渲染可能對搜尋引擎最佳化（SEO）產生負面影響，因為搜尋爬蟲在索引頁面時能執行的 JavaScript 量有其限制。
 
-When client-side rendering, the server does not need to do any work to render a page beyond serving static JavaScript assets. You may consider this factor if server cost is a concern.
+採用用戶端渲染時，伺服器除了提供靜態 JavaScript 資源外，不需要做任何渲染頁面的工作。如果伺服器成本是考量因素，你可以將這一點納入評估。
 
-Applications that support installable, offline experiences with [service workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) can rely on client-side rendering without needing to communicate with a server.
+支援可安裝、離線體驗並搭配 [service workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API) 的應用程式，可以仰賴用戶端渲染，而不需要與伺服器通訊。
 
-##### Server-side rendering (SSR)
+##### 伺服器端渲染（SSR）
 
-Server-side rendering offers faster page loads than client-side rendering. Instead of waiting for JavaScript to download and run, the server directly renders an HTML document upon receiving a request from the browser. The user experiences only the latency necessary for the server to fetch data and render the requested page. This mode also eliminates the need for additional network requests from the browser, as your code can fetch data during rendering on the server.
+伺服器端渲染的頁面載入速度比用戶端渲染快。伺服器在收到瀏覽器的請求後會直接渲染 HTML 文件，不需要等待 JavaScript 下載並執行。使用者只需經歷伺服器擷取資料並渲染所請求頁面所需的延遲。這種模式也省去了瀏覽器發出額外網路請求的需要，因為你的程式碼可以在伺服器上渲染時擷取資料。
 
-Server-side rendering generally has excellent search engine optimization (SEO), as search crawlers receive a fully rendered HTML document.
+伺服器端渲染通常有出色的搜尋引擎最佳化（SEO）表現，因為搜尋爬蟲收到的是完整渲染的 HTML 文件。
 
-Server-side rendering requires you to author code that does not strictly depend on browser APIs and limits your selection of JavaScript libraries that assume they run in a browser.
+伺服器端渲染要求你撰寫不嚴格依賴瀏覽器 API 的程式碼，也限制了你對那些假設自己在瀏覽器中執行的 JavaScript 函式庫的選擇。
 
-When server-side rendering, your server runs Angular to produce an HTML response for every request which may increase server hosting costs.
+採用伺服器端渲染時，你的伺服器會為每個請求執行 Angular 來產生 HTML 回應，這可能增加伺服器託管成本。
 
-##### Build-time prerendering
+##### 建置時預先渲染
 
-Prerendering offers faster page loads than both client-side rendering and server-side rendering. Because prerendering creates HTML documents at _build-time_, the server can directly respond to requests with the static HTML document without any additional work.
+預先渲染的頁面載入速度比用戶端渲染和伺服器端渲染都快。因為預先渲染是在_建置時_建立 HTML 文件，伺服器可以直接以靜態 HTML 文件回應請求，不需要任何額外工作。
 
-Prerendering requires that all information necessary to render a page is available at _build-time_. This means that prerendered pages cannot include any data to the specific user loading the page. Prerendering is primarily useful for pages that are the same for all users of your application.
+預先渲染要求渲染頁面所需的所有資訊在_建置時_都已備齊。這表示預先渲染的頁面不能包含針對載入頁面的特定使用者的任何資料。預先渲染主要適用於對應用程式所有使用者都相同的頁面。
 
-Because prerendering occurs at build-time, it may add significant time to your production builds. Using [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') to produce a large number of HTML documents may affect the total file size of your deployments, and thus lead to slower deployments.
+因為預先渲染發生在建置時，它可能大幅增加正式建置的時間。使用 [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') 產生大量 HTML 文件，可能影響部署的總檔案大小，進而導致部署變慢。
 
-Prerendering generally has excellent search engine optimization (SEO), as search crawlers receive a fully rendered HTML document.
+預先渲染通常有出色的搜尋引擎最佳化（SEO）表現，因為搜尋爬蟲收到的是完整渲染的 HTML 文件。
 
-Prerendering requires you to author code that does not strictly depend on browser APIs and limits your selection of JavaScript libraries that assume they run in a browser.
+預先渲染要求你撰寫不嚴格依賴瀏覽器 API 的程式碼，也限制了你對那些假設自己在瀏覽器中執行的 JavaScript 函式庫的選擇。
 
-Prerendering incurs extremely little overhead per server request, as your server responds with static HTML documents. Static files are also easily cached by Content Delivery Networks (CDNs), browsers, and intermediate caching layers for even faster subsequent page loads. Fully static sites can also be deployed solely through a CDN or static file server, eliminating the need to maintain a custom server runtime for your application. This enhances scalability by offloading work from an application web server, making it particularly beneficial for high-traffic applications.
+預先渲染對每個伺服器請求產生的額外負擔極低，因為你的伺服器是以靜態 HTML 文件回應。靜態檔案也很容易被內容傳遞網路（CDN）、瀏覽器與中間快取層快取，讓後續的頁面載入更快。完全靜態的網站也可以僅透過 CDN 或靜態檔案伺服器部署，不需要為你的應用程式維護自訂的伺服器執行環境。這能將工作從應用程式的 Web 伺服器卸載，從而提升可擴展性，對高流量應用程式特別有益。
 
-NOTE: When using Angular service worker, the first request is server-rendered, but all subsequent requests are handled by the service worker and rendered client-side.
+NOTE: 使用 Angular service worker 時，第一個請求由伺服器渲染，但後續所有請求都由 service worker 處理並在用戶端渲染。
 
-### Setting headers and status codes
+### 設定標頭與狀態碼
 
-You can set custom headers and status codes for individual server routes using the `headers` and `status` properties in the `ServerRoute` configuration.
+你可以使用 `ServerRoute` 設定中的 `headers` 與 `status` 屬性，為個別伺服器路由設定自訂標頭與狀態碼。
 
 ```typescript
 // app.routes.server.ts
@@ -157,29 +157,29 @@ export const serverRoutes: ServerRoute[] = [
 ];
 ```
 
-### Redirects
+### 重新導向
 
-Angular handles redirects specified by the [`redirectTo`](api/router/Route#redirectTo 'API reference') property in route configurations, differently on the server-side.
+對於路由設定中以 [`redirectTo`](api/router/Route#redirectTo 'API reference') 屬性指定的重新導向，Angular 在伺服器端的處理方式有所不同。
 
-**Server-Side Rendering (SSR)**
-Redirects are performed using standard HTTP redirects (e.g., 301, 302) within the server-side rendering process.
+**伺服器端渲染（SSR）**
+重新導向是在伺服器端渲染過程中，使用標準的 HTTP 重新導向（例如 301、302）來執行。
 
-**Prerendering (SSG)**
-Redirects are implemented as "soft redirects" using [`<meta http-equiv="refresh">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#refresh) tags in the prerendered HTML.
+**預先渲染（SSG）**
+重新導向是以「軟重新導向」的方式實作，在預先渲染的 HTML 中使用 [`<meta http-equiv="refresh">`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta#refresh) 標籤。
 
-### Customizing build-time prerendering (SSG)
+### 自訂建置時預先渲染（SSG） {#customizing-build-time-prerendering-ssg}
 
-When using [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference'), you can specify several configuration options to customize the prerendering and serving process.
+使用 [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference') 時，你可以指定數個設定選項，來自訂預先渲染與提供的流程。
 
-#### Parameterized routes
+#### 參數化路由
 
-For each route with [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference'), you can specify a [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') function. This function lets you control which specific parameters produce separate prerendered documents.
+對於每條使用 [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference') 的路由，你可以指定一個 [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') 函式。這個函式讓你控制哪些具體參數會產生各自獨立的預先渲染文件。
 
-The [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') function returns a `Promise` that resolves to an array of objects. Each object is a key-value map of route parameter name to value. For example, if you define a route like `post/:id`, `getPrerenderParams ` could return the array `[{id: 123}, {id: 456}]`, and thus render separate documents for `post/123` and `post/456`.
+[`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') 函式會傳回一個 `Promise`，其解析結果是一個物件陣列。每個物件是路由參數名稱與值的鍵值對應。例如，如果你定義了像 `post/:id` 這樣的路由，`getPrerenderParams ` 可以傳回陣列 `[{id: 123}, {id: 456}]`，從而為 `post/123` 與 `post/456` 分別渲染文件。
 
-The body of [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') can use Angular's [`inject`](api/core/inject 'API reference') function to inject dependencies and perform any work to determine which routes to prerender. This typically includes making requests to fetch data to construct the array of parameter values.
+[`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') 的主體可以使用 Angular 的 [`inject`](api/core/inject 'API reference') 函式來注入依賴，並執行任何用來決定要預先渲染哪些路由的工作。這通常包括發出請求來擷取資料，以建構參數值陣列。
 
-You can also use this function with catch-all routes (e.g., `/**`), where the parameter name will be `"**"` and the return value will be the segments of the path, such as `foo/bar`. These can be combined with other parameters (e.g., `/post/:id/**`) to handle more complex route configuration.
+你也可以將這個函式用於 catch-all 路由（例如 `/**`），其中參數名稱會是 `"**"`，傳回值會是路徑的區段，例如 `foo/bar`。這些可以與其他參數結合（例如 `/post/:id/**`），以處理更複雜的路由設定。
 
 ```ts
 // app.routes.server.ts
@@ -209,19 +209,19 @@ export const serverRoutes: ServerRoute[] = [
 ];
 ```
 
-Because [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') exclusively applies to [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference'), this function always runs at _build-time_. `getPrerenderParams` must not rely on any browser-specific or server-specific APIs for data.
+由於 [`getPrerenderParams`](api/ssr/ServerRoutePrerenderWithParams#getPrerenderParams 'API reference') 專門適用於 [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference')，這個函式總是在_建置時_執行。`getPrerenderParams` 不得依賴任何瀏覽器專屬或伺服器專屬的 API 來取得資料。
 
-IMPORTANT: When using [`inject`](api/core/inject 'API reference') inside `getPrerenderParams`, please remember that `inject` must be used synchronously. It cannot be invoked within asynchronous callbacks or following any `await` statements. For more information, refer to `runInInjectionContext`.
+IMPORTANT: 在 `getPrerenderParams` 內使用 [`inject`](api/core/inject 'API reference') 時，請記住 `inject` 必須以同步方式使用。它不能在非同步回呼中、或在任何 `await` 陳述式之後被呼叫。更多資訊請參閱 `runInInjectionContext`。
 
-#### Fallback strategies
+#### 後備策略
 
-When using [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference') mode, you can specify a fallback strategy to handle requests for paths that haven't been prerendered.
+使用 [`RenderMode.Prerender`](api/ssr/RenderMode#Prerender 'API reference') 模式時，你可以指定一個後備策略，來處理尚未預先渲染之路徑的請求。
 
-The available fallback strategies are:
+可用的後備策略有：
 
-- **Server:** Falls back to server-side rendering. This is the **default** behavior if no `fallback` property is specified.
-- **Client:** Falls back to client-side rendering.
-- **None:** No fallback. Angular will not handle requests for paths that are not prerendered.
+- **Server**：後備為伺服器端渲染。如果沒有指定 `fallback` 屬性，這就是**預設**行為。
+- **Client**：後備為用戶端渲染。
+- **None**：不做後備。Angular 不會處理未預先渲染之路徑的請求。
 
 ```ts
 // app.routes.server.ts
@@ -242,11 +242,11 @@ export const serverRoutes: ServerRoute[] = [
 ];
 ```
 
-## Authoring server-compatible components
+## 撰寫與伺服器相容的元件 {#authoring-server-compatible-components}
 
-Some common browser APIs and capabilities might not be available on the server. Applications cannot make use of browser-specific global objects like `window`, `document`, `navigator`, or `location` as well as certain properties of `HTMLElement`.
+某些常見的瀏覽器 API 與功能在伺服器上可能無法使用。應用程式無法使用 `window`、`document`、`navigator` 或 `location` 等瀏覽器專屬的全域物件，以及 `HTMLElement` 的某些屬性。
 
-In general, code which relies on browser-specific symbols should only be executed in the browser, not on the server. This can be enforced through the `afterEveryRender` and `afterNextRender` lifecycle hooks. These are only executed on the browser and skipped on the server.
+一般而言，依賴瀏覽器專屬符號的程式碼應該只在瀏覽器中執行，不要在伺服器上執行。這可以透過 `afterEveryRender` 與 `afterNextRender` 生命週期鉤子來強制達成。這些鉤子只在瀏覽器中執行，在伺服器上會被略過。
 
 ```angular-ts
 import { Component, viewChild, afterNextRender } from '@angular/core';
@@ -267,16 +267,16 @@ export class MyComponent {
 }
 ```
 
-## Setting providers on the server
+## 在伺服器上設定提供者
 
-On the server side, top level provider values are set once when the application code is initially parsed and evaluated.
-This means that providers configured with `useValue` will keep their value across multiple requests, until the server application is restarted.
+在伺服器端，頂層提供者的值會在應用程式程式碼初次解析與求值時設定一次。
+這表示以 `useValue` 設定的提供者會在多個請求之間保持其值，直到伺服器應用程式重新啟動為止。
 
-If you want to generate a new value for each request, use a factory provider with `useFactory`. The factory function will run for every incoming request, ensuring that a new value is created and assigned to the token each time.
+如果你想為每個請求產生新值，請使用帶有 `useFactory` 的工廠提供者。工廠函式會為每個傳入的請求執行，確保每次都建立新值並指派給該 token。
 
-## Accessing Document via DI
+## 透過 DI 存取 Document {#accessing-document-via-di}
 
-When working with server-side rendering, you should avoid directly referencing browser-specific globals like `document`. Instead, use the [`DOCUMENT`](api/core/DOCUMENT) token to access the document object in a platform-agnostic way.
+在使用伺服器端渲染時，你應該避免直接參考 `document` 等瀏覽器專屬的全域變數。請改用 [`DOCUMENT`](api/core/DOCUMENT) token，以與平台無關的方式存取 document 物件。
 
 ```ts
 import { Injectable, inject, DOCUMENT } from '@angular/core';
@@ -297,15 +297,15 @@ export class CanonicalLinkService {
 
 ```
 
-HELPFUL: For managing meta tags, Angular provides the `Meta` service.
+HELPFUL: 對於管理 meta 標籤，Angular 提供了 `Meta` 服務。
 
-## Accessing Request and Response via DI
+## 透過 DI 存取 Request 與 Response {#accessing-request-and-response-via-di}
 
-The `@angular/core` package provides several tokens for interacting with the server-side rendering environment. These tokens give you access to crucial information and objects within your Angular application during SSR.
+`@angular/core` 套件提供數個用來與伺服器端渲染環境互動的 token。這些 token 讓你在 SSR 期間能存取 Angular 應用程式中的關鍵資訊與物件。
 
-- **[`REQUEST`](api/core/REQUEST 'API reference'):** Provides access to the current request object, which is of type [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) from the Web API. This allows you to access headers, cookies, and other request information.
-- **[`RESPONSE_INIT`](api/core/RESPONSE_INIT 'API reference'):** Provides access to the response initialization options, which is of type [`ResponseInit`](https://developer.mozilla.org/en-US/docs/Web/API/Response/Response#parameters) from the Web API. This allows you to set headers and the status code for the response dynamically. Use this token to set headers or status codes that need to be determined at runtime.
-- **[`REQUEST_CONTEXT`](api/core/REQUEST_CONTEXT 'API reference'):** Provides access to additional context related to the current request. This context can be passed as the second parameter of the [`handle`](api/ssr/AngularAppEngine#handle 'API reference') function. Typically, this is used to provide additional request-related information that is not part of the standard Web API.
+- **[`REQUEST`](api/core/REQUEST 'API reference')**：提供對目前請求物件的存取，該物件的型別是 Web API 的 [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request)。這讓你能存取標頭、cookies 與其他請求資訊。
+- **[`RESPONSE_INIT`](api/core/RESPONSE_INIT 'API reference')**：提供對回應初始化選項的存取，該選項的型別是 Web API 的 [`ResponseInit`](https://developer.mozilla.org/en-US/docs/Web/API/Response/Response#parameters)。這讓你能動態設定回應的標頭與狀態碼。當標頭或狀態碼需要在執行階段決定時，請使用這個 token。
+- **[`REQUEST_CONTEXT`](api/core/REQUEST_CONTEXT 'API reference')**：提供對目前請求相關額外上下文的存取。這個上下文可以作為 [`handle`](api/ssr/AngularAppEngine#handle 'API reference') 函式的第二個參數傳入。通常用來提供不屬於標準 Web API 的額外請求相關資訊。
 
 ```angular-ts
 import { inject, REQUEST } from '@angular/core';
@@ -322,20 +322,20 @@ export class MyComponent {
 }
 ```
 
-IMPORTANT: The above tokens will be `null` in the following scenarios:
+IMPORTANT: 上述 token 在以下情境中會是 `null`：
 
-- During the build processes.
-- When the application is rendered in the browser (CSR).
-- When performing static site generation (SSG).
-- During route extraction in development (at the time of the request).
+- 在建置過程中。
+- 當應用程式在瀏覽器中渲染（CSR）時。
+- 執行靜態網站生成（SSG）時。
+- 在開發期間的路由擷取過程中（於請求當下）。
 
-## Generate a fully static application
+## 產生完全靜態的應用程式 {#generate-a-fully-static-application}
 
-By default, Angular prerenders your entire application and generates a server file for handling requests. This allows your app to serve pre-rendered content to users. However, if you prefer a fully static site without a server, you can opt out of this behavior by setting the `outputMode` to `static` in your `angular.json` configuration file.
+預設情況下，Angular 會預先渲染你的整個應用程式，並產生一個用來處理請求的伺服器檔案。這讓你的應用程式能把預先渲染好的內容提供給使用者。然而，如果你偏好沒有伺服器的完全靜態網站，可以在 `angular.json` 設定檔中將 `outputMode` 設為 `static`，來退出這個行為。
 
-When `outputMode` is set to `static`, Angular generates pre-rendered HTML files for each route at build time, but it does not generate a server file or require a Node.js server to serve the app. This is useful for deploying to static hosting providers where a backend server is not needed.
+當 `outputMode` 設為 `static` 時，Angular 會在建置時為每條路由產生預先渲染的 HTML 檔案，但不會產生伺服器檔案，也不需要 Node.js 伺服器來提供應用程式。這在部署到不需要後端伺服器的靜態託管服務時很有用。
 
-To configure this, update your `angular.json` file as follows:
+要進行此設定，請如下更新你的 `angular.json` 檔案：
 
 ```json
 {
@@ -353,16 +353,16 @@ To configure this, update your `angular.json` file as follows:
 }
 ```
 
-## Caching data when using HttpClient
+## 使用 HttpClient 時快取資料 {#caching-data-when-using-httpclient}
 
-`HttpClient` caches outgoing network requests when running on the server. This information is serialized and transferred to the browser as part of the initial HTML sent from the server. In the browser, `HttpClient` checks whether it has data in the cache and if so, reuses it instead of making a new HTTP request during initial application rendering. `HttpClient` stops using the cache once an application becomes [stable](api/core/ApplicationRef#isStable) while running in a browser.
+`HttpClient` 在伺服器上執行時會快取對外發出的網路請求。這些資訊會被序列化，並作為伺服器傳送的初始 HTML 的一部分傳給瀏覽器。在瀏覽器中，`HttpClient` 會檢查快取中是否有資料，若有，就在應用程式初始渲染期間重用它，而不發出新的 HTTP 請求。一旦應用程式在瀏覽器中執行時變得[穩定](api/core/ApplicationRef#isStable)，`HttpClient` 就會停止使用快取。
 
-### Configuring the caching options
+### 設定快取選項 {#configuring-the-caching-options}
 
-You can customize how Angular caches HTTP responses during server‑side rendering (SSR) and reuses them during hydration by configuring `HttpTransferCacheOptions`.  
-This configuration is provided globally using `withHttpTransferCacheOptions` inside `provideClientHydration()`.
+你可以透過設定 `HttpTransferCacheOptions`，來自訂 Angular 在伺服器端渲染（SSR）期間如何快取 HTTP 回應，以及在水合期間如何重用它們。  
+這個設定是透過在 `provideClientHydration()` 內使用 `withHttpTransferCacheOptions` 全域提供的。
 
-By default, `HttpClient` caches all `HEAD` and `GET` requests which don't contain `Authorization`, `Proxy-Authorization`, or `Cookie` headers and are not sent with `withCredentials` or Fetch API `credentials` modes that can send credentials. Angular also skips transfer cache when a request or response includes `Cache-Control` directives that forbid caching (`no-store`, `no-cache`, or `private`), or when the Fetch API `cache` option is set to `no-store` or `no-cache`. Responses that carry a `Set-Cookie` header are also skipped. You can override the request filtering settings by using `withHttpTransferCacheOptions` in the hydration configuration.
+預設情況下，`HttpClient` 會快取所有不含 `Authorization`、`Proxy-Authorization` 或 `Cookie` 標頭、且不是以可傳送憑證的 `withCredentials` 或 Fetch API `credentials` 模式送出的 `HEAD` 與 `GET` 請求。當請求或回應包含禁止快取的 `Cache-Control` 指令（`no-store`、`no-cache` 或 `private`），或 Fetch API 的 `cache` 選項設為 `no-store` 或 `no-cache` 時，Angular 也會跳過傳輸快取。帶有 `Set-Cookie` 標頭的回應同樣會被跳過。你可以在水合設定中使用 `withHttpTransferCacheOptions` 來覆寫請求篩選設定。
 
 ```ts
 import { bootstrapApplication } from '@angular/platform-browser';
@@ -386,8 +386,8 @@ bootstrapApplication(AppComponent, {
 
 ### `includeHeaders`
 
-Specifies which headers from the server response should be included in cached entries.  
-No headers are included by default.
+指定伺服器回應中哪些標頭應該包含在快取項目裡。  
+預設不包含任何標頭。
 
 ```ts
 withHttpTransferCacheOptions({
@@ -395,16 +395,16 @@ withHttpTransferCacheOptions({
 });
 ```
 
-IMPORTANT: Avoid including sensitive headers like authentication tokens. These can leak user‑specific data between requests.
+IMPORTANT: 避免包含驗證 token 等敏感標頭。這些標頭可能會在請求之間洩漏使用者專屬資料。
 
-Including `Cache-Control` in `includeHeaders` only makes that header available on the hydrated response. Angular already evaluates `Cache-Control` headers automatically when deciding whether a request or response is eligible for transfer cache.
+在 `includeHeaders` 中包含 `Cache-Control`，只是讓該標頭能在水合後的回應上使用。Angular 在決定請求或回應是否符合傳輸快取資格時，本來就會自動評估 `Cache-Control` 標頭。
 
 ---
 
 ### `includePostRequests`
 
-By default, only `GET` and `HEAD` requests are cached.  
-You can enable caching for `POST` requests when they are used as read operations such as GraphQL queries.
+預設情況下，只有 `GET` 與 `HEAD` 請求會被快取。  
+當 `POST` 請求被用作讀取操作（例如 GraphQL 查詢）時，你可以為它們啟用快取。
 
 ```ts
 withHttpTransferCacheOptions({
@@ -412,14 +412,14 @@ withHttpTransferCacheOptions({
 });
 ```
 
-Use this only when `POST` requests are **idempotent** and safe to reuse between server and client renders.
+只有當 `POST` 請求具**冪等性**，且在伺服器與用戶端渲染之間重用是安全的，才使用此設定。
 
 ---
 
 ### `includeRequestsWithAuthHeaders`
 
-Determines whether requests containing `Authorization`, `Proxy‑Authorization`, or `Cookie` headers are eligible for caching.  
-By default, these are excluded to prevent caching user‑specific responses. Requests sent with `withCredentials` or Fetch API `credentials` set to `include` or `same-origin` are also excluded by default.
+決定包含 `Authorization`、`Proxy-Authorization` 或 `Cookie` 標頭的請求是否符合快取資格。  
+預設情況下，這些請求會被排除，以防止快取使用者專屬的回應。以 `withCredentials` 送出，或 Fetch API `credentials` 設為 `include` 或 `same-origin` 的請求，預設也會被排除。
 
 ```ts
 withHttpTransferCacheOptions({
@@ -427,24 +427,24 @@ withHttpTransferCacheOptions({
 });
 ```
 
-Enable only when authentication headers do **not** affect the response content (for example, public tokens for analytics APIs).
+只有當驗證標頭**不**影響回應內容時（例如分析 API 的公開 token），才啟用此設定。
 
-### Per‑request overrides
+### 個別請求的覆寫
 
-You can override caching behavior for a specific request using the `transferCache` request option.
+你可以使用 `transferCache` 請求選項，為特定請求覆寫快取行為。
 
 ```ts
 // Include specific headers for this request
 http.get('/api/profile', { transferCache: { includeHeaders: ['CustomHeader'] } });
 ```
 
-### Disabling caching
+### 停用快取 {#disabling-caching}
 
-You can disable HTTP caching of requests sent from the server either globally or individually.
+你可以全域或個別停用從伺服器送出之請求的 HTTP 快取。
 
-#### Globally
+#### 全域停用
 
-To disable caching for all requests in your application, use the `withNoHttpTransferCache` feature:
+若要停用應用程式中所有請求的快取，請使用 `withNoHttpTransferCache` 功能：
 
 ```ts
 import { bootstrapApplication, provideClientHydration, withNoHttpTransferCache } from '@angular/platform-browser';
@@ -458,7 +458,7 @@ bootstrapApplication(AppComponent, {
 
 #### `filter`
 
-You can also selectively disable caching for certain requests using the [`filter`](api/common/http/HttpTransferCacheOptions) option in `withHttpTransferCacheOptions`. For example, you can disable caching for a specific API endpoint:
+你也可以使用 `withHttpTransferCacheOptions` 中的 [`filter`](api/common/http/HttpTransferCacheOptions) 選項，選擇性地停用某些請求的快取。例如，你可以停用特定 API 端點的快取：
 
 ```ts
 import { bootstrapApplication, provideClientHydration, withHttpTransferCacheOptions } from '@angular/platform-browser';
@@ -472,25 +472,25 @@ bootstrapApplication(AppComponent, {
 });
 ```
 
-Use this option to exclude endpoints with user‑specific or dynamic data (for example `/api/profile`).
+使用這個選項來排除帶有使用者專屬或動態資料的端點（例如 `/api/profile`）。
 
-#### Individually
+#### 個別請求
 
-To disable caching for an individual request, you can specify the [`transferCache`](api/common/http/HttpRequest#transferCache) option in an `HttpRequest`.
+若要停用個別請求的快取，你可以在 `HttpRequest` 中指定 [`transferCache`](api/common/http/HttpRequest#transferCache) 選項。
 
 ```ts
 httpClient.get('/api/sensitive-data', { transferCache: false });
 ```
 
-`HttpTransferCache` does not cache requests or responses that explicitly opt out of caching. Angular skips transfer cache entries when a request includes a `Cache-Control` header with `no-store`, `no-cache`, or `private`, or when the request uses the Fetch API `cache` option set to `no-store` or `no-cache`. Responses with `Cache-Control: no-store`, `Cache-Control: no-cache`, or `Cache-Control: private` are also not stored in the transfer cache. Responses that include a `Set-Cookie` header are likewise not stored, as they typically carry user-specific state.
+`HttpTransferCache` 不會快取明確選擇退出快取的請求或回應。當請求包含值為 `no-store`、`no-cache` 或 `private` 的 `Cache-Control` 標頭，或請求使用設為 `no-store` 或 `no-cache` 的 Fetch API `cache` 選項時，Angular 會跳過傳輸快取項目。帶有 `Cache-Control: no-store`、`Cache-Control: no-cache` 或 `Cache-Control: private` 的回應也不會存入傳輸快取。包含 `Set-Cookie` 標頭的回應同樣不會被儲存，因為它們通常帶有使用者專屬的狀態。
 
-NOTE: If your application uses different HTTP origins to make API calls on the server and on the client, the `HTTP_TRANSFER_CACHE_ORIGIN_MAP` token allows you to establish a mapping between those origins, so that `HttpTransferCache` feature can recognize those requests as the same ones and reuse the data cached on the server during hydration on the client.
+NOTE: 如果你的應用程式在伺服器與用戶端使用不同的 HTTP 來源來呼叫 API，`HTTP_TRANSFER_CACHE_ORIGIN_MAP` token 讓你能在這些來源之間建立對應，使 `HttpTransferCache` 功能能將這些請求識別為相同的請求，並在用戶端水合期間重用伺服器上快取的資料。
 
-## Configuring a server
+## 設定伺服器
 
 ### Node.js
 
-The `@angular/ssr/node` extends `@angular/ssr` specifically for Node.js environments. It provides APIs that make it easier to implement server-side rendering within your Node.js application. For a complete list of functions and usage examples, refer to the [`@angular/ssr/node` API reference](api/ssr/node/AngularNodeAppEngine) API reference.
+`@angular/ssr/node` 是專為 Node.js 環境擴充 `@angular/ssr` 的套件。它提供的 API 讓你在 Node.js 應用程式中實作伺服器端渲染更容易。完整的函式清單與使用範例，請參閱 [`@angular/ssr/node` API 參考](api/ssr/node/AngularNodeAppEngine)。
 
 ```ts
 // server.ts
@@ -521,7 +521,7 @@ export const reqHandler = createNodeRequestHandler(app);
 
 ### Non-Node.js
 
-The `@angular/ssr` provides essential APIs for server-side rendering your Angular application on platforms other than Node.js. It leverages the standard [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) and [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) objects from the Web API, enabling you to integrate Angular SSR into various server environments. For detailed information and examples, refer to the [`@angular/ssr` API reference](api/ssr/AngularAppEngine).
+`@angular/ssr` 提供在 Node.js 以外的平台上為你的 Angular 應用程式進行伺服器端渲染所需的核心 API。它利用 Web API 中標準的 [`Request`](https://developer.mozilla.org/en-US/docs/Web/API/Request) 與 [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) 物件，讓你能將 Angular SSR 整合到各種伺服器環境中。詳細資訊與範例，請參閱 [`@angular/ssr` API 參考](api/ssr/AngularAppEngine)。
 
 ```ts
 // server.ts

@@ -1,15 +1,15 @@
-# Using signals with services
+# 搭配服務使用訊號
 
-Now that you've learned [two-way binding with model signals](/tutorials/signals/6-two-way-binding-with-model-signals), let's explore how to use signals with Angular services. Services are perfect for sharing reactive state across multiple components, and signals make this even more powerful by providing automatic change detection and clean reactive patterns.
+既然你已學會[使用 model 訊號進行雙向繫結](/tutorials/signals/6-two-way-binding-with-model-signals)，接著來探索如何將訊號與 Angular 服務搭配使用。服務非常適合在多個元件之間共享反應式狀態，而訊號透過自動變更偵測與簡潔的反應式模式，讓這件事更強大。
 
-In this activity, you'll learn how to create a cart store with signals that allow the cart display component to react to state changes automatically.
+在本活動中，你將學會如何建立一個使用訊號的購物車 store，讓購物車顯示元件能自動對狀態變化做出反應。
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Add cart store signals">
-Add readonly and computed signals to make the cart state reactive in `cart-store.ts`.
+<docs-step title="加入 cart store 訊號">
+在 `cart-store.ts` 中加入唯讀與計算訊號，讓購物車狀態具有反應性。
 
 ```ts
 // Add the computed import
@@ -30,11 +30,11 @@ readonly totalPrice = computed(() => {
 });
 ```
 
-These signals allow components to reactively access cart data and computed totals. The `asReadonly()` method prevents external code from modifying the cart items directly, while `computed()` creates derived state that automatically updates when the source signal changes.
+這些訊號讓元件能以反應式方式存取購物車資料與計算出的總計。`asReadonly()` 方法能避免外部程式碼直接修改購物車項目，而 `computed()` 則建立衍生狀態，在來源訊號改變時自動更新。
 </docs-step>
 
-<docs-step title="Complete the quantity update methods">
-The cart display component in `cart-display.ts` already uses the cart store signals in its template. Complete the quantity update methods to modify cart items:
+<docs-step title="完成數量更新方法">
+`cart-display.ts` 中的購物車顯示元件，已在其範本中使用 cart store 的訊號。完成數量更新方法，來修改購物車項目：
 
 ```ts
 increaseQuantity(id: string) {
@@ -54,11 +54,11 @@ decreaseQuantity(id: string) {
 }
 ```
 
-These methods read the current cart state using `cartItems()` and update quantities through the store's methods. The UI automatically updates when the signals change!
+這些方法使用 `cartItems()` 讀取目前的購物車狀態，並透過 store 的方法更新數量。訊號改變時，UI 會自動更新！
 </docs-step>
 
-<docs-step title="Update the main app component">
-Update the main app component in `app.ts` to use the cart service and display the cart component.
+<docs-step title="更新主應用程式元件">
+更新 `app.ts` 中的主應用程式元件，使用購物車服務並顯示購物車元件。
 
 ```angular-ts
 import {Component, inject} from '@angular/core';
@@ -93,11 +93,11 @@ export class App {
 
 </docs-workflow>
 
-Excellent! You've now learned how to use signals with services. Key concepts to remember:
+太棒了！你已學會如何將訊號與服務搭配使用。要記住的關鍵概念如下：
 
-- **Service-level signals**: Services can use signals to manage reactive state
-- **Dependency injection**: Use `inject()` to access services with signals in components
-- **Computed signals in services**: Create derived state that updates automatically
-- **Readonly signals**: Expose read-only versions of signals to prevent external mutations
+- **服務層級的訊號**：服務可以使用訊號管理反應式狀態
+- **依賴注入**：在元件中使用 `inject()` 存取帶有訊號的服務
+- **服務中的計算訊號**：建立會自動更新的衍生狀態
+- **唯讀訊號**：公開訊號的唯讀版本，避免外部修改
 
-In the next lesson, you'll learn about [how to use signals with directives](/tutorials/signals/8-using-signals-with-directives)!
+在下一課中，你將學到[如何搭配指令使用訊號](/tutorials/signals/8-using-signals-with-directives)！

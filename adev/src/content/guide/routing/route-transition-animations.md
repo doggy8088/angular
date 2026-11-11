@@ -1,19 +1,19 @@
-# Route transition animations
+# 路由轉場動畫
 
-Route transition animations enhance user experience by providing smooth visual transitions when navigating between different views in your Angular application. [Angular Router](/guide/routing/overview) includes built-in support for the browser's View Transitions API, enabling seamless animations between route changes in supported browsers.
+路由轉場動畫能在使用者於 Angular 應用程式的不同畫面間導覽時，提供流暢的視覺轉換效果，藉此提升使用者體驗。[Angular Router](/guide/routing/overview) 內建支援瀏覽器的 View Transitions API，能在支援的瀏覽器中，為路由切換帶來無縫的動畫效果。
 
-HELPFUL: The Router's native View Transitions integration is currently in [developer preview](/reference/releases#developer-preview). Native View Transitions are a relatively new browser feature with limited support across all browsers.
+HELPFUL: Router 原生的 View Transitions 整合目前處於[開發者預覽](/reference/releases#developer-preview)階段。原生的 View Transitions 是相對較新的瀏覽器功能，在所有瀏覽器之間的支援程度有限。
 
-## How View Transitions work
+## View Transitions 的運作方式
 
-View transitions use the browser's native [`document.startViewTransition` API](https://developer.mozilla.org/en-US/docs/Web/API/Document/startViewTransition) to create smooth animations between different states of your application. The API works by:
+View Transitions 會使用瀏覽器原生的 [`document.startViewTransition` API](https://developer.mozilla.org/en-US/docs/Web/API/Document/startViewTransition)，為應用程式在不同狀態之間建立流暢的動畫。這個 API 的運作步驟如下：
 
-1. **Capturing the current state** - The browser takes a screenshot of the current page
-2. **Executing the DOM update** - Your callback function runs to update the DOM
-3. **Capturing the new state** - The browser captures the updated page state
-4. **Playing the transition** - The browser animates between the old and new states
+1. **捕獲目前狀態**：瀏覽器會擷取目前頁面的螢幕快照
+2. **執行 DOM 更新**：執行你的回呼函式來更新 DOM
+3. **捕獲新狀態**：瀏覽器會擷取更新後的頁面狀態
+4. **播放轉場動畫**：瀏覽器會在新舊兩個狀態之間播放動畫
 
-Here's the basic structure of the `startViewTransition` API:
+以下是 `startViewTransition` API 的基本結構：
 
 ```ts
 document.startViewTransition(async () => {
@@ -21,24 +21,24 @@ document.startViewTransition(async () => {
 });
 ```
 
-For more details about the browser API, see the [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions).
+欲了解瀏覽器 API 的更多細節，請參閱 [Chrome 官方說明](https://developer.chrome.com/docs/web-platform/view-transitions)。
 
-## How the Router uses view transitions
+## Router 如何使用 View Transitions
 
-Angular Router integrates view transitions into the navigation lifecycle to create seamless route changes. During navigation, the Router:
+Angular Router 已經將 View Transitions 整合到導覽的生命週期中，以實現無縫的路由切換。在導覽過程中，Router 會執行以下步驟：
 
-1. **Completes navigation preparation** - Route matching, [lazy loading](/guide/routing/define-routes#lazily-loaded-components), [guards](/guide/routing/route-guards), and [resolvers](/guide/routing/data-resolvers) execute
-2. **Initiates the view transition** - Router calls `startViewTransition` when routes are ready for activation
-3. **Updates the DOM** - Router activates new routes and deactivates old ones within the transition callback
-4. **Finalizes the transition** - The transition Promise resolves when Angular completes rendering
+1. **完成導覽的事前準備**：執行路由比對、[延遲載入](/guide/routing/define-routes#lazily-loaded-components)、[路由守衛](/guide/routing/route-guards)與[解析器](/guide/routing/data-resolvers)
+2. **啟動 View Transition**：當路由準備好要被啟用時，Router 會呼叫 `startViewTransition`
+3. **更新 DOM**：Router 會在轉換回呼函式中，啟用新的路由並停用舊的路由
+4. **完成轉場作業**：當 Angular 完成畫面算繪時，轉場作業的 Promise 就會完成
 
-The Router's view transition integration acts as a [progressive enhancement](https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement). When browsers don't support the View Transitions API, the Router performs normal DOM updates without animation, ensuring your application works across all browsers.
+Router 對於 View Transitions 的整合，本身是一種[漸進增強](https://developer.mozilla.org/en-US/docs/Glossary/Progressive_Enhancement)的做法。當瀏覽器不支援 View Transitions API 時，Router 就會執行不含動畫效果的一般 DOM 更新，確保你的應用程式能在所有瀏覽器上正常運作。
 
-## Enabling View Transitions in the Router
+## 在 Router 中啟用 View Transitions
 
-Enable view transitions by adding the `withViewTransitions` feature to your [router configuration](/guide/routing/define-routes#adding-the-router-to-your-application). Angular supports both standalone and NgModule bootstrap approaches:
+只要在你的[路由設定](/guide/routing/define-routes#adding-the-router-to-your-application)中，加入 `withViewTransitions` 功能，即可啟用 View Transitions。Angular 同時支援獨立元件與 NgModule 這兩種啟動方式：
 
-### Standalone bootstrap
+### 以獨立元件方式啟動
 
 ```ts
 import { bootstrapApplication } from '@angular/platform-browser';
@@ -52,7 +52,7 @@ bootstrapApplication(MyApp, {
 });
 ```
 
-### NgModule bootstrap
+### 以 NgModule 方式啟動
 
 ```ts
 import { NgModule } from '@angular/core';
@@ -64,21 +64,21 @@ import { RouterModule } from '@angular/router';
 export class AppRouting {}
 ```
 
-[Try the "count" example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-2dnvtm?file=src%2Fmain.ts)
+[在 StackBlitz 上試用「count」範例](https://stackblitz.com/edit/stackblitz-starters-2dnvtm?file=src%2Fmain.ts)
 
-This example demonstrates how router navigation can replace direct `startViewTransition` calls for counter updates.
+這個範例示範了如何使用路由導覽，來取代直接呼叫 `startViewTransition` 處理計數器更新的作法。
 
-## Customizing transitions with CSS
+## 使用 CSS 自訂轉場效果
 
-You can customize view transitions using CSS to create unique animation effects. The browser creates separate transition elements that you can target with CSS selectors.
+你可以使用 CSS 來自訂 View Transitions，藉此創造獨一無二的動畫效果。瀏覽器會建立專門的轉場元素，讓你可以使用 CSS 選擇器來指定這些元素的樣式。
 
-To create custom transitions:
+建立自訂轉場效果的步驟如下：
 
-1. **Add view-transition-name** - Assign unique names to elements you want to animate
-2. **Define global animations** - Create CSS animations in your global styles
-3. **Target transition pseudo-elements** - Use `::view-transition-old()` and `::view-transition-new()` selectors
+1. **加上 view-transition-name**：為你想要加入動畫的元素，指定一個專屬的名稱
+2. **定義全域動畫**：在全域樣式檔案中，建立 CSS 動畫
+3. **指定轉場虛擬元素**：使用 `::view-transition-old()` 與 `::view-transition-new()` 選擇器
 
-Here's an example that adds a rotation effect to a counter element:
+以下範例會為計數器元素加上旋轉效果：
 
 ```css
 /* Define keyframe animations */
@@ -106,21 +106,21 @@ Here's an example that adds a rotation effect to a counter element:
 }
 ```
 
-IMPORTANT: Define view transition animations in your global styles file, not in component styles. Angular's [view encapsulation](/guide/components/styling#view-encapsulation) scopes component styles, which prevents them from targeting the transition pseudo-elements correctly.
+IMPORTANT: 請務必將 View Transition 動畫定義在你的全域樣式檔案裡，而不是寫在元件樣式中。Angular 的[檢視封裝](/guide/components/styling#view-encapsulation)機制會限制元件樣式的套用範圍，導致這些樣式無法正確指定到轉場虛擬元素上。
 
-[Try the updated “count” example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-fwn4i7?file=src%2Fmain.ts)
+[在 StackBlitz 上試用更新版的「count」範例](https://stackblitz.com/edit/stackblitz-starters-fwn4i7?file=src%2Fmain.ts)
 
-## Advanced transition control with onViewTransitionCreated
+## 透過 onViewTransitionCreated 進行進階轉場控制
 
-The `withViewTransitions` feature accepts an options object with an `onViewTransitionCreated` callback for advanced control over view transitions. This callback:
+`withViewTransitions` 功能可以接受一個選項物件，裡頭帶有 `onViewTransitionCreated` 回呼，以對 View Transitions 進行更進階的控制。這個回呼函式具有以下特性：
 
-- Runs in an [injection context](/guide/di/dependency-injection-context#run-within-an-injection-context)
-- Receives a [`ViewTransitionInfo`](/api/router/ViewTransitionInfo) object containing:
-  - The `ViewTransition` instance from `startViewTransition`
-  - The [`ActivatedRouteSnapshot`](/api/router/ActivatedRouteSnapshot) for the route being navigated from
-  - The [`ActivatedRouteSnapshot`](/api/router/ActivatedRouteSnapshot) for the route being navigated to
+- 會在[注入上下文](/guide/di/dependency-injection-context#run-within-an-injection-context)中執行
+- 會接收到一個 [`ViewTransitionInfo`](/api/router/ViewTransitionInfo) 物件，其中包含：
+  - 從 `startViewTransition` 所建立的 `ViewTransition` 實例
+  - 導覽來源路由的 [`ActivatedRouteSnapshot`](/api/router/ActivatedRouteSnapshot)
+  - 導覽目標路由的 [`ActivatedRouteSnapshot`](/api/router/ActivatedRouteSnapshot)
 
-Use this callback to customize transition behavior based on navigation context. For example, you can skip transitions for specific navigation types:
+你可以運用這個回呼函式，依據導覽上下文來客製化轉場行為。例如，你可以針對特定類型的導覽略過轉場效果：
 
 ```ts
 import { inject } from '@angular/core';
@@ -146,58 +146,58 @@ withViewTransitions({
 })
 ```
 
-This example skips the view transition when navigation only changes the [URL fragment or query parameters](/guide/routing/read-route-state#query-parameters) (such as anchor links within the same page). The `skipTransition()` method prevents the animation while still allowing the navigation to complete.
+這個範例會在導覽僅僅更動到 [URL 的錨點片段或查詢參數](/guide/routing/read-route-state#query-parameters)（例如同一個頁面中的錨點連結）時，略過 View Transition。`skipTransition()` 方法會避免播放動畫效果，同時仍會確保導覽能夠順利完成。
 
-## Examples from the Chrome explainer adapted to Angular
+## 改編自 Chrome 官方說明的 Angular 範例
 
-The following examples demonstrate various view transition techniques adapted from the Chrome team's documentation for use with Angular Router:
+以下範例展示了各種 View Transition 的技巧，這些範例均改編自 Chrome 團隊的說明文件，並針對 Angular Router 的使用方式進行調整：
 
-### Transitioning elements don't need to be the same DOM element
+### 進行轉場的元素不一定要是同一個 DOM 元素
 
-Elements can transition smoothly between different DOM elements as long as they share the same `view-transition-name`.
+只要 DOM 元素共用相同的 `view-transition-name`，就能在不同的 DOM 元素之間流暢地進行轉場。
 
-- [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#transitioning_elements_dont_need_to_be_the_same_dom_element)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-dh8npr?file=src%2Fmain.ts)
+- [Chrome 官方說明文件](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#transitioning_elements_dont_need_to_be_the_same_dom_element)
+- [在 StackBlitz 上的 Angular 範例](https://stackblitz.com/edit/stackblitz-starters-dh8npr?file=src%2Fmain.ts)
 
-### Custom entry and exit animations
+### 自訂進場與離場動畫
 
-Create unique animations for elements entering and leaving the viewport during route transitions.
+你可以為路由轉場過程中，進入或離開可視區域的元素，建立專屬的進場與離場動畫效果。
 
-- [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#custom_entry_and_exit_transitions)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-8kly3o)
+- [Chrome 官方說明文件](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#custom_entry_and_exit_transitions)
+- [在 StackBlitz 上的 Angular 範例](https://stackblitz.com/edit/stackblitz-starters-8kly3o)
 
-### Async DOM updates and waiting for content
+### 非同步 DOM 更新與等待內容載入
 
-Angular Router prioritizes immediate transitions over waiting for additional content to load.
+Angular Router 會優先執行即時的版面轉場，而不會為了等待額外的內容載入完成而停下等候。
 
-- [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#async_dom_updates_and_waiting_for_content)
+- [Chrome 官方說明文件](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#async_dom_updates_and_waiting_for_content)
 
-NOTE: Angular Router does not provide a way to delay view transitions. This design choice prevents pages from becoming non-interactive while waiting for additional content. As the Chrome documentation notes: "During this time, the page is frozen, so delays here should be kept to a minimum…in some cases it's better to avoid the delay altogether, and use the content you already have."
+NOTE: Angular Router 並不提供用來延遲 View Transition 的方法。這項設計抉擇的目的，是為了避免在等待額外內容時，整個頁面變得無法互動。正如 Chrome 官方文件所提及的：「在此期間，頁面會完全凍結，因此這段延遲時間應盡可能縮短……在某些情況下，寧可直接跳過延遲，直接使用現有的內容。」
 
-### Handle multiple view transition styles with view transition types
+### 使用 View Transition 類型來切換多種轉場樣式
 
-Use view transition types to apply different animation styles based on navigation context.
+你可以根據導覽的上下文，運用 View Transition 類型來套用不同的動畫風格。
 
-- [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#view-transition-types)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-vxzcam)
+- [Chrome 官方說明文件](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#view-transition-types)
+- [在 StackBlitz 上的 Angular 範例](https://stackblitz.com/edit/stackblitz-starters-vxzcam)
 
-### Handle multiple view transition styles with a class name on the view transition root (deprecated)
+### 在 View Transition 根元素上套用類別名稱來切換多種轉場樣式（已棄用）
 
-This approach uses CSS classes on the transition root element to control animation styles.
+這種作法會使用轉場根元素上的 CSS 類別名稱，來控制整體的動畫樣式。
 
-- [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#changing-on-navigation-type)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-nmnzzg?file=src%2Fmain.ts)
+- [Chrome 官方說明文件](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#changing-on-navigation-type)
+- [在 StackBlitz 上的 Angular 範例](https://stackblitz.com/edit/stackblitz-starters-nmnzzg?file=src%2Fmain.ts)
 
-### Transitioning without freezing other animations
+### 進行轉場的同時不凍結其他動畫
 
-Maintain other page animations during view transitions to create more dynamic user experiences.
+你可以在執行 View Transition 的過程中，讓頁面上的其他動畫持續播放，打造更豐富的使用者互動體驗。
 
-- [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#transitioning-without-freezing)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-76kgww)
+- [Chrome 官方說明文件](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#transitioning-without-freezing)
+- [在 StackBlitz 上的 Angular 範例](https://stackblitz.com/edit/stackblitz-starters-76kgww)
 
-### Animating with JavaScript
+### 使用 JavaScript 操控動畫
 
-Control view transitions programmatically using JavaScript APIs for complex animation scenarios.
+針對複雜的動畫情境，你可以使用 JavaScript API，以程式化的方式控制 View Transition 的播放過程。
 
-- [Chrome Explainer](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#animating-with-javascript)
-- [Angular Example on StackBlitz](https://stackblitz.com/edit/stackblitz-starters-cklnkm)
+- [Chrome 官方說明文件](https://developer.chrome.com/docs/web-platform/view-transitions/same-document#animating-with-javascript)
+- [在 StackBlitz 上的 Angular 範例](https://stackblitz.com/edit/stackblitz-starters-cklnkm)

@@ -1,18 +1,18 @@
-# Incremental Hydration
+# 漸進式水合
 
-**Incremental hydration** is an advanced type of [hydration](guide/hydration) that can leave sections of your application dehydrated and _incrementally_ trigger hydration of those sections as they are needed.
+**漸進式水合**（incremental hydration）是一種進階的水合（hydration）方式，能讓應用程式的某些區塊保持未水合狀態，並在需要時漸進觸發這些區塊的水合。
 
-## Why use incremental hydration?
+## 為什麼要使用漸進式水合？
 
-Incremental hydration is a performance improvement that builds on top of full application hydration. It can produce smaller initial bundles while still providing an end-user experience that is comparable to a full application hydration experience. Smaller bundles improve initial load times, reducing [First Input Delay (FID)](https://web.dev/fid) and [Cumulative Layout Shift (CLS)](https://web.dev/cls).
+漸進式水合是在完整應用程式水合之上建構的效能改善。它能產生更小的初始套件，同時仍提供與完整應用程式水合相當的最終使用者體驗。更小的套件能改善初始載入時間，進而降低 [First Input Delay (FID)](https://web.dev/fid) 與 [Cumulative Layout Shift (CLS)](https://web.dev/cls)。
 
-Incremental hydration also lets you use deferrable views (`@defer`) for content that may not have been deferrable before. Specifically, you can now use deferrable views for content that is above the fold. Prior to incremental hydration, putting a `@defer` block above the fold would result in placeholder content rendering and then being replaced by the `@defer` block's main template content. This would result in a layout shift. Incremental hydration means the main template of the `@defer` block will render with no layout shift on hydration.
+漸進式水合也讓你能將可延遲檢視（deferrable views，`@defer`）用在以前可能無法延遲的內容上。具體來說，你現在可以把可延遲檢視用在首屏（above the fold）的內容上。在漸進式水合出現之前，把 `@defer` 區塊放在首屏會導致佔位內容先渲染出來，然後再被 `@defer` 區塊的主要範本內容取代，進而造成版面位移。漸進式水合則表示 `@defer` 區塊的主要範本在水合時會直接渲染，不會產生版面位移。
 
-## How do you enable incremental hydration in Angular?
+## 如何在 Angular 中啟用漸進式水合？ {#how-do-you-enable-incremental-hydration-in-angular}
 
-You can enable incremental hydration for applications that already use server-side rendering (SSR) with hydration. Follow the [Angular SSR Guide](guide/ssr) to enable server-side rendering and the [Angular Hydration Guide](guide/hydration) to enable hydration first.
+對於已經使用伺服器端渲染（SSR）與水合的應用程式，你可以啟用漸進式水合。請先依照 [Angular SSR 指南](guide/ssr) 啟用伺服器端渲染，並依照 [Angular 水合指南](guide/hydration) 啟用水合。
 
-Enable incremental hydration by adding the `withIncrementalHydration()` function to the `provideClientHydration` provider.
+將 `withIncrementalHydration()` 函式加入 `provideClientHydration` 提供者，即可啟用漸進式水合。
 
 ```typescript
 import {
@@ -27,38 +27,38 @@ bootstrapApplication(AppComponent, {
 });
 ```
 
-Incremental Hydration depends on and enables [event replay](guide/hydration#capturing-and-replaying-events) automatically. If you already have `withEventReplay()` in your list, you can safely remove it after enabling incremental hydration.
+漸進式水合會依賴並自動啟用[事件重播](guide/hydration#capturing-and-replaying-events)。如果你的清單中已有 `withEventReplay()`，在啟用漸進式水合後可以放心將它移除。
 
-## How does incremental hydration work?
+## 漸進式水合如何運作？
 
-Incremental hydration builds on top of full-application [hydration](guide/hydration), [deferrable views](guide/defer), and [event replay](guide/hydration#capturing-and-replaying-events). With incremental hydration, you can add additional triggers to `@defer` blocks that define incremental hydration boundaries. Adding a `hydrate` trigger to a defer block tells Angular that it should load that defer block's dependencies during server-side rendering and render the main template rather than the `@placeholder`. When client-side rendering, the dependencies are still deferred, and the defer block content stays dehydrated until its `hydrate` trigger fires. That trigger tells the defer block to fetch its dependencies and hydrate the content. Any browser events, specifically those that match listeners registered in your component, that are triggered by the user prior to hydration are queued up and replayed once the hydration process is complete.
+漸進式水合建立在完整應用程式[水合](guide/hydration)、[可延遲檢視](guide/defer)與[事件重播](guide/hydration#capturing-and-replaying-events)之上。透過漸進式水合，你可以為 `@defer` 區塊加入額外的觸發條件，來定義漸進式水合的邊界。在延遲區塊加入 `hydrate` 觸發條件，是告訴 Angular 它應該在伺服器端渲染期間載入該延遲區塊的相依性，並渲染主要範本，而不是 `@placeholder`。在用戶端渲染時，相依性仍會被延遲，且延遲區塊的內容會保持未水合狀態，直到它的 `hydrate` 觸發條件被觸發為止。該觸發條件會告訴延遲區塊去取得它的相依性並水合內容。使用者在水合之前觸發的任何瀏覽器事件（特別是與你元件中註冊的監聽器相符的事件），都會先被排入佇列，並在水合程序完成後重播。
 
-## Controlling hydration of content with triggers
+## 以觸發條件控制內容的水合
 
-You can specify **hydrate triggers** that control when Angular loads and hydrates deferred content. These are additional triggers that can be used alongside regular `@defer` triggers.
+你可以指定 **hydrate 觸發條件**（hydrate triggers），來控制 Angular 何時載入並水合延遲的內容。這些是可與一般 `@defer` 觸發條件併用的額外觸發條件。
 
-Each `@defer` block may have multiple hydrate event triggers, separated with a semicolon (`;`). Angular triggers hydration when _any_ of the triggers fire.
+每個 `@defer` 區塊可以有多個 hydrate 事件觸發條件，以分號（`;`）分隔。只要有任一觸發條件被觸發，Angular 就會觸發水合。
 
-There are three types of hydrate triggers: `hydrate on`, `hydrate when`, and `hydrate never`.
+hydrate 觸發條件有三種類型：`hydrate on`、`hydrate when` 與 `hydrate never`。
 
 ### `hydrate on`
 
-`hydrate on` specifies a condition for when hydration is triggered for the `@defer` block.
+`hydrate on` 指定 `@defer` 區塊觸發水合的條件。
 
-The available triggers are as follows:
+可用的觸發條件如下：
 
-| Trigger                                             | Description                                                            |
+| 觸發條件                                             | 說明                                                            |
 | --------------------------------------------------- | ---------------------------------------------------------------------- |
-| [`hydrate on idle`](#hydrate-on-idle)               | Triggers when the browser is idle.                                     |
-| [`hydrate on viewport`](#hydrate-on-viewport)       | Triggers when specified content enters the viewport                    |
-| [`hydrate on interaction`](#hydrate-on-interaction) | Triggers when the user interacts with specified element                |
-| [`hydrate on hover`](#hydrate-on-hover)             | Triggers when the mouse hovers over specified area                     |
-| [`hydrate on immediate`](#hydrate-on-immediate)     | Triggers immediately after non-deferred content has finished rendering |
-| [`hydrate on timer`](#hydrate-on-timer)             | Triggers after a specific duration                                     |
+| [`hydrate on idle`](#hydrate-on-idle)               | 在瀏覽器閒置時觸發。       |
+| [`hydrate on viewport`](#hydrate-on-viewport)       | 在指定內容進入可視區域時觸發                    |
+| [`hydrate on interaction`](#hydrate-on-interaction) | 在使用者與指定元素互動時觸發                |
+| [`hydrate on hover`](#hydrate-on-hover)             | 在滑鼠懸停於指定區域時觸發                     |
+| [`hydrate on immediate`](#hydrate-on-immediate)     | 在非延遲內容完成渲染後立即觸發 |
+| [`hydrate on timer`](#hydrate-on-timer)             | 在特定時間長度後觸發                                     |
 
-#### `hydrate on idle`
+#### `hydrate on idle` {#hydrate-on-idle}
 
-The `hydrate on idle` trigger loads the deferrable view's dependencies and hydrates the content once the browser has reached an idle state, based on `requestIdleCallback`.
+`hydrate on idle` 觸發條件會在瀏覽器達到閒置狀態時，根據 `requestIdleCallback` 載入可延遲檢視的相依性並水合內容。
 
 ```angular-html
 @defer (hydrate on idle) {
@@ -68,10 +68,9 @@ The `hydrate on idle` trigger loads the deferrable view's dependencies and hydra
 }
 ```
 
-#### `hydrate on viewport`
+#### `hydrate on viewport` {#hydrate-on-viewport}
 
-The `hydrate on viewport` trigger loads the deferrable view's dependencies and hydrates the corresponding page of the app when the specified content enters the viewport using the
-[Intersection Observer API](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API).
+`hydrate on viewport` 觸發條件會在指定內容使用 [Intersection Observer API](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API) 進入可視區域時，載入可延遲檢視的相依性，並水合應用程式對應的頁面。
 
 ```angular-html
 @defer (hydrate on viewport) {
@@ -81,10 +80,9 @@ The `hydrate on viewport` trigger loads the deferrable view's dependencies and h
 }
 ```
 
-#### `hydrate on interaction`
+#### `hydrate on interaction` {#hydrate-on-interaction}
 
-The `hydrate on interaction` trigger loads the deferrable view's dependencies and hydrates the content when the user interacts with the specified element through
-`click` or `keydown` events.
+`hydrate on interaction` 觸發條件會在使用者透過 `click` 或 `keydown` 事件與指定元素互動時，載入可延遲檢視的相依性並水合內容。
 
 ```angular-html
 @defer (hydrate on interaction) {
@@ -94,10 +92,9 @@ The `hydrate on interaction` trigger loads the deferrable view's dependencies an
 }
 ```
 
-#### `hydrate on hover`
+#### `hydrate on hover` {#hydrate-on-hover}
 
-The `hydrate on hover` trigger loads the deferrable view's dependencies and hydrates the content when the mouse has hovered over the triggered area through the
-`mouseover` and `focusin` events.
+`hydrate on hover` 觸發條件會在滑鼠透過 `mouseover` 與 `focusin` 事件懸停於觸發區域時，載入可延遲檢視的相依性並水合內容。
 
 ```angular-html
 @defer (hydrate on hover) {
@@ -107,10 +104,9 @@ The `hydrate on hover` trigger loads the deferrable view's dependencies and hydr
 }
 ```
 
-#### `hydrate on immediate`
+#### `hydrate on immediate` {#hydrate-on-immediate}
 
-The `hydrate on immediate` trigger loads the deferrable view's dependencies and hydrates the content immediately. This means that the deferred block loads as soon
-as all other non-deferred content has finished rendering.
+`hydrate on immediate` 觸發條件會立即載入可延遲檢視的相依性並水合內容。這表示延遲區塊會在所有其他非延遲內容完成渲染後，立刻載入。
 
 ```angular-html
 @defer (hydrate on immediate) {
@@ -120,9 +116,9 @@ as all other non-deferred content has finished rendering.
 }
 ```
 
-#### `hydrate on timer`
+#### `hydrate on timer` {#hydrate-on-timer}
 
-The `hydrate on timer` trigger loads the deferrable view's dependencies and hydrates the content after a specified duration.
+`hydrate on timer` 觸發條件會在指定時間長度後，載入可延遲檢視的相依性並水合內容。
 
 ```angular-html
 @defer (hydrate on timer(500ms)) {
@@ -132,12 +128,11 @@ The `hydrate on timer` trigger loads the deferrable view's dependencies and hydr
 }
 ```
 
-The duration parameter must be specified in milliseconds (`ms`) or seconds (`s`).
+時間長度參數必須以毫秒（`ms`）或秒（`s`）指定。
 
 ### `hydrate when`
 
-The `hydrate when` trigger accepts a custom conditional expression and loads the deferrable view's dependencies and hydrates the content when the
-condition becomes truthy.
+`hydrate when` 觸發條件接受自訂的條件運算式，並在條件變為 truthy 時，載入可延遲檢視的相依性並水合內容。
 
 ```angular-html
 @defer (hydrate when condition) {
@@ -147,16 +142,11 @@ condition becomes truthy.
 }
 ```
 
-NOTE: `hydrate when` conditions only trigger when they are the top-most dehydrated `@defer` block. The condition provided for the trigger is
-specified in the parent component, which needs to exist before it can be triggered. If the parent block is dehydrated, that expression will not yet
-be resolvable by Angular.
+NOTE: `hydrate when` 條件只有在它們是最上層未水合的 `@defer` 區塊時才會觸發。觸發條件所提供的條件是在父元件中指定的，而父元件必須先存在，才能被觸發。如果父區塊尚未水合，Angular 還無法解析該運算式。
 
 ### `hydrate never`
 
-The `hydrate never` allows users to specify that the content in the defer block should remain dehydrated indefinitely, effectively becoming static
-content. Note that this applies to the initial render only. During a subsequent client-side render, a `@defer` block with `hydrate never` would
-still fetch dependencies, as hydration only applies to initial load of server-side rendered content. In the example below, subsequent client-side
-renders would load the `@defer` block dependencies on viewport.
+`hydrate never` 讓使用者能指定延遲區塊中的內容應無限期保持未水合狀態，實際上成為靜態內容。請注意，這只適用於初始渲染。在後續的用戶端渲染期間，帶有 `hydrate never` 的 `@defer` 區塊仍會取得相依性，因為水合只適用於伺服器端渲染內容的初始載入。在下面的範例中，後續的用戶端渲染會在進入可視區域時載入 `@defer` 區塊的相依性。
 
 ```angular-html
 @defer (on viewport; hydrate never) {
@@ -166,11 +156,11 @@ renders would load the `@defer` block dependencies on viewport.
 }
 ```
 
-NOTE: Using `hydrate never` prevents hydration of the entire nested subtree of a given `@defer` block. No other `hydrate` triggers fire for content nested underneath that block.
+NOTE: 使用 `hydrate never` 會防止指定 `@defer` 區塊的整個巢狀子樹被水合。在該區塊底下巢狀的內容，不會有任何其他 `hydrate` 觸發條件被觸發。
 
-## Hydrate triggers alongside regular triggers
+## Hydrate 觸發條件與一般觸發條件併用
 
-Hydrate triggers are additional triggers that are used alongside regular triggers on a `@defer` block. Hydration is an initial load optimization, and that means hydrate triggers only apply to that initial load. Any subsequent client side render will still use the regular trigger.
+Hydrate 觸發條件是與 `@defer` 區塊的一般觸發條件併用的額外觸發條件。水合是一種初始載入最佳化，這表示 hydrate 觸發條件只適用於該次初始載入。任何後續的用戶端渲染仍會使用一般觸發條件。
 
 ```angular-html
 @defer (on idle; hydrate on interaction) {
@@ -180,11 +170,11 @@ Hydrate triggers are additional triggers that are used alongside regular trigger
 }
 ```
 
-In this example, on the initial load, the `hydrate on interaction` applies. Hydration will be triggered on interaction with the `<example-cmp />` component. On any subsequent page load that is client-side rendered, for example when a user clicks a routerLink that loads a page with this component, the `on idle` will apply.
+在此範例中，在初始載入時，適用的是 `hydrate on interaction`。水合會在與 `<example-cmp />` 元件互動時觸發。在任何後續以用戶端渲染的頁面載入中（例如當使用者點選一個 routerLink，載入包含此元件的頁面時），適用的則是 `on idle`。
 
-## How does incremental hydration work with nested `@defer` blocks?
+## 漸進式水合如何處理巢狀 `@defer` 區塊？
 
-Angular's component and dependency system is hierarchical, which means hydrating any component requires all of its parents also be hydrated. So if hydration is triggered for a child `@defer` block of a nested set of dehydrated `@defer` blocks, hydration is triggered from the top-most dehydrated `@defer` block down to the triggered child and fire in that order.
+Angular 的元件與相依性系統是階層式的，這表示水合任何元件都需要它的所有父層也一併水合。因此，如果巢狀的一組未水合 `@defer` 區塊中的子 `@defer` 區塊觸發了水合，水合會從最上層未水合的 `@defer` 區塊開始，一路觸發到被觸發的子區塊，並依該順序執行。
 
 ```angular-html
 @defer (hydrate on interaction) {
@@ -199,12 +189,12 @@ Angular's component and dependency system is hierarchical, which means hydrating
 }
 ```
 
-In the above example, hovering over the nested `@defer` block triggers hydration. The parent `@defer` block with the `<parent-block-cmp />` hydrates first, then the child `@defer` block with `<child-block-cmp />` hydrates after.
+在上例中，懸停於巢狀 `@defer` 區塊會觸發水合。帶有 `<parent-block-cmp />` 的父 `@defer` 區塊會先水合，然後帶有 `<child-block-cmp />` 的子 `@defer` 區塊才接著水合。
 
-## Constraints
+## 限制
 
-Incremental hydration has the same constraints as full-application hydration, including limits on direct DOM manipulation and requiring valid HTML structure. Visit the [Hydration guide constraints](guide/hydration#constraints) section for more details.
+漸進式水合的限制與完整應用程式水合相同，包括直接操作 DOM 的限制，以及要求有效的 HTML 結構。更多細節請參閱[水合指南的限制](guide/hydration#constraints)章節。
 
-## Do I still need to specify `@placeholder` blocks?
+## 我還需要指定 `@placeholder` 區塊嗎？
 
-Yes. `@placeholder` block content is not used for incremental hydration, but a `@placeholder` is still necessary for subsequent client-side rendering cases. If your content was not on the route that was part of the initial load, then any navigation to the route that has your `@defer` block content renders like a regular `@defer` block. So the `@placeholder` is rendered in those client-side rendering cases.
+需要。`@placeholder` 區塊的內容不會用於漸進式水合，但後續用戶端渲染的情況仍需要 `@placeholder`。如果你的內容不在初始載入所屬的路由上，那麼任何導覽到包含你的 `@defer` 區塊內容的路由時，都會像一般 `@defer` 區塊一樣渲染。因此在那些用戶端渲染的情況中，會渲染 `@placeholder`。

@@ -1,15 +1,15 @@
-# DI in action
+# DI 實務應用
 
-This guide explores additional features of dependency injection in Angular.
+本指南探討 Angular 依賴注入的其他功能。
 
-NOTE: For comprehensive coverage of InjectionToken and custom providers, see the [defining dependency providers guide](guide/di/defining-dependency-providers#injection-tokens).
+NOTE: 關於 InjectionToken 和自訂提供者的完整說明，請參閱[定義依賴提供者指南](guide/di/defining-dependency-providers#injection-tokens)。
 
-## Inject the component's DOM element
+## 注入元件的 DOM 元素
 
-Although developers strive to avoid it, some visual effects and third-party tools require direct DOM access.
-As a result, you might need to access a component's DOM element.
+雖然開發者力求避免這麼做，但有些視覺效果和第三方工具需要直接存取 DOM。
+因此，你可能需要存取元件的 DOM 元素。
 
-Angular exposes the underlying element of a `@Component` or `@Directive` via injection using the `ElementRef` injection token:
+Angular 透過注入的方式，使用 `ElementRef` 注入 token 公開 `@Component` 或 `@Directive` 的底層元素：
 
 <docs-code language="typescript" highlight="[7]">
 import { Directive, ElementRef } from '@angular/core';
@@ -26,21 +26,21 @@ this.element.nativeElement.style.color = 'red';
 }
 </docs-code>
 
-## Resolve circular dependencies with a forward reference
+## 用前向參考解決循環依賴 {#resolve-circular-dependencies-with-a-forward-reference}
 
-The order of class declaration matters in TypeScript.
-You can't refer directly to a class until it's been defined.
+類別宣告的順序在 TypeScript 中很重要。
+在類別被定義之前，你無法直接參考它。
 
-This isn't usually a problem, especially if you adhere to the recommended _one class per file_ rule.
-But sometimes circular references are unavoidable.
-For example, when class 'A' refers to class 'B' and 'B' refers to 'A', one of them has to be defined first.
+這通常不是問題，特別是當你遵循建議的*一個檔案一個類別*規則時。
+但有時循環參考無可避免。
+例如，當類別 'A' 參考類別 'B'，而 'B' 參考 'A' 時，其中一個必須先定義。
 
-The Angular `forwardRef()` function creates an _indirect_ reference that Angular can resolve later.
+Angular 的 `forwardRef()` 函式會建立一個*間接*參考，讓 Angular 稍後再解析。
 
-You face a similar problem when a class makes _a reference to itself_.
-For example, in its `providers` array.
-The `providers` array is a property of the `@Component()` decorator function, which must appear before the class definition.
-You can break such circular references by using `forwardRef`.
+當類別*參考自己*時，你也會面臨類似的問題。
+例如在它的 `providers` 陣列中。
+`providers` 陣列是 `@Component()` 裝飾器函式的屬性，必須出現在類別定義之前。
+你可以使用 `forwardRef` 打破這類循環參考。
 
 <docs-code header="app.component.ts" language="typescript" highlight="[4]">
 providers: [

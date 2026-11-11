@@ -1,25 +1,25 @@
-# Other common Routing Tasks
+# 其他常見的路由任務
 
-This guide covers some other common tasks associated with using Angular router in your application.
+本指南涵蓋在應用程式中使用 Angular 路由時的其他一些常見任務。
 
-## Getting route information
+## 取得路由資訊 {#getting-route-information}
 
-Often, as a user navigates your application, you want to pass information from one component to another.
-For example, consider an application that displays a shopping list of grocery items.
-Each item in the list has a unique `id`.
-To edit an item, users click an Edit button, which opens an `EditGroceryItem` component.
-You want that component to retrieve the `id` for the grocery item so it can display the right information to the user.
+使用者在應用程式中導覽時，你常會想把資訊從一個元件傳遞到另一個元件。
+例如，假設有一個顯示雜貨購物清單的應用程式。
+清單中的每個項目都有唯一的 `id`。
+若要編輯某個項目，使用者會點選 Edit 按鈕，開啟 `EditGroceryItem` 元件。
+你希望這個元件能取得該雜貨項目的 `id`，以便向使用者顯示正確的資訊。
 
-Use a route to pass this type of information to your application components.
-To do so, you use the `withComponentInputBinding` feature with `provideRouter` or the `bindToComponentInputs` option of `RouterModule.forRoot`.
+可以使用路由把這類資訊傳遞給應用程式的元件。
+做法是搭配 `provideRouter` 使用 `withComponentInputBinding` 功能，或使用 `RouterModule.forRoot` 的 `bindToComponentInputs` 選項。
 
-To get information from a route:
+若要從路由取得資訊：
 
 <docs-workflow>
 
-<docs-step title="Add `withComponentInputBinding`">
+<docs-step title="加入 `withComponentInputBinding`">
 
-Add the `withComponentInputBinding` feature to the `provideRouter` method.
+把 `withComponentInputBinding` 功能加入 `provideRouter` 方法。
 
 ```ts
 providers: [
@@ -29,9 +29,9 @@ providers: [
 
 </docs-step>
 
-<docs-step title="Add an `input` to the component">
+<docs-step title="為元件加入 `input`">
 
-Update the component to have an `input()` property matching the name of the parameter.
+更新元件，讓它有一個名稱與參數相符的 `input()` 屬性。
 
 ```ts
 id = input.required<string>()
@@ -39,12 +39,12 @@ hero = computed(() => this.service.getHero(id()));
 ```
 
 </docs-step>
-<docs-step title="Optional: Use a default value">
-The router assigns values to all inputs based on the current route when `withComponentInputBinding` is enabled.
-The router assigns `undefined` if no route data matches the input key, such as when an optional query parameter is missing.
-You should include `undefined` in the `input`'s type when there's a possibility that an input might not be matched by the route.
+<docs-step title="選用：使用預設值">
+當 `withComponentInputBinding` 啟用時，路由會依據目前的路由，把值指派給所有輸入。
+若沒有路由資料符合輸入的鍵，路由會指派 `undefined`，例如選用的查詢參數缺失時。
+當輸入有可能無法被路由比對到時，應在 `input` 的型別中包含 `undefined`。
 
-Provide a default value by either using the `transform` option on the input or managing a local state with a `linkedSignal`.
+你可以透過在輸入上使用 `transform` 選項來提供預設值，或使用 `linkedSignal` 管理本地狀態。
 
 ```ts
 id = input.required({
@@ -58,13 +58,13 @@ internalId = linkedSignal(() => this.id() ?? getDefaultId());
 </docs-step>
 </docs-workflow>
 
-NOTE: You can bind all route data with key, value pairs to component inputs: static or resolved route data, path parameters, matrix parameters, and query parameters.
-If you want to use the parent components route info you will need to set the router `paramsInheritanceStrategy` option:
-`withRouterConfig({paramsInheritanceStrategy: 'always'})` . See [router configuration options](guide/routing/customizing-route-behavior#router-configuration-options) for details on other available settings.
+NOTE: 你可以把所有以鍵值對表示的路由資料繫結到元件輸入：靜態或已解析的路由資料、路徑參數、矩陣參數與查詢參數。
+若你想使用父元件的路由資訊，你需要設定路由的 `paramsInheritanceStrategy` 選項：
+`withRouterConfig({paramsInheritanceStrategy: 'always'})`。其他可用設定的詳細資訊，請參閱[路由設定選項](guide/routing/customizing-route-behavior#router-configuration-options)。
 
-## Displaying a 404 page
+## 顯示 404 頁面 {#displaying-a-404-page}
 
-To display a 404 page, set up a [wildcard route](guide/routing/common-router-tasks#setting-up-wildcard-routes) with the `component` property set to the component you'd like to use for your 404 page as follows:
+若要顯示 404 頁面，請設定一條[萬用字元路由](guide/routing/common-router-tasks#setting-up-wildcard-routes)，把它的 `component` 屬性設為你想用作 404 頁面的元件，如下所示：
 
 ```ts
 const routes: Routes = [
@@ -74,23 +74,23 @@ const routes: Routes = [
 ];
 ```
 
-The last route with the `path` of `**` is a wildcard route.
-The router selects this route if the requested URL doesn't match any of the paths earlier in the list and sends the user to the `PageNotFoundComponent`.
+最後一條 `path` 為 `**` 的路由是萬用字元路由。
+若請求的 URL 與清單中較前面的任何路徑都不符，路由會選取這條路由，並把使用者送往 `PageNotFoundComponent`。
 
-## Link parameters array
+## 連結參數陣列
 
-A link parameters array holds the following ingredients for router navigation:
+連結參數陣列包含路由導覽所需的下列要素：
 
-- The path of the route to the destination component
-- Required and optional route parameters that go into the route URL
+- 通往目標元件的路由路徑
+- 進入路由 URL 的必要與選用路由參數
 
-Bind the `RouterLink` directive to such an array like this:
+把 `RouterLink` 指令繫結到這樣的陣列，如下所示：
 
 ```angular-html
 <a [routerLink]="['/heroes']">Heroes</a>
 ```
 
-The following is a two-element array when specifying a route parameter:
+以下是在指定路由參數時包含兩個元素的陣列：
 
 ```angular-html
 <a [routerLink]="['/hero', hero.id]">
@@ -98,44 +98,44 @@ The following is a two-element array when specifying a route parameter:
 </a>
 ```
 
-Provide optional route parameters in an object, as in `{ foo: 'foo' }`:
+在物件中提供選用的路由參數，如 `{ foo: 'foo' }`：
 
 ```angular-html
 <a [routerLink]="['/crisis-center', { foo: 'foo' }]">Crisis Center</a>
 ```
 
-This syntax passes matrix parameters, which are optional parameters associated with a specific URL segment. Learn more about [matrix parameters](/guide/routing/read-route-state#matrix-parameters).
+這種語法傳遞的是矩陣參數，也就是與特定 URL 區段相關聯的選用參數。深入瞭解[矩陣參數](/guide/routing/read-route-state#matrix-parameters)。
 
-These three examples cover the needs of an application with one level of routing.
-However, with a child router, such as in the crisis center, you create new link array possibilities.
+這三個範例涵蓋了只有一層路由的應用程式的需求。
+不過，若有子路由（例如危機中心），就會產生新的連結陣列可能性。
 
-The following minimal `RouterLink` example builds upon a specified default child route for the crisis center.
+下列極簡的 `RouterLink` 範例，以危機中心指定的預設子路由為基礎。
 
 ```angular-html
 <a [routerLink]="['/crisis-center']">Crisis Center</a>
 ```
 
-Review the following:
+請檢視下列事項：
 
-- The first item in the array identifies the parent route \(`/crisis-center`\)
-- There are no parameters for this parent route
-- There is no default for the child route so you need to pick one
-- You're navigating to the `CrisisListComponent`, whose route path is `/`, but you don't need to explicitly add the slash
+- 陣列的第一個項目識別父路由 \(`/crisis-center`\)
+- 此父路由沒有參數
+- 子路由沒有預設值，所以你需要挑選一個
+- 你要導覽到 `CrisisListComponent`，其路由路徑是 `/`，但你不需要明確加上斜線
 
-Consider the following router link that navigates from the root of the application down to the Dragon Crisis:
+考慮下列路由連結：它從應用程式的根目錄一路導覽到 Dragon Crisis：
 
 ```angular-html
 <a [routerLink]="['/crisis-center', 1]">Dragon Crisis</a>
 ```
 
-- The first item in the array identifies the parent route \(`/crisis-center`\)
-- There are no parameters for this parent route
-- The second item identifies the child route details about a particular crisis \(`/:id`\)
-- The details child route requires an `id` route parameter
-- You added the `id` of the Dragon Crisis as the second item in the array \(`1`\)
-- The resulting path is `/crisis-center/1`
+- 陣列的第一個項目識別父路由 \(`/crisis-center`\)
+- 此父路由沒有參數
+- 第二個項目識別特定危機的子路由詳細資訊 \(`/:id`\)
+- 該詳細資訊子路由需要一個 `id` 路由參數
+- 你把 Dragon Crisis 的 `id` 作為陣列的第二個項目加入 \(`1`\)
+- 產生的路徑是 `/crisis-center/1`
 
-You could also redefine the `AppComponent` template with Crisis Center routes exclusively:
+你也可以只用 Crisis Center 路由重新定義 `AppComponent` 範本：
 
 ```angular-ts
 @Component({
@@ -152,38 +152,38 @@ You could also redefine the `AppComponent` template with Crisis Center routes ex
 export class AppComponent {}
 ```
 
-In summary, you can write applications with one, two or more levels of routing.
-The link parameters array affords the flexibility to represent any routing depth and any legal sequence of route paths, \(required\) router parameters, and \(optional\) route parameter objects.
+總之，你可以撰寫具有一層、兩層或更多層路由的應用程式。
+連結參數陣列提供了足夠的彈性，可以表示任意路由深度，以及任意合法的路由路徑、（必要的）路由參數與（選用的）路由參數物件序列。
 
-## `LocationStrategy` and browser URL styles
+## `LocationStrategy` 與瀏覽器 URL 樣式 {#locationstrategy-and-browser-url-styles}
 
-When the router navigates to a new component view, it updates the browser's location and history with a URL for that view.
+當路由導覽到新的元件檢視時，它會以該檢視的 URL 更新瀏覽器的位置與歷史紀錄。
 
-Modern HTML5 browsers support [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 browser history push-state'), a technique that changes a browser's location and history without triggering a server page request.
-The router can compose a "natural" URL that is indistinguishable from one that would otherwise require a page load.
+現代 HTML5 瀏覽器支援 [history.pushState](https://developer.mozilla.org/docs/Web/API/History_API/Working_with_the_History_API#adding_and_modifying_history_entries 'HTML5 browser history push-state')，這是一種在不觸發伺服器頁面請求的情況下，變更瀏覽器位置與歷史紀錄的技術。
+路由可以組出一個「自然的」URL，與原本需要載入頁面才得到的 URL 無法區分。
 
-Here's the Crisis Center URL in this "HTML5 pushState" style:
+以下是這種「HTML5 pushState」樣式的 Crisis Center URL：
 
 ```text
 localhost:3002/crisis-center
 ```
 
-Older browsers send page requests to the server when the location URL changes unless the change occurs after a "#" \(called the "hash"\).
-Routers can take advantage of this exception by composing in-application route URLs with hashes.
-Here's a "hash URL" that routes to the Crisis Center.
+較舊的瀏覽器在位置 URL 變更時會向伺服器送出頁面請求，除非變更發生在 "#" 之後（稱為「hash」）。
+路由可以利用這個例外，以 hash 組出應用程式內的路由 URL。
+以下是一個導向 Crisis Center 的「hash URL」。
 
 ```text
 localhost:3002/src/#/crisis-center
 ```
 
-The router supports both styles with two `LocationStrategy` providers:
+路由透過兩個 `LocationStrategy` 提供者支援這兩種樣式：
 
-| Providers              | Details                              |
+| 提供者                 | 詳細資訊                             |
 | :--------------------- | :----------------------------------- |
-| `PathLocationStrategy` | The default "HTML5 pushState" style. |
-| `HashLocationStrategy` | The "hash URL" style.                |
+| `PathLocationStrategy` | 預設的「HTML5 pushState」樣式。      |
+| `HashLocationStrategy` | 「hash URL」樣式。                   |
 
-The `RouterModule.forRoot()` function sets the `LocationStrategy` to the `PathLocationStrategy`, which makes it the default strategy.
-You also have the option of switching to the `HashLocationStrategy` with an override during the bootstrapping process.
+`RouterModule.forRoot()` 函式把 `LocationStrategy` 設為 `PathLocationStrategy`，使它成為預設策略。
+你也可以在引導過程中透過覆寫，切換到 `HashLocationStrategy`。
 
-HELPFUL: For more information on providers and the bootstrap process, see [Dependency Injection](guide/di/dependency-injection-providers).
+HELPFUL: 如需深入瞭解提供者與引導程序，請參閱[依賴注入](guide/di/dependency-injection-providers)。

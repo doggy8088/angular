@@ -1,56 +1,56 @@
-# Animating your Application with CSS
+# 使用 CSS 為應用程式加入動畫
 
-CSS offers a robust set of tools for you to create beautiful and engaging animations within your application.
+CSS 提供了一套強大的工具，讓你在應用程式中建立美觀且吸引人的動畫。
 
-## How to write animations in native CSS
+## 如何用原生 CSS 撰寫動畫
 
-If you've never written any native CSS animations, there are a number of excellent guides to get you started. Here's a few of them:
-[MDN's CSS Animations guide](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animations/Using_CSS_animations)
-[W3Schools CSS3 Animations guide](https://www.w3schools.com/css/css3_animations.asp)
+若你從未寫過任何原生 CSS 動畫，有許多優秀的指南可以帶你入門。以下列出幾篇：
+[MDN 的 CSS Animations 指南](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animations/Using_CSS_animations)
+[W3Schools CSS3 Animations 指南](https://www.w3schools.com/css/css3_animations.asp)
 [The Complete CSS Animations Tutorial](https://www.lambdatest.com/blog/css-animations-tutorial/)
 [CSS Animation for Beginners](https://thoughtbot.com/blog/css-animation-for-beginners)
 
-and a couple of videos:
+以及幾部影片：
 [Learn CSS Animation in 9 Minutes](https://www.youtube.com/watch?v=z2LQYsZhsFw)
 [Net Ninja CSS Animation Tutorial Playlist](https://www.youtube.com/watch?v=jgw82b5Y2MU&list=PL4cUxeGkcC9iGYgmEd2dm3zAKzyCGDtM5)
 
-Check some of these various guides and tutorials out, and then come back to this guide.
+先看看其中一些指南與教學，再回來繼續閱讀本指南。
 
-## Creating Reusable Animations
+## 建立可重複使用的動畫
 
-You can create reusable animations that can be shared across your application using `@keyframes`. Define keyframe animations in a shared CSS file, and you'll be able to re-use those keyframe animations wherever you want within your application.
+你可以使用 `@keyframes` 建立可在整個應用程式共用的可重複使用動畫。把關鍵影格動畫定義在共用的 CSS 檔案中，你就能在應用程式的任何地方重複使用這些關鍵影格動畫。
 
 <docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-shared"/>
 
-Adding the class `animated-class` to an element would trigger the animation on that element.
+把 `animated-class` 類別加到元素上，就會觸發該元素的動畫。
 
-## Animating a Transition
+## 為轉場加入動畫
 
-### Animating State and Styles
+### 為狀態與樣式加入動畫
 
-You may want to animate between two different states, for example when an element is opened or closed. You can accomplish this by using CSS classes either using a keyframe animation or transition styling.
+你可能想在兩種不同狀態之間加入動畫，例如元素開啟或關閉時。你可以用 CSS 類別搭配關鍵影格動畫或轉場樣式來達成。
 
 <docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-states"/>
 
-Triggering the `open` or `closed` state is done by toggling classes on the element in your component. You can find examples of how to do this in our [template guide](guide/templates/binding#css-class-and-style-property-bindings).
+觸發 `open` 或 `closed` 狀態的方法，是在元件中切換元素上的類別。你可以在我們的[範本指南](guide/templates/binding#css-class-and-style-property-bindings)中找到做法範例。
 
-You can see similar examples in the template guide for [animating styles directly](guide/templates/binding#css-style-properties).
+範本指南中也有[直接為樣式加入動畫](guide/templates/binding#css-style-properties)的類似範例。
 
-### Transitions, Timing, and Easing
+### 轉場、時間與緩動
 
-Animating often requires adjusting timing, delays and easeing behaviors. This can be done using several css properties or shorthand properties.
+加入動畫時，常需要調整時間、延遲與緩動行為。這可以透過多個 CSS 屬性或簡寫屬性完成。
 
-Specify `animation-duration`, `animation-delay`, and `animation-timing-function` for a keyframe animation in CSS, or alternatively use the `animation` shorthand property.
+在 CSS 中為關鍵影格動畫指定 `animation-duration`、`animation-delay` 與 `animation-timing-function`，或改用 `animation` 簡寫屬性。
 
 <docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="animation-timing"/>
 
-Similarly, you can use `transition-duration`, `transition-delay`, and `transition-timing-function` and the `transition` shorthand for animations that are not using `@keyframes`.
+同樣地，對於不使用 `@keyframes` 的動畫，你可以使用 `transition-duration`、`transition-delay`、`transition-timing-function` 以及 `transition` 簡寫屬性。
 
 <docs-code header="animations.css" path="adev/src/content/examples/animations/src/app/animations.css" visibleRegion="transition-timing"/>
 
-### Triggering an Animation
+### 觸發動畫
 
-Animations can be triggered by toggling CSS styles or classes. Once a class is present on an element, the animation will occur. Removing the class will revert the element back to whatever CSS is defined for that element. Here's an example:
+只要切換 CSS 樣式或類別，就能觸發動畫。當類別出現在元素上時，動畫就會發生。移除類別後，元素會還原為該元素所定義的 CSS。以下是一個範例：
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/open-close.component.ts">
     <docs-code header="open-close.component.ts" path="adev/src/content/examples/animations/src/app/native-css/open-close.component.ts" />
@@ -58,11 +58,11 @@ Animations can be triggered by toggling CSS styles or classes. Once a class is p
     <docs-code header="open-close.component.css" path="adev/src/content/examples/animations/src/app/native-css/open-close.component.css"/>
 </docs-code-multifile>
 
-## Transition and Triggers
+## 轉場與觸發器
 
-### Animating Auto Height
+### 為自動高度加入動畫
 
-You can use css-grid to animate to auto height.
+你可以使用 CSS Grid 為自動高度加入動畫。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.ts">
     <docs-code header="auto-height.component.ts" path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.ts" />
@@ -70,11 +70,11 @@ You can use css-grid to animate to auto height.
     <docs-code header="auto-height.component.css" path="adev/src/content/examples/animations/src/app/native-css/auto-height.component.css"  />
 </docs-code-multifile>
 
-If you don't have to worry about supporting all browsers, you can also check out `calc-size()`, which is the true solution to animating auto height. See [MDN's docs](https://developer.mozilla.org/en-US/docs/Web/CSS/calc-size) and (this tutorial)[https://frontendmasters.com/blog/one-of-the-boss-battles-of-css-is-almost-won-transitioning-to-auto/] for more information.
+若你不需要顧慮支援所有瀏覽器，也可以看看 `calc-size()`，那是為自動高度加入動畫的真正解法。更多資訊請見 [MDN 的文件](https://developer.mozilla.org/en-US/docs/Web/CSS/calc-size)與[這篇教學](https://frontendmasters.com/blog/one-of-the-boss-battles-of-css-is-almost-won-transitioning-to-auto/)。
 
-### Animate entering and leaving a view
+### 為進入與離開檢視加入動畫
 
-You can create animations for when an item enters a view or leaves a view. Let's start by looking at how to animate an element entering a view. We'll do this with `animate.enter`, which will apply animation classes when an element enters the view.
+你可以為項目進入檢視或離開檢視時建立動畫。先看看如何為進入檢視的元素加入動畫。我們會用 `animate.enter` 來做，它會在元素進入檢視時套用動畫類別。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/insert.component.ts">
     <docs-code header="insert.component.ts" path="adev/src/content/examples/animations/src/app/native-css/insert.component.ts" />
@@ -82,7 +82,7 @@ You can create animations for when an item enters a view or leaves a view. Let's
     <docs-code header="insert.component.css" path="adev/src/content/examples/animations/src/app/native-css/insert.component.css"  />
 </docs-code-multifile>
 
-Animating an element when it leaves the view is similar to animating when entering a view. Use `animate.leave` to specify which CSS classes to apply when the element leaves the view.
+為離開檢視的元素加入動畫，與為進入檢視的元素加入動畫相似。使用 `animate.leave` 指定元素離開檢視時要套用的 CSS 類別。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/remove.component.ts">
     <docs-code header="remove.component.ts" path="adev/src/content/examples/animations/src/app/native-css/remove.component.ts" />
@@ -90,11 +90,11 @@ Animating an element when it leaves the view is similar to animating when enteri
     <docs-code header="remove.component.css" path="adev/src/content/examples/animations/src/app/native-css/remove.component.css"  />
 </docs-code-multifile>
 
-For more information on `animate.enter` and `animate.leave`, see the [Enter and Leave animations guide](guide/animations).
+更多關於 `animate.enter` 與 `animate.leave` 的資訊，請見[進入與離開動畫指南](guide/animations)。
 
-### Animating increment and decrement
+### 為遞增與遞減加入動畫
 
-Animating on increment and decrement is a common pattern in applications. Here's an example of how you can accomplish that behavior.
+為遞增與遞減加入動畫，是應用程式中常見的模式。以下範例示範如何達成這種行為。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.ts">
     <docs-code header="increment-decrement.component.ts" path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.ts" />
@@ -102,11 +102,11 @@ Animating on increment and decrement is a common pattern in applications. Here's
     <docs-code header="increment-decrement.component.css" path="adev/src/content/examples/animations/src/app/native-css/increment-decrement.component.css" />
 </docs-code-multifile>
 
-### Disabling an animation or all animations
+### 停用單一動畫或所有動畫
 
-If you'd like to disable the animations that you've specified, you have multiple options.
+若你想停用已指定的動畫，有多種做法。
 
-1. Create a custom class that forces animation and transition to `none`.
+1. 建立一個自訂類別，強制把 animation 與 transition 設為 `none`。
 
 ```css
 .no-animation {
@@ -115,15 +115,15 @@ If you'd like to disable the animations that you've specified, you have multiple
 }
 ```
 
-Applying this class to an element prevents any animation from firing on that element. You could alternatively scope this to your entire DOM or section of your DOM to enforce this behavior. However, this prevents animation events from firing. If you are awaiting animation events for element removal, this solution won't work. A workaround is to set durations to 1 millisecond instead.
+把這個類別套用到元素上，就能避免該元素觸發任何動畫。你也可以把作用範圍設定為整個 DOM 或 DOM 的某個區段，來強制這種行為。不過，這會讓動畫事件無法觸發。若你正在等待動畫事件來移除元素，這個做法就行不通。替代方案是把持續時間設為 1 毫秒。
 
-2. Use the [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) media query to ensure no animations play for users that prefer less animation.
+2. 使用 [`prefers-reduced-motion`](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion) media query，確保偏好減少動畫的使用者不會看到動畫播放。
 
-3. Prevent adding animation classes programatically
+3. 避免以程式方式加入動畫類別
 
-### Animation Callbacks
+### 動畫回呼
 
-If you have actions you would like to execute at certain points during animations, there are a number of available events you can listen to. Here's a few of them.
+若你有想在動畫的特定時間點執行的動作，有多個可監聽的事件可用。以下列出其中幾個。
 
 [`OnAnimationStart`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animationstart_event)  
 [`OnAnimationEnd`](https://developer.mozilla.org/en-US/docs/Web/API/Element/animationend_event)  
@@ -135,17 +135,17 @@ If you have actions you would like to execute at certain points during animation
 [`OnTransitionEnd`](https://developer.mozilla.org/en-US/docs/Web/API/Element/transitionend_event)  
 [`OnTransitionCancel`](https://developer.mozilla.org/en-US/docs/Web/API/Element/transitioncancel_event)
 
-The Web Animations API has a lot of additional functionality. [Take a look at the documentation](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API) to see all the available animation APIs.
+Web Animations API 還提供許多額外功能。[請參閱文件](https://developer.mozilla.org/en-US/docs/Web/API/Web_Animations_API)，了解所有可用的動畫 API。
 
-NOTE: Be aware of bubbling issues with these callbacks. If you are animating children and parents, the events bubble up from children to parents. Consider stopping propagation or looking at more details within the event to determine if you're responding to the desired event target rather than an event bubbling up from a child node. You can examine the `animationname` property or the properties being transitioned to verify you have the right nodes.
+NOTE: 使用這些回呼時請注意事件冒泡問題。若你同時為子元素與父元素加入動畫，事件會從子元素向上冒泡到父元素。請考慮停止事件傳播，或查看事件中的更多細節，確認你回應的是想要的事件目標、而不是從子節點冒泡上來的事件。你可以檢查 `animationname` 屬性或正在轉場的屬性，確認處理的是正確的節點。
 
-## Complex Sequences
+## 複雜序列
 
-Animations are often more complicated than just a simple fade in or fade out. You may have lots of complicated sequences of animations you may want to run. Let's take a look at some of those possible scenarios.
+動畫通常不只是簡單的淡入或淡出。你可能有許多想執行的複雜動畫序列。以下來看看其中一些可能的情境。
 
-### Staggering animations in a list
+### 讓清單中的動畫錯開播放
 
-One common effect is to stagger the animations of each item in a list to create a cascade effect. This can be accomplished by utilizing `animation-delay` or `transition-delay`. Here is an example of what that CSS might look like.
+一個常見的效果，是讓清單中每個項目的動畫錯開播放，形成瀑布般的效果。這可以利用 `animation-delay` 或 `transition-delay` 達成。以下範例示範這類 CSS 可能的寫法。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/stagger.component.ts">
     <docs-code header="stagger.component.ts" path="adev/src/content/examples/animations/src/app/native-css/stagger.component.ts" />
@@ -153,9 +153,9 @@ One common effect is to stagger the animations of each item in a list to create 
     <docs-code header="stagger.component.css" path="adev/src/content/examples/animations/src/app/native-css/stagger.component.css" />
 </docs-code-multifile>
 
-### Parallel Animations
+### 平行動畫
 
-You can apply multiple animations to an element at once using the `animation` shorthand property. Each can have their own durations and delays. This allows you to compose animations together and create complicated effects.
+你可以使用 `animation` 簡寫屬性，同時把多個動畫套用到一個元素上。每個動畫都可以有各自的持續時間與延遲。這讓你能把動畫組合在一起，創造出複雜的效果。
 
 ```css
 .target-element {
@@ -163,11 +163,11 @@ You can apply multiple animations to an element at once using the `animation` sh
 }
 ```
 
-In this example, the `rotate` and `fade-in` animations fire at the same time, but have different durations.
+在這個範例中，`rotate` 與 `fade-in` 動畫會同時觸發，但持續時間不同。
 
-### Animating the items of a reordering list
+### 為重新排序清單的項目加入動畫
 
-Items in a `@for` loop will be removed and re-added, which will fire off animations using `@starting-styles` for entry animations. Alternatively, you can use `animate.enter` for this same behavior. Use `animate.leave` to animate elements as they are removed, as seen in the example below.
+`@for` 迴圈中的項目會被移除再重新加入，進入動畫會透過 `@starting-styles` 觸發。或者，你也可以用 `animate.enter` 達成相同行為。使用 `animate.leave` 讓元素在被移除時播放動畫，如下例所示。
 
 <docs-code-multifile preview path="adev/src/content/examples/animations/src/app/native-css/reorder.component.ts">
     <docs-code header="reorder.component.ts" path="adev/src/content/examples/animations/src/app/native-css/reorder.component.ts" />
@@ -175,15 +175,15 @@ Items in a `@for` loop will be removed and re-added, which will fire off animati
     <docs-code header="reorder.component.css" path="adev/src/content/examples/animations/src/app/native-css/reorder.component.css" />
 </docs-code-multifile>
 
-## Programmatic control of animations
+## 以程式方式控制動畫
 
-You can retrieve animations off an element directly using [`Element.getAnimations()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAnimations). This returns an array of every [`Animation`](https://developer.mozilla.org/en-US/docs/Web/API/Animation) on that element. You can use the `Animation` API to do much more than you could with what the `AnimationPlayer` from the animations package offered. From here you can `cancel()`, `play()`, `pause()`, `reverse()` and much more. This native API should provide everything you need to control your animations.
+你可以使用 [`Element.getAnimations()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/getAnimations) 直接從元素取得動畫。它會回傳該元素上每一個 [`Animation`](https://developer.mozilla.org/en-US/docs/Web/API/Animation) 組成的陣列。你可以用 `Animation` API 做到比 animations 套件的 `AnimationPlayer` 更多的事。由此你可以 `cancel()`、`play()`、`pause()`、`reverse()` 等等。這個原生 API 應該能提供你控制動畫所需的一切。
 
-## More on Angular animations
+## 深入了解 Angular 動畫
 
-You might also be interested in the following:
+你可能也會對以下內容有興趣：
 
 <docs-pill-row>
-  <docs-pill href="guide/animations" title="Enter and Leave animations"/>
-  <docs-pill href="guide/routing/route-transition-animations" title="Route transition animations"/>
+  <docs-pill href="guide/animations" title="進入與離開動畫"/>
+  <docs-pill href="guide/routing/route-transition-animations" title="路由轉場動畫"/>
 </docs-pill-row>

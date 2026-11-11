@@ -1,18 +1,18 @@
-# Format data based on locale
+# 依地區設定格式化資料
 
-Angular provides the following built-in data transformation [pipes](guide/templates/pipes).
-The data transformation pipes use the [`LOCALE_ID`][ApiCoreLocaleId] token to format data based on rules of each locale.
+Angular 提供下列內建的資料轉換[管道](guide/templates/pipes)。
+資料轉換管道使用 [`LOCALE_ID`][ApiCoreLocaleId] token，依各地區設定的規則格式化資料。
 
-| Data transformation pipe                | Details                                           |
+| 資料轉換管道                            | 詳情                                      |
 | :-------------------------------------- | :------------------------------------------------ |
-| [`DatePipe`][ApiCommonDatepipe]         | Formats a date value.                             |
-| [`CurrencyPipe`][ApiCommonCurrencypipe] | Transforms a number into a currency string.       |
-| [`DecimalPipe`][ApiCommonDecimalpipe]   | Transforms a number into a decimal number string. |
-| [`PercentPipe`][ApiCommonPercentpipe]   | Transforms a number into a percentage string.     |
+| [`DatePipe`][ApiCommonDatepipe]         | 格式化日期值。                                    |
+| [`CurrencyPipe`][ApiCommonCurrencypipe] | 將數字轉換為貨幣字串。                            |
+| [`DecimalPipe`][ApiCommonDecimalpipe]   | 將數字轉換為十進位數字字串。                      |
+| [`PercentPipe`][ApiCommonPercentpipe]   | 將數字轉換為百分比字串。                          |
 
-## Use DatePipe to display the current date
+## 使用 DatePipe 顯示目前日期
 
-To display the current date in the format for the current locale, use the following format for the `DatePipe`.
+若要以目前地區設定的格式顯示目前日期，請為 `DatePipe` 使用下列格式。
 
 <!--todo: replace with docs-code -->
 
@@ -22,11 +22,11 @@ To display the current date in the format for the current locale, use the follow
 
 </docs-code>
 
-## Override current locale for CurrencyPipe
+## 為 CurrencyPipe 覆寫目前地區設定
 
-Add the `locale` parameter to the pipe to override the current value of `LOCALE_ID` token.
+將 `locale` 參數加入管道，即可覆寫 `LOCALE_ID` token 目前的值。
 
-To force the currency to use American English \(`en-US`\), use the following format for the `CurrencyPipe`
+若要強制貨幣使用美式英文 \(`en-US`\)，請為 `CurrencyPipe` 使用下列格式
 
 <!--todo: replace with docs-code -->
 
@@ -36,12 +36,12 @@ To force the currency to use American English \(`en-US`\), use the following for
 
 </docs-code>
 
-HELPFUL: The locale specified for the `CurrencyPipe` overrides the global `LOCALE_ID` token of your application.
+HELPFUL: 為 `CurrencyPipe` 指定的地區設定，會覆寫應用程式全域的 `LOCALE_ID` token。
 
-## What's next
+## 下一步
 
 <docs-pill-row>
-  <docs-pill href="guide/i18n/prepare" title="Prepare component for translation"/>
+  <docs-pill href="guide/i18n/prepare" title="準備元件以供翻譯"/>
 </docs-pill-row>
 
 [ApiCommonCurrencypipe]: api/common/CurrencyPipe 'CurrencyPipe | Common - API | Angular'

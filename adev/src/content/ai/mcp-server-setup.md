@@ -1,30 +1,30 @@
-# Angular CLI MCP Server setup
+# Angular CLI MCP Server 設定
 
-The Angular CLI includes an experimental [Model Context Protocol (MCP) server](https://modelcontextprotocol.io/) enabling AI assistants in your development environment to interact with the Angular CLI. We've included support for CLI powered code generation, adding packages, and more.
+Angular CLI 包含一個實驗性的 [Model Context Protocol (MCP) server](https://modelcontextprotocol.io/)，讓你開發環境中的 AI 助理能與 Angular CLI 互動。我們已納入對 CLI 驅動的程式碼生成、新增套件等功能的支援。
 
-## Available Tools
+## 可用工具
 
-The Angular CLI MCP server provides several tools to assist you in your development workflow. By default, the following tools are enabled:
+Angular CLI MCP server 提供多個工具，協助你的開發工作流程。預設啟用下列工具：
 
 | Name                   | Description                                                                                                                                                                                        | `local-only` | `read-only` |
 | :--------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------: | :---------: |
-| `get_best_practices`   | Retrieves the Angular Best Practices Guide. This guide is essential for ensuring that all code adheres to modern standards, including standalone components, typed forms, and modern control flow. |      ✅      |     ✅      |
-| `list_projects`        | Lists the names of all applications and libraries defined within an Angular workspace. It reads the `angular.json` configuration file to identify the projects.                                    |      ✅      |     ✅      |
-| `search_documentation` | Searches the official Angular documentation at https://angular.dev. This tool should be used to answer any questions about Angular, such as for APIs, tutorials, and best practices.               |      ❌      |     ✅      |
+| `get_best_practices` | 擷取 Angular 最佳實務指南。這份指南對於確保所有程式碼遵循現代標準至關重要，包括獨立元件、型別化表單與現代控制流程。                                                                                                                                   | ✅          | ✅         |
+| `list_projects`      | 列出 Angular 工作區中定義的所有應用程式與程式庫名稱。它會讀取 `angular.json` 設定檔來辨識這些專案。                                                                                                                                   | ✅          | ✅         |
+| `search_documentation` | 搜尋位於 https://angular.dev 的 Angular 官方文件。任何關於 Angular 的問題，例如 API、教學與最佳實務，都應使用此工具來回答。                                                                                                              | ❌          | ✅         |
 
-## Get Started
+## 開始使用 {#get-started}
 
-To get started, run the following command in your terminal:
+若要開始使用，請在你的終端機中執行下列指令：
 
 ```bash
 ng mcp
 ```
 
-When run from an interactive terminal, this command displays instructions on how to configure a host environment to use the MCP server. The following sections provide example configurations for several popular editors and tools.
+從互動式終端機執行時，這個指令會顯示如何設定宿主環境以使用 MCP server 的指示。下列章節提供數個熱門編輯器與工具的設定範例。
 
 ### Cursor
 
-Create a file named `.cursor/mcp.json` in your project's root and add the following configuration. You can also configure it globally in `~/.cursor/mcp.json`.
+在你的專案根目錄建立名為 `.cursor/mcp.json` 的檔案，並加入下列設定。你也可以在 `~/.cursor/mcp.json` 中全域設定。
 
 ```json
 {
@@ -39,7 +39,7 @@ Create a file named `.cursor/mcp.json` in your project's root and add the follow
 
 ### Firebase Studio
 
-Create a file named `.idx/mcp.json` in your project's root and add the following configuration:
+在你的專案根目錄建立名為 `.idx/mcp.json` 的檔案，並加入下列設定：
 
 ```json
 {
@@ -54,7 +54,7 @@ Create a file named `.idx/mcp.json` in your project's root and add the following
 
 ### Gemini CLI
 
-Create a file named `.gemini/settings.json` in your project's root and add the following configuration:
+在你的專案根目錄建立名為 `.gemini/settings.json` 的檔案，並加入下列設定：
 
 ```json
 {
@@ -69,7 +69,7 @@ Create a file named `.gemini/settings.json` in your project's root and add the f
 
 ### JetBrains IDEs
 
-In JetBrains IDEs (like IntelliJ IDEA or WebStorm), after installing the JetBrains AI Assistant plugin, go to `Settings | Tools | AI Assistant | Model Context Protocol (MCP)`. Add a new server (`+`) and select `As JSON`. Then paste the following configuration:
+在 JetBrains IDE（如 IntelliJ IDEA 或 WebStorm）中，安裝 JetBrains AI Assistant 外掛後，前往 `Settings | Tools | AI Assistant | Model Context Protocol (MCP)`。新增一個伺服器（`+`）並選取 `As JSON`。然後貼上下列設定：
 
 ```json
 {
@@ -82,11 +82,11 @@ In JetBrains IDEs (like IntelliJ IDEA or WebStorm), after installing the JetBrai
 }
 ```
 
-For the most up-to-date instructions on configuring MCP servers, please refer to the JetBrains documentation: [Connect to an MCP server](https://www.jetbrains.com/help/ai-assistant/mcp.html#connect-to-an-mcp-server).
+如需設定 MCP server 的最新指示，請參閱 JetBrains 文件：[Connect to an MCP server](https://www.jetbrains.com/help/ai-assistant/mcp.html#connect-to-an-mcp-server)。
 
 ### VS Code
 
-In your project's root, create a file named `.vscode/mcp.json` and add the following configuration. Note the use of the `servers` property.
+在你的專案根目錄建立名為 `.vscode/mcp.json` 的檔案，並加入下列設定。請注意這裡使用的是 `servers` 屬性。
 
 ```json
 {
@@ -99,9 +99,9 @@ In your project's root, create a file named `.vscode/mcp.json` and add the follo
 }
 ```
 
-### Other IDEs
+### 其他 IDE
 
-For other IDEs, check your IDE's documentation for the proper location of the MCP configuration file (often `mcp.json`). The configuration should contain the following snippet.
+對於其他 IDE，請查看你的 IDE 文件，確認 MCP 設定檔的正確位置（通常是 `mcp.json`）。設定內容應包含下列片段。
 
 ```json
 {
@@ -114,16 +114,16 @@ For other IDEs, check your IDE's documentation for the proper location of the MC
 }
 ```
 
-## Command Options
+## 指令選項 {#command-options}
 
-The `mcp` command can be configured with the following options passed as arguments in your IDE's MCP configuration:
+`mcp` 指令可以透過下列選項進行設定，這些選項會以引數形式傳入你 IDE 的 MCP 設定中：
 
 | Option         | Type      | Description                                                                                                                       | Default |
 | :------------- | :-------- | :-------------------------------------------------------------------------------------------------------------------------------- | :------ |
-| `--read-only`  | `boolean` | Only register tools that do not make changes to the project. Your editor or coding agent may still perform edits.                 | `false` |
-| `--local-only` | `boolean` | Only register tools that do not require an internet connection. Your editor or coding agent may still send data over the network. | `false` |
+| `--read-only` | `boolean` | 只註冊不會變更專案的工具。你的編輯器或程式碼代理仍可能執行編輯。                                                                                                | `false` |
+| `--local-only` | `boolean` | 只註冊不需要網際網路連線的工具。你的編輯器或程式碼代理仍可能透過網路傳送資料。                                                                                         | `false` |
 
-For example, to run the server in read-only mode in VS Code, you would update your `mcp.json` like this:
+例如，若要在 VS Code 中以唯讀模式執行伺服器，你可以這樣更新你的 `mcp.json`：
 
 ```json
 {
@@ -136,6 +136,6 @@ For example, to run the server in read-only mode in VS Code, you would update yo
 }
 ```
 
-## Feedback and New Ideas
+## 回饋與新想法
 
-The Angular team welcomes your feedback on the existing MCP capabilities and any ideas you have for new tools or features. Please share your thoughts by opening an issue on the [angular/angular GitHub repository](https://github.com/angular/angular/issues).
+Angular 團隊歡迎你對現有 MCP 功能提供回饋，也歡迎任何關於新工具或功能的想法。請在 [angular/angular GitHub 儲存庫](https://github.com/angular/angular/issues)上開立 issue，分享你的想法。

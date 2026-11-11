@@ -1,53 +1,53 @@
-# Refer to locales by ID
+# 以 ID 參照地區設定
 
-Angular uses the Unicode _locale identifier_ \(Unicode locale ID\) to find the correct locale data for internationalization of text strings.
+Angular 使用 Unicode _地區設定識別碼_ \(Unicode locale ID\) 來尋找正確的地區設定資料，以便對文字字串進行國際化。
 
-<docs-callout title="Unicode locale ID">
+<docs-callout title="Unicode 地區設定 ID">
 
-- A locale ID conforms to the [Unicode Common Locale Data Repository (CLDR) core specification][UnicodeCldrDevelopmentCoreSpecification].
-  For more information about locale IDs, see [Unicode Language and Locale Identifiers][UnicodeCldrDevelopmentCoreSpecificationLocaleIDs].
+- 地區設定 ID 符合 [Unicode Common Locale Data Repository (CLDR) core specification][UnicodeCldrDevelopmentCoreSpecification]。
+  關於地區設定 ID 的更多資訊，請見 [Unicode Language and Locale Identifiers][UnicodeCldrDevelopmentCoreSpecificationLocaleIDs]。
 
-- CLDR and Angular use [BCP 47 tags][RfcEditorInfoBcp47] as the base for the locale ID
+- CLDR 與 Angular 以 [BCP 47 tags][RfcEditorInfoBcp47] 作為地區設定 ID 的基礎
 
 </docs-callout>
 
-A locale ID specifies the language, country, and an optional code for further variants or subdivisions.
-A locale ID consists of the language identifier, a hyphen \(`-`\) character, and the locale extension.
+地區設定 ID 指定了語言、國家，以及用於進一步變體或細分的選用代碼。
+地區設定 ID 由語言識別碼、一個連字號 \(`-`\) 字元與地區設定擴充部分組成。
 
 <docs-code language="html">
 {language_id}-{locale_extension}
 </docs-code>
 
-HELPFUL: To accurately translate your Angular project, you must decide which languages and locales you are targeting for internationalization.
+HELPFUL: 若要正確翻譯你的 Angular 專案，你必須決定國際化要鎖定的語言與地區設定。
 
-Many countries share the same language, but differ in usage.
-The differences include grammar, punctuation, formats for currency, decimal numbers, dates, and so on.
+許多國家使用相同語言，但用法有所不同。
+這些差異包括文法、標點符號，以及貨幣、小數、日期的格式等等。
 
-For the examples in this guide, use the following languages and locales.
+本指南的範例使用下列語言與地區設定。
 
-| Language | Locale                   | Unicode locale ID |
-| :------- | :----------------------- | :---------------- |
-| English  | Canada                   | `en-CA`           |
-| English  | United States of America | `en-US`           |
-| French   | Canada                   | `fr-CA`           |
-| French   | France                   | `fr-FR`           |
+| 語言 | 地區設定             | Unicode locale ID |
+| :--- | :------------------- | :---------------- |
+| 英文 | 加拿大               | `en-CA`           |
+| 英文 | 美國                 | `en-US`           |
+| 法文 | 加拿大               | `fr-CA`           |
+| 法文 | 法國                 | `fr-FR`           |
 
-The [Angular repository][GithubAngularAngularTreeMasterPackagesCommonLocales] includes common locales.
+[Angular 儲存庫][GithubAngularAngularTreeMasterPackagesCommonLocales] 包含常見的地區設定。
 
 <docs-callout>
-For a list of language codes, see [ISO 639-2](https://www.loc.gov/standards/iso639-2).
+語言代碼清單請見 [ISO 639-2](https://www.loc.gov/standards/iso639-2)。
 </docs-callout>
 
-## Set the source locale ID
+## 設定來源地區設定 ID
 
-Use the Angular CLI to set the source language in which you are writing the component template and code.
+使用 Angular CLI 設定你撰寫元件範本與程式碼所用的來源語言。
 
-By default, Angular uses `en-US` as the source locale of your project.
+預設情況下，Angular 使用 `en-US` 作為專案的來源地區設定。
 
-To change the source locale of your project for the build, complete the following actions.
+若要為建置變更專案的來源地區設定，請完成下列動作。
 
-1. Open the [`angular.json`][GuideWorkspaceConfig] workspace build configuration file.
-2. Add or modify the `sourceLocale` field inside the `i18n` section:
+1. 開啟 [`angular.json`][GuideWorkspaceConfig] 工作區建置設定檔。
+2. 在 `i18n` 區段中新增或修改 `sourceLocale` 欄位：
 
 ```json
 {
@@ -61,13 +61,13 @@ To change the source locale of your project for the build, complete the followin
 }
 ```
 
-## What's next
+## 下一步
 
 <docs-pill-row>
-  <docs-pill href="guide/i18n/format-data-locale" title="Format data based on locale"/>
+  <docs-pill href="guide/i18n/format-data-locale" title="依地區設定格式化資料"/>
 </docs-pill-row>
 
-[GuideWorkspaceConfig]: reference/configs/workspace-config 'Angular workspace configuration | Angular'
+[GuideWorkspaceConfig]: reference/configs/workspace-config 'Angular 工作區設定 | Angular'
 [GithubAngularAngularTreeMasterPackagesCommonLocales]: https://github.com/angular/angular/tree/main/packages/common/locales 'angular/packages/common/locales | angular/angular | GitHub'
 [RfcEditorInfoBcp47]: https://www.rfc-editor.org/info/bcp47 'BCP 47 | RFC Editor'
 [UnicodeCldrDevelopmentCoreSpecification]: https://cldr.unicode.org/index/cldr-spec 'Core Specification | Unicode CLDR Project'

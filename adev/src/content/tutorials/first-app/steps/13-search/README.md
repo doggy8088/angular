@@ -1,78 +1,78 @@
-# Add the search feature to your app
+# 為你的應用程式加上搜尋功能
 
-This tutorial lesson demonstrates how to add a search functionality to your Angular app.
+這堂教學課程示範如何為你的 Angular 應用程式加上搜尋功能。
 
-The app will enable users to search through the data provided by your app and display only the results that match the entered term.
+應用程式會讓使用者搜尋應用程式提供的資料，並且只顯示與輸入字詞相符的結果。
 
 <docs-video src="https://www.youtube.com/embed/5K10oYJ5Y-E?si=TiuNKx_teR9baO7k&amp;start=457"/>
 
-IMPORTANT: We recommend using your local environment for this step of the tutorial.
+IMPORTANT: 本教學的這個步驟，建議你在本機環境操作。
 
-## What you'll learn
+## 你會學到什麼
 
-- Your app will use data from a form to search for matching housing locations
-- Your app will display only the matching housing locations
+- 你的應用程式會使用表單的資料，搜尋相符的住房地點
+- 你的應用程式只會顯示相符的住房地點
 
 <docs-workflow>
 
-<docs-step title="Update the home component properties">
-In this step, you'll update the `Home` class to store data in a new array property that you will use for filtering.
+<docs-step title="更新首頁元件的屬性">
+在這個步驟中，你會更新 `Home` 類別，把資料存放在一個新的陣列屬性中，用來進行篩選。
 
-1. In `src/app/home/home.ts`, add new property to the class called `filteredLocationList`.
+1. 在 `src/app/home/home.ts` 中，為類別加上一個名為 `filteredLocationList` 的新屬性。
 
-   <docs-code header="Add the filteredLocationList property in home.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[27]"/>
+   <docs-code header="在 home.ts 中加入 filteredLocationList 屬性" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[27]"/>
 
-   The `filteredLocationList` hold the values that match the search criteria entered by the user.
+   `filteredLocationList` 存放與使用者輸入的搜尋條件相符的值。
 
-1. The `filteredLocationList` should contain the total set of housing locations values by default when the page loads. Update the `constructor` for the `Home` to set the value.
+1. 頁面載入時，`filteredLocationList` 預設應該包含全部的住房地點值。請更新 `Home` 的 `constructor` 來設定這個值。
 
-   <docs-code header="Set the value of filteredLocationList" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[29,32]"/>
-
-</docs-step>
-
-<docs-step title="Update the home component template">
-The `Home` already contains an input field that you will use to capture input from the user. That string text will be used to filter the results.
-
-1. Update the `Home` template to include a template variable in the `input` element called `#filter`.
-
-   <docs-code language="angular-ts" header="Add a template variable to the input HTML element in home.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[12]"/>
-   This example uses a [template reference variable](guide/templates) to get access to the `input` element as its value.
-
-1. Next, update the component template to attach an event handler to the "Search" button.
-
-   <docs-code language="angular-ts" header="Bind the button click event to a method in home.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[13]"/>
-
-   By binding to the `click` event on the `button` element, you are able to call the `filterResults` function. The argument to the function is the `value` property of the `filter` template variable. Specifically, the `.value` property from the `input` HTML element.
-
-1. The last template update is to the `@for` directive. Update the `@for` to iterate over values from the `filteredLocationList` array.
-
-   <docs-code header="Update the @for template directive in home.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[17,19]" language="html"/>
+   <docs-code header="設定 filteredLocationList 的值" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[29,32]"/>
 
 </docs-step>
 
-<docs-step title="Implement the event handler function">
-The template has been updated to bind the `filterResults` function to the `click` event. Next, your task is to implement the `filterResults` function in the `Home` class.
+<docs-step title="更新首頁元件的範本">
+`Home` 已經有一個輸入欄位，你會用它來取得使用者的輸入。那串文字會用來篩選結果。
 
-1. Update the `Home` class to include the implementation of the `filterResults` function.
+1. 更新 `Home` 範本，在 `input` 元素中加入一個名為 `#filter` 的範本變數。
 
-   <docs-code header="Add the filterResults function implementation" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[34,43]"/>
+   <docs-code language="angular-ts" header="在 home.ts 的 input HTML 元素中加入範本變數" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[12]"/>
+   本範例使用[範本參考變數](guide/templates)來取得 `input` 元素，把它當作值來存取。
 
-   This function uses the `String` `filter` function to compare the value of the `text` parameter against the `housingLocation.city` property. You can update this function to match against any property or multiple properties for a fun exercise.
+1. 接著，更新元件範本，為 "Search" 按鈕加上事件處理器。
 
-1. Save your code.
+   <docs-code language="angular-ts" header="在 home.ts 中把按鈕的 click 事件繫結到方法" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[13]"/>
 
-1. Refresh the browser and confirm that you can search the housing location data by city when you click the "Search" button after entering text.
+   透過繫結 `button` 元素上的 `click` 事件，你就可以呼叫 `filterResults` 函式。傳給這個函式的引數，是 `filter` 範本變數的 `value` 屬性，具體來說就是 `input` HTML 元素的 `.value` 屬性。
 
-<img alt="filtered search results based on user input" src="assets/images/tutorials/first-app/homes-app-lesson-13-step-3.png">
+1. 範本的最後一項更新是 `@for` 指令。請更新 `@for`，讓它逐一處理 `filteredLocationList` 陣列中的值。
+
+   <docs-code header="更新 home.ts 中的 @for 範本指令" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[17,19]" language="html"/>
+
+</docs-step>
+
+<docs-step title="實作事件處理器函式">
+範本已經更新，把 `filterResults` 函式繫結到 `click` 事件。接下來，你的任務是在 `Home` 類別中實作 `filterResults` 函式。
+
+1. 更新 `Home` 類別，加入 `filterResults` 函式的實作。
+
+   <docs-code header="加入 filterResults 函式的實作" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[34,43]"/>
+
+   這個函式使用 `String` 的 `filter` 函式，把 `text` 參數的值與 `housingLocation.city` 屬性互相比較。你可以更新這個函式，讓它比對任何屬性、甚至多個屬性，作為一個有趣的練習。
+
+1. 儲存你的程式碼。
+
+1. 重新整理瀏覽器，輸入文字並點選 "Search" 按鈕後，確認你可以依城市搜尋住房地點資料。
+
+<img alt="依使用者輸入篩選後的搜尋結果" src="assets/images/tutorials/first-app/homes-app-lesson-13-step-3.png">
 </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you updated your app to use template variables to interact with template values, and add search functionality using event binding and array functions.
+SUMMARY: 在本課中，你更新了應用程式，使用範本變數與範本值互動，並運用事件繫結與陣列函式加上搜尋功能。
 
-For more information about the topics covered in this lesson, visit:
+想進一步了解本課介紹的主題，請造訪：
 
 <docs-pill-row>
-  <docs-pill href="guide/templates" title="Template Variables"/>
-  <docs-pill href="guide/templates/event-listeners" title="Event Handling"/>
+  <docs-pill href="guide/templates" title="範本變數"/>
+  <docs-pill href="guide/templates/event-listeners" title="事件處理"/>
 </docs-pill-row>

@@ -1,10 +1,10 @@
-# Read route state
+# 讀取路由狀態
 
-Angular Router allows you to read and use information associated with a route to create responsive and context-aware components.
+Angular Router 讓你能讀取並使用與路由相關聯的資訊，藉此建立反應敏捷且具上下文感知能力的元件。
 
-## Get information about the current route with ActivatedRoute
+## 透過 ActivatedRoute 取得目前路由的資訊 {#get-information-about-the-current-route-with-activatedroute}
 
-`ActivatedRoute` is a service from `@angular/router` that provides all the information associated with the current route.
+`ActivatedRoute` 是來自 `@angular/router` 的服務，提供與目前路由相關聯的全部資訊。
 
 ```angular-ts
 import { Component } from '@angular/core';
@@ -22,24 +22,24 @@ export class ProductComponent {
 }
 ```
 
-The `ActivatedRoute` can provide different information about the route. Some common properties include:
+`ActivatedRoute` 能提供關於路由的各種不同資訊，一些常見的屬性包括：
 
 | Property      | Details                                                                                                                           |
 | :------------ | :-------------------------------------------------------------------------------------------------------------------------------- |
-| `url`         | An `Observable` of the route paths, represented as an array of strings for each part of the route path.                           |
-| `data`        | An `Observable` that contains the `data` object provided for the route. Also contains any resolved values from the resolve guard. |
-| `params`      | An `Observable` that contains the required and optional parameters specific to the route.                                         |
-| `queryParams` | An `Observable` that contains the query parameters available to all routes.                                                       |
+| `url`         | 路由路徑的 `Observable`，以字串陣列表示路徑的每個部分。                                                           |
+| `data`        | 一個 `Observable`，包含為該路由提供的 `data` 物件，也包含解析守衛所解析出的任何值。                                               |
+| `params`      | 一個 `Observable`，包含該路由特有的必要與選擇性參數。                                                                             |
+| `queryParams` | 一個 `Observable`，包含所有路由皆可使用的查詢參數。                                                                               |
 
-Check out the [`ActivatedRoute` API docs](/api/router/ActivatedRoute) for a complete list of what you can access with in the route.
+請參閱 [`ActivatedRoute` API 文件](/api/router/ActivatedRoute)，取得你可以透過路由存取之內容的完整清單。
 
-## Understanding route snapshots
+## 了解路由快照 {#understanding-route-snapshots}
 
-Page navigations are events over time, and you can access the router state at a given time by retrieving a route snapshot.
+頁面導覽是隨著時間發生的事件，你可以擷取路由快照，來存取 Router 在某個時間點的狀態。
 
-Route snapshots contain essential information about the route, including its parameters, data, and child routes. In addition, snapshots are static and will not reflect future changes.
+路由快照包含關於路由的必要資訊，包括它的參數、資料與子路由。此外，快照是靜態的，不會反映未來的變化。
 
-Here’s an example of how you’d access a route snapshot:
+以下是如何存取路由快照的範例：
 
 ```angular-ts
 import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
@@ -68,17 +68,17 @@ export class UserProfileComponent {
 }
 ```
 
-Check out the [`ActivatedRoute` API docs](/api/router/ActivatedRoute) and [`ActivatedRouteSnapshot` API docs](/api/router/ActivatedRouteSnapshot) for a complete list of all properties you can access.
+請參閱 [`ActivatedRoute` API 文件](/api/router/ActivatedRoute) 與 [`ActivatedRouteSnapshot` API 文件](/api/router/ActivatedRouteSnapshot)，取得你可以存取之所有屬性的完整清單。
 
-## Reading parameters on a route
+## 讀取路由上的參數
 
-There are two types of parameters that developers can utilize from a route: route and query parameters.
+開發者可以從路由利用兩種類型的參數：路由參數與查詢參數。
 
-### Route Parameters
+### 路由參數
 
-Route parameters allow you to pass data to a component through the URL. This is useful when you want to display specific content based on an identifier in the URL, like a user ID or a product ID.
+路由參數讓你能透過 URL 將資料傳遞給元件。當你想根據 URL 中的識別碼（例如使用者 ID 或產品 ID）來顯示特定內容時，這非常有用。
 
-You can [define route parameters](/guide/routing/define-routes#define-url-paths-with-route-parameters) by prefixing the parameter name with a colon (`:`).
+你可以透過在參數名稱前加上冒號（`:`），來[定義路由參數](/guide/routing/define-routes#define-url-paths-with-route-parameters)。
 
 ```angular-ts
 import { Routes } from '@angular/router';
@@ -89,7 +89,7 @@ const routes: Routes = [
 ];
 ```
 
-You can access parameters by subscribing to `route.params`.
+你可以訂閱 `route.params` 來存取參數。
 
 ```angular-ts
 import { Component, inject, signal } from '@angular/core';
@@ -112,9 +112,9 @@ export class ProductDetailComponent {
 }
 ```
 
-### Query Parameters
+### 查詢參數 {#query-parameters}
 
-[Query parameters](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) provide a flexible way to pass optional data through URLs without affecting the route structure. Unlike route parameters, query parameters can persist across navigation events and are perfect for handling filtering, sorting, pagination, and other stateful UI elements.
+[查詢參數](https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams) 提供了一種靈活的方式，透過 URL 傳遞選擇性資料，而不會影響路由結構。與路由參數不同，查詢參數可以在多次導覽事件之間持續存在，非常適合處理篩選、排序、分頁，以及其他具狀態性的 UI 元素。
 
 ```angular-ts
 // Single parameter structure
@@ -134,9 +134,9 @@ router.navigate(['/products'], {
 });
 ```
 
-You can access query parameters with `route.queryParams`.
+你可以使用 `route.queryParams` 來存取查詢參數。
 
-Here is an example of a `ProductListComponent` that updates the query parameters that affect how it displays a list of products:
+以下是一個 `ProductListComponent` 的範例，它會更新影響其產品清單顯示方式的查詢參數：
 
 ```angular-ts
 import { ActivatedRoute, Router } from '@angular/router';
@@ -177,15 +177,15 @@ export class ProductListComponent implements OnInit {
 }
 ```
 
-In this example, users can use a select element to sort the product list by name or price. The associated change handler updates the URL’s query parameters, which in turn triggers a change event that can read the updated query parameters and update the product list.
+在這個範例中，使用者可以使用下拉選單，依名稱或價格排序產品清單。與其相關聯的變更處理常式會更新 URL 的查詢參數，進而觸發變更事件，藉此讀取更新後的查詢參數，並更新產品清單。
 
-For more information, check out the [official docs on QueryParamsHandling](/api/router/QueryParamsHandling).
+如需更多資訊，請參閱 [QueryParamsHandling 的官方文件](/api/router/QueryParamsHandling)。
 
-### Matrix Parameters
+### 矩陣參數 {#matrix-parameters}
 
-Matrix parameters are optional parameters that belong to a specific URL segment, rather than applying to the entire route. Unlike query parameters which appear after a `?` and apply globally, matrix parameters use semicolons (`;`) and are scoped to individual path segments.
+矩陣參數是屬於特定 URL 區段的選擇性參數，而不是套用到整個路由。與出現在 `?` 之後並全域套用的查詢參數不同，矩陣參數使用分號（`;`），且只套用到個別的路徑區段。
 
-Matrix parameters are useful when you need to pass auxiliary data to a specific route segment without affecting the route definition or matching behavior. Like query parameters, they don't need to be defined in your route configuration.
+矩陣參數非常適合在不影響路由定義或比對行為的情況下，將輔助資料傳遞給特定的路由區段。與查詢參數一樣，它們不需要在你的路由設定中定義。
 
 ```ts
 // URL format: /path;key=value
@@ -196,7 +196,7 @@ this.router.navigate(['/awesome-products', { view: 'grid', filter: 'new' }]);
 // Results in URL: /awesome-products;view=grid;filter=new
 ```
 
-**Using ActivatedRoute**
+**使用 ActivatedRoute**
 
 ```ts
 import { Component, inject } from '@angular/core';
@@ -216,11 +216,11 @@ export class AwesomeProducts  {
 }
 ```
 
-NOTE: As an alternative to using `ActivatedRoute`, matrix parameters are also bound to component inputs when using the `withComponentInputBinding`.
+NOTE: 除了使用 `ActivatedRoute` 之外，當使用 `withComponentInputBinding` 時，矩陣參數也會綁定到元件輸入上。
 
-## Detect active current route with RouterLinkActive
+## 使用 RouterLinkActive 偵測目前啟用的路由 {#detect-active-current-route-with-routerlinkactive}
 
-You can use the `RouterLinkActive` directive to dynamically style navigation elements based on the current active route. This is common in navigation elements to inform users what the active route is.
+你可以使用 `RouterLinkActive` 指令，根據目前啟用的路由，動態地為導覽元素套用樣式。這在導覽元素中很常見，用來通知使用者目前啟用的是哪個路由。
 
 ```angular-html
 <nav>
@@ -239,9 +239,9 @@ You can use the `RouterLinkActive` directive to dynamically style navigation ele
 </nav>
 ```
 
-In this example, Angular Router will apply the `active-button` class to the correct anchor link and `ariaCurrentWhenActive` to `page` when the URL matches the corresponding `routerLink`.
+在這個範例中，當 URL 與對應的 `routerLink` 相符時，Angular Router 會將 `active-button` 類別套用到正確的錨點連結上，並將 `ariaCurrentWhenActive` 設定為 `page`。
 
-If you need to add multiple classes onto the element, you can use either a space-separated string or an array:
+如果你需要在單一元素上加入多個類別，你可以使用以空格分隔的字串，或使用陣列：
 
 ```angular-html
 <!-- Space-separated string syntax -->
@@ -251,13 +251,13 @@ If you need to add multiple classes onto the element, you can use either a space
 <a routerLink="/user/bob" [routerLinkActive]="['class1', 'class2']">Bob</a>
 ```
 
-When you specify a value for routerLinkActive, you are also defining the same value for `ariaCurrentWhenActive`. This makes sure that visually impaired users (which may not perceive the different styling being applied) can also identify the active button.
+當你為 `routerLinkActive` 指定值時，你同時也為 `ariaCurrentWhenActive` 定義了相同的值。這能確保視覺障礙使用者（他們可能無法察覺所套用的不同樣式）也能辨識出目前啟用的按鈕。
 
-If you want to define a different value for aria, you’ll need to explicitly set the value using the `ariaCurrentWhenActive` directive.
+若你想為 aria 定義不同的值，你需要使用 `ariaCurrentWhenActive` 指令明確設定該值。
 
-### Route matching strategy
+### 路由比對策略
 
-By default, `RouterLinkActive` considers any ancestors in the route a match.
+在預設情況下，`RouterLinkActive` 會將路由中的任何祖先都視為相符。
 
 ```angular-html
 <a [routerLink]="['/user/jane']" routerLinkActive="active-link">
@@ -268,11 +268,11 @@ By default, `RouterLinkActive` considers any ancestors in the route a match.
 </a>
 ```
 
-When the user visits `/user/jane/role/admin`, both links would have the `active-link` class.
+當使用者造訪 `/user/jane/role/admin` 時，兩個連結都會帶有 `active-link` 類別。
 
-### Only apply RouterLinkActive on exact route matches
+### 只在精確符合路由時才套用 RouterLinkActive
 
-If you only want to apply the class on an exact match, you need to provide the `routerLinkActiveOptions` directive with a configuration object that contains the value `exact: true`.
+如果你只想在精確相符時才套用該類別，你需要為 `routerLinkActiveOptions` 指令提供一個設定物件，其中包含 `exact: true` 這個值。
 
 ```angular-html
 <a [routerLink]="['/user/jane']"
@@ -289,7 +289,7 @@ If you only want to apply the class on an exact match, you need to provide the `
 </a>
 ```
 
-If you want to be more precise in how a route is matched, it’s worth noting that `exact: true` is actually syntactic sugar for the full set of matching options:
+如果你想更精確地控制路由的比對方式，值得注意的是，`exact: true` 其實是整套比對選項的語法糖衣：
 
 ```angular-ts
 // `exact: true` is equivalent to
@@ -309,11 +309,11 @@ If you want to be more precise in how a route is matched, it’s worth noting th
 }
 ```
 
-For more information, check out the official docs for [isActiveMatchOptions](/api/router/IsActiveMatchOptions).
+如需更多資訊，請參閱 [isActiveMatchOptions 的官方文件](/api/router/IsActiveMatchOptions)。
 
-### Apply RouterLinkActive to an ancestor
+### 將 RouterLinkActive 套用到祖先元素上
 
-The RouterLinkActive directive can also be applied to an ancestor element in order to allow developers to style the elements as desired.
+RouterLinkActive 指令也可以套用到祖先元素上，讓開發者能隨心所欲地為其中的元素套用樣式。
 
 ```angular-html
 <div routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
@@ -322,4 +322,4 @@ The RouterLinkActive directive can also be applied to an ancestor element in ord
 </div>
 ```
 
-For more information, check out the [API docs for RouterLinkActive](/api/router/RouterLinkActive).
+如需更多資訊，請參閱 [RouterLinkActive 的 API 文件](/api/router/RouterLinkActive)。

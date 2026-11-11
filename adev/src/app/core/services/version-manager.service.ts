@@ -62,7 +62,7 @@ export class VersionManager {
   // which is the most up-to-date anyway.
   remoteVersions = httpResource(
     () => ({
-      url: 'https://angular.dev/assets/others/versions.json',
+      url: '/assets/others/versions.json',
       transferCache: false,
       cache: 'no-cache',
     }),

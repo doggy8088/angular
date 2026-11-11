@@ -1,10 +1,8 @@
-# Component host elements
+# 元件宿主元素
 
-TIP: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+TIP: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先閱讀該指南。
 
-Angular creates an instance of a component for every HTML element that matches the component's
-selector. The DOM element that matches a component's selector is that component's **host element**.
-The contents of a component's template are rendered inside its host element.
+Angular 會為每個與元件選擇器相符的 HTML 元素建立一個元件執行個體。與元件選擇器相符的 DOM 元素就是該元件的**宿主元素**。元件範本的內容會算繪在其宿主元素內。
 
 ```angular-ts
 // Component source
@@ -33,13 +31,11 @@ export class ProfilePhoto {}
 <button>Upload a new profile photo</button>
 ```
 
-In the above example, `<profile-photo>` is the host element of the `ProfilePhoto` component.
+在上面的範例中，`<profile-photo>` 是 `ProfilePhoto` 元件的宿主元素。
 
-## Binding to the host element
+## 繫結到宿主元素 {#binding-to-the-host-element}
 
-A component can bind properties, attributes, styles and events to its host element. This behaves
-identically to bindings on elements inside the component's template, but instead defined with
-the `host` property in the `@Component` decorator:
+元件可以將屬性、屬性值、樣式與事件繫結到它的宿主元素。這與元件範本內元素上的繫結行為完全相同，只是改用 `@Component` 裝飾器中的 `host` 屬性來定義：
 
 ```angular-ts
 @Component({
@@ -64,12 +60,11 @@ export class CustomSlider {
 }
 ```
 
-## The `@HostBinding` and `@HostListener` decorators
+## `@HostBinding` 與 `@HostListener` 裝飾器
 
-You can alternatively bind to the host element by applying the `@HostBinding` and `@HostListener`
-decorator to class members.
+你也可以將 `@HostBinding` 與 `@HostListener` 裝飾器套用到類別成員上，來繫結到宿主元素。
 
-`@HostBinding` lets you bind host properties and attributes to properties and getters:
+`@HostBinding` 讓你可以將宿主屬性與屬性值繫結到屬性和 getter：
 
 ```ts
 @Component({
@@ -88,8 +83,7 @@ export class CustomSlider {
 }
 ```
 
-`@HostListener` lets you bind event listeners to the host element. The decorator accepts an event
-name and an optional array of arguments:
+`@HostListener` 讓你可以將事件監聽器繫結到宿主元素。這個裝飾器接受一個事件名稱，以及選擇性的引數陣列：
 
 ```ts
 export class CustomSlider {
@@ -100,15 +94,13 @@ export class CustomSlider {
 }
 ```
 
-<docs-callout critical title="Prefer using the `host` property over the decorators">
-  **Always prefer using the `host` property over `@HostBinding` and `@HostListener`.** These
-decorators exist exclusively for backwards compatibility.
+<docs-callout critical title="優先使用 `host` 屬性，而非這些裝飾器">
+  **一律優先使用 `host` 屬性，而非 `@HostBinding` 與 `@HostListener`**。這些裝飾器純粹是為了向後相容而存在。
 </docs-callout>
 
-## Binding collisions
+## 繫結衝突
 
-When you use a component in a template, you can add bindings to that component instance's element.
-The component may _also_ define host bindings for the same properties or attributes.
+當你在範本中使用某個元件時，可以為該元件執行個體的元素加上繫結。該元件可能_也_為相同的屬性或屬性值定義了宿主繫結。
 
 ```angular-ts
 @Component({
@@ -125,16 +117,15 @@ export class ProfilePhoto { /* ... */ }
 <profile-photo role="group" [id]="otherId" />
 ```
 
-In cases like this, the following rules determine which value wins:
+在這種情況下，下列規則決定哪個值勝出：
 
-- If both values are static, the instance binding wins.
-- If one value is static and the other dynamic, the dynamic value wins.
-- If both values are dynamic, the component's host binding wins.
+- 若兩個值都是靜態的，執行個體繫結勝出。
+- 若一個值是靜態、另一個是動態的，動態值勝出。
+- 若兩個值都是動態的，元件的宿主繫結勝出。
 
-## Styling with CSS custom properties
+## 使用 CSS 自訂屬性設定樣式
 
-Developers often rely on [CSS Custom Properties](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascading_variables/Using_CSS_custom_properties) to enable a flexible configuration of their component's styles.
-You can set such custom properties on a host element with a [style binding][style binding](guide/templates/binding#css-style-properties).
+開發者經常仰賴 [CSS 自訂屬性](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_cascading_variables/Using_CSS_custom_properties)，讓元件樣式能彈性設定。你可以用[樣式繫結](guide/templates/binding#css-style-properties)，在宿主元素上設定這類自訂屬性。
 
 ```angular-ts
 @Component({
@@ -148,11 +139,11 @@ export class MyComponent {
 }
 ```
 
-In this example, the `--my-background` CSS custom property is bound to the `color` signal. The value of the custom property will automatically update whenever the `color` signal changes. This will affect the current component and all its children that rely on this custom property.
+在此範例中，`--my-background` CSS 自訂屬性繫結到 `color` 訊號。只要 `color` 訊號變更，自訂屬性的值就會自動更新。這會影響目前元件，以及所有仰賴此自訂屬性的子元素。
 
-### Setting custom properties on children compoents
+### 在子元件上設定自訂屬性
 
-Alternatively, it is also possible to set css custom properties on the host element of children components with a [style binding](guide/templates/binding#css-style-properties).
+或者，你也可以用[樣式繫結](guide/templates/binding#css-style-properties)，在子元件的宿主元素上設定 CSS 自訂屬性。
 
 ```angular-ts
 @Component({
@@ -164,9 +155,9 @@ export class MyComponent {
 }
 ```
 
-## Injecting host element attributes
+## 注入宿主元素屬性 {#injecting-host-element-attributes}
 
-Components and directives can read static attributes from their host element by using `HostAttributeToken` together with the [`inject`](api/core/inject) function.
+元件與指令可以使用 `HostAttributeToken` 搭配 [`inject`](api/core/inject) 函式，讀取宿主元素上的靜態屬性。
 
 ```ts
 import { Component, HostAttributeToken, inject } from '@angular/core';
@@ -184,4 +175,4 @@ export class Button {
 <app-button variation="primary">Click me</app-button>
 ```
 
-HELPFUL: `HostAttributeToken` throws an error if the attribute is missing, unless the injection is marked as optional.
+HELPFUL: 若缺少該屬性，`HostAttributeToken` 會擲出錯誤，除非將該注入標記為選擇性。

@@ -1,40 +1,40 @@
-# Hierarchical injectors
+# 階層式注入器
 
-This guide provides in-depth coverage of Angular's hierarchical dependency injection system, including resolution rules, modifiers, and advanced patterns.
+本指南深入說明 Angular 的階層式依賴注入系統，包括解析規則、修飾符和進階模式。
 
-NOTE: For basic concepts about injector hierarchy and provider scoping, see the [defining dependency providers guide](guide/di/defining-dependency-providers#injector-hierarchy-in-angular).
+NOTE: 關於注入器階層和提供者範圍的基本概念，請參閱[定義依賴提供者指南](guide/di/defining-dependency-providers#injector-hierarchy-in-angular)。
 
-## Types of injector hierarchies
+## 注入器階層的類型 {#types-of-injector-hierarchies}
 
-Angular has two injector hierarchies:
+Angular 有兩種注入器階層：
 
-| Injector hierarchies            | Details                                                                                                                                                                   |
+| 注入器階層                      | 詳細資訊                                                                                                                                                                  |
 | :------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `EnvironmentInjector` hierarchy | Configure an `EnvironmentInjector` in this hierarchy using `@Injectable()` or `providers` array in `ApplicationConfig`.                                                   |
-| `ElementInjector` hierarchy     | Created implicitly at each DOM element. An `ElementInjector` is empty by default unless you configure it in the `providers` property on `@Directive()` or `@Component()`. |
+| `EnvironmentInjector` 階層      | 使用 `@Injectable()` 或 `ApplicationConfig` 中的 `providers` 陣列，在此階層中設定 `EnvironmentInjector`。                                                                    |
+| `ElementInjector` 階層          | 在每個 DOM 元素上隱含地建立。`ElementInjector` 預設是空的，除非你在 `@Directive()` 或 `@Component()` 的 `providers` 屬性中設定它。                                       |
 
-<docs-callout title="NgModule Based Applications">
-For `NgModule` based applications, you can provide dependencies with the `ModuleInjector` hierarchy using an `@NgModule()` or `@Injectable()` annotation.
+<docs-callout title="以 NgModule 為基礎的應用程式">
+對於以 `NgModule` 為基礎的應用程式，你可以使用 `@NgModule()` 或 `@Injectable()` 註記，透過 `ModuleInjector` 階層提供依賴。
 </docs-callout>
 
 ### `EnvironmentInjector`
 
-The `EnvironmentInjector` can be configured in one of two ways by using:
+`EnvironmentInjector` 可以用以下兩種方式之一來設定：
 
-- The `@Injectable()` `providedIn` property to refer to `root` or `platform`
-- The `ApplicationConfig` `providers` array
+- `@Injectable()` 的 `providedIn` 屬性，指向 `root` 或 `platform`
+- `ApplicationConfig` 的 `providers` 陣列
 
-<docs-callout title="Tree-shaking and @Injectable()">
+<docs-callout title="搖樹優化與 @Injectable()">
 
-Using the `@Injectable()` `providedIn` property is preferable to using the `ApplicationConfig` `providers` array. With `@Injectable()` `providedIn`, optimization tools can perform tree-shaking, which removes services that your application isn't using. This results in smaller bundle sizes.
+使用 `@Injectable()` 的 `providedIn` 屬性比使用 `ApplicationConfig` 的 `providers` 陣列更可取。有了 `@Injectable()` 的 `providedIn`，最佳化工具可以執行搖樹優化，移除你的應用程式沒有使用的服務。如此能產生更小的 bundle。
 
-Tree-shaking is especially useful for a library because the application which uses the library may not have a need to inject it.
+搖樹優化對函式庫特別有用，因為使用該函式庫的應用程式可能不需要注入它。
 
 </docs-callout>
 
-`EnvironmentInjector` is configured by the `ApplicationConfig.providers`.
+`EnvironmentInjector` 由 `ApplicationConfig.providers` 設定。
 
-Provide services using `providedIn` of `@Injectable()` as follows:
+使用 `@Injectable()` 的 `providedIn` 提供服務的方式如下：
 
 <docs-code language="typescript" highlight="[4]">
 import { Injectable } from '@angular/core';
@@ -48,43 +48,43 @@ name = 'telephone';
 
 </docs-code>
 
-The `@Injectable()` decorator identifies a service class.
-The `providedIn` property configures a specific `EnvironmentInjector`, here `root`, which makes the service available in the `root` `EnvironmentInjector`.
+`@Injectable()` 裝飾器用來標識服務類別。
+`providedIn` 屬性會設定一個特定的 `EnvironmentInjector`（此處為 `root`），讓服務在 `root` `EnvironmentInjector` 中可用。
 
 ### ModuleInjector
 
-In the case of `NgModule` based applications, the ModuleInjector can be configured in one of two ways by using:
+對於以 `NgModule` 為基礎的應用程式，ModuleInjector 可以用以下兩種方式之一來設定：
 
-- The `@Injectable()` `providedIn` property to refer to `root` or `platform`
-- The `@NgModule()` `providers` array
+- 以 `@Injectable()` 的 `providedIn` 屬性指向 `root` 或 `platform`
+- `@NgModule()` 的 `providers` 陣列
 
-`ModuleInjector` is configured by the `@NgModule.providers` and `NgModule.imports` property. `ModuleInjector` is a flattening of all the providers arrays that can be reached by following the `NgModule.imports` recursively.
+`ModuleInjector` 由 `@NgModule.providers` 和 `NgModule.imports` 屬性設定。`ModuleInjector` 是沿著 `NgModule.imports` 遞迴追蹤可觸及的所有 providers 陣列攤平後的結果。
 
-Child `ModuleInjector` hierarchies are created when lazy loading other `@NgModules`.
+延遲載入其他 `@NgModules` 時，會建立子 `ModuleInjector` 階層。
 
-### Platform injector
+### 平台注入器
 
-There are two more injectors above `root`, an additional `EnvironmentInjector` and `NullInjector()`.
+在 `root` 之上還有兩個注入器：一個額外的 `EnvironmentInjector` 和 `NullInjector()`。
 
-Consider how Angular bootstraps the application with the following in `main.ts`:
+想想 Angular 如何以 `main.ts` 中的以下程式碼啟動應用程式：
 
 <docs-code language="javascript">
 bootstrapApplication(AppComponent, appConfig);
 </docs-code>
 
-The `bootstrapApplication()` method creates a child injector of the platform injector which is configured by the `ApplicationConfig` instance.
-This is the `root` `EnvironmentInjector`.
+`bootstrapApplication()` 方法會建立平台注入器的一個子注入器，它由 `ApplicationConfig` 實例設定。
+這就是 `root` `EnvironmentInjector`。
 
-The `platformBrowserDynamic()` method creates an injector configured by a `PlatformModule`, which contains platform-specific dependencies.
-This allows multiple applications to share a platform configuration.
-For example, a browser has only one URL bar, no matter how many applications you have running.
-You can configure additional platform-specific providers at the platform level by supplying `extraProviders` using the `platformBrowser()` function.
+`platformBrowserDynamic()` 方法會建立一個由 `PlatformModule` 設定的注入器，其中包含平台專屬的依賴。
+這讓多個應用程式可以共用一個平台設定。
+例如，無論你執行多少個應用程式，瀏覽器都只有一個網址列。
+你可以使用 `platformBrowser()` 函式提供 `extraProviders`，在平台層級設定額外的平台專屬提供者。
 
-The next parent injector in the hierarchy is the `NullInjector()`, which is the top of the tree.
-If you've gone so far up the tree that you are looking for a service in the `NullInjector()`, you'll get an error unless you've used `@Optional()` because ultimately, everything ends at the `NullInjector()` and it returns an error or, in the case of `@Optional()`, `null`.
-For more information on `@Optional()`, see the [`@Optional()` section](#optional) of this guide.
+階層中再往上的父注入器是 `NullInjector()`，它是這棵樹的頂端。
+如果你沿著樹一路往上、最後在 `NullInjector()` 中尋找服務，你會收到一個錯誤，除非你使用了 `@Optional()`，因為最終一切都結束於 `NullInjector()`，它會傳回錯誤，或在 `@Optional()` 的情況下傳回 `null`。
+關於 `@Optional()` 的更多資訊，請參閱本指南的 [`@Optional()` 一節](#optional)。
 
-The following diagram represents the relationship between the `root` `ModuleInjector` and its parent injectors as the previous paragraphs describe.
+下圖呈現了 `root` `ModuleInjector` 與其父注入器之間的關係，如前幾段所述。
 
 ```mermaid
 stateDiagram-v2
@@ -97,17 +97,17 @@ stateDiagram-v2
     elementInjector --> nullInjector
 ```
 
-While the name `root` is a special alias, other `EnvironmentInjector` hierarchies don't have aliases.
-You have the option to create `EnvironmentInjector` hierarchies whenever a dynamically loaded component is created, such as with the Router, which will create child `EnvironmentInjector` hierarchies.
+雖然 `root` 這個名稱是一個特殊的別名，其他 `EnvironmentInjector` 階層沒有別名。
+你可以在動態載入元件建立時建立 `EnvironmentInjector` 階層，例如透過 Router，它會建立子 `EnvironmentInjector` 階層。
 
-All requests forward up to the root injector, whether you configured it with the `ApplicationConfig` instance passed to the `bootstrapApplication()` method, or registered all providers with `root` in their own services.
+所有請求都會向上轉送到根注入器，無論你是用傳給 `bootstrapApplication()` 方法的 `ApplicationConfig` 實例來設定它，或是在各個服務本身以 `root` 註冊所有提供者。
 
-<docs-callout title="@Injectable() vs. ApplicationConfig">
+<docs-callout title="@Injectable() 與 ApplicationConfig">
 
-If you configure an app-wide provider in the `ApplicationConfig` of `bootstrapApplication`, it overrides one configured for `root` in the `@Injectable()` metadata.
-You can do this to configure a non-default provider of a service that is shared with multiple applications.
+如果你在 `bootstrapApplication` 的 `ApplicationConfig` 中設定了一個全應用程式的提供者，它會覆寫在 `@Injectable()` 詮釋資料中為 `root` 設定的提供者。
+你可以這樣做，來為一個與多個應用程式共用的服務設定非預設的提供者。
 
-Here is an example of the case where the component router configuration includes a non-default [location strategy](guide/routing#location-strategy) by listing its provider in the `providers` list of the `ApplicationConfig`.
+以下是一個範例：元件路由設定把非預設的[位置策略](guide/routing#location-strategy)提供者列在 `ApplicationConfig` 的 `providers` 清單中。
 
 ```ts
 providers: [
@@ -115,16 +115,16 @@ providers: [
 ]
 ```
 
-For `NgModule` based applications, configure app-wide providers in the `AppModule` `providers`.
+對於以 `NgModule` 為基礎的應用程式，請在 `AppModule` 的 `providers` 中設定全應用程式的提供者。
 
 </docs-callout>
 
 ### `ElementInjector`
 
-Angular creates `ElementInjector` hierarchies implicitly for each DOM element.
+Angular 會為每個 DOM 元素隱含地建立 `ElementInjector` 階層。
 
-Providing a service in the `@Component()` decorator using its `providers` or `viewProviders` property configures an `ElementInjector`.
-For example, the following `TestComponent` configures the `ElementInjector` by providing the service as follows:
+在 `@Component()` 裝飾器中使用它的 `providers` 或 `viewProviders` 屬性提供服務，就能設定一個 `ElementInjector`。
+例如，以下 `TestComponent` 透過如下方式提供服務來設定 `ElementInjector`：
 
 <docs-code language="typescript" highlight="[3]">
 @Component({
@@ -134,67 +134,67 @@ For example, the following `TestComponent` configures the `ElementInjector` by p
 export class TestComponent
 </docs-code>
 
-HELPFUL: See the [resolution rules](#resolution-rules) section to understand the relationship between the `EnvironmentInjector` tree, the `ModuleInjector` and the `ElementInjector` tree.
+HELPFUL: 請參閱[解析規則](#resolution-rules)一節，了解 `EnvironmentInjector` 樹、`ModuleInjector` 和 `ElementInjector` 樹之間的關係。
 
-When you provide services in a component, that service is available by way of the `ElementInjector` at that component instance.
-It may also be visible at child component/directives based on visibility rules described in the [resolution rules](#resolution-rules) section.
+當你在元件中提供服務時，該服務透過該元件實例的 `ElementInjector` 可供使用。
+根據[解析規則](#resolution-rules)一節所述的可見性規則，它在子元件／指令中也可能可見。
 
-When the component instance is destroyed, so is that service instance.
+當元件實例被銷毀時，該服務實例也會一併被銷毀。
 
-#### `@Directive()` and `@Component()`
+#### `@Directive()` 與 `@Component()`
 
-A component is a special type of directive, which means that just as `@Directive()` has a `providers` property, `@Component()` does too.
-This means that directives as well as components can configure providers, using the `providers` property.
-When you configure a provider for a component or directive using the `providers` property, that provider belongs to the `ElementInjector` of that component or directive.
-Components and directives on the same element share an injector.
+元件是指令的一種特殊類型，意思是就像 `@Directive()` 有 `providers` 屬性一樣，`@Component()` 也有。
+這表示指令和元件都可以使用 `providers` 屬性來設定提供者。
+當你使用 `providers` 屬性為元件或指令設定提供者時，該提供者屬於該元件或指令的 `ElementInjector`。
+同一個元素上的元件和指令共用一個注入器。
 
-## Resolution rules
+## 解析規則 {#resolution-rules}
 
-When resolving a token for a component/directive, Angular resolves it in two phases:
+為元件／指令解析 token 時，Angular 會分兩個階段進行：
 
-1. Against its parents in the `ElementInjector` hierarchy.
-2. Against its parents in the `EnvironmentInjector` hierarchy.
+1. 對照它在 `ElementInjector` 階層中的父層。
+2. 對照它在 `EnvironmentInjector` 階層中的父層。
 
-When a component declares a dependency, Angular tries to satisfy that dependency with its own `ElementInjector`.
-If the component's injector lacks the provider, it passes the request up to its parent component's `ElementInjector`.
+當元件宣告一個依賴時，Angular 會試圖用它自己的 `ElementInjector` 來滿足該依賴。
+如果元件的注入器缺少該提供者，它會把請求往上傳給父元件的 `ElementInjector`。
 
-The requests keep forwarding up until Angular finds an injector that can handle the request or runs out of ancestor `ElementInjector` hierarchies.
+請求會不斷向上轉送，直到 Angular 找到能處理該請求的注入器，或用盡所有祖先 `ElementInjector` 階層為止。
 
-If Angular doesn't find the provider in any `ElementInjector` hierarchies, it goes back to the element where the request originated and looks in the `EnvironmentInjector` hierarchy.
-If Angular still doesn't find the provider, it throws an error.
+如果 Angular 在任何 `ElementInjector` 階層中都找不到該提供者，它會回到請求發出的元素，並在 `EnvironmentInjector` 階層中尋找。
+如果 Angular 仍然找不到該提供者，它就會擲出錯誤。
 
-If you have registered a provider for the same DI token at different levels, the first one Angular encounters is the one it uses to resolve the dependency.
-If, for example, a provider is registered locally in the component that needs a service,
-Angular doesn't look for another provider of the same service.
+如果你在不同層級為同一個 DI token 註冊了提供者，Angular 遇到的第一個就是它用來解析該依賴的提供者。
+例如，如果提供者在需要某個服務的元件中就地註冊，
+Angular 就不會再尋找同一個服務的其他提供者。
 
-HELPFUL: For `NgModule` based applications, Angular will search the `ModuleInjector` hierarchy if it cannot find a provider in the `ElementInjector` hierarchies.
+HELPFUL: 對於以 `NgModule` 為基礎的應用程式，如果 Angular 在 `ElementInjector` 階層中找不到提供者，它會搜尋 `ModuleInjector` 階層。
 
-## Resolution modifiers
+## 解析修飾符
 
-Angular's resolution behavior can be modified with `optional`, `self`, `skipSelf` and `host`.
-Import each of them from `@angular/core` and use each in the `inject` configuration when you inject your service.
+Angular 的解析行為可以用 `optional`、`self`、`skipSelf` 和 `host` 來修改。
+從 `@angular/core` 匯入每一項，並在注入你的服務時，在 `inject` 設定中使用每一項。
 
-### Types of modifiers
+### 修飾符的類型
 
-Resolution modifiers fall into three categories:
+解析修飾符分為三類：
 
-- What to do if Angular doesn't find what you're looking for, that is `optional`
-- Where to start looking, that is `skipSelf`
-- Where to stop looking, `host` and `self`
+- 找不到你要找的東西時該怎麼做，也就是 `optional`
+- 從哪裡開始找，也就是 `skipSelf`
+- 在哪裡停止尋找，也就是 `host` 和 `self`
 
-By default, Angular always starts at the current `Injector` and keeps searching all the way up.
-Modifiers allow you to change the starting, or _self_, location and the ending location.
+依預設，Angular 一律從目前的 `Injector` 開始，一路往上搜尋。
+修飾符讓你可以改變開始（也就是 *self*）的位置和結束的位置。
 
-Additionally, you can combine all of the modifiers except:
+此外，你可以組合所有修飾符，但以下組合除外：
 
-- `host` and `self`
-- `skipSelf` and `self`.
+- `host` 和 `self`
+- `skipSelf` 和 `self`。
 
-### `optional`
+### `optional` {#optional}
 
-`optional` allows Angular to consider a service you inject to be optional.
-This way, if it can't be resolved at runtime, Angular resolves the service as `null`, rather than throwing an error.
-In the following example, the service, `OptionalService`, isn't provided in the service, `ApplicationConfig`, `@NgModule()`, or component class, so it isn't available anywhere in the app.
+`optional` 讓 Angular 把你注入的服務視為可選。
+這樣一來，如果它在執行階段無法被解析，Angular 會把該服務解析為 `null`，而不是擲出錯誤。
+在以下範例中，服務 `OptionalService` 沒有在服務、`ApplicationConfig`、`@NgModule()` 或元件類別中被提供，因此它在應用程式的任何地方都不可用。
 
 <docs-code header="src/app/optional/optional.component.ts" language="typescript">
 export class OptionalComponent {
@@ -204,12 +204,12 @@ export class OptionalComponent {
 
 ### `self`
 
-Use `self` so that Angular will only look at the `ElementInjector` for the current component or directive.
+使用 `self`，讓 Angular 只查看目前元件或指令的 `ElementInjector`。
 
-A good use case for `self` is to inject a service but only if it is available on the current host element.
-To avoid errors in this situation, combine `self` with `optional`.
+`self` 的一個很好的使用情境是注入一個服務，但前提是它在目前的宿主元素上可用。
+為了在這種情況下避免錯誤，把 `self` 與 `optional` 組合使用。
 
-For example, in the following `SelfNoDataComponent`, notice the injected `LeafService` as a property.
+例如，在以下的 `SelfNoDataComponent` 中，注意作為屬性的被注入的 `LeafService`。
 
 <docs-code header="src/app/self-no-data/self-no-data.component.ts" language="typescript"
            highlight="[7]">
@@ -223,20 +223,20 @@ public leaf = inject(LeafService, {optional: true, self: true});
 }
 </docs-code>
 
-In this example, there is a parent provider and injecting the service will return the value, however, injecting the service with `self` and `optional` will return `null` because `self` tells the injector to stop searching in the current host element.
+在這個範例中，存在一個父提供者，注入該服務會傳回該值；然而，以 `self` 和 `optional` 注入該服務會傳回 `null`，因為 `self` 告訴注入器在目前的宿主元素就停止搜尋。
 
-Another example shows the component class with a provider for `FlowerService`.
-In this case, the injector looks no further than the current `ElementInjector` because it finds the `FlowerService` and returns the tulip <code>&#x1F337;</code>.
+另一個範例顯示帶有 `FlowerService` 提供者的元件類別。
+在這種情況下，注入器不需要再往別處尋找，因為它在目前的 `ElementInjector` 中就找到了 `FlowerService`，並傳回鬱金香 <code>&#x1F337;</code>。
 
 <docs-code header="src/app/self/self.component.ts" path="adev/src/content/examples/resolution-modifiers/src/app/self/self.component.ts" visibleRegion="self-component"/>
 
 ### `skipSelf`
 
-`skipSelf` is the opposite of `self`.
-With `skipSelf`, Angular starts its search for a service in the parent `ElementInjector`, rather than in the current one.
-So if the parent `ElementInjector` were using the fern <code>&#x1F33F;</code> value for `emoji`, but you had maple leaf <code>&#x1F341;</code> in the component's `providers` array, Angular would ignore maple leaf <code>&#x1F341;</code> and use fern <code>&#x1F33F;</code>.
+`skipSelf` 是 `self` 的相反。
+有了 `skipSelf`，Angular 會從父 `ElementInjector` 開始搜尋服務，而不是從目前的注入器開始。
+因此，如果父 `ElementInjector` 為 `emoji` 使用的是蕨類 <code>&#x1F33F;</code> 的值，但你在元件的 `providers` 陣列中有楓葉 <code>&#x1F341;</code>，Angular 會忽略楓葉 <code>&#x1F341;</code>，改用蕨類 <code>&#x1F33F;</code>。
 
-To see this in code, assume that the following value for `emoji` is what the parent component were using, as in this service:
+要在程式碼中看這一點，假設父元件使用的是以下的 `emoji` 值，如同這個服務：
 
 <docs-code header="src/app/leaf.service.ts" language="typescript">
 export class LeafService {
@@ -244,8 +244,8 @@ export class LeafService {
 }
 </docs-code>
 
-Imagine that in the child component, you had a different value, maple leaf <code>&#x1F341;</code> but you wanted to use the parent's value instead.
-This is when you'd use `skipSelf`:
+想像在子元件中，你有一個不同的值，楓葉 <code>&#x1F341;</code>，但你想改用父元件的值。
+這時你就會用 `skipSelf`：
 
 <docs-code header="src/app/skipself/skipself.component.ts" language="typescript"
            highlight="[[6],[10]]">
@@ -262,14 +262,14 @@ public leaf = inject(LeafService, {skipSelf: true});
 }
 </docs-code>
 
-In this case, the value you'd get for `emoji` would be fern <code>&#x1F33F;</code>, not maple leaf <code>&#x1F341;</code>.
+在這種情況下，你為 `emoji` 取得的值會是蕨類 <code>&#x1F33F;</code>，而不是楓葉 <code>&#x1F341;</code>。
 
-#### `skipSelf` option with `optional`
+#### `skipSelf` 選項搭配 `optional`
 
-Use the `skipSelf` option with `optional` to prevent an error if the value is `null`.
+把 `skipSelf` 選項與 `optional` 一起使用，可以在值為 `null` 時避免錯誤。
 
-In the following example, the `Person` service is injected during property initialization.
-`skipSelf` tells Angular to skip the current injector and `optional` will prevent an error should the `Person` service be `null`.
+在以下範例中，`Person` 服務在屬性初始化期間被注入。
+`skipSelf` 告訴 Angular 跳過目前的注入器，而 `optional` 會在 `Person` 服務為 `null` 時避免錯誤。
 
 <docs-code language="typescript">
 class Person {
@@ -281,10 +281,10 @@ class Person {
 
 <!-- TODO: Remove ambiguity between host and self. -->
 
-`host` lets you designate a component as the last stop in the injector tree when searching for providers.
+`host` 讓你在搜尋提供者時，把某個元件指定為注入器樹中的最後一站。
 
-Even if there is a service instance further up the tree, Angular won't continue looking.
-Use `host` as follows:
+即使樹的更上方還有服務實例，Angular 也不會繼續尋找。
+`host` 的使用方式如下：
 
 <docs-code header="src/app/host/host.component.ts" language="typescript"
            highlight="[[6],[10]]">
@@ -301,13 +301,13 @@ flower = inject(FlowerService, {host: true, optional: true});
 }
 </docs-code>
 
-Since `HostComponent` has the `host` option , no matter what the parent of `HostComponent` might have as a `flower.emoji` value, the `HostComponent` will use tulip <code>&#x1F337;</code>.
+由於 `HostComponent` 有 `host` 選項，不論 `HostComponent` 的父層對 `flower.emoji` 設了什麼值，`HostComponent` 都會使用鬱金香 <code>&#x1F337;</code>。
 
-### Modifiers with constructor injection
+### 建構子注入的修飾符
 
-Similarly as presented before, the behavior of constructor injection can be modified with `@Optional()`, `@Self()`, `@SkipSelf()` and `@Host()`.
+如同先前所呈現的，建構子注入的行為可以用 `@Optional()`、`@Self()`、`@SkipSelf()` 和 `@Host()` 來修改。
 
-Import each of them from `@angular/core` and use each in the component class constructor when you inject your service.
+從 `@angular/core` 匯入它們，並在你注入服務時，在元件類別的建構子中使用它們。
 
 <docs-code header="src/app/self-no-data/self-no-data.component.ts" language="typescript" highlight="[3]">
 export class SelfNoDataComponent {
@@ -315,13 +315,13 @@ export class SelfNoDataComponent {
 }
 </docs-code>
 
-## Logical structure of the template
+## 範本的邏輯結構
 
-When you provide services in the component class, services are visible within the `ElementInjector` tree relative to where and how you provide those services.
+當你在元件類別中提供服務時，服務在 `ElementInjector` 樹中的可見性，取決於你提供這些服務的位置和方式。
 
-Understanding the underlying logical structure of the Angular template will give you a foundation for configuring services and in turn control their visibility.
+了解 Angular 範本底層的邏輯結構，能為你設定服務、進而控制它們的可見性打下基礎。
 
-Components are used in your templates, as in the following example:
+元件在你的範本中被使用，如以下範例：
 
 <docs-code language="html">
 <app-root>
@@ -329,12 +329,12 @@ Components are used in your templates, as in the following example:
 </app-root>
 </docs-code>
 
-HELPFUL: Usually, you declare the components and their templates in separate files.
-For the purposes of understanding how the injection system works, it is useful to look at them from the point of view of a combined logical tree.
-The term _logical_ distinguishes it from the render tree, which is your application's DOM tree.
-To mark the locations of where the component templates are located, this guide uses the `<#VIEW>` pseudo-element, which doesn't actually exist in the render tree and is present for mental model purposes only.
+HELPFUL: 通常，你會把元件和它們的範本宣告在不同的檔案中。
+為了理解注入系統如何運作，從合併後的邏輯樹的角度來看它們會很有幫助。
+*邏輯*一詞是為了把它與算繪樹區分開來，算繪樹就是你的應用程式的 DOM 樹。
+為了標記元件範本所在的位置，本指南使用 `<#VIEW>` 虛擬元素，它實際上並不存在於算繪樹中，只是為了心智模型而存在。
 
-The following is an example of how the `<app-root>` and `<app-child>` view trees are combined into a single logical tree:
+以下是一個範例，示範 `<app-root>` 和 `<app-child>` 的檢視樹如何合併成單一的邏輯樹：
 
 <docs-code language="html">
 <app-root>
@@ -348,36 +348,36 @@ The following is an example of how the `<app-root>` and `<app-child>` view trees
 </app-root>
 </docs-code>
 
-Understanding the idea of the `<#VIEW>` demarcation is especially significant when you configure services in the component class.
+了解 `<#VIEW>` 分界的概念，在你於元件類別中設定服務時尤其重要。
 
-## Example: Providing services in `@Component()`
+## 範例：在 `@Component()` 中提供服務
 
-How you provide services using a `@Component()` (or `@Directive()`) decorator determines their visibility.
-The following sections demonstrate `providers` and `viewProviders` along with ways to modify service visibility with `skipSelf` and `host`.
+你使用 `@Component()`（或 `@Directive()`）裝飾器提供服務的方式，決定了它們的可見性。
+以下各節示範 `providers` 和 `viewProviders`，以及用 `skipSelf` 和 `host` 修改服務可見性的方法。
 
-A component class can provide services in two ways:
+元件類別可以用兩種方式提供服務：
 
-| Arrays                       | Details                                        |
+| 陣列                         | 詳細資訊                                       |
 | :--------------------------- | :--------------------------------------------- |
-| With a `providers` array     | `@Component({ providers: [SomeService] })`     |
-| With a `viewProviders` array | `@Component({ viewProviders: [SomeService] })` |
+| 使用 `providers` 陣列        | `@Component({ providers: [SomeService] })`     |
+| 使用 `viewProviders` 陣列    | `@Component({ viewProviders: [SomeService] })` |
 
-In the examples below, you will see the logical tree of an Angular application.
-To illustrate how the injector works in the context of templates, the logical tree will represent the HTML structure of the application.
-For example, the logical tree will show that `<child-component>` is a direct children of `<parent-component>`.
+在以下範例中，你會看到一個 Angular 應用程式的邏輯樹。
+為了說明注入器在範本脈絡中如何運作，邏輯樹將呈現應用程式的 HTML 結構。
+例如，邏輯樹會顯示 `<child-component>` 是 `<parent-component>` 的直接子元素。
 
-In the logical tree, you will see special attributes: `@Provide`, `@Inject`, and `@ApplicationConfig`.
-These aren't real attributes but are here to demonstrate what is going on under the hood.
+在邏輯樹中，你會看到特殊屬性：`@Provide`、`@Inject` 和 `@ApplicationConfig`。
+這些不是真正的屬性，而是用來示範底層發生了什麼。
 
-| Angular service attribute | Details                                                                                  |
+| Angular 服務屬性          | 詳細資訊                                                                                 |
 | :------------------------ | :--------------------------------------------------------------------------------------- |
-| `@Inject(Token)=>Value`   | If `Token` is injected at this location in the logical tree, its value would be `Value`. |
-| `@Provide(Token=Value)`   | Indicates that `Token` is provided with `Value` at this location in the logical tree.    |
-| `@ApplicationConfig`      | Demonstrates that a fallback `EnvironmentInjector` should be used at this location.      |
+| `@Inject(Token)=>Value`   | 如果 `Token` 在邏輯樹的這個位置被注入，它的值會是 `Value`。                              |
+| `@Provide(Token=Value)`   | 表示 `Token` 在邏輯樹的這個位置以 `Value` 被提供。                                       |
+| `@ApplicationConfig`      | 示範在此位置應該使用備用的 `EnvironmentInjector`。                                       |
 
-### Example app structure
+### 範例應用程式結構
 
-The example application has a `FlowerService` provided in `root` with an `emoji` value of red hibiscus <code>&#x1F33A;</code>.
+範例應用程式有一個在 `root` 提供的 `FlowerService`，其 `emoji` 值為紅色扶桑花 <code>&#x1F33A;</code>。
 
 <docs-code header="src/app/flower.service.ts" language="typescript">
 @Injectable({
@@ -388,8 +388,8 @@ export class FlowerService {
 }
 </docs-code>
 
-Consider an application with only an `AppComponent` and a `ChildComponent`.
-The most basic rendered view would look like nested HTML elements such as the following:
+設想一個只有 `AppComponent` 和 `ChildComponent` 的應用程式。
+最基本的算繪檢視會像以下這樣巢狀的 HTML 元素：
 
 <docs-code language="html">
 
@@ -400,7 +400,7 @@ The most basic rendered view would look like nested HTML elements such as the fo
 
 </docs-code>
 
-However, behind the scenes, Angular uses a logical view representation as follows when resolving injection requests:
+然而，在幕後，Angular 在解析注入請求時使用如下的邏輯檢視表示法：
 
 <docs-code language="html">
 <app-root> <!-- AppComponent selector -->
@@ -413,12 +413,12 @@ However, behind the scenes, Angular uses a logical view representation as follow
 </app-root>
 </docs-code>
 
-The `<#VIEW>` here represents an instance of a template.
-Notice that each component has its own `<#VIEW>`.
+這裡的 `<#VIEW>` 代表一個範本的實例。
+注意每個元件都有自己的 `<#VIEW>`。
 
-Knowledge of this structure can inform how you provide and inject your services, and give you complete control of service visibility.
+了解這個結構能幫助你決定如何提供和注入服務，並讓你完全掌控服務的可見性。
 
-Now, consider that `<app-root>` injects the `FlowerService`:
+現在，設想 `<app-root>` 注入了 `FlowerService`：
 
 <docs-code header="src/app/app.component.ts" language="typescript">
 export class AppComponent  {
@@ -426,19 +426,19 @@ export class AppComponent  {
 }
 </docs-code>
 
-Add a binding to the `<app-root>` template to visualize the result:
+在 `<app-root>` 範本中加入一個繫結，來視覺化結果：
 
 <docs-code header="src/app/app.component.html" language="html">
 <p>Emoji from FlowerService: {{flower.emoji}}</p>
 </docs-code>
 
-The output in the view would be:
+檢視中的輸出會是：
 
 <docs-code language="shell">
 Emoji from FlowerService: &#x1F33A;
 </docs-code>
 
-In the logical tree, this would be represented as follows:
+在邏輯樹中，這會表示如下：
 
 <docs-code language="html" highlight="[[1],[2],[4]]">
 <app-root @ApplicationConfig
@@ -454,28 +454,28 @@ In the logical tree, this would be represented as follows:
 
 </docs-code>
 
-When `<app-root>` requests the `FlowerService`, it is the injector's job to resolve the `FlowerService` token.
-The resolution of the token happens in two phases:
+當 `<app-root>` 請求 `FlowerService` 時，解析 `FlowerService` token 是注入器的工作。
+token 的解析分兩個階段進行：
 
-1. The injector determines the starting location in the logical tree and an ending location of the search.
-   The injector begins with the starting location and looks for the token at each view level in the logical tree.
-   If the token is found it is returned.
+1. 注入器決定邏輯樹中的起始位置和搜尋的結束位置。
+   注入器從起始位置開始，在邏輯樹的每個檢視層級尋找 token。
+   如果找到 token，就把它傳回。
 
-1. If the token is not found, the injector looks for the closest parent `EnvironmentInjector` to delegate the request to.
+1. 如果找不到 token，注入器會尋找最近的父 `EnvironmentInjector`，把請求委派給它。
 
-In the example case, the constraints are:
+在這個範例中，限制條件如下：
 
-1. Start with `<#VIEW>` belonging to `<app-root>` and end with `<app-root>`.
-   - Normally the starting point for search is at the point of injection.
-     However, in this case `<app-root>` is a component. `@Component`s are special in that they also include their own `viewProviders`, which is why the search starts at `<#VIEW>` belonging to `<app-root>`.
-     This would not be the case for a directive matched at the same location.
-   - The ending location happens to be the same as the component itself, because it is the topmost component in this application.
+1. 從屬於 `<app-root>` 的 `<#VIEW>` 開始，以 `<app-root>` 結束。
+   - 一般來說，搜尋的起點是注入的位置。
+     然而，在這個情況下，`<app-root>` 是一個元件。`@Component` 的特殊之處在於它們也包含自己的 `viewProviders`，這就是搜尋從屬於 `<app-root>` 的 `<#VIEW>` 開始的原因。
+     對於在同一個位置比對到的指令，情況就不是這樣。
+   - 結束位置恰好與元件本身相同，因為它是這個應用程式中最上層的元件。
 
-1. The `EnvironmentInjector` provided by the `ApplicationConfig` acts as the fallback injector when the injection token can't be found in the `ElementInjector` hierarchies.
+1. 由 `ApplicationConfig` 提供的 `EnvironmentInjector`，在 `ElementInjector` 階層中找不到注入 token 時，充當備用注入器。
 
-### Using the `providers` array
+### 使用 `providers` 陣列
 
-Now, in the `ChildComponent` class, add a provider for `FlowerService` to demonstrate more complex resolution rules in the upcoming sections:
+現在，在 `ChildComponent` 類別中，為 `FlowerService` 加入一個提供者，以示範後續章節中更複雜的解析規則：
 
 <docs-code header="src/app/child.component.ts" language="typescript"
            highlight="[[5,6],[10]]">
@@ -492,23 +492,23 @@ flower = inject(FlowerService);
 }
 </docs-code>
 
-Now that the `FlowerService` is provided in the `@Component()` decorator, when the `<app-child>` requests the service, the injector has only to look as far as the `ElementInjector` in the `<app-child>`.
-It won't have to continue the search any further through the injector tree.
+既然 `FlowerService` 已在 `@Component()` 裝飾器中提供，當 `<app-child>` 請求該服務時，注入器只需要找到 `<app-child>` 中的 `ElementInjector` 為止。
+它不需要再沿著注入器樹繼續搜尋。
 
-The next step is to add a binding to the `ChildComponent` template.
+下一步是把一個繫結加到 `ChildComponent` 範本。
 
 <docs-code header="src/app/child.component.html" language="html">
 <p>Emoji from FlowerService: {{flower.emoji}}</p>
 </docs-code>
 
-To render the new values, add `<app-child>` to the bottom of the `AppComponent` template so the view also displays the sunflower:
+若要算繪新值，把 `<app-child>` 加到 `AppComponent` 範本的底部，讓檢視也能顯示向日葵：
 
 <docs-code language="shell">
 Child Component
 Emoji from FlowerService: &#x1F33B;
 </docs-code>
 
-In the logical tree, this is represented as follows:
+在邏輯樹中，這表示如下：
 
 <docs-code language="html">
 
@@ -529,23 +529,23 @@ In the logical tree, this is represented as follows:
 
 </docs-code>
 
-When `<app-child>` requests the `FlowerService`, the injector begins its search at the `<#VIEW>` belonging to `<app-child>` \(`<#VIEW>` is included because it is injected from `@Component()`\) and ends with `<app-child>`.
-In this case, the `FlowerService` is resolved in the `providers` array with sunflower <code>&#x1F33B;</code> of the `<app-child>`.
-The injector doesn't have to look any further in the injector tree.
-It stops as soon as it finds the `FlowerService` and never sees the red hibiscus <code>&#x1F33A;</code>.
+當 `<app-child>` 請求 `FlowerService` 時，注入器從屬於 `<app-child>` 的 `<#VIEW>` 開始搜尋（`<#VIEW>` 被包括在內，是因為它從 `@Component()` 注入），並以 `<app-child>` 結束。
+在這種情況下，`FlowerService` 以 `<app-child>` 的 `providers` 陣列中向日葵 <code>&#x1F33B;</code> 的值被解析。
+注入器不需要在注入器樹中再往別處尋找。
+它一找到 `FlowerService` 就停下來，永遠不會看到紅色扶桑花 <code>&#x1F33A;</code>。
 
-### Using the `viewProviders` array
+### 使用 `viewProviders` 陣列 {#using-the-viewproviders-array}
 
-Use the `viewProviders` array as another way to provide services in the `@Component()` decorator.
-Using `viewProviders` makes services visible in the `<#VIEW>`.
+使用 `viewProviders` 陣列，是在 `@Component()` 裝飾器中提供服務的另一種方式。
+使用 `viewProviders` 讓服務在 `<#VIEW>` 中可見。
 
-HELPFUL: The steps are the same as using the `providers` array, with the exception of using the `viewProviders` array instead.
+HELPFUL: 步驟與使用 `providers` 陣列相同，唯一的例外是改用 `viewProviders` 陣列。
 
-For step-by-step instructions, continue with this section.
-If you can set it up on your own, skip ahead to [Modifying service availability](#visibility-of-provided-tokens).
+如需逐步說明，請繼續閱讀本節。
+如果你可以自行設定，請跳到[修改服務可用性](#visibility-of-provided-tokens)。
 
-For demonstration, we are building an `AnimalService` to demonstrate `viewProviders`.
-First, create an `AnimalService` with an `emoji` property of whale <code>&#x1F433;</code>:
+為了示範，我們建立一個 `AnimalService` 來示範 `viewProviders`。
+首先，建立一個 `AnimalService`，其 `emoji` 屬性為鯨魚 <code>&#x1F433;</code>：
 
 <docs-code header="src/app/animal.service.ts" language="typescript">
 import { Injectable } from '@angular/core';
@@ -558,7 +558,7 @@ emoji = '🐳';
 }
 </docs-code>
 
-Following the same pattern as with the `FlowerService`, inject the `AnimalService` in the `AppComponent` class:
+沿用與 `FlowerService` 相同的模式，在 `AppComponent` 類別中注入 `AnimalService`：
 
 <docs-code header="src/app/app.component.ts" language="typescript" highlight="[4]">
 export class AppComponent {
@@ -567,10 +567,10 @@ export class AppComponent {
 }
 </docs-code>
 
-HELPFUL: You can leave all the `FlowerService` related code in place as it will allow a comparison with the `AnimalService`.
+HELPFUL: 你可以保留所有 `FlowerService` 相關的程式碼，因為這能讓你與 `AnimalService` 做對照比較。
 
-Add a `viewProviders` array and inject the `AnimalService` in the `<app-child>` class, too, but give `emoji` a different value.
-Here, it has a value of dog <code>&#x1F436;</code>.
+也為 `<app-child>` 類別加入 `viewProviders` 陣列並注入 `AnimalService`，但給 `emoji` 一個不同的值。
+在這裡，它的值是狗 <code>&#x1F436;</code>。
 
 <docs-code header="src/app/child.component.ts" language="typescript"
            highlight="[[7],[11]]">
@@ -590,20 +590,20 @@ animal = inject(AnimalService)
 }
 </docs-code>
 
-Add bindings to the `ChildComponent` and the `AppComponent` templates.
-In the `ChildComponent` template, add the following binding:
+把繫結加到 `ChildComponent` 和 `AppComponent` 範本。
+在 `ChildComponent` 範本中，加入以下繫結：
 
 <docs-code header="src/app/child.component.html" language="html">
 <p>Emoji from AnimalService: {{animal.emoji}}</p>
 </docs-code>
 
-Additionally, add the same to the `AppComponent` template:
+此外，把同樣的內容加到 `AppComponent` 範本：
 
 <docs-code header="src/app/app.component.html" language="html">
 <p>Emoji from AnimalService: {{animal.emoji}}</p>s
 </docs-code>
 
-Now you should see both values in the browser:
+現在你應該能在瀏覽器中看到這兩個值：
 
 <docs-code hideCopy language="shell">
 
@@ -615,7 +615,7 @@ Emoji from AnimalService: &#x1F436;
 
 </docs-code>
 
-The logic tree for this example of `viewProviders` is as follows:
+這個 `viewProviders` 範例的邏輯樹如下：
 
 <docs-code language="html">
 
@@ -635,18 +635,18 @@ The logic tree for this example of `viewProviders` is as follows:
 
 </docs-code>
 
-Just as with the `FlowerService` example, the `AnimalService` is provided in the `<app-child>` `@Component()` decorator.
-This means that since the injector first looks in the `ElementInjector` of the component, it finds the `AnimalService` value of dog <code>&#x1F436;</code>.
-It doesn't need to continue searching the `ElementInjector` tree, nor does it need to search the `ModuleInjector`.
+就如同 `FlowerService` 範例一樣，`AnimalService` 在 `<app-child>` 的 `@Component()` 裝飾器中被提供。
+這表示由於注入器先在元件的 `ElementInjector` 中尋找，它找到了狗 <code>&#x1F436;</code> 的 `AnimalService` 值。
+它不需要繼續搜尋 `ElementInjector` 樹，也不需要搜尋 `ModuleInjector`。
 
-### `providers` vs. `viewProviders`
+### `providers` 與 `viewProviders`
 
-The `viewProviders` field is conceptually similar to `providers`, but there is one notable difference.
-Configured providers in `viewProviders` are not visible to projected content that ends up as a logical children of the component.
+`viewProviders` 欄位在概念上與 `providers` 相似，但有一個值得注意的差異。
+在 `viewProviders` 中設定的提供者，對於最終成為元件邏輯子項的投影內容是不可見的。
 
-To see the difference between using `providers` and `viewProviders`, add another component to the example and call it `InspectorComponent`.
-`InspectorComponent` will be a child of the `ChildComponent`.
-In `inspector.component.ts`, inject the `FlowerService` and `AnimalService` during property initialization:
+若要看出使用 `providers` 與 `viewProviders` 的差異，在範例中再加入一個元件，稱它為 `InspectorComponent`。
+`InspectorComponent` 將是 `ChildComponent` 的子元件。
+在 `inspector.component.ts` 中，在屬性初始化期間注入 `FlowerService` 和 `AnimalService`：
 
 <docs-code header="src/app/inspector/inspector.component.ts" language="typescript">
 export class InspectorComponent {
@@ -656,14 +656,14 @@ export class InspectorComponent {
 </docs-code>
 
 You do not need a `providers` or `viewProviders` array.
-Next, in `inspector.component.html`, add the same markup from previous components:
+接著，在 `inspector.component.html` 中，加入與前面元件相同的標記：
 
 <docs-code header="src/app/inspector/inspector.component.html" language="html">
 <p>Emoji from FlowerService: {{flower.emoji}}</p>
 <p>Emoji from AnimalService: {{animal.emoji}}</p>
 </docs-code>
 
-Remember to add the `InspectorComponent` to the `ChildComponent` `imports` array.
+記得把 `InspectorComponent` 加到 `ChildComponent` 的 `imports` 陣列。
 
 <docs-code header="src/app/child/child.component.ts" language="typescript"
            highlight="[3]">
@@ -674,7 +674,7 @@ imports: [InspectorComponent]
 
 </docs-code>
 
-Next, add the following to `child.component.html`:
+接著，把以下內容加到 `child.component.html`：
 
 <docs-code header="src/app/child/child.component.html" language="html"
            highlight="[3,9]">
@@ -689,9 +689,9 @@ Next, add the following to `child.component.html`:
 <app-inspector></app-inspector>
 </docs-code>
 
-`<ng-content>` allows you to project content, and `<app-inspector>` inside the `ChildComponent` template makes the `InspectorComponent` a child component of `ChildComponent`.
+`<ng-content>` 讓你能投影內容，而 `ChildComponent` 範本內的 `<app-inspector>` 使 `InspectorComponent` 成為 `ChildComponent` 的子元件。
 
-Next, add the following to `app.component.html` to take advantage of content projection.
+接著，把以下內容加到 `app.component.html`，以利用內容投影。
 
 <docs-code header="src/app/app.component.html" language="html" highlight="[2]">
 <app-child>
@@ -699,7 +699,7 @@ Next, add the following to `app.component.html` to take advantage of content pro
 </app-child>
 </docs-code>
 
-The browser now renders the following, omitting the previous examples for brevity:
+瀏覽器現在算繪出以下內容（為求簡潔，省略先前的範例）：
 
 <docs-code hideCopy language="shell">
 ...
@@ -714,12 +714,12 @@ Emoji from AnimalService: &#x1F436;
 </docs-code>
 
 These four bindings demonstrate the difference between `providers` and `viewProviders`.
-Remember that the dog emoji <code>&#x1F436;</code> is declared inside the `<#VIEW>` of `ChildComponent` and isn't visible to the projected content.
-Instead, the projected content sees the whale <code>&#x1F433;</code>.
+記住，狗 emoji <code>&#x1F436;</code> 是在 `ChildComponent` 的 `<#VIEW>` 內宣告的，對投影進來的內容不可見。
+相反地，投影進來的內容看到的是鯨魚 <code>&#x1F433;</code>。
 
-However, in the next output section though, the `InspectorComponent` is an actual child component of `ChildComponent`, `InspectorComponent` is inside the `<#VIEW>`, so when it asks for the `AnimalService`, it sees the dog <code>&#x1F436;</code>.
+然而，在接下來的輸出章節中，`InspectorComponent` 是 `ChildComponent` 的實際子元件，`InspectorComponent` 位於 `<#VIEW>` 內，所以當它要求 `AnimalService` 時，它看到的是狗 <code>&#x1F436;</code>。
 
-The `AnimalService` in the logical tree would look like this:
+邏輯樹中的 `AnimalService` 會像這樣：
 
 <docs-code language="html">
 
@@ -753,25 +753,25 @@ The `AnimalService` in the logical tree would look like this:
 
 </docs-code>
 
-The projected content of `<app-inspector>` sees the whale <code>&#x1F433;</code>, not the dog <code>&#x1F436;</code>, because the dog <code>&#x1F436;</code> is inside the `<app-child>` `<#VIEW>`.
-The `<app-inspector>` can only see the dog <code>&#x1F436;</code> if it is also within the `<#VIEW>`.
+`<app-inspector>` 的投影內容看到的是鯨魚 <code>&#x1F433;</code>，而不是狗 <code>&#x1F436;</code>，因為狗 <code>&#x1F436;</code> 位於 `<app-child>` 的 `<#VIEW>` 內。
+`<app-inspector>` 只有在它也位於 `<#VIEW>` 內時，才能看見狗 <code>&#x1F436;</code>。
 
-### Visibility of provided tokens
+### 被提供 token 的可見性 {#visibility-of-provided-tokens}
 
-Visibility decorators influence where the search for the injection token begins and ends in the logic tree.
-To do this, place visibility configuration at the point of injection, that is, when invoking `inject()`, rather than at a point of declaration.
+可見性裝飾器影響在邏輯樹中搜尋注入 token 的起點和終點。
+若要做到這一點，把可見性設定放在注入點，也就是叫用 `inject()` 時，而不是宣告點。
 
 To alter where the injector starts looking for `FlowerService`, add `skipSelf` to the `<app-child>` `inject()` invocation where `FlowerService` is injected.
-This invocation is a property initializer the `<app-child>` as shown in `child.component.ts`:
+這個呼叫是 `<app-child>` 的屬性初始化器，如 `child.component.ts` 所示：
 
 <docs-code language="typescript">
 flower = inject(FlowerService, { skipSelf: true })
 </docs-code>
 
-With `skipSelf`, the `<app-child>` injector doesn't look to itself for the `FlowerService`.
-Instead, the injector starts looking for the `FlowerService` at the `ElementInjector` of the `<app-root>`, where it finds nothing.
-Then, it goes back to the `<app-child>` `ModuleInjector` and finds the red hibiscus <code>&#x1F33A;</code> value, which is available because `<app-child>` and `<app-root>` share the same `ModuleInjector`.
-The UI renders the following:
+有了 `skipSelf`，`<app-child>` 注入器不會向自己尋找 `FlowerService`。
+相反地，注入器從 `<app-root>` 的 `ElementInjector` 開始尋找 `FlowerService`，但在那裡什麼也找不到。
+接著，它回到 `<app-child>` 的 `ModuleInjector`，找到紅色扶桑花 <code>&#x1F33A;</code> 的值，它之所以可用，是因為 `<app-child>` 和 `<app-root>` 共用同一個 `ModuleInjector`。
+UI 算繪出以下內容：
 
 <docs-code hideCopy language="shell">
 
@@ -779,7 +779,7 @@ Emoji from FlowerService: &#x1F33A;
 
 </docs-code>
 
-In a logical tree, this same idea might look like this:
+在邏輯樹中，同樣的概念可能像這樣：
 
 <docs-code language="html">
 
@@ -798,11 +798,11 @@ In a logical tree, this same idea might look like this:
 
 </docs-code>
 
-Though `<app-child>` provides the sunflower <code>&#x1F33B;</code>, the application renders the red hibiscus <code>&#x1F33A;</code> because `skipSelf` causes the current injector (`app-child`) to skip itself and look to its parent.
+儘管 `<app-child>` 提供了向日葵 <code>&#x1F33B;</code>，應用程式卻算繪出紅色扶桑花 <code>&#x1F33A;</code>，因為 `skipSelf` 使目前的注入器（`app-child`）跳過自己、看向它的父層。
 
-If you now add `host` (in addition to the `skipSelf`), the result will be `null`.
-This is because `host` limits the upper bound of the search to the `app-child` `<#VIEW>`.
-Here's the idea in the logical tree:
+如果你現在再加上 `host`（除了 `skipSelf` 之外），結果會是 `null`。
+這是因為 `host` 把搜尋的上限限制在 `app-child` 的 `<#VIEW>`。
+邏輯樹中的概念如下：
 
 <docs-code language="html">
 
@@ -818,15 +818,15 @@ Here's the idea in the logical tree:
 
 </docs-code>
 
-Here, the services and their values are the same, but `host` stops the injector from looking any further than the `<#VIEW>` for `FlowerService`, so it doesn't find it and returns `null`.
+在這裡，服務和它們的值都相同，但 `host` 阻止注入器在 `<#VIEW>` 之外繼續尋找 `FlowerService`，因此它找不到該服務並傳回 `null`。
 
-### `skipSelf` and `viewProviders`
+### `skipSelf` 與 `viewProviders`
 
-Remember, `<app-child>` provides the `AnimalService` in the `viewProviders` array with the value of dog <code>&#x1F436;</code>.
-Because the injector has only to look at the `ElementInjector` of the `<app-child>` for the `AnimalService`, it never sees the whale <code>&#x1F433;</code>.
+記住，`<app-child>` 在 `viewProviders` 陣列中提供了 `AnimalService`，其值為狗 <code>&#x1F436;</code>。
+因為注入器只需要查看 `<app-child>` 的 `ElementInjector` 就能找到 `AnimalService`，它永遠不會看到鯨魚 <code>&#x1F433;</code>。
 
-As in the `FlowerService` example, if you add `skipSelf` to the `inject()` of `AnimalService`, the injector won't look in the `ElementInjector` of the current `<app-child>` for the `AnimalService`.
-Instead, the injector will begin at the `<app-root>` `ElementInjector`.
+如同 `FlowerService` 範例，如果你把 `skipSelf` 加入 `AnimalService` 的 `inject()`，注入器就不會在目前 `<app-child>` 的 `ElementInjector` 中尋找 `AnimalService`。
+相反地，注入器會從 `<app-root>` 的 `ElementInjector` 開始。
 
 <docs-code language="typescript" highlight="[5]">
 @Component({
@@ -838,7 +838,7 @@ Instead, the injector will begin at the `<app-root>` `ElementInjector`.
 })
 </docs-code>
 
-The logical tree looks like this with `skipSelf` in `<app-child>`:
+在 `<app-child>` 中有 `skipSelf` 時，邏輯樹看起來像這樣：
 
 <docs-code language="html">
 
@@ -858,13 +858,13 @@ The logical tree looks like this with `skipSelf` in `<app-child>`:
 
 </docs-code>
 
-With `skipSelf` in the `<app-child>`, the injector begins its search for the `AnimalService` in the `<app-root>` `ElementInjector` and finds whale <code>&#x1F433;</code>.
+在 `<app-child>` 中有 `skipSelf` 時，注入器從 `<app-root>` 的 `ElementInjector` 開始搜尋 `AnimalService`，並找到鯨魚 <code>&#x1F433;</code>。
 
-### `host` and `viewProviders`
+### `host` 與 `viewProviders`
 
-If you just use `host` for the injection of `AnimalService`, the result is dog <code>&#x1F436;</code> because the injector finds the `AnimalService` in the `<app-child>` `<#VIEW>` itself.
-The `ChildComponent` configures the `viewProviders` so that the dog emoji is provided as `AnimalService` value.
-You can also see `host` the `inject()`:
+如果你對 `AnimalService` 的注入只使用 `host`，結果會是狗 <code>&#x1F436;</code>，因為注入器在 `<app-child>` 的 `<#VIEW>` 本身就找到了 `AnimalService`。
+`ChildComponent` 設定了 `viewProviders`，使狗 emoji 被提供為 `AnimalService` 的值。
+你也可以在 `inject()` 中看到 `host`：
 
 <docs-code language="typescript" highlight="[[5],[9]]">
 @Component({
@@ -879,7 +879,7 @@ export class ChildComponent {
 }
 </docs-code>
 
-`host: true` causes the injector to look until it encounters the edge of the `<#VIEW>`.
+`host: true` 使注入器一直找到 `<#VIEW>` 的邊界為止。
 
 <docs-code language="html">
 
@@ -896,7 +896,7 @@ inject(AnimalService, {host: true}=>"&#x1F436;")> <!-- host stops search here --
 
 </docs-code>
 
-Add a `viewProviders` array with a third animal, hedgehog <code>&#x1F994;</code>, to the `app.component.ts` `@Component()` metadata:
+把一個帶有第三種動物——刺蝟 <code>&#x1F994;</code>——的 `viewProviders` 陣列，加到 `app.component.ts` 的 `@Component()` 詮釋資料中：
 
 <docs-code language="typescript" highlight="[6]">
 @Component({
@@ -910,8 +910,8 @@ Add a `viewProviders` array with a third animal, hedgehog <code>&#x1F994;</code>
 
 </docs-code>
 
-Next, add `skipSelf` along with `host` to the `inject()` for the `AnimalService` injection in `child.component.ts`.
-Here are `host` and `skipSelf` in the `animal` property initialization:
+接著，在 `child.component.ts` 中對 `AnimalService` 的 `inject()` 注入加入 `skipSelf` 以及 `host`。
+以下是 `animal` 屬性初始化中的 `host` 與 `skipSelf`：
 
 <docs-code language="typescript" highlight="[4]">
 export class ChildComponent {
@@ -924,12 +924,12 @@ export class ChildComponent {
   and how `host` works.
  -->
 
-When `host` and `skipSelf` were applied to the `FlowerService`, which is in the `providers` array, the result was `null` because `skipSelf` starts its search in the `<app-child>` injector, but `host` stops searching at `<#VIEW>` —where there is no `FlowerService`
-In the logical tree, you can see that the `FlowerService` is visible in `<app-child>`, not its `<#VIEW>`.
+當 `host` 和 `skipSelf` 被套用到位於 `providers` 陣列中的 `FlowerService` 時，結果是 `null`，因為 `skipSelf` 從 `<app-child>` 注入器開始搜尋，但 `host` 在 `<#VIEW>` 就停止搜尋，而那裡沒有 `FlowerService`。
+在邏輯樹中，你可以看到 `FlowerService` 在 `<app-child>` 中可見，而不是在它的 `<#VIEW>` 中。
 
-However, the `AnimalService`, which is provided in the `AppComponent` `viewProviders` array, is visible.
+然而，在 `AppComponent` 的 `viewProviders` 陣列中提供的 `AnimalService` 是可見的。
 
-The logical tree representation shows why this is:
+邏輯樹的表示法說明了為什麼會這樣：
 
 <docs-code language="html">
 
@@ -950,23 +950,23 @@ inject(AnimalService, {skipSelf:true, host: true, optional: true})=>"&#x1F994;">
 
 </docs-code>
 
-`skipSelf`, causes the injector to start its search for the `AnimalService` at the `<app-root>`, not the `<app-child>`, where the request originates, and `host` stops the search at the `<app-root>` `<#VIEW>`.
-Since `AnimalService` is provided by way of the `viewProviders` array, the injector finds hedgehog <code>&#x1F994;</code> in the `<#VIEW>`.
+`skipSelf` 使注入器從 `<app-root>` 開始搜尋 `AnimalService`，而不是請求發出的 `<app-child>`，而 `host` 在 `<app-root>` 的 `<#VIEW>` 停止搜尋。
+由於 `AnimalService` 是透過 `viewProviders` 陣列提供的，注入器在 `<#VIEW>` 中找到了刺蝟 <code>&#x1F994;</code>。
 
-## Example: `ElementInjector` use cases
+## 範例：`ElementInjector` 使用情境
 
-The ability to configure one or more providers at different levels opens up useful possibilities.
+能在不同層級設定一個或多個提供者，開啟了許多有用的可能性。
 
-### Scenario: service isolation
+### 情境：服務隔離
 
-Architectural reasons may lead you to restrict access to a service to the application domain where it belongs.
-For example, consider we build a `VillainsListComponent` that displays a list of villains.
-It gets those villains from a `VillainsService`.
+架構上的理由可能讓你想把對某個服務的存取，限制在它所屬的應用程式領域內。
+例如，設想我們建立一個 `VillainsListComponent` 來顯示反派清單。
+它從 `VillainsService` 取得那些反派。
 
-If you provide `VillainsService` in the root `AppModule`, it will make `VillainsService` visible everywhere in the application.
-If you later modify the `VillainsService`, you could break something in other components that started depending this service by accident.
+如果你在根層級的 `AppModule` 中提供 `VillainsService`，它會讓 `VillainsService` 在應用程式的任何地方都可見。
+如果你日後修改 `VillainsService`，你可能會破壞其他不小心開始依賴這個服務的元件。
 
-Instead, you should provide the `VillainsService` in the `providers` metadata of the `VillainsListComponent` like this:
+相反地，你應該像這樣在 `VillainsListComponent` 的 `providers` 詮釋資料中提供 `VillainsService`：
 
 <docs-code header="src/app/villains-list.component.ts (metadata)" language="typescript"
            highlight="[4]">
@@ -978,34 +978,34 @@ providers: [VillainsService]
 export class VillainsListComponent {}
 </docs-code>
 
-By providing `VillainsService` in the `VillainsListComponent` metadata and nowhere else, the service becomes available only in the `VillainsListComponent` and its subcomponent tree.
+透過只在 `VillainsListComponent` 的詮釋資料中提供 `VillainsService`、而不在其他任何地方提供，該服務就只在 `VillainsListComponent` 及其子元件樹中可用。
 
-`VillainService` is a singleton with respect to `VillainsListComponent` because that is where it is declared.
-As long as `VillainsListComponent` does not get destroyed it will be the same instance of `VillainService` but if there are multiple instances of `VillainsListComponent`, then each instance of `VillainsListComponent` will have its own instance of `VillainService`.
+`VillainService` 相對於 `VillainsListComponent` 而言是單例，因為它就是在那裡宣告的。
+只要 `VillainsListComponent` 沒有被銷毀，它就會是同一個 `VillainService` 執行個體；但如果有多個 `VillainsListComponent` 執行個體，那麼每個 `VillainsListComponent` 執行個體都會有它自己的 `VillainService` 執行個體。
 
-### Scenario: multiple edit sessions
+### 情境：多個編輯工作階段
 
-Many applications allow users to work on several open tasks at the same time.
-For example, in a tax preparation application, the preparer could be working on several tax returns, switching from one to the other throughout the day.
+許多應用程式允許使用者同時處理多個開啟中的工作。
+例如，在報稅應用程式中，報稅人員可以同時處理多份報稅表，在一天中在它們之間切換。
 
-To demonstrate that scenario, imagine a `HeroListComponent` that displays a list of super heroes.
+若要示範這個情境，想像一個顯示超級英雄清單的 `HeroListComponent`。
 
-To open a hero's tax return, the preparer clicks on a hero name, which opens a component for editing that return.
-Each selected hero tax return opens in its own component and multiple returns can be open at the same time.
+若要開啟某位英雄的報稅表，報稅人員點擊英雄的名字，就會開啟一個用於編輯該報稅表的元件。
+每份被選取的英雄報稅表都在自己的元件中開啟，多份報稅表可以同時開啟。
 
-Each tax return component has the following characteristics:
+每個報稅表元件都有以下特點：
 
-- Is its own tax return editing session
-- Can change a tax return without affecting a return in another component
-- Has the ability to save the changes to its tax return or cancel them
+- 是它自己的報稅表編輯工作階段
+- 可以變更報稅表，而不會影響另一個元件中的報稅表
+- 能夠儲存對其報稅表的變更，或取消它們
 
-Suppose that the `HeroTaxReturnComponent` had logic to manage and restore changes.
-That would be a straightforward task for a hero tax return.
-In the real world, with a rich tax return data model, the change management would be tricky.
-You could delegate that management to a helper service, as this example does.
+假設 `HeroTaxReturnComponent` 有管理與還原變更的邏輯。
+對於英雄報稅表來說，那會是一件直截了當的工作。
+在真實世界中，面對豐富的報稅表資料模型，變更管理工作會很棘手。
+你可以把這項管理委派給一個輔助服務，如本範例所示。
 
-The `HeroTaxReturnService` caches a single `HeroTaxReturn`, tracks changes to that return, and can save or restore it.
-It also delegates to the application-wide singleton `HeroService`, which it gets by injection.
+`HeroTaxReturnService` 快取單一的 `HeroTaxReturn`，追蹤對該報稅表的變更，並能儲存或還原它。
+它也會委派給整個應用程式範圍的單例 `HeroService`，它透過注入取得該服務。
 
 <docs-code header="src/app/hero-tax-return.service.ts" language="typescript">
 import { Injectable } from '@angular/core';
@@ -1039,7 +1039,7 @@ this.heroService.saveTaxReturn(this.currentTaxReturn).subscribe();
 }
 </docs-code>
 
-Here is the `HeroTaxReturnComponent` that makes use of `HeroTaxReturnService`.
+以下是使用 `HeroTaxReturnService` 的 `HeroTaxReturnComponent`。
 
 <docs-code header="src/app/hero-tax-return.component.ts" language="typescript">
 import { Component, EventEmitter, input, output } from '@angular/core';
@@ -1090,39 +1090,39 @@ setTimeout(() => this.message = '', 500);
 }
 </docs-code>
 
-The _tax-return-to-edit_ arrives by way of the `input` property, which is implemented with getters and setters.
-The setter initializes the component's own instance of the `HeroTaxReturnService` with the incoming return.
-The getter always returns what that service says is the current state of the hero.
-The component also asks the service to save and restore this tax return.
+*要編輯的報稅表*透過 `input` 屬性抵達，該屬性以 getter 與 setter 實作。
+setter 會以傳入的報稅表初始化元件自己的 `HeroTaxReturnService` 實例。
+getter 永遠傳回該服務所稱的英雄目前狀態。
+元件也會要求服務儲存與還原這份報稅表。
 
-This won't work if the service is an application-wide singleton.
-Every component would share the same service instance, and each component would overwrite the tax return that belonged to another hero.
+如果服務是整個應用程式範圍的單例，這就行不通了。
+每個元件都會共用同一個服務實例，而每個元件都會覆寫屬於另一位英雄的報稅表。
 
-To prevent this, configure the component-level injector of `HeroTaxReturnComponent` to provide the service, using the `providers` property in the component metadata.
+若要避免這種情況，把 `HeroTaxReturnComponent` 的元件層級注入器設定為提供該服務：在元件詮釋資料中使用 `providers` 屬性。
 
 <docs-code header="src/app/hero-tax-return.component.ts (providers)" language="typescript">
 providers: [HeroTaxReturnService]
 </docs-code>
 
-The `HeroTaxReturnComponent` has its own provider of the `HeroTaxReturnService`.
-Recall that every component _instance_ has its own injector.
-Providing the service at the component level ensures that _every_ instance of the component gets a private instance of the service. This makes sure that no tax return gets overwritten.
+`HeroTaxReturnComponent` 有它自己的 `HeroTaxReturnService` 提供者。
+請回想，每個元件*執行個體*都有它自己的注入器。
+在元件層級提供該服務，可確保*每個*元件執行個體都取得該服務的一個私有執行個體。這能確保沒有任何報稅表會被覆寫。
 
-HELPFUL: The rest of the scenario code relies on other Angular features and techniques that you can learn about elsewhere in the documentation.
+HELPFUL: 本情境其餘的程式碼仰賴其他 Angular 功能與技巧，你可以在文件其他地方學到它們。
 
-### Scenario: specialized providers
+### 情境：專門化的提供者
 
-Another reason to provide a service again at another level is to substitute a _more specialized_ implementation of that service, deeper in the component tree.
+在另一個層級再次提供服務的另一個理由是，在元件樹更深處替換成該服務*更專門化*的實作。
 
-For example, consider a `Car` component that includes tire service information and depends on other services to provide more details about the car.
+例如，設想一個 `Car` 元件，它包含輪胎服務資訊，並依賴其他服務來提供關於汽車的更多細節。
 
-The root injector, marked as (A), uses _generic_ providers for details about `CarService` and `EngineService`.
+根注入器，標記為 (A)，為 `CarService` 和 `EngineService` 的細節使用*通用*提供者。
 
-1. `Car` component (A). Component (A) displays tire service data about a car and specifies generic services to provide more information about the car.
+1. `Car` 元件 (A)。元件 (A) 顯示關於汽車的輪胎服務資料，並指定通用服務來提供關於汽車的更多資訊。
 
-2. Child component (B). Component (B) defines its own, _specialized_ providers for `CarService` and `EngineService` that have special capabilities suitable for what's going on in component (B).
+2. 子元件 (B)。元件 (B) 為 `CarService` 和 `EngineService` 定義它自己的*專門化*提供者，它們具有適合元件 (B) 中發生之事的特殊能力。
 
-3. Child component (C) as a child of Component (B). Component (C) defines its own, even _more specialized_ provider for `CarService`.
+3. 子元件 (C)，是元件 (B) 的子元件。元件 (C) 為 `CarService` 定義它自己的、甚至*更專門化*的提供者。
 
 ```mermaid
 graph TD;
@@ -1139,13 +1139,13 @@ classDef noShadow filter:none
 class COMPONENT_A,COMPONENT_B,COMPONENT_C noShadow
 ```
 
-Behind the scenes, each component sets up its own injector with zero, one, or more providers defined for that component itself.
+在幕後，每個元件都設定了自己的注入器，其中為該元件本身定義了零個、一個或多個提供者。
 
-When you resolve an instance of `Car` at the deepest component (C), its injector produces:
+當你在最深的元件 (C) 解析 `Car` 的一個實例時，它的注入器產生：
 
-- An instance of `Car` resolved by injector (C)
-- An `Engine` resolved by injector (B)
-- Its `Tires` resolved by the root injector (A).
+- 一個由注入器 (C) 解析的 `Car` 實例
+- 一個由注入器 (B) 解析的 `Engine`
+- 它的 `Tires` 由根注入器 (A) 解析。
 
 ```mermaid
 graph BT;
@@ -1186,8 +1186,8 @@ style tires fill:#BDD7EE,color:#000
 style RootInjector fill:#BDD7EE,color:#000
 ```
 
-## More on dependency injection
+## 依賴注入的更多資訊
 
 <docs-pill-row>
-  <docs-pill href="/guide/di/dependency-injection-providers" title="DI Providers"/>
+  <docs-pill href="/guide/di/dependency-injection-providers" title="DI 提供者"/>
 </docs-pill-row>

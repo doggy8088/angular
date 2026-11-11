@@ -1,13 +1,13 @@
-# Experimental unit testing system
+# 實驗性單元測試系統
 
-The Angular CLI provides an experimental unit test system that can use [Vitest](https://vitest.dev/) as a test runner.
+Angular CLI 提供了一個實驗性單元測試系統，可以使用 [Vitest](https://vitest.dev/) 作為測試執行器。
 
-IMPORTANT: This experimental unit testing system requires the use of the `application` build system.
-The `application` build system is the default for all newly created projects.
+IMPORTANT: 這個實驗性單元測試系統需要使用 `application` 建置系統。
+`application` 建置系統是所有新建專案的預設值。
 
-## Installing dependencies
+## 安裝相依性
 
-Some packages are required for the new builder to work. In order to install the new packages, run the following command :
+新的建置器需要一些套件才能運作。若要安裝這些新套件，請執行下列指令：
 
 <docs-code language="bash">
 
@@ -15,7 +15,7 @@ npm install vitest jsdom --save-dev
 
 </docs-code>
 
-If no other projects in your workspace use Karma, run the following command to uninstall the corresponding packages :
+如果你的工作區中沒有其他專案使用 Karma，請執行下列指令來解除安裝對應的套件：
 
 <docs-code language="bash">
 
@@ -23,12 +23,12 @@ npm uninstall karma karma-chrome-launcher karma-coverage karma-jasmine karma-jas
 
 </docs-code>
 
-## Set up testing
+## 設定測試
 
-The Angular CLI includes the test system within a new project but must be configured before it can be used.
+Angular CLI 在新專案中包含了這個測試系統，但必須先完成設定才能使用。
 
-The project you create with the CLI is setup to use the `karma` test system by default.
-To change to the experimental unit test system, update the `test` target as follows:
+你用 CLI 建立的專案，預設設定為使用 `karma` 測試系統。
+若要改為實驗性單元測試系統，請如下更新 `test` 目標：
 
 <docs-code language="json">
 "test": {
@@ -41,12 +41,11 @@ To change to the experimental unit test system, update the `test` target as foll
 }
 </docs-code>
 
-The `buildTarget` operates similarly to the option available to the development server.
-The `build` target configures build options for the tests.
-If the `development` build configuration is missing for a project or you need
-different options for testing, you can create and use a `testing` or similarly named build configuration.
+`buildTarget` 的運作方式，類似於開發伺服器可用的那個選項。
+`build` 目標為測試設定建置選項。
+如果專案缺少 `development` 建置設定，或你需要不同的測試選項，你可以建立並使用一個 `testing` 或類似名稱的建置設定。
 
-To execute the application's testing, just run the [`ng test`](cli/test) CLI command as before:
+若要執行應用程式的測試，只要像之前一樣執行 [`ng test`](cli/test) CLI 指令即可：
 
 <docs-code language="shell">
 
@@ -54,9 +53,9 @@ ng test
 
 </docs-code>
 
-The `ng test` command builds the application in _watch mode_, and launches the configured runner.
+`ng test` 指令以_監看模式_建置應用程式，並啟動已設定的執行器。
 
-The console output looks like below:
+主控台輸出看起來像下面這樣：
 
 <docs-code language="shell">
  ✓ spec-app-app.spec.js (2 tests) 31ms
@@ -69,15 +68,15 @@ Start at 14:24:15
 Duration 1.16s (transform 628ms, setup 703ms, collect 64ms, tests 31ms, environment 188ms, prepare 33ms)
 </docs-code>
 
-Watch mode is enabled by default when using an interactive terminal and not running on CI.
+在使用互動式終端機且不在 CI 上執行時，監看模式預設為啟用。
 
-## Configuration
+## 設定
 
-The Angular CLI takes care of the Vitest configuration for you. It constructs the full configuration in memory, based on options specified in the `angular.json` file.
-Directly customizing the underlying test runner configuration is currently not supported.
+Angular CLI 會為你處理 Vitest 設定。它會根據 `angular.json` 檔案中指定的選項，在記憶體中建構完整的設定。
+目前不支援直接自訂底層測試執行器的設定。
 
-## Bug reports
+## 錯誤回報
 
-Report issues and feature requests on [GitHub](https://github.com/angular/angular-cli/issues).
+請在 [GitHub](https://github.com/angular/angular-cli/issues) 上回報問題與功能請求。
 
-Please provide a minimal reproduction where possible to aid the team in addressing issues.
+請盡可能提供最小重現範例，以協助團隊處理問題。

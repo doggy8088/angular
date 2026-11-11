@@ -1,20 +1,20 @@
-# Creating and using services
+# 建立與使用服務
 
-Services are reusable pieces of code that can be shared across your Angular application. They typically handle data fetching, business logic, or other functionality that multiple components need to access.
+服務是可重用的程式碼片段，可以在整個 Angular 應用程式中共用。它們通常負責處理資料擷取、業務邏輯，或其他多個元件需要存取的功能。
 
-## Creating a service
+## 建立服務
 
-You can create a service with the [Angular CLI](tools/cli) with the following command:
+你可以用 [Angular CLI](tools/cli)，以下列指令建立服務：
 
 ```bash
 ng generate service CUSTOM_NAME
 ```
 
-This creates a dedicated `CUSTOM_NAME.ts` file in your `src` directory.
+這會在你的 `src` 目錄中，建立一個專屬的 `CUSTOM_NAME.ts` 檔案。
 
-You can also manually create a service by adding the `@Injectable()` decorator to a TypeScript class. This tells Angular that the service can be injected as a dependency.
+你也可以透過為 TypeScript 類別加上 `@Injectable()` 裝飾器，來手動建立服務。這告訴 Angular，該服務可以作為依賴注入。
 
-Here is an example of a service that allows users to add and request data:
+以下是一個服務範例，讓使用者新增與請求資料：
 
 ```ts
 // 📄 src/app/basic-data-store.ts
@@ -34,21 +34,21 @@ export class BasicDataStore {
 }
 ```
 
-## How services become available
+## 服務如何變得可用
 
-When you use `@Injectable({ providedIn: 'root' })` in your service, Angular:
+當你在服務中使用 `@Injectable({ providedIn: 'root' })` 時，Angular 會：
 
-- **Creates a single instance** (singleton) for your entire application
-- **Makes it available everywhere** without any additional configuration
-- **Enables tree-shaking** so the service is only included in your JavaScript bundle if it's actually used
+- **建立單一實例**（單例），供你的整個應用程式使用
+- **讓它隨處可用**，無需任何額外設定
+- **啟用搖樹優化**（tree-shaking），讓該服務只有在實際被使用時，才包含在你的 JavaScript bundle 中
 
-This is the recommended approach for most services.
+這是大多數服務的建議做法。
 
-## Injecting a service
+## 注入服務
 
-Once you've created a service with `providedIn: 'root'`, you can inject it anywhere in your application using the `inject()` function from `@angular/core`.
+一旦你以 `providedIn: 'root'` 建立了服務，你就可以使用 `@angular/core` 的 `inject()` 函式，在應用程式中的任何地方注入它。
 
-### Injecting into a component
+### 注入到元件中
 
 ```angular-ts
 import { Component, inject } from '@angular/core';
@@ -70,7 +70,7 @@ export class ExampleComponent {
 }
 ```
 
-### Injecting into another service
+### 注入到另一個服務中
 
 ```ts
 import { inject, Injectable } from '@angular/core';
@@ -93,13 +93,13 @@ export class BasicDataStore {
 }
 ```
 
-## Next steps
+## 後續步驟
 
-While `providedIn: 'root'` covers most use cases, Angular offers additional ways to provide services for specialized scenarios:
+雖然 `providedIn: 'root'` 涵蓋了大多數使用情境，Angular 也提供其他方式，讓你為特殊情境提供服務：
 
-- **Component-specific instances** - When components need their own isolated service instances
-- **Manual configuration** - For services that require runtime configuration
-- **Factory providers** - For dynamic service creation based on runtime conditions
-- **Value providers** - For providing configuration objects or constants
+- **元件專屬實例**：當元件需要各自獨立的服務實例時
+- **手動設定**：適用於需要執行階段設定的服務
+- **工廠提供者**：依據執行階段條件動態建立服務
+- **值提供者**：提供設定物件或常數
 
-You can learn more about these advanced patterns in the next guide: [defining dependency providers](/guide/di/defining-dependency-providers).
+你可以在下一篇指南中進一步了解這些進階模式：[定義依賴提供者](/guide/di/defining-dependency-providers)。

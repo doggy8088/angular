@@ -1,34 +1,34 @@
-# Router Lifecycle and Events
+# Router 生命週期與事件
 
-Angular Router provides a comprehensive set of lifecycle hooks and events that allow you to respond to navigation changes and execute custom logic during the routing process.
+Angular Router 提供了一套完整的生命週期勾點與事件，讓你能回應導覽的變化，並在路由過程中執行自訂邏輯。
 
-## Common router events
+## 常見的 Router 事件
 
-The Angular Router emits navigation events that you can subscribe to in order to track the navigation lifecycle. These events are available through the `Router.events` observable. This section covers common routing lifecycle events for navigation and error tracking (in chronological order).
+Angular Router 會發出導覽事件，你可以訂閱這些事件來追蹤導覽生命週期。這些事件可透過 `Router.events` 這個 Observable 取得。本節依時間順序，介紹用於導覽與錯誤追蹤的常見路由生命週期事件。
 
-| Events                                              | Description                                                                                              |
+| Events                                              | 說明                                                                                                     |
 | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| [`NavigationStart`](api/router/NavigationStart)     | Occurs when navigation begins and contains the requested URL.                                            |
-| [`RoutesRecognized`](api/router/RoutesRecognized)   | Occurs after the router determines which route matches the URL and contains the route state information. |
-| [`GuardsCheckStart`](api/router/GuardsCheckStart)   | Begins the route guard phase. The router evaluates route guards like `canActivate` and `canDeactivate`.  |
-| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)       | Signals completion of guard evaluation. Contains the result (allowed/denied).                            |
-| [`ResolveStart`](api/router/ResolveStart)           | Begins the data resolution phase. Route resolvers start fetching data.                                   |
-| [`ResolveEnd`](api/router/ResolveEnd)               | Data resolution completes. All required data becomes available.                                          |
-| [`NavigationEnd`](api/router/NavigationEnd)         | Final event when navigation completes successfully. The router updates the URL.                          |
-| [`NavigationSkipped`](api/router/NavigationSkipped) | Occurs when the router skips navigation (e.g., same URL navigation).                                     |
+| [`NavigationStart`](api/router/NavigationStart)     | 導覽開始時發生，包含所請求的 URL。                                                                       |
+| [`RoutesRecognized`](api/router/RoutesRecognized)   | 路由判斷出哪個路由與 URL 相符後發生，包含路由狀態資訊。                                                  |
+| [`GuardsCheckStart`](api/router/GuardsCheckStart)   | 路由守衛階段開始。Router 會評估 `canActivate`、`canDeactivate` 等路由守衛。                              |
+| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)       | 表示守衛評估完成，包含評估結果（允許或拒絕）。                                                           |
+| [`ResolveStart`](api/router/ResolveStart)           | 資料解析階段開始，路由解析器開始擷取資料。                                                         |
+| [`ResolveEnd`](api/router/ResolveEnd)               | 資料解析完成，所有必要的資料都已可供使用。                                                   |
+| [`NavigationEnd`](api/router/NavigationEnd)         | 導覽成功完成時的最終事件，Router 會更新 URL。                                                            |
+| [`NavigationSkipped`](api/router/NavigationSkipped) | Router 略過導覽時發生（例如導覽至相同的 URL）。                                                          |
 
-The following are common error events:
+以下是常見的錯誤事件：
 
-| Event                                             | Description                                                                      |
-| ------------------------------------------------- | -------------------------------------------------------------------------------- |
-| [`NavigationCancel`](api/router/NavigationCancel) | Occurs when the router cancels navigation. Often due to a guard returning false. |
-| [`NavigationError`](api/router/NavigationError)   | Occurs when navigation fails. Could be due to invalid routes or resolver errors. |
+| Event                                             | 說明                                                                                                           |
+| ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| [`NavigationCancel`](api/router/NavigationCancel) | Router 取消導覽時發生，通常是因為守衛回傳了 `false`。                                                          |
+| [`NavigationError`](api/router/NavigationError)   | 導覽失敗時發生，可能是因為路由無效或解析器發生錯誤。                                     |
 
-For a list of all lifecycle events, check out the [complete table of this guide](#all-router-events).
+如需所有生命週期事件的清單，請參閱[本指南中的完整表格](#all-router-events)。
 
-## How to subscribe to router events
+## 如何訂閱 Router 事件
 
-When you want to run code during specific navigation lifecycle events, you can do so by subscribing to the `router.events` and checking the instance of the event:
+當你想在特定的導覽生命週期事件中執行程式碼時，可以訂閱 `router.events`，並檢查事件的執行個體類型：
 
 ```ts
 // Example of subscribing to router events
@@ -55,13 +55,13 @@ export class RouterEventsComponent {
 }
 ```
 
-Note: The [`Event`](api/router/Event) type from `@angular/router` is named the same as the regular global [`Event`](https://developer.mozilla.org/en-US/docs/Web/API/Event) type, but it is different from the [`RouterEvent`](api/router/RouterEvent) type.
+Note: 從 `@angular/router` 匯入的 [`Event`](api/router/Event) 型別，與一般的全域 [`Event`](https://developer.mozilla.org/en-US/docs/Web/API/Event) 型別同名，但兩者並不相同；它也與 [`RouterEvent`](api/router/RouterEvent) 型別不同。
 
-## How to debug routing events
+## 如何對路由事件進行除錯
 
-Debugging router navigation issues can be challenging without visibility into the event sequence. Angular provides a built-in debugging feature that logs all router events to the console, helping you understand the navigation flow and identify where issues occur.
+在看不到事件順序的情況下，除錯 Router 導覽問題可能會相當困難。Angular 提供內建的除錯功能，能將所有 Router 事件記錄到主控台，幫助你了解導覽流程，並找出問題發生的位置。
 
-When you need to inspect a Router event sequence, you can enable logging for internal navigation events for debugging. You can configure this by passing a configuration option (`withDebugTracing()`) that enables detailed console logging of all routing events.
+當你需要檢查 Router 事件順序時，可以啟用內部導覽事件的記錄功能來進行除錯。你可以傳入設定選項（`withDebugTracing()`）來設定，藉此啟用所有路由事件的詳細主控台記錄。
 
 ```ts
 import { provideRouter, withDebugTracing } from '@angular/router';
@@ -76,15 +76,15 @@ bootstrapApplication(AppComponent,
 );
 ```
 
-For more information, check out the official docs on [`withDebugTracing`](api/router/withDebugTracing).
+如需更多資訊，請參閱 [`withDebugTracing`](api/router/withDebugTracing) 的官方文件。
 
-## Common use cases
+## 常見使用情境
 
-Router events enable many practical features in real-world applications. Here are some common patterns that are used with router events.
+Router 事件能在真實世界的應用程式中實現許多實用功能。以下列出一些搭配 Router 事件使用的常見模式。
 
-### Loading indicators
+### 載入指示器
 
-Show loading indicators during navigation:
+在導覽期間顯示載入指示器：
 
 ```angular-ts
 import { Component, inject } from '@angular/core';
@@ -112,9 +112,9 @@ export class AppComponent {
 }
 ```
 
-### Analytics tracking
+### 分析追蹤
 
-Track page views for analytics:
+追蹤頁面瀏覽以進行分析：
 
 ```ts
 import { Component, inject, signal, effect } from '@angular/core';
@@ -144,9 +144,9 @@ export class AnalyticsService {
 }
 ```
 
-### Error handling
+### 錯誤處理
 
-Handle navigation errors gracefully and provide user feedback:
+妥善處理導覽錯誤，並為使用者提供回饋：
 
 ```angular-ts
 import { Component, inject, signal } from '@angular/core';
@@ -190,55 +190,55 @@ export class ErrorHandlerComponent {
 }
 ```
 
-## All router events
+## 所有 Router 事件 {#all-router-events}
 
-For reference, here is the complete list of all router events available in Angular. These events are organized by category and listed in the order they typically occur during navigation.
+以下列出 Angular 中所有可用的 Router 事件，供你參考。這些事件依類別組織，並依照它們在導覽期間通常發生的順序排列。
 
-### Navigation events
+### 導覽事件
 
-These events track the core navigation process from start through route recognition, guard checks, and data resolution. They provide visibility into each phase of the navigation lifecycle.
+這些事件追蹤核心的導覽流程，從開始、路由辨識、守衛檢查到資料解析，讓你能掌握導覽生命週期的每個階段。
 
-| Event                                                     | Description                                                     |
-| --------------------------------------------------------- | --------------------------------------------------------------- |
-| [`NavigationStart`](api/router/NavigationStart)           | Occurs when navigation starts                                   |
-| [`RouteConfigLoadStart`](api/router/RouteConfigLoadStart) | Occurs before lazy loading a route configuration                |
-| [`RouteConfigLoadEnd`](api/router/RouteConfigLoadEnd)     | Occurs after a lazy-loaded route configuration loads            |
-| [`RoutesRecognized`](api/router/RoutesRecognized)         | Occurs when the router parses the URL and recognizes the routes |
-| [`GuardsCheckStart`](api/router/GuardsCheckStart)         | Occurs at the start of the guard phase                          |
-| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)             | Occurs at the end of the guard phase                            |
-| [`ResolveStart`](api/router/ResolveStart)                 | Occurs at the start of the resolve phase                        |
-| [`ResolveEnd`](api/router/ResolveEnd)                     | Occurs at the end of the resolve phase                          |
+| Event                                                     | 說明                                            |
+| --------------------------------------------------------- | ----------------------------------------------- |
+| [`NavigationStart`](api/router/NavigationStart)           | 發生於導覽開始時                                |
+| [`RouteConfigLoadStart`](api/router/RouteConfigLoadStart) | 發生於延遲載入路由設定之前                      |
+| [`RouteConfigLoadEnd`](api/router/RouteConfigLoadEnd)     | 發生於延遲載入的路由設定載入完成之後            |
+| [`RoutesRecognized`](api/router/RoutesRecognized)         | 發生於 Router 解析 URL 並辨識出路由時           |
+| [`GuardsCheckStart`](api/router/GuardsCheckStart)         | 發生於守衛階段開始時                            |
+| [`GuardsCheckEnd`](api/router/GuardsCheckEnd)             | 發生於守衛階段結束時                            |
+| [`ResolveStart`](api/router/ResolveStart)                 | 發生於解析階段開始時                            |
+| [`ResolveEnd`](api/router/ResolveEnd)                     | 發生於解析階段結束時                            |
 
-### Activation events
+### 啟用事件
 
-These events occur during the activation phase when route components are being instantiated and initialized. Activation events fire for each route in the route tree, including parent and child routes.
+這些事件發生在啟用階段，此時路由元件正被建立實例並進行初始化。路由樹中的每個路由（包括父路由與子路由）都會觸發啟用事件。
 
-| Event                                                     | Description                                   |
-| --------------------------------------------------------- | --------------------------------------------- |
-| [`ActivationStart`](api/router/ActivationStart)           | Occurs at the start of route activation       |
-| [`ChildActivationStart`](api/router/ChildActivationStart) | Occurs at the start of child route activation |
-| [`ActivationEnd`](api/router/ActivationEnd)               | Occurs at the end of route activation         |
-| [`ChildActivationEnd`](api/router/ChildActivationEnd)     | Occurs at the end of child route activation   |
+| Event                                                     | 說明                       |
+| --------------------------------------------------------- | -------------------------- |
+| [`ActivationStart`](api/router/ActivationStart)           | 發生於路由啟用開始時       |
+| [`ChildActivationStart`](api/router/ChildActivationStart) | 發生於子路由啟用開始時     |
+| [`ActivationEnd`](api/router/ActivationEnd)               | 發生於路由啟用結束時       |
+| [`ChildActivationEnd`](api/router/ChildActivationEnd)     | 發生於子路由啟用結束時     |
 
-### Navigation completion events
+### 導覽完成事件
 
-These events represent the final outcome of a navigation attempt. Every navigation will end with exactly one of these events, indicating whether it succeeded, was cancelled, failed, or was skipped.
+這些事件代表一次導覽嘗試的最終結果。每一次導覽都恰好會以其中一個事件結束，表明該次導覽是成功、被取消、失敗，還是被略過。
 
-| Event                                               | Description                                                         |
-| --------------------------------------------------- | ------------------------------------------------------------------- |
-| [`NavigationEnd`](api/router/NavigationEnd)         | Occurs when navigation ends successfully                            |
-| [`NavigationCancel`](api/router/NavigationCancel)   | Occurs when the router cancels navigation                           |
-| [`NavigationError`](api/router/NavigationError)     | Occurs when navigation fails due to an unexpected error             |
-| [`NavigationSkipped`](api/router/NavigationSkipped) | Occurs when the router skips navigation (e.g., same URL navigation) |
+| Event                                               | 說明                                                |
+| --------------------------------------------------- | --------------------------------------------------- |
+| [`NavigationEnd`](api/router/NavigationEnd)         | 發生於導覽成功結束時                                |
+| [`NavigationCancel`](api/router/NavigationCancel)   | 發生於 Router 取消導覽時                            |
+| [`NavigationError`](api/router/NavigationError)     | 發生於導覽因未預期的錯誤而失敗時                    |
+| [`NavigationSkipped`](api/router/NavigationSkipped) | 發生於 Router 略過導覽時（例如導覽至相同的 URL）    |
 
-### Other events
+### 其他事件
 
-There is one additional event that occurs outside the main navigation lifecycle, but it is still part of the router's event system.
+還有一個額外的事件，發生在主要導覽生命週期之外，但它仍屬於 Router 事件系統的一部分。
 
-| Event                         | Description             |
-| ----------------------------- | ----------------------- |
-| [`Scroll`](api/router/Scroll) | Occurs during scrolling |
+| Event                         | 說明             |
+| ----------------------------- | ---------------- |
+| [`Scroll`](api/router/Scroll) | 發生於捲動期間   |
 
-## Next steps
+## 後續步驟
 
-Learn more about [route guards](/guide/routing/route-guards) and [common router tasks](/guide/routing/common-router-tasks).
+進一步了解[路由守衛](/guide/routing/route-guards)與[常見的 Router 任務](/guide/routing/common-router-tasks)。

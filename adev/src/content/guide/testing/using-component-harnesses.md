@@ -1,33 +1,33 @@
-# Using component harnesses in tests
+# 在測試中使用元件測試工具（component harness）
 
-## Before you start
+## 開始之前
 
-TIP: This guide assumes you've already read the [component harnesses overview guide](guide/testing/component-harnesses-overview). Read that first if you're new to using component harnesses.
+TIP: 本指南假設你已閱讀過[元件測試工具總覽指南](guide/testing/component-harnesses-overview)。如果你是第一次使用元件測試工具，請先閱讀該指南。
 
-### CDK Installation
+### 安裝 CDK
 
-The [Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) is a set of behavior primitives for building components. To use the component harnesses, first install `@angular/cdk` from npm. You can do this from your terminal using the Angular CLI:
+[Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) 是一組用來建構元件的行為基礎元件。若要使用元件測試工具，先從 npm 安裝 `@angular/cdk`。你可以在終端機中使用 Angular CLI 完成安裝：
 
 <docs-code language="shell">
   ng add @angular/cdk
 </docs-code>
 
-## Test harness environments and loaders
+## 測試工具環境與載入器 {#test-harness-environments-and-loaders}
 
-You can use component test harnesses in different test environments. Angular CDK supports two built-in environments:
+你可以在不同的測試環境中使用元件測試工具。Angular CDK 支援兩種內建環境：
 
-- Unit tests with Angular's `TestBed`
-- End-to-end tests with [WebDriver](https://developer.mozilla.org/en-US/docs/Web/WebDriver)
+- 使用 Angular `TestBed` 的單元測試
+- 使用 [WebDriver](https://developer.mozilla.org/en-US/docs/Web/WebDriver) 的端到端測試
 
-Each environment provides a <strong>harness loader</strong>. The loader creates the harness instances you use throughout your tests. See below for more specific guidance on supported testing environments.
+每個環境都提供一個<strong>測試工具載入器</strong>。載入器負責建立你在測試中使用的測試工具實例。關於受支援測試環境的更具體指引，請見下文。
 
-Additional testing environments require custom bindings. See the [adding harness support for additional testing environments guide](guide/testing/component-harnesses-testing-environments) for more information.
+其他測試環境需要自訂綁定。更多資訊請參閱[為其他測試環境加入測試工具支援指南](guide/testing/component-harnesses-testing-environments)。
 
-### Using the loader from `TestbedHarnessEnvironment` for unit tests
+### 在單元測試中使用 `TestbedHarnessEnvironment` 的載入器
 
-For unit tests you can create a harness loader from [TestbedHarnessEnvironment](/api/cdk/testing/TestbedHarnessEnvironment). This environment uses a [component fixture](api/core/testing/ComponentFixture) created by Angular's `TestBed`.
+在單元測試中，你可以從 [TestbedHarnessEnvironment](/api/cdk/testing/TestbedHarnessEnvironment) 建立測試工具載入器。這個環境使用由 Angular `TestBed` 建立的[元件 fixture](api/core/testing/ComponentFixture)。
 
-To create a harness loader rooted at the fixture's root element, use the `loader()` method:
+若要建立以 fixture 根元素為根的測試工具載入器，請使用 `loader()` 方法：
 
 <docs-code language="typescript">
 const fixture = TestBed.createComponent(MyComponent);
@@ -40,15 +40,15 @@ const loader = TestbedHarnessEnvironment.loader(fixture);
 const myComponentHarness = await loader.getHarness(MyComponent);
 </docs-code>
 
-To create a harness loader for harnesses for elements that fall outside the fixture, use the `documentRootLoader()` method. For example, code that displays a floating element or pop-up often attaches DOM elements directly to the document body, such as the `Overlay` service in Angular CDK.
+若要為 fixture 之外的元素建立測試工具載入器，請使用 `documentRootLoader()` 方法。例如，顯示浮動元素或彈出視窗的程式碼，通常會將 DOM 元素直接附加到文件主體上，例如 Angular CDK 中的 `Overlay` 服務。
 
-You can also create a harness loader directly with `harnessForFixture()` for a harness at that fixture's root element directly.
+你也可以直接使用 `harnessForFixture()`，為該 fixture 根元素處的測試工具建立載入器。
 
-### Using the loader from `SeleniumWebDriverHarnessEnvironment` for end-to-end tests
+### 在端到端測試中使用 `SeleniumWebDriverHarnessEnvironment` 的載入器
 
-For WebDriver-based end-to-end tests you can create a harness loader with `SeleniumWebDriverHarnessEnvironment`.
+在以 WebDriver 為基礎的端到端測試中，你可以使用 `SeleniumWebDriverHarnessEnvironment` 建立測試工具載入器。
 
-Use the `loader()` method to get the harness loader instance for the current HTML document, rooted at the document's root element. This environment uses a WebDriver client.
+使用 `loader()` 方法取得目前 HTML 文件的測試工具載入器實例，其根為文件的根元素。這個環境使用 WebDriver 用戶端。
 
 <docs-code language="typescript">
 let wd: webdriver.WebDriver = getMyWebDriverClient();
@@ -57,11 +57,11 @@ const loader = SeleniumWebDriverHarnessEnvironment.loader(wd);
 const myComponentHarness = await loader.getHarness(MyComponent);
 </docs-code>
 
-## Using a harness loader
+## 使用測試工具載入器
 
-Harness loader instances correspond to a specific DOM element and are used to create component harness instances for elements under that specific element.
+測試工具載入器實例對應到特定的 DOM 元素，用來為該元素底下的元素建立元件測試工具實例。
 
-To get `ComponentHarness` for the first instance of the element, use the `getHarness()` method. To get all `ComponentHarness` instances, use the `getAllHarnesses()` method.
+若要取得元素第一個實例的 `ComponentHarness`，請使用 `getHarness()` 方法。若要取得所有 `ComponentHarness` 實例，請使用 `getAllHarnesses()` 方法。
 
 <docs-code language="typescript">
 // Get harness for first instance of the element
@@ -71,19 +71,19 @@ const myComponentHarness = await loader.getHarness(MyComponent);
 const myComponentHarnesses = await loader.getHarnesses(MyComponent);
 </docs-code>
 
-In addition to `getHarness` and `getAllHarnesses`, `HarnessLoader` has several other useful methods for querying for harnesses:
+除了 `getHarness` 與 `getAllHarnesses` 之外，`HarnessLoader` 還有幾個其他實用的方法可用來查詢測試工具：
 
-- `getHarnessAtIndex(...)`: Gets the harness for a component that matches the given criteria at a specific index.
-- `countHarnesses(...)`: Counts the number of component instances that match the given criteria.
-- `hasHarness(...)`: Checks if at least one component instance matches the given criteria.
+- `getHarnessAtIndex(...)`：取得在特定索引處符合指定條件的元件測試工具。
+- `countHarnesses(...)`：計算符合指定條件的元件實例數量。
+- `hasHarness(...)`：檢查是否至少有一個元件實例符合指定條件。
 
-As an example, consider a reusable dialog-button component that opens a dialog on click. It contains the following components, each with a corresponding harness:
+舉例來說，想像一個可重複使用的對話方塊按鈕元件，按下後會開啟對話方塊。它包含下列元件，每個元件都有對應的測試工具：
 
-- `MyDialogButton` (composes the `MyButton` and `MyDialog` with a convenient API)
-- `MyButton` (a standard button component)
-- `MyDialog` (a dialog appended to `document.body` by `MyDialogButton` upon click)
+- `MyDialogButton`（組合 `MyButton` 與 `MyDialog`，提供方便的 API）
+- `MyButton`（標準的按鈕元件）
+- `MyDialog`（由 `MyDialogButton` 在點擊時附加到 `document.body` 的對話方塊）
 
-The following test loads harnesses for each of these components:
+下列測試會載入這些元件各自的測試工具：
 
 <docs-code language="typescript">
 let fixture: ComponentFixture<MyDialogButton>;
@@ -115,13 +115,13 @@ const dialogHarness = await rootLoader.getHarness(MyDialogHarness);
 });
 </docs-code>
 
-### Harness behavior in different environments
+### 測試工具在不同環境中的行為
 
-Harnesses may not behave exactly the same in all environments. Some differences are unavoidable between the real user interaction versus the simulated events generated in unit tests. Angular CDK makes a best effort to normalize the behavior to the extent possible.
+測試工具在所有環境中的行為未必完全相同。真正的使用者互動與單元測試中產生的模擬事件之間，有些差異無可避免。Angular CDK 會盡最大努力，在可能的範圍內讓行為一致。
 
-### Interacting with child elements
+### 與子元素互動
 
-To interact with elements below the root element of this harness loader, use the `HarnessLoader` instance of a child element. For the first instance of the child element, use the `getChildLoader()` method. For all instances of the child element, use the `getAllChildLoaders()` method.
+若要與此測試工具載入器根元素底下的元素互動，請使用子元素的 `HarnessLoader` 實例。對於子元素的第一個實例，請使用 `getChildLoader()` 方法。對於子元素的所有實例，請使用 `getAllChildLoaders()` 方法。
 
 <docs-code language="typescript">
 const myComponentHarness = await loader.getHarness(MyComponent);
@@ -133,16 +133,16 @@ const childLoader = await myComponentHarness.getLoader('.child');
 const allChildLoaders = await myComponentHarness.getAllChildLoaders('.child');
 </docs-code>
 
-### Filtering harnesses
+### 篩選測試工具 {#filtering-harnesses}
 
-When a page contains multiple instances of a particular component, you may want to filter based on some property of the component to get a particular component instance. You can use a <strong>harness predicate</strong>, a class used to associate a `ComponentHarness` class with predicates functions that can be used to filter component instances, to do so.
+當頁面包含某個元件的多個實例時，你可能會想根據元件的某個屬性來篩選，以取得特定的元件實例。你可以使用<strong>測試工具述詞</strong>來做到這一點；它是一個類別，用來將 `ComponentHarness` 類別與可用來篩選元件實例的述詞函式關聯起來。
 
-When you ask a `HarnessLoader` for a harness, you're actually providing a HarnessQuery. A query can be one of two things:
+當你向 `HarnessLoader` 請求一個測試工具時，你實際上提供的是 HarnessQuery。查詢可以是下列兩者之一：
 
-- A harness constructor. This just gets that harness
-- A `HarnessPredicate`, which gets harnesses that are filtered based on one or more conditions
+- 測試工具建構函式。這只會取得該測試工具
+- `HarnessPredicate`，會取得依一或多個條件篩選後的測試工具
 
-`HarnessPredicate` does support some base filters (selector, ancestor) that work on anything that extends `ComponentHarness`.
+`HarnessPredicate` 支援一些基礎篩選條件（selector、ancestor），適用於任何繼承 `ComponentHarness` 的類別。
 
 <docs-code language="typescript">
 // Example of loading a MyButtonComponentHarness with a harness predicate
@@ -150,22 +150,22 @@ const disabledButtonPredicate = new HarnessPredicate(MyButtonComponentHarness, {
 const disabledButton = await loader.getHarness(disabledButtonPredicate);
 </docs-code>
 
-However it's common for harnesses to implement a static `with()` method that accepts component-specific filtering options and returns a `HarnessPredicate`.
+不過，測試工具通常會實作一個靜態 `with()` 方法，接受元件專屬的篩選選項，並傳回 `HarnessPredicate`。
 
 <docs-code language="typescript">
 // Example of loading a MyButtonComponentHarness with a specific selector
 const button = await loader.getHarness(MyButtonComponentHarness.with({selector: 'btn'}))
 </docs-code>
 
-For more details refer to the specific harness documentation since additional filtering options are specific to each harness implementation.
+更多細節請參閱各測試工具的文件，因為額外的篩選選項是每個測試工具實作各自專屬的。
 
-## Using test harness APIs
+## 使用測試工具 API
 
-While every harness defines an API specific to its corresponding component, they all share a common base class, [ComponentHarness](/api/cdk/testing/ComponentHarness). This base class defines a static property, `hostSelector`, that matches the harness class to instances of the component in the DOM.
+雖然每個測試工具都定義了對應元件專屬的 API，但它們全都共用一個共同的基礎類別 [ComponentHarness](/api/cdk/testing/ComponentHarness)。這個基礎類別定義了一個靜態屬性 `hostSelector`，用來將測試工具類別與 DOM 中的元件實例對應起來。
 
-Beyond that, the API of any given harness is specific to its corresponding component; refer to the component's documentation to learn how to use a specific harness.
+除此之外，任何測試工具的 API 都專屬於其對應的元件；請參閱該元件的文件，了解如何使用特定的測試工具。
 
-As an example, the following is a test for a component that uses the [Angular Material slider component harness](https://material.angular.dev/components/slider/api#MatSliderHarness):
+舉例來說，以下是使用 [Angular Material 滑桿元件測試工具](https://material.angular.dev/components/slider/api#MatSliderHarness) 的元件測試：
 
 <docs-code language="typescript">
 it('should get value of slider thumb', async () => {
@@ -175,11 +175,11 @@ it('should get value of slider thumb', async () => {
 });
 </docs-code>
 
-## Interop with Angular change detection
+## 與 Angular 變更偵測的互動
 
-By default, test harnesses runs Angular's [change detection](https://angular.dev/best-practices/runtime-performance) before reading the state of a DOM element and after interacting with a DOM element.
+預設情況下，測試工具會在讀取 DOM 元素的狀態之前，以及與 DOM 元素互動之後，執行 Angular 的[變更偵測](https://angular.dev/best-practices/runtime-performance)。
 
-There may be times that you need finer-grained control over change detection in your tests. such as checking the state of a component while an async operation is pending. In these cases use the `manualChangeDetection` function to disable automatic handling of change detection for a block of code.
+有些時候，你需要在測試中更細緻地控制變更偵測，例如在非同步操作尚在進行時檢查元件的狀態。在這些情況下，請使用 `manualChangeDetection` 函式，為一段程式碼停用變更偵測的自動處理。
 
 <docs-code language="typescript">
 it('checks state while async action is in progress', async () => {
@@ -196,15 +196,15 @@ it('checks state while async action is in progress', async () => {
 });
 </docs-code>
 
-Almost all harness methods are asynchronous and return a `Promise` to support the following:
+幾乎所有測試工具方法都是非同步的，並傳回 `Promise`，以支援下列需求：
 
-- Support for unit tests
-- Support for end-to-end tests
-- Insulate tests against changes in asynchronous behavior
+- 支援單元測試
+- 支援端到端測試
+- 讓測試不受非同步行為變更的影響
 
-The Angular team recommends using [await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) to improve the test readability. Calling `await` blocks the execution of your test until the associated `Promise` resolves.
+Angular 團隊建議使用 [await](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function) 來提升測試的可讀性。呼叫 `await` 會阻擋測試的執行，直到相關的 `Promise` 完成為止。
 
-Occasionally, you may want to perform multiple actions simultaneously and wait until they're all done rather than performing each action sequentially. For example, read multiple properties of a single component. In these situations use the `parallel` function to parallelize the operations. The parallel function works similarly to `Promise.all`, while also optimizing change detection checks.
+偶爾，你可能會想同時執行多個動作，並等到它們全部完成，而不是依序執行每個動作。例如，讀取單一元件的多個屬性。在這些情況下，請使用 `parallel` 函式來平行化這些操作。`parallel` 函式的運作方式與 `Promise.all` 類似，同時也會最佳化變更偵測的檢查。
 
 <docs-code language="typescript">
 it('reads properties in parallel', async () => {

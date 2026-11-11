@@ -1,12 +1,12 @@
-# Custom service worker scripts
+# 自訂 Service Worker 指令碼
 
-While the Angular service worker provides excellent capabilities, you may need to add custom functionality such as handling push notifications, background sync, or other service worker events. You can create a custom service worker script that imports and extends the Angular service worker.
+雖然 Angular Service Worker 提供了出色的功能，你可能還是需要加入自訂功能，例如處理推播通知、背景同步，或其他 Service Worker 事件。你可以建立一個自訂 Service Worker 指令碼，匯入並擴充 Angular Service Worker。
 
-## Creating a custom service worker
+## 建立自訂 Service Worker
 
-To create a custom service worker that extends Angular's functionality:
+若要建立一個擴充 Angular 功能的自訂 Service Worker：
 
-1. Create a custom service worker file (e.g., `custom-sw.js`) in your `src` directory:
+1. 在你的 `src` 目錄中建立一個自訂 Service Worker 檔案（例如 `custom-sw.js`）：
 
 ```js
 // Import the Angular service worker
@@ -46,7 +46,7 @@ importScripts('./ngsw-worker.js');
 })();
 ```
 
-2. Update your `angular.json` file to use the custom service worker:
+2. 更新你的 `angular.json` 檔案，改用自訂 Service Worker：
 
 ```json
 {
@@ -70,7 +70,7 @@ importScripts('./ngsw-worker.js');
 }
 ```
 
-3. Configure the service worker registration to use your custom script:
+3. 設定 Service Worker 註冊，改用你的自訂指令碼：
 
 ```ts
 import { ApplicationConfig, isDevMode } from '@angular/core';
@@ -86,20 +86,20 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-### Best practices for custom service workers
+### 自訂 Service Worker 的最佳實務
 
-When extending the Angular service worker:
+擴充 Angular Service Worker 時：
 
-- **Always import the Angular service worker first** using `importScripts('./ngsw-worker.js')` to ensure you get all the caching and update functionality
-- **Wrap your custom code in an IIFE** (Immediately Invoked Function Expression) to avoid polluting the global scope
-- **Use `event.waitUntil()`** for asynchronous operations to ensure they complete before the service worker is terminated
-- **Test thoroughly** in both development and production environments
-- **Handle errors gracefully** to prevent your custom code from breaking the Angular service worker functionality
+- **永遠先匯入 Angular Service Worker**：使用 `importScripts('./ngsw-worker.js')`，確保你能取得所有快取與更新功能
+- **把自訂程式碼包在 IIFE 中**（立即呼叫函式運算式），避免污染全域範圍
+- **使用 `event.waitUntil()`** 處理非同步操作，確保這些操作在 Service Worker 被終止前完成
+- **徹底測試**：同時在開發與生產環境中測試
+- **妥善處理錯誤**，避免你的自訂程式碼破壞 Angular Service Worker 的功能
 
-### Common use cases
+### 常見使用情境
 
-Custom service workers are commonly used for:
+自訂 Service Worker 常見的用途包括：
 
-- **Push notifications**: Handle incoming push messages and display notifications
-- **Background sync**: Sync data when the network connection is restored
-- **Custom navigation**: Handle special routing or offline page scenarios
+- **推播通知**：處理傳入的推播訊息並顯示通知
+- **背景同步**：在網路連線恢復時同步資料
+- **自訂導覽**：處理特殊的路由或離線頁面情境

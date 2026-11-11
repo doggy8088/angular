@@ -1,13 +1,13 @@
-# Serving Angular apps for development
+# 在開發階段提供 Angular 應用程式
 
-You can serve your Angular CLI application with the `ng serve` command.
-This will compile your application, skip unnecessary optimizations, start a devserver, and automatically rebuild and live reload any subsequent changes.
-You can stop the server by pressing `Ctrl+C`.
+你可以用 `ng serve` 指令來啟動開發伺服器提供你的 Angular CLI 應用程式。
+它會編譯你的應用程式、略過不必要的最佳化、啟動開發伺服器，並在後續變更時自動重新建置與即時重新載入。
+按下 `Ctrl+C` 即可停止伺服器。
 
-`ng serve` only executes the builder for the `serve` target in the default project as specified in `angular.json`.
-While any builder can be used here, the most common (and default) builder is `@angular-devkit/build-angular:dev-server`.
+`ng serve` 只會執行 `angular.json` 中所指定預設專案的 `serve` 目標所對應的建置器。
+雖然這裡可以使用任何建置器，最常見（也是預設）的是 `@angular-devkit/build-angular:dev-server`。
 
-You can determine which builder is being used for a particular project by looking up the `serve` target for that project.
+你可以查看特定專案的 `serve` 目標，來判斷該專案使用的是哪個建置器。
 
 ```json
 
@@ -29,15 +29,15 @@ You can determine which builder is being used for a particular project by lookin
 
 ```
 
-This page discusses usage and options of `@angular-devkit/build-angular:dev-server`.
+本頁討論 `@angular-devkit/build-angular:dev-server` 的用法與選項。
 
-## Proxying to a backend server
+## 代理到後端伺服器
 
-Use [proxying support](https://webpack.js.org/configuration/dev-server/#devserverproxy) to divert certain URLs to a backend server, by passing a file to the `--proxy-config` build option.
-For example, to divert all calls for `http://localhost:4200/api` to a server running on `http://localhost:3000/api`, take the following steps.
+使用[代理支援](https://webpack.js.org/configuration/dev-server/#devserverproxy)，把 `--proxy-config` 建置選項傳入一個檔案，就能將特定的 URL 導向後端伺服器。
+舉例來說，若要把所有對 `http://localhost:4200/api` 的呼叫導向在 `http://localhost:3000/api` 上執行的伺服器，請依下列步驟操作。
 
-1. Create a file `proxy.conf.json` in your project's `src/` folder.
-1. Add the following content to the new proxy file:
+1. 在專案的 `src/` 資料夾中建立一個 `proxy.conf.json` 檔案。
+1. 把下列內容加入新的 proxy 檔案：
 
 ```json
 {
@@ -48,7 +48,7 @@ For example, to divert all calls for `http://localhost:4200/api` to a server run
 }
 ```
 
-1. In the CLI configuration file, `angular.json`, add the `proxyConfig` option to the `serve` target:
+1. 在 CLI 設定檔 `angular.json` 中，把 `proxyConfig` 選項加入 `serve` 目標：
 
 ```json
 {
@@ -68,9 +68,9 @@ For example, to divert all calls for `http://localhost:4200/api` to a server run
 
 ```
 
-1. To run the development server with this proxy configuration, call `ng serve`.
+1. 若要用這份 proxy 設定執行開發伺服器，請呼叫 `ng serve`。
 
-Edit the proxy configuration file to add configuration options; following are some examples.
-For a detailed description of all options, refer to the [webpack DevServer documentation](https://webpack.js.org/configuration/dev-server/#devserverproxy) when using `@angular-devkit/build-angular:browser`, or the [Vite DevServer documentation](https://vite.dev/config/server-options#server-proxy) when using `@angular-devkit/build-angular:browser-esbuild` or `@angular-devkit/build-angular:application`.
+編輯 proxy 設定檔以加入設定選項；以下是一些範例。
+所有選項的詳細說明，在使用 `@angular-devkit/build-angular:browser` 時請參閱 [webpack DevServer 文件](https://webpack.js.org/configuration/dev-server/#devserverproxy)，在使用 `@angular-devkit/build-angular:browser-esbuild` 或 `@angular-devkit/build-angular:application` 時請參閱 [Vite DevServer 文件](https://vite.dev/config/server-options#server-proxy)。
 
-NOTE: If you edit the proxy configuration file, you must relaunch the `ng serve` process to make your changes effective.
+NOTE: 若你編輯 proxy 設定檔，必須重新啟動 `ng serve` 行程，變更才會生效。

@@ -1,23 +1,22 @@
 <div class="adev-preview-error docs-light-mode docs-mini-scroll-track">
   @if (error()?.type === ErrorType.UNSUPPORTED_BROWSER_ENVIRONMENT) {
     @if (isIos) {
-      <p>Open angular.dev on desktop to code in your browser.</p>
+      <p>請在桌面裝置上開啟 angular.dev，以便在瀏覽器中撰寫程式碼。</p>
     }
   } @else if (error()?.type === ErrorType.COOKIES || error()?.type === ErrorType.UNKNOWN) {
     <p>
-      We couldn't start the tutorial app. Please ensure third party cookies are enabled for this
-      site.
+      我們無法啟動教學應用程式。請確認你已為本網站啟用第三方 cookie。
     </p>
   } @else if (error()?.type === ErrorType.OUT_OF_MEMORY) {
     <p>
-      We couldn't start the tutorial app because your browser is out of memory. To free up memory,
-      close angular.dev tutorials in other tabs or windows, and refresh the page.
+      你的瀏覽器記憶體不足，我們無法啟動教學應用程式。若要釋放記憶體，請關閉其他分頁或視窗中的
+      angular.dev 教學，然後重新整理頁面。
     </p>
   }
 
   @if (error()?.message) {
     <small>
-      The error message is:
+      錯誤訊息如下：
       <code>{{ error()!.message }}</code>
     </small>
   }

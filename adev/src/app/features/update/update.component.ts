@@ -54,7 +54,7 @@ export default class UpdateComponent {
   };
 
   protected readonly optionList: Option[] = [
-    {id: 'ngUpgrade', name: 'ngUpgrade', description: 'to combine AngularJS & Angular'},
+    {id: 'ngUpgrade', name: 'ngUpgrade', description: '結合 AngularJS 與 Angular'},
     {id: 'material', name: 'Angular Material', description: ''},
     {id: 'windows', name: 'Windows', description: ''},
   ];
@@ -132,7 +132,7 @@ export default class UpdateComponent {
   copyCode({tagName, textContent}: Element) {
     if (tagName === 'CODE') {
       this.clipboard.copy(textContent!);
-      this.snackBar.open('Copied to clipboard', '', {duration: 2000});
+      this.snackBar.open('已複製到剪貼簿', '', {duration: 2000});
     }
   }
 

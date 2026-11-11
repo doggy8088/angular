@@ -1,27 +1,27 @@
-# Property Binding in Angular
+# Angular 中的屬性繫結
 
-Property binding in Angular enables you to set values for properties of HTML elements, Angular components and more.
+Angular 中的屬性繫結讓你可以設定 HTML 元素、Angular 元件等各種目標的屬性值。
 
-Use property binding to dynamically set values for properties and attributes. You can do things such as toggle button features, set image paths programmatically, and share values between components.
+使用屬性繫結，你可以動態設定屬性和特性值。你可以做很多事，例如切換按鈕功能、以程式方式設定圖片路徑，以及在元件之間共享值。
 
-Note: Learn more about [setting dynamic properties and attributes in the essentials guide](/essentials/templates#setting-dynamic-properties-and-attributes).
+Note: 在[核心概念指南](/essentials/templates#setting-dynamic-properties-and-attributes)中進一步了解如何設定動態屬性和特性。
 
-In this activity, you'll learn how to use property binding in templates.
+在這個練習中，你將學習如何在範本中使用屬性繫結。
 
 <hr />
 
-To bind to an element's attribute, wrap the attribute name in square brackets. Here's an example:
+要繫結到元素的特性，請把特性名稱用方括號括起來。範例如下：
 
 ```angular-html
 <img alt="photo" [src]="imageURL">
 ```
 
-In this example, the value of the `src` attribute will be bound to the class property `imageURL`. Whatever value `imageURL` has will be set as the `src` attribute of the `img` tag.
+在本範例中，`src` 特性的值會繫結到類別屬性 `imageURL`。`imageURL` 的值是什麼，`img` 標籤的 `src` 特性就會被設為什麼。
 
 <docs-workflow>
 
-<docs-step title="Add a property called `isEditable`" header="app.ts" language="ts">
-Update the code in `app.ts` by adding a property to the `App` class called `isEditable` with the initial value set to `true`.
+<docs-step title="加上名為 `isEditable` 的屬性" header="app.ts" language="ts">
+更新 `app.ts` 中的程式碼，為 `App` 類別加上一個名為 `isEditable` 的屬性，初始值設為 `true`。
 
 <docs-code highlight="[2]">
 export class App {
@@ -30,8 +30,8 @@ export class App {
 </docs-code>
 </docs-step>
 
-<docs-step title="Bind to `contentEditable`" header="app.ts" language="ts">
-Next, bind the `contentEditable` attribute of the `div` to the `isEditable` property by using the <code aria-label="square brackets">[]</code> syntax.
+<docs-step title="繫結到 `contentEditable`" header="app.ts" language="ts">
+接著，使用 <code aria-label="square brackets">[]</code> 語法，把 `div` 的 `contentEditable` 特性繫結到 `isEditable` 屬性。
 
 <docs-code highlight="[3]" language="angular-ts">
 @Component({
@@ -43,6 +43,6 @@ Next, bind the `contentEditable` attribute of the `div` to the `isEditable` prop
 
 </docs-workflow>
 
-The div is now editable. Nice work 👍
+這個 div 現在可以編輯了。做得好 👍
 
-Property binding is one of Angular's many powerful features. If you'd like to learn more checkout [the Angular documentation](guide/templates/property-binding).
+屬性繫結是 Angular 眾多強大功能之一。如果你想了解更多，請查看 [Angular 文件](guide/templates/property-binding)。

@@ -1,50 +1,50 @@
-# Add a property binding to a component’s template
+# 為元件的範本加入屬性繫結
 
-This tutorial lesson demonstrates how to add property binding to a template and use it to pass dynamic data to components.
+本教學課程示範如何為範本加入屬性繫結（property binding），並用它將動態資料傳給元件。
 
 <docs-video src="https://www.youtube.com/embed/eM3zi_n7lNs?si=AsiczpWnMz5HhJqB&amp;start=599"/>
 
-## What you'll learn
+## 你將學到什麼
 
-- Your app has data bindings in the `Home` template.
-- Your app sends data from the `Home` to the `HousingLocation`.
+- 你的應用程式在 `Home` 範本中有資料繫結。
+- 你的應用程式會將資料從 `Home` 傳送到 `HousingLocation`。
 
-## Conceptual preview of Inputs
+## Input 概念預覽
 
-In this lesson, you'll continue the process of sharing data from the parent component to the child component by binding data to those properties in the template using property binding.
+在這一課中，你會繼續將資料從父元件分享給子元件的過程：在範本中使用屬性繫結，將資料繫結到那些屬性上。
 
-Property binding enables you to connect a variable to an `Input` in an Angular template. The data is then dynamically bound to the `Input`.
+屬性繫結讓你能將變數連接到 Angular 範本中的 `Input`。資料會隨之動態繫結到該 `Input`。
 
-For a more in depth explanation, please refer to the [Property binding](guide/templates/property-binding) guide.
+如需更深入的說明，請參閱[屬性繫結](guide/templates/property-binding)指南。
 
 <docs-workflow>
 
-<docs-step title="Update the `Home` template">
-This step adds property binding to the `<app-housing-location>` tag.
+<docs-step title="更新 `Home` 範本">
+這個步驟會為 `<app-housing-location>` 標籤加入屬性繫結。
 
-In the code editor:
+在程式碼編輯器中：
 
-1.  Navigate to `src/app/home/home.ts`
-1.  In the template property of the `@Component` decorator, update the code to match the code below:
-    <docs-code language="angular-ts" header="Add housingLocation property binding" path="adev/src/content/tutorials/first-app/steps/07-dynamic-template-values/src/app/home/home.ts" visibleLines="[15,17]"/>
+1.  前往 `src/app/home/home.ts`
+1.  在 `@Component` 裝飾器的 template 屬性中，將程式碼更新成與下列程式碼一致：
+    <docs-code language="angular-ts" header="加入 housingLocation 屬性繫結" path="adev/src/content/tutorials/first-app/steps/07-dynamic-template-values/src/app/home/home.ts" visibleLines="[15,17]"/>
 
-        When adding a property binding to a component tag, we use the `[attribute] = "value"` syntax to notify Angular that the assigned value should be treated as a property from the component class and not a string value.
+        為元件標籤加入屬性繫結時，我們使用 `[attribute] = "value"` 語法，通知 Angular 將指派的值視為來自元件類別的屬性，而不是字串值。
 
-        The value on the right-hand side is the name of the property from the `Home`.
+        右側的值是 `Home` 中屬性的名稱。
 
     </docs-step>
 
-<docs-step title="Confirm the code still works">
-1.  Save your changes and confirm the app does not have any errors.
-1.  Correct any errors before you continue to the next step.
+<docs-step title="確認程式碼仍然可以運作">
+1.  儲存你的變更，確認應用程式沒有任何錯誤。
+1.  繼續下一步之前，請先修正任何錯誤。
 </docs-step>
 
 </docs-workflow>
 
-SUMMARY: In this lesson, you added a new property binding and passed in a reference to a class property. Now, the `HousingLocation` has access to data that it can use to customize the component's display.
+SUMMARY: 在這一課中，你加入了新的屬性繫結，並傳入一個類別屬性的參照。現在，`HousingLocation` 可以存取資料，用來自訂元件的顯示方式。
 
-For more information about the topics covered in this lesson, visit:
+如需本課所涵蓋主題的更多資訊，請造訪：
 
 <docs-pill-row>
-  <docs-pill href="/guide/templates/property-binding" title="Property binding"/>
+  <docs-pill href="/guide/templates/property-binding" title="屬性繫結"/>
 </docs-pill-row>

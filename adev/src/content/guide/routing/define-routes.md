@@ -1,12 +1,12 @@
-# Define routes
+# 定義路由
 
-Routes serve as the fundamental building blocks for navigation within an Angular app.
+路由是 Angular 應用程式中導覽的基本組成單位。
 
-## What are routes?
+## 什麼是路由？
 
-In Angular, a **route** is an object that defines which component should render for a specific URL path or pattern, as well as additional configuration options about what happens when a user navigates to that URL.
+在 Angular 中，**路由**是一個物件，定義了針對特定 URL 路徑或模式應渲染哪個元件，以及使用者導覽到該 URL 時還會發生什麼的其他設定選項。
 
-Here is a basic example of a route:
+以下是一個路由的基本範例：
 
 ```ts
 import { AdminPage } from './app-admin/app-admin.component';
@@ -17,13 +17,13 @@ const adminPage = {
 }
 ```
 
-For this route, when a user visits the `/admin` path, the app will display the `AdminPage` component.
+對於這條路由，當使用者造訪 `/admin` 路徑時，應用程式會顯示 `AdminPage` 元件。
 
-### Managing routes in your application
+### 在應用程式中管理路由
 
-Most projects define routes in a separate file that contains `routes` in the filename.
+大多數專案把路由定義在一個獨立檔案中，其檔名包含 `routes`。
 
-A collection of routes looks like this:
+一組路由看起來像這樣：
 
 ```ts
 import { Routes } from '@angular/router';
@@ -42,13 +42,13 @@ export const routes: Routes = [
 ];
 ```
 
-Tip: If you generated a project with Angular CLI, your routes are defined in `src/app/app.routes.ts`.
+Tip: 若你使用 Angular CLI 產生專案，你的路由定義在 `src/app/app.routes.ts`。
 
-### Adding the router to your application
+### 把路由加入應用程式 {#adding-the-router-to-your-application}
 
-When bootstrapping an Angular application without the Angular CLI, you can pass a configuration object that includes a `providers` array.
+在不使用 Angular CLI 引導 Angular 應用程式時，你可以傳入一個包含 `providers` 陣列的設定物件。
 
-Inside of the `providers` array, you can add the Angular router to your application by adding a `provideRouter` function call with your routes.
+在 `providers` 陣列內，你可以呼叫 `provideRouter` 函式並傳入你的路由，把 Angular 路由加入應用程式。
 
 ```ts
 import { ApplicationConfig } from '@angular/core';
@@ -64,28 +64,28 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## Route URL Paths
+## 路由 URL 路徑
 
-### Static URL Paths
+### 靜態 URL 路徑
 
-Static URL Paths refer to routes with predefined paths that don't change based on dynamic parameters. These are routes that match a `path` string exactly and have a fixed outcome.
+靜態 URL 路徑指的是具有預先定義路徑、不隨動態參數改變的路由。這些路由會精確比對 `path` 字串，並有固定的結果。
 
-Examples of this include:
+這類範例包括：
 
 - "/admin"
 - "/blog"
 - "/settings/account"
 
-### Define URL Paths with Route Parameters
+### 使用路由參數定義 URL 路徑 {#define-url-paths-with-route-parameters}
 
-Parameterized URLs allow you to define dynamic paths that allow multiple URLs to the same component while dynamically displaying data based on parameters in the URL.
+參數化 URL 讓你定義動態路徑，使多個 URL 能通往同一個元件，同時依據 URL 中的參數動態顯示資料。
 
-You can define this type of pattern by adding parameters to your route’s `path` string and prefixing each parameter with the colon (`:`) character.
+你可以把參數加入路由的 `path` 字串，並在每個參數前面加上冒號（`:`）字元，來定義這類模式。
 
-IMPORTANT: Parameters are distinct from information in the URL's [query string](https://en.wikipedia.org/wiki/Query_string).
-Learn more about [query parameters in Angular in this guide](/guide/routing/read-route-state#query-parameters).
+IMPORTANT: 參數與 URL 的[查詢字串](https://en.wikipedia.org/wiki/Query_string)中的資訊不同。
+如需深入瞭解 Angular 中的查詢參數，請參閱[本指南](/guide/routing/read-route-state#query-parameters)。
 
-The following example displays a user profile component based on the user id passed in through the URL.
+下列範例依據透過 URL 傳入的使用者 id，顯示使用者個人資料元件。
 
 ```ts
 import { Routes } from '@angular/router';
@@ -96,16 +96,16 @@ const routes: Routes = [
 ];
 ```
 
-In this example, URLs such as `/user/leeroy` and `/user/jenkins` render the `UserProfile` component. This component can then read the `id` parameter and use it to perform additional work, such as fetching data. See [reading route state guide](/guide/routing/read-route-state) for details on reading route parameters.
+在此範例中，`/user/leeroy` 與 `/user/jenkins` 等 URL 會渲染 `UserProfile` 元件。此元件接著可以讀取 `id` 參數，並用它執行額外的工作，例如擷取資料。讀取路由參數的詳細資訊，請參閱[讀取路由狀態指南](/guide/routing/read-route-state)。
 
-Valid route parameter names must start with a letter (a-z, A-Z) and can only contain:
+有效的路由參數名稱必須以字母（a-z、A-Z）開頭，且只能包含：
 
-- Letters (a-z, A-Z)
-- Numbers (0-9)
-- Underscore (\_)
-- Hyphen (-)
+- 字母（a-z、A-Z）
+- 數字（0-9）
+- 底線（\_）
+- 連字號（-）
 
-You can also define paths with multiple parameters:
+你也可以定義具有多個參數的路徑：
 
 ```ts
 import { Routes } from '@angular/router';
@@ -118,15 +118,15 @@ const routes: Routes = [
 ];
 ```
 
-With this new path, users can visit `/user/leeroy/youtube` and `/user/leeroy/bluesky` and see respective social media feeds based on the parameter for the user leeroy.
+有了這條新路徑，使用者可以造訪 `/user/leeroy/youtube` 與 `/user/leeroy/bluesky`，並依據使用者 leeroy 的參數，看到各自的社群媒體動態。
 
-See [Reading route state](/guide/routing/read-route-state) for details on reading route parameters.
+讀取路由參數的詳細資訊，請參閱[讀取路由狀態](/guide/routing/read-route-state)。
 
-### Wildcards
+### 萬用字元 {#wildcards}
 
-When you need to catch all routes for a specific path, the solution is a wildcard route which is defined with the double asterisk (`**`).
+當你需要攔截特定路徑的所有路由時，解決方法是使用以雙星號（`**`）定義的萬用字元路由。
 
-A common example is defining a Page Not Found component.
+一個常見的範例是定義找不到頁面的元件。
 
 ```ts
 import { Home } from './home/home.component';
@@ -140,15 +140,15 @@ const routes: Routes = [
 ];
 ```
 
-In this routes array, the app displays the `NotFound` component when the user visits any path outside of `home` and `user/:id`.
+在此路由陣列中，當使用者造訪 `home` 與 `user/:id` 以外的任何路徑時，應用程式會顯示 `NotFound` 元件。
 
-Tip: Wildcard routes are typically placed at the end of a routes array.
+Tip: 萬用字元路由通常放在路由陣列的末尾。
 
-## How Angular matches URLs
+## Angular 如何比對 URL
 
-When you define routes, the order is important because Angular uses a first-match wins strategy. This means that once Angular matches a URL with a route `path`, it stops checking any further routes. As a result, always put more specific routes before less specific routes.
+當你定義路由時，順序很重要，因為 Angular 採用先比對先贏的策略。這表示一旦 Angular 把某個 URL 與一條路由的 `path` 比對成功，就會停止檢查後續的路由。因此，請務必把更具體的路由放在較不具體的路由之前。
 
-The following example shows routes defined from most-specific to least specific:
+下列範例顯示了從最具體到最不具體定義的路由：
 
 ```ts
 const routes: Routes = [
@@ -160,26 +160,26 @@ const routes: Routes = [
 ];
 ```
 
-If a user visits `/users/new`, Angular router would go through the following steps:
+若使用者造訪 `/users/new`，Angular 路由會經過下列步驟：
 
-1. Checks `''` - doesn't match
-1. Checks `users/new` - matches! Stops here
-1. Never reaches `users/:id` even though it could match
-1. Never reaches `users`
-1. Never reaches `**`
+1. 檢查 `''`：不相符
+1. 檢查 `users/new`：相符！在此停止
+1. 永遠不會到達 `users/:id`，即使它也可能相符
+1. 永遠不會到達 `users`
+1. 永遠不會到達 `**`
 
-## Loading Route Component Strategies
+## 載入路由元件的策略
 
-Understanding how and when components load in Angular routing is crucial for building responsive web applications. Angular offers two primary strategies to control component loading behavior:
+了解 Angular 路由中元件的載入方式與時機，對於建置反應迅速的網頁應用程式至關重要。Angular 提供兩種主要策略來控制元件的載入行為：
 
-1. **Eagerly loaded**: Components that are loaded immediately
-2. **Lazily loaded**: Components loaded only when needed
+1. **立即載入**：會立即載入的元件
+2. **延遲載入**：只在需要時才載入的元件
 
-Each approach offers distinct advantages for different scenarios.
+每種做法在不同的情境下各有其優勢。
 
-### Eagerly loaded components
+### 立即載入的元件
 
-When you define a route with the `component` property, the referenced component is eagerly loaded as part of the same JavaScript bundle as the route configuration.
+當你以 `component` 屬性定義路由時，被參照的元件會立即載入，成為與路由設定同屬一個 JavaScript 打包檔的一部分。
 
 ```ts
 import { Routes } from "@angular/router";
@@ -200,13 +200,13 @@ export const routes: Routes = [
 ]
 ```
 
-Eagerly loading route components like this means that the browser has to download and parse all of the JavaScript for these components as part of your initial page load, but the components are available to Angular immediately.
+像這樣立即載入路由元件，意味著瀏覽器在初始頁面載入時就必須下載並解析這些元件的全部 JavaScript，但這些元件能立即供 Angular 使用。
 
-While including more JavaScript in your initial page load leads to slower initial load times, this can lead to more seamless transitions as the user navigates through an application.
+在初始頁面載入時包含更多 JavaScript 會讓初始載入時間變慢，但使用者在應用程式中導覽時，轉換可以更加流暢。
 
-### Lazily loaded components
+### 延遲載入的元件 {#lazily-loaded-components}
 
-You can use the `loadComponent` property to lazily load the JavaScript for a route only at the point at which that route would become active.
+你可以使用 `loadComponent` 屬性，在路由即將啟用之際，延遲載入該路由的 JavaScript。
 
 ```ts
 import { Routes } from "@angular/router";
@@ -225,13 +225,13 @@ export const routes: Routes = [
 ]
 ```
 
-The `loadComponent` property accepts a loader function that returns a Promise that resolves to an Angular component. In most cases, this function uses the standard [JavaScript dynamic import API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import). You can, however, use any arbitrary async loader function.
+`loadComponent` 屬性接受一個載入器函式，該函式會回傳一個 Promise，其解析結果是 Angular 元件。在大多數情況下，此函式使用標準的 [JavaScript 動態匯入 API](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import)。不過，你也可以使用任何自訂的非同步載入器函式。
 
-Lazily loading routes can significantly improve the load speed of your Angular application by removing large portions of JavaScript from the initial bundle. These portions of your code compile into separate JavaScript "chunks" that the router requests only when the user visits the corresponding route.
+延遲載入路由可以大幅改善 Angular 應用程式的載入速度，因為它能從初始打包檔中移除大量 JavaScript。這些程式碼會編譯成獨立的 JavaScript 區塊，路由器只會在使用者造訪對應的路由時才去請求它們。
 
-### Injection context lazy loading
+### 注入上下文中的延遲載入 {#injection-context-lazy-loading}
 
-The Router executes `loadComponent` and `loadChildren` within the **injection context of the current route**, allowing you to call `inject` inside these loader functions to access providers declared on that route, inherited from parent routes through hierarchical dependency injection, or available globally. This enables context-aware lazy loading.
+Router 會在**目前路由的注入上下文**中執行 `loadComponent` 與 `loadChildren`，讓你能在這些載入器函式中呼叫 `inject`，以存取在該路由上宣告的提供者、透過階層式依賴注入從父路由繼承的提供者，或全域可用的提供者。這讓你能實現具上下文感知能力的延遲載入。
 
 ```ts
 import { Routes } from '@angular/router';
@@ -252,17 +252,17 @@ export const routes: Routes = [
 ];
 ```
 
-### Should I use an eager or a lazy route?
+### 我應該使用立即載入還是延遲載入的路由？
 
-There are many factors to consider when deciding on whether a route should be eager or lazy.
+決定某個路由應該立即載入還是延遲載入時，有許多因素需要考量。
 
-In general, eager loading is recommended for primary landing page(s) while other pages would be lazy-loaded.
+一般而言，建議主要的到達頁面使用立即載入，其他頁面則使用延遲載入。
 
-Note: While lazy routes have the upfront performance benefit of reducing the amount of initial data requested by the user, it adds future data requests that could be undesirable. This is particularly true when dealing with nested lazy loading at multiple levels, which can significantly impact performance.
+Note: 雖然延遲載入的路由有減少使用者初始請求資料量的前期效能優勢，但它也會增加日後的資料請求，在某些情況下並不理想。尤其當多個層級都使用巢狀延遲載入時，對效能的影響會特別顯著。
 
-## Redirects
+## 重新導向
 
-You can define a route that redirects to another route instead of rendering a component:
+你可以定義一條路由，讓它重新導向到另一條路由，而不是渲染元件：
 
 ```ts
 import { BlogComponent } from './home/blog.component';
@@ -279,11 +279,11 @@ const routes: Routes = [
 ];
 ```
 
-If you modify or remove a route, some users may still click on out-of-date links or bookmarks to that route. You can add a redirect to direct those users to an appropriate alternative route instead of a "not found" page.
+若你修改或移除了某條路由，有些使用者仍可能點選指向該路由的過時連結或書籤。你可以加入重新導向，把這些使用者導向適當的替代路由，而不是「找不到」頁面。
 
-## Page titles
+## 頁面標題 {#page-titles}
 
-You can associate a **title** with each route. Angular automatically updates the [page title](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title) when a route activates. Always define appropriate page titles for your application, as these titles are necessary to create an accessible experience.
+你可以為每條路由關聯一個 **title**。Angular 會在路由啟用時自動更新[頁面標題](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/title)。請務必為應用程式定義適當的頁面標題，因為這些標題是打造無障礙體驗的必要元素。
 
 ```ts
 import { Routes } from '@angular/router';
@@ -305,7 +305,7 @@ const routes: Routes = [
 ];
 ```
 
-The page `title` property can be set dynamincally to a resolver function using [`ResolveFn`](/api/router/ResolveFn).
+頁面的 `title` 屬性可以使用 [`ResolveFn`](/api/router/ResolveFn) 動態設定為一個解析器函式。
 
 ```ts
 const titleResolver: ResolveFn<string> = (route) => route.queryParams['id'];
@@ -320,13 +320,13 @@ const routes: Routes = [
 
 ```
 
-Route titles can also be set via a service extending the [`TitleStrategy`](/api/router/TitleStrategy) abstract class. By default, Angular uses the [`DefaultTitleStrategy`](/api/router/DefaultTitleStrategy).
+路由標題也可以透過繼承 [`TitleStrategy`](/api/router/TitleStrategy) 抽象類別的服務來設定。預設情況下，Angular 使用 [`DefaultTitleStrategy`](/api/router/DefaultTitleStrategy)。
 
-### Using TitleStrategy for page titles
+### 使用 TitleStrategy 設定頁面標題 {#using-titlestrategy-for-page-titles}
 
-For advanced scenarios where you need centralized control over how the document title is composed, implement a `TitleStrategy`.
+在需要集中控制文件標題組成方式的進階情境中，請實作 `TitleStrategy`。
 
-`TitleStrategy` is a token you can provide to override the default title strategy used by Angular. You can supply a custom `TitleStrategy` to implement conventions such as adding an application suffix, formatting titles from breadcrumbs, or generating titles dynamically from route data.
+`TitleStrategy` 是一個你可以提供的 token，用來覆寫 Angular 使用的預設標題策略。你可以提供自訂的 `TitleStrategy`，實作諸如加上應用程式字尾、從麵包屑格式化標題，或從路由資料動態產生標題等慣例。
 
 ```ts
 import { Injectable } from '@angular/core';
@@ -346,7 +346,7 @@ export class AppTitleStrategy extends TitleStrategy {
 }
 ```
 
-To use the custom strategy, provide it with the `TitleStrategy` token at the application level:
+若要使用自訂策略，請在應用程式層級以 `TitleStrategy` token 提供它：
 
 ```ts
 import { provideRouter, TitleStrategy } from '@angular/router';
@@ -360,11 +360,11 @@ export const appConfig = {
 };
 ```
 
-## Route-level providers for dependency injection
+## 用於依賴注入的路由層級提供者
 
-Each route has a `providers` property that lets you provide dependencies to that route's content via [dependency injection](/guide/di).
+每條路由都有一個 `providers` 屬性，讓你透過[依賴注入](/guide/di)把相依性提供給該路由的內容。
 
-Common scenarios where this can be helpful include applications that have different services based on whether the user is an admin or not.
+常見的適用情境包括：依據使用者是否為管理員而使用不同服務的應用程式。
 
 ```ts
 export const ROUTES: Route[] = [
@@ -384,19 +384,19 @@ export const ROUTES: Route[] = [
 ];
 ```
 
-In this code sample, the `admin` path contains a protected data property of `ADMIN_API_KEY` that is only available to children within its section. As a result, no other paths will be able to access the data provided via `ADMIN_API_KEY`.
+在此程式碼範例中，`admin` 路徑包含受保護的資料屬性 `ADMIN_API_KEY`，只有其區段內的子路由才能使用。因此，其他任何路徑都無法存取透過 `ADMIN_API_KEY` 提供的資料。
 
-See the [Dependency injection guide](/guide/di) for more information about providers and injection in Angular.
+如需深入瞭解 Angular 中的提供者與注入，請參閱[依賴注入指南](/guide/di)。
 
-## Associating data with routes
+## 為路由關聯資料
 
-Route data enables you to attach additional information to routes. You are able to configure how components behave based on this data.
+路由資料讓你把額外資訊附加到路由上。你可以依據這些資料設定元件的行為方式。
 
-There are two ways to work with route data: static data that remains constant, and dynamic data that can change based on runtime conditions.
+處理路由資料有兩種方式：保持不變的靜態資料，以及可依據執行階段條件改變的動態資料。
 
-### Static data
+### 靜態資料
 
-You can associate arbitrary static data with a route via the `data` property in order to centralize things like route-specific metadata (e.g., analytics tracking, permissions, etc.):
+你可以透過 `data` 屬性為路由關聯任意的靜態資料，以集中管理路由專屬的中繼資料（例如分析追蹤、權限等）：
 
 ```ts
 import { Routes } from '@angular/router';
@@ -418,21 +418,21 @@ const routes: Routes = [
 ];
 ```
 
-In this code sample, the home and about page are configured with specific `analyticsId` which would then be used in their respective components for page tracking analytics.
+在此程式碼範例中，首頁與關於頁面設定了特定的 `analyticsId`，之後會在各自的元件中用於頁面追蹤分析。
 
-You can read this static data by injecting the `ActivatedRoute`. See [Reading route state](/guide/routing/read-route-state) for details.
+你可以注入 `ActivatedRoute` 來讀取這份靜態資料。詳細資訊請參閱[讀取路由狀態](/guide/routing/read-route-state)。
 
-### Dynamic data with data resolvers
+### 使用資料解析器的動態資料
 
-When you need to provide dynamic data to a route, check out the [guide on route data resolvers](/guide/routing/data-resolvers).
+當你需要為路由提供動態資料時，請參閱[路由資料解析器指南](/guide/routing/data-resolvers)。
 
-## Nested Routes
+## 巢狀路由
 
-Nested routes, also known as child routes, are a common technique for managing more complex navigation routes where a component has a sub-view that changes based on the URL.
+巢狀路由（也稱為子路由）是一種常見技術，用來管理較複雜的導覽路由：某個元件擁有一個會依據 URL 改變的子檢視。
 
-<img alt="Diagram to illustrate nested routes" src="assets/images/guide/router/nested-routing-diagram.svg">
+<img alt="巢狀路由示意圖" src="assets/images/guide/router/nested-routing-diagram.svg">
 
-You can add child routes to any route definition with the `children` property:
+你可以使用 `children` 屬性，為任何路由定義加入子路由：
 
 ```ts
 const routes: Routes = [
@@ -453,11 +453,11 @@ const routes: Routes = [
 ]
 ```
 
-The above example defines a route for a product page that allows a user to change whether the product info or reviews are displayed based on the url.
+上述範例定義了一條產品頁面的路由，讓使用者能依據 URL 切換顯示產品資訊或評論。
 
-The `children` property accepts an array of `Route` objects.
+`children` 屬性接受一個 `Route` 物件陣列。
 
-To display child routes, the parent component (`ProductComponent` in the example above) includes its own `<router-outlet>`.
+若要顯示子路由，父元件（範例中的 `ProductComponent`）需包含它自己的 `<router-outlet>`。
 
 ```angular-html
 <!-- ProductComponent -->
@@ -467,8 +467,8 @@ To display child routes, the parent component (`ProductComponent` in the example
 </article>
 ```
 
-After adding child routes to the configuration and adding a `<router-outlet>` to the component, navigation between URLs that match the child routes updates only the nested outlet.
+在設定中加入子路由，並在元件中加入 `<router-outlet>` 之後，在符合子路由的 URL 之間導覽，只會更新巢狀的 outlet。
 
-## Next steps
+## 後續步驟
 
-Learn how to [display the contents of your routes with Outlets](/guide/routing/show-routes-with-outlets).
+了解如何[使用 Outlet 顯示路由內容](/guide/routing/show-routes-with-outlets)。

@@ -1,17 +1,17 @@
-# Updating the Component Class
+# 更新元件類別
 
-In Angular, the component's logic and behavior are defined in the component's TypeScript class.
+在 Angular 中，元件的邏輯與行為定義在元件的 TypeScript 類別中。
 
-Note: Learn more about [showing dynamic text in the essentials guide](/essentials/templates#showing-dynamic-text).
+NOTE: 在[核心概念指南](/essentials/templates#showing-dynamic-text)中進一步了解如何顯示動態文字。
 
-In this activity, you'll learn how to update the component class and how to use [interpolation](/guide/templates/binding#render-dynamic-text-with-text-interpolation).
+在這個練習中，你將學習如何更新元件類別，以及如何使用[插值](/guide/templates/binding#render-dynamic-text-with-text-interpolation)。
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Add a property called `city`">
-Update the component class by adding a property called `city` to the `App` class.
+<docs-step title="加上名為 `city` 的屬性">
+更新元件類別，為 `App` 類別加上一個名為 `city` 的屬性。
 
 ```ts
 export class App {
@@ -19,33 +19,33 @@ export class App {
 }
 ```
 
-The `city` property is of type `string` but you can omit the type because of [type inference in TypeScript](https://www.typescriptlang.org/docs/handbook/type-inference.html). The `city` property can be used in the `App` class and can be referenced in the component template.
+`city` 屬性的型別是 `string`，但由於 [TypeScript 的型別推論](https://www.typescriptlang.org/docs/handbook/type-inference.html)，你可以省略型別。`city` 屬性可以在 `App` 類別中使用，也可以在元件範本中參照。
 
 <br>
 
-To use a class property in a template, you have to use the `{{ }}` syntax.
+要在範本中使用類別屬性，你必須使用 `{{ }}` 語法。
 </docs-step>
 
-<docs-step title="Update the component template">
-Update the `template` property to match the following HTML:
+<docs-step title="更新元件範本">
+更新 `template` 屬性，讓它與以下 HTML 相符：
 
 ```ts
 template: `Hello {{ city }}`,
 ```
 
-This is an example of interpolation and is a part of Angular template syntax. It enables you to do much more than put dynamic text in a template. You can also use this syntax to call functions, write expressions and more.
+這是插值的一個範例，也是 Angular 範本語法的一部分。它不只讓你把動態文字放進範本中，你還可以使用這個語法來呼叫函式、撰寫運算式等等。
 </docs-step>
 
-<docs-step title="More practice with interpolation">
-Try this - add another set of `{{ }}` with the contents being `1 + 1`:
+<docs-step title="多練習一下插值">
+試試看——再加上一組 `{{ }}`，內容是 `1 + 1`：
 
 ```ts
 template: `Hello {{ city }}, {{ 1 + 1 }}`,
 ```
 
-Angular evaluates the contents of the `{{ }}` and renders the output in the template.
+Angular 會計算 `{{ }}` 中的內容，並把輸出結果渲染到範本中。
 </docs-step>
 
 </docs-workflow>
 
-This is just the beginning of what's possible with Angular templates, keep on learning to find out more.
+這只是 Angular 範本可能性的開端，繼續學習，你會發現更多。

@@ -1,21 +1,21 @@
-# Creating and updating your first signal
+# 建立並更新你的第一個訊號
 
-Welcome to the Angular signals tutorial! [Signals](/essentials/signals) are Angular's reactive primitive that provide a way to manage state and automatically update your UI when that state changes.
+歡迎來到 Angular 訊號教學！[訊號](/essentials/signals)是 Angular 的反應式原語，提供管理狀態的方式，並在狀態改變時自動更新你的 UI。
 
-In this activity, you'll learn how to:
+在本活動中，你將學到如何：
 
-- Create your first signal using the `signal()` function
-- Display its value in a template
-- Update the signal value using `set()` and `update()` methods
+- 使用 `signal()` 函式建立你的第一個訊號
+- 在範本中顯示它的值
+- 使用 `set()` 與 `update()` 方法更新訊號值
 
-Let's build an interactive user status system with signals!
+來用訊號建置一個互動式使用者狀態系統吧！
 
 <hr />
 
 <docs-workflow>
 
-<docs-step title="Import the signal function">
-Import the `signal` function from `@angular/core` at the top of your component file.
+<docs-step title="匯入 signal 函式">
+在元件檔案的頂端，從 `@angular/core` 匯入 `signal` 函式。
 
 ```ts
 import {Component, signal, ChangeDetectionStrategy} from '@angular/core';
@@ -23,8 +23,8 @@ import {Component, signal, ChangeDetectionStrategy} from '@angular/core';
 
 </docs-step>
 
-<docs-step title="Create a signal in your component">
-Add a `userStatus` signal to your component class that is initialized with a value of `'offline'`.
+<docs-step title="在元件中建立訊號">
+在元件類別中加入一個 `userStatus` 訊號，初始值為 `'offline'`。
 
 ```ts
 @Component({
@@ -37,10 +37,10 @@ export class App {
 
 </docs-step>
 
-<docs-step title="Display the signal value in the template">
-Update the status indicator to display the current user status by:
-1. Binding the signal to the class attribute with `[class]="userStatus()"`
-2. Displaying the status text by replacing `???` with `{{ userStatus() }}`
+<docs-step title="在範本中顯示訊號值">
+更新狀態指示器，讓它顯示目前的使用者狀態，做法是：
+1. 使用 `[class]="userStatus()"` 將訊號繫結到 class 屬性
+2. 將 `???` 換成 `{{ userStatus() }}`，顯示狀態文字
 
 ```html
 <!-- Update from: -->
@@ -56,11 +56,11 @@ Update the status indicator to display the current user status by:
 </div>
 ```
 
-Notice how we call the signal `userStatus()` with parentheses to read its value.
+注意，我們呼叫訊號 `userStatus()` 時要加上括號，才能讀取它的值。
 </docs-step>
 
-<docs-step title="Add methods to update the signal">
-Add methods to your component that change the user status using the `set()` method.
+<docs-step title="加入更新訊號的方法">
+在元件中加入方法，使用 `set()` 方法變更使用者狀態。
 
 ```ts
 goOnline() {
@@ -72,14 +72,14 @@ goOffline() {
 }
 ```
 
-The `set()` method replaces the signal's value entirely with a new value.
+`set()` 方法會以新值完全取代訊號目前的值。
 
 </docs-step>
 
-<docs-step title="Wire up the control buttons">
-The buttons are already in the template. Now connect them to your methods by adding:
-1. Click handlers with `(click)`
-2. Disabled states with `[disabled]` when already in that status
+<docs-step title="接上控制按鈕">
+按鈕已經在範本中了。現在將它們連接到你的方法，加入：
+1. 使用 `(click)` 的點選處理常式
+2. 已處於該狀態時，使用 `[disabled]` 的停用狀態
 
 ```html
 <!-- Add bindings to the existing buttons: -->
@@ -93,8 +93,8 @@ The buttons are already in the template. Now connect them to your methods by add
 
 </docs-step>
 
-<docs-step title="Add a toggle method using update()">
-Add a `toggleStatus()` method that switches between online and offline using the `update()` method.
+<docs-step title="加入使用 update() 的切換方法">
+加入一個 `toggleStatus()` 方法，使用 `update()` 方法在上線與離線之間切換。
 
 ```ts
 toggleStatus() {
@@ -102,12 +102,12 @@ toggleStatus() {
 }
 ```
 
-The `update()` method takes a function that receives the current value and returns the new value. This is useful when you need to modify the existing value based on its current state.
+`update()` 方法接收一個函式，該函式會收到目前的值，並回傳新值。當你需要依據目前狀態來修改既有值時，這個方法很好用。
 
 </docs-step>
 
-<docs-step title="Add the toggle button handler">
-The toggle button is already in the template. Connect it to your `toggleStatus()` method:
+<docs-step title="加入切換按鈕的處理常式">
+切換按鈕已經在範本中了。將它連接到你的 `toggleStatus()` 方法：
 
 ```html
 <button (click)="toggleStatus()" class="toggle-btn">
@@ -119,12 +119,12 @@ The toggle button is already in the template. Connect it to your `toggleStatus()
 
 </docs-workflow>
 
-Congratulations! You've created your first signal and learned how to update it using both `set()` and `update()` methods. The `signal()` function creates a reactive value that Angular tracks, and when you update it, your UI automatically reflects the changes.
+恭喜！你已建立你的第一個訊號，並學會如何使用 `set()` 與 `update()` 兩種方法更新它。`signal()` 函式會建立一個 Angular 會追蹤的反應式值，當你更新它時，你的 UI 會自動反映出變化。
 
-Next, you'll learn [how to derive state from signals using computed](/tutorials/signals/2-deriving-state-with-computed-signals)!
+接下來，你將學到[如何使用計算訊號從訊號衍生狀態](/tutorials/signals/2-deriving-state-with-computed-signals)！
 
-<docs-callout helpful title="About ChangeDetectionStrategy.OnPush">
+<docs-callout helpful title="關於 ChangeDetectionStrategy.OnPush">
 
-You might notice `ChangeDetectionStrategy.OnPush` in the component decorator throughout this tutorial. This is a performance optimization for Angular components that use signals. For now, you can safely ignore it—just know it helps your app run faster when using signals! You can learn more in the [change detection strategies API docs](/api/core/ChangeDetectionStrategy).
+在本教學中，你可能會注意到元件裝飾器裡的 `ChangeDetectionStrategy.OnPush`。這是針對使用訊號的 Angular 元件所做的效能最佳化。目前你可以先放心忽略它——只要知道它能讓你的應用程式在使用訊號時執行得更快就好！想了解更多，請參閱[變更偵測策略 API 文件](/api/core/ChangeDetectionStrategy)。
 
 </docs-callout>

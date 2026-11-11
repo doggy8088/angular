@@ -1,10 +1,10 @@
-<docs-decorative-header title="Signals" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
-Create and manage dynamic data.
+<docs-decorative-header title="訊號" imgSrc="adev/src/assets/images/signals.svg"> <!-- markdownlint-disable-line -->
+建立並管理動態資料。
 </docs-decorative-header>
 
-In Angular, you use _signals_ to create and manage state. A signal is a lightweight wrapper around a value.
+在 Angular 中，你會用訊號來建立與管理狀態。訊號是對某個值的輕量包裝。
 
-Use the `signal` function to create a signal for holding local state:
+使用 `signal` 函式來建立一個保存本機狀態的訊號：
 
 ```typescript
 import {signal} from '@angular/core';
@@ -23,11 +23,11 @@ firstName.set('Jaime');
 firstName.update(name => name.toUpperCase());
 ```
 
-Angular tracks where signals are read and when they're updated. The framework uses this information to do additional work, such as updating the DOM with new state. This ability to respond to changing signal values over time is known as _reactivity_.
+Angular 會追蹤訊號在哪些地方被讀取，以及何時被更新。框架會利用這些資訊來執行額外的工作，例如以新狀態更新 DOM。這種隨著訊號值變化而作出反應的能力，就稱為反應式機制。
 
-## Computed expressions
+## 計算運算式
 
-A `computed` is a signal that produces its value based on other signals.
+`computed` 是一種訊號，它的值是由其他訊號推導出來的。
 
 ```typescript
 import {signal, computed} from '@angular/core';
@@ -38,7 +38,7 @@ const firstNameCapitalized = computed(() => firstName().toUpperCase());
 console.log(firstNameCapitalized()); // MORGAN
 ```
 
-A `computed` signal is read-only; it does not have a `set` or an `update` method. Instead, the value of the `computed` signal automatically changes when any of the signals it reads change:
+`computed` 訊號是唯讀的，它沒有 `set` 或 `update` 方法。取而代之的是，當它所讀取的任何訊號改變時，`computed` 訊號的值會自動隨之改變：
 
 ```typescript
 import {signal, computed} from '@angular/core';
@@ -51,9 +51,9 @@ firstName.set('Jaime');
 console.log(firstNameCapitalized()); // JAIME
 ```
 
-## Using signals in components
+## 在元件中使用訊號
 
-Use `signal` and `computed` inside your components to create and manage state:
+在你的元件裡使用 `signal` 與 `computed` 來建立並管理狀態：
 
 ```typescript
 @Component({/* ... */})
@@ -68,13 +68,13 @@ export class UserProfile {
 }
 ```
 
-TIP: Want to know more about Angular Signals? See the [In-depth Signals guide](guide/signals) for the full details.
+TIP: 想更深入了解 Angular 訊號嗎？請參閱[訊號深入指南](guide/signals)，取得完整說明。
 
-## Next Step
+## 下一步
 
-Now that you have learned how to declare and manage dynamic data, it's time to learn how to use that data inside of templates.
+現在你已經學會如何宣告與管理動態資料，接著來學習如何在範本中使用這些資料。
 
 <docs-pill-row>
-  <docs-pill title="Dynamic interfaces with templates" href="essentials/templates" />
-  <docs-pill title="In-depth signals guide" href="guide/signals" />
+  <docs-pill title="以範本打造動態介面" href="essentials/templates" />
+  <docs-pill title="訊號深入指南" href="guide/signals" />
 </docs-pill-row>

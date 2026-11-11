@@ -1,10 +1,10 @@
-# Navigate to routes
+# 導覽至路由
 
-The RouterLink directive is Angular's declarative approach to navigation. It allows you to use standard anchor elements (`<a>`) that seamlessly integrate with Angular's routing system.
+RouterLink 指令是 Angular 宣告式的導覽做法。它讓你能使用標準的錨點元素（`<a>`），並與 Angular 的路由系統無縫整合。
 
-## How to use RouterLink
+## 如何使用 RouterLink
 
-Instead of using regular anchor elements `<a>` with an `href` attribute, you add a RouterLink directive with the appropriate path in order to leverage Angular routing.
+與其使用帶有 `href` 屬性的一般錨點元素 `<a>`，不如加入帶有適當路徑的 RouterLink 指令，以善用 Angular 路由。
 
 ```angular-ts
 import {RouterLink} from '@angular/router';
@@ -21,9 +21,9 @@ import {RouterLink} from '@angular/router';
 export class App {}
 ```
 
-### Using absolute or relative links
+### 使用絕對連結或相對連結
 
-**Relative URLs** in Angular routing allow you to define navigation paths relative to the current route's location. This is in contrast to **absolute URLs** which contain the full path with the protocol (e.g., `http://`) and the **root domain** (e.g., `google.com`).
+Angular 路由中的**相對 URL**，讓你能相對於目前路由的位置來定義導覽路徑。相較之下，**絕對 URL** 包含帶有通訊協定（例如 `http://`）的完整路徑，以及**根網域**（例如 `google.com`）。
 
 ```angular-html
 <!-- Absolute URL -->
@@ -33,13 +33,13 @@ export class App {}
 <a href="/essentials">Angular Essentials Guide</a>
 ```
 
-In this example, the first example contains the full path with the protocol (i.e., `https://`) and the root domain (i.e., `angular.dev`) explicitly defined for the essentials page. In contrast, the second example assumes the user is already on the correct root domain for `/essentials`.
+在這個範例中，第一個範例明確定義了 essentials 頁面的完整路徑，包含通訊協定（即 `https://`）與根網域（即 `angular.dev`）。相較之下，第二個範例假設使用者已經位於 `/essentials` 的正確根網域上。
 
-Generally speaking, relative URLs are preferred because they are more maintainable across applications because they don’t need to know their absolute position within the routing hierarchy.
+一般而言，相對 URL 較受青睞，因為它們在不同應用程式之間更容易維護，不需要知道自己在路由階層中的絕對位置。
 
-### How relative URLs work
+### 相對 URL 如何運作
 
-Angular routing has two syntaxes for defining relative URLs: strings and arrays.
+Angular 路由有兩種定義相對 URL 的語法：字串與陣列。
 
 ```angular-html
 <!-- Navigates user to /dashboard -->
@@ -47,17 +47,17 @@ Angular routing has two syntaxes for defining relative URLs: strings and arrays.
 <a [routerLink]="['dashboard']">Dashboard</a>
 ```
 
-HELPFUL: Passing a string is the most common way to define relative URLs.
+HELPFUL: 傳入字串是定義相對 URL 最常見的方式。
 
-When you need to define dynamic parameters in a relative URL, use the array syntax:
+當你需要在相對 URL 中定義動態參數時，請使用陣列語法：
 
 ```angular-html
 <a [routerLink]="['user', currentUserId]">Current User</a>
 ```
 
-In addition, Angular routing allows you specify whether you want the path to be relative to the current URL or to the root domain based on whether the relative path is prefixed with a forward slash (`/`) or not.
+此外，Angular 路由允許你根據相對路徑是否以斜線（`/`）開頭，來指定路徑是相對於目前的 URL，還是相對於根網域。
 
-For example, if the user is on `example.com/settings`, here is how different relative paths can be defined for various scenarios:
+例如，如果使用者位於 `example.com/settings`，以下是針對不同情境定義相對路徑的方式：
 
 ```angular-html
 <!-- Navigates to /settings/notifications -->
@@ -69,13 +69,13 @@ For example, if the user is on `example.com/settings`, here is how different rel
 <a [routerLink]="['/team', teamId, 'user', userId]">Current User</a>”
 ```
 
-## Programmatic navigation to routes
+## 以程式化方式導覽至路由
 
-While `RouterLink` handles declarative navigation in templates, Angular provides programmatic navigation for scenarios where you need to navigate based on logic, user actions, or application state. By injecting `Router`, you can dynamically navigate to routes, pass parameters, and control navigation behavior in your TypeScript code.
+雖然 `RouterLink` 負責處理範本中的宣告式導覽，Angular 也提供程式化導覽，適用於需要根據邏輯、使用者動作或應用程式狀態來導覽的情境。透過注入 `Router`，你可以在 TypeScript 程式碼中動態導覽至各個路由、傳遞參數，並控制導覽行為。
 
 ### `router.navigate()`
 
-You can use the `router.navigate()` method to programmatically navigate between routes by specifying a URL path array.
+你可以使用 `router.navigate()` 方法，透過指定 URL 路徑陣列，以程式化方式在路由之間導覽。
 
 ```angular-ts
 import { Router } from '@angular/router';
@@ -107,9 +107,9 @@ export class AppDashboard {
 }
 ```
 
-`router.navigate()` supports both simple and complex routing scenarios, allowing you to pass route parameters, [query parameters](/guide/routing/read-route-state#query-parameters), and control navigation behavior.
+`router.navigate()` 同時支援簡單與複雜的路由情境，讓你能傳遞路由參數、[查詢參數](/guide/routing/read-route-state#query-parameters)，並控制導覽行為。
 
-You can also build dynamic navigation paths relative to your component’s location in the routing tree using the `relativeTo` option.
+你也可以使用 `relativeTo` 選項，相對於你的元件在路由樹中的位置，來建立動態導覽路徑。
 
 ```angular-ts
 import { Router, ActivatedRoute } from '@angular/router';
@@ -145,7 +145,7 @@ export class UserDetailComponent {
 
 ### `router.navigateByUrl()`
 
-The `router.navigateByUrl()` method provides a direct way to programmatically navigate using URL path strings rather than array segments. This method is ideal when you have a full URL path and need to perform absolute navigation, especially when working with externally provided URLs or deep linking scenarios.
+`router.navigateByUrl()` 方法提供了一種直接的方式，使用 URL 路徑字串（而非陣列區段）以程式化方式導覽。當你擁有完整的 URL 路徑並需要執行絕對導覽時，這個方法非常理想，特別是在處理外部提供的 URL，或深層連結的情境時。
 
 ```ts
 // Standard route navigation
@@ -164,7 +164,7 @@ router.navigateByUrl('/search?category=books&sortBy=price');
 router.navigateByUrl('/sales-awesome;isOffer=true;showModal=false')
 ```
 
-In the event you need to replace the current URL in history, `navigateByUrl` also accepts a configuration object that has a `replaceUrl` option.
+如果你需要在瀏覽歷史中取代目前的 URL，`navigateByUrl` 也接受一個帶有 `replaceUrl` 選項的設定物件。
 
 ```ts
 // Replace current URL in history
@@ -173,6 +173,6 @@ router.navigateByUrl('/checkout', {
 });
 ```
 
-## Next steps
+## 後續步驟
 
-Learn how to [read route state](/guide/routing/read-route-state) to create responsive and context-aware components.
+了解如何[讀取路由狀態](/guide/routing/read-route-state)，以建立反應敏捷且具上下文感知能力的元件。
