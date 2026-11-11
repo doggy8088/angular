@@ -1,18 +1,18 @@
-# Custom pipes for new transforms
+# 用自訂管道進行新的轉換
 
-Create custom pipes to encapsulate transformations that are not provided with the built-in pipes.
-Then, use your custom pipe in template expressions, the same way you use built-in pipes—to transform input values to output values for display.
+建立自訂管道，封裝內建管道沒有提供的轉換。
+接著，在範本運算式中使用你的自訂管道，就像使用內建管道一樣——把輸入值轉換為輸出值以供顯示。
 
-## Marking a class as a pipe
+## 將類別標記為管道 {#marking-a-class-as-a-pipe}
 
-To mark a class as a pipe and supply configuration metadata, apply the `@Pipe` to the class.
+若要把類別標記為管道並提供設定中繼資料，請對該類別套用 `@Pipe`。
 
-Use UpperCamelCase (the general convention for class names) for the pipe class name, and camelCase for the corresponding `name` string.
-Do not use hyphens in the `name`.
+管道類別名稱使用 UpperCamelCase（類別名稱的一般慣例），對應的 `name` 字串則使用 camelCase。
+不要在 `name` 中使用連字號。
 
-For details and more examples, see [Pipe names](/style-guide#pipe-names "Pipe names in the Angular coding style guide").
+詳細資訊與更多範例，請參閱 [Pipe names](/style-guide#pipe-names "Pipe names in the Angular coding style guide")。
 
-Use `name` in template expressions as you would for a built-in pipe.
+在範本運算式中使用 `name`，就像使用內建管道一樣。
 
 ```ts
 import { Pipe } from '@angular/core';
@@ -24,11 +24,11 @@ import { Pipe } from '@angular/core';
 export class GreetPipe {}
 ```
 
-## Using the PipeTransform interface
+## 使用 PipeTransform 介面 {#using-the-pipetransform-interface}
 
-Implement the [`PipeTransform`](/api/core/PipeTransform "API reference for PipeTransform") interface in your custom pipe class to perform the transformation.
+在你的自訂管道類別中實作 [`PipeTransform`](/api/core/PipeTransform "API reference for PipeTransform") 介面，以執行轉換。
 
-Angular invokes the `transform` method with the value of a binding as the first argument, and any parameters as the second argument in list form, and returns the transformed value.
+Angular 會以繫結的值作為第一個引數、以清單形式的所有參數作為第二個引數，呼叫 `transform` 方法，並回傳轉換後的值。
 
 ```ts
 import { Pipe, PipeTransform } from '@angular/core';
@@ -44,18 +44,18 @@ export class GreetPipe implements PipeTransform {
 }
 ```
 
-## Example: Transforming a value exponentially
+## 範例：以指數方式轉換值 {#example-transforming-a-value-exponentially}
 
-In a game, you might want to implement a transformation that raises a value exponentially to increase a hero's power.
-For example, if the hero's score is 2, boosting the hero's power exponentially by 10 produces a score of 1024 (`2**10`).
-Use a custom pipe for this transformation.
+在遊戲中，你可能會想實作一個以指數方式提升值的轉換，來增加英雄的力量。
+例如，如果英雄的分數是 2，把英雄的力量以指數方式提升 10，會得到 1024 分（`2**10`）。
+使用自訂管道來進行這個轉換。
 
-The following code example shows two component definitions:
+下列程式碼範例展示了兩個元件定義：
 
-| Files                          | Details |
+| 檔案                          | 詳細說明 |
 |:---                            |:---     |
-| `exponential-strength.pipe.ts` | Defines a custom pipe named `exponentialStrength` with the `transform` method that performs the transformation. It defines an argument to the `transform` method \(`exponent`\) for a parameter passed to the pipe. |
-| `power-booster.component.ts`   | Demonstrates how to use the pipe, specifying a value \(`2`\) and the exponent parameter \(`10`\).                                                                                                                   |
+| `exponential-strength.pipe.ts` | 定義一個名為 `exponentialStrength` 的自訂管道，帶有執行轉換的 `transform` 方法。它為傳給管道的參數，定義了 `transform` 方法的一個引數 \(`exponent`\)。 |
+| `power-booster.component.ts`   | 示範如何使用該管道，指定一個值 \(`2`\) 與指數參數 \(`10`\)。                                                                                                                   |
 
 <docs-code-multifile>
   <docs-code header="src/app/exponential-strength.pipe.ts" language="ts" path="adev/src/content/examples/pipes/src/app/exponential-strength.pipe.ts"/>

@@ -1,38 +1,38 @@
-# Understanding dependency injection
+# 了解依賴注入
 
-Dependency injection, or DI, is one of the fundamental concepts in Angular. DI is wired into the Angular framework and allows classes with Angular decorators, such as Components, Directives, Pipes, and Injectables, to configure dependencies that they need.
+依賴注入（DI）是 Angular 的基本概念之一。DI 已內建於 Angular 框架中，讓帶有 Angular 裝飾器的類別（例如元件、指令、管道與可注入物件）能設定它們所需的依賴。
 
-Two main roles exist in the DI system: dependency consumer and dependency provider.
+DI 系統中有兩個主要角色：依賴消費者與依賴提供者。
 
-Angular facilitates the interaction between dependency consumers and dependency providers using an abstraction called `Injector`. When a dependency is requested, the injector checks its registry to see if there is an instance already available there. If not, a new instance is created and stored in the registry. Angular creates an application-wide injector (also known as the "root" injector) during the application bootstrap process. In most cases you don't need to manually create injectors, but you should know that there is a layer that connects providers and consumers.
+Angular 使用一種稱為 `Injector` 的抽象，來促進依賴消費者與依賴提供者之間的互動。當某個依賴被請求時，注入器會檢查它的註冊表，看其中是否已有可用的實例。如果沒有，就會建立一個新實例並存入註冊表。Angular 會在應用程式啟動過程中，建立一個應用程式範圍的注入器（也稱為「根」注入器）。在大多數情況下，你不需要手動建立注入器，但你應該知道，有一個層次負責連接提供者與消費者。
 
-This topic covers basic scenarios of how a class can act as a dependency. Angular also allows you to use functions, objects, primitive types such as string or Boolean, or any other types as dependencies. For more information, see [Dependency providers](guide/di/dependency-injection-providers).
+本主題涵蓋類別如何作為依賴的基本情境。Angular 也允許你使用函式、物件、原始型別（例如字串或布林值），或任何其他型別作為依賴。更多資訊請參閱[依賴提供者](guide/di/dependency-injection-providers)。
 
-## Providing a dependency
+## 提供依賴 {#providing-a-dependency}
 
-Consider a class called `HeroService` that needs to act as a dependency in a component.
+假設有一個名為 `HeroService` 的類別，需要在元件中作為依賴。
 
-The first step is to add the `@Injectable` decorator to show that the class can be injected.
+第一步是加上 `@Injectable` 裝飾器，表明該類別可以被注入。
 
 <docs-code language="typescript" highlight="[1]">
 @Injectable()
 class HeroService {}
 </docs-code>
 
-The next step is to make it available in the DI by providing it.
-A dependency can be provided in multiple places:
+下一步是透過提供它，讓它在 DI 中可供使用。
+依賴可以在多個地方提供：
 
-* [**Preferred**: At the application root level using `providedIn`.](#preferred-at-the-application-root-level-using-providedin)
-* [At the Component level.](#at-the-component-level)
-* [At the application root level using `ApplicationConfig`.](#at-the-application-root-level-using-applicationconfig)
-* [`NgModule` based applications.](#ngmodule-based-applications)
+* [**首選**：在應用程式根層級使用 `providedIn`。](#preferred-at-the-application-root-level-using-providedin)
+* [在元件層級。](#at-the-component-level)
+* [在應用程式根層級使用 `ApplicationConfig`。](#at-the-application-root-level-using-applicationconfig)
+* [以 `NgModule` 為基礎的應用程式。](#ngmodule-based-applications)
 
-### **Preferred**: At the application root level using `providedIn`
+### **首選**：在應用程式根層級使用 `providedIn` {#preferred-at-the-application-root-level-using-providedin}
 
-Providing a service at the application root level using `providedIn` allows injecting the service into all other classes.
-Using `providedIn` enables Angular and JavaScript code optimizers to effectively remove services that are unused (known as tree-shaking).
+在應用程式根層級使用 `providedIn` 提供服務，可將該服務注入到所有其他類別中。
+使用 `providedIn` 能讓 Angular 與 JavaScript 程式碼最佳化工具，有效移除未使用的服務（即搖樹優化）。
 
-You can provide a service by using `providedIn: 'root'` in the `@Injectable` decorator:
+你可以在 `@Injectable` 裝飾器中使用 `providedIn: 'root'` 來提供服務：
 
 <docs-code language="typescript" highlight="[2]">
 @Injectable({
@@ -41,14 +41,14 @@ You can provide a service by using `providedIn: 'root'` in the `@Injectable` dec
 class HeroService {}
 </docs-code>
 
-When you provide the service at the root level, Angular creates a single, shared instance of the `HeroService` and injects it into any class that asks for it.
+當你在根層級提供服務時，Angular 會建立一個 `HeroService` 的單一共用實例，並將它注入到任何請求它的類別中。
 
-### At the Component level
+### 在元件層級 {#at-the-component-level}
 
-You can provide services at `@Component` level by using the `providers` field of the `@Component` decorator.
-In this case the `HeroService` becomes available to all instances of this component and other components and directives used in the template.
+你可以使用 `@Component` 裝飾器的 `providers` 欄位，在 `@Component` 層級提供服務。
+在這種情況下，`HeroService` 可供這個元件的所有實例，以及範本中使用的其他元件和指令使用。
 
-For example:
+例如：
 
 <docs-code language="typescript" highlight="[5]">
 @Component({
@@ -60,15 +60,15 @@ For example:
 class HeroListComponent {}
 </docs-code>
 
-When you register a provider at the component level, you get a new instance of the service with each new instance of that component.
+當你在元件層級註冊提供者時，該元件的每個新實例都會取得一個新的服務實例。
 
-Note: Declaring a service like this causes `HeroService` to always be included in your application— even if the service is unused.
+Note: 以這種方式宣告服務，會讓 `HeroService` 永遠包含在你的應用程式中——即使該服務未被使用。
 
-### At the application root level using `ApplicationConfig`
+### 在應用程式根層級使用 `ApplicationConfig` {#at-the-application-root-level-using-applicationconfig}
 
-You can use the `providers` field of the `ApplicationConfig` (passed to the `bootstrapApplication` function) to provide a service or other `Injectable` at the application level.
+你可以使用 `ApplicationConfig` 的 `providers` 欄位（傳入 `bootstrapApplication` 函式），在應用程式層級提供服務或其他 `Injectable`。
 
-In the example below, the `HeroService` is available to all components, directives, and pipes:
+在以下範例中，`HeroService` 可供所有元件、指令和管道使用：
 
 <docs-code language="typescript" highlight="[3]">
 export const appConfig: ApplicationConfig = {
@@ -78,26 +78,26 @@ export const appConfig: ApplicationConfig = {
 };
 </docs-code>
 
-Then, in `main.ts`:
+接著，在 `main.ts` 中：
 
 <docs-code language="typescript">
 bootstrapApplication(AppComponent, appConfig)
 </docs-code>
 
-Note: Declaring a service like this causes `HeroService` to always be included in your application— even if the service is unused.
+Note: 以這種方式宣告服務，會讓 `HeroService` 永遠包含在你的應用程式中——即使該服務未被使用。
 
-### `NgModule` based applications
+### 以 `NgModule` 為基礎的應用程式 {#ngmodule-based-applications}
 
-`@NgModule`-based applications use the `providers` field of the `@NgModule` decorator to provide a service or other `Injectable` available at the application level.
+以 `@NgModule` 為基礎的應用程式，使用 `@NgModule` 裝飾器的 `providers` 欄位，在應用程式層級提供服務或其他 `Injectable`。
 
-A service provided in a module is available to all declarations of the module, or to any other modules which share the same `ModuleInjector`.
-To understand all edge-cases, see [Hierarchical injectors](guide/di/hierarchical-dependency-injection).
+在模組中提供的服務，可供該模組的所有宣告使用，或供共用同一個 `ModuleInjector` 的任何其他模組使用。
+若要了解所有邊界情況，請參閱[階層式注入器](guide/di/hierarchical-dependency-injection)。
 
-Note: Declaring a service using `providers` causes the service to be included in your application— even if the service is unused.
+Note: 使用 `providers` 宣告服務，會讓該服務被包含在你的應用程式中——即使該服務未被使用。
 
-## Injecting/consuming a dependency
+## 注入/取用依賴 {#injectingconsuming-a-dependency}
 
-The most common way to inject a dependency is to declare it in a class constructor. When Angular creates a new instance of a component, directive, or pipe class, it determines which services or other dependencies that class needs by looking at the constructor parameter types. For example, if the `HeroListComponent` needs the `HeroService`, the constructor can look like this:
+最常見的注入依賴方式，是在類別建構子中宣告它。當 Angular 建立元件、指令或管道類別的新實例時，它會查看建構子參數的型別，來判斷該類別需要哪些服務或其他依賴。例如，若 `HeroListComponent` 需要 `HeroService`，建構子可以寫成這樣：
 
 <docs-code language="typescript" highlight="[3]">
 @Component({ … })
@@ -106,7 +106,7 @@ class HeroListComponent {
 }
 </docs-code>
 
-Another option is to use the [inject](api/core/inject) method:
+另一個選項是使用 [inject](api/core/inject) 方法：
 
 <docs-code language="typescript" highlight="[3]">
 @Component({ … })
@@ -115,9 +115,9 @@ class HeroListComponent {
 }
 </docs-code>
 
-When Angular discovers that a component depends on a service, it first checks if the injector has any existing instances of that service. If a requested service instance doesn't yet exist, the injector creates one using the registered provider, and adds it to the injector before returning the service to Angular.
+當 Angular 發現某個元件依賴某個服務時，它會先檢查注入器中是否已有該服務的現有實例。如果請求的服務實例尚不存在，注入器會使用已註冊的提供者建立一個，並將它加入注入器，然後再把服務傳回給 Angular。
 
-When all requested services have been resolved and returned, Angular can call the component's constructor with those services as arguments.
+當所有請求的服務都已解析並傳回後，Angular 就能以這些服務作為引數，呼叫元件的建構子。
 
 ```mermaid
 graph TD;
@@ -133,8 +133,8 @@ heroService-->componentConstructor
 style componentConstructor text-align: left
 ```
 
-## What's next
+## 後續步驟 {#whats-next}
 
 <docs-pill-row>
-  <docs-pill href="/guide/di/creating-injectable-service" title="Creating an injectable service"/>
+  <docs-pill href="/guide/di/creating-injectable-service" title="建立可注入的服務"/>
 </docs-pill-row>

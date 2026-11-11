@@ -1,6 +1,6 @@
-# Import global variants of the locale data
+# 匯入地區設定資料的全域變體
 
-The [Angular CLI][CliMain] automatically includes locale data if you run the [`ng build`][CliBuild] command with the `--localize` option.
+若你以 `--localize` 選項執行 [`ng build`][CliBuild] 指令，[Angular CLI][CliMain] 會自動包含地區設定資料。
 
 <!--todo: replace with docs-code -->
 
@@ -10,19 +10,19 @@ ng build --localize
 
 </docs-code>
 
-HELPFUL: The initial installation of Angular already contains locale data for English in the United States \(`en-US`\).
-The [Angular CLI][CliMain] automatically includes the locale data and sets the `LOCALE_ID` value when you use the `--localize` option with [`ng build`][CliBuild] command.
+HELPFUL: Angular 初始安裝時已包含美式英文 \(`en-US`\) 的地區設定資料。
+當你搭配 [`ng build`][CliBuild] 指令使用 `--localize` 選項時，[Angular CLI][CliMain] 會自動包含地區設定資料並設定 `LOCALE_ID` 的值。
 
-The `@angular/common` package on npm contains the locale data files.
-Global variants of the locale data are available in `@angular/common/locales/global`.
+npm 上的 `@angular/common` 套件包含地區設定資料檔案。
+地區設定資料的全域變體位於 `@angular/common/locales/global`。
 
-## `import` example for French
+## 法文的 `import` 範例
 
-For example, you could import the global variants for French \(`fr`\) in `main.ts` where you bootstrap the application.
+例如，你可以在啟動應用程式的 `main.ts` 中，匯入法文 \(`fr`\) 的全域變體。
 
 <docs-code header="src/main.ts (import locale)" path="adev/src/content/examples/i18n/src/main.ts" visibleRegion="global-locale"/>
 
-HELPFUL: In an `NgModules` application, you would import it in your `app.module`.
+HELPFUL: 在 `NgModules` 應用程式中，你要在 `app.module` 中匯入它。
 
-[CliMain]: cli "CLI Overview and Command Reference | Angular"
-[CliBuild]: cli/build "ng build | CLI | Angular"
+[CliMain]: cli 'CLI 總覽與指令參考 | Angular'
+[CliBuild]: cli/build 'ng build | CLI | Angular'

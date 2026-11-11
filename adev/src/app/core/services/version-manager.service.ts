@@ -57,7 +57,7 @@ export class VersionManager {
   private getRecentVersions(): Version[] {
     return [
       {
-        url: this.getAdevDocsUrl('next'),
+        url: 'https://dev.angular.tw/overview',
         displayName: `next`,
         version: 'next',
       },
@@ -68,7 +68,7 @@ export class VersionManager {
       //   version: 'rc',
       // },
       {
-        url: 'https://angular.dev/',
+        url: 'https://v18.angular.tw/overview',
         displayName: this.getVersion(this.currentMajorVersion),
         version: this.currentVersionMode,
       },

@@ -1,156 +1,157 @@
-# Merge translations into the application
+# 將翻譯合併至應用程式
 
-To merge the completed translations into your project, complete the following actions
+若要將完成的翻譯合併至你的專案，請完成下列動作
 
-1. Use the [Angular CLI][CliMain] to build a copy of the distributable files of your project
-1. Use the `"localize"` option to replace all of the i18n messages with the valid translations and build a localized variant application.
-    A variant application is a complete a copy of the distributable files of your application translated for a single locale.
+1. 使用 [Angular CLI][CliMain] 建置一份專案可散發檔案的副本
+1. 使用 `"localize"` 選項，將所有 i18n 訊息換成有效的翻譯，並建置一個在地化變體應用程式。
+    變體應用程式是應用程式可散發檔案的完整副本，針對單一地區設定翻譯。
 
-After you merge the translations, serve each distributable copy of the application using server-side language detection or different subdirectories.
+合併翻譯後，請使用伺服器端語言偵測或不同的子目錄，提供應用程式的每一份可散發副本。
 
-HELPFUL: For more information about how to serve each distributable copy of the application, see [deploying multiple locales](guide/i18n/deploy).
+HELPFUL: 關於如何提供應用程式的每一份可散發副本，請見[部署多個地區設定](guide/i18n/deploy)。
 
-For a compile-time translation of the application, the build process uses ahead-of-time (AOT) compilation to produce a small, fast, ready-to-run application.
+對於編譯期翻譯的應用程式，建置程序使用 AOT 編譯，產生精簡、快速、可直接執行的應用程式。
 
-HELPFUL: For a detailed explanation of the build process, see [Building and serving Angular apps][GuideBuild].
-The build process works for translation files in the `.xlf` format or in another format that Angular understands, such as `.xtb`.
-For more information about translation file formats used by Angular, see [Change the source language file format][GuideI18nCommonTranslationFilesChangeTheSourceLanguageFileFormat]
+HELPFUL: 建置程序的詳細說明，請見[建置與提供 Angular 應用程式][GuideBuild]。
+建置程序適用於 `.xlf` 格式的翻譯檔案，或 Angular 能理解的其他格式，例如 `.xtb`。
+關於 Angular 使用的翻譯檔案格式的更多資訊，請見[變更來源語言檔案格式][GuideI18nCommonTranslationFilesChangeTheSourceLanguageFileFormat]
 
-To build a separate distributable copy of the application for each locale, [define the locales in the build configuration][GuideI18nCommonMergeDefineLocalesInTheBuildConfiguration] in the [`angular.json`][GuideWorkspaceConfig] workspace build configuration file of your project.
+若要為每個地區設定建置一份獨立的可散發副本，請在專案的 [`angular.json`][GuideWorkspaceConfig] 工作區建置設定檔中[在建置設定中定義地區設定][GuideI18nCommonMergeDefineLocalesInTheBuildConfiguration]。
 
-This method shortens the build process by removing the requirement to perform a full application build for each locale.
+這種方法省去了為每個地區設定執行完整應用程式建置的需要，縮短了建置程序。
 
-To [generate application variants for each locale][GuideI18nCommonMergeGenerateApplicationVariantsForEachLocale], use the `"localize"` option in the [`angular.json`][GuideWorkspaceConfig] workspace build configuration file.
-Also, to [build from the command line][GuideI18nCommonMergeBuildFromTheCommandLine], use the [`build`][CliBuild] [Angular CLI][CliMain] command with the `--localize` option.
+若要[為每個地區設定產生應用程式變體][GuideI18nCommonMergeGenerateApplicationVariantsForEachLocale]，請使用 [`angular.json`][GuideWorkspaceConfig] 工作區建置設定檔中的 `"localize"` 選項。
+此外，若要[從命令列建置][GuideI18nCommonMergeBuildFromTheCommandLine]，請搭配 `--localize` 選項使用 [`build`][CliBuild] [Angular CLI][CliMain] 指令。
 
-HELPFUL: Optionally, [apply specific build options for just one locale][GuideI18nCommonMergeApplySpecificBuildOptionsForJustOneLocale] for a custom locale configuration.
+HELPFUL: 也可以選擇[只為單一地區設定套用特定建置選項][GuideI18nCommonMergeApplySpecificBuildOptionsForJustOneLocale]，建立自訂的地區設定組態。
 
-## Define locales in the build configuration
+## 在建置設定中定義地區設定 {#define-locales-in-the-build-configuration}
 
-Use the `i18n` project option in the [`angular.json`][GuideWorkspaceConfig] workspace build configuration file of your project to define locales for a project.
+使用專案 [`angular.json`][GuideWorkspaceConfig] 工作區建置設定檔中的 `i18n` 專案選項，為專案定義地區設定。
 
-The following sub-options identify the source language and tell the compiler where to find supported translations for the project.
+下列子選項識別來源語言，並告訴編譯器去哪裡尋找專案支援的翻譯。
 
-| Suboption      | Details |
+| 子選項         | 詳情                                                                                                                                                   |
 |:---            |:--- |
-| `sourceLocale` | The locale you use within the application source code \(`en-US` by default\) |
-| `locales`      | A map of locale identifiers to translation files                             |
+| `sourceLocale` | 你在應用程式原始碼中使用的地區設定 \(預設為 `en-US`\) |
+| `locales`      | 地區設定識別碼對應翻譯檔案的對照表                             |
 
-### `angular.json` for `en-US` and `fr` example
+### `en-US` 與 `fr` 的 `angular.json` 範例
 
-For example, the following excerpt of an [`angular.json`][GuideWorkspaceConfig] workspace build configuration file sets the source locale to `en-US` and provides the path to the French \(`fr`\) locale translation file.
+例如，下列 [`angular.json`][GuideWorkspaceConfig] 工作區建置設定檔的摘錄，將來源地區設定設為 `en-US`，並提供法文 \(`fr`\) 地區設定翻譯檔案的路徑。
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="locale-config"/>
 
-## Generate application variants for each locale
+## 為每個地區設定產生應用程式變體 {#generate-application-variants-for-each-locale}
 
-To use your locale definition in the build configuration, use the `"localize"` option in the [`angular.json`][GuideWorkspaceConfig] workspace build configuration file to tell the CLI which locales to generate for the build configuration.
+若要在建置設定中使用你的地區設定定義，請使用 [`angular.json`][GuideWorkspaceConfig] 工作區建置設定檔中的 `"localize"` 選項，告訴 CLI 要為建置設定產生哪些地區設定。
 
-* Set `"localize"` to `true` for all the locales previously defined in the build configuration.
-* Set `"localize"` to an array of a subset of the previously defined locale identifiers to build only those locale versions.
-* Set `"localize"` to `false` to disable localization and not generate any locale-specific versions.
+* 將 `"localize"` 設為 `true`，建置先前在建置設定中定義的所有地區設定。
+* 將 `"localize"` 設為先前定義的地區設定識別碼子集陣列，只建置那些地區設定版本。
+* 將 `"localize"` 設為 `false`，停用在地化，不產生任何地區設定專屬版本。
 
-HELPFUL: Ahead-of-time (AOT) compilation is required to localize component templates.
+HELPFUL: 元件範本的在地化需要 AOT 編譯。
 
-If you changed this setting, set `"aot"` to `true` in order to use AOT.
+若你變更了這項設定，請將 `"aot"` 設為 `true` 以使用 AOT。
 
-HELPFUL: Due to the deployment complexities of i18n and the need to minimize rebuild time, the development server only supports localizing a single locale at a time.
-If you set the `"localize"` option to `true`, define more than one locale, and use `ng serve`; then an error occurs.
-If you want to develop against a specific locale, set the `"localize"` option to a specific locale.
-For example, for French \(`fr`\), specify `"localize": ["fr"]`.
+HELPFUL: 由於 i18n 部署較為複雜，且需要盡量縮短重新建置的時間，開發伺服器一次只支援在地化單一地區設定。
+若你將 `"localize"` 選項設為 `true`、定義了多個地區設定，並使用 `ng serve`，就會發生錯誤。
+若要針對特定地區設定進行開發，請將 `"localize"` 選項設為該特定地區設定。
+例如，針對法文 \(`fr`\)，請指定 `"localize": ["fr"]`。
 
-The CLI loads and registers the locale data, places each generated version in a locale-specific directory to keep it separate from other locale versions, and puts the directories within the configured `outputPath` for the project.
-For each application variant the `lang` attribute of the `html` element is set to the locale.
-The CLI also adjusts the HTML base HREF for each version of the application by adding the locale to the configured `baseHref`.
+CLI 會載入並註冊地區設定資料，將每個產生的版本放在地區設定專屬目錄中，與其他地區設定版本分開，並將這些目錄放在專案設定好的 `outputPath` 內。
+對每個應用程式變體，`html` 元素的 `lang` 屬性會設為該地區設定。
+CLI 也會將地區設定加入設定好的 `baseHref`，調整應用程式每個版本的 HTML 基底 HREF。
 
-Set the `"localize"` property as a shared configuration to effectively inherit for all the configurations.
-Also, set the property to override other configurations.
+將 `"localize"` 屬性設為共用設定，即可讓所有設定都繼承它。
+也可以設定這個屬性來覆寫其他設定。
 
-### `angular.json` include all locales from build example
+### `angular.json` 納入所有地區設定的建置範例
 
-The following example displays the `"localize"` option set to `true` in the [`angular.json`][GuideWorkspaceConfig] workspace build configuration file, so that all locales defined in the build configuration are built.
+下列範例顯示在 [`angular.json`][GuideWorkspaceConfig] 工作區建置設定檔中將 `"localize"` 選項設為 `true`，如此建置設定中定義的所有地區設定都會被建置。
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="build-localize-true"/>
 
-## Build from the command line
+## 從命令列建置 {#build-from-the-command-line}
 
-Also, use the `--localize` option with the [`ng build`][CliBuild] command and your existing `production` configuration.
-The CLI builds all locales defined in the build configuration.
-If you set the locales in build configuration, it is similar to when you set the `"localize"` option to `true`.
+另外，搭配你現有的 `production` 設定，使用 [`ng build`][CliBuild] 指令的 `--localize` 選項。
+CLI 會建置建置設定中定義的所有地區設定。
+若你在建置設定中設定了地區設定，效果類似將 `"localize"` 選項設為 `true`。
 
-HELPFUL: For more information about how to set the locales, see [Generate application variants for each locale][GuideI18nCommonMergeGenerateApplicationVariantsForEachLocale].
+HELPFUL: 關於如何設定地區設定的更多資訊，請見[為每個地區設定產生應用程式變體][GuideI18nCommonMergeGenerateApplicationVariantsForEachLocale]。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="build-localize"/>
 
-## Apply specific build options for just one locale
+## 只為單一地區設定套用特定建置選項 {#apply-specific-build-options-for-just-one-locale}
 
-To apply specific build options to only one locale, specify a single locale to create a custom locale-specific configuration.
+若要只對單一地區設定套用特定建置選項，請指定單一地區設定，建立自訂的地區設定專屬設定。
 
-IMPORTANT: Use the [Angular CLI][CliMain] development server \(`ng serve`\) with only a single locale.
+IMPORTANT: [Angular CLI][CliMain] 開發伺服器 \(`ng serve`\) 只能搭配單一地區設定使用。
 
-### build for French example
+### 法文建置範例
 
-The following example displays a custom locale-specific configuration using a single locale.
+下列範例顯示使用單一地區設定的自訂地區設定專屬設定。
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="build-single-locale"/>
 
-Pass this configuration to the `ng serve` or `ng build` commands.
-The following code example displays how to serve the French language file.
+將這個設定傳給 `ng serve` 或 `ng build` 指令。
+下列程式碼範例顯示如何提供法文語言檔案。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="serve-french"/>
 
-For production builds, use configuration composition to run both configurations.
+生產環境建置請使用設定組合，同時執行兩個設定。
 
 <docs-code path="adev/src/content/examples/i18n/doc-files/commands.sh" visibleRegion="build-production-french"/>
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="build-production-french" />
 
-## Report missing translations
+## 回報缺少的翻譯 {#report-missing-translations}
 
-When a translation is missing, the build succeeds but generates a warning such as `Missing translation for message "{translation_text}"`.
-To configure the level of warning that is generated by the Angular compiler, specify one of the following levels.
+當翻譯缺少時，建置仍會成功，但會產生類似 `Missing translation for message "{translation_text}"` 的警告。
+若要設定 Angular 編譯器產生的警告等級，請指定下列其中一個等級。
 
-| Warning level | Details                                              | Output |
+| 警告等級      | 詳情                                         | 輸出                                                   |
 |:---           |:---                                                  |:---    |
-| `error`       | Throw an error and the build fails                   | n/a                                                    |
-| `ignore`      | Do nothing                                           | n/a                                                    |
-| `warning`     | Displays the default warning in the console or shell | `Missing translation for message "{translation_text}"` |
+| `error`       | 拋出錯誤且建置失敗                           | n/a                                                    |
+| `ignore`      | 不做任何處理                                 | n/a                                                    |
+| `warning`     | 在主控台或殼層中顯示預設警告                 | `Missing translation for message "{translation_text}"` |
 
-Specify the warning level in the `options` section for the `build` target of your [`angular.json`][GuideWorkspaceConfig] workspace build configuration file.
+請在 [`angular.json`][GuideWorkspaceConfig] 工作區建置設定檔中 `build` 目標的 `options` 區段，指定警告等級。
 
-### `angular.json` `error` warning example
+### `angular.json` 的 `error` 警告範例
 
-The following example displays how to set the warning level to `error`.
+下列範例顯示如何將警告等級設為 `error`。
 
 <docs-code header="angular.json" path="adev/src/content/examples/i18n/angular.json" visibleRegion="missing-translation-error" />
 
-HELPFUL: When you compile your Angular project into an Angular application, the instances of the `i18n` attribute are replaced with instances of the [`$localize`][ApiLocalizeInitLocalize] tagged message string.
-This means that your Angular application is translated after compilation.
-This also means that you can create localized versions of your Angular application without re-compiling your entire Angular project for each locale.
+HELPFUL: 將 Angular 專案編譯成 Angular 應用程式時，`i18n` 屬性的每個實例都會被換成 [`$localize`][ApiLocalizeInitLocalize] 標記訊息字串的實例。
+這表示你的 Angular 應用程式是在編譯之後才翻譯的。
+這也表示，你不需要為每個地區設定重新編譯整個 Angular 專案，就能建立 Angular 應用程式的在地化版本。
 
-When you translate your Angular application, the *translation transformation* replaces and reorders the parts \(static strings and expressions\) of the template literal string with strings from a collection of translations.
-For more information, see [`$localize`][ApiLocalizeInitLocalize].
+翻譯 Angular 應用程式時，*翻譯轉換*會用翻譯集合中的字串，替換範本字面值字串的各個部分 \(靜態字串與運算式\) 並重新排序。
+詳情請見 [`$localize`][ApiLocalizeInitLocalize]。
 
-TLDR: Compile once, then translate for each locale.
+TLDR: 只編譯一次，再為每個地區設定翻譯。
 
-## What's next
+## 下一步
 
 <docs-pill-row>
-  <docs-pill href="guide/i18n/deploy" title="Deploy multiple locales"/>
+  <docs-pill href="guide/i18n/deploy" title="部署多個地區設定"/>
 </docs-pill-row>
+
 
 [ApiLocalizeInitLocalize]: api/localize/init/$localize "$localize | init - localize - API | Angular"
 
-[CliMain]: cli "CLI Overview and Command Reference | Angular"
+[CliMain]: cli "CLI 總覽與指令參考 | Angular"
 [CliBuild]: cli/build "ng build | CLI | Angular"
 
-[GuideBuild]: tools/cli/build "Building and serving Angular apps | Angular"
+[GuideBuild]: tools/cli/build "建置與提供 Angular 應用程式 | Angular"
 
-[GuideI18nCommonMergeApplySpecificBuildOptionsForJustOneLocale]: guide/i18n/merge#apply-specific-build-options-for-just-one-locale "Apply specific build options for just one locale - Merge translations into the application | Angular"
-[GuideI18nCommonMergeBuildFromTheCommandLine]: guide/i18n/merge#build-from-the-command-line "Build from the command line - Merge translations into the application | Angular"
-[GuideI18nCommonMergeDefineLocalesInTheBuildConfiguration]: guide/i18n/merge#define-locales-in-the-build-configuration "Define locales in the build configuration - Merge translations into the application | Angular"
-[GuideI18nCommonMergeGenerateApplicationVariantsForEachLocale]: guide/i18n/merge#generate-application-variants-for-each-locale "Generate application variants for each locale - Merge translations into the application | Angular"
+[GuideI18nCommonMergeApplySpecificBuildOptionsForJustOneLocale]: guide/i18n/merge#apply-specific-build-options-for-just-one-locale "只為單一地區設定套用特定建置選項 - 將翻譯合併至應用程式 | Angular"
+[GuideI18nCommonMergeBuildFromTheCommandLine]: guide/i18n/merge#build-from-the-command-line "從命令列建置 - 將翻譯合併至應用程式 | Angular"
+[GuideI18nCommonMergeDefineLocalesInTheBuildConfiguration]: guide/i18n/merge#define-locales-in-the-build-configuration "在建置設定中定義地區設定 - 將翻譯合併至應用程式 | Angular"
+[GuideI18nCommonMergeGenerateApplicationVariantsForEachLocale]: guide/i18n/merge#generate-application-variants-for-each-locale "為每個地區設定產生應用程式變體 - 將翻譯合併至應用程式 | Angular"
 
-[GuideI18nCommonTranslationFilesChangeTheSourceLanguageFileFormat]: guide/i18n/translation-files#change-the-source-language-file-format "Change the source language file format - Work with translation files | Angular"
+[GuideI18nCommonTranslationFilesChangeTheSourceLanguageFileFormat]: guide/i18n/translation-files#change-the-source-language-file-format "變更來源語言檔案格式 - 使用翻譯檔案 | Angular"
 
-[GuideWorkspaceConfig]: reference/configs/workspace-config "Angular workspace configuration | Angular"
+[GuideWorkspaceConfig]: reference/configs/workspace-config "Angular 工作區設定 | Angular"

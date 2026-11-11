@@ -1,14 +1,14 @@
-# Typed Forms
+# 型別化表單
 
-As of Angular 14, reactive forms are strictly typed by default.
+自 Angular 14 起，反應式表單預設為嚴格型別化。
 
-As background for this guide, you should already be familiar with [Angular Reactive Forms](guide/forms/reactive-forms).
+作為本指南的背景，你應該已經熟悉 [Angular 反應式表單](guide/forms/reactive-forms)。
 
-## Overview of Typed Forms
+## 型別化表單概覽
 
-<docs-video src="https://www.youtube.com/embed/L-odCf4MfJc" alt="Typed Forms in Angular" />
+<docs-video src="https://www.youtube.com/embed/L-odCf4MfJc" alt="Angular 中的型別化表單" />
 
-With Angular reactive forms, you explicitly specify a *form model*. As a simple example, consider this basic user login form:
+使用 Angular 反應式表單時，你會明確指定一個*表單模型*。舉一個簡單的例子，想想這個基本的使用者登入表單：
 
 ```ts
 const login = new FormGroup({
@@ -17,23 +17,23 @@ const login = new FormGroup({
 });
 ```
 
-Angular provides many APIs for interacting with this `FormGroup`. For example, you may call `login.value`, `login.controls`, `login.patchValue`, etc. (For a full API reference, see the [API documentation](api/forms/FormGroup).)
+Angular 提供許多與這個 `FormGroup` 互動的 API。例如，你可以呼叫 `login.value`、`login.controls`、`login.patchValue` 等。（如需完整的 API 參考，請參閱 [API 文件](api/forms/FormGroup)。）
 
-In previous Angular versions, most of these APIs included `any` somewhere in their types, and interacting with the structure of the controls, or the values themselves, was not type-safe. For example: you could write the following invalid code:
+在先前的 Angular 版本中，這些 API 大多在型別的某處包含 `any`，與控制項結構或值本身互動時並非型別安全的。例如：你可以撰寫以下無效的程式碼：
 
 ```ts
 const emailDomain = login.value.email.domain;
 ```
 
-With strictly typed reactive forms, the above code does not compile, because there is no `domain` property on `email`.
+使用嚴格型別化的反應式表單時，上述程式碼無法編譯，因為 `email` 上沒有 `domain` 屬性。
 
-In addition to the added safety, the types enable a variety of other improvements, such as better autocomplete in IDEs, and an explicit way to specify form structure.
+除了增加安全性之外，型別還帶來了其他各種改進，例如 IDE 中更好的自動完成，以及明確指定表單結構的方式。
 
-These improvements currently apply only to *reactive* forms (not [*template-driven* forms](guide/forms/template-driven-forms)).
+這些改進目前只適用於*反應式*表單（不適用於[*範本驅動*表單](guide/forms/template-driven-forms)）。
 
-## Untyped Forms
+## 非型別化表單
 
-Non-typed forms are still supported, and will continue to work as before. To use them, you must import the `Untyped` symbols from `@angular/forms`:
+非型別化表單仍然受支援，並會繼續像以前一樣運作。若要使用它們，你必須從 `@angular/forms` 匯入 `Untyped` 符號：
 
 ```ts
 const login = new UntypedFormGroup({
@@ -42,21 +42,21 @@ const login = new UntypedFormGroup({
 });
 ```
 
-Each `Untyped` symbol has exactly the same semantics as in previous Angular version. By removing the `Untyped` prefixes, you can incrementally enable the types.
+每個 `Untyped` 符號都與先前 Angular 版本中的語意完全相同。移除 `Untyped` 前置詞後，你可以逐步啟用型別。
 
-## `FormControl`: Getting Started
+## `FormControl`：快速入門 {#formcontrol-getting-started}
 
-The simplest possible form consists of a single control:
+最簡單的表單由單一控制項組成：
 
 ```ts
 const email = new FormControl('angularrox@gmail.com');
 ```
 
-This control will be automatically inferred to have the type `FormControl<string|null>`. TypeScript will automatically enforce this type throughout the [`FormControl` API](api/forms/FormControl), such as `email.value`, `email.valueChanges`, `email.setValue(...)`, etc.
+這個控制項會自動被推斷為型別 `FormControl<string|null>`。TypeScript 會在 [`FormControl` API](api/forms/FormControl) 中全面強制這個型別，例如 `email.value`、`email.valueChanges`、`email.setValue(...)` 等等。
 
-### Nullability
+### 可為 null 的特性
 
-You might wonder: why does the type of this control include `null`?  This is because the control can become `null` at any time, by calling reset:
+你可能會想：為什麼這個控制項的型別包含 `null`？這是因為控制項隨時可能透過呼叫 reset 而變成 `null`：
 
 ```ts
 const email = new FormControl('angularrox@gmail.com');
@@ -64,7 +64,7 @@ email.reset();
 console.log(email.value); // null
 ```
 
-TypeScript will enforce that you always handle the possibility that the control has become `null`. If you want to make this control non-nullable, you may use the `nonNullable` option. This will cause the control to reset to its initial value, instead of `null`:
+TypeScript 會強制你隨時處理控制項已變成 `null` 的可能性。如果你想讓這個控制項不可為 null，可以使用 `nonNullable` 選項。這會使控制項重設為其初始值，而不是 `null`：
 
 ```ts
 const email = new FormControl('angularrox@gmail.com', {nonNullable: true});
@@ -72,44 +72,44 @@ email.reset();
 console.log(email.value); // angularrox@gmail.com
 ```
 
-To reiterate, this option affects the runtime behavior of your form when `.reset()` is called, and should be flipped with care.
+再次強調，這個選項會影響呼叫 `.reset()` 時表單的執行階段行為，變更時應謹慎。
 
-### Specifying an Explicit Type
+### 指定明確型別
 
-It is possible to specify the type, instead of relying on inference. Consider a control that is initialized to `null`. Because the initial value is `null`, TypeScript will infer `FormControl<null>`, which is narrower than we want.
+你可以指定型別，而不是依賴推斷。想想一個初始化為 `null` 的控制項。由於初始值是 `null`，TypeScript 會推斷出 `FormControl<null>`，這比我們想要的範圍更窄。
 
 ```ts
 const email = new FormControl(null);
 email.setValue('angularrox@gmail.com'); // Error!
 ```
 
-To prevent this, we explicitly specify the type as `string|null`:
+若要避免這種情況，我們明確地將型別指定為 `string|null`：
 
 ```ts
 const email = new FormControl<string|null>(null);
 email.setValue('angularrox@gmail.com');
 ```
 
-## `FormArray`: Dynamic, Homogenous Collections
+## `FormArray`：動態、同質的集合 {#formarray-dynamic-homogenous-collections}
 
-A `FormArray` contains an open-ended list of controls. The type parameter corresponds to the type of each inner control:
+`FormArray` 包含一份開放式的控制項清單。型別參數對應到每個內部控制項的型別：
 
 ```ts
 const names = new FormArray([new FormControl('Alex')]);
 names.push(new FormControl('Jess'));
 ```
 
-This `FormArray` will have the inner controls type `FormControl<string|null>`.
+這個 `FormArray` 的內部控制項型別會是 `FormControl<string|null>`。
 
-If you want to have multiple different element types inside the array, you must use `UntypedFormArray`, because TypeScript cannot infer which element type will occur at which position.
+如果你想在陣列中放入多種不同的元素型別，你必須使用 `UntypedFormArray`，因為 TypeScript 無法推斷哪個位置會出現哪種元素型別。
 
-## `FormGroup` and `FormRecord`
+## `FormGroup` 與 `FormRecord` {#formgroup-and-formrecord}
 
-Angular provides the `FormGroup` type for forms with an enumerated set of keys, and a type called `FormRecord`, for open-ended or dynamic groups.
+Angular 為具有列舉鍵集合的表單提供 `FormGroup` 型別，並為開放式或動態群組提供稱為 `FormRecord` 的型別。
 
-### Partial Values
+### 部分值
 
-Consider again a login form:
+再想想一個登入表單：
 
 ```ts
 const login = new FormGroup({
@@ -118,17 +118,17 @@ const login = new FormGroup({
 });
 ```
 
-On any `FormGroup`, it is [possible to disable controls](api/forms/FormGroup). Any disabled control will not appear in the group's value.
+在任何 `FormGroup` 上，都可以[停用控制項](api/forms/FormGroup)。任何停用的控制項都不會出現在群組的值中。
 
-As a consequence, the type of `login.value` is `Partial<{email: string, password: string}>`. The `Partial` in this type means that each member might be undefined.
+因此，`login.value` 的型別是 `Partial<{email: string, password: string}>`。這個型別中的 `Partial` 表示每個成員都可能是 undefined。
 
-More specifically, the type of `login.value.email` is `string|undefined`, and TypeScript will enforce that you handle the possibly `undefined` value (if you have `strictNullChecks` enabled).
+更具體地說，`login.value.email` 的型別是 `string|undefined`，TypeScript 會強制你處理可能為 `undefined` 的值（如果你啟用了 `strictNullChecks`）。
 
-If you want to access the value *including* disabled controls, and thus bypass possible `undefined` fields, you can use `login.getRawValue()`.
+如果你想存取*包含*停用控制項的值，進而繞過可能為 `undefined` 的欄位，你可以使用 `login.getRawValue()`。
 
-### Optional Controls and Dynamic Groups
+### 選擇性控制項與動態群組
 
-Some forms have controls that may or may not be present, which can be added and removed at runtime. You can represent these controls using *optional fields*:
+有些表單的控制項可能存在、也可能不存在，可以在執行階段加入與移除。你可以使用*選擇性欄位*來表示這些控制項：
 
 ```ts
 interface LoginForm {
@@ -144,32 +144,32 @@ const login = new FormGroup<LoginForm>({
 login.removeControl('password');
 ```
 
-In this form, we explicitly specify the type, which allows us to make the `password` control optional. TypeScript will enforce that only optional controls can be added or removed.
+在這個表單中，我們明確指定型別，這使我們能讓 `password` 控制項成為選擇性的。TypeScript 會強制規定只有選擇性控制項可以被加入或移除。
 
 ### `FormRecord`
 
-Some `FormGroup` usages do not fit the above pattern because the keys are not known ahead of time. The `FormRecord` class is designed for that case:
+有些 `FormGroup` 的用法不符合上述模式，因為鍵無法事先知道。`FormRecord` 類別正是為這種情況設計的：
 
 ```ts
 const addresses = new FormRecord<FormControl<string|null>>({});
 addresses.addControl('Andrew', new FormControl('2340 Folsom St'));
 ```
 
-Any control of type `string|null` can be added to this `FormRecord`.
+任何型別為 `string|null` 的控制項都可以加入這個 `FormRecord`。
 
-If you need a `FormGroup` that is both dynamic (open-ended) and heterogeneous (the controls are different types), no improved type safety is possible, and you should use `UntypedFormGroup`.
+如果你需要一個既是動態（開放式）、又是異質（控制項為不同型別）的 `FormGroup`，就無法獲得更好的型別安全性，你應該使用 `UntypedFormGroup`。
 
-A `FormRecord` can also be built with the `FormBuilder`:
+`FormRecord` 也可以使用 `FormBuilder` 來建立：
 
 ```ts
 const addresses = fb.record({'Andrew': '2340 Folsom St'});
 ```
 
-## `FormBuilder` and `NonNullableFormBuilder`
+## `FormBuilder` 與 `NonNullableFormBuilder` {#formbuilder-and-nonnullableformbuilder}
 
-The `FormBuilder` class has been upgraded to support the new types as well, in the same manner as the above examples.
+`FormBuilder` 類別也已升級，支援新的型別，方式與上述範例相同。
 
-Additionally, an additional builder is available: `NonNullableFormBuilder`. This type is shorthand for specifying `{nonNullable: true}` on every control, and can eliminate significant boilerplate from large non-nullable forms. You can access it using the `nonNullable` property on a `FormBuilder`:
+此外，還有一個額外的建置器可供使用：`NonNullableFormBuilder`。這個型別是對每個控制項指定 `{nonNullable: true}` 的簡寫，可以從大型不可為 null 的表單中消除大量重複的樣板程式碼。你可以使用 `FormBuilder` 上的 `nonNullable` 屬性來存取它：
 
 ```ts
 const fb = new FormBuilder();
@@ -179,6 +179,6 @@ const login = fb.nonNullable.group({
 });
 ```
 
-On the above example, both inner controls will be non-nullable (i.e. `nonNullable` will be set).
+在上述範例中，兩個內部控制項都會是不可為 null 的（也就是會設定 `nonNullable`）。
 
-You can also inject it using the name `NonNullableFormBuilder`.
+你也可以使用名稱 `NonNullableFormBuilder` 來注入它。

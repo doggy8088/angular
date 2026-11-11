@@ -1,16 +1,16 @@
-# Use RouterLink for Navigation
+# 使用 RouterLink 進行導覽
 
-In the app's current state, the entire page refreshes when we click on an internal link that exists within the app. While this may not seem significant with a small app, this can have performance implications for larger pages with more content where users have to redownload assets and run calculations again.
+以應用程式目前的狀態，當我們點選應用程式內部的連結時，整個頁面都會重新整理。對小型應用程式來說，這看起來可能無關緊要，但對內容較多的大型頁面來說，這可能帶來效能上的影響，因為使用者得重新下載資源、重新執行計算。
 
-In this activity, you'll learn how to leverage the `RouterLink` directive to make the most use of Angular Router.
+在這個練習中，你將學習如何運用 `RouterLink` 指令，充分發揮 Angular Router 的能力。
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Import `RouterLink` directive">
+<docs-step title="匯入 `RouterLink` 指令">
 
-In `app.component.ts` add the `RouterLink` directive import to the existing import statement from `@angular/router` and add it to the `imports` array of your component decorator.
+在 `app.component.ts` 中，把 `RouterLink` 指令的匯入加到既有的 `@angular/router` 匯入陳述式中，並把它加到元件裝飾器的 `imports` 陣列裡。
 
 ```ts
 ...
@@ -25,9 +25,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 </docs-step>
 
-<docs-step title="Add a `routerLink` to template">
+<docs-step title="在範本中加上 `routerLink`">
 
-To use the `RouterLink` directive, replace the `href` attributes with `routerLink`. Update the template with this change.
+要使用 `RouterLink` 指令，請把 `href` 特性換成 `routerLink`。據此更新範本。
 
 ```angular-ts
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -49,6 +49,6 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 </docs-workflow>
 
-When you click on the links in the navigation now, you should not see any blinking and only the content of the page itself (i.e., `router-outlet`) being changed 🎉
+現在點選導覽中的連結時，你應該不會看到任何閃爍，只有頁面本身的內容（也就是 `router-outlet`）被更換 🎉
 
-Great job learning about routing with Angular. This is just the surface of the `Router` API, to learn more check out the [Angular Router Documentation](guide/routing).
+你把 Angular 路由學得很好。這只是 `Router` API 的表面，想了解更多，請查看 [Angular Router 文件](guide/routing)。

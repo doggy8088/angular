@@ -1,30 +1,30 @@
-# Add HTTP communication to your app
+# 為你的應用程式加上 HTTP 通訊
 
-This tutorial demonstrates how to integrate HTTP and an API into your app.
+本教學示範如何把 HTTP 和 API 整合到你的應用程式中。
 
-Up until this point your app has read data from a static array in an Angular service. The next step is to use a JSON server that your app will communicate with over HTTP. The HTTP request will simulate the experience of working with data from a server.
+到目前為止，你的應用程式都是從 Angular 服務中的靜態陣列讀取資料。下一步是改用 JSON 伺服器，讓應用程式透過 HTTP 與它通訊。這個 HTTP 請求會模擬與伺服器上的資料互動的體驗。
 
 <docs-video src="https://www.youtube.com/embed/5K10oYJ5Y-E?si=TiuNKx_teR9baO7k"/>
 
-IMPORTANT: We recommend using your local environment for this step of the tutorial.
+IMPORTANT: 本教學的這個步驟，建議你在本機環境操作。
 
-## What you'll learn
+## 你會學到什麼
 
-Your app will use data from a JSON server
+你的應用程式會使用來自 JSON 伺服器的資料
 
 <docs-workflow>
 
-<docs-step title="Configure the JSON server">
-JSON Server is an open source tool used to create mock REST APIs. You'll use it to serve the housing location data that is currently stored in the housing service.
+<docs-step title="設定 JSON 伺服器">
+JSON Server 是一個開源工具，用來建立模擬的 REST API。你會用它來提供目前儲存在住房服務中的住房地點資料。
 
-1. Install `json-server` from npm by using the following command.
+1. 使用以下指令，從 npm 安裝 `json-server`。
     <docs-code language="bash">
         npm install -g json-server
     </docs-code>
 
-1. In the root directory of your project, create a file called `db.json`. This is where you will store the data for the `json-server`.
+1. 在專案的根目錄中，建立一個名為 `db.json` 的檔案。這就是你存放 `json-server` 資料的地方。
 
-1. Open `db.json` and copy the following code into the file
+1. 開啟 `db.json`，把以下程式碼複製到檔案中
     <docs-code language="json">
         {
             "locations": [
@@ -132,74 +132,74 @@ JSON Server is an open source tool used to create mock REST APIs. You'll use it 
         }
     </docs-code>
 
-1. Save this file.
+1. 儲存這個檔案。
 
-1. Time to test your configuration. From the command line, at the root of your project run the following commands.
+1. 現在來測試你的設定。在命令列中，於專案根目錄執行以下指令。
 
     <docs-code language="bash">
         json-server --watch db.json
     </docs-code>
 
-1. In your web browser, navigate to the `http://localhost:3000/locations` and confirm that the response includes the data stored in `db.json`.
+1. 在網頁瀏覽器中，前往 `http://localhost:3000/locations`，確認回應包含 `db.json` 中儲存的資料。
 
-If you have any trouble with your configuration, you can find more details in the [official documentation](https://www.npmjs.com/package/json-server).
+如果設定時遇到任何問題，可以在[官方文件](https://www.npmjs.com/package/json-server)中找到更多詳細資訊。
 </docs-step>
 
-<docs-step title="Update service to use web server instead of local array">
-The data source has been configured, the next step is to update your web app to connect to it use the data.
+<docs-step title="更新服務，改用網路伺服器而非本機陣列">
+資料來源已經設定完成，下一步是更新你的網路應用程式，讓它連接到資料來源並使用這些資料。
 
-1. In `src/app/housing.service.ts`, make the following changes:
+1. 在 `src/app/housing.service.ts` 中，進行以下變更：
 
-    1. Update the code to remove `housingLocationList` property and the array containing the data.
+    1. 更新程式碼，移除 `housingLocationList` 屬性與存放資料的陣列。
 
-    1. Add a string property called `url` and set its value to `'http://localhost:3000/locations'`
+    1. 加上一個名為 `url` 的字串屬性，並把它的值設為 `'http://localhost:3000/locations'`
 
         <docs-code language="javascript">
         url = 'http://localhost:3000/locations';
         </docs-code>
 
-        This code will result in errors in the rest of the file because it depends on the `housingLocationList` property. We're going to update the service methods next.
+        這段程式碼會讓檔案其餘部分出現錯誤，因為它們依賴 `housingLocationList` 屬性。接下來我們要更新服務的方法。
 
-    1. Update the `getAllHousingLocations` function to make a call to the web server you configured.
+    1. 更新 `getAllHousingLocations` 函式，讓它呼叫你剛設定好的網路伺服器。
 
         <docs-code header="" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[10,13]"/>
 
-        The code now uses asynchronous code to make a **GET** request over HTTP.
+        這段程式碼現在使用非同步程式碼，透過 HTTP 發出 **GET** 請求。
 
-        HELPFUL: For this example, the code uses `fetch`. For more advanced use cases consider using `HttpClient` provided by Angular.
+        HELPFUL: 在本範例中，程式碼使用 `fetch`。如需更進階的用途，可以考慮使用 Angular 提供的 `HttpClient`。
 
-    1. Update the `getHousingLocationsById` function to make a call to the web server you configured.
+    1. 更新 `getHousingLocationsById` 函式，讓它呼叫你剛設定好的網路伺服器。
 
         <docs-code header="" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[15,18]"/>
 
-    1. Once all the updates are complete, your updated service should match the following code.
+    1. 所有更新都完成後，你更新好的服務應該與以下程式碼相符。
 
-        <docs-code header="Final version of housing.service.ts" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[1,24]" />
+        <docs-code header="housing.service.ts 的最終版本" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[1,24]" />
 
 </docs-step>
 
-<docs-step title="Update the components to use asynchronous calls to the housing service">
-The server is now reading data from the HTTP request but the components that rely on the service now have errors because they were programmed to use the synchronous version of the service.
+<docs-step title="更新元件，改用非同步呼叫來使用住房服務">
+伺服器現在會從 HTTP 請求讀取資料，但依賴這個服務的元件現在出現了錯誤，因為它們原本是針對同步版本的服務撰寫的。
 
-1. In `src/app/home/home.component.ts`, update the `constructor` to use the new asynchronous version of the `getAllHousingLocations` method.
+1. 在 `src/app/home/home.component.ts` 中，更新 `constructor`，改用新版非同步的 `getAllHousingLocations` 方法。
 
     <docs-code header="" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/home/home.component.ts" visibleLines="[32,37]"/>
 
-1. In `src/app/details/details.component.ts`, update the `constructor` to use the new asynchronous version of the `getHousingLocationById` method.
+1. 在 `src/app/details/details.component.ts` 中，更新 `constructor`，改用新版非同步的 `getHousingLocationById` 方法。
 
     <docs-code header="" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/details/details.component.ts" visibleLines="[61,66]"/>
 
-1. Save your code.
+1. 儲存你的程式碼。
 
-1. Open the application in the browser and confirm that it runs without any errors.
+1. 在瀏覽器中開啟應用程式，確認它能順利執行、沒有任何錯誤。
 </docs-step>
 
 </docs-workflow>
 
-Note: This lesson relies on the `fetch` browser API. For the support of interceptors, please refer to the [Http Client documentation](/guide/http)
+Note: 本課依賴 `fetch` 瀏覽器 API。關於攔截器的支援，請參閱 [HTTP 用戶端文件](/guide/http)
 
-Summary: In this lesson, you updated your app to use a local web server (`json-server`), and use asynchronous service methods to retrieve data.
+Summary: 在本課中，你更新了應用程式，使用本機網路伺服器（`json-server`），並使用非同步的服務方法來擷取資料。
 
-Congratulations! You've successfully completed this tutorial and are ready to continue your journey with building even more complex Angular Apps.
+恭喜！你已經成功完成本教學，準備好繼續用 Angular 建置更複雜的應用程式了。
 
-If you would like to learn more, please consider completing some of Angular's other developer [tutorials](tutorials) and [guides](overview).
+想了解更多，歡迎完成 Angular 其他的開發者[教學](tutorials)與[指南](overview)。

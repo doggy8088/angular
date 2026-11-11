@@ -1,32 +1,32 @@
-# Interceptors
+# 攔截器
 
-`HttpClient` supports a form of middleware known as _interceptors_.
+`HttpClient` 支援一種稱為「攔截器」的中介層形式。
 
-TLDR: Interceptors are middleware that allows common patterns around retrying, caching, logging, and authentication to be abstracted away from individual requests.
+TLDR: 攔截器是一種中介層，讓重試、快取、記錄與驗證等常見模式能從個別請求中抽象出來，統一處理。
 
-`HttpClient` supports two kinds of interceptors: functional and DI-based. Our recommendation is to use functional interceptors because they have more predictable behavior, especially in complex setups. Our examples in this guide use functional interceptors, and we cover [DI-based interceptors](#di-based-interceptors) in their own section at the end.
+`HttpClient` 支援兩種攔截器：函式型與 DI 型。我們建議使用函式型攔截器，因為它們的行為較可預期，在複雜設定下尤其如此。本指南的範例使用函式型攔截器，[DI 型攔截器](#di-based-interceptors)則在文末以專節介紹。
 
-## Interceptors
+## 攔截器
 
-Interceptors are generally functions which you can run for each request, and have broad capabilities to affect the contents and overall flow of requests and responses. You can install multiple interceptors, which form an interceptor chain where each interceptor processes the request or response before forwarding it to the next interceptor in the chain.
+攔截器通常是可針對每個請求執行的函式，具備廣泛的能力，能影響請求與回應的內容及整體流程。你可以安裝多個攔截器，它們會組成一條攔截器鏈，其中每個攔截器在把請求或回應轉交給鏈中的下一個攔截器之前，先行處理。
 
-You can use interceptors to implement a variety of common patterns, such as:
+你可以使用攔截器實作各種常見模式，例如：
 
-* Adding authentication headers to outgoing requests to a particular API.
-* Retrying failed requests with exponential backoff.
-* Caching responses for a period of time, or until invalidated by mutations.
-* Customizing the parsing of responses.
-* Measuring server response times and log them.
-* Driving UI elements such as a loading spinner while network operations are in progress.
-* Collecting and batch requests made within a certain timeframe.
-* Automatically failing requests after a configurable deadline or timeout.
-* Regularly polling the server and refreshing results.
+* 為傳送至特定 API 的外送請求加入驗證標頭。
+* 以指數退避方式重試失敗的請求。
+* 將回應快取一段時間，或快取到被變更操作失效為止。
+* 自訂回應的解析方式。
+* 量測伺服器回應時間並記錄下來。
+* 在網路操作進行期間驅動 UI 元素，例如載入旋轉圖示。
+* 收集並批次處理在某段時間內發出的請求。
+* 在可設定的期限或逾時之後自動讓請求失敗。
+* 定期輪詢伺服器並重新整理結果。
 
-## Defining an interceptor
+## 定義攔截器
 
-The basic form of an interceptor is a function which receives the outgoing `HttpRequest` and a `next` function representing the next processing step in the interceptor chain.
+攔截器的基本形式是一個函式，它接收外送的 `HttpRequest`，以及一個 `next` 函式，代表攔截器鏈中的下一個處理步驟。
 
-For example, this `loggingInterceptor` will log the outgoing request URL to `console.log` before forwarding the request:
+例如，這個 `loggingInterceptor` 會在轉交請求之前，把外送請求的 URL 記錄到 `console.log`：
 
 <docs-code language="ts">
 export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
@@ -35,11 +35,11 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 }
 </docs-code>
 
-In order for this interceptor to actually intercept requests, you must configure `HttpClient` to use it.
+要讓這個攔截器真正攔截請求，你必須設定 `HttpClient` 使用它。
 
-## Configuring interceptors
+## 設定攔截器
 
-You declare the set of interceptors to use when configuring `HttpClient` through dependency injection, by using the `withInterceptors` feature:
+在透過依賴注入設定 `HttpClient` 時，使用 `withInterceptors` 功能來宣告要使用的攔截器集合：
 
 <docs-code language="ts">
 bootstrapApplication(AppComponent, {providers: [
@@ -49,11 +49,11 @@ bootstrapApplication(AppComponent, {providers: [
 ]});
 </docs-code>
 
-The interceptors you configure are chained together in the order that you've listed them in the providers. In the above example, the `loggingInterceptor` would process the request and then forward it to the `cachingInterceptor`.
+你設定的攔截器會依你在 providers 中列出的順序串連在一起。在上例中，`loggingInterceptor` 會先處理請求，然後轉交給 `cachingInterceptor`。
 
-### Intercepting response events
+### 攔截回應事件 {#intercepting-response-events}
 
-An interceptor may transform the `Observable` stream of `HttpEvent`s returned by `next` in order to access or manipulate the response. Because this stream includes all response events, inspecting the `.type` of each event may be necessary in order to identify the final response object.
+攔截器可以轉換 `next` 回傳的 `HttpEvent` 的 `Observable` 串流，以存取或操作回應。由於此串流包含所有回應事件，為了辨識最終的回應物件，可能需要檢查每個事件的 `.type`。
 
 <docs-code language="ts">
 export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
@@ -65,13 +65,13 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 }
 </docs-code>
 
-Tip: Interceptors naturally associate responses with their outgoing requests, because they transform the response stream in a closure that captures the request object.
+TIP: 攔截器天生就能把回應與其對應的外送請求關聯起來，因為它們是在擷取了請求物件的閉包中轉換回應串流。
 
-## Modifying requests
+## 修改請求
 
-Most aspects of `HttpRequest` and `HttpResponse` instances are _immutable_, and interceptors cannot directly modify them. Instead, interceptors apply mutations by cloning these objects using the `.clone()` operation, and specifying which properties should be mutated in the new instance. This might involve performing immutable updates on the value itself (like `HttpHeaders` or `HttpParams`).
+`HttpRequest` 與 `HttpResponse` 執行個體的大多數面向都是「不可變」的，攔截器無法直接修改它們。攔截器改以使用 `.clone()` 操作複製這些物件，並指定在新執行個體中要變更哪些屬性，來套用變更。這可能涉及對值本身進行不可變更新（例如 `HttpHeaders` 或 `HttpParams`）。
 
-For example, to add a header to a request:
+例如，為請求加入一個標頭：
 
 <docs-code language="ts">
 const reqWithHeader = req.clone({
@@ -79,15 +79,15 @@ const reqWithHeader = req.clone({
 });
 </docs-code>
 
-This immutability allows most interceptors to be idempotent if the same `HttpRequest` is submitted to the interceptor chain multiple times. This can happen for a few reasons, including when a request is retried after failure.
+這種不可變性讓大多數攔截器在同一個 `HttpRequest` 被多次提交到攔截器鏈時，仍能保持冪等。這種情況可能因多種原因發生，包括請求在失敗後被重試時。
 
-CRITICAL: The body of a request or response is **not** protected from deep mutations. If an interceptor must mutate the body, take care to handle running multiple times on the same request.
+CRITICAL: 請求或回應的主體「不」受深層變更的保護。如果攔截器必須變更主體，務必小心處理同一個請求被多次執行的情況。
 
-## Dependency injection in interceptors
+## 攔截器中的依賴注入
 
-Interceptors are run in the _injection context_ of the injector which registered them, and can use  Angular's `inject` API to retrieve dependencies.
+攔截器在註冊它的注入器的「注入上下文」中執行，可以使用 Angular 的 `inject` API 來取得依賴。
 
-For example, suppose an application has a service called `AuthService`, which creates authentication tokens for outgoing requests. An interceptor can inject and use this service:
+例如，假設應用程式有一個名為 `AuthService` 的服務，負責為外送請求建立驗證權杖。攔截器可以注入並使用這個服務：
 
 <docs-code language="ts">
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
@@ -102,25 +102,25 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
 }
 </docs-code>
 
-## Request and response metadata
+## 請求與回應的中繼資料 {#request-and-response-metadata}
 
-Often it's useful to include information in a request that's not sent to the backend, but is specifically meant for interceptors. `HttpRequest`s have a `.context` object which stores this kind of metadata as an instance of `HttpContext`. This object functions as a typed map, with keys of type `HttpContextToken`.
+在請求中加入不傳送給後端、而是專門給攔截器使用的資訊，往往很有用。`HttpRequest` 有一個 `.context` 物件，它以 `HttpContext` 執行個體的形式儲存這類中繼資料。這個物件的作用類似具型別的對照表，其鍵的型別為 `HttpContextToken`。
 
-To illustrate how this system works, let's use metadata to control whether a caching interceptor is enabled for a given request.
+為了說明這套系統如何運作，我們用中繼資料來控制快取攔截器是否對某個請求啟用。
 
-### Defining context tokens
+### 定義上下文權杖
 
-To store whether the caching interceptor should cache a particular request in that request's `.context` map, define a new `HttpContextToken` to act as a key:
+若要把「快取攔截器是否應快取某個特定請求」存放在該請求的 `.context` 對照表中，請定義一個新的 `HttpContextToken` 作為鍵：
 
 <docs-code language="ts">
 export const CACHING_ENABLED = new HttpContextToken<boolean>(() => true);
 </docs-code>
 
-The provided function creates the default value for the token for requests that haven't explicitly set a value for it. Using a function ensures that if the token's value is an object or array, each request gets its own instance.
+所提供的函式會為尚未明確設定值的請求建立權杖的預設值。使用函式可確保當權杖的值是物件或陣列時，每個請求都能取得自己的執行個體。
 
-### Reading the token in an interceptor
+### 在攔截器中讀取權杖
 
-An interceptor can then read the token and choose to apply caching logic or not based on its value:
+接著，攔截器可以讀取該權杖，並依其值決定是否套用快取邏輯：
 
 <docs-code language="ts">
 export function cachingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
@@ -134,9 +134,9 @@ export function cachingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
 }
 </docs-code>
 
-### Setting context tokens when making a request
+### 發出請求時設定上下文權杖
 
-When making a request via the `HttpClient` API, you can provide values for `HttpContextToken`s:
+透過 `HttpClient` API 發出請求時，你可以為 `HttpContextToken` 提供值：
 
 <docs-code language="ts">
 const data$ = http.get('/sensitive/data', {
@@ -144,19 +144,19 @@ const data$ = http.get('/sensitive/data', {
 });
 </docs-code>
 
-Interceptors can read these values from the `HttpContext` of the request.
+攔截器可以從請求的 `HttpContext` 讀取這些值。
 
-### The request context is mutable
+### 請求上下文是可變的
 
-Unlike other properties of `HttpRequest`s, the associated `HttpContext` is _mutable_. If an interceptor changes the context of a request that is later retried, the same interceptor will observe the context mutation when it runs again. This is useful for passing state across multiple retries if needed.
+與 `HttpRequest` 的其他屬性不同，相關聯的 `HttpContext` 是「可變」的。如果攔截器變更了一個之後會被重試的請求的上下文，同一個攔截器在再次執行時會觀察到該上下文變更。在需要跨多次重試傳遞狀態時，這很有用。
 
-## Synthetic responses
+## 合成回應
 
-Most interceptors will simply invoke the `next` handler while transforming either the request or the response, but this is not strictly a requirement. This section discusses several of the ways in which an interceptor may incorporate more advanced behavior.
+大多數攔截器只會呼叫 `next` 處理器，同時轉換請求或回應，但這並非嚴格必要。本節討論攔截器納入更進階行為的幾種方式。
 
-Interceptors are not required to invoke `next`. They may instead choose to construct responses through some other mechanism, such as from a cache or by sending the request through an alternate mechanism.
+攔截器不一定要呼叫 `next`。它們可以改為透過其他機制建構回應，例如從快取取得，或透過替代機制傳送請求。
 
-Constructing a response is possible using the `HttpResponse` constructor:
+可以使用 `HttpResponse` 建構函式來建構回應：
 
 <docs-code language="ts">
 const resp = new HttpResponse({
@@ -164,11 +164,11 @@ const resp = new HttpResponse({
 });
 </docs-code>
 
-## DI-based interceptors
+## DI 型攔截器 {#di-based-interceptors}
 
-`HttpClient` also supports interceptors which are defined as injectable classes and configured through the DI system. The capabilities of DI-based interceptors are identical to those of functional interceptors, but the configuration mechanism is different.
+`HttpClient` 也支援以可注入類別定義、並透過 DI 系統設定的攔截器。DI 型攔截器的能力與函式型攔截器完全相同，但設定機制不同。
 
-A DI-based interceptor is an injectable class which implements the `HttpInterceptor` interface:
+DI 型攔截器是一個實作 `HttpInterceptor` 介面的可注入類別：
 
 <docs-code language="ts">
 @Injectable()
@@ -180,7 +180,7 @@ export class LoggingInterceptor implements HttpInterceptor {
 }
 </docs-code>
 
-DI-based interceptors are configured through a dependency injection multi-provider:
+DI 型攔截器透過依賴注入的多重 provider 來設定：
 
 <docs-code language="ts">
 bootstrapApplication(AppComponent, {providers: [
@@ -193,4 +193,4 @@ bootstrapApplication(AppComponent, {providers: [
 ]});
 </docs-code>
 
-DI-based interceptors run in the order that their providers are registered. In an app with an extensive and hierarchical DI configuration, this order can be very hard to predict.
+DI 型攔截器依其 provider 註冊的順序執行。在 DI 設定龐大且具階層的應用程式中，這個順序可能非常難以預測。

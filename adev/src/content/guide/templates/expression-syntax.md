@@ -1,113 +1,113 @@
-# Expression Syntax
+# 運算式語法
 
-Angular expressions are based on JavaScript, but differ in some key ways. This guide walks through the similarities and differences between Angular expressions and standard JavaScript.
+Angular 運算式以 JavaScript 為基礎，但在一些關鍵方面有所不同。本指南將逐一說明 Angular 運算式與標準 JavaScript 之間的異同。
 
-## Value literals
+## 值字面值
 
-Angular supports a subset of [literal values](https://developer.mozilla.org/en-US/docs/Glossary/Literal) from JavaScript.
+Angular 支援 JavaScript [字面值](https://developer.mozilla.org/en-US/docs/Glossary/Literal)的一個子集。
 
-### Supported value literals
+### 支援的值字面值
 
-| Literal type | Example values                  |
-| ------------ | ------------------------------- |
-| String       | `'Hello'`, `"World"`            |
-| Boolean      | `true`, `false`                 |
-| Number       | `123`, `3.14`                   |
-| Object       | `{name: 'Alice'}`               |
-| Array        | `['Onion', 'Cheese', 'Garlic']` |
-| null         | `null`                          |
+| 字面值類型     | 範例值                          |
+| -------------- | ------------------------------- |
+| 字串           | `'Hello'`, `"World"`            |
+| 布林           | `true`, `false`                 |
+| 數字           | `123`, `3.14`                   |
+| 物件           | `{name: 'Alice'}`               |
+| 陣列           | `['Onion', 'Cheese', 'Garlic']` |
+| null           | `null`                          |
 
-### Unsupported literals
+### 不支援的字面值
 
-| Literal type    | Example value         |
-| --------------- | --------------------- |
-| Template string | `` `Hello ${name}` `` |
-| RegExp          | `/\d+/`               |
+| 字面值類型           | 範例值                    |
+| -------------------- | ------------------------- |
+| 範本字串           | `` `Hello ${name}` ``    |
+| RegExp               | `/\d+/`                  |
 
-## Globals
+## 全域值
 
-Angular expressions support the following [globals](https://developer.mozilla.org/en-US/docs/Glossary/Global_object):
+Angular 運算式支援下列[全域值](https://developer.mozilla.org/en-US/docs/Glossary/Global_object)：
 
 - [undefined](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined)
 - [$any](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#any)
 
-No other JavaScript globals are supported. Common JavaScript globals include `Number`, `Boolean`, `NaN`, `Infinity`, `parseInt`, and more.
+不支援任何其他 JavaScript 全域值。常見的 JavaScript 全域值包括 `Number`、`Boolean`、`NaN`、`Infinity`、`parseInt` 等。
 
-## Local variables
+## 區域變數
 
-Angular automatically makes special local variables available for use in expressions in specific contexts. These special variables always start with the dollar sign character (`$`).
+Angular 會在特定上下文中，自動提供特殊的區域變數供運算式使用。這些特殊變數一律以貨幣符號（`$`）開頭。
 
-For example, `@for` blocks make several local variables corresponding to information about the loop, such as `$index`.
+例如，`@for` 區塊會提供數個與迴圈資訊對應的區域變數，例如 `$index`。
 
-## What operators are supported?
+## 支援哪些運算子？
 
-### Supported operators
+### 支援的運算子
 
-Angular supports the following operators from standard JavaScript.
+Angular 支援下列來自標準 JavaScript 的運算子。
 
-| Operator              | Example(s)                               |
-| --------------------- | ---------------------------------------- |
-| Add / Concatenate     | `1 + 2`                                  |
-| Subtract              | `52 - 3`                                 |
-| Multiply              | `41 * 6`                                 |
-| Divide                | `20 / 4`                                 |
-| Remainder (Modulo)    | `17 % 5`                                 |
-| Parenthesis           | `9 * (8 + 4)`                            |
-| Conditional (Ternary) | `a > b ? true : false`                   |
-| And (Logical)         | `&&`                                     |
-| Or (Logical)          | `\|\|`                                   |
-| Not (Logical)         | `!`                                      |
-| Nullish Coalescing    | `const foo = null ?? 'default'`          |
-| Comparison Operators  | `<`, `<=`, `>`, `>=`, `==`, `===`, `!==` |
-| Unary Negation        | `const y = -x`                           |
-| Unary Plus            | `const x = +y`                           |
-| Property Accessor     | `person['name'] = 'Mirabel'`             |
+| 運算子                        | 範例                                   |
+| ----------------------------- | -------------------------------------- |
+| 加法／串接                    | `1 + 2`                                |
+| 減法                          | `52 - 3`                               |
+| 乘法                          | `41 * 6`                               |
+| 除法                          | `20 / 4`                               |
+| 餘數（模數）                  | `17 % 5`                               |
+| 括號                          | `9 * (8 + 4)`                          |
+| 條件（三元）                  | `a > b ? true : false`                 |
+| 邏輯 AND                      | `&&`                                   |
+| 邏輯 OR                       | `\|\|`                                 |
+| 邏輯 NOT                      | `!`                                    |
+| 空值合併                      | `const foo = null ?? 'default'`        |
+| 比較運算子                    | `<`, `<=`, `>`, `>=`, `==`, `===`, `!==` |
+| 一元否定                      | `const y = -x`                         |
+| 一元正號                      | `const x = +y`                         |
+| 屬性存取子                    | `person['name'] = 'Mirabel'`           |
 
-Angular expressions additionally also support the following non-standard operators:
+Angular 運算式另外還支援下列非標準運算子：
 
-| Operator                        | Example(s)                     |
+| 運算子                          | 範例                           |
 | ------------------------------- | ------------------------------ |
-| [Pipe](/guides/templates/pipes) | `{{ total \| currency }}`      |
-| Optional chaining\*             | `someObj.someProp?.nestedProp` |
-| Non-null assertion (TypeScript) | `someObj!.someProp`            |
+| [管道](/guides/templates/pipes)  | `{{ total \| currency }}`      |
+| 選擇性串連\*                    | `someObj.someProp?.nestedProp` |
+| 非空斷言（TypeScript）          | `someObj!.someProp`            |
 
-\*Note: Optional chaining behaves differently from the standard JavaScript version in that if the left side of Angular’s optional chaining operator is `null` or `undefined`, it returns `null` instead of `undefined`.
+NOTE: 選擇性串連的行為與標準 JavaScript 版本不同：當 Angular 的選擇性串連運算子左側為 `null` 或 `undefined` 時，它會回傳 `null`，而不是 `undefined`。
 
-### Unsupported operators
+### 不支援的運算子
 
-| Operator              | Example(s)                        |
-| --------------------- | --------------------------------- |
-| All bitwise operators | `&`, `&=`, `~`, `\|=`, `^=`, etc. |
-| Assignment operators  | `=`                               |
-| Object destructuring  | `const { name } = person`         |
-| Array destructuring   | `const [firstItem] = items`       |
-| Comma operator        | `x = (x++, x)`                    |
-| typeof                | `typeof 42`                       |
-| void                  | `void 1`                          |
-| in                    | `'model' in car`                  |
-| instanceof            | `car instanceof Automobile`       |
-| new                   | `new Car()`                       |
+| 運算子              | 範例                              |
+| ------------------- | --------------------------------- |
+| 所有位元運算子      | `&`, `&=`, `~`, `\|=`, `^=`, etc. |
+| 指派運算子          | `=`                               |
+| 物件解構            | `const { name } = person`         |
+| 陣列解構            | `const [firstItem] = items`       |
+| 逗號運算子          | `x = (x++, x)`                    |
+| typeof              | `typeof 42`                       |
+| void                | `void 1`                          |
+| in                  | `'model' in car`                  |
+| instanceof          | `car instanceof Automobile`       |
+| new                 | `new Car()`                       |
 
-## Lexical context for expressions
+## 運算式的詞彙上下文
 
-Angular expressions are evaluated within the context of the component class as well as any relevant [template variables](/guide/templates/variables), locals, and globals.
+Angular 運算式會在元件類別的上下文中評估，同時也會參照任何相關的[範本變數](/guide/templates/variables)、區域變數與全域值。
 
-When referring to class members, `this` is always implied.
+參照類別成員時，`this` 永遠是隱含的。
 
-## Declarations
+## 宣告
 
-Generally speaking, declarations are not supported in Angular expressions. This includes, but is not limited to:
+一般而言，Angular 運算式不支援宣告。這包括但不限於：
 
-| Declarations    | Example(s)                                  |
-| --------------- | ------------------------------------------- |
-| Variables       | `let label = 'abc'`, `const item = 'apple'` |
-| Functions       | `function myCustomFunction() { }`           |
-| Arrow Functions | `() => { }`                                 |
-| Classes         | `class Rectangle { }`                       |
+| 宣告                        | 範例                                        |
+| --------------------------- | ------------------------------------------- |
+| 變數                        | `let label = 'abc'`, `const item = 'apple'` |
+| 函式                        | `function myCustomFunction() { }`           |
+| 箭頭函式                    | `() => { }`                                 |
+| 類別                        | `class Rectangle { }`                       |
 
-# Event listener statements
+# 事件監聽器陳述式 {#event-listener-statements}
 
-Event handlers are **statements** rather than expressions. While they support all of the same syntax as Angular expressions, the are two key differences:
+事件處理常式是**陳述式**，而非運算式。雖然它們支援與 Angular 運算式相同的全部語法，但有兩個關鍵差異：
 
-1. Statements **do support** assignment operators (but not destructing assignments)
-1. Statements **do not support** pipes
+1. 陳述式**確實支援**指派運算子（但不支援解構指派）
+1. 陳述式**不支援**管道

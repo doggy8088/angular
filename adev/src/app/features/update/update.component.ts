@@ -44,7 +44,7 @@ export default class AppComponent {
   };
 
   protected readonly optionList: Option[] = [
-    {id: 'ngUpgrade', name: 'ngUpgrade', description: 'to combine AngularJS & Angular'},
+    {id: 'ngUpgrade', name: 'ngUpgrade', description: '結合 AngularJS 與 Angular'},
     {id: 'material', name: 'Angular Material', description: ''},
     {id: 'windows', name: 'Windows', description: ''},
   ];

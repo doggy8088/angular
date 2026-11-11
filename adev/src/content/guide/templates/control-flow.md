@@ -1,12 +1,12 @@
-# Control flow
+# 控制流程
 
-Angular templates support control flow blocks that let you conditionally show, hide, and repeat elements.
+Angular 範本支援控制流程區塊，讓你能依條件顯示、隱藏與重複元素。
 
-Note: This was previously accomplished with the *ngIf, *ngFor, and \*ngSwitch directives.
+Note: 這過去是透過 *ngIf、*ngFor 與 \*ngSwitch 指令來達成的。
 
-## Conditionally display content with `@if`, `@else-if` and `@else`
+## 以 `@if`、`@else-if` 與 `@else` 依條件顯示內容
 
-The `@if` block conditionally displays its content when its condition expression is truthy:
+當條件運算式為 truthy 時，`@if` 區塊會顯示其內容：
 
 ```angular-html
 @if (a > b) {
@@ -14,7 +14,7 @@ The `@if` block conditionally displays its content when its condition expression
 }
 ```
 
-If you want to display alternative content, you can do so by providing any number of `@else if` blocks and a singular `@else` block.
+如果你想顯示替代內容，可以提供任意數量的 `@else if` 區塊，以及一個 `@else` 區塊。
 
 ```angular-html
 @if (a > b) {
@@ -26,9 +26,9 @@ If you want to display alternative content, you can do so by providing any numbe
 }
 ```
 
-### Referencing the conditional expression's result
+### 參照條件運算式的結果
 
-The `@if` conditional supports saving the result of the conditional expression into a variable for reuse inside of the block.
+`@if` 條件支援將條件運算式的結果存入變數，以便在區塊內重複使用。
 
 ```angular-html
 @if (user.profile.settings.startDate; as startDate) {
@@ -36,13 +36,13 @@ The `@if` conditional supports saving the result of the conditional expression i
 }
 ```
 
-This can be useful for referencing longer expressions that would be easier to read and maintain within the template.
+這在參照較長的運算式時很有用，能讓範本更容易閱讀與維護。
 
-## Repeat content with the `@for` block
+## 以 `@for` 區塊重複內容 {#repeat-content-with-the-for-block}
 
-The `@for` block loops through a collection and repeatedly renders the content of a block. The collection can be any JavaScript [iterable](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols), but Angular has additional performance optimizations for `Array` values.
+`@for` 區塊會逐一走訪集合，並重複算繪區塊的內容。集合可以是任何 JavaScript [iterable](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols)，但 Angular 對 `Array` 值有額外的效能最佳化。
 
-A typical `@for` loop looks like:
+典型的 `@for` 迴圈如下所示：
 
 ```angular-html
 @for (item of items; track item.id) {
@@ -50,32 +50,32 @@ A typical `@for` loop looks like:
 }
 ```
 
-### Why is `track` in `@for` blocks important?
+### 為什麼 `@for` 區塊中的 `track` 很重要？ {#why-is-track-in-for-blocks-important}
 
-The `track` expression allows Angular to maintain a relationship between your data and the DOM nodes on the page. This allows Angular to optimize performance by executing the minimum necessary DOM operations when the data changes.
+`track` 運算式讓 Angular 能維持你的資料與頁面上 DOM 節點之間的對應關係。這讓 Angular 在資料變更時，只執行最少必要的 DOM 操作，進而最佳化效能。
 
-Using track effectively can significantly improve your application's rendering performance when looping over data collections.
+有效運用 track，能在對資料集合進行迴圈時大幅提升應用程式的算繪效能。
 
-Select a property that uniquely identifies each item in the `track` expression. If your data model includes a uniquely identifying property, commonly `id` or `uuid`, use this value. If your data does not include a field like this, strongly consider adding one.
+請在 `track` 運算式中選用能唯一識別每個項目的屬性。如果你的資料模型包含唯一識別屬性，通常是 `id` 或 `uuid`，請使用該值。如果你的資料沒有這類欄位，強烈建議新增一個。
 
-For static collections that never change, you can use `$index` to tell Angular to track each item by its index in the collection.
+對於永不變更的靜態集合，你可以使用 `$index`，告訴 Angular 依項目在集合中的索引來追蹤每個項目。
 
-If no other option is available, you can specify `identity`. This tells Angular to track the item by its reference identity using the triple-equals operator (`===`). Avoid this option whenever possible as it can lead to significantly slower rendering updates, as Angular has no way to map which data item corresponds to which DOM nodes.
+如果沒有其他選擇，你可以指定 `identity`。這會告訴 Angular 使用三等號運算子（`===`）依參照同一性來追蹤項目。請盡量避免這個選項，因為它可能導致算繪更新明顯變慢：Angular 無法對應哪筆資料項目對應到哪些 DOM 節點。
 
-### Contextual variables in `@for` blocks
+### `@for` 區塊中的上下文變數
 
-Inside `@for` blocks, several implicit variables are always available:
+在 `@for` 區塊內，有幾個隱含變數永遠可用：
 
-| Variable | Meaning                                       |
-| -------- | --------------------------------------------- |
-| `$count` | Number of items in a collection iterated over |
-| `$index` | Index of the current row                      |
-| `$first` | Whether the current row is the first row      |
-| `$last`  | Whether the current row is the last row       |
-| `$even`  | Whether the current row index is even         |
-| `$odd`   | Whether the current row index is odd          |
+| 變數     | 意義                   |
+| -------- | ---------------------- |
+| `$count` | 被走訪集合中的項目數量 |
+| `$index` | 目前列的索引           |
+| `$first` | 目前列是否為第一列     |
+| `$last`  | 目前列是否為最後一列   |
+| `$even`  | 目前列的索引是否為偶數 |
+| `$odd`   | 目前列的索引是否為奇數 |
 
-These variables are always available with these names, but can be aliased via a `let` segment:
+這些變數永遠以這些名稱提供，但可以透過 `let` 區段為它們取別名：
 
 ```angular-html
 @for (item of items; track item.id; let idx = $index, e = $even) {
@@ -83,11 +83,11 @@ These variables are always available with these names, but can be aliased via a 
 }
 ```
 
-The aliasing is useful when nesting `@for` blocks, letting you read variables from the outer `@for` block from an inner `@for` block.
+別名在巢狀 `@for` 區塊中很有用，讓內層 `@for` 區塊能讀取外層 `@for` 區塊的變數。
 
-### Providing a fallback for `@for` blocks with the `@empty` block
+### 以 `@empty` 區塊為 `@for` 區塊提供備援內容 {#providing-a-fallback-for-for-blocks-with-the-empty-block}
 
-You can optionally include an `@empty` section immediately after the `@for` block content. The content of the `@empty` block displays when there are no items:
+你可以選擇在 `@for` 區塊內容之後緊接著加入 `@empty` 區段。當集合中沒有任何項目時，會顯示 `@empty` 區塊的內容：
 
 ```angular-html
 @for (item of items; track item.name) {
@@ -97,9 +97,9 @@ You can optionally include an `@empty` section immediately after the `@for` bloc
 }
 ```
 
-## Conditionally display content with the `@switch` block
+## 以 `@switch` 區塊依條件顯示內容
 
-While the `@if` block is great for most scenarios, the `@switch` block provides an alternate syntax to conditionally render data. Its syntax closely resembles JavaScript's `switch` statement.
+雖然 `@if` 區塊適用於大多數情境，`@switch` 區塊提供了另一種依條件算繪資料的語法。它的語法與 JavaScript 的 `switch` 陳述式十分相似。
 
 ```angular-html
 @switch (userPermissions) {
@@ -118,10 +118,10 @@ While the `@if` block is great for most scenarios, the `@switch` block provides 
 }
 ```
 
-The value of the conditional expression is compared to the case expression using the triple-equals (`===`) operator.
+條件運算式的值會使用三等號（`===`）運算子與各 case 運算式進行比較。
 
-**`@switch` does not have a fallthrough**, so you do not need an equivalent to a `break` or `return` statement in the block.
+`@switch` **沒有 fallthrough 行為**，因此你不需要在區塊中寫相當於 `break` 或 `return` 的陳述式。
 
-You can optionally include a `@default` block. The content of the `@default` block displays if none of the preceding case expressions match the switch value.
+你也可以選擇加入 `@default` 區塊。當前面所有 case 運算式都不符合 switch 值時，會顯示 `@default` 區塊的內容。
 
-If no `@case` matches the expression and there is no `@default` block, nothing is shown.
+如果沒有任何 `@case` 符合運算式，也沒有 `@default` 區塊，就不會顯示任何內容。

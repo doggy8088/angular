@@ -1,16 +1,16 @@
-# Validating forms
+# 驗證表單
 
-Another common scenario when working with forms is the need to validate the inputs to ensure the correct data is submitted.
+使用表單時另一個常見情境，是需要驗證輸入內容，確保送出的是正確的資料。
 
-In this activity, you'll learn how to validate forms with reactive forms.
+在這個練習中，你將學習如何以反應式表單驗證表單。
 
 <hr>
 
 <docs-workflow>
 
-<docs-step title="Import Validators">
+<docs-step title="匯入 Validators">
 
-Angular provides a set of validation tools. To use them, first update the component to import `Validators` from `@angular/forms`.
+Angular 提供了一組驗證工具。要使用它們，先更新元件，從 `@angular/forms` 匯入 `Validators`。
 
 <docs-code language="ts" highlight="[1]">
 import {ReactiveFormsModule, Validators} from '@angular/forms';
@@ -21,11 +21,11 @@ export class AppComponent {}
 
 </docs-step>
 
-<docs-step title="Add validation to form">
+<docs-step title="為表單加上驗證">
 
-Every `FormControl` can be passed the `Validators` you want to use for validating the `FormControl` values. For example, if you want to make the `name` field in `profileForm` required then use `Validators.required`.
-For the `email` field in our Angular form, we want to ensure it's not left empty and follows a valid email address structure. We can achieve this by combining the `Validators.required` and `Validators.email` validators in an array.
-Update the `name` and `email` `FormControl`:
+每個 `FormControl` 都可以傳入你想用來驗證 `FormControl` 值的 `Validators`。例如，如果你想讓 `profileForm` 中的 `name` 欄位成為必填，就使用 `Validators.required`。
+對於我們 Angular 表單中的 `email` 欄位，我們希望確保它不是空白，並且符合有效的電子郵件地址結構。我們可以把 `Validators.required` 和 `Validators.email` 這兩個驗證器合併在一個陣列中來做到這一點。
+更新 `name` 和 `email` 的 `FormControl`：
 
 ```ts
 profileForm = new FormGroup({
@@ -36,10 +36,10 @@ profileForm = new FormGroup({
 
 </docs-step>
 
-<docs-step title="Check form validation in template">
+<docs-step title="在範本中檢查表單驗證">
 
-To determine if a form is valid, the `FormGroup` class has a `valid` property.
-You can use this property to dynamically bind attributes. Update the submit `button` to be enabled based on the validity of the form.
+要判斷表單是否有效，`FormGroup` 類別有一個 `valid` 屬性。
+你可以使用這個屬性來動態繫結特性。更新提交 `button`，讓它依表單的有效性決定啟用或停用。
 
 ```angular-html
 <button type="submit" [disabled]="!profileForm.valid">Submit</button>
@@ -49,6 +49,6 @@ You can use this property to dynamically bind attributes. Update the submit `but
 
 </docs-workflow>
 
-You now know the basics around how validation works with reactive forms.
+你現在已經了解驗證如何與反應式表單搭配運作的基礎。
 
-Great job learning these core concepts of working with forms in Angular. If you want to learn more, be sure to refer to the [Angular forms documentation](guide/forms/form-validation).
+你把在 Angular 中使用表單的這些核心概念學得很好。如果你想了解更多，請務必參閱 [Angular 表單文件](guide/forms/form-validation)。

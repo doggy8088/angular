@@ -1,24 +1,24 @@
-# Signal queries
+# 訊號查詢
 
-A component or directive can define queries that find child elements and read values from their injectors.
+元件或指令可以定義查詢，用來尋找子元素並從其注入器中讀取值。
 
-Developers most commonly use queries to retrieve references to components, directives, DOM elements, and more.
+開發者最常用查詢來取得元件、指令、DOM 元素等的參照。
 
-There are two categories of query: view queries and content queries.
+查詢分為兩類：檢視查詢與內容查詢。
 
-Signal queries supply query results as a reactive signal primitive. You can use query results in `computed` and `effect`, composing these results with other signals.
+訊號查詢以反應式訊號原語的形式提供查詢結果。你可以在 `computed` 與 `effect` 中使用查詢結果，將這些結果與其他訊號組合。
 
-IMPORTANT: Signal queries are in [developer preview](reference/releases#developer-preview). APIs may change based on feedback without going through Angular's deprecation cycle.
+IMPORTANT: 訊號查詢目前處於[開發者預覽](reference/releases#developer-preview)階段。API 可能會根據回饋而變更，不經 Angular 的棄用週期。
 
-If you're already familiar with Angular queries, you can jump straight to [Comparing signal-based queries to decorator-based queries](#comparing-signal-based-queries-to-decorator-based-queries)
+如果你已經熟悉 Angular 查詢，可以直接跳到[比較以訊號為基礎的查詢與以裝飾器為基礎的查詢](#comparing-signal-based-queries-to-decorator-based-queries)。
 
-## View queries
+## 檢視查詢 {#view-queries}
 
-View queries retrieve results from the elements in the component's own template (view). 
+檢視查詢會從元件自身範本（檢視）中的元素取得結果。
 
 ### `viewChild`
 
-You can declare a query targeting a single result with the `viewChild` function. 
+你可以使用 `viewChild` 函式宣告針對單一結果的查詢。
 
 ```angular-ts
 @Component({
@@ -37,7 +37,7 @@ export class TestComponent {
 
 ### `viewChildren`
 
-You can also query for multiple results with the `viewChildren` function. 
+你也可以使用 `viewChildren` 函式查詢多個結果。
 
 ```angular-ts
 @Component({
@@ -56,14 +56,14 @@ export class TestComponent {
 }
 ```
 
-### View query options
+### 檢視查詢選項 {#view-query-options}
 
-The `viewChild` and the `viewChildren` query declaration functions have a similar signature accepting two arguments:
+`viewChild` 與 `viewChildren` 查詢宣告函式具有相似的簽名，接受兩個參數：
 
-* a **locator** to specify the query target - it can be either a `string` or any injectable token
-* a set of **options**  to adjust behavior of a given query.
+* 一個**定位器**，用來指定查詢目標，可以是 `string` 或任何可注入的權杖
+* 一組**選項**，用來調整指定查詢的行為。
 
-Signal-based view queries accept only one option: `read`. The `read` option indicates the type of result to inject from the matched nodes and return in the final results. 
+以訊號為基礎的檢視查詢只接受一個選項：`read`。`read` 選項指出要從相符節點注入並在最終結果中回傳的結果型別。
 
 ```angular-ts
 @Component({
@@ -75,13 +75,13 @@ export class TestComponent {
 }
 ```
 
-## Content queries
+## 內容查詢 {#content-queries}
 
-Content queries retrieve results from the elements in the component's content — the elements nested inside the component tag in the template where it's used. 
+內容查詢會從元件內容中的元素取得結果，也就是在該元件被使用的範本中、巢狀置於元件標籤內的元素。
 
 ### `contentChild`
 
-You can query for a single result with the `contentChild` function. 
+你可以使用 `contentChild` 函式查詢單一結果。
 
 ```ts
 @Component({...})
@@ -94,9 +94,9 @@ You can query for a single result with the `contentChild` function.
 }
 ```
 
- ### `contentChildren`
+### `contentChildren`
 
-You can also query for multiple results with the `contentChildren` function. 
+你也可以使用 `contentChildren` 函式查詢多個結果。
 
 ```ts
 @Component({...})
@@ -106,27 +106,27 @@ export class TestComponent {
 }
 ```
 
-### Content query options
+### 內容查詢選項 {#content-query-options}
 
-The `contentChild` and the `contentChildren` query declaration functions have a similar signature accepting two arguments:
+`contentChild` 與 `contentChildren` 查詢宣告函式具有相似的簽名，接受兩個參數：
 
-* a **locator** to specify the query target - it can be either a `string` or any injectable token
-* a set of **options**  to adjust behavior of a given query.
+* 一個**定位器**，用來指定查詢目標，可以是 `string` 或任何可注入的權杖
+* 一組**選項**，用來調整指定查詢的行為。
 
-Content queries accept the following options:
+內容查詢接受下列選項：
 
-* `descendants` By default, content queries find only direct children of the component and do not traverse into descendants. If this option is changed to `true`, query results will include all descendants of the element. Even when `true`, however, queries _never_ descend into components.
-* `read` indicates the type of result to retrieve from the matched nodes and return in the final results.
+* `descendants`：依預設，內容查詢只會尋找元件的直接子元素，不會遍歷至後代元素。若將此選項改為 `true`，查詢結果將包含該元素的所有後代元素。然而，即使設為 `true`，查詢也_永遠不會_進入元件內部。
+* `read`：指出要從相符節點取得並在最終結果中回傳的結果型別。
 
-### Required child queries
+### 必要的子查詢 {#required-child-queries}
 
-If a child query (`viewChild` or `contentChild`) does not find a result, its value is `undefined`. This may occur if the target element is hidden by a control flow statement like`@if` or `@for`.
+如果子查詢（`viewChild` 或 `contentChild`）找不到結果，它的值會是 `undefined`。當目標元素被 `@if` 或 `@for` 等控制流程陳述式隱藏時，就可能發生這種情況。
 
-Because of this, the child queries return a signal that potentially have the `undefined` value. Most of the time, and especially for the view child queries, developers author their code such that:
-* there is at least one matching result;
-* results are accessed when the template was processed and query results are available.
+因此，子查詢傳回的訊號，其值可能包含 `undefined`。大多數時候，特別是對於檢視子查詢，開發者會這樣撰寫程式碼，使得：
+* 至少有一個相符的結果；
+* 在範本已處理完成、查詢結果可用時，才存取結果。
 
-For such cases, you can mark child queries as `required` to enforce presence of at least one matching result. This eliminates `undefined` from the result type signature. If a `required` query does not find any results, Angular throws an error.
+對於這些情況，你可以將子查詢標記為 `required`，以強制要求至少有一個相符結果存在。這會從結果型別簽名中消除 `undefined`。如果 `required` 查詢找不到任何結果，Angular 會拋出錯誤。
 
 ```angular-ts
 @Component({
@@ -147,19 +147,19 @@ export class App {
 }
 ```
 
-## Results availability timing
+## 結果可用時機 {#results-availability-timing}
 
-A signal query authoring functions will be executed as part of the directive instance construction. This happens before we could create a query instance and execute the template’s creation mode to collect any matches. As a consequence, there is a period of time where the signal instance was created (and can be read) but no query results could have been collected. By default Angular will return `undefined` (for child queries) or an empty array (for children queries) before results are available. Required queries will throw if accessed at this point.
+訊號查詢的宣告函式會在指令執行個體的建構過程中執行。這發生在我們能建立查詢執行個體、並執行範本的建立模式來收集任何相符結果之前。因此，會有一段時間，訊號執行個體已經建立（且可以讀取），但還收集不到任何查詢結果。依預設，在結果可用之前，Angular 會回傳 `undefined`（對於子查詢）或空陣列（對於多結果查詢）。必要查詢若在此時被存取，則會拋出錯誤。
 
-Angular computes signal-based query results lazily, on demand. This means that query results are not collected unless there is a code path that reads the signal. 
+Angular 會以延遲方式、按需計算以訊號為基礎的查詢結果。也就是說，除非有程式碼路徑讀取該訊號，否則不會收集查詢結果。
 
-Query results can change over time due to the view manipulation - either through the Angular's control flow (`@if`, `@for` etc.) or by the direct calls to the `ViewContainerRef` API. When you read the value from the query result signal, you can receive different values over time. 
+查詢結果可能隨時間因檢視操作而改變，可能透過 Angular 的控制流程（`@if`、`@for` 等），也可能透過直接呼叫 `ViewContainerRef` API。當你從查詢結果訊號讀取值時，隨時間可能會收到不同的值。
 
-Note: to avoid returning incomplete query results while a template is rendered, Angular delays query resolution until it finishes rendering a given template.
+Note：為了避免在範本算繪期間回傳不完整的查詢結果，Angular 會延遲查詢解析，直到完成指定範本的算繪。
 
-## Query declarations functions and the associated rules
+## 查詢宣告函式及其相關規則 {#query-declaration-functions-and-the-associated-rules}
 
-The `viewChild`, `contentChild`, `viewChildren` and `contentChildren` functions are special function recognized by the Angular compiler. You can use those functions to declare queries by initializing a component or a directive property. You can never call these functions outside of component and directive property initializers.
+`viewChild`、`contentChild`、`viewChildren` 與 `contentChildren` 函式是 Angular 編譯器識別的特殊函式。你可以透過初始化元件或指令的屬性，使用這些函式來宣告查詢。你絕不能在元件與指令的屬性初始化器之外呼叫這些函式。
 
 ```angular-ts
 @Component({
@@ -178,14 +178,14 @@ export class App {
 }
 ```
 
-## Comparing signal-based queries to decorator-based queries
+## 比較以訊號為基礎的查詢與以裝飾器為基礎的查詢 {#comparing-signal-based-queries-to-decorator-based-queries}
 
-Signal queries are an alternative approach to the queries declared using the `@ContentChild`, `@ContentChildren`, `@ViewChild` or `@ViewChildren` decorators. The new approach exposes query results as signals which means that query results can be composed with other signals (using `computed` or `effect`) and drive change detection. Additionally, the signal-based query system offers other benefits:
+訊號查詢是使用 `@ContentChild`、`@ContentChildren`、`@ViewChild` 或 `@ViewChildren` 裝飾器宣告查詢的替代方法。新方法將查詢結果公開為訊號，這表示查詢結果可以與其他訊號組合（使用 `computed` 或 `effect`），並驅動變更偵測。此外，以訊號為基礎的查詢系統還有其他優點：
 
-* **More predictable timing.** You can access query results as soon as they're available.
-* **Simpler API surface.** All queries return a signal, and queries with more than one result let you work with a standard array.
-* **Improved type safety.**  Fewer query use cases include `undefined` in the possible results.
-* **More accurate type inference.** TypeScript can infer more accurate types when you use a type predicate or when you specify an explicit `read` option.
-* **Lazier updates.** - Angular updates signal-based query results lazily; the framework does no work unless your code explicitly reads the query results.
+* **更可預測的時機。** 你可以在查詢結果一可用時就存取它們。
+* **更簡單的 API 介面。** 所有查詢都回傳訊號，具有多個結果的查詢則讓你能以標準陣列處理。
+* **更好的型別安全。** 在可能的查詢結果中包含 `undefined` 的使用情境更少了。
+* **更準確的型別推斷。** 當你使用型別謂詞，或指定明確的 `read` 選項時，TypeScript 能推斷出更準確的型別。
+* **更延遲的更新。** Angular 會以延遲方式更新以訊號為基礎的查詢結果；除非你的程式碼明確讀取查詢結果，否則框架不會做任何工作。
 
-The underlying query mechanism doesn't change much - conceptually Angular still creates singular "child" or plural "children" queries that target elements in a template (view) or content. The difference is in type of results and the exact timing of the results availability. The authoring format for declaring signal-based queries changed as well: the `viewChild`, `viewChildren`, `contentChild` and `contentChildren` functions used as initializer of class members are automatically recognized by Angular. 
+底層的查詢機制變化不大，概念上 Angular 仍會建立單數的「child」或複數的「children」查詢，目標是範本（檢視）或內容中的元素。差異在於結果的型別，以及結果可用的確切時機。宣告以訊號為基礎查詢的撰寫格式也有所改變：作為類別成員初始化器的 `viewChild`、`viewChildren`、`contentChild` 與 `contentChildren` 函式，會被 Angular 自動識別。

@@ -1,18 +1,17 @@
-# Angular without ZoneJS (Zoneless)
+# 不使用 ZoneJS 的 Angular（Zoneless）
 
-## Why use Zoneless?
+## 為什麼要使用 Zoneless？
 
-The main advantages to removing ZoneJS as a dependency are:
+移除 ZoneJS 作為相依性的主要優點如下：
 
-- **Improved performance**: ZoneJS uses DOM events and async tasks as indicators of when application state _might_ have updated and subsequently triggers application synchronization to run change detection on the application's views. ZoneJS does not have any insight into whether application state actually changed and so this synchronization is triggered more frequently than necessary.
-- **Improved Core Web Vitals**: ZoneJS brings a fair amount of overhead, both in payload size and in startup time cost.
-- **Improved debugging experience**: ZoneJS makes debugging code more difficult. Stack traces are harder to understand with ZoneJS. It's also difficult to understand when code breaks as a result of being outside the Angular Zone.
-- **Better ecosystem compatibility**: ZoneJS works by patching browser APIs but does not automatically have patches for every new browser API. Some APIs simply cannot be patched effectively, such as `async`/`await`, and have to be downleveled to work with ZoneJS. Sometimes libraries in the ecosystem are also incompatible with the way ZoneJS patches the native APIs. Removing ZoneJS as a dependency ensures better long-term compatibility by removing a source of complexity, monkey patching, and ongoing maintenance.
+- **效能更佳**：ZoneJS 以 DOM 事件與非同步工作作為應用程式狀態_可能_已更新的訊號，隨後觸發應用程式同步，對應用程式的檢視執行變更偵測。ZoneJS 無從得知應用程式狀態是否真的改變，因此這種同步被觸發的頻率比實際需要的更高。
+- **Core Web Vitals 更佳**：ZoneJS 帶來相當可觀的負擔，包括酬載大小與啟動時間。
+- **除錯體驗更佳**：ZoneJS 讓程式碼更難除錯。有 ZoneJS 時，堆疊追蹤更難理解。當程式碼因為位在 Angular Zone 之外而出錯時，也很難理解原因。
+- **生態系相容性更佳**：ZoneJS 的運作方式是修補瀏覽器 API，但它不會自動為每個新的瀏覽器 API 提供修補。有些 API 根本無法被有效修補，例如 `async`/`await`，必須降級才能配合 ZoneJS 使用。有時生態系中的函式庫也與 ZoneJS 修補原生 API 的方式不相容。移除 ZoneJS 作為相依性，可以消除一項複雜度、猴子修補與持續維護的來源，確保更長期的相容性。
 
-## Enabling Zoneless in an application
+## 在應用程式中啟用 Zoneless
 
-The API for enabling Zoneless is currently experimental. Neither the shape, nor the underlying behavior is stable and can change
-in patch versions. There are known feature gaps, including the lack of an ergonomic API which prevents the application from serializing too early with Server Side Rendering.
+啟用 Zoneless 的 API 目前仍為實驗性質。其形式與底層行為都不穩定，可能在修訂版本中變更。目前已知存在一些功能缺口，包括缺少一個易於使用的 API，以防止應用程式在使用伺服器端渲染（Server Side Rendering）時過早序列化。
 
 ```typescript
 // standalone bootstrap
@@ -28,65 +27,49 @@ platformBrowser().bootstrapModule(AppModule);
 export class AppModule {}
 ```
 
-## Removing ZoneJS
+## 移除 ZoneJS
 
-Zoneless applications should remove ZoneJS entirely from the build to reduce bundle size. ZoneJS is typically
-loaded via the `polyfills` option in `angular.json`, both in the `build` and `test` targets. Remove `zone.js`
-and `zone.js/testing` from both to remove it from the build. Projects which use an explicit `polyfills.ts` file
-should remove `import 'zone.js';` and `import 'zone.js/testing';` from the file.
+Zoneless 應用程式應將 ZoneJS 完全從建置中移除，以縮小套件大小。ZoneJS 通常透過 `angular.json` 中的 `polyfills` 選項載入，包含 `build` 與 `test` 兩個目標。將 `zone.js` 與 `zone.js/testing` 從兩者中移除，就能將它從建置中移除。使用明確 `polyfills.ts` 檔案的專案，應從檔案中移除 `import 'zone.js';` 與 `import 'zone.js/testing';`。
 
-After removing ZoneJS from the build, there is no longer a need for a `zone.js` dependency either and the
-package can be removed entirely:
+將 ZoneJS 從建置中移除後，也不再需要 `zone.js` 相依性，可以將該套件完全移除：
 
 ```shell
 npm uninstall zone.js
 ```
 
-## Requirements for Zoneless compatibility
+## Zoneless 相容性的要求 {#requirements-for-zoneless-compatibility}
 
-Angular relies on notifications from core APIs in order to determine when to run change detection and on which views.
-These notifications include:
+Angular 仰賴核心 API 的通知，來判斷何時執行變更偵測，以及對哪些檢視執行。
+這些通知包括：
 
-- `ChangeDetectorRef.markForCheck` (called automatically by `AsyncPipe`)
+- `ChangeDetectorRef.markForCheck`（由 `AsyncPipe` 自動呼叫）
 - `ComponentRef.setInput`
-- Updating a signal that's read in a template
-- Bound host or template listeners callbacks
-- Attaching a view that was marked dirty by one of the above
+- 更新在範本中讀取的訊號
+- 繫結的宿主或範本監聽器回呼
+- 附加一個被上述任一機制標記為已變更的檢視
 
-### `OnPush`-compatible components
+### 與 `OnPush` 相容的元件
 
-One way to ensure that a component is using the correct notification mechanisms from above is to
-use [ChangeDetectionStrategy.OnPush](/best-practices/skipping-subtrees#using-onpush).
+確保元件使用上述正確通知機制的其中一種方法，就是使用 [ChangeDetectionStrategy.OnPush](/best-practices/skipping-subtrees#using-onpush)。
 
-The `OnPush` change detection strategy is not required, but it is a recommended step towards zoneless compatibility for application components. It is not always possible for library components to use `ChangeDetectionStrategy.OnPush`.
-When a library component is a host for user-components which might use `ChangeDetectionStrategy.Default`, it cannot use `OnPush` because that would prevent the child component from being refreshed if it is not `OnPush` compatible and relies on ZoneJS to trigger change detection. Components can use the `Default` strategy as long as they notify Angular when change detection needs to run (calling `markForCheck`, using signals, `AsyncPipe`, etc.).
+`OnPush` 變更偵測策略不是必要的，但對於應用程式元件來說，是邁向 zoneless 相容性的建議步驟。函式庫元件並非總是能使用 `ChangeDetectionStrategy.OnPush`。
+當函式庫元件是使用者元件的宿主，而該使用者元件可能使用 `ChangeDetectionStrategy.Default` 時，它不能使用 `OnPush`，因為那會讓子元件在不具備 `OnPush` 相容性、且仰賴 ZoneJS 觸發變更偵測時，無法被重新整理。元件可以使用 `Default` 策略，前提是它們在需要執行變更偵測時通知 Angular（呼叫 `markForCheck`、使用訊號、`AsyncPipe` 等）。
 
-### Remove `NgZone.onMicrotaskEmpty`, `NgZone.onUnstable`, `NgZone.isStable`, or `NgZone.onStable`
+### 移除 `NgZone.onMicrotaskEmpty`、`NgZone.onUnstable`、`NgZone.isStable` 或 `NgZone.onStable`
 
-Applications and libraries need to remove uses of `NgZone.onMicrotaskEmpty`, `NgZone.onUnstable` and `NgZone.onStable`.
-These observables will never emit when an Application enables zoneless change detection.
-Similarly, `NgZone.isStable` will always be `true` and should not be used as a condition for code execution.
+應用程式與函式庫需要移除對 `NgZone.onMicrotaskEmpty`、`NgZone.onUnstable` 與 `NgZone.onStable` 的使用。
+當應用程式啟用 zoneless 變更偵測時，這些 observable 永遠不會發出值。
+同樣地，`NgZone.isStable` 永遠會是 `true`，不應作為程式碼執行的條件。
 
-The `NgZone.onMicrotaskEmpty` and `NgZone.onStable` observables are most often used to wait for Angular to
-complete change detection before performing a task. Instead, these can be replaced by `afterNextRender`
-if they need to wait for a single change detection or `afterRender` if there is some condition that might span
-several change detection rounds. In other cases, these observables were used because they happened to be
-familiar and have similar timing to what was needed. More straightforward or direct DOM APIs can be used instead,
-such as `MutationObserver` when code needs to wait for certain DOM state (rather than waiting for it indirectly
-through Angular's render hooks).
+`NgZone.onMicrotaskEmpty` 與 `NgZone.onStable` observable 最常用來等待 Angular 在執行某項工作前完成變更偵測。取而代之的做法是：如果需要等待單次變更偵測，可以換成 `afterNextRender`；如果某個條件可能橫跨數輪變更偵測，可以換成 `afterRender`。在其他情況下，這些 observable 被使用，只是因為它們剛好熟悉、且時機與所需相近。此時可以改用更直接的 DOM API，例如當程式碼需要等待特定的 DOM 狀態時（而不是透過 Angular 的渲染鉤子間接等待），可以使用 `MutationObserver`。
 
-<docs-callout title="NgZone.run and NgZone.runOutsideAngular are compatible with Zoneless">
-`NgZone.run` and `NgZone.runOutsideAngular` do not need to be removed in order for code to be compatible with
-Zoneless applications. In fact, removing these calls can lead to performance regressions for libraries that
-are used in applications that still rely on ZoneJS.
+<docs-callout title="NgZone.run 與 NgZone.runOutsideAngular 與 Zoneless 相容">
+為了讓程式碼與 Zoneless 應用程式相容，`NgZone.run` 與 `NgZone.runOutsideAngular` 不需要移除。事實上，移除這些呼叫可能會讓那些用在仍仰賴 ZoneJS 的應用程式中的函式庫，出現效能退化的情形。
 </docs-callout>
 
-### `ExperimentalPendingTasks` for Server Side Rendering (SSR)
+### 用於伺服器端渲染（SSR）的 `ExperimentalPendingTasks` {#experimentalpendingtasks-for-server-side-rendering-ssr}
 
-If you are using SSR with Angular, you may know that it relies on ZoneJS to help determine when the application
-is "stable" and can be serialized. If there are asynchronous tasks that should prevent serialization, an application
-not using ZoneJS will need to make Angular aware of these with the `ExperimentalPendingTasks` service. Serialization
-will wait for the first moment that all pending tasks have been removed.
+如果你在 Angular 中使用 SSR，你可能知道它仰賴 ZoneJS 來協助判斷應用程式何時「穩定」、可以被序列化。如果有非同步工作應該阻止序列化，不使用 ZoneJS 的應用程式將需要透過 `ExperimentalPendingTasks` 服務讓 Angular 知道這些工作。序列化會等待所有待處理工作都被移除的第一個時刻。
 
 ```typescript
 const taskService = inject(ExperimentalPendingTasks);
@@ -95,16 +78,13 @@ await doSomeWorkThatNeedsToBeRendered();
 taskCleanup();
 ```
 
-The framework uses this service internally as well to prevent serialization until asynchronous tasks are complete. These include, but are not limited to,
-an ongoing Router navigation and an incomplete `HttpClient` request.
+框架內部也使用這個服務，來防止序列化在非同步工作完成之前進行。這些工作包括但不限於：正在進行的 Router 導航，以及尚未完成的 `HttpClient` 請求。
 
-## Testing and Debugging
+## 測試與除錯
 
-### Using Zoneless in `TestBed`
+### 在 `TestBed` 中使用 Zoneless {#using-zoneless-in-testbed}
 
-The zoneless provider function can also be used with `TestBed` to help
-ensure the components under test are compatible with a Zoneless
-Angular application.
+zoneless 的 provider 函式也可以用於 `TestBed`，協助確保受測元件與 Zoneless 的 Angular 應用程式相容。
 
 ```typescript
 TestBed.configureTestingModule({
@@ -115,18 +95,8 @@ const fixture = TestBed.createComponent(MyComponent);
 await fixture.whenStable();
 ```
 
-To ensure tests have the most similar behavior to production code,
-avoid using `fixture.detectChanges()` when possible. This forces
-change detection to run when Angular might otherwise have not
-scheduled change detection. Tests should ensure these notifications
-are happening and allow Angular to handle when to synchronize
-state rather than manually forcing it to happen in the test.
+為了確保測試的行為與正式環境程式碼盡可能相似，請盡可能避免使用 `fixture.detectChanges()`。這會強制執行變更偵測，而在當時 Angular 可能原本並沒有排程變更偵測。測試應該確保這些通知有在發生，並讓 Angular 處理何時同步狀態，而不是在測試中手動強制它發生。
 
-### Debug-mode check to ensure updates are detected
+### 以除錯模式檢查確保更新被偵測到
 
-Angular also provides an additional tool to help verify that an application is making
-updates to state in a zoneless-compatible way. `provideExperimentalCheckNoChangesForDebug`
-can be used to periodically check to ensure that no bindings have been updated
-without a notification. Angular will throw `ExpressionChangedAfterItHasBeenCheckedError`
-if there is an updated binding that would not have refreshed by the zoneless change
-detection.
+Angular 還提供了一個額外工具，協助驗證應用程式是否以符合 zoneless 相容性的方式更新狀態。`provideExperimentalCheckNoChangesForDebug` 可以用來定期檢查，確保沒有繫結在未通知的情況下被更新。如果有已更新但不會被 zoneless 變更偵測重新整理的繫結，Angular 會擲出 `ExpressionChangedAfterItHasBeenCheckedError`。

@@ -1,10 +1,10 @@
-# Deferrable Views
+# 可延遲檢視
 
-## Overview
+## 總覽 {#overview}
 
-Deferrable views can be used in component template to defer the loading of select dependencies within that template. Those dependencies include components, directives, and pipes, and any associated CSS. To use this feature, you can declaratively wrap a section of your template in a `@defer` block which specifies the loading conditions.
+可延遲檢視可以用在元件範本中，延遲載入該範本內選定的相依性。這些相依性包括元件、指令與管道，以及任何相關的 CSS。若要使用這項功能，你可以以宣告方式將範本的一個區段包進 `@defer` 區塊，並在其中指定載入條件。
 
-Deferrable views support a series of [triggers](guide/defer#triggers), [prefetching](guide/defer#prefetching), and several sub blocks used for [placeholder](guide/defer#placeholder), [loading](guide/defer#loading), and [error](guide/defer#error) state management. You can also create custom conditions with [`when`](guide/defer#when) and [`prefetch when`](guide/defer#prefetching).
+可延遲檢視支援一系列[觸發條件](guide/defer#triggers)、[預先擷取](guide/defer#prefetching)，以及數個用於管理[預留](guide/defer#placeholder)、[載入](guide/defer#loading)與[錯誤](guide/defer#error)狀態的子區塊。你也可以用 [`when`](guide/defer#when) 與 [`prefetch when`](guide/defer#prefetching) 建立自訂條件。
 
 ```angular-html
 @defer {
@@ -12,37 +12,37 @@ Deferrable views support a series of [triggers](guide/defer#triggers), [prefetch
 }
 ```
 
-## Why use Deferrable Views?
+## 為什麼要使用可延遲檢視？ {#why-use-deferrable-views}
 
-Deferrable views, also known as `@defer` blocks, are a powerful tool that can be used to reduce the initial bundle size of your application or defer heavy components that may not ever be loaded until a later time. This should result in a faster initial load and an improvement in your Core Web Vitals (CWV) results. Deferring some of your components until later should specifically improve Largest Contentful Paint (LCP) and Time to First Byte (TTFB).
+可延遲檢視，也稱為 `@defer` 區塊，是一個強大的工具，可以用來縮小應用程式的初始套件大小，或延遲那些可能要到之後才會載入的重型元件。這應該能帶來更快的初始載入，並改善你的 Core Web Vitals (CWV) 結果。將部分元件延遲到之後載入，應該能特別改善最大內容繪製 (LCP) 與第一個位元組時間 (TTFB)。
 
-Note: It is highly recommended that any defer loaded component that might result in layout shift once the dependencies have loaded be below the fold or otherwise not yet visible to the user.
+Note: 強烈建議任何在相依性載入完成後可能造成版面位移的延遲載入元件，都應位於摺疊線以下，或是使用者尚未能看見的位置。
 
-## Which dependencies are defer-loadable?
+## 哪些相依性可以延遲載入？ {#which-dependencies-are-defer-loadable}
 
-In order for dependencies within a `@defer` block to be deferred, they need to meet two conditions:
+若要讓 `@defer` 區塊內的相依性能被延遲，它們需要符合兩個條件：
 
-1. They must be standalone. Non-standalone dependencies cannot be deferred and will still be eagerly loaded, even inside of `@defer` blocks.
+1. 它們必須是獨立的。非獨立的相依性無法被延遲，即使在 `@defer` 區塊內，仍會被預先載入。
 
-2. They must not be directly referenced from the same file, outside of `@defer` blocks; this includes ViewChild queries.
+2. 它們不能在同一個檔案中、於 `@defer` 區塊之外被直接參照；這包括 ViewChild 查詢。
 
-Transitive dependencies of the components, directives, and pipes used in the defer block can be standalone or NgModule based and will still be deferred.
+`@defer` 區塊中使用的元件、指令與管道的傳遞性相依性，可以是獨立的或以 NgModule 為基礎的，並且仍會被延遲。
 
-## Blocks
+## 區塊 {#blocks}
 
-`@defer` blocks have several sub blocks to allow you to gracefully handle different stages in the deferred loading process.
+`@defer` 區塊有數個子區塊，讓你能妥善處理延遲載入流程的不同階段。
 
 ### `@defer`
 
-The content of the main `@defer` block is the section of content that is lazily loaded. It will not be rendered initially, and all of the content will appear once the specified [trigger](guide/defer#triggers) or `when` condition is met and the dependencies have been fetched. By default, a `@defer` block is triggered when the browser state becomes [idle](guide/defer#on-idle).
+主要 `@defer` 區塊的內容，就是要被延遲載入的內容區段。它一開始不會算繪，所有內容會在指定的[觸發條件](guide/defer#triggers)或 `when` 條件達成、且相依性已擷取完成後出現。依預設，`@defer` 區塊會在瀏覽器狀態變為[閒置](guide/defer#on-idle)時觸發。
 
 ### `@placeholder`
 
-By default, defer blocks do not render any content before they are triggered. The `@placeholder` is an optional block that declares content to show before the defer block is triggered. This placeholder content is replaced with the main content once the loading is complete. You can use any content in the placeholder section including plain HTML, components, directives, and pipes; however keep in mind the dependencies of the placeholder block are eagerly loaded.
+依預設，延遲區塊在被觸發之前不會算繪任何內容。`@placeholder` 是一個可選的區塊，用來宣告在延遲區塊被觸發之前要顯示的內容。這個預留內容會在載入完成後被主要內容取代。你可以在預留區段中使用任何內容，包括純 HTML、元件、指令與管道；不過請記住，預留區塊的相依性會被預先載入。
 
-Note: For the best user experience, you should always specify a `@placeholder` block.
+Note: 為了最佳的使用者體驗，你應該永遠指定一個 `@placeholder` 區塊。
 
-The `@placeholder` block accepts an optional parameter to specify the `minimum` amount of time that this placeholder should be shown. This `minimum` parameter is specified in time increments of milliseconds (ms) or seconds (s). This parameter exists to prevent fast flickering of placeholder content in the case that the deferred dependencies are fetched quickly. The `minimum` timer for the `@placeholder` block begins after the initial render of this `@placeholder` block completes.
+`@placeholder` 區塊接受一個可選參數，用來指定這個預留內容至少應顯示的 `minimum` 時間。這個 `minimum` 參數以毫秒 (ms) 或秒 (s) 的時間增量指定。這個參數的存在，是為了在延遲相依性很快就擷取完成時，避免預留內容快速閃爍。`@placeholder` 區塊的 `minimum` 計時器，會在這個 `@placeholder` 區塊的初始算繪完成後開始。
 
 ```angular-html
 @defer {
@@ -52,15 +52,15 @@ The `@placeholder` block accepts an optional parameter to specify the `minimum` 
 }
 ```
 
-Note: Certain triggers may require the presence of either a `@placeholder` or a [template reference variable](guide/templates/variables#template-reference-variables) to function. See the [Triggers](guide/defer#triggers) section for more details.
+Note: 某些觸發條件可能需要有 `@placeholder` 或[範本參照變數](guide/templates/variables#template-reference-variables)才能運作。詳情請參閱[觸發條件](guide/defer#triggers)一節。
 
 ### `@loading`
 
-The `@loading` block is an optional block that allows you to declare content that will be shown during the loading of any deferred dependencies. Its dependences are eagerly loaded (similar to `@placeholder`).
+`@loading` 區塊是一個可選的區塊，讓你宣告在任何延遲相依性載入期間要顯示的內容。它的相依性會被預先載入（與 `@placeholder` 類似）。
 
-For example, you could show a loading spinner. Once loading has been triggered, the `@loading` block replaces the `@placeholder` block.
+例如，你可以顯示一個載入旋轉圖示。一旦載入被觸發，`@loading` 區塊就會取代 `@placeholder` 區塊。
 
-The `@loading` block accepts two optional parameters to specify the `minimum` amount of time that this placeholder should be shown and amount of time to wait `after` loading begins before showing the loading template. `minimum` and `after` parameters are specified in time increments of milliseconds (ms) or seconds (s). Just like `@placeholder`, these parameters exist to prevent fast flickering of content in the case that the deferred dependencies are fetched quickly. Both the `minimum` and `after` timers for the `@loading` block begins immediately after the loading has been triggered.
+`@loading` 區塊接受兩個可選參數，用來指定這個預留內容至少應顯示的 `minimum` 時間，以及載入開始後要等候多久 (`after`) 才顯示載入範本。`minimum` 與 `after` 參數以毫秒 (ms) 或秒 (s) 的時間增量指定。與 `@placeholder` 一樣，這些參數的存在，是為了在延遲相依性很快就擷取完成時，避免內容快速閃爍。`@loading` 區塊的 `minimum` 與 `after` 計時器，都會在載入被觸發後立即開始。
 
 ```angular-html
 @defer {
@@ -72,7 +72,7 @@ The `@loading` block accepts two optional parameters to specify the `minimum` am
 
 ### `@error`
 
-The `@error` block allows you to declare content that will be shown if deferred loading fails. Similar to `@placeholder` and `@loading`, the dependencies of the `@error` block are eagerly loaded. The `@error` block is optional.
+`@error` 區塊讓你宣告在延遲載入失敗時要顯示的內容。與 `@placeholder` 和 `@loading` 類似，`@error` 區塊的相依性會被預先載入。`@error` 區塊是可選的。
 
 ```angular-html
 @defer {
@@ -82,16 +82,16 @@ The `@error` block allows you to declare content that will be shown if deferred 
 }
 ```
 
-## Triggers
+## 觸發條件 {#triggers}
 
-When a `@defer` block is triggered, it replaces placeholder content with lazily loaded content. There are two options for configuring when this swap is triggered: `on` and `when`.
+當 `@defer` 區塊被觸發時，它會以延遲載入的內容取代預留內容。設定何時觸發這項置換有兩個選項：`on` 與 `when`。
 
 <a id="on"></a>
-`on` specifies a trigger condition using a trigger from the list of available triggers below. An example would be on interaction or on viewport.
+`on` 使用下方可用觸發條件清單中的觸發條件來指定觸發條件。例如在互動時或在可視區域內時。
 
-Multiple event triggers can be defined at once. For example: `on interaction; on timer(5s)` means that the defer block will be triggered if the user interacts with the placeholder, or after 5 seconds.
+可以一次定義多個事件觸發條件。例如：`on interaction; on timer(5s)` 表示如果使用者與預留內容互動，或在 5 秒後，延遲區塊就會被觸發。
 
-Note: Multiple `on` triggers are always OR conditions. Similarly, `on` mixed with `when` conditions are also OR conditions.
+Note: 多個 `on` 觸發條件永遠是 OR 條件。同樣地，`on` 與 `when` 條件混合時也是 OR 條件。
 
 ```angular-html
 @defer (on viewport; on timer(5s)) {
@@ -102,9 +102,9 @@ Note: Multiple `on` triggers are always OR conditions. Similarly, `on` mixed wit
 ```
 
 <a id="when"></a>
-`when` specifies a condition as an expression that returns a boolean. When this expression becomes truthy, the placeholder is swapped with the lazily loaded content (which may be an asynchronous operation if the dependencies need to be fetched).
+`when` 以一個傳回布林值的運算式指定條件。當這個運算式變為真值時，預留內容會被置換為延遲載入的內容（如果相依性需要擷取，這可能是一個非同步操作）。
 
-Note: if the `when` condition switches back to `false`, the defer block is not reverted back to the placeholder. The swap is a one-time operation. If the content within the block should be conditionally rendered, an `if` condition can be used within the block itself.
+Note: 如果 `when` 條件切換回 `false`，延遲區塊不會還原回預留內容。這項置換是一次性的操作。如果區塊內的內容應該以條件方式算繪，可以在區塊本身內部使用 `if` 條件。
 
 ```angular-html
 @defer (when cond) {
@@ -112,7 +112,7 @@ Note: if the `when` condition switches back to `false`, the defer block is not r
 }
 ```
 
-You could also use both `when` and `on` together in one statement, and the swap will be triggered if either condition is met.
+你也可以在一個陳述式中同時使用 `when` 與 `on`，只要任一條件達成，就會觸發置換。
 
 ```angular-html
 @defer (on viewport; when cond) {
@@ -124,13 +124,13 @@ You could also use both `when` and `on` together in one statement, and the swap 
 
 ### on idle
 
-`idle` will trigger the deferred loading once the browser has reached an idle state (detected using the `requestIdleCallback` API under the hood). This is the default behavior with a defer block.
+`idle` 會在瀏覽器達到閒置狀態時觸發延遲載入（在幕後使用 `requestIdleCallback` API 偵測）。這是延遲區塊的預設行為。
 
 ### on viewport
 
-`viewport` would trigger the deferred block when the specified content enters the viewport using the [`IntersectionObserver` API](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API). This could be the placeholder content or an element reference.
+`viewport` 會在指定內容使用 [`IntersectionObserver` API](https://developer.mozilla.org/docs/Web/API/Intersection_Observer_API) 進入可視區域時觸發延遲區塊。可以是預留內容或一個元素參照。
 
-By default, the placeholder will act as the element watched for entering viewport as long as it is a single root element node.
+依預設，只要預留內容是單一根元素節點，它就會作為被監視是否進入可視區域的元素。
 
 ```angular-html
 @defer (on viewport) {
@@ -140,7 +140,7 @@ By default, the placeholder will act as the element watched for entering viewpor
 }
 ```
 
-Alternatively, you can specify a [template reference variable](guide/templates/variables#template-reference-variables) in the same template as the `@defer` block as the element that is watched to enter the viewport. This variable is passed in as a parameter on the viewport trigger.
+或者，你可以指定與 `@defer` 區塊同一個範本中的[範本參照變數](guide/templates/variables#template-reference-variables)，作為被監視是否進入可視區域的元素。這個變數會作為參數傳入 viewport 觸發條件。
 
 ```angular-html
 <div #greeting>Hello!</div>
@@ -152,9 +152,9 @@ Alternatively, you can specify a [template reference variable](guide/templates/v
 
 ### on interaction
 
-`interaction` will trigger the deferred block when the user interacts with the specified element through `click` or `keydown` events.
+`interaction` 會在使用者透過 `click` 或 `keydown` 事件與指定元素互動時觸發延遲區塊。
 
-By default, the placeholder will act as the interaction element as long as it is a single root element node.
+依預設，只要預留內容是單一根元素節點，它就會作為互動元素。
 
 ```angular-html
 @defer (on interaction) {
@@ -164,7 +164,7 @@ By default, the placeholder will act as the interaction element as long as it is
 }
 ```
 
-Alternatively, you can specify a [template reference variable](guide/templates/variables#template-reference-variables) as the element that triggers interaction. This variable is passed in as a parameter on the interaction trigger.
+或者，你可以指定一個[範本參照變數](guide/templates/variables#template-reference-variables)作為觸發互動的元素。這個變數會作為參數傳入 interaction 觸發條件。
 
 ```angular-html
 <button type="button" #greeting>Hello!</button>
@@ -178,9 +178,9 @@ Alternatively, you can specify a [template reference variable](guide/templates/v
 
 ### on hover
 
-`hover` triggers deferred loading when the mouse has hovered over the trigger area. Events used for this are `mouseenter` and `focusin`.
+`hover` 會在滑鼠懸停在觸發區域上方時觸發延遲載入。用於此目的的事件是 `mouseenter` 與 `focusin`。
 
-By default, the placeholder will act as the hover element as long as it is a single root element node.
+依預設，只要預留內容是單一根元素節點，它就會作為懸停元素。
 
 ```angular-html
 @defer (on hover) {
@@ -190,7 +190,7 @@ By default, the placeholder will act as the hover element as long as it is a sin
 }
 ```
 
-Alternatively, you can specify a [template reference variable](guide/templates/variables#template-reference-variables) as the hover element. This variable is passed in as a parameter on the hover trigger.
+或者，你可以指定一個[範本參照變數](guide/templates/variables#template-reference-variables)作為懸停元素。這個變數會作為參數傳入 hover 觸發條件。
 
 ```angular-html
 <div #greeting>Hello!</div>
@@ -204,7 +204,7 @@ Alternatively, you can specify a [template reference variable](guide/templates/v
 
 ### on immediate
 
-`immediate` triggers the deferred load immediately, meaning once the client has finished rendering, the defer chunk would then start fetching right away.
+`immediate` 會立即觸發延遲載入，也就是說，一旦用戶端完成算繪，延遲區塊就會立刻開始擷取。
 
 ```angular-html
 @defer (on immediate) {
@@ -216,7 +216,7 @@ Alternatively, you can specify a [template reference variable](guide/templates/v
 
 ### on timer
 
-`timer(x)` would trigger after a specified duration. The duration is required and can be specified in `ms` or `s`.
+`timer(x)` 會在指定的持續時間後觸發。持續時間是必填的，可以用 `ms` 或 `s` 指定。
 
 ```angular-html
 @defer (on timer(500ms)) {
@@ -224,13 +224,13 @@ Alternatively, you can specify a [template reference variable](guide/templates/v
 }
 ```
 
-## Prefetching
+## 預先擷取 {#prefetching}
 
-`@defer` allows to specify conditions when prefetching of the dependencies should be triggered. You can use a special `prefetch` keyword. `prefetch` syntax works similarly to the main defer conditions, and accepts `when` and/or `on` to declare the trigger.
+`@defer` 允許指定何時應觸發相依性預先擷取的條件。你可以使用特殊的 `prefetch` 關鍵字。`prefetch` 的語法與主要延遲條件類似，接受 `when` 與/或 `on` 來宣告觸發條件。
 
-In this case, `when` and `on` associated with defer controls when to render, and `prefetch when` and `prefetch on` controls when to fetch the resources. This enables more advanced behaviors, such as letting you start to prefetch resources before a user has actually seen or interacted with a defer block, but might interact with it soon, making the resources available faster.
+在這種情況下，與延遲相關的 `when` 和 `on` 控制何時算繪，而 `prefetch when` 與 `prefetch on` 控制何時擷取資源。這能實現更進階的行為，例如讓你在使用者實際看見延遲區塊或與之互動之前、但可能很快就會與之互動時，就開始預先擷取資源，讓資源能更快備妥。
 
-In the example below, the prefetching starts when a browser becomes idle and the contents of the block is rendered on interaction.
+在以下範例中，預先擷取會在瀏覽器變為閒置時開始，而區塊的內容會在互動時算繪。
 
 ```angular-html
 @defer (on interaction; prefetch on idle) {
@@ -240,9 +240,9 @@ In the example below, the prefetching starts when a browser becomes idle and the
 }
 ```
 
-## Testing
+## 測試 {#testing}
 
-Angular provides TestBed APIs to simplify the process of testing `@defer` blocks and triggering different states during testing. By default, `@defer` blocks in tests will play through like a defer block would behave in a real application. If you want to manually step through states, you can switch the defer block behavior to `Manual` in the TestBed configuration.
+Angular 提供 TestBed API，簡化測試 `@defer` 區塊與在測試期間觸發不同狀態的流程。依預設，測試中的 `@defer` 區塊會像在真實應用程式中一樣依序播放。如果你想手動逐步切換狀態，可以在 TestBed 設定中將延遲區塊行為切換為 `Manual`。
 
 ```typescript
 it('should render a defer block in different states', async () => {
@@ -282,18 +282,18 @@ it('should render a defer block in different states', async () => {
 });
 ```
 
-## Behavior with Server-side rendering (SSR) and Static site generation (SSG)
+## 與伺服器端算繪 (SSR) 和靜態網站產生 (SSG) 搭配的行為 {#behavior-with-server-side-rendering-ssr-and-static-site-generation-ssg}
 
-When rendering an application on the server (either using SSR or SSG), defer blocks always render their `@placeholder` (or nothing if a placeholder is not specified). Triggers are ignored on the server.
+在伺服器上算繪應用程式時（使用 SSR 或 SSG），延遲區塊永遠算繪它們的 `@placeholder`（如果沒有指定預留內容，則什麼都不算繪）。觸發條件在伺服器上會被忽略。
 
-## Behavior with `NgModule`
+## 與 `NgModule` 搭配的行為 {#behavior-with-ngmodule}
 
-`@defer` blocks can be used in both standalone and NgModule-based components, directives and pipes. You can use standalone and NgModule-based dependencies inside of a `@defer` block, however **only standalone components, directives, and pipes can be deferred**. The NgModule-based dependencies would be included into the eagerly loaded bundle.
+`@defer` 區塊可以用在獨立的與以 NgModule 為基礎的元件、指令與管道中。你可以在 `@defer` 區塊內使用獨立的與以 NgModule 為基礎的相依性，不過只有**獨立的元件、指令與管道**可以被延遲。以 NgModule 為基礎的相依性會被納入預先載入的套件中。
 
-## Nested `@defer` blocks and avoiding cascading loads
+## 巢狀 `@defer` 區塊與避免串聯載入 {#nested-defer-blocks-and-avoiding-cascading-loads}
 
-There are cases where nesting multiple `@defer` blocks may cause cascading requests. An example of this would be when a `@defer` block with an immediate trigger has a nested `@defer` block with another immediate trigger. When you have nested `@defer` blocks, make sure that an inner one has a different set of conditions, so that they don't trigger at the same time, causing cascading requests.
+在某些情況下，巢狀使用多個 `@defer` 區塊可能造成串聯請求。例如，一個帶有 immediate 觸發條件的 `@defer` 區塊，內部巢狀著另一個帶有 immediate 觸發條件的 `@defer` 區塊。當你有巢狀的 `@defer` 區塊時，請確保內層區塊使用不同的條件組合，讓它們不會在同一時間觸發，造成串聯請求。
 
-## Avoiding Layout Shifts
+## 避免版面位移 {#avoiding-layout-shifts}
 
-It is a recommended best practice to not defer components that will be visible in the user's viewport on initial load. This will negatively affect Core Web Vitals by causing an increase in cumulative layout shift (CLS). If you choose to defer components in this area, it's best to avoid `immediate`, `timer`, `viewport`, and custom `when` conditions that would cause the content to be loaded during the initial render of the page.
+建議的最佳實務是，不要延遲那些在初始載入時會出現在使用者可視區域內的元件。這會造成累積版面位移 (CLS) 增加，對 Core Web Vitals 產生負面影響。如果你選擇延遲這個區域內的元件，最好避免使用會導致內容在頁面初始算繪期間載入的 `immediate`、`timer`、`viewport` 與自訂 `when` 條件。

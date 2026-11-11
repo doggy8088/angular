@@ -32,19 +32,19 @@ export class ApiLabel implements PipeTransform {
   };
 
   private readonly fullLabelsMap: Record<ApiItemType, string> = {
-    [ApiItemType.BLOCK]: 'Block',
-    [ApiItemType.CLASS]: 'Class',
-    [ApiItemType.CONST]: 'Const',
-    [ApiItemType.DECORATOR]: 'Decorator',
-    [ApiItemType.DIRECTIVE]: 'Directive',
-    [ApiItemType.ELEMENT]: 'Element',
-    [ApiItemType.ENUM]: 'Enum',
-    [ApiItemType.FUNCTION]: 'Function',
-    [ApiItemType.INTERFACE]: 'Interface',
-    [ApiItemType.PIPE]: 'Pipe',
-    [ApiItemType.NG_MODULE]: 'Module',
-    [ApiItemType.TYPE_ALIAS]: 'Type Alias',
-    [ApiItemType.INITIALIZER_API_FUNCTION]: 'Initializer API',
+    [ApiItemType.BLOCK]: '區塊',
+    [ApiItemType.CLASS]: '類別',
+    [ApiItemType.CONST]: '常數',
+    [ApiItemType.DECORATOR]: '裝飾器',
+    [ApiItemType.DIRECTIVE]: '指令',
+    [ApiItemType.ELEMENT]: '元素',
+    [ApiItemType.ENUM]: '列舉',
+    [ApiItemType.FUNCTION]: '函式',
+    [ApiItemType.INTERFACE]: '介面',
+    [ApiItemType.PIPE]: '管道',
+    [ApiItemType.NG_MODULE]: '模組',
+    [ApiItemType.TYPE_ALIAS]: '型別別名',
+    [ApiItemType.INITIALIZER_API_FUNCTION]: '初始化 API',
   };
 
   transform(value: ApiItemType, labelType: 'short' | 'full'): string {

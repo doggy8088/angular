@@ -1,10 +1,8 @@
-# Component host elements
+# 元件宿主元素
 
-Tip: This guide assumes you've already read the [Essentials Guide](essentials). Read that first if you're new to Angular.
+Tip: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angular 新手，請先閱讀該指南。
 
-Angular creates an instance of a component for every HTML element that matches the component's
-selector. The DOM element that matches a component's selector is that component's **host element**.
-The contents of a component's template are rendered inside its host element.
+Angular 會為每個與元件選擇器相符的 HTML 元素建立一個元件執行個體。與元件選擇器相符的 DOM 元素就是該元件的**宿主元素**。元件範本的內容會算繪在其宿主元素內。
 
 ```angular-ts
 // Component source
@@ -33,13 +31,11 @@ export class ProfilePhoto {}
 <button>Upload a new profile photo</button>
 ```
 
-In the above example, `<profile-photo>` is the host element of the `ProfilePhoto` component.
+在上面的範例中，`<profile-photo>` 是 `ProfilePhoto` 元件的宿主元素。
 
-## Binding to the host element
+## 繫結到宿主元素 {#binding-to-the-host-element}
 
-A component can bind properties, attributes, and events to its host element. This behaves
-identically to bindings on elements inside the component's template, but instead defined with
-the `host` property in the `@Component` decorator:
+元件可以將屬性、屬性值與事件繫結到它的宿主元素。這與元件範本內元素上的繫結行為完全相同，只是改用 `@Component` 裝飾器中的 `host` 屬性來定義：
 
 ```angular-ts
 @Component({
@@ -62,12 +58,11 @@ export class CustomSlider {
 }
 ```
 
-## The `@HostBinding` and `@HostListener` decorators
+## `@HostBinding` 與 `@HostListener` 裝飾器
 
-You can alternatively bind to the host element by applying the `@HostBinding` and `@HostListener`
-decorator to class members.
+你也可以將 `@HostBinding` 與 `@HostListener` 裝飾器套用到類別成員上，來繫結到宿主元素。
 
-`@HostBinding` lets you bind host properties and attributes to properties and methods:
+`@HostBinding` 讓你可以將宿主屬性與屬性值繫結到屬性與方法：
 
 ```angular-ts
 @Component({
@@ -86,8 +81,7 @@ export class CustomSlider {
 }
 ```
 
-`@HostListener` lets you bind event listeners to the host element. The decorator accepts an event
-name and an optional array of arguments:
+`@HostListener` 讓你可以將事件監聽器繫結到宿主元素。這個裝飾器接受一個事件名稱，以及選擇性的引數陣列：
 
 ```ts
 export class CustomSlider {
@@ -98,13 +92,11 @@ export class CustomSlider {
 }
 ```
 
-**Always prefer using the `host` property over `@HostBinding` and `@HostListener`.** These
-decorators exist exclusively for backwards compatibility.
+  **一律優先使用 `host` 屬性，而非 `@HostBinding` 與 `@HostListener`**。這些裝飾器純粹是為了向後相容而存在。
 
-## Binding collisions
+## 繫結衝突
 
-When you use a component in a template, you can add bindings to that component instance's element.
-The component may _also_ define host bindings for the same properties or attributes.
+當你在範本中使用某個元件時，可以為該元件執行個體的元素加上繫結。該元件可能_也_為相同的屬性或屬性值定義了宿主繫結。
 
 ```angular-ts
 @Component({
@@ -121,8 +113,8 @@ export class ProfilePhoto { /* ... */ }
 <profile-photo role="group" [id]="otherId" />
 ```
 
-In cases like this, the following rules determine which value wins:
+在這種情況下，下列規則決定哪個值勝出：
 
-- If both values are static, the instance binding wins.
-- If one value is static and the other dynamic, the dynamic value wins.
-- If both values are dynamic, the component's host binding wins.
+- 若兩個值都是靜態的，執行個體繫結勝出。
+- 若一個值是靜態、另一個是動態的，動態值勝出。
+- 若兩個值都是動態的，元件的宿主繫結勝出。

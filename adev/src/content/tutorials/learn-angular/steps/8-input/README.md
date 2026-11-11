@@ -1,14 +1,14 @@
-# Component Communication with `@Input`
+# 以 `@Input` 進行元件溝通
 
-Sometimes app development requires you to send data into a component. This data can be used to customize a component or perhaps send information from a parent component to a child component.
+有時候，應用程式開發需要你把資料送進元件中。這些資料可以用來客製化元件，或是把資訊從父元件傳送到子元件。
 
-Angular uses a concept called `Input`. This is similar to `props` in other frameworks. To create an `Input` property, use the `@Input` decorator.
+Angular 使用一個稱為 `Input` 的概念。這與其他框架中的 `props` 類似。要建立 `Input` 屬性，請使用 `@Input` 裝飾器。
 
-In this activity, you'll learn how to use the `@Input` decorator to send information to components.
+在這個練習中，你將學習如何使用 `@Input` 裝飾器把資訊傳送給元件。
 
 <hr>
 
-To create an `Input` property, add the `@Input` decorator to a property of a component class:
+要建立 `Input` 屬性，請把 `@Input` 裝飾器加到元件類別的一個屬性上：
 
 <docs-code header="user.component.ts" language="ts">
 class UserComponent {
@@ -16,7 +16,7 @@ class UserComponent {
 }
 </docs-code>
 
-When you are ready to pass in a value through an `Input`, values can be set in templates using the attribute syntax. Here's an example:
+當你準備透過 `Input` 傳入值時，可以在範本中使用特性語法來設定值。範例如下：
 
 <docs-code header="app.component.ts" language="angular-ts" highlight="[3]">
 @Component({
@@ -26,7 +26,7 @@ When you are ready to pass in a value through an `Input`, values can be set in t
 class AppComponent {}
 </docs-code>
 
-Make sure you bind the property `occupation` in your `UserComponent`.
+請務必在你的 `UserComponent` 中繫結 `occupation` 屬性。
 
 <docs-code header="user.component.ts" language="angular-ts">
 @Component({
@@ -37,19 +37,19 @@ Make sure you bind the property `occupation` in your `UserComponent`.
 
 <docs-workflow>
 
-<docs-step title="Define an `@Input` property">
-Update the code in `user.component.ts` to define an `Input` property on the `UserComponent` called `name`. For now, set the initial value to `empty string`. Be sure to update the template to interpolate the `name` property at the end of the sentence.
+<docs-step title="定義 `@Input` 屬性">
+更新 `user.component.ts` 中的程式碼，在 `UserComponent` 上定義一個名為 `name` 的 `Input` 屬性。目前先把初始值設為 `empty string`。別忘了更新範本，在句子結尾插值 `name` 屬性。
 </docs-step>
 
-<docs-step title="Pass a value to the `@Input` property">
-Update the code in `app.component.ts` to send in the `name` property with a value of `"Simran"`.
+<docs-step title="把值傳給 `@Input` 屬性">
+更新 `app.component.ts` 中的程式碼，傳入 `name` 屬性，值為 `"Simran"`。
 <br>
 
-When the code has been successfully updated, the app will display `The user's name is Simran`.
+程式碼成功更新後，應用程式會顯示 `The user's name is Simran`。
 </docs-step>
 
 </docs-workflow>
 
-While this is great, it is only one direction of the component communication. What if you want to send information and data to a parent component from a child component? Check out the next lesson to find out.
+這樣固然很好，但這只是元件溝通的其中一個方向。如果你想把資訊和資料從子元件傳送到父元件，該怎麼做呢？查看下一課找答案。
 
-P.S. you are doing great - keep going 🎉
+P.S. 你做得很好——繼續前進 🎉

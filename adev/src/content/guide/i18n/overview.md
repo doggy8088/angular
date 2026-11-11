@@ -1,54 +1,54 @@
-# Angular Internationalization
+# Angular 國際化 (i18n)
 
-*Internationalization*, sometimes referenced as i18n, is the process of designing and preparing your project for use in different locales around the world.
-*Localization* is the process of building versions of your project for different locales.
-The localization process includes the following actions.
+*國際化*（有時簡稱為 i18n）是設計並準備你的專案，讓它能在世界各地的不同地區設定中使用的程序。
+*在地化*是為不同地區設定建立專案版本的程序。
+在地化程序包括下列動作。
 
-* Extract text for translation into different languages
-* Format data for a specific locale
+* 擷取文字，以便翻譯成不同語言
+* 依特定地區設定格式化資料
 
-A *locale* identifies a region in which people speak a particular language or language variant.
-Possible regions include countries and geographical regions.
-A locale determines the formatting and parsing of the following details.
+*地區設定*識別人們使用某種語言或其變體所在的區域。
+可能的區域包括國家與地理區域。
+地區設定決定了下列細節的格式化與解析方式。
 
-* Measurement units including date and time, numbers, and currencies
-* Translated names including time zones, languages, and countries
+* 度量單位，包括日期與時間、數字與貨幣
+* 翻譯後的名稱，包括時區、語言與國家
 
-For a quick introduction to localization and internationalization watch this video:
+想快速了解在地化與國際化，請觀看這支影片：
 
 <docs-video src="https://www.youtube.com/embed/KNTN-nsbV7M"/>
 
-## Learn about Angular internationalization
+## 了解 Angular 國際化
 
 <docs-card-container>
-  <docs-card title="Add the localize package" href="guide/i18n/add-package">
-    Learn how to add the Angular Localize package to your project
+  <docs-card title="新增 localize 套件" href="guide/i18n/add-package">
+    了解如何將 Angular Localize 套件新增至你的專案
   </docs-card>
-  <docs-card title="Refer to locales by ID" href="guide/i18n/locale-id">
-    Learn how to identify and specify a locale identifier for your project
+  <docs-card title="以 ID 參照地區設定" href="guide/i18n/locale-id">
+    了解如何為你的專案識別與指定地區設定識別碼
   </docs-card>
-  <docs-card title="Format data based on locale" href="guide/i18n/format-data-locale">
-    Learn how to implement localized data pipes and override the locale for your project
+  <docs-card title="依地區設定格式化資料" href="guide/i18n/format-data-locale">
+    了解如何實作在地化資料管道，並覆寫專案的地區設定
   </docs-card>
-  <docs-card title="Prepare component for translation" href="guide/i18n/prepare">
-    Learn how to specify source text for translation
+  <docs-card title="準備元件以供翻譯" href="guide/i18n/prepare">
+    了解如何指定要翻譯的來源文字
   </docs-card>
-  <docs-card title="Work with translation files" href="guide/i18n/translation-files">
-    Learn how to review and process translation text
+  <docs-card title="使用翻譯檔案" href="guide/i18n/translation-files">
+    了解如何檢視與處理翻譯文字
   </docs-card>
-  <docs-card title="Merge translations into the application" href="guide/i18n/merge">
-    Learn how to merge translations and build your translated application
+  <docs-card title="將翻譯合併至應用程式" href="guide/i18n/merge">
+    了解如何合併翻譯並建置翻譯後的應用程式
   </docs-card>
-  <docs-card title="Deploy multiple locales" href="guide/i18n/deploy">
-    Learn how to deploy multiple locales for your application
+  <docs-card title="部署多個地區設定" href="guide/i18n/deploy">
+    了解如何為你的應用程式部署多個地區設定
   </docs-card>
-  <docs-card title="Import global variants of the locale data" href="guide/i18n/import-global-variants">
-    Learn how to import locale data for language variants
+  <docs-card title="匯入地區設定資料的全域變體" href="guide/i18n/import-global-variants">
+    了解如何匯入語言變體的地區設定資料
   </docs-card>
-  <docs-card title="Manage marked text with custom IDs" href="guide/i18n/manage-marked-text">
-    Learn how to implement custom IDs to help you manage your marked text
+  <docs-card title="以自訂 ID 管理標記的文字" href="guide/i18n/manage-marked-text">
+    了解如何實作自訂 ID，協助你管理標記的文字
   </docs-card>
-  <docs-card title="Internationalization example" href="guide/i18n/example">
-    Review an example of Angular internationalization.
+  <docs-card title="國際化範例" href="guide/i18n/example">
+    檢視 Angular 國際化的範例。
   </docs-card>
 </docs-card-container>

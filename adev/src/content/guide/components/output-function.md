@@ -1,9 +1,8 @@
-# Function-based outputs
+# 以函式為基礎的 outputs
 
-The `output()` function declares an output in a directive or component.
-Outputs allow you to emit values to parent components.
+`output()` 函式在指令或元件中宣告一個 output。Outputs 讓你可以將值發送給父元件。
 
-HELPFUL: The `output()` function is currently in [developer preview](/reference/releases#developer-preview).
+HELPFUL: `output()` 函式目前處於[開發者預覽](/reference/releases#developer-preview)階段。
 
 <docs-code language="ts" highlight="[[5], [8]]">
 import {Component, output} from '@angular/core';
@@ -18,17 +17,15 @@ export class MyComp {
 }
 </docs-code>
 
-An output is automatically recognized by Angular whenever you use the `output` function as an initializer of a class member.
-Parent components can listen to outputs in templates by using the event binding syntax.
+只要你將 `output` 函式用作類別成員的初始化器，Angular 就會自動將其辨識為 output。父元件可以在範本中使用事件繫結語法來監聽 outputs。
 
 ```angular-html
 <my-comp (nameChange)="showNewName($event)" />
 ```
 
-## Aliasing an output
+## 為 output 取別名 {#aliasing-an-output}
 
-Angular uses the class member name as the name of the output.
-You can alias outputs to change their public name to be different.
+Angular 使用類別成員名稱作為 output 的名稱。你可以為 outputs 取別名，將其公開名稱改為不同的名稱。
 
 ```typescript
 class MyComp {
@@ -36,12 +33,11 @@ class MyComp {
 }
 ```
 
-This allows users to bind to your output using `(ngxNameChange)`, while inside your component you can access the output emitter using `this.nameChange`.
+這樣使用者就能使用 `(ngxNameChange)` 繫結到你的 output，而在元件內部，你可以使用 `this.nameChange` 存取該 output 發送器。
 
-## Subscribing programmatically
+## 以程式方式訂閱 {#subscribing-programmatically}
 
-Consumers may create your component dynamically with a reference to a `ComponentRef`.
-In those cases, parents can subscribe to outputs by directly accessing the property of type `OutputRef`.
+使用者可能會透過 `ComponentRef` 的參考動態建立你的元件。在這種情況下，父元件可以直接存取型別為 `OutputRef` 的屬性來訂閱 outputs。
 
 ```ts
 const myComp = viewContainerRef.createComponent(...);
@@ -51,15 +47,13 @@ myComp.instance.nameChange.subscribe(newName => {
 });
 ```
 
-Angular will automatically clean up the subscription when `myComp` is destroyed.
-Alternatively, an object with a function to explicitly unsubscribe earlier is returned.
+當 `myComp` 被銷毀時，Angular 會自動清理該訂閱。另外，它會傳回一個帶有函式的物件，可用來提早明確取消訂閱。
 
-## Using RxJS observables as source
+## 使用 RxJS observables 作為來源 {#using-rxjs-observables-as-source}
 
-In some cases, you may want to emit output values based on RxJS observables.
-Angular provides a way to use RxJS observables as source for outputs.
+在某些情況下，你可能想根據 RxJS observables 發送 output 的值。Angular 提供了一種使用 RxJS observables 作為 outputs 來源的方式。
 
-The `outputFromObservable` function is a compiler primitive, similar to the `output()` function, and declares outputs that are driven by RxJS observables.
+`outputFromObservable` 函式是一個編譯器原語，類似於 `output()` 函式，用來宣告由 RxJS observables 驅動的 outputs。
 
 <docs-code language="ts" highlight="[7]">
 import {Directive} from '@angular/core';
@@ -72,15 +66,13 @@ class MyDir {
 }
 </docs-code>
 
-Angular will forward subscriptions to the observable, but will stop forwarding values when the owning directive is destroyed.
-In the example above, if `MyDir` is destroyed, `nameChange` will no longer emit values.
+Angular 會將訂閱轉發給該 observable，但當所屬指令被銷毀時，就會停止轉發值。在上面的範例中，如果 `MyDir` 被銷毀，`nameChange` 將不再發送值。
 
-HELPFUL: Most of the time, using `output()` is sufficient and you can emit values imperatively.
+HELPFUL: 大多數情況下，使用 `output()` 就足夠了，你可以以命令式的方式發送值。
 
-## Converting an output to an observable
+## 將 output 轉換為 observable {#converting-an-output-to-an-observable}
 
-You can subscribe to outputs by calling `.subscribe` method on `OutputRef`.
-In other cases, Angular provides a helper function that converts an `OutputRef` to an observable.
+你可以呼叫 `OutputRef` 上的 `.subscribe` 方法來訂閱 outputs。在其他情況下，Angular 提供了一個輔助函式，可將 `OutputRef` 轉換為 observable。
 
 <docs-code language="ts" highlight="[11]">
 import {outputToObservable} from '@angular/core/rxjs-interop';
@@ -98,12 +90,12 @@ outputToObservable(this.myComp.instance.nameChange) // Observable<string>
   .subscribe(...);
 </docs-code>
 
-## Why you should use `output()` over decorator-based `@Output()`?
+## 為什麼應該使用 `output()` 而非裝飾器式的 `@Output()`？ {#why-you-should-use-output-over-decorator-based-output}
 
-The `output()` function provides numerous benefits over decorator-based `@Output` and `EventEmitter`:
+`output()` 函式相較於裝飾器式的 `@Output` 與 `EventEmitter`，提供了許多好處：
 
-1. Simpler mental model and API:
-  <br/>• No concept of error channel, completion channels, or other APIs from RxJS.
-  <br/>• Outputs are simple emitters. You can emit values using the `.emit` function.
-2. More accurate types.
-  <br/>• `OutputEmitterRef.emit(value)` is now correctly typed, while `EventEmitter` has broken types and can cause runtime errors.
+1. 更簡單的心智模型與 API：
+  <br/>• 沒有錯誤通道、完成通道，或其他來自 RxJS 的 API 等概念。
+  <br/>• Outputs 是簡單的發送器。你可以使用 `.emit` 函式發送值。
+2. 更精確的型別。
+  <br/>• `OutputEmitterRef.emit(value)` 現在有正確的型別，而 `EventEmitter` 的型別有問題，可能造成執行時期錯誤。

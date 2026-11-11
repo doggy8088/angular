@@ -1,7 +1,7 @@
 <div class="adev-reference-list-page">
   <header>
-    <h6>Getting Started</h6>
-    <h1>API Reference</h1>
+    <h6>入門</h6>
+    <h1>API 參考</h1>
   </header>
 
   @if (featuredGroup().items.length) {
@@ -21,12 +21,12 @@
       }
     </ul>
 
-    <docs-text-field name="query" placeholder="Filter" [(ngModel)]="query" />
+    <docs-text-field name="query" placeholder="篩選" [(ngModel)]="query" />
 
     <div class="adev-reference-list-form-part-two">
       <docs-slide-toggle
         buttonId="includeDeprecated"
-        label="Show @deprecated"
+        label="顯示 @deprecated"
         name="includeDeprecated"
         [(ngModel)]="includeDeprecated"
       />
@@ -36,7 +36,7 @@
       <adev-api-items-section [group]="group" />
     } @empty {
       <div class="adev-reference-list-empty">
-        <p>No API items found.</p>
+        <p>找不到 API 項目。</p>
       </div>
     }
   </form>
