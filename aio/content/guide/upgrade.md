@@ -1001,7 +1001,7 @@ AngularJS 目前是透過 `index.html` 中的 script 標籤載入的，這表示
 
     <code-example format="shell" language="shell">
 
-rollup -v
+    rollup -v
 
     </code-example>
 
@@ -1012,7 +1012,7 @@ rollup -v
 
         <code-example language="javascript">
 
-export default {
+        export default {
           input: 'node_modules/&commat;angular/core/fesm2022/core.js',
           output: {
             file: 'bundle.js',
@@ -1027,7 +1027,7 @@ export default {
 
     <code-example format="shell" language="shell">
 
-rollup -c rollup.config.js
+    rollup -c rollup.config.js
 
     </code-example>
 
