@@ -102,12 +102,10 @@ jobs:
       - name: Collect static output
         run: |
           mkdir -p _site
-          IDX=$(find dist/bin/adev -name index.html | awk '{print length($0), $0}' | sort -n | head -1 | cut -d' ' -f2-)
-          echo "found index at: $IDX"
-          SRC=$(dirname "$IDX")
-          cp -rL "$SRC"/. _site/
+          cp -rL dist/bin/adev/dist/browser/. _site/
           ls _site | head -20
           test -f _site/index.html
+          test $(find _site -name '*.js' | wc -l) -gt 0
 
       - name: Add Cloudflare Pages headers
         run: |
