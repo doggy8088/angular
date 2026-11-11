@@ -1,18 +1,17 @@
-# Format data based on locale
+# 依地區設定格式化資料
 
-Angular provides the following built-in data transformation [pipes][AioGuideGlossaryPipe].
-The data transformation pipes use the [`LOCALE_ID`][AioApiCoreLocaleId] token to format data based on rules of each locale.
+Angular 提供下列內建的資料轉換[管道][AioGuideGlossaryPipe]。資料轉換管道使用 [`LOCALE_ID`][AioApiCoreLocaleId] 權杖，依各地區設定的規則格式化資料。
 
-| Data transformation pipe                   | Details |
+| 資料轉換管道 | 詳情 |
 |:---                                        |:---     |
-| [`DatePipe`][AioApiCommonDatepipe]         | Formats a date value.                             |
-| [`CurrencyPipe`][AioApiCommonCurrencypipe] | Transforms a number into a currency string.       |
-| [`DecimalPipe`][AioApiCommonDecimalpipe]   | Transforms a number into a decimal number string. |
-| [`PercentPipe`][AioApiCommonPercentpipe]   | Transforms a number into a percentage string.     |
+| [`DatePipe`][AioApiCommonDatepipe] | 格式化日期值。 |
+| [`CurrencyPipe`][AioApiCommonCurrencypipe] | 將數字轉換為貨幣字串。 |
+| [`DecimalPipe`][AioApiCommonDecimalpipe] | 將數字轉換為十進位數字字串。 |
+| [`PercentPipe`][AioApiCommonPercentpipe] | 將數字轉換為百分比字串。 |
 
-## Use DatePipe to display the current date
+## 使用 DatePipe 顯示目前日期
 
-To display the current date in the format for the current locale, use the following format for the `DatePipe`.
+若要以目前地區設定的格式顯示目前日期，請為 `DatePipe` 使用下列格式。
 
 <!--todo: replace with code-example -->
 
@@ -22,11 +21,11 @@ To display the current date in the format for the current locale, use the follow
 
 </code-example>
 
-## Override current locale for CurrencyPipe
+## 為 CurrencyPipe 覆寫目前地區設定
 
-Add the `locale` parameter to the pipe to override the current value of `LOCALE_ID` token.
+將 `locale` 參數加入管道，即可覆寫 `LOCALE_ID` token 目前的值。
 
-To force the currency to use American English \(`en-US`\), use the following format for the `CurrencyPipe`
+若要強制貨幣使用美式英文 \(`en-US`\)，請為 `CurrencyPipe` 使用下列格式
 
 <!--todo: replace with code-example -->
 
@@ -38,14 +37,14 @@ To force the currency to use American English \(`en-US`\), use the following for
 
 <div class="alert is-helpful">
 
-**NOTE**: <br />
-The locale specified for the `CurrencyPipe` overrides the global `LOCALE_ID` token of your application.
+**注意**：<br />
+為 `CurrencyPipe` 指定的地區設定會覆寫應用程式全域的 `LOCALE_ID` 權杖。
 
 </div>
 
-## What's next
+## 後續步驟
 
-*   [Prepare component for translation][AioGuideI18nCommonPrepare]
+*   [準備元件以供翻譯][AioGuideI18nCommonPrepare]
 
 <!-- links -->
 
@@ -55,9 +54,9 @@ The locale specified for the `CurrencyPipe` overrides the global `LOCALE_ID` tok
 [AioApiCommonPercentpipe]: api/common/PercentPipe "PercentPipe | Common - API | Angular"
 [AioApiCoreLocaleId]: api/core/LOCALE_ID "LOCALE_ID | Core - API | Angular"
 
-[AioGuideGlossaryPipe]: guide/glossary#pipe "pipe - Glossary | Angular"
+[AioGuideGlossaryPipe]: guide/glossary#管道（pipe） "pipe - 詞彙表 | Angular"
 
-[AioGuideI18nCommonPrepare]: guide/i18n-common-prepare "Prepare component for translation | Angular"
+[AioGuideI18nCommonPrepare]: guide/i18n-common-prepare "準備元件以供翻譯 | Angular"
 
 <!-- external links -->
 

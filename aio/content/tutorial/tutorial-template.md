@@ -1,103 +1,99 @@
-# First Angular app lesson \[TODO: lesson # as digit \] - \[TODO: Topic title\]
+# 第一個 Angular 應用程式第 \[TODO：課號（數字）\] 課：\[TODO：主題標題\]
 
 <div class="callout is-important">
 
-<header>This topic is a work in progress</header>
+<header>本主題仍在編寫中</header>
 
-\[TODO: pick the one that applies to the doc: \]
+\[TODO：選擇適用於本文件的那一項：\]
 
-This topic is a rough draft. Many sections are incomplete and some or all content might change before its final draft.
+本主題是草稿。有許多章節尚未完成，在最終定稿之前，部分或全部內容可能會變更。
 
-This topic is a first draft. It is complete, but it some or all content might change before its final draft.
+本主題是初稿。內容已完整，但在最終定稿之前，部分或全部內容可能會變更。
 
-This topic is a final draft. It is complete and ready for review.
+本主題是最終定稿。內容已完整，可以送交審閱。
 
 </div>
 
-*  \[TODO: Delete after reading. This is a guide to adapt to a specific tutorial lesson. Add/Remove/Change the contents as required, but keep the general outline intact as much as possible to provide a consistent experience across lessons.  \]
+*  \[TODO：閱讀後刪除。這是一份適用於特定教學課程的指南。請視需要加入、移除或變更內容，但盡可能保持整體大綱不變，以便各課之間有一致的體驗。\]
 
-This tutorial lesson demonstrates how to \[TODO: do something interesting in Angular\].
+本教學課程會示範如何 \[TODO：在 Angular 中做一些有趣的事\]。
 
-**Time required:** expect to spend about \[TODO: XX\] minutes to complete this lesson.
+**所需時間**：預計花費約 \[TODO：XX\] 分鐘完成本課程。
 
-## Before you start
+## 開始之前
 
-This lesson starts with the code from the previous lesson, so you can:
+本課程從上一課的程式碼開始，所以你可以：
 
-*   Use the code that you created in Lesson \[TODO: insert previous lesson number\] in your interactive development environment (IDE).
+*   在你的互動式開發環境（IDE）中使用你在第 \[TODO：插入上一課的課號\] 課中建立的程式碼。
 <!--                                                                         update previous lesson link: vv -->
-*   Start with the code example from the previous lesson. Choose the <live-example name="first-app-lesson-00"></live-example> from Lesson \[TODO: previous lesson number\] where you can:
-    *   Use the *live example* in StackBlitz, where the StackBlitz interface is your IDE.
-    *   Use the *download example* and open it in your IDE.
+*   從上一課的程式碼範例開始。選擇第 \[TODO：上一課的課號\] 課的 <live-example name="first-app-lesson-00"></live-example>，你可以：
+    *   使用 StackBlitz 中的*即時範例*，其中 StackBlitz 介面就是你的 IDE。
+    *   使用*下載範例*，並在你的 IDE 中開啟它。
 
-If you haven't reviewed the introduction, visit the [Introduction to Angular tutorial](tutorial/first-app) to make sure you have everything you need to complete this lesson.
+如果你尚未閱讀簡介，請造訪[Angular 教學簡介](tutorial/first-app)，確認你已具備完成本課程所需的一切。
 
-If you have any trouble during this lesson, you can review the completed code for this lesson, in the <live-example></live-example> for this lesson.
+如果你在本課程期間遇到任何困難，可以在 <live-example></live-example> 中查看本課程的完成程式碼。
 
-## After you finish
+## 完成之後
 
-* Your app has \[TODO: something new and interesting in Angular\].
+* 你的應用程式具備了 \[TODO：Angular 中新的有趣功能\]。
 
-## Conceptual preview of \[TODO: concepts being introduced in this lesson\]
+## \[TODO：本課程介紹的概念\]的概念預覽
 
-Include this section only if concepts are being introduced that don't appear in a previous lesson
+只有在介紹的概念未出現在先前的課程中時，才加入本節
 
-\[TODO: provide a brief overview of any new concepts introduced in this lesson.\]
-\[TODO: limit new concepts introduced in this lesson to only one, if possible.\]
+\[TODO：簡要概述本課程介紹的任何新概念。\] \[TODO：盡可能將本課程介紹的新概念限制為一個。\]
 
-## Lesson steps
+## 課程步驟
 
-Perform these steps on the app code in your IDE.
+請在 IDE 中的應用程式程式碼上執行這些步驟。
 
-### Step 1 - \[TODO: Describe goal of this step\]
+### 步驟 1：\[TODO：描述本步驟的目標\]
 
-\[TODO: describe goal of this step in a sentence. \]
+\[TODO：用一句話描述本步驟的目標。\]
 
-In the **Terminal** pane of your IDE:
+在 IDE 的 **Terminal** 窗格中：
 
-1.  In your project directory, navigate to the `first-app` directory.
-1.  \[TODO: describe how to do this in numbered actions.\]
-1.  Confirm that the app builds without error.
-    Correct any errors before you continue to the next step.
+1.  1. 在你的專案目錄中，進入 `first-app` 目錄。
+1.  \[TODO：用編號動作描述如何執行此操作。\]
+1.  1. 確認應用程式能順利建置、沒有錯誤。 繼續下一個步驟之前，請先修正所有錯誤。
 
-### Step 2 - \[TODO: Describe goal of this step\]
+### 步驟 2：\[TODO：描述本步驟的目標\]
 
-\[TODO: describe goal of this step in a sentence. \]
+\[TODO：用一句話描述本步驟的目標。\]
 
-In the **Terminal** pane of your IDE:
+在 IDE 的 **Terminal** 窗格中：
 
-1.  In your project directory, navigate to the `first-app` directory.
-1.  \[TODO: describe how to do this in numbered actions.\]
-1.  Confirm that the app builds without error.
-    Correct any errors before you continue to the next step.
+1.  1. 在你的專案目錄中，進入 `first-app` 目錄。
+1.  \[TODO：用編號動作描述如何執行此操作。\]
+1.  1. 確認應用程式能順利建置、沒有錯誤。 繼續下一個步驟之前，請先修正所有錯誤。
 
-### Step 3 - \[TODO: Describe goal of this step\]
+### 步驟 3：\[TODO：描述本步驟的目標\]
 
-\[TODO: describe goal of this step in a sentence. \]
+\[TODO：用一句話描述本步驟的目標。\]
 
-In the **Terminal** pane of your IDE:
+在 IDE 的 **Terminal** 窗格中：
 
-1.  In your project directory, navigate to the `first-app` directory.
-1.  \[TODO: describe how to do this in numbered actions.\]
-1.  Confirm that the app builds without error.
-    Correct any errors before you continue to the next step.
+1.  1. 在你的專案目錄中，進入 `first-app` 目錄。
+1.  \[TODO：用編號動作描述如何執行此操作。\]
+1.  1. 確認應用程式能順利建置、沒有錯誤。 繼續下一個步驟之前，請先修正所有錯誤。
 
-### Step 4 - \[TODO: Try not to have this many steps\]
+### 步驟 4：\[TODO：盡量不要有這麼多步驟\]
 
-## Lesson review
+## 課程回顧
 
-In this lesson, \[TODO: describe goal of this lesson and what they should remember \]
+在本課程中，\[TODO：描述本課程的目標，以及他們應該記住的內容\]
 
-If you are having any trouble with this lesson, you can review the completed code for it in the <live-example></live-example>.
+如果你在這一課遇到任何困難，可以在 <live-example></live-example> 中查看這一課的完成程式碼。
 
-## Next steps
+## 後續步驟
 
-\[TODO: text/links to the next lesson go here.\]
+\[TODO：下一課的文字或連結放在這裡。\]
 
-## More information
+## 更多資訊
 
-For more information about the topics covered in this lesson, visit:
+如需本課所涵蓋主題的更多資訊，請造訪：
 
-*  \[TODO: links to related topic.\]
-*  \[TODO: links to related topic.\]
-*  \[TODO: links to related topic.\]
+*  \[TODO：相關主題的連結。\]
+*  \[TODO：相關主題的連結。\]
+*  \[TODO：相關主題的連結。\]

@@ -1,24 +1,24 @@
-# Adding navigation
+# 加入導覽
 
-This guide builds on the first step of the Getting Started tutorial, [Get started with a basic Angular app](start "Get started with a basic Angular app").
+本指南延續起步教學的第一步，[開始使用基本的 Angular 應用程式](start "開始使用基本的 Angular 應用程式")。
 
-At this stage of development, the online store application has a basic product catalog.
+在這個開發階段，線上商店應用程式已有一個基本的產品目錄。
 
-In the following sections, you'll add the following features to the application:
+在接下來的各節中，你將為應用程式加入以下功能：
 
-*   Type a URL in the address bar to navigate to a corresponding product page
-*   Click links on the page to navigate within your single-page application
-*   Click the browser's back and forward buttons to navigate the browser history intuitively
+*   在網址列輸入 URL，導覽至對應的產品頁面
+*   點選頁面上的連結，在單頁應用程式內導覽
+*   點選瀏覽器的上一頁與下一頁按鈕，直覺地瀏覽瀏覽器記錄
 
 <a id="define-routes"></a>
 
-## Associate a URL path with a component
+## 將 URL 路徑與元件建立關聯
 
-The application already uses the Angular `Router` to navigate to the `ProductListComponent`.
-This section shows you how to define a route to show individual product details.
+應用程式已使用 Angular `Router` 導覽至 `ProductListComponent`。
+本節說明如何定義路由，以顯示個別產品的詳細資料。
 
-1.  Generate a new component for product details.
-    In the terminal generate a new `product-details` component by running the following command:
+1.  為產品詳細資料產生一個新的元件。
+    在終端機執行以下指令，產生一個新的 `product-details` 元件：
 
     <code-example format="shell" language="shell">
 
@@ -26,93 +26,93 @@ This section shows you how to define a route to show individual product details.
 
     </code-example>
 
-1.  In `app.module.ts`, add a route for product details, with a `path` of `products/:productId` and `ProductDetailsComponent` for the `component`.
+1.  在 `app.module.ts` 中，為產品詳細資料加入路由，`path` 為 `products/:productId`，`component` 為 `ProductDetailsComponent`。
 
     <code-example header="src/app/app.module.ts" path="getting-started/src/app/app.module.ts" region="product-details-route"></code-example>
 
-1.  Open `product-list.component.html`.
+1.  開啟 `product-list.component.html`。
 
-1.  Modify the product name anchor to include a `routerLink` with the `product.id` as a parameter.
+1.  修改產品名稱錨點，加入帶有 `product.id` 參數的 `routerLink`。
 
     <code-example header="src/app/product-list/product-list.component.html" path="getting-started/src/app/product-list/product-list.component.html" region="router-link"></code-example>
 
-    The `RouterLink` directive helps you customize the anchor element.
-    In this case, the route, or URL, contains one fixed segment, `/products`.
-    The final segment is variable, inserting the `id` property of the current product.
-    For example, the URL for a product with an `id` of 1 would be similar to `https://getting-started-myfork.stackblitz.io/products/1`.
+    `RouterLink` 指令可協助你自訂錨點元素。
+    在這個例子中，路由或 URL 包含一個固定區段 `/products`。
+    最後一段是變數，會插入目前產品的 `id` 屬性。
+    舉例來說，`id` 為 1 的產品，其 URL 會類似 `https://getting-started-myfork.stackblitz.io/products/1`。
 
-1.  Verify that the router works as intended by clicking the product name.
-    The application should display the `ProductDetailsComponent`, which currently says "product-details works!"
+1.  點選產品名稱，確認路由如預期運作。
+    應用程式應顯示 `ProductDetailsComponent`，目前會顯示「product-details works!」。
 
-    Notice that the URL in the preview window changes.
-    The final segment is `products/#` where `#` is the number of the route you clicked.
+    請注意預覽視窗中的 URL 會改變。
+    最後一段是 `products/#`，其中 `#` 是你點選的路由編號。
 
     <div class="lightbox">
 
-    <img alt="Product details view with updated URL" src="generated/images/guide/start/product-details-works.png">
+    <img alt="產品詳細資料檢視，URL 已更新" src="generated/images/guide/start/product-details-works.png">
 
     </div>
 
-## View product details
+## 檢視產品詳細資料
 
-The `ProductDetailsComponent` handles the display of each product.
-The Angular Router displays components based on the browser's URL and [your defined routes](#define-routes).
+`ProductDetailsComponent` 負責顯示各產品的內容。
+Angular 路由器會根據瀏覽器的 URL 與[你定義的路由](#define-routes)顯示元件。
 
-In this section, you'll use the Angular Router to combine the `products` data and route information to display the specific details for each product.
+在本節中，你將使用 Angular 路由器，結合 `products` 資料與路由資訊，顯示各產品的具體詳細資料。
 
-1.  In `product-details.component.ts`, import `ActivatedRoute` from `@angular/router`, import `OnInit` from `@angular/core`, and the `products` array from `../products`.
+1.  在 `product-details.component.ts` 中，從 `@angular/router` 匯入 `ActivatedRoute`、從 `@angular/core` 匯入 `OnInit`，以及從 `../products` 匯入 `products` 陣列。
 
     <code-example header="src/app/product-details/product-details.component.ts" path="getting-started/src/app/product-details/product-details.component.1.ts" region="imports"></code-example>
 
-1.  Define the `product` property. The `implements OnInit` statement indicates that the class implements the `OnInit` interface, requiring the implementation of the `ngOnInit` method for initialization tasks when the component is created.
+1.  定義 `product` 屬性。`implements OnInit` 陳述式表示這個類別實作了 `OnInit` 介面，必須實作 `ngOnInit` 方法，以在元件建立時執行初始化工作。
 
     <code-example header="src/app/product-details/product-details.component.ts" path="getting-started/src/app/product-details/product-details.component.1.ts" region="product-prop"></code-example>
 
-1.  Inject `ActivatedRoute` into the `constructor()` by adding `private route: ActivatedRoute` as an argument within the constructor's parentheses.
+1.  在 `constructor()` 中注入 `ActivatedRoute`，做法是在建構函式的括號內加入 `private route: ActivatedRoute` 作為引數。
 
     <code-example header="src/app/product-details/product-details.component.ts" path="getting-started/src/app/product-details/product-details.component.1.ts" region="props-methods"></code-example>
 
-    `ActivatedRoute` is specific to each component that the Angular Router loads.
-    `ActivatedRoute` contains information about the route and the route's parameters.
+    `ActivatedRoute` 是 Angular 路由器載入的每個元件各自專屬的。
+    `ActivatedRoute` 包含路由及其參數的資訊。
 
-    By injecting `ActivatedRoute`, you are configuring the component to use a service.
-    The [Managing Data](start/start-data "Try it: Managing Data") step covers services in more detail.
+    注入 `ActivatedRoute`，就是在設定元件使用某個服務。
+    [管理資料](start/start-data "試試看：管理資料")這個步驟會更詳細地介紹服務。
 
-1.  In the `ngOnInit()` method, extract the `productId` from the route parameters and find the corresponding product in the `products` array.
+1.  在 `ngOnInit()` 方法中，從路由參數取出 `productId`，再從 `products` 陣列找出對應的產品。
 
     <code-example header="src/app/product-details/product-details.component.ts" path="getting-started/src/app/product-details/product-details.component.1.ts" region="get-product"></code-example>
 
-    The route parameters correspond to the path variables you define in the route.
-    To access the route parameters, we use `route.snapshot`, which is the `ActivatedRouteSnapshot` that contains information about the active route at that particular moment in time.
-    The URL that matches the route provides the `productId` .
-    Angular uses the `productId` to display the details for each unique product.
+    路由參數對應你在路由中定義的路徑變數。
+    要存取路由參數，我們使用 `route.snapshot`，也就是 `ActivatedRouteSnapshot`，其中包含該特定時刻作用中路由的資訊。
+    符合該路由的 URL 會提供 `productId`。
+    Angular 會使用 `productId` 顯示每個不重複產品的詳細資料。
 
-1.  Update the `ProductDetailsComponent` template to display product details with an `*ngIf`.
-    If a product exists, the `<div>` renders with a name, price, and description.
+1.  更新 `ProductDetailsComponent` 範本，使用 `*ngIf` 顯示產品詳細資料。
+    如果產品存在，`<div>` 就會算繪出名稱、價格與描述。
 
     <code-example header="src/app/product-details/product-details.component.html" path="getting-started/src/app/product-details/product-details.component.html" region="details"></code-example>
 
-    The line, `<h4>{{ product.price | currency }}</h4>`, uses the `currency` pipe to transform `product.price` from a number to a currency string.
-    A pipe is a way you can transform data in your HTML template.
-    For more information about Angular pipes, see [Pipes](guide/pipes "Pipes").
+    這一行 `<h4>{{ product.price | currency }}</h4>` 使用 `currency` 管道，把 `product.price` 從數字轉換為貨幣字串。
+    管道是一種在 HTML 範本中轉換資料的方式。
+    如需進一步了解 Angular 管道，請參閱[管道](guide/pipes "管道")。
 
-When users click on a name in the product list, the router navigates them to the distinct URL for the product, shows the `ProductDetailsComponent`, and displays the product details.
+當使用者點選產品清單中的名稱時，路由器會將他們導覽至該產品專屬的 URL，顯示 `ProductDetailsComponent`，並呈現產品詳細資料。
 
 <div class="lightbox">
 
-<img alt="Product details page with updated URL and full details displayed" src="generated/images/guide/start/product-details-routed.png">
+<img alt="產品詳細資料頁面，URL 已更新並顯示完整詳細資料" src="generated/images/guide/start/product-details-routed.png">
 
 </div>
 
-For more information about the Angular Router, see [Routing & Navigation](guide/router "Routing & Navigation guide").
+如需進一步了解 Angular 路由器，請參閱[路由與導覽](guide/router "路由與導覽指南")。
 
-## What's next
+## 接下來
 
-You have configured your application so you can view product details, each with a distinct URL.
+你已設定好應用程式，可以檢視產品詳細資料，每個產品都有專屬的 URL。
 
-To continue exploring Angular:
+要繼續探索 Angular：
 
-*   Continue to [Managing Data](start/start-data "Try it: Managing Data") to add a shopping cart feature, manage cart data, and retrieve external data for shipping prices
-*   Skip ahead to [Deployment](start/start-deployment "Try it: Deployment") to deploy your application to Firebase or move to local development
+*   繼續前往[管理資料](start/start-data "試試看：管理資料")，加入購物車功能、管理購物車資料，並擷取外部運費價格資料
+*   直接跳到[部署](start/start-deployment "試試看：部署")，把應用程式部署到 Firebase，或轉為本機開發
 
 @reviewed 2022-02-28

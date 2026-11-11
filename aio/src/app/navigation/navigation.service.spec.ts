@@ -247,7 +247,7 @@ describe('NavigationService', () => {
       actualDocVersions = [];
       docVersions = [
         { title: 'v4.0.0' },
-        { title: 'v2', url: 'https://v2.angular.io' }
+        { title: 'v2', url: 'https://v2.angular.tw' }
       ];
 
       expectedDocVersions = docVersions.map(v => (

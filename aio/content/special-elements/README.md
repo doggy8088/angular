@@ -1,25 +1,22 @@
-# Special Elements
+# 特殊元素
 
-Each subdirectory below this contains documentation that describes "special elements".
-These are elements that can appear in templates that have special meaning and behaviour in the Angular framework.
+本目錄下的每個子目錄都包含說明「特殊元素」的文件。這些元素是可以出現在範本中的元素，在 Angular 框架中具有特殊的意義與行為。
 
-Each element should have a markdown file with the same file name as the element's tag name \(for example, `ng-container.md`\).
-The file should be stored in a directory whose name is that of the Angular package under which this element should appear in the docs \(usually `core`\).
+每個元素都應該有一個 Markdown 檔案，其檔案名稱與該元素的標籤名稱相同 \(例如 `ng-container.md`\)。檔案應存放在名稱為該元素在文件中所屬 Angular 套件的目錄中 \(通常是 `core`\)。
 
-## Short description
+## 簡短說明
 
-The file should contain a "short description" of the element. This is the first paragraph in the file.
+檔案應包含該元素的「簡短說明」。這是檔案中的第一個段落。
 
-## Long description
+## 詳細說明
 
-All the paragraphs after the short description are collected as an additional longer description.
+簡短說明之後的所有段落，都會被收集為額外的詳細說明。
 
-## Element attributes
+## 元素屬性
 
-If the special element accepts one or more attributes that have special meaning to Angular, then these should be documented using the `@elementAttribute` tag.
-These tags should come after the description.
+如果特殊元素接受一或多個對 Angular 具有特殊意義的屬性，就應該使用 `@elementAttribute` 標籤來記錄這些屬性。這些標籤應放在說明之後。
 
-The format of this tag is:
+這個標籤的格式如下：
 
 ```typescript
 @elementAttribute attr="value"

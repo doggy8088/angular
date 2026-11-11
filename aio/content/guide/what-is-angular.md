@@ -1,84 +1,84 @@
-# What is Angular?
+# 什麼是 Angular？
 
-This topic can help you understand Angular: what Angular is, what advantages it provides, and what you might expect as you start to build your applications.
+本主題可以協助你了解 Angular：Angular 是什麼、它提供哪些優勢，以及當你開始建置應用程式時可以期待什麼。
 
-Angular is a development platform, built on [TypeScript](https://www.typescriptlang.org).
-As a platform, Angular includes:
+Angular 是一個建置於 [TypeScript](https://www.typescriptlang.org) 之上的開發平台。
+作為一個平台，Angular 包含：
 
-*   A component-based framework for building scalable web applications
-*   A collection of well-integrated libraries that cover a wide variety of features, including routing, forms management, client-server communication, and more
-*   A suite of developer tools to help you develop, build, test, and update your code
+*   一個以元件為基礎的框架，用於建置可擴充的 Web 應用程式
+*   一組整合良好的函式庫，涵蓋各式各樣的功能，包括路由、表單管理、用戶端與伺服器通訊等
+*   一套開發人員工具，可協助你開發、建置、測試與更新程式碼
 
-With Angular, you're taking advantage of a platform that can scale from single-developer projects to enterprise-level applications.
-Angular is designed to make updating as straightforward as possible, so take advantage of the latest developments with minimal effort.
-Best of all, the Angular ecosystem consists of a diverse group of over 1.7 million developers, library authors, and content creators.
+使用 Angular，你將善用一個可從單人開發專案擴充到企業級應用程式的平台。
+Angular 的設計讓更新盡可能簡單，因此你可以用最小的力氣掌握最新發展。
+最棒的是，Angular 生態系由超過 170 萬名開發人員、函式庫作者與內容創作者組成的多元群體所構成。
 
 <div class="alert is-helpful">
 
-See the <live-example name="what-is-angular"></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example name="what-is-angular"></live-example>，查看包含本指南程式碼片段的運作範例。
 
 </div>
 
 <a id="essentials"></a>
 
-## Angular applications: The essentials
+## Angular 應用程式：基礎要素
 
-This section explains the core ideas behind Angular.
-Understanding these ideas can help you design and build your applications more effectively.
+本節說明 Angular 背後的核心概念。
+了解這些概念可以協助你更有效地設計與建置應用程式。
 
 <a id="components"></a>
 
-### Components
+### 元件
 
-Components are the building blocks that compose an application.
-A component includes a TypeScript class with a `@Component()` decorator, an HTML template, and styles.
-The `@Component()` decorator specifies the following Angular-specific information:
+元件是組成應用程式的建構元件。
+一個元件包含一個帶有 `@Component()` 裝飾器的 TypeScript 類別、一個 HTML 範本與樣式。
+`@Component()` 裝飾器會指定下列 Angular 專屬資訊：
 
-*   A CSS selector that defines how the component is used in a template.
-    HTML elements in your template that match this selector become instances of the component.
+*   一個 CSS 選擇器，定義元件在範本中的使用方式。
+    範本中符合此選擇器的 HTML 元素會成為該元件的執行個體。
 
-*   An HTML template that instructs Angular how to render the component
-*   An optional set of CSS styles that define the appearance of the template's HTML elements
+*   一個 HTML 範本，指示 Angular 如何算繪元件
+*   一組選用的 CSS 樣式，定義範本 HTML 元素的外觀
 
-The following is a minimal Angular component.
+下列是一個最小的 Angular 元件。
 
 <code-example format="typescript" language="typescript" path="what-is-angular/src/app/hello-world/hello-world.component.ts"></code-example>
 
-To use this component, you write the following in a template:
+若要使用此元件，請在範本中撰寫下列內容：
 
 <code-example format="html" language="html" path="what-is-angular/src/app/app.component.html" region="hello-world-selector"></code-example>
 
-When Angular renders this component, the resulting DOM looks like this:
+當 Angular 算繪此元件時，產生的 DOM 如下所示：
 
 <code-example format="html" language="html" path="what-is-angular/src/app/hello-world-example.html"></code-example>
 
-Angular's component model offers strong encapsulation and an intuitive application structure.
-Components also make your application painless to unit test and can improve the general readability of your code.
+Angular 的元件模型提供強大的封裝能力與直覺的應用程式結構。
+元件也讓你的應用程式易於進行單元測試，並能提升程式碼的整體可讀性。
 
-For more information on what to do with components, see the [Components](guide/component-overview) section.
+如需進一步了解元件的相關內容，請參閱[元件](guide/component-overview)一節。
 
 <a id="templates"></a>
 
-### Templates
+### 範本
 
 <!-- vale Angular.Google_WordListWarnings = NO -->
 
-Every component has an HTML template that declares how that component renders.
-You define this template either inline or by file path.
+每個元件都有一個 HTML 範本，宣告該元件的算繪方式。
+你可以行內定義此範本，也可以透過檔案路徑定義。
 
 <!-- vale Angular.Google_WordListWarnings = YES -->
 
-Angular adds syntax elements that extend HTML so you can insert dynamic values from your component.
-Angular automatically updates the rendered DOM when your component's state changes.
-One application of this feature is inserting dynamic text, as shown in the following example.
+Angular 加入了擴充 HTML 的語法元素，讓你可以從元件插入動態值。
+當元件的狀態變更時，Angular 會自動更新算繪後的 DOM。
+此功能的一種應用是插入動態文字，如下列範例所示。
 
 <code-example format="html" language="html" path="what-is-angular/src/app/hello-world-interpolation/hello-world-interpolation.component.html" region="say-hello"></code-example>
 
-The value for message comes from the component class:
+`message` 的值來自元件類別：
 
 <code-example format="typescript" language="typescript" path="what-is-angular/src/app/hello-world-interpolation/hello-world-interpolation.component.ts"></code-example>
 
-When the application loads the component and its template, the user sees the following:
+當應用程式載入元件及其範本時，使用者會看到下列內容：
 
 <code-example format="shell" language="html">
 
@@ -86,133 +86,133 @@ When the application loads the component and its template, the user sees the fol
 
 </code-example>
 
-Notice the use of double curly braces—they instruct Angular to interpolate the contents within them.
+請注意雙大括號的使用——它們指示 Angular 對其中的內容進行內插。
 
-Angular also supports property bindings, to help you set values for properties and attributes of HTML elements and pass values to your application's presentation logic.
+Angular 也支援屬性繫結，可協助你設定 HTML 元素的屬性與特性的值，並將值傳遞給應用程式的呈現邏輯。
 
 <code-example format="html" language="html" path="what-is-angular/src/app/hello-world-bindings/hello-world-bindings.component.html" region="bindings"></code-example>
 
-Notice the use of the square brackets—that syntax indicates that you're binding the property or attribute to a value in the component class.
+請注意方括號的使用——該語法表示你正在把屬性或特性繫結到元件類別中的值。
 
-Declare event listeners to listen for and respond to user actions such as keystrokes, mouse movements, clicks, and touches.
-You declare an event listener by specifying the event name in parentheses:
+宣告事件監聽器來監聽並回應使用者操作，例如按鍵、滑鼠移動、點選與觸控。
+你可以透過在括號中指定事件名稱來宣告事件監聽器：
 
 <code-example format="html" language="html" path="what-is-angular/src/app/hello-world-bindings/hello-world-bindings.component.html" region="event-binding"></code-example>
 
-The preceding example calls a method, which is defined in the component class:
+上述範例呼叫了一個方法，該方法定義於元件類別中：
 
 <code-example format="typescript" language="typescript" path="what-is-angular/src/app/hello-world-bindings/hello-world-bindings.component.ts" region="method"></code-example>
 
-The following is a combined example of Interpolation, Property Binding, and Event Binding within an Angular template:
+下列是在 Angular 範本中使用內插、屬性繫結與事件繫結的綜合範例：
 
 <code-tabs linenums="true">
     <code-pane header="hello-world-bindings.component.ts" path="what-is-angular/src/app/hello-world-bindings/hello-world-bindings.component.ts"></code-pane>
     <code-pane header="hello-world-bindings.component.html" path="what-is-angular/src/app/hello-world-bindings/hello-world-bindings.component.html"></code-pane>
 </code-tabs>
 
-Add features to your templates by using [directives](guide/built-in-directives).
-The most popular directives in Angular are `*ngIf` and `*ngFor`.
-Use directives to perform a variety of tasks, such as dynamically modifying the DOM structure.
-And create your own custom directives to create great user experiences.
+使用[指令](guide/built-in-directives)為你的範本加入功能。
+Angular 中最受歡迎的指令是 `*ngIf` 與 `*ngFor`。
+使用指令可以執行各種任務，例如動態修改 DOM 結構。
+你也可以建立自己的自訂指令，創造出色的使用者體驗。
 
-The following code is an example of the `*ngIf` directive.
+下列程式碼是 `*ngIf` 指令的範例。
 
 <code-tabs linenums="true">
   <code-pane header="hello-world-ngif.component.ts" path="what-is-angular/src/app/hello-world-ngif/hello-world-ngif.component.ts"></code-pane>
   <code-pane header="hello-world-ngif.component.html" path="what-is-angular/src/app/hello-world-ngif/hello-world-ngif.component.html"></code-pane>
 </code-tabs>
 
-Angular's declarative templates let you cleanly separate your application's logic from its presentation.
-Templates are based on standard HTML, for ease in building, maintaining, and updating.
+Angular 的宣告式範本讓你可以清楚地將應用程式的邏輯與呈現分開。
+範本以標準 HTML 為基礎，便於建置、維護與更新。
 
-For more information on templates, see the [Templates](guide/template-syntax) section.
+如需進一步了解範本，請參閱[範本](guide/template-syntax)一節。
 
 <a id="di"></a>
 
-### Dependency injection
+### 依賴注入
 
-Dependency injection lets you declare the dependencies of your TypeScript classes without taking care of their instantiation.
-Instead, Angular handles the instantiation for you.
-This design pattern lets you write more testable and flexible code.
-Understanding dependency injection is not critical to start using Angular, but it is strongly recommended as a best practice. Many aspects of Angular take advantage of it to some degree.
+依賴注入讓你可以宣告 TypeScript 類別的依賴，而無需處理它們的執行個體化。
+Angular 會代你處理執行個體化。
+此設計模式讓你能撰寫更易測試、更具彈性的程式碼。
+了解依賴注入對於開始使用 Angular 並非關鍵，但強烈建議將其視為最佳實務。Angular 的許多層面都在某種程度上運用了它。
 
-To illustrate how dependency injection works, consider the following example.
-The first file, `logger.service.ts`, defines a `Logger` class.
-This class contains a `writeCount` function that logs a number to the console.
+為了說明依賴注入如何運作，請考慮下列範例。
+第一個檔案 `logger.service.ts` 定義了一個 `Logger` 類別。
+此類別包含一個 `writeCount` 函式，可將數字記錄到主控台。
 
 <code-example format="typescript" language="typescript" path="what-is-angular/src/app/logger.service.ts"></code-example>
 
-Next, the `hello-world-di.component.ts` file defines an Angular component.
-This component contains a button that uses the `writeCount` function of the Logger class.
-To access that function, the `Logger` service is injected into the `HelloWorldDI` class by adding `private logger: Logger` to the constructor.
+接著，`hello-world-di.component.ts` 檔案定義了一個 Angular 元件。
+此元件包含一個按鈕，使用 Logger 類別的 `writeCount` 函式。
+若要存取該函式，請在建構函式中加入 `private logger: Logger`，將 `Logger` 服務注入 `HelloWorldDI` 類別。
 
 <code-example format="typescript" language="typescript" path="what-is-angular/src/app/hello-world-di/hello-world-di.component.ts"></code-example>
 
-For more information about dependency injection and Angular, see the [Dependency injection in Angular](guide/dependency-injection) section.
+如需進一步了解依賴注入與 Angular，請參閱[Angular 中的依賴注入](guide/dependency-injection)一節。
 
 <a id="cli"></a>
 
 ## Angular CLI
 
-The Angular CLI is the fastest, straightforward, and recommended way to develop Angular applications.
-The Angular CLI makes some tasks trouble-free.
-For example:
+Angular CLI 是開發 Angular 應用程式最快速、最直接且最受推薦的方式。
+Angular CLI 讓某些任務變得輕而易舉。
+例如：
 
 <!-- vale Angular.Google_WordListSuggestions = NO -->
 
-| Command                     | Details |
+| 指令                        | 詳細說明 |
 |:---                         |:---     |
-| [ng build](cli/build)       | Compiles an Angular application into an output directory.                     |
-| [ng serve](cli/serve)       | Builds and serves your application, rebuilding on file changes.       |
-| [ng generate](cli/generate) | Generates or modifies files based on a schematic.                     |
-| [ng test](cli/test)         | Runs unit tests on a given project.                                   |
-| [ng e2e](cli/e2e)           | Builds and serves an Angular application, then runs end-to-end tests. |
+| [ng build](cli/build)       | 將 Angular 應用程式編譯到輸出目錄。                     |
+| [ng serve](cli/serve)       | 建置並提供你的應用程式，並在檔案變更時重新建置。       |
+| [ng generate](cli/generate) | 根據原理圖產生或修改檔案。                     |
+| [ng test](cli/test)         | 對指定專案執行單元測試。                                   |
+| [ng e2e](cli/e2e)           | 建置並提供 Angular 應用程式，然後執行端對端測試。 |
 
 <!-- vale Angular.Google_WordListSuggestions = YES -->
 
-The Angular CLI is a valuable tool for building out your applications.
+Angular CLI 是建置應用程式的寶貴工具。
 
-For more information about the Angular CLI, see the [Angular CLI Reference](cli) section.
+如需進一步了解 Angular CLI，請參閱 [Angular CLI 參考](cli)一節。
 
 <a id="1p-libraries"></a>
 
-## First-party libraries
+## 第一方函式庫
 
-The section, [Angular applications: the essentials](#essentials), provides a brief overview of a couple of the key architectural elements that are used when building Angular applications.
-The many benefits of Angular really become clear when your application grows and you want to add functions such as site navigation or user input.
-Use the Angular platform to incorporate one of the many first-party libraries that Angular provides.
+[Angular 應用程式：基礎要素](#essentials)一節簡要概述了建置 Angular 應用程式時使用的幾個關鍵架構元素。
+當你的應用程式成長，並且想要加入網站導覽或使用者輸入等功能時，Angular 的諸多優點才真正顯現出來。
+請使用 Angular 平台，納入 Angular 提供的眾多第一方函式庫之一。
 
-Some of the libraries available to you include:
+你可以使用的部分函式庫包括：
 
 <!-- vale Angular.Google_Acronyms = NO -->
 
-| Library                                   | Details |
+| 函式庫                                      | 詳細說明 |
 |:---                                       |:---     |
-| [Angular Router](guide/router)            | Advanced client-side navigation and routing based on Angular components. Supports lazy-loading, nested routes, custom path matching, and more. |
-| [Angular Forms](guide/forms-overview)     | Uniform system for form participation and validation.                                                                                          |
-| [Angular HttpClient](guide/understanding-communicating-with-http)          | Robust HTTP client that can power more advanced client-server communication.                                                                   |
-| [Angular Animations](guide/animations)    | Rich system for driving animations based on application state.                                                                                 |
-| [Angular PWA](guide/service-worker-intro) | Tools for building Progressive Web Applications \(PWA\) including a service worker and Web application manifest.                                      |
-| [Angular Schematics](guide/schematics)    | Automated scaffolding, refactoring, and update tools that simplify development at large scale.                                                 |
+| [Angular Router](guide/router)            | 以 Angular 元件為基礎的進階用戶端導覽與路由。支援延遲載入、巢狀路由、自訂路徑比對等功能。 |
+| [Angular Forms](guide/forms-overview)     | 用於表單參與與驗證的統一系統。                                                                                          |
+| [Angular HttpClient](guide/understanding-communicating-with-http)          | 穩健的 HTTP 用戶端，可支援更進階的用戶端與伺服器通訊。                                                                   |
+| [Angular Animations](guide/animations)    | 根據應用程式狀態驅動動畫的豐富系統。                                                                                 |
+| [Angular PWA](guide/service-worker-intro) | 用於建置漸進式 Web 應用程式 (PWA) 的工具，包括 service worker 與 Web 應用程式資訊清單。                                      |
+| [Angular Schematics](guide/schematics)    | 自動化鷹架、重構與更新工具，可簡化大規模開發。                                                 |
 
 <!-- vale Angular.Google_Acronyms = YES -->
 
-These libraries expand your application's capabilities while also letting you focus more on the features that make your application unique.
-Add these libraries knowing that they're designed to integrate flawlessly into and update simultaneously with the Angular framework.
+這些函式庫擴充了應用程式的功能，同時讓你更專注於讓應用程式獨一無二的功能。
+請放心加入這些函式庫，它們的設計可與 Angular 框架完美整合，並與框架同步更新。
 
-These libraries are only required when they can help you add features to your applications or solve a particular problem.
+只有當這些函式庫能協助你為應用程式加入功能或解決特定問題時，才需要使用它們。
 
-## Next steps
+## 後續步驟
 
-This topic gives you a brief overview of what Angular is, the advantages it provides, and what to expect as you start to build your applications.
+本主題簡要概述了 Angular 是什麼、它提供哪些優勢，以及當你開始建置應用程式時可以期待什麼。
 
-To see Angular in action, see the [Getting Started](start) tutorial.
-This tutorial uses [stackblitz.com](https://stackblitz.com), for you to explore a working example of Angular without any installation requirements.
+若要查看 Angular 的實際運作，請參閱[入門](start)教學。
+本教學使用 [stackblitz.com](https://stackblitz.com)，讓你無需安裝任何東西即可探索 Angular 的運作範例。
 
-The following sections are recommended to explore Angular's capabilities further:
+建議進一步探索下列章節，以了解 Angular 的功能：
 
-*   [Understanding Angular](guide/understanding-angular-overview)
-*   [Angular Developer Guide](guide/developer-guide-overview)
+*   [了解 Angular](guide/understanding-angular-overview)
+*   [Angular 開發人員指南](guide/developer-guide-overview)
 
 <!-- links -->
 

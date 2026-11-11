@@ -1,38 +1,37 @@
-# Understanding Angular animation
+# 了解 Angular 動畫
 
-Animation provides the illusion of motion: HTML elements change styling over time. Well-designed animations can make your application more fun and straightforward to use, but they aren't just cosmetic.
+動畫能營造出運動的幻覺：HTML 元素的樣式會隨時間改變。設計良好的動畫能讓應用程式更有趣、更直覺易用，但它不只是裝飾。
 
-## Prerequisites
+## 先備知識
 
-Before learning Angular animations, you should be familiar with building basic Angular apps:
+在學習 Angular 動畫之前，你應該先熟悉如何建置基本的 Angular 應用程式：
 
-*   [Tutorial](tutorial)
-*   [Architecture Overview](guide/architecture)
+*   [教學](tutorial)
+*   [架構總覽](guide/architecture)
 
-Animations can improve your application and user experience in many ways:
+動畫能從多方面改善你的應用程式與使用者體驗：
 
-*   Without animations, web page transitions can seem abrupt and jarring
-*   Motion greatly enhances the user experience, so animations give users a chance to detect the application's response to their actions
-*   Good animations intuitively call the user's attention to where it is needed
+*   沒有動畫時，網頁轉場容易顯得突兀生硬
+*   動態效果能大幅提升使用者體驗，讓使用者有機會察覺應用程式對其操作的回應
+*   良好的動畫能直覺地把使用者的注意力引導到需要的地方
 
-Typically, animations involve multiple style *transformations* over time.
-An HTML element can move, change color, grow, shrink, fade, or slide off the page. These changes can occur simultaneously or sequentially. You can control the timing of each transformation.
+通常，動畫涉及隨時間進行的多個樣式*轉換*。 一個 HTML 元素可以移動、改變顏色、放大或縮小、淡入淡出，或滑出頁面。 這些變化可以同時或依序發生。你可以控制每個轉換的時間。
 
-Angular's animation system is built on CSS capability, which means you can animate any property that the browser considers animatable. This includes positions, sizes, transforms, colors, borders, and more.
+Angular 的動畫系統建立在 CSS 能力之上，也就是說，你可以為瀏覽器認為可動畫化的任何屬性製作動畫。這包括位置、大小、變形、顏色、邊框等等。
 
-The W3C maintains a list of animatable properties on its [CSS Transitions](https://www.w3.org/TR/css-transitions-1) page.
+W3C 在其 [CSS Transitions](https://www.w3.org/TR/css-transitions-1) 頁面中維護了一份可動畫化屬性的清單。
 
-## Animation transition states
+## 動畫轉場狀態
 
-Animation transition states represent a style at certain points in your animations that you can animate to and from. For example, you can animate a state as the starting point to a different state and the end of an animation.
+動畫轉場狀態代表動畫中特定時間點的樣式，你可以從某個狀態動畫化到另一個狀態，也可以從某個狀態動畫化而來。例如，你可以把某個狀態當作起點，動畫化到不同的狀態，作為動畫的終點。
 
-Animate a transition that changes a single HTML element from one state to another. For example, you can specify that a button displays either **Open** or **Closed** based on the user's last action. When the button is in the `open` state, it's visible and yellow. When it's in the `closed` state, it's translucent and blue.
+讓我們為一個 HTML 元素加上動畫，使它從一種狀態轉場到另一種狀態。舉例來說，你可以指定按鈕根據使用者的上一個動作顯示 **Open** 或 **Closed**。當按鈕處於 `open` 狀態時，它是可見的黃色；當它處於 `closed` 狀態時，它是半透明的藍色。
 
-In HTML, these attributes are set using ordinary CSS styles such as color and opacity. In Angular, use the `style()` function to specify a set of CSS styles for use with animations. Collect a set of styles in an animation state, and give the state a name, such as `open` or `closed`.
+在 HTML 中，這些屬性是使用一般的 CSS 樣式來設定的，例如 color 和 opacity。在 Angular 中，請使用 `style()` 函式來指定一組供動畫使用的 CSS 樣式。把一組樣式收集在一個動畫狀態中，並為該狀態取一個名稱，例如 `open` 或 `closed`。
 
 <div class="alert is-helpful">
 
-To create a new `open-close` component to animate with simple transitions, run the following command in the command line tool to create the component:
+若要建立一個新的 `open-close` 元件，並以簡單的轉場為其製作動畫，請在命令列工具中執行下列命令來建立該元件：
 
 <code-example format="shell" language="shell">
 
@@ -40,7 +39,7 @@ ng g component open-close
 
 </code-example>
 
-This creates the component at `src/app/open-close.component.ts`.
+這會在 `src/app/open-close.component.ts` 建立該元件。
 
 </div>
 

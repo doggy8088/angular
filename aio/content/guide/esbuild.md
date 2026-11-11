@@ -1,30 +1,28 @@
-# Getting started with the CLI's esbuild-based build system
+# 開始使用 CLI 以 esbuild 為基礎的建置系統
 
 <div class="alert is-important">
 
-The esbuild-based ECMAScript module (ESM) application build system feature is available for [developer preview](/guide/releases#developer-preview).
-It's ready for you to try, but it might change before it is stable and is not yet recommended for production builds.
+以 esbuild 為基礎的 ECMAScript 模組（ESM）應用程式建置系統功能，目前以[開發人員預覽版](/guide/releases#開發者預覽)提供。你可以開始試用它，但它在穩定之前可能還會變更，目前也不建議用於正式生產建置。
 
 </div>
 
-In v16 and higher, the new build system provides a way to build Angular applications. This new build system includes:
+在 v16 及更高版本中，新的建置系統提供了一種建置 Angular 應用程式的方式。這個新的建置系統包括：
 
-- A modern output format using ESM, with dynamic import expressions to support lazy module loading.
-- Faster build-time performance for both initial builds and incremental rebuilds.
-- Newer JavaScript ecosystem tools such as [esbuild](https://esbuild.github.io/) and [Vite](https://vitejs.dev/).
+- 使用 ESM 的現代化輸出格式，並透過動態匯入運算式支援模組延遲載入。
+- 更快的建置效能，無論是初次建置還是增量重新建置。
+- 較新的 JavaScript 生態系工具，例如 [esbuild](https://esbuild.github.io/) 與 [Vite](https://vitejs.dev/)。
 
-You can opt-in to use the new builder on a per application basis with minimal configuration updates required.
+你可以按個別應用程式選擇使用新的建置器，只需做最少的組態更新。
 
-## Trying the ESM build system in an Angular CLI application
+## 在 Angular CLI 應用程式中試用 ESM 建置系統
 
-A new builder named `browser-esbuild` is available within the `@angular-devkit/build-angular` package that is present in an Angular CLI generated application. The build is a drop-in replacement for the existing `browser` builder that provides the current stable browser application build system.
-You can try out the new build system for applications that use the `browser` builder.
+在 Angular CLI 產生的應用程式中，`@angular-devkit/build-angular` 套件內提供了一個名為 `browser-esbuild` 的新版建置器。這個建置是現有 `browser` 建置器的直接替代品，而 `browser` 建置器提供目前穩定的瀏覽器應用程式建置系統。你可以為使用 `browser` 建置器的應用程式試用新的建置系統。
 
-### Updating the application configuration
+### 更新應用程式組態
 
-The new build system was implemented to minimize the amount of changes necessary to transition your applications. Currently, the new build system is provided via an alternate builder (`browser-esbuild`). You can update the `build` target for any application target to try out the new build system.
+新的建置系統在實作時，盡可能減少轉移應用程式所需的變更量。目前，新的建置系統是透過另一個建置器（`browser-esbuild`）提供。你可以更新任何應用程式目標的 `build` 目標來試用新的建置系統。
 
-The following is what you would typically find in `angular.json` for an application:
+以下通常是你會在應用程式的 `angular.json` 中看到的內容：
 
 <code-example language="json" hideCopy="true">
 ...
@@ -34,7 +32,7 @@ The following is what you would typically find in `angular.json` for an applicat
 ...
 </code-example>
 
-Changing the `builder` field is the only change you will need to make.
+你唯一需要做的變更，就是更改 `builder` 欄位。
 
 <code-example language="json" hideCopy="true">
 ...
@@ -44,9 +42,8 @@ Changing the `builder` field is the only change you will need to make.
 ...
 </code-example>
 
-### Executing a build
-
-Once you have updated the application configuration, builds can be performed using the `ng build` as was previously done. For the remaining options that are currently not yet implemented in the developer preview, a warning will be issued for each and the option will be ignored during the build.
+### 執行建置
+更新應用程式組態後，你可以像以前一樣使用 `ng build` 執行建置。對於開發人員預覽版中目前尚未實作的其餘選項，每個選項都會發出警告，並在建置期間被忽略。
 
 <code-example language="shell">
 
@@ -54,9 +51,8 @@ ng build
 
 </code-example>
 
-### Starting the development server
-
-The development server now has the ability to automatically detect the new build system and use it to build the application. To start the development server no changes are necessary to the `dev-server` builder configuration or command line.
+### 啟動開發伺服器
+開發伺服器現在能夠自動偵測新的建置系統，並用它來建置應用程式。要啟動開發伺服器，不需要對 `dev-server` 建置器組態或命令列做任何變更。
 
 <code-example language="shell">
 
@@ -64,30 +60,28 @@ ng serve
 
 </code-example>
 
-You can continue to use the [command line options](/cli/serve) you have used in the past with the development server.
+你可以繼續使用過去在開發伺服器上使用過的[命令列選項](/cli/serve)。
 
 <div class="alert is-important">
 
-The developer preview currently does not provide HMR support and the HMR related options will be ignored if used. Angular focused HMR capabilities are currently planned and will be introduced in a future version.
+開發人員預覽版目前不提供 HMR 支援，若使用與 HMR 相關的選項，這些選項會被忽略。目前已規劃以 Angular 為主的 HMR 功能，將在未來的版本中推出。
 
 </div>
 
-### Unimplemented options and behavior
+### 未實作的選項與行為
+有幾個建置選項尚未實作，但隨著建置系統邁向穩定狀態，未來會陸續加入。如果你的應用程式使用這些選項，你仍然可以試用建置系統，不必移除它們。任何未實作的選項都會發出警告，但除此之外會被忽略。然而，如果你的應用程式依賴這些選項中的任何一個才能運作，你可能會想先等一等再試用。
 
-Several build options are not yet implemented but will be added in the future as the build system moves towards a stable status. If your application uses these options, you can still try out the build system without removing them. Warnings will be issued for any unimplemented options but they will otherwise be ignored. However, if your application relies on any of these options to function, you may want to wait to try.
+- [套件預算](https://github.com/angular/angular-cli/issues/25100)（`budgets`）
+- [在地化](https://github.com/angular/angular-cli/issues/25099)（`localize`/`i18nDuplicateTranslation`/`i18nMissingTranslation`）
+- [Web Worker](https://github.com/angular/angular-cli/issues/25101)（`webWorkerTsConfig`）
+- [WASM 匯入](https://github.com/angular/angular-cli/issues/25102)——WASM 仍可透過[標準 Web API](https://developer.mozilla.org/en-US/docs/WebAssembly/Loading_and_running)手動載入。
 
-- [Bundle budgets](https://github.com/angular/angular-cli/issues/25100) (`budgets`)
-- [Localization](https://github.com/angular/angular-cli/issues/25099) (`localize`/`i18nDuplicateTranslation`/`i18nMissingTranslation`)
-- [Web workers](https://github.com/angular/angular-cli/issues/25101) (`webWorkerTsConfig`)
-- [WASM imports](https://github.com/angular/angular-cli/issues/25102) -- WASM can still be loaded manually via [standard web APIs](https://developer.mozilla.org/en-US/docs/WebAssembly/Loading_and_running).
+目前也還無法透過 `ng-packagr` 以新的建置系統建置程式庫，但程式庫建置支援將在未來的版本中提供。
 
-Building libraries with the new build system via `ng-packagr` is also not yet possible but library build support will be available in a future release.
+### ESM 預設匯入 vs. 命名空間匯入
+TypeScript 依預設允許將預設匯出以命名空間匯入的方式匯入，然後用在呼叫運算式中。不幸的是，這與 ECMAScript 規格有所出入。新版建置系統底層的綑綁工具（`esbuild`）預期 ESM 程式碼符合規格。若你的應用程式對套件使用了不正確的匯入類型，建置系統現在會產生警告。然而，若要讓 TypeScript 接受正確的用法，必須在應用程式的 `tsconfig` 檔案中啟用一個 TypeScript 選項。啟用後，[`esModuleInterop`](https://www.typescriptlang.org/tsconfig#esModuleInterop) 選項能與 ECMAScript 規格有更好的對齊，這也是 TypeScript 團隊所建議的。啟用之後，你就可以在適用的地方將套件匯入更新為符合 ECMAScript 的形式。
 
-### ESM default imports vs. namespace imports
-
-TypeScript by default allows default exports to be imported as namespace imports and then used in call expressions. This is unfortunately a divergence from the ECMAScript specification. The underlying bundler (`esbuild`) within the new build system expects ESM code that conforms to the specification. The build system will now generate a warning if your application uses an incorrect type of import of a package. However, to allow TypeScript to accept the correct usage, a TypeScript option must be enabled within the application's `tsconfig` file. When enabled, the [`esModuleInterop`](https://www.typescriptlang.org/tsconfig#esModuleInterop) option provides better alignment with the ECMAScript specification and is also recommended by the TypeScript team. Once enabled, you can update package imports where applicable to an ECMAScript conformant form.
-
-Using the [`moment`](https://npmjs.com/package/moment) package as an example, the following application code will cause runtime errors:
+以 [`moment`](https://npmjs.com/package/moment) 套件為例，以下應用程式程式碼會造成執行階段錯誤：
 
 ```ts
 import * as moment from 'moment';
@@ -95,7 +89,7 @@ import * as moment from 'moment';
 console.log(moment().format());
 ```
 
-The build will generate a warning to notify you that there is a potential problem. The warning will be similar to:
+建置會產生警告，通知你有潛在的問題。警告會類似以下內容：
 
 <code-example format="shell" language="shell" hideCopy="true">
 ▲ [WARNING] Calling "moment" will crash at run-time because it's an import namespace object, not a function [call-import-namespace]
@@ -113,7 +107,7 @@ Consider changing "moment" to a default import instead:
 
 </code-example>
 
-However, you can avoid the runtime errors and the warning by enabling the `esModuleInterop` TypeScript option for the application and changing the import to the following:
+然而，你可以透過為應用程式啟用 `esModuleInterop` TypeScript 選項，並將匯入改為以下形式，來避免執行階段錯誤與警告：
 
 ```ts
 import moment from 'moment';
@@ -121,25 +115,25 @@ import moment from 'moment';
 console.log(moment().format());
 ```
 
-## Vite as a development server
+## 以 Vite 作為開發伺服器
 
-The usage of Vite in the Angular CLI is currently only within a _development server capacity only_. Even without using the underlying Vite build system, Vite provides a full-featured development server with client side support that has been bundled into a low dependency npm package. This makes it an ideal candidate to provide comprehensive development server functionality. The current development server process uses the new build system to generate a development build of the application in memory and passes the results to Vite to serve the application. The usage of Vite, much like the Webpack-based development server, is encapsulated within the Angular CLI `dev-server` builder and currently cannot be directly configured.
+Vite 在 Angular CLI 中的使用，目前_僅限於開發伺服器用途_。即使不使用底層的 Vite 建置系統，Vite 也提供了功能完整的開發伺服器與用戶端支援，並已綑綁為一個低依賴的 npm 套件。這使它成為提供完整開發伺服器功能的理想選擇。目前的開發伺服器程序會使用新的建置系統，在記憶體中產生應用程式的開發建置，並將結果傳給 Vite 來提供應用程式。Vite 的使用方式，就像以 Webpack 為基礎的開發伺服器一樣，被封裝在 Angular CLI 的 `dev-server` 建置器中，目前無法直接設定。
 
-## Known Issues
+## 已知問題
 
-There are currently several known issues that you may encounter when trying the new build system. This list will be updated to stay current. If any of these issues are currently blocking you from trying out the new build system, please check back in the future as it may have been solved.
+目前有幾個你可能會遇到的已知問題。這個清單會持續更新以保持最新。若這些問題中有任何一個目前正阻礙你試用新的建置系統，請日後再回來查看，因為它可能已經被解決。
 
-### Runtime-evaluated dynamic import expressions
+### 執行階段求值的動態匯入運算式
 
-Dynamic import expressions that do not contain static values will be kept in their original form and not processed at build time. This is a limitation of the underlying bundler but is [planned](https://github.com/evanw/esbuild/pull/2508) to be implemented in the future. In many cases, application code can be made to work by changing the import expressions into static strings with some form of conditional statement such as an `if` or `switch` for the known potential files.
+不含靜態值的動態匯入運算式會保持原樣，不會在建置時處理。這是底層綑綁工具的限制，但未來[計畫](https://github.com/evanw/esbuild/pull/2508)實作。在許多情況下，只要把匯入運算式改成靜態字串，並搭配某種條件陳述式（例如針對已知可能檔案的 `if` 或 `switch`），就能讓應用程式程式碼正常運作。
 
-Unsupported:
+不支援：
 
 ```ts
 return await import(`/abc/${name}.json`);
 ```
 
-Supported:
+支援：
 
 ```ts
 switch (name) {
@@ -152,28 +146,24 @@ switch (name) {
 }
 ```
 
-### Order-dependent side-effectful imports in lazy modules
+### 延遲模組中與順序相關的副作用匯入
 
-Import statements that are dependent on a specific ordering and are also used in multiple lazy modules can cause top-level statements to be executed out of order.
-This is not common as it depends on the usage of side-effectful modules and does not apply to the `polyfills` option.
-This is caused by a [defect](https://github.com/evanw/esbuild/issues/399) in the underlying bundler but will be addressed in a future update.
+若匯入陳述式依賴特定順序，且同時用在多個延遲模組中，可能會造成頂層陳述式以錯誤的順序執行。這並不常見，因為它取決於副作用模組的使用方式，且不適用於 `polyfills` 選項。這是由底層綑綁工具的一個[缺陷](https://github.com/evanw/esbuild/issues/399)造成的，但會在未來的更新中處理。
 
 <div class="alert is-important">
 
-Avoiding the use of modules with non-local side effects (outside of polyfills) is recommended whenever possible regardless of the build system being used and avoids this particular issue. Modules with non-local side effects can have a negative effect on both application size and runtime performance as well.
+無論使用哪種建置系統，都建議盡可能避免使用帶有非局部副作用（polyfill 之外）的模組，這樣也能避免這個特定的問題。帶有非局部副作用的模組，對應用程式大小與執行階段效能都可能有負面影響。
 
 </div>
 
-### Long build times when using Sass combined with pnpm or yarn PnP
+### 搭配 pnpm 或 yarn PnP 使用 Sass 時建置時間變長
 
-Applications may have increased build times due to the need to workaround Sass resolution incompatibilities when using either the pnpm or Yarn PnP package managers.
-Sass files with `@import` or `@use` directives referencing a package when using either of these package managers can trigger the performance problem.
+使用 pnpm 或 Yarn PnP 套件管理器時，由於需要迴避 Sass 解析不相容的問題，應用程式的建置時間可能會變長。使用這兩種套件管理器時，帶有參照套件的 `@import` 或 `@use` 指令的 Sass 檔案可能會觸發這個效能問題。
 
-An alternative workaround that alleviates the build time increases is in development and will be available before the build system moves to stable status.
-Both the Yarn package manager in node modules mode and the `npm` package manager are not affected by this problem.
+另一種能緩解建置時間增加的迴避方法正在開發中，將在建置系統進入穩定狀態前提供。以 node modules 模式運作的 Yarn 套件管理器與 `npm` 套件管理器都不受這個問題影響。
 
-## Bug reports
+## 問題回報
 
-Report issues and feature requests on [GitHub](https://github.com/angular/angular-cli/issues).
+在 [GitHub](https://github.com/angular/angular-cli/issues) 上回報問題與功能請求。
 
-Please provide a minimal reproduction where possible to aid the team in addressing issues.
+請儘可能提供最小重現範例，以協助團隊處理問題。

@@ -2,7 +2,7 @@
 
 <aio-cookies-popup></aio-cookies-popup>
 
-<a class="skip-to-content-link" href="#main-content">Skip to main content</a>
+<a class="skip-to-content-link" href="#main-content">跳至主要內容</a>
 
 <div *ngIf="isFetching" class="progress-bar-container">
   <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
@@ -12,32 +12,32 @@
   <mat-toolbar #appToolbar color="primary" class="app-toolbar no-print" [class.transitioning]="isTransitioning">
     <mat-toolbar-row class="notification-container">
       <aio-notification notificationId="angular-dot-dev" expirationDate="2040-01-01" [dismissOnContentClick]="false" (dismissed)="notificationDismissed()">
-        <a href="https://angular.dev">
-          <mat-icon class="icon" svgIcon="insert_comment" aria-label="Announcement"></mat-icon>
-          <span class="message">Say hello to Angular's future home!</span>
-          <span class="action-button">Check out Angular.dev</span>
+        <a href="https://dev.angular.tw/">
+          <mat-icon class="icon" svgIcon="insert_comment" aria-label="公告"></mat-icon>
+          <span class="message">來看看 Angular 的未來新家！</span>
+          <span class="action-button">前往 dev.angular.tw</span>
         </a>
       </aio-notification>
     </mat-toolbar-row>
     <mat-toolbar-row>
-      <button mat-button class="hamburger" [class.no-animations]="disableAnimations" (click)="sidenav.toggle()" title="Docs menu">
+      <button mat-button class="hamburger" [class.no-animations]="disableAnimations" (click)="sidenav.toggle()" title="文件選單">
         <mat-icon svgIcon="menu"></mat-icon>
       </button>
       <a class="nav-link home" href="/" [ngSwitch]="showTopMenu">
-        <img *ngSwitchCase="true" src="assets/images/logos/angular/logo-nav@2x.png" width="150" height="40" title="Home" alt="Home">
-        <img *ngSwitchDefault src="assets/images/logos/angular/shield-large.svg" width="37" height="40" title="Home" alt="Home">
+        <img *ngSwitchCase="true" src="assets/images/logos/angular/logo-nav@2x.png" width="150" height="40" title="首頁" alt="首頁">
+        <img *ngSwitchDefault src="assets/images/logos/angular/shield-large.svg" width="37" height="40" title="首頁" alt="首頁">
       </a>
       <aio-top-menu *ngIf="showTopMenu" [nodes]="topMenuNodes" [currentNode]="currentNodes.TopBar"></aio-top-menu>
       <aio-search-box class="search-container" #searchBox (onSearch)="doSearch($event)" (onFocus)="doSearch($event, true)"></aio-search-box>
       <aio-theme-toggle #themeToggle></aio-theme-toggle>
       <div #externalIcons class="toolbar-external-icons-container">
-        <a mat-icon-button href="https://twitter.com/angular" title="Twitter" aria-label="Angular on Twitter">
+        <a mat-icon-button href="https://twitter.com/angular" title="Twitter" aria-label="Twitter 上的 Angular">
           <mat-icon svgIcon="logos:twitter"></mat-icon>
         </a>
-        <a mat-icon-button href="https://github.com/angular/angular" title="GitHub" aria-label="Angular on GitHub">
+        <a mat-icon-button href="https://github.com/angular/angular" title="GitHub" aria-label="GitHub 上的 Angular">
           <mat-icon svgIcon="logos:github"></mat-icon>
         </a>
-        <a mat-icon-button href="https://youtube.com/angular" title="YouTube" aria-label="Angular on YouTube">
+        <a mat-icon-button href="https://youtube.com/angular" title="YouTube" aria-label="YouTube 上的 Angular">
           <mat-icon svgIcon="logos:youtube"></mat-icon>
         </a>
       </div>

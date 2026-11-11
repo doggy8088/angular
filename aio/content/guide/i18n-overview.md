@@ -1,22 +1,22 @@
-# Angular Internationalization
+# Angular 國際化 (i18n)
 
 {@searchKeywords i18n}
 
-*Internationalization*, sometimes referenced as i18n, is the process of designing and preparing your project for use in different locales around the world.
-*Localization* is the process of building versions of your project for different locales.
-The localization process includes the following actions.
+*國際化*（有時簡稱為 i18n）是設計並準備你的專案，讓它能在世界各地的不同地區設定中使用的程序。
+*在地化*是為不同地區設定建立專案版本的程序。
+在地化程序包括下列動作。
 
-*   Extract text for translation into different languages
-*   Format data for a specific locale
+*   將文字抽取出來，翻譯成不同語言
+*   依據特定地區設定格式化資料
 
-A *locale* identifies a region in which people speak a particular language or language variant.
-Possible regions includes countries and geographical regions.
-A locale determines the formatting and parsing of the following details.
+*地區設定*識別人們使用某種語言或其變體所在的區域。
+可能的區域包括國家與地理區域。
+地區設定決定了下列細節的格式化與解析方式。
 
-*   Measurement units including date and time, numbers, and currencies
-*   Translated names including time zones, languages, and countries
+*   度量單位，包括日期與時間、數字與貨幣
+*   翻譯後的名稱，包括時區、語言與國家
 
-For a quick introduction to localization and internationalization watch this video:
+想快速了解在地化與國際化，請觀看這支影片：
 
 <div class="video-container">
 
@@ -24,23 +24,23 @@ For a quick introduction to localization and internationalization watch this vid
 
 </div>
 
-## Learn about Angular internationalization
+## 了解 Angular 國際化
 
 <div class="card-container">
-    <a href="guide/i18n-common-overview" class="docs-card" title="Common internationalization tasks">
-        <section>Common tasks</section>
-        <p>Learn how to implement many of the common tasks associated with Angular internationalization.</p>
-        <p class="card-footer">Common internationalization tasks</p>
+    <a href="guide/i18n-common-overview" class="docs-card" title="常見的國際化任務">
+        <section>常見任務</section>
+        <p>了解如何實作與 Angular 國際化相關的許多常見任務。</p>
+        <p class="card-footer">常見的國際化任務</p>
     </a>
-    <a href="guide/i18n-optional-overview" class="docs-card" title="Optional internationalization tasks">
-        <section>Optional practices</section>
-        <p>Learn how to implement optional practices associated with Angular internationalization.</p>
-        <p class="card-footer">Optional internationalization practices</p>
+    <a href="guide/i18n-optional-overview" class="docs-card" title="選用的國際化任務">
+        <section>選用實務</section>
+        <p>了解如何實作與 Angular 國際化相關的選用實務。</p>
+        <p class="card-footer">選用的國際化實務</p>
     </a>
-    <a href="guide/i18n-example" class="docs-card" title="Internationalization example">
-        <section>Internationalization example</section>
-        <p>Review an example of Angular internationalization.</p>
-        <p class="card-footer">Example Angular Internationalization application</p>
+    <a href="guide/i18n-example" class="docs-card" title="國際化範例">
+        <section>國際化範例</section>
+        <p>查看一個 Angular 國際化的範例。</p>
+        <p class="card-footer">Angular 國際化範例應用程式</p>
     </a>
 </div>
 

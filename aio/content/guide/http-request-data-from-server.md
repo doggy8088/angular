@@ -1,10 +1,10 @@
-# HTTP: Request data from a server
+# HTTP：從伺服器請求資料
 
-Use the [`HttpClient.get()`](api/common/http/HttpClient#get) method to fetch data from a server.
-The asynchronous method sends an HTTP request, and returns an Observable that emits the requested data when the response is received.
-The return type varies based on the `observe` and `responseType` values that you pass to the call.
+使用 [`HttpClient.get()`](api/common/http/HttpClient#get) 方法從伺服器擷取資料。
+這個非同步方法會傳送 HTTP 請求，並回傳一個 Observable，在收到回應時發出所請求的資料。
+回傳型別會依據你傳給呼叫的 `observe` 與 `responseType` 值而有所不同。
 
-The `get()` method takes two arguments; the endpoint URL from which to fetch, and an *options* object that is used to configure the request.
+`get()` 方法接受兩個引數：要擷取資料的端點 URL，以及用來設定請求的 *options* 物件。
 
 <code-example format="typescript" language="typescript">
 
@@ -19,71 +19,71 @@ options: {
 
 </code-example>
 
-Important options include the *observe* and *responseType* properties.
+重要的選項包括 *observe* 與 *responseType* 屬性。
 
-*   The *observe* option specifies how much of the response to return
-*   The *responseType* option specifies the format in which to return data
+*   *observe* 選項指定要回傳多少回應內容
+*   *responseType* 選項指定回傳資料的格式
 
 <div class="alert is-helpful">
 
-Use the `options` object to configure various other aspects of an outgoing request.
-In adding headers, for example, the service set the default headers using the `headers` option property.
+使用 `options` 物件設定發出請求的其他各個面向。
+例如，在加入標頭時，服務會使用 `headers` 選項屬性設定預設標頭。
 
-Use the `params` property to configure a request with HTTP URL parameters, and the `reportProgress` option to listen for progress events when transferring large amounts of data.
+使用 `params` 屬性以 HTTP URL 參數設定請求，並使用 `reportProgress` 選項，在傳輸大量資料時監聽進度事件。
 
 </div>
 
-Applications often request JSON data from a server.
-In the `ConfigService` example, the app needs a configuration file on the server, `config.json`, that specifies resource URLs.
+應用程式經常向伺服器請求 JSON 資料。
+在 `ConfigService` 範例中，應用程式需要在伺服器上有一個設定檔 `config.json`，其中指定了資源 URL。
 
 <code-example header="assets/config.json" path="http/src/assets/config.json"></code-example>
 
-To fetch this kind of data, the `get()` call needs the following options: `{observe: 'body', responseType: 'json'}`.
-These are the default values for those options, so the following examples do not pass the options object.
-Later sections show some of the additional option possibilities.
+若要擷取這類資料，`get()` 呼叫需要下列選項：`{observe: 'body', responseType: 'json'}`。
+這些是這些選項的預設值，因此下列範例不會傳入選項物件。
+後面的章節會介紹其他一些選項的可能性。
 
 <a id="config-service"></a>
 
-The example conforms to the best practices for creating scalable solutions by defining a re-usable [injectable service](guide/glossary#service "service definition") to perform the data-handling functionality.
-In addition to fetching data, the service can post-process the data, add error handling, and add retry logic.
+這個範例遵循建立可擴充解決方案的最佳實務：定義一個可重複使用的[可注入服務](guide/glossary#服務（service） "service definition")來執行資料處理功能。
+除了擷取資料之外，這個服務還可以對資料進行後處理、加入錯誤處理與重試邏輯。
 
-The `ConfigService` fetches this file using the `HttpClient.get()` method.
+`ConfigService` 使用 `HttpClient.get()` 方法擷取這個檔案。
 
 <code-example header="app/config/config.service.ts (getConfig v.1)" path="http/src/app/config/config.service.ts" region="getConfig_1"></code-example>
 
-The `ConfigComponent` injects the `ConfigService` and calls the `getConfig` service method.
+`ConfigComponent` 會注入 `ConfigService` 並呼叫 `getConfig` 服務方法。
 
-Because the service method returns an `Observable` of configuration data, the component *subscribes* to the method's return value.
-The subscription callback performs minimal post-processing.
-It copies the data fields into the component's `config` object, which is data-bound in the component template for display.
+因為服務方法會回傳設定資料的 `Observable`，元件會 *訂閱* 該方法的回傳值。
+訂閱回呼函式會執行最少的後處理。
+它會將資料欄位複製到元件的 `config` 物件中，該物件會在元件範本中進行資料繫結以顯示。
 
 <code-example header="app/config/config.component.ts (showConfig v.1)" path="http/src/app/config/config.component.ts" region="v1"></code-example>
 
 <a id="always-subscribe"></a>
 
-## Starting the request
+## 開始請求
 
-For all `HttpClient` methods, the method doesn't begin its HTTP request until you call `subscribe()` on the observable the method returns.
+對於所有 `HttpClient` 方法，在你對方法回傳的 observable 呼叫 `subscribe()` 之前，方法不會開始其 HTTP 請求。
 
-This is true for *all* `HttpClient` *methods*.
+這對 *所有* `HttpClient` *方法* 都成立。
 
 <div class="alert is-helpful">
 
-You should always unsubscribe from an observable when a component is destroyed.
+當元件被銷毀時，你應該一律取消訂閱 observable。
 
 </div>
 
-All observables returned from `HttpClient` methods are *cold* by design.
-Execution of the HTTP request is *deferred*, letting you extend the observable with additional operations such as  `tap` and `catchError` before anything actually happens.
+`HttpClient` 方法回傳的所有 observable 在設計上都是 *cold*。
+HTTP 請求的執行是 *延遲* 的，讓你可以在實際發生任何事之前，使用 `tap` 與 `catchError` 等額外操作擴充 observable。
 
-Calling `subscribe()` triggers execution of the observable and causes `HttpClient` to compose and send the HTTP request to the server.
+呼叫 `subscribe()` 會觸發 observable 的執行，並使 `HttpClient` 組成 HTTP 請求並傳送到伺服器。
 
-Think of these observables as *blueprints* for actual HTTP requests.
+請將這些 observable 視為實際 HTTP 請求的 *藍圖*。
 
 <div class="alert is-helpful">
 
-In fact, each `subscribe()` initiates a separate, independent execution of the observable.
-Subscribing twice results in two HTTP requests.
+事實上，每次 `subscribe()` 都會啟動 observable 一次獨立的執行。
+訂閱兩次會產生兩個 HTTP 請求。
 
 <code-example format="javascript" language="javascript">
 
@@ -100,41 +100,41 @@ req.subscribe();
 
 <a id="typed-response"></a>
 
-## Requesting a typed response
+## 請求具型別的回應
 
-Structure your `HttpClient` request to declare the type of the response object, to make consuming the output easier and more obvious.
-Specifying the response type acts as a type assertion at compile time.
+請為 `HttpClient` 請求的結構宣告回應物件的型別，讓輸出更容易、更明確地被使用。
+指定回應型別在編譯期可作為型別斷言。
 
 <div class="alert is-important">
 
-Specifying the response type is a declaration to TypeScript that it should treat your response as being of the given type.
-This is a build-time check and doesn't guarantee that the server actually responds with an object of this type.
-It is up to the server to ensure that the type specified by the server API is returned.
+指定回應型別是向 TypeScript 宣告，它應該將你的回應視為給定的型別。
+這是建置期檢查，並不保證伺服器實際上會回應這種型別的物件。
+伺服器有責任確保回傳伺服器 API 指定的型別。
 
 </div>
 
-To specify the response object type, first define an interface with the required properties.
-Use an interface rather than a class, because the response is a plain object that cannot be automatically converted to an instance of a class.
+若要指定回應物件的型別，請先定義一個具備必要屬性的介面。
+請使用介面而非類別，因為回應是一個純物件，無法自動轉換為類別的實例。
 
 <code-example path="http/src/app/config/config.service.ts" region="config-interface"></code-example>
 
-Next, specify that interface as the `HttpClient.get()` call's type parameter in the service.
+接著，在服務中將該介面指定為 `HttpClient.get()` 呼叫的型別參數。
 
 <code-example header="app/config/config.service.ts (getConfig v.2)" path="http/src/app/config/config.service.ts" region="getConfig_2"></code-example>
 
 <div class="alert is-helpful">
 
-When you pass an interface as a type parameter to the `HttpClient.get()` method, use the [RxJS `map` operator](guide/rx-library#operators) to transform the response data as needed by the UI.
-You can then pass the transformed data to the [async pipe](api/common/AsyncPipe).
+當你將介面作為型別參數傳給 `HttpClient.get()` 方法時，請使用 [RxJS `map` 運算子](guide/rx-library#運算子)視 UI 需要轉換回應資料。
+接著你可以將轉換後的資料傳給 [async 管道](api/common/AsyncPipe)。
 
 </div>
 
-The callback in the updated component method receives a typed data object, which is easier and safer to consume:
+更新後元件方法中的回呼函式會收到一個具型別的資料物件，使用起來更容易、更安全：
 
 <code-example header="app/config/config.component.ts (showConfig v.2)" path="http/src/app/config/config.component.ts" region="v2"></code-example>
 
-To access properties that are defined in an interface, you must explicitly convert the plain object you get from the JSON to the required response type.
-For example, the following `subscribe` callback receives `data` as an Object, and then type-casts it in order to access the properties.
+若要存取介面中定義的屬性，你必須明確地將從 JSON 取得的純物件轉換為所需的回應型別。
+例如，下列 `subscribe` 回呼函式會收到 `data` 作為 Object，再進行型別轉換以存取屬性。
 
 <code-example format="typescript" language="typescript">
 
@@ -149,9 +149,9 @@ For example, the following `subscribe` callback receives `data` as an Object, an
 
 <div class="callout is-important">
 
-<header><code>observe</code> and <code>response</code> types</header>
+<header><code>observe</code> 與 <code>response</code> 型別</header>
 
-The types of the `observe` and `response` options are *string unions*, rather than plain strings.
+`observe` 與 `response` 選項的型別是 *字串聯集*，而非單純的字串。
 
 <code-example format="typescript" language="typescript">
 
@@ -165,8 +165,8 @@ options: {
 
 </code-example>
 
-This can cause confusion.
-For example:
+這可能會造成混淆。
+例如：
 
 <code-example format="typescript" language="typescript">
 
@@ -181,11 +181,11 @@ client.get('/foo', options)
 
 </code-example>
 
-In the second case, TypeScript infers the type of `options` to be `{responseType: string}`.
-The type is too wide to pass to `HttpClient.get` which is expecting the type of `responseType` to be one of the *specific* strings.
-`HttpClient` is typed explicitly this way so that the compiler can report the correct return type based on the options you provided.
+在第二種情況下，TypeScript 會推斷 `options` 的型別為 `{responseType: string}`。
+這個型別太寬，無法傳給 `HttpClient.get`，因為它預期 `responseType` 的型別是其中一個 *特定* 字串。
+`HttpClient` 刻意以這種方式明確定義型別，讓編譯器可以根據你提供的選項回報正確的回傳型別。
 
-Use `as const` to let TypeScript know that you really do mean to use a constant string type:
+請使用 `as const` 讓 TypeScript 知道你確實是要使用常數字串型別：
 
 <code-example format="typescript" language="typescript">
 
@@ -198,24 +198,24 @@ client.get('/foo', options);
 
 </div>
 
-## Reading the full response
+## 讀取完整回應
 
-In the previous example, the call to `HttpClient.get()` did not specify any options.
-By default, it returned the JSON data contained in the response body.
+在前一個範例中，`HttpClient.get()` 的呼叫沒有指定任何選項。
+依預設，它回傳了回應主體中包含的 JSON 資料。
 
-You might need more information about the transaction than is contained in the response body.
-Sometimes servers return special headers or status codes to indicate certain conditions that are important to the application workflow.
+你可能需要比回應主體包含的資訊更多的交易資訊。
+有時候伺服器會回傳特殊的標頭或狀態碼，以表示對應用程式工作流程很重要的特定狀況。
 
-Tell `HttpClient` that you want the full response with the `observe` option of the `get()` method:
+請使用 `get()` 方法的 `observe` 選項，告訴 `HttpClient` 你想要完整的回應：
 
 <code-example path="http/src/app/config/config.service.ts" region="getConfigResponse"></code-example>
 
-Now `HttpClient.get()` returns an `Observable` of type `HttpResponse` rather than just the JSON data contained in the body.
+現在 `HttpClient.get()` 回傳的是 `HttpResponse` 型別的 `Observable`，而不只是主體中包含的 JSON 資料。
 
-The component's `showConfigResponse()` method displays the response headers as well as the configuration:
+元件的 `showConfigResponse()` 方法會同時顯示回應標頭與設定：
 
 <code-example header="app/config/config.component.ts (showConfigResponse)" path="http/src/app/config/config.component.ts" region="showConfigResponse"></code-example>
 
-As you can see, the response object has a `body` property of the correct type.
+如你所見，回應物件有一個正確型別的 `body` 屬性。
 
 @reviewed 2023-02-27

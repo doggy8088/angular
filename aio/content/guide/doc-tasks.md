@@ -1,35 +1,32 @@
-# Overview of documentation maintenance tasks
+# 文件維護工作概覽
 
-The Angular documentation needs routine maintenance to keep it up-to-date.
-The topics in this section describe routine maintenance tasks that you can perform to help keep the Angular documentation in good condition.
+Angular 文件需要例行維護才能保持最新狀態。本節中的主題說明你可以執行以協助讓 Angular 文件保持良好狀態的例行維護工作。
 
-Documentation maintenance tasks fall into these two categories:
+文件維護工作分為以下兩個類別：
 
-*   Minor changes
-*   Major changes
+*   小幅變更
+*   大幅變更
 
-Minor changes can be made in the GitHub site without the need to load any software or tools on your system.
-For information about making a minor change to the documentation, see [Make a minor change](guide/contributors-guide-overview#make-a-minor-change).
+小幅變更可以在 GitHub 網站上進行，不需要在你的系統上載入任何軟體或工具。有關對文件進行小幅變更的資訊，請參閱[進行小幅變更](guide/contributors-guide-overview#進行小幅變更)。
 
-Major changes require that you build and test your changes to the documentation on your local computer before you send them to the Angular documentation.
-For information about preparing your system to make major changes to the documentation, see [Make a major change](guide/contributors-guide-overview#make-a-major-change).
+大幅變更要求你在將變更傳送給 Angular 文件之前，先在本地電腦上建置並測試對文件的變更。有關準備系統以對文件進行大幅變更的資訊，請參閱[進行大幅變更](guide/contributors-guide-overview#進行大幅變更)。
 
-## Routine documentation maintenance tasks
+## 例行文件維護工作
 
-| Task                                                     | Scope |
+| 工作 | 範圍 |
 |:---                                                      |:---   |
-| [Review current documentation](guide/reviewing-content)  | Minor \(See note\) |
-| [Update search keywords](guide/updating-search-keywords) | Minor       |
-| [Resolve linter errors](guide/docs-lint-errors)          | Major       |
-| [Resolve documentation issues](guide/doc-select-issue)   | Major       |
+| [檢閱目前的文件](guide/reviewing-content) | 小幅（請參閱附註） |
+| [更新搜尋關鍵字](guide/updating-search-keywords) | 小幅 |
+| [解決程式碼檢查工具錯誤](guide/docs-lint-errors) | 大幅 |
+| [解決文件議題](guide/doc-select-issue) | 大幅 |
 
 <div class="alert is-helpful">
 
-**NOTE**: <br />
-Reviewing current documentation requires a minor change if all you need to do is update the `@reviewed`   date.
-If you find a minor problem with a documentation topic, such as a typo, fixing it during your review is also a minor change.
+**注意**：<br />
+檢閱目前的文件只需要小幅變更，前提是你只需要更新 `@reviewed` 日期。
+如果你在文件主題中發現小問題，例如錯字，在檢閱期間修正它也是小幅變更。
 
-If you find an issue that you don't feel comfortable fixing, [open a docs issue](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml) in GitHub so someone else can fix it.
+如果你發現自己不放心修正的議題，請在 GitHub 上[開啟文件議題](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml)，讓其他人修正它。
 
 </div>
 

@@ -1,27 +1,27 @@
-# Lesson 10: Add routes to the application
-This tutorial lesson demonstrates how to add routes to your app.
+# 為應用程式加入路由
+本教學課程示範如何為你的應用程式加入路由。
 
-**Estimated time**: ~15 minutes
+**預計時間**：約 15 分鐘
 
-**Starting code:** <live-example name="first-app-lesson-09"></live-example>
+**起始程式碼：** <live-example name="first-app-lesson-09"></live-example>
 
-**Completed code:** <live-example name="first-app-lesson-10"></live-example>
+**完成程式碼：** <live-example name="first-app-lesson-10"></live-example>
 
-## What you'll learn
-At the end of this lesson your application will have support for routing.
+## 你將學到什麼
+在這一課結束時，你的應用程式將會支援路由。
 
-## Conceptual preview of routing
+## 路由概念預覽
 
 <!-- markdownLint-disable MD001 -->
-This tutorial introduces routing in Angular. Routing is the ability to navigate from one component in the application to another. In [Single Page Applications (SPA)](/guide/router-tutorial#using-angular-routes-in-a-single-page-application), only parts of the page are updated to represent the requested view for the user.
+本教學介紹 Angular 中的路由。路由是指從應用程式中的一個元件導覽到另一個元件的能力。在[單頁應用程式（SPA）](/guide/router-tutorial#在單頁應用程式中使用-angular-路由)中，頁面只有部分內容會更新，以呈現使用者請求的檢視畫面。
 
-The [Angular Router](/guide/router-tutorial) enables users to declare routes and specify which component should be displayed on the screen if that route is requested by the application.
+[Angular Router](/guide/router-tutorial)讓使用者能宣告路由，並指定當應用程式請求某條路由時，畫面上應該顯示哪個元件。
 
-In this lesson, you will enable routing in your application to navigate to the details page.
+在這一課中，你會在應用程式中啟用路由，以便導覽到詳細資訊頁面。
 
-## Step 1 - Create a default details component 
+## 步驟 1 - 建立預設的詳細資訊元件
 
-1. From the terminal, enter the following command to create the `DetailsComponent`: 
+1. 在終端機中輸入下列指令，建立 `DetailsComponent`：
 
     <code-example format="shell" language="shell">
 
@@ -29,68 +29,68 @@ In this lesson, you will enable routing in your application to navigate to the d
 
     </code-example>
 
-    This component will represent the details page that provides more information on a given housing location.
+    這個元件將代表詳細資訊頁面，提供特定房屋地點的更多資訊。
 
-## Step 2 - Add routing to the application
-1.  In the `src/app` directory, create a file called `routes.ts`. This file is where we will define the routes in the application.
+## 步驟 2 - 為應用程式加入路由
+1. 在 `src/app` 目錄中，建立一個名為 `routes.ts` 的檔案。我們會在這個檔案中定義應用程式的路由。
 
-1.  In `main.ts`, make the following updates to enable routing in the application:
-    1.  Import the routes file and the `provideRouter` function:
+1. 在 `main.ts` 中，進行下列更新，在應用程式中啟用路由：
+    1. 匯入路由檔案與 `provideRouter` 函式：
 
         <code-example header="Import routing details in src/main.ts" path="first-app-lesson-10/src/main.ts" region="add-router-imports"></code-example>
 
-    1. Update the call to `bootstrapApplication` to include the routing configuration:
+    1. 更新對 `bootstrapApplication` 的呼叫，加入路由設定：
 
         <code-example header="Add router configuration in src/main.ts" path="first-app-lesson-10/src/main.ts" region="add-router-config"></code-example>        
 
-1.  In `src/app/app.component.ts`, update the component to use routing:
-    1.  Add a file level import for `RoutingModule`:
+1. 在 `src/app/app.component.ts` 中，更新元件以使用路由：
+    1. 為 `RoutingModule` 加入檔案層級的匯入：
 
         <code-example header="Import RouterModule in src/app/app.component.ts" path="first-app-lesson-10/src/app/app.component.ts" region="import-router-module"></code-example>
     
-    1.  Add `RouterModule` to the `@Component` metadata imports
+    1. 將 `RouterModule` 加入 `@Component` 中繼資料的 imports
 
         <code-example header="Import RouterModule in src/app/app.component.ts" path="first-app-lesson-10/src/app/app.component.ts" region="import-router-module-deco"></code-example>
     
-    1. In the `template` property, replace the `<app-home></app-home>` tag with the `<router-outlet>` directive and add a link back to the home page. Your code should match this code:
+    1. 在 `template` 屬性中，用 `<router-outlet>` 指令取代 `<app-home></app-home>` 標籤，並加入一個連回首頁的連結。你的程式碼應該與這段程式碼一致：
 
         <code-example header="Add router-outlet in src/app/app.component.ts" path="first-app-lesson-10/src/app/app.component.ts" region="add-router-outlet"></code-example>
     
-## Step 3 - Add route to new component
-In the previous step you removed the reference to the `<app-home>` component in the template. In this step, you will add a new route to that component.
+## 步驟 3 - 為新元件加入路由
+在上一個步驟中，你移除了範本中對 `<app-home>` 元件的參照。在這個步驟中，你會為該元件加入一條新路由。
 
-1.  In `routes.ts`, perform the following updates to create a route.
-    1.  Add a file level imports for the `HomeComponent`, `DetailsComponent` and the `Routes` type that you'll use in the route definitions.
+1. 在 `routes.ts` 中，進行下列更新，建立一條路由。
+    1. 為 `HomeComponent`、`DetailsComponent` 與路由定義中會用到的 `Routes` 型別加入檔案層級的匯入。
 
         <code-example header="Import components and Routes" path="first-app-lesson-10/src/app/routes.ts" region="import-routes-components"></code-example>
 
-    1.  Define a variable called `routeConfig` of type `Routes` and define two  routes for the app:
+    1. 定義一個型別為 `Routes`、名為 `routeConfig` 的變數，並為應用程式定義兩條路由：
     
         <code-example header="Add routes to the app" path="first-app-lesson-10/src/app/routes.ts" region="define-app-routes"></code-example>
 
-        The entries in the `routeConfig` array represent the routes in the application. The first entry navigates to the `HomeComponent` whenever the url matches `''`. The second entry uses some special formatting that will be revisited in a future lesson.
+        `routeConfig` 陣列中的項目代表應用程式中的路由。第一個項目會在 url 符合 `''` 時導覽到 `HomeComponent`。第二個項目使用了一些特殊格式，之後的課程會再回頭說明。
 
-1.  Save all changes and confirm that the application works in the browser. The application should still display the list of housing locations.
+1. 儲存所有變更，確認應用程式在瀏覽器中可以運作。應用程式應該仍然會顯示房屋地點清單。
 
-## Lesson review
+## 課程回顧
 
-In this lesson, you enabled routing in your app as well as defined new routes. Now your app can support navigation between views. In the next lesson, you will learn to navigate to the "details" page for a given housing location.
+在這一課中，你在應用程式中啟用了路由，也定義了新路由。現在你的應用程式可以支援在不同檢視畫面之間導覽。在下一課中，你將學會如何導覽到特定房屋地點的「詳細資訊」頁面。
 
-You are making great progress with your app, well done.
+你的應用程式有很大的進展，做得很好。
 
-If you are having any trouble with this lesson, you can review the completed code for it in the <live-example></live-example>.
+如果你在這一課遇到任何困難，可以在 <live-example></live-example> 中查看它的完成程式碼。
 
-## Next steps
+## 後續步驟
 
-*  [Lesson 11 - Integrate details page into application](tutorial/first-app/first-app-lesson-11)
+*  [第 11 課 - 將詳細資訊頁面整合到應用程式中](tutorial/first-app/first-app-lesson-11)
 
-## More information
+## 更多資訊
 
-For more information about the topics covered in this lesson, visit:
+如需本課所涵蓋主題的更多資訊，請造訪：
 
 <!-- vale Angular.Google_WordListSuggestions = NO -->
 
-*  [Routing in Angular Overview](guide/routing-overview)
-*  [Common Routing Tasks](guide/router)
+*  [Angular 路由總覽](guide/routing-overview)
+*  [常見路由工作](guide/router)
 
 @reviewed 2023-07-11

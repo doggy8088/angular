@@ -1,6 +1,6 @@
-# Import global variants of the locale data
+# 匯入地區設定資料的全域變體
 
-The [Angular CLI][AioCliMain] automatically includes locale data if you run the [`ng build`][AioCliBuild] command with the `--localize` option.
+若你以 `--localize` 選項執行 [`ng build`][AioCliBuild] 指令，[Angular CLI][AioCliMain] 會自動包含地區設定資料。
 
 <!--todo: replace with code-example -->
 
@@ -10,12 +10,12 @@ ng build --localize
 
 </code-example>
 
-The `@angular/common` package on npm contains the locale data files.
-Global variants of the locale data are available in [`@angular/common/locales/global`][UnpkgBrowseAngularCommonLocalesGlobal].
+npm 上的 `@angular/common` 套件包含地區設定資料檔案。
+地區設定資料的全域變體位於 [`@angular/common/locales/global`][UnpkgBrowseAngularCommonLocalesGlobal]。
 
-## `import` example for French
+## 法文的 `import` 範例
 
-The following example imports the global variants for French \(`fr`\).
+以下範例匯入法文 \(`fr`\) 的全域變體。
 
 <code-example header="src/app/app.module.ts" path="i18n/doc-files/app.module.ts" region="global-locale"></code-example>
 

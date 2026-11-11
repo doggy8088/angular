@@ -1,19 +1,18 @@
-# Building and serving Angular apps
+# 建置與提供 Angular 應用程式
 
-This page discusses build-specific configuration options for Angular projects.
+本頁討論 Angular 專案專屬的建置設定選項。
 
 <a id="app-environments"></a>
 
-## Configuring application environments
+## 設定應用程式環境
 
-You can define different named build configurations for your project, such as `development` and `staging`, with different defaults.
+你可以為專案定義不同的具名建置設定，例如 `development` 與 `staging`，各自帶有不同的預設值。
 
-Each named configuration can have defaults for any of the options that apply to the various [builder targets](guide/glossary#target), such as `build`, `serve`, and `test`.
-The [Angular CLI](cli) `build`, `serve`, and `test` commands can then replace files with appropriate versions for your intended target environment.
+每個具名設定都可以為適用於各種[建置器目標](guide/glossary#目標（target）)的任一選項提供預設值，例如 `build`、`serve` 與 `test`。 接著，[Angular CLI](cli) 的 `build`、`serve` 與 `test` 指令就能針對你預定的目標環境，將檔案換成適當的版本。
 
-### Configure environment-specific defaults
+### 設定環境專屬的預設值
 
-Using the Angular CLI, start by running the [generate environments command](cli/generate#environments-command) shown here to create the `src/environments/` directory and configure the project to use these files.
+使用 Angular CLI 時，請先執行這裡所示的[產生環境指令](cli/generate#environments-command)，建立 `src/environments/` 目錄，並設定專案使用這些檔案。
 
 <code-example format="shell" language="shell">
 
@@ -21,10 +20,9 @@ ng generate environments
 
 </code-example>
 
-The project's `src/environments/` directory contains the base configuration file, `environment.ts`, which provides configuration for `production`, the default environment.
-You can override default values for additional environments, such as `development` and `staging`, in target-specific configuration files.
+專案的 `src/environments/` 目錄包含基礎設定檔 `environment.ts`，提供預設環境 `production` 的設定。你可以在目標專屬的設定檔中，覆寫其他環境（例如 `development` 與 `staging`）的預設值。
 
-For example:
+例如：
 
 <div class="filetree">
     <div class="file">
@@ -43,8 +41,7 @@ For example:
     </div>
 </div>
 
-The base file `environment.ts`, contains the default environment settings.
-For example:
+基礎檔案 `environment.ts` 包含預設的環境設定。 例如：
 
 <code-example format="typescript" language="typescript">
 
@@ -54,9 +51,7 @@ export const environment = {
 
 </code-example>
 
-The `build` command uses this as the build target when no environment is specified.
-You can add further variables, either as additional properties on the environment object, or as separate objects.
-For example, the following adds a default for a variable to the default environment:
+未指定環境時，`build` 指令會將它作為建置目標。 你可以加入更多變數，方式是為環境物件新增屬性，或是另外建立物件。 例如，下例為預設環境的某個變數加入了預設值：
 
 <code-example format="typescript" language="typescript">
 
@@ -67,8 +62,7 @@ export const environment = {
 
 </code-example>
 
-You can add target-specific configuration files, such as `environment.development.ts`.
-The following content sets default values for the development build target:
+你可以新增目標專屬的設定檔，例如 `environment.development.ts`。 以下內容為開發建置目標設定了預設值：
 
 <code-example format="typescript" language="typescript">
 
@@ -79,9 +73,9 @@ export const environment = {
 
 </code-example>
 
-### Using environment-specific variables in your app
+### 在應用程式中使用環境專屬變數
 
-The following application structure configures build targets for `development` and `staging` environments:
+下列應用程式結構會為 `development` 與 `staging` 環境設定建置目標：
 
 <div class="filetree">
     <div class="file">
@@ -116,7 +110,7 @@ The following application structure configures build targets for `development` a
     </div>
 </div>
 
-To use the environment configurations you have defined, your components must import the original environments file:
+要使用你定義的環境設定，你的元件必須匯入原始的環境檔案：
 
 <code-example format="typescript" language="typescript">
 
@@ -124,9 +118,9 @@ import { environment } from './../environments/environment';
 
 </code-example>
 
-This ensures that the build and serve commands can find the configurations for specific build targets.
+這樣能確保 build 與 serve 指令找得到特定建置目標的設定。
 
-The following code in the component file \(`app.component.ts`\) uses an environment variable defined in the configuration files.
+元件檔案（`app.component.ts`）中的下列程式碼使用了一個在設定檔中定義的環境變數。
 
 <code-example format="typescript" language="typescript">
 
@@ -150,14 +144,11 @@ The following code in the component file \(`app.component.ts`\) uses an environm
 
 <a id="file-replacement"></a>
 
-## Configure target-specific file replacements
+## 設定目標專屬的檔案置換
 
-The main CLI configuration file, `angular.json`, contains a `fileReplacements` section in the configuration for each build target, which lets you replace any file in the TypeScript program with a target-specific version of that file.
-This is useful for including target-specific code or variables in a build that targets a specific environment, such as production or staging.
+主要的 CLI 設定檔 `angular.json` 中，每個建置目標的設定裡都有一段 `fileReplacements`，讓你可以把 TypeScript 程式中的任何檔案，換成該檔案的目標專屬版本。 這在你想為特定環境（例如正式環境或預備環境）的建置加入目標專屬的程式碼或變數時非常有用。
 
-By default no files are replaced.
-You can add file replacements for specific build targets.
-For example:
+預設不會置換任何檔案。你可以為特定的建置目標加入檔案置換。例如：
 
 <code-example format="json" language="json">
 
@@ -173,10 +164,9 @@ For example:
 
 </code-example>
 
-This means that when you build your development configuration with `ng build --configuration development`, the `src/environments/environment.ts` file is replaced with the target-specific version of the file, `src/environments/environment.development.ts`.
+這表示當你用 `ng build --configuration development` 建置開發設定時，`src/environments/environment.ts` 檔案會被換成該檔案的目標專屬版本 `src/environments/environment.development.ts`。
 
-You can add additional configurations as required.
-To add a staging environment, create a copy of `src/environments/environment.ts` called `src/environments/environment.staging.ts`, then add a `staging` configuration to `angular.json`:
+你可以視需要加入額外的設定。要加入 staging 環境，請複製 `src/environments/environment.ts`，命名為 `src/environments/environment.staging.ts`，再把 `staging` 設定加入 `angular.json`：
 
 <code-example format="json" language="json">
 
@@ -195,10 +185,9 @@ To add a staging environment, create a copy of `src/environments/environment.ts`
 
 </code-example>
 
-You can add more configuration options to this target environment as well.
-Any option that your build supports can be overridden in a build target configuration.
+你也可以為這個目標環境加入更多設定選項。 建置支援的任何選項，都可以在建置目標設定中覆寫。
 
-To build using the staging configuration, run the following command:
+若要使用預備設定進行建置，執行下列指令：
 
 <code-example format="shell" language="shell">
 
@@ -206,7 +195,7 @@ ng build --configuration=staging
 
 </code-example>
 
-You can also configure the `serve` command to use the targeted build configuration if you add it to the "serve:configurations" section of `angular.json`:
+如果你把它加入 `angular.json` 的 "serve:configurations" 區段，也可以設定 `serve` 指令使用目標建置設定：
 
 <code-example format="json" language="json">
 
@@ -233,12 +222,11 @@ You can also configure the `serve` command to use the targeted build configurati
 <a id="size-budgets"></a>
 <a id="configure-size-budgets"></a>
 
-## Configuring size budgets
+## 設定大小預算
 
-As applications grow in functionality, they also grow in size.
-The CLI lets you set size thresholds in your configuration to ensure that parts of your application stay within size boundaries that you define.
+應用程式的功能越長越大，體積也隨之增長。 CLI 讓你能在設定中訂定大小門檻，確保應用程式的各個部分維持在你定義的大小界限之內。
 
-Define your size boundaries in the CLI configuration file, `angular.json`, in a `budgets` section for each [configured environment](#app-environments).
+在 CLI 設定檔 `angular.json` 中，為每個[已設定的環境](#app-environments)加入一段 `budgets` 來定義大小界限。
 
 <code-example format="json" language="json">
 
@@ -254,48 +242,45 @@ Define your size boundaries in the CLI configuration file, `angular.json`, in a 
 
 </code-example>
 
-You can specify size budgets for the entire app, and for particular parts.
-Each budget entry configures a budget of a given type.
-Specify size values in the following formats:
+你可以為整個應用程式設定大小預算，也可以針對特定部分設定。 每個預算項目會設定一種指定類型的預算。 大小值可使用下列格式指定：
 
-| Size value      | Details                                                                     |
+| 大小值 | 詳細資訊 |
 | :-------------- | :-------------------------------------------------------------------------- |
-| `123` or `123b` | Size in bytes.                                                              |
-| `123kb`         | Size in kilobytes.                                                          |
-| `123mb`         | Size in megabytes.                                                          |
-| `12%`           | Percentage of size relative to baseline. \(Not valid for baseline values.\) |
+| `123` or `123b` | 大小，單位為位元組。 |
+| `123kb` | 大小，單位為 KB。 |
+| `123mb` | 大小，單位為 MB。 |
+| `12%` | 相對於基準的大小百分比。\(不適用於基準值本身。\) |
 
-When you configure a budget, the build system warns or reports an error when a given part of the application reaches or exceeds a boundary size that you set.
+設定預算後，當應用程式的某個部分達到或超過你設定的界限大小時，建置器會發出警告或回報錯誤。
 
-Each budget entry is a JSON object with the following properties:
+每個預算項目都是一個 JSON 物件，具有下列屬性：
 
-| Property       | Value                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| 屬性 | 值 |
 | :------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type           | The type of budget. One of: <table> <thead> <tr> <th> Value </th> <th> Details </th> </tr> </thead> <tbody> <tr> <td> <code>bundle</code> </td> <td> The size of a specific bundle. </td> </tr> <tr> <td> <code>initial</code> </td> <td> The size of JavaScript needed for bootstrapping the application. Defaults to warning at 500kb and erroring at 1mb. </td> </tr> <tr> <td> <code>allScript</code> </td> <td> The size of all scripts. </td> </tr> <tr> <td> <code>all</code> </td> <td> The size of the entire application. </td> </tr> <tr> <td> <code>anyComponentStyle</code> </td> <td> This size of any one component stylesheet. Defaults to warning at 2kb and erroring at 4kb. </td> </tr> <tr> <td> <code>anyScript</code> </td> <td> The size of any one script. </td> </tr> <tr> <td> <code>any</code> </td> <td> The size of any file. </td> </tr> </tbody> </table> |
-| name           | The name of the bundle \(for `type=bundle`\).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| baseline       | The baseline size for comparison.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| maximumWarning | The maximum threshold for warning relative to the baseline.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| maximumError   | The maximum threshold for error relative to the baseline.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| minimumWarning | The minimum threshold for warning relative to the baseline.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| minimumError   | The minimum threshold for error relative to the baseline.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| warning        | The threshold for warning relative to the baseline \(min &amp max\).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| error          | The threshold for error relative to the baseline \(min &amp max\).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| type | 預算的類型。以下擇一： <table> <thead> <tr> <th> 值 </th> <th> 詳細資訊 </th> </tr> </thead> <tbody> <tr> <td> <code>bundle</code> </td> <td> 特定 bundle 的大小。 </td> </tr> <tr> <td> <code>initial</code> </td> <td> 啟動應用程式所需的 JavaScript 大小。預設在 500kb 時警告、1mb 時報錯。 </td> </tr> <tr> <td> <code>allScript</code> </td> <td> 所有指令碼的大小。 </td> </tr> <tr> <td> <code>all</code> </td> <td> 整個應用程式的大小。 </td> </tr> <tr> <td> <code>anyComponentStyle</code> </td> <td> 任一元件樣式表的大小。預設在 2kb 時警告、4kb 時報錯。 </td> </tr> <tr> <td> <code>anyScript</code> </td> <td> 任一指令碼的大小。 </td> </tr> <tr> <td> <code>any</code> </td> <td> 任一檔案的大小。 </td> </tr> </tbody> </table> |
+| name | 適用於 `type=bundle` 的 bundle 名稱。 |
+| baseline | 用來比較的基準大小。 |
+| maximumWarning | 相對於基準的警告上限門檻。 |
+| maximumError | 相對於基準的錯誤上限門檻。 |
+| minimumWarning | 相對於基準的警告下限門檻。 |
+| minimumError | 相對於基準的錯誤下限門檻。 |
+| warning | 相對於基準的警告門檻（下限與上限）。 |
+| error | 相對於基準的錯誤門檻（下限與上限）。 |
 
 <a id="commonjs "></a>
 
-## Configuring CommonJS dependencies
+## 設定 CommonJS 依賴
 
 <div class="alert is-important">
 
-It is recommended that you avoid depending on CommonJS modules in your Angular applications.
-Depending on CommonJS modules can prevent bundlers and minifiers from optimizing your application, which results in larger bundle sizes.
-Instead, it is recommended that you use [ECMAScript modules](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/import) in your entire application.
-For more information, see [How CommonJS is making your bundles larger](https://web.dev/commonjs-larger-bundles).
+建議你避免在 Angular 應用程式中依賴 CommonJS 模組。
+依賴 CommonJS 模組會妨礙打包器與壓縮器最佳化你的應用程式，導致套件變得更大。
+建議你在整個應用程式中改用 [ECMAScript modules](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/import)。
+更多資訊請參閱 [How CommonJS is making your bundles larger](https://web.dev/commonjs-larger-bundles)。
 
 </div>
 
-The Angular CLI outputs warnings if it detects that your browser application depends on CommonJS modules.
-To disable these warnings, add the CommonJS module name to `allowedCommonJsDependencies` option in the `build` options located in `angular.json` file.
+如果 Angular CLI 偵測到你的瀏覽器應用程式依賴 CommonJS 模組，會輸出警告。要停用這些警告，請把 CommonJS 模組名稱加入 `angular.json` 檔案中 `build` 選項裡的 `allowedCommonJsDependencies` 選項。
 
 <code-example language="json">
 
@@ -314,11 +299,11 @@ To disable these warnings, add the CommonJS module name to `allowedCommonJsDepen
 
 <a id="browser-compat"></a>
 
-## Configuring browser compatibility
+## 設定瀏覽器相容性
 
-The Angular CLI uses [Browserslist](https://github.com/browserslist/browserslist) to ensure compatibility with different browser versions. [Autoprefixer](https://github.com/postcss/autoprefixer) is used for CSS vendor prefixing and [@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env) for JavaScript syntax transformations.
+Angular CLI 使用 [Browserslist](https://github.com/browserslist/browserslist) 來確保與不同瀏覽器版本的相容性。[Autoprefixer](https://github.com/postcss/autoprefixer) 用於 CSS 廠商前綴，[@babel/preset-env](https://babeljs.io/docs/en/babel-preset-env) 則用於 JavaScript 語法轉換。
 
-Internally, the Angular CLI uses the below `browserslist` configuration which matches the [browsers that are supported](guide/browser-support) by Angular.
+Angular CLI 內部使用下列 `browserslist` 設定，對應 Angular [支援的瀏覽器](guide/browser-support)。
 
   <code-example format="none" language="text">
   last 2 Chrome versions
@@ -329,25 +314,24 @@ Internally, the Angular CLI uses the below `browserslist` configuration which ma
   Firefox ESR
   </code-example>
 
-To override the internal configuration, run [`ng generate config browserslist`](cli/generate#config-command), which generates a `.browserslistrc` configuration file in the project directory.
+若要覆寫內部設定，執行 [`ng generate config browserslist`](cli/generate#config-command)，它會在專案目錄中產生一份 `.browserslistrc` 設定檔。
 
-See the [browserslist repository](https://github.com/browserslist/browserslist) for more examples of how to target specific browsers and versions.
+關於如何指定特定瀏覽器與版本，請參閱 [browserslist 儲存庫](https://github.com/browserslist/browserslist) 中的更多範例。
 
 <div class="alert is-helpful">
 
-Use [browsersl.ist](https://browsersl.ist) to display compatible browsers for a `browserslist` query.
+使用 [browsersl.ist](https://browsersl.ist) 來顯示某個 `browserslist` 查詢所對應的相容瀏覽器。
 
 </div>
 
 <a id="proxy"></a>
 
-## Proxying to a backend server
+## 代理到後端伺服器
 
-Use the [proxying support](https://webpack.js.org/configuration/dev-server/#devserverproxy) in the `webpack` development server to divert certain URLs to a backend server, by passing a file to the `--proxy-config` build option.
-For example, to divert all calls for `http://localhost:4200/api` to a server running on `http://localhost:3000/api`, take the following steps.
+使用 `webpack` 開發伺服器中的 [proxying 支援](https://webpack.js.org/configuration/dev-server/#devserverproxy)，把特定 URL 轉送到後端伺服器，做法是把檔案傳給 `--proxy-config` 建置選項。例如，要把所有對 `http://localhost:4200/api` 的呼叫轉送到執行於 `http://localhost:3000/api` 的伺服器，請依下列步驟操作。
 
-1.  Create a file `proxy.conf.json` in your project's `src/` folder.
-1.  Add the following content to the new proxy file:
+1.  在專案的 `src/` 資料夾中建立一個 `proxy.conf.json` 檔案。
+1.  把下列內容加入新的 proxy 檔案：
 
     <code-example format="json" language="json">
 
@@ -360,7 +344,7 @@ For example, to divert all calls for `http://localhost:4200/api` to a server run
 
     </code-example>
 
-1.  In the CLI configuration file, `angular.json`, add the `proxyConfig` option to the `serve` target:
+1.  在 CLI 設定檔 `angular.json` 中，把 `proxyConfig` 選項加入 `serve` 目標：
 
     <code-example format="json" language="json">
 
@@ -376,35 +360,31 @@ For example, to divert all calls for `http://localhost:4200/api` to a server run
 
     </code-example>
 
-1.  To run the development server with this proxy configuration, call `ng serve`.
+1.  若要用這份 proxy 設定執行開發伺服器，請呼叫 `ng serve`。
 
-Edit the proxy configuration file to add configuration options; following are some examples.
-For a description of all options, see [webpack DevServer documentation](https://webpack.js.org/configuration/dev-server/#devserverproxy).
+編輯 proxy 設定檔以加入設定選項；以下是一些範例。 所有選項的說明，請參閱 [webpack DevServer 文件](https://webpack.js.org/configuration/dev-server/#devserverproxy)。
 
 <div class="alert is-helpful">
 
-**NOTE**: <br />
-If you edit the proxy configuration file, you must relaunch the `ng serve` process to make your changes effective.
+注意：<br />
+如果你編輯了代理設定檔，必須重新啟動 `ng serve` 程序，變更才會生效。
 
 </div>
 
 <div class="alert is-important">
 
-As of Node version 17, Node will not always resolve `http://localhost:<port>` to `http://127.0.0.1:<port>`
-depending on each machine's configuration.
+從 Node 17 版開始，Node 不一定會把 `http://localhost:<port>` 解析為 `http://127.0.0.1:<port>`，
+視每台機器的設定而定。
 
-If you get an `ECONNREFUSED` error using a proxy targeting a `localhost` URL,
-you can fix this issue by updating the target from `http://localhost:<port>` to `http://127.0.0.1:<port>`.
+若你在使用目標為 `localhost` URL 的代理時收到 `ECONNREFUSED` 錯誤，可以將目標從 `http://localhost:<port>` 更新為 `http://127.0.0.1:<port>`，來修正這個問題。
 
-See [the http proxy middleware documentation](https://github.com/chimurai/http-proxy-middleware#nodejs-17-econnrefused-issue-with-ipv6-and-localhost-705)
-for more information.
+更多資訊請參閱 [the http proxy middleware documentation](https://github.com/chimurai/http-proxy-middleware#nodejs-17-econnrefused-issue-with-ipv6-and-localhost-705)。
 
 </div>
 
-### Rewrite the URL path
+### 重寫 URL 路徑
 
-The `pathRewrite` proxy configuration option lets you rewrite the URL path at run time.
-For example, specify the following `pathRewrite` value to the proxy configuration to remove "api" from the end of a path.
+`pathRewrite` proxy 設定選項可讓你在執行時期重寫 URL 路徑。例如，請為 proxy 設定指定下列 `pathRewrite` 值，從路徑結尾移除 "api"。
 
 <code-example format="json" language="json">
 
@@ -420,8 +400,7 @@ For example, specify the following `pathRewrite` value to the proxy configuratio
 
 </code-example>
 
-If you need to access a backend that is not on `localhost`, set the `changeOrigin` option as well.
-For example:
+如果你需要存取不在 `localhost` 上的後端，請一併設定 `changeOrigin` 選項。例如：
 
 <code-example format="json" language="json">
 
@@ -438,8 +417,7 @@ For example:
 
 </code-example>
 
-To help determine whether your proxy is working as intended, set the `logLevel` option.
-For example:
+要協助判斷 proxy 是否如預期運作，請設定 `logLevel` 選項。例如：
 
 <code-example format="json" language="json">
 
@@ -456,13 +434,13 @@ For example:
 
 </code-example>
 
-Proxy log levels are `info` \(the default\), `debug`, `warn`, `error`, and `silent`.
+Proxy 的日誌層級有 `info`（預設值）、`debug`、`warn`、`error` 與 `silent`。
 
-### Proxy multiple entries
+### Proxy 多個項目
 
-You can proxy multiple entries to the same target by defining the configuration in JavaScript.
+你可以透過用 JavaScript 定義設定，把多個項目 proxy 到同一個目標。
 
-Set the proxy configuration file to `proxy.conf.mjs` \(instead of `proxy.conf.json`\), and specify configuration files as in the following example.
+把 proxy 設定檔設為 `proxy.conf.mjs`（而非 `proxy.conf.json`），並如下列範例指定設定檔。
 
 <code-example format="javascript" language="javascript">
 
@@ -484,7 +462,7 @@ export default [
 
 </code-example>
 
-In the CLI configuration file, `angular.json`, point to the JavaScript proxy configuration file:
+在 CLI 設定檔 `angular.json` 中，指向 JavaScript proxy 設定檔：
 
 <code-example format="json" language="json">
 
@@ -500,9 +478,9 @@ In the CLI configuration file, `angular.json`, point to the JavaScript proxy con
 
 </code-example>
 
-### Bypass the proxy
+### 略過 proxy
 
-If you need to optionally bypass the proxy, or dynamically change the request before it's sent, add the bypass option, as shown in this JavaScript example.
+如果你需要選擇性地略過 proxy，或在請求送出前動態變更請求，請加入 bypass 選項，如這個 JavaScript 範例所示。
 
 <code-example format="javascript" language="javascript">
 
@@ -522,10 +500,9 @@ export default {
 
 </code-example>
 
-### Using corporate proxy
+### 使用公司 proxy
 
-If you work behind a corporate proxy, the backend cannot directly proxy calls to any URL outside your local network.
-In this case, you can configure the backend proxy to redirect calls through your corporate proxy using an agent:
+如果你在公司 proxy 後面工作，後端無法直接把呼叫 proxy 到你本機網路以外的任何 URL。在這種情況下，你可以設定後端 proxy，讓它使用 agent 把呼叫經由你的公司 proxy 重新導向：
 
 <code-example format="shell" language="shell">
 
@@ -533,9 +510,9 @@ npm install --save-dev https-proxy-agent
 
 </code-example>
 
-When you define an environment variable `http_proxy` or `HTTP_PROXY`, an agent is automatically added to pass calls through your corporate proxy when running `npm start`.
+當你定義環境變數 `http_proxy` 或 `HTTP_PROXY` 時，執行 `npm start` 時會自動加入 agent，讓呼叫通過你的公司 proxy。
 
-Use the following content in the JavaScript configuration file.
+在 JavaScript 設定檔中使用下列內容。
 
 <code-example format="javascript" language="javascript">
 

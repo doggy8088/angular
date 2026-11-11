@@ -1,15 +1,12 @@
-# `ModuleWithProviders` Migration
+# `ModuleWithProviders` 遷移
 
-## What does this schematic do?
+## 這支原理圖的作用是什麼？
 
-Some Angular libraries, such as `@angular/router` and `@ngrx/store`, implement APIs that return a type called `ModuleWithProviders` \(typically via a method named `forRoot()`\).
-This type represents an `NgModule` along with additional providers.
-Angular version 9 deprecates use of `ModuleWithProviders` without an explicitly generic type, where the generic type refers to the type of the `NgModule`.
+有些 Angular 函式庫，例如 `@angular/router` 與 `@ngrx/store`，實作了回傳 `ModuleWithProviders` 型別的 API \(通常透過名為 `forRoot()` 的方法\)。 這個型別表示一個 `NgModule` 以及額外的提供者。 Angular 第 9 版棄用未明確指定泛型型別的 `ModuleWithProviders` 用法，其中的泛型型別指的是該 `NgModule` 的型別。
 
-This schematic will add a generic type to any `ModuleWithProviders` usages that are missing the generic.
-In the example below, the type of the `NgModule` is `SomeModule`, so the schematic changes the type to be `ModuleWithProviders<SomeModule>`.
+這支原理圖會為任何缺少泛型的 `ModuleWithProviders` 用法加上泛型型別。 在下面的範例中，`NgModule` 的型別是 `SomeModule`，因此原理圖會將型別改為 `ModuleWithProviders<SomeModule>`。
 
-**Before**
+**之前**
 
 <code-example format="typescript" language="typescript">
 
@@ -27,7 +24,7 @@ export class MyModule {
 
 </code-example>
 
-**After**
+**之後**
 
 <code-example format="typescript" language="typescript">
 
@@ -45,31 +42,25 @@ export class MyModule {
 
 </code-example>
 
-In the rare case that the schematic can't determine the type of `ModuleWithProviders`, you may see the schematic print a TODO comment to update the code manually.
+在極少數情況下，原理圖無法判定 `ModuleWithProviders` 的型別，你可能會看到原理圖印出一個 TODO 註解，提示你手動更新程式碼。
 
-## Why is this migration necessary?
+## 為什麼需要這次遷移？
 
-`ModuleWithProviders` has had the generic type since Angular version 7, but it has been optional.
-This has compiled because the `metadata.json` files contained all the metadata.
-With Ivy, `metadata.json` files are no longer required, so the framework cannot assume that one with the necessary types has been provided.
-Instead, Ivy relies on the generic type for `ModuleWithProviders` to get the correct type information.
+`ModuleWithProviders` 自 Angular 第 7 版起就具有泛型型別，但它一直是可選的。 過去之所以能編譯，是因為 `metadata.json` 檔案包含了所有中繼資料。 有了 Ivy 之後，`metadata.json` 檔案不再是必要的，因此框架不能假設已提供了一個帶有必要型別的檔案。 相反地，Ivy 依賴 `ModuleWithProviders` 的泛型型別來取得正確的型別資訊。
 
-For this reason, Angular version 9 deprecates `ModuleWithProviders` without a generic type.
-A future version of Angular will remove the default generic type, making an explicit type required.
+基於這個原因，Angular 第 9 版棄用未帶泛型型別的 `ModuleWithProviders`。 未來版本將移除預設的泛型型別，使明確指定型別成為必要。
 
-## Should I add the generic type when I add new `ModuleWithProviders` types to my application?
+## 在應用程式中新增 `ModuleWithProviders` 型別時，應該加上泛型型別嗎？
 
-Yes, any time your code references the `ModuleWithProviders` type, it should have a generic type that matches the actual `NgModule` that is returned \(for example, `ModuleWithProviders<MyModule>`\).
+是的，每當你的程式碼參照 `ModuleWithProviders` 型別時，它都應該帶有一個與實際回傳的 `NgModule` 相符的泛型型別 \(例如 `ModuleWithProviders<MyModule>`\)。
 
-## What should I do if the schematic prints a TODO comment?
+## 如果原理圖印出 TODO 註解，該怎麼做？
 
-The schematic will print a TODO comment in the event that it cannot detect the correct generic for the `ModuleWithProviders` type.
-In this case, you'll want to manually add the correct generic to `ModuleWithProviders`.
-It should match the type of whichever `NgModule` is returned in the `ModuleWithProviders` object.
+如果原理圖無法偵測出 `ModuleWithProviders` 型別的正確泛型，它會印出一個 TODO 註解。 在這種情況下，你需要手動為 `ModuleWithProviders` 加上正確的泛型。 它應該與 `ModuleWithProviders` 物件中所回傳的 `NgModule` 型別相符。
 
-## What does this mean for libraries?
+## 這對函式庫意味著什麼？
 
-Libraries should add the generic type to any usages of the `ModuleWithProviders` type.
+函式庫應該為 `ModuleWithProviders` 型別的任何用法加上泛型型別。
 
 <!-- links -->
 

@@ -1,81 +1,81 @@
-# Two-way binding
+# 雙向繫結
 
-Two-way binding gives components in your application a way to share data.
-Use two-way binding to listen for events and update values simultaneously between parent and child components.
+雙向繫結讓應用程式中的元件能共用資料。
+使用雙向繫結，可以在父元件與子元件之間同時監聽事件並更新值。
 
 <div class="alert is-helpful">
 
-See the <live-example></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example></live-example>，查看包含本指南程式碼片段的實作範例。
 
 </div>
 
-## Prerequisites
+## 先備知識
 
-To get the most out of two-way binding, you should have a basic understanding of the following concepts:
+要充分利用雙向繫結，你應該先基本了解下列概念：
 
-*   [Property binding](guide/property-binding)
-*   [Event binding](guide/event-binding)
-*   [Inputs and Outputs](guide/inputs-outputs)
+*   [屬性繫結](guide/property-binding)
+*   [事件繫結](guide/event-binding)
+*   [輸入與輸出](guide/inputs-outputs)
 
-Two-way binding combines property binding with event binding:
+雙向繫結結合了屬性繫結與事件繫結：
 
-| Bindings                                   | Details |
-|:---                                        |:---     |
-| [Property binding](guide/property-binding) | Sets a specific element property.    |
-| [Event binding](guide/event-binding)       | Listens for an element change event. |
+| 繫結                                   | 詳細資訊 |
+|:---                                    |:---     |
+| [屬性繫結](guide/property-binding)     | 設定特定的元素屬性。 |
+| [事件繫結](guide/event-binding)       | 監聽元素變更事件。 |
 
-## Adding two-way data binding
+## 加入雙向資料繫結
 
-Angular's two-way binding syntax is a combination of square brackets and parentheses, `[()]`.
-The `[()]` syntax combines the brackets of property binding, `[]`, with the parentheses of event binding, `()`, as follows.
+Angular 的雙向繫結語法是方括號與括號的組合 `[()]`。
+`[()]` 語法結合了屬性繫結的括號 `[]` 與事件繫結的括號 `()`，如下所示。
 
 <code-example header="src/app/app.component.html" path="two-way-binding/src/app/app.component.html" region="two-way-syntax"></code-example>
 
-## How two-way binding works
+## 雙向繫結如何運作
 
-For two-way data binding to work, the `@Output()` property must use the pattern, `inputChange`, where `input` is the name of the `@Input()` property.
-For example, if the `@Input()` property is `size`, the `@Output()` property must be `sizeChange`.
+雙向資料繫結要能運作，`@Output()` 屬性必須使用 `inputChange` 模式，其中 `input` 是 `@Input()` 屬性的名稱。
+例如，如果 `@Input()` 屬性是 `size`，`@Output()` 屬性就必須是 `sizeChange`。
 
-The following `sizerComponent` has a `size` value property and a `sizeChange` event.
-The `size` property is an `@Input()`, so data can flow into the `sizerComponent`.
-The `sizeChange` event is an `@Output()`, which lets data flow out of the `sizerComponent` to the parent component.
+以下 `sizerComponent` 有一個 `size` 值屬性與一個 `sizeChange` 事件。
+`size` 屬性是一個 `@Input()`，所以資料可以流入 `sizerComponent`。
+`sizeChange` 事件是一個 `@Output()`，讓資料可以從 `sizerComponent` 流出到父元件。
 
-Next, there are two methods, `dec()` to decrease the font size and `inc()` to increase the font size.
-These two methods use `resize()` to change the value of the `size` property within min/max value constraints, and to emit an event that conveys the new `size` value.
+接著，有兩個方法：`dec()` 用來減小字型大小，`inc()` 用來增大字型大小。
+這兩個方法使用 `resize()`，在最小/最大值限制內變更 `size` 屬性的值，並發出一個傳達新 `size` 值的事件。
 
 <code-example header="src/app/sizer.component.ts" path="two-way-binding/src/app/sizer/sizer.component.ts" region="sizer-component"></code-example>
 
-The `sizerComponent` template has two buttons that each bind the click event to the `inc()` and `dec()` methods.
-When the user clicks one of the buttons, the `sizerComponent` calls the corresponding method.
-Both methods, `inc()` and `dec()`, call the `resize()` method with a `+1` or `-1`, which in turn raises the `sizeChange` event with the new size value.
+`sizerComponent` 範本有兩個按鈕，每個按鈕都將 click 事件繫結到 `inc()` 與 `dec()` 方法。
+當使用者點選其中一個按鈕時，`sizerComponent` 會呼叫對應的方法。
+`inc()` 與 `dec()` 兩個方法都以 `+1` 或 `-1` 呼叫 `resize()` 方法，進而以新的大小值引發 `sizeChange` 事件。
 
 <code-example header="src/app/sizer.component.html" path="two-way-binding/src/app/sizer/sizer.component.html"></code-example>
 
-In the `AppComponent` template, `fontSizePx` is two-way bound to the `SizerComponent`.
+在 `AppComponent` 範本中，`fontSizePx` 與 `SizerComponent` 進行雙向繫結。
 
 <code-example header="src/app/app.component.html" path="two-way-binding/src/app/app.component.html" region="two-way-1"></code-example>
 
-In the `AppComponent`, `fontSizePx` establishes the initial `SizerComponent.size` value by setting the value to `16`.
+在 `AppComponent` 中，`fontSizePx` 將值設為 `16`，建立了 `SizerComponent.size` 的初始值。
 
 <code-example header="src/app/app.component.ts" path="two-way-binding/src/app/app.component.ts" region="font-size"></code-example>
 
-Clicking the buttons updates the `AppComponent.fontSizePx`.
-The revised `AppComponent.fontSizePx` value updates the style binding, which makes the displayed text bigger or smaller.
+點選按鈕會更新 `AppComponent.fontSizePx`。
+更新後的 `AppComponent.fontSizePx` 值會更新樣式繫結，讓顯示的文字變大或變小。
 
-The two-way binding syntax is shorthand for a combination of property binding and event binding.
-The `SizerComponent` binding as separate property binding and event binding is as follows.
+雙向繫結語法是屬性繫結與事件繫結組合的簡寫。
+將 `SizerComponent` 繫結拆成個別的屬性繫結與事件繫結，如下所示。
 
 <code-example header="src/app/app.component.html (expanded)" path="two-way-binding/src/app/app.component.html" region="two-way-2"></code-example>
 
-The `$event` variable contains the data of the `SizerComponent.sizeChange` event.
-Angular assigns the `$event` value to the `AppComponent.fontSizePx` when the user clicks the buttons.
+`$event` 變數包含 `SizerComponent.sizeChange` 事件的資料。
+當使用者點選按鈕時，Angular 會把 `$event` 值指派給 `AppComponent.fontSizePx`。
 
 <div class="callout is-helpful">
 
-<header>Two-way binding in forms</header>
+<header>表單中的雙向繫結</header>
 
-Because no built-in HTML element follows the `x` value and `xChange` event pattern, two-way binding with form elements requires `NgModel`.
-For more information on how to use two-way binding in forms, see Angular [NgModel](guide/built-in-directives#ngModel).
+因為沒有內建 HTML 元素遵循 `x` 值與 `xChange` 事件模式，含有表單元素的雙向繫結需要 `NgModel`。
+更多關於如何在表單中使用雙向繫結的資訊，請參閱 Angular [NgModel](guide/built-in-directives#ngModel)。
 
 </div>
 

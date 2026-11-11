@@ -1,79 +1,78 @@
-# Build your first Angular app
+# 打造你的第一個 Angular 應用程式
 
-This tutorial consists of lessons that introduce the Angular concepts you need to know to start coding in Angular.
+本教學由一系列課程組成，帶你認識開始用 Angular 寫程式所需要知道的 Angular 概念。
 
-You can do as many or as few as you would like and you can do them in any order.
+你可以依照自己的步調，全部做完或只做其中幾課，順序也可以自由安排。
 
-## Before you start
+## 開始之前
 
-For the best experience with this tutorial, review these requirements to make sure you have what you need to be successful.
+為了讓本教學有最好的學習體驗，請先確認下列需求，確保你具備順利完成課程所需的一切。
 
 <!-- markdownLint-disable MD001 -->
 
-### Your experience
+### 你的經驗
 
-The lessons in this tutorial assume that you have experience with the following:
+本教學的課程假設你已經具備下列經驗：
 
-1.  Created an HTML web page by editing the HTML directly.
-1.  Programmed web site content in JavaScript.
-1.  Read Cascading Style Sheet (CSS) content and understand how selectors are used.
-1.  Used command-line instructions to perform tasks on your computer.
+1.  曾經直接編輯 HTML 來建立 HTML 網頁。
+1.  曾經用 JavaScript 為網站內容撰寫程式。
+1.  讀過層疊樣式表（CSS）內容，並了解選擇器的使用方式。
+1.  曾經使用命令列指令在電腦上執行工作。
 
-### Your equipment
+### 你的設備
 
-These lessons can be completed by using a local installation of the Angular tools or by using StackBlitz in a web browser. Local Angular development can be completed on Windows, MacOS or Linux based systems.
+這些課程可以使用本機安裝的 Angular 工具來完成，也可以在網頁瀏覽器中使用 StackBlitz 來完成。本機 Angular 開發可以在 Windows、MacOS 或 Linux 系統上進行。
 
-## Conceptual preview of your first Angular app
+## 你的第一個 Angular 應用程式概念預覽
 
-The lessons in this tutorial create an Angular app that lists houses for rent and shows the details of individual houses.
-This app uses features that are common to many Angular apps.
+本教學的課程會建立一個 Angular 應用程式，列出待租房屋並顯示個別房屋的詳細資訊。 這個應用程式使用了許多 Angular 應用程式常見的功能。
 <section class="lightbox">
-  <img alt="Output of heroes dashboard" src="generated/images/guide/faa/homes-app-landing-page.png">
+  <img alt="英雄儀表板的輸出" src="generated/images/guide/faa/homes-app-landing-page.png">
 </section>
 
-## Local development environment
+## ## 本機開發環境
 
-Perform these steps in a command-line tool on the computer you want to use for this tutorial.
+請在你打算用來進行本教學的電腦上，透過命令列工具執行下列步驟。
 
-## Step 1 - Identify the version of `node.js` that Angular requires
+## 步驟 1 - 確認 Angular 需要的 `node.js` 版本
 
-Angular requires an active LTS or maintenance LTS version of Node. Let's confirm your version of `node.js`. For information about specific version requirements, see the engines property in the [package.json file](https://unpkg.com/browse/@angular/core@15.1.5/package.json).
+Angular 需要使用中的 LTS 或維護中 LTS 版本的 Node。我們先來確認你的 `node.js` 版本。如需特定版本需求的資訊，請參閱 [package.json 檔案](https://unpkg.com/browse/@angular/core@15.1.5/package.json)中的 engines 屬性。
 
-From a **Terminal** window:
-1. Run the following command: `node --version`
-1. Confirm that the version number displayed meets the requirements.
+在 **Terminal** 視窗中：
+1. 執行下列指令：`node --version`
+1. 確認顯示的版本號碼符合需求。
 
-## Step 2 - Install the correct version of `node.js` for Angular
+## 步驟 2 - 為 Angular 安裝正確版本的 `node.js`
 
-If you do not have a version of `node.js` installed, please follow the [directions for installation on nodejs.org](https://nodejs.org/en/download/)
+如果你尚未安裝任何版本的 `node.js`，請依照 [nodejs.org 上的安裝說明](https://nodejs.org/en/download/)進行
 
 
-## Step 3 - Install the latest version of Angular
+## 步驟 3 - 安裝最新版本的 Angular
 
-With `node.js` and `npm` installed, the next step is to install the [Angular CLI](/cli) which provides tooling for effective Angular development.
+安裝好 `node.js` 與 `npm` 之後，下一步是安裝 [Angular CLI](/cli)，它為高效率的 Angular 開發提供工具支援。
 
-From a **Terminal** window run the following command: `npm install -g @angular/cli`.
+在 **Terminal** 視窗中執行下列指令：`npm install -g @angular/cli`。
 
-## Step 4 - Install integrated development environment (IDE)
+## 步驟 4 - 安裝整合式開發環境（IDE）
 
-You are free to use any tool you prefer to build apps with Angular. We recommend the following:
+你可以使用任何你偏好的工具來使用 Angular 建立應用程式。我們推薦下列工具：
 
 1. [Visual Studio Code](https://code.visualstudio.com/)
-2. As an optional, but recommended step you can further improve your developer experience by installing the [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)
+2. 選用但推薦的步驟：安裝 [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)，進一步提升你的開發體驗
 
-## Lesson review
+## 課程回顧
 
-In this lesson, you learned about the app that you build in this tutorial and prepared your local computer to develop Angular apps.
+在本課程中，你了解了將在本教學中建立的應用程式，並準備好你的本機電腦來開發 Angular 應用程式。
 
-## Next steps
+## 後續步驟
 
-*  [First Angular app lesson 1 - Hello world](tutorial/first-app/first-app-lesson-01)
+*  [第一個 Angular 應用程式第 1 課 - Hello world](tutorial/first-app/first-app-lesson-01)
 
-## More information
+## 更多資訊
 
-For more information about the topics covered in this lesson, visit:
+如需本課所涵蓋主題的更多資訊，請造訪：
 
-* [What is Angular](/guide/what-is-angular)
-* [Angular CLI Reference](/cli)
+* [什麼是 Angular](/guide/what-is-angular)
+* [Angular CLI 參考](/cli)
 
 @reviewed 2023-07-12

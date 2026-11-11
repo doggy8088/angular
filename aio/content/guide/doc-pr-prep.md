@@ -1,42 +1,33 @@
-# Prepare a documentation update for a pull request
+# 為 pull request 準備文件更新
 
-This topic describes how to prepare your update to the Angular documentation so that you can open a pull request.
-A pull request is how you share your update in a way that allows it to be merged it into the `angular/angular` repo.
+本主題說明如何準備你對 Angular 文件的更新，以便開啟 pull request。pull request 是你分享更新的方式，讓它可以合併到 `angular/angular` 儲存庫中。
 
 <div class="alert is-important">
 
-**IMPORTANT**: <br />
-Make sure that you have reviewed your documentation update, removed any lint errors, and confirmed that it passes the end-to-end \(e2e\) tests without errors.
+**重要事項**：<br />
+請確認你已檢閱文件更新、移除任何程式碼檢查錯誤，並確認它通過端對端（e2e）測試且沒有錯誤。
 
 </div>
 
-A pull request shares a branch in `personal/angular`, your forked repo, with the `angular/angular` repo.
-After your pull request is approved and merged, the new commits from your branch are added to the main branch in the `angular/angular` repo.
-The commits in your branch, and their messages, become part of the `angular/angular` repo.
+pull request 會將你 fork 的儲存庫 `personal/angular` 中的一個分支分享給 `angular/angular` 儲存庫。pull request 核准並合併後，你分支中的新提交會加入 `angular/angular` 儲存庫中的 main 分支。你分支中的提交及其訊息會成為 `angular/angular` 儲存庫的一部分。
 
-What does this mean for your pull request?
+這對你的 pull request 意味著什麼？
 
-1.  Your commit messages become part of the documentation of the changes made to Angular.
-    Because they become part of the `angular/angular` repo, they must conform to a specific format so that they are easy to read.
-    If they aren't correctly formatted, you can fix that before you open your pull request.
+1.  你的提交訊息會成為 Angular 變更記錄文件的一部分。由於它們會成為 `angular/angular` 儲存庫的一部分，因此必須符合特定格式，以便易於閱讀。如果格式不正確，你可以在開啟 pull request 之前修正。
 
-1.  You might need to squash the commits that you made while developing your update.
-    It's normal to save your changes as intermediate commits while you're developing a large update, but your pull request represents only one change to the `angular/angular` repo.
-    Squashing the commits from your working branch into fewer, or just one commit, makes the commits in your pull request match the changes your update makes to the `angular/angular` repo.
+1.  你可能需要壓縮（squash）在開發更新時所做的提交。在開發大型更新時，將變更儲存為中間提交是很正常的，但你的 pull request 只代表對 `angular/angular` 儲存庫的一項變更。將工作分支中的提交壓縮為較少或僅一筆提交，可以讓 pull request 中的提交與你的更新對 `angular/angular` 儲存庫所做的變更相符。
 
-## Format commit messages for a pull request
+## 為 pull request 設定提交訊息格式
 
-Commits merged to `angular/angular` must have messages that are correctly formatted.
-This section describes how to correctly format commit messages.
+合併到 `angular/angular` 的提交必須有格式正確的訊息。本節說明如何正確設定提交訊息的格式。
 
-Remember that the commit message is different from the pull request comment.
+請記得，提交訊息與 pull request 註解是不同的。
 
-### Single line commit messages
+### 單行提交訊息
 
-The simplest commit message is a single-line of text.
-All commit messages in a pull request that updates documentation must begin with `docs:` and be followed by a short description of the change.
+最簡單的提交訊息是單行文字。更新文件的 pull request 中的所有提交訊息都必須以 `docs:` 開頭，後接變更的簡短說明。
 
-The following is an example a valid Angular commit message.
+以下是一個有效的 Angular 提交訊息範例。
 
 <code-example language="none" hideCopy>
 
@@ -44,7 +35,7 @@ docs: a short summary in present tense without capitalization or ending period
 
 </code-example>
 
-This is an example of a commit command with the single-line commit message from the previous example.
+這是使用前一個範例中的單行提交訊息的提交指令範例。
 
 <code-example format="shell" language="shell">
 
@@ -52,11 +43,9 @@ git commit -m "docs: a short summary in present tense without capitalization or 
 
 </code-example>
 
-### Multi-line commit messages
+### 多行提交訊息
 
-You can include more information by providing a more detailed, multi-line message.
-The detailed body text of the message must be separated by a blank line after the summary.
-The footer that lists the issue the commit fixes must also be separated from the body text by a blank line.
+你可以提供更詳細的多行訊息來包含更多資訊。訊息詳細的內文必須以一個空行與摘要分隔。列出提交所修正的議題的頁尾，也必須以一個空行與內文分隔。
 
 <code-example language="none" hideCopy>
 
@@ -70,7 +59,7 @@ Fixes &num;34353
 
 </code-example>
 
-This is an example of a commit command with a multi-line commit message from the previous example.
+這是使用前一個範例中的多行提交訊息的提交指令範例。
 
 <code-example format="shell" language="shell">
 
@@ -84,16 +73,13 @@ Fixes &num;34353"
 
 </code-example>
 
-This example is for documentation updates only.
-For the complete specification of Angular commit messages, see [Commit message format](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit).
+這個範例僅適用於文件更新。有關 Angular 提交訊息的完整規格，請參閱[提交訊息格式](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit)。
 
-### Change a commit message
+### 變更提交訊息
 
-If the last commit you made has a message that isn't in the correct format, you can update the message.
-Changing the message of an earlier commit or of multiple commits is also possible, but requires a more complex procedure.
+如果你最近一次提交的訊息格式不正確，你可以更新該訊息。變更較早提交或多筆提交的訊息也是可能的，但需要更複雜的程序。
 
-Run this command to change the commit message of the most recent commit.
-The new commit message is formatted as described in the previous procedures.
+執行這個指令以變更最近一次提交的提交訊息。新的提交訊息會依照前述程序中說明的格式設定。
 
 <code-example format="shell" language="shell">
 
@@ -101,9 +87,7 @@ git commit --amend -m "New commit message"
 
 </code-example>
 
-This command creates a new commit on your local computer that replaces the previous commit.
-You must push this new commit before you open your pull request.
-If you pushed the original commit to the repo in your GitHub account, run this command to force-push the commit with the new message.
+這個指令會在你的本地電腦上建立一筆新的提交，取代先前的提交。在開啟 pull request 之前，你必須推送這筆新的提交。如果你已將原始提交推送到 GitHub 帳號中的儲存庫，請執行這個指令以強制推送帶有新訊息的提交。
 
 <code-example format="shell" language="shell">
 
@@ -111,111 +95,95 @@ git push --force-with-lease
 
 </code-example>
 
-If you haven't pushed the commit you amended, you can run `git push` with no parameters to push your updated commit.
+如果你尚未推送已修改的提交，可以不帶參數執行 `git push` 來推送更新後的提交。
 
-## Prepare your branch for a pull request
+## 為 pull request 準備你的分支
 
-When you created your working branch to update the documentation, you branched off the `main` branch.
-Your changes in the working branch were based on the state of the `main` branch at that time you created the branch.
+為更新文件而建立工作分支時，你是從 `main` 分支分支出來的。你在工作分支中的變更，是以建立分支時 `main` 分支的狀態為基礎。
 
-Since you created your working branch, it's quite likely that the `main` branch has been updated.
-To make sure that your updates work with the current `main` branch, you should `rebase` your working branch to catch it up to what is current.
-You might also need to squash the commits you made in your working branch to combine them for the pull request.
+自你建立工作分支以來，`main` 分支很可能已經更新。為確保你的更新能與目前的 `main` 分支搭配運作，你應該將工作分支進行 `rebase`，使其跟上最新狀態。你可能也需要壓縮工作分支中的提交，以便為 pull request 合併它們。
 
-### Rebase your working branch
+### 將你的工作分支 rebase
 
 <!-- markdownLint-disable MD033 -->
 
-Rebasing your working branch changes the starting point of your commits from where the `main` branch was when you started to where it is now.
+將工作分支 rebase 會把你的提交的起始點，從開始時的 `main` 分支位置變更為現在的位置。
 
-Before you can rebase your working branch, you must update both your *clone* and your *fork* of the upstream repo.
+在 rebase 工作分支之前，你必須同時更新上游儲存庫的 *clone* 與 *fork*。
 
-#### Why you rebase your working branch
+#### 為什麼要 rebase 你的工作分支
 
-Rebasing your working branch to the current state of the `main` branch eliminates conflicts before your working branch is merged back into `main`.
-By rebasing your working branch, the commits in your working branch show only those changes that you made to fix the issue.
-If you don't rebase your working branch, it can have merge commits.
-Merge commits are commits that `git` creates to make up for the changes in the `main` branch since the `working` branch was created.
-Merge commits aren't harmful, but they can complicate a future review of the changes.
-The following illustrates the rebase process.
+將工作分支 rebase 到 `main` 分支的目前狀態，可以在工作分支合併回 `main` 之前消除衝突。透過 rebase 工作分支，工作分支中的提交只會顯示你為修正議題所做的變更。如果你不 rebase 工作分支，它可能會包含合併提交。合併提交是 `git` 為彌補自 `working` 分支建立以來 `main` 分支中的變更而建立的提交。合併提交並無害處，但可能會讓未來的變更檢閱變得複雜。下圖說明了 rebase 的過程。
 
-This image shows a `working` branch created from commit 5 of the `main` branch and then updated twice.
-The numbered circles in these diagrams represent commits.
+這張圖片顯示一個從 `main` 分支的提交 5 所建立、然後更新了兩次的 `working` 分支。這些圖表中的編號圓圈代表提交。
 
 <div class="lightbox">
 
 <!-- Image source is found in angular/aio/src/assets/images/doc-contribute-images.sketch, in the sketch page that matches this topic's filename -->
-<img alt="An image of a git repo with a working branch created from a main branch" src="generated/images/guide/doc-pr-prep/feature-with-new-branch.png">
+<img alt="Git 儲存庫的圖片：自主要分支建立工作分支" src="generated/images/guide/doc-pr-prep/feature-with-new-branch.png">
 
 </div>
 
-This image shows the `main` branch after it was updated twice as the `working` branch was updated.
+這張圖片顯示 `main` 分支在 `working` 分支更新期間也更新了兩次之後的樣子。
 
 <div class="lightbox">
 
 <!-- Image source is found in angular/aio/src/assets/images/doc-contribute-images.sketch, in the sketch page that matches this topic's filename -->
-<img alt="An image of a git repo with a working branch and an updated main branch" src="generated/images/guide/doc-pr-prep/feature-branch-w-update.png">
+<img alt="Git 儲存庫的圖片：工作分支與已更新的主要分支" src="generated/images/guide/doc-pr-prep/feature-branch-w-update.png">
 
 </div>
 
-If the working branch was merged, a merge commit would be needed.
-This image illustrates the result.
+如果合併工作分支，就需要一筆合併提交。這張圖片說明了結果。
 
 <div class="lightbox">
 
 <!-- Image source is found in angular/aio/src/assets/images/doc-contribute-images.sketch, in the sketch page that matches this topic's filename -->
-<img alt="An image of a git repo with a working branch and merged into the main branch" src="generated/images/guide/doc-pr-prep/feature-branch-w-merge.png">
+<img alt="Git 儲存庫的圖片：工作分支已合併到主要分支" src="generated/images/guide/doc-pr-prep/feature-branch-w-merge.png">
 
 </div>
 
-To make it easy for future contributors, the Angular team tries to keep the commit log as a linear sequence of changes.
-Incorporating merge commits includes changes that are the result of the merge along with what the author or developer changed. This makes it harder for future developers and authors to tell how the content evolved.
+為了方便未來的貢獻者，Angular 團隊會盡量讓提交記錄保持為線性的變更序列。納入合併提交時，會連同作者或開發者所做的變更，一併包含合併所產生的變更。這會讓未來的開發者與作者更難分辨內容是如何演變的。
 
-To create a linear sequence of changes, you might need to update your `working` branch and update your changes. To add your updates to the current state of the `main` branch and prevent a merge commit, you rebase the `working` branch.
+若要建立線性的變更序列，你可能需要更新 `working` 分支並更新你的變更。若要將你的更新加入 `main` 分支的目前狀態並防止合併提交，你可以 rebase `working` 分支。
 
-Rebasing is how `git` updates your working branch to make it look like you created it from commit `9`.
-To do this, it updates the commits in the `working` branch.
-After rebasing the `working` branch, its commits now start from the last commit of the `main` branch.
+Rebase 是 `git` 更新你的工作分支、讓它看起來像是你從提交 `9` 建立它的方法。為此，它會更新 `working` 分支中的提交。rebase `working` 分支後，它的提交現在會從 `main` 分支的最後一筆提交開始。
 
-This image shows the rebased `working` branch with is updated commits.
+這張圖片顯示 rebase 後的 `working` 分支及其更新後的提交。
 
 <div class="lightbox">
 
 <!-- Image source is found in angular/aio/src/assets/images/doc-contribute-images.sketch, in the sketch page that matches this topic's filename -->
-<img alt="An image of a git repo with an updated working branch" src="generated/images/guide/doc-pr-prep/feature-branch-w-rebase.png">
+<img alt="Git 儲存庫的圖片：已更新的工作分支" src="generated/images/guide/doc-pr-prep/feature-branch-w-rebase.png">
 
 </div>
 
-When the rebased `working` branch is merged to main, its commits can now be appended to the `main` branch with no extra merge commits.
+rebase 後的 `working` 分支合併到 main 時，它的提交現在可以直接附加到 `main` 分支，而不需要額外的合併提交。
 
-This image shows the linear, `main` branch after merging the updated and rebased `working` branch.
+這張圖片顯示合併更新並 rebase 後的 `working` 分支之後，線性的 `main` 分支。
 
 <div class="lightbox">
 
 <!-- Image source is found in angular/aio/src/assets/images/doc-contribute-images.sketch, in the sketch page that matches this topic's filename -->
-<img alt="An image of a git repo with an updated working branch" src="generated/images/guide/doc-pr-prep/feature-branch-merged.png">
+<img alt="Git 儲存庫的圖片：已更新的工作分支" src="generated/images/guide/doc-pr-prep/feature-branch-merged.png">
 
 </div>
 
-#### To update your fork of the upstream repo
+#### 更新你的上游儲存庫 fork
 
-You want to sync the `main` branch of your origin repo with the `main` branch of the upstream `angular/angular` before you open a pull request.
+在開啟 pull request 之前，你會想要將 origin 儲存庫的 `main` 分支與上游 `angular/angular` 的 `main` 分支同步。
 
-This procedure updates your origin repo, the `personal/angular` repo, on your local computer so it has the current code, as illustrated here.
-The circled numbers correspond to procedure steps.
-The last step of this procedure then pushes the update to the fork of the `angular` in your GitHub account.
+這個程序會更新你本地電腦上的 origin 儲存庫（`personal/angular` 儲存庫），使其具備目前的程式碼，如這裡所示。圈選的數字對應程序步驟。這個程序的最後一個步驟會將更新推送到你 GitHub 帳號中 `angular` 的 fork。
 
 <div class="lightbox">
 
 <!-- Image source is found in angular/aio/src/assets/images/doc-contribute-images.sketch, in the sketch page that matches this topic's filename -->
-<img alt="An image of the git fetch/merge/push process used to update the local computer" src="generated/images/guide/doc-pr-prep/github-fetch-merge.png">
+<img alt="用於更新本機電腦的 git fetch／merge／push 流程圖片" src="generated/images/guide/doc-pr-prep/github-fetch-merge.png">
 
 </div>
 
-Perform these steps from a command-line tool on your local computer.
+請在本地電腦的命令列工具中執行下列步驟。
 
-1.  From your [workspace](guide/doc-prepare-to-edit#create-a-git-workspace-on-your-local-computer) directory, run this command to navigate to your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
-    Remember to replace `personal` with your GitHub username.
+1.  從你的[工作區](guide/doc-prepare-to-edit#在本地電腦上建立-git-工作區)目錄，執行這個指令以前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)。請記得將 `personal` 替換為你的 GitHub 使用者名稱。
 
     <code-example format="shell" language="shell">
 
@@ -223,7 +191,7 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  Run this command to check out the `main` branch.
+1.  執行這個指令以簽出 `main` 分支。
 
     <code-example format="shell" language="shell">
 
@@ -231,7 +199,7 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  Update the `main` branch in the `working` directory on your local computer from the upstream `angular/angular` repo.
+1.  從上游 `angular/angular` 儲存庫更新本地電腦上 `working` 目錄中的 `main` 分支。
 
     <code-example format="shell" language="shell">
 
@@ -240,7 +208,7 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  Update your `personal/angular` repo on `github.com` with the latest from the upstream `angular/angular` repo.
+1.  以上游 `angular/angular` 儲存庫的最新內容更新 `github.com` 上的 `personal/angular` 儲存庫。
 
     <code-example format="shell" language="shell">
 
@@ -248,15 +216,13 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-The `main` branch on your local computer and your origin repo on `github.com` are now in sync.
-They have been updated with any changes to the upstream `angular/angular` repo that were made since the last time you updated your fork.
+你本地電腦上的 `main` 分支與 `github.com` 上的 origin 儲存庫現在已同步。它們已更新為自你上次更新 fork 以來，上游 `angular/angular` 儲存庫的任何變更。
 
-#### To rebase your working branch
+#### rebase 你的工作分支
 
-Perform these steps from a command-line tool on your local computer.
+請在本地電腦的命令列工具中執行下列步驟。
 
-1.  From your [workspace](guide/doc-prepare-to-edit#create-a-git-workspace-on-your-local-computer) directory, run this command to navigate to your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
-    Remember to replace `personal` with your GitHub username.
+1.  從你的[工作區](guide/doc-prepare-to-edit#在本地電腦上建立-git-工作區)目錄，執行這個指令以前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)。請記得將 `personal` 替換為你的 GitHub 使用者名稱。
 
     <code-example format="shell" language="shell">
 
@@ -264,8 +230,7 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  Run this command to check out your `working` branch.
-    Replace `working-branch` with the name of your `working` branch.
+1.  執行這個指令以簽出你的 `working` 分支。將 `working-branch` 替換為你的 `working` 分支名稱。
 
     <code-example format="shell" language="shell">
 
@@ -273,7 +238,7 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  Run this command to rebase your branch to add the commits from your `working` branch to the current content in the `main` branch.
+1.  執行這個指令以 rebase 你的分支，將 `working` 分支中的提交加入 `main` 分支的目前內容。
 
     <code-example format="shell" language="shell">
 
@@ -281,7 +246,7 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  Run this command to update your `working` branch in the repo in your GitHub account.
+1.  執行這個指令以更新你 GitHub 帳號中儲存庫裡的 `working` 分支。
 
     <code-example format="shell" language="shell">
 
@@ -289,16 +254,15 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-### Review the commits in your working branch
+### 檢閱工作分支中的提交
 
-After you rebase your `working` branch, your commits should be after those of the current `main` branch.
+rebase `working` 分支後，你的提交應該位於目前 `main` 分支的提交之後。
 
-#### To review the commits that you've added to the `working` branch
+#### 檢閱你加入 `working` 分支的提交
 
-Perform these steps from a command-line tool on your local computer.
+請在本地電腦的命令列工具中執行下列步驟。
 
-1.  From your [workspace](guide/doc-prepare-to-edit#create-a-git-workspace-on-your-local-computer) directory, run this command to navigate to your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
-    Remember to replace `personal` with your GitHub username.
+1.  從你的[工作區](guide/doc-prepare-to-edit#在本地電腦上建立-git-工作區)目錄，執行這個指令以前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)。請記得將 `personal` 替換為你的 GitHub 使用者名稱。
 
     <code-example format="shell" language="shell">
 
@@ -306,8 +270,7 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  Run this command to confirm that you are using the correct `working` branch.
-    If you aren't in the correct branch, replace `working-branch` with the name of your `working` branch and run `git checkout working-branch` to select the correct branch.
+1.  執行這個指令以確認你使用的是正確的 `working` 分支。如果你不在正確的分支中，請將 `working-branch` 替換為你的 `working` 分支名稱，並執行 `git checkout working-branch` 以選取正確的分支。
 
     <code-example format="shell" language="shell">
 
@@ -315,10 +278,9 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  Review the message from the previous `git status` command.
-    If you aren't in the correct branch, replace `working-branch` with the name of your `working` branch and run `git checkout working-branch` to select the correct branch.
+1.  檢閱前一個 `git status` 指令的訊息。如果你不在正確的分支中，請將 `working-branch` 替換為你的 `working` 分支名稱，並執行 `git checkout working-branch` 以選取正確的分支。
 
-1.  Run this command to get a list of the commits in your `working` branch.
+1.  執行這個指令以取得 `working` 分支中的提交清單。
 
     <code-example format="shell" language="shell">
 
@@ -326,31 +288,29 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-    This command returns the log of commits in the `working` branch with the most recent commit at the top of the list.
+這個指令會傳回 `working` 分支中的提交記錄，最近的提交位於清單頂部。
 
-1.  In the output of the previous `git log` command, find the entry that contains `upstream/main`.
-    It should be near the top of the list.
+1.  在前一個 `git log` 指令的輸出中，找到包含 `upstream/main` 的項目。它應該位於清單頂部附近。
 
-    1.  **Confirm that the entry that contains `upstream/main` also contains `origin/main` and `main`**
+    1.  **確認包含 `upstream/main` 的項目同時包含 `origin/main` 與 `main`**
 
-        If it doesn't, you must resync your clone and your fork of `angular/angular`, and then rebase the branch before you continue.
+如果沒有，你必須重新同步 `angular/angular` 的 clone 與 fork，然後再繼續之前 rebase 該分支。
 
-    1.  **Confirm that all commits for your update are after the entry that contains `upstream/main`**
+    1.  **確認你的更新的所有提交都位於包含 `upstream/main` 的項目之後**
 
-        Remember that the log output is displayed with the most recent commit first. Your commits should all be on top of the entry that contains `upstream/main` in the log output.
-        If any of your commits are listed after the entry that contains `upstream/main`, somehow your commits in the `working` branch got mixed up. You must fix the branch before you open a pull request.
+請記得，記錄輸出的顯示方式是最近的提交在最前面。你的提交都應該位於記錄輸出中包含 `upstream/main` 的項目上方。如果你的任何提交列在包含 `upstream/main` 的項目之後，表示你的 `working` 分支中的提交不知何故混在一起了。在開啟 pull request 之前，你必須修正該分支。
 
-    1.  **Confirm that your commit messages are in the correct format**
+    1.  **確認你的提交訊息格式正確**
 
-        The commit message format is tested by the automated tests and it must be in the correct format before the pull request can be approved.
+提交訊息格式會由自動化測試進行測試，pull request 獲得核准之前，格式必須正確。
 
-    1.  **Confirm that your commits and their messages reflect the changes your update makes to Angular**
+    1.  **確認你的提交及其訊息反映了你的更新對 Angular 所做的變更**
 
-        If you have more commits than changes, you might need to squash them into fewer commits before your pull request is approved.
+如果你的提交比變更還多，在 pull request 獲得核准之前，你可能需要將它們壓縮為較少的提交。
 
-## Next step
+## 下一步
 
-After you confirm that your updates and your `working` branch are correct, you are ready to [open a pull request](guide/doc-pr-open).
+確認你的更新與 `working` 分支正確無誤後，你就可以[開啟 pull request](guide/doc-pr-open)了。
 
 <!-- links -->
 

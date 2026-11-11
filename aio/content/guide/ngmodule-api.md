@@ -1,13 +1,12 @@
 # NgModule API
 
-At a high level, NgModules are a way to organize Angular applications and they accomplish this through the metadata in the `@NgModule` decorator.
-The metadata falls into three categories:
+從高層次來看，NgModule 是組織 Angular 應用程式的一種方式，透過 `@NgModule` 裝飾器中的中繼資料來達成。 中繼資料分為三類：
 
-| Category                 | Details |
+| 類別 | 詳細說明 |
 |:---                      |:---     |
-| Static                   | Compiler configuration which tells the compiler about directive selectors and where in templates the directives should be applied through selector matching. This is configured using the `declarations` array. |
-| Runtime                  | Injector configuration using the `providers` array.                                                                                                                                                             |
-| Composability / Grouping | Bringing NgModules together and making them available using the `imports` and `exports` arrays.                                                                                                                 |
+| 靜態 | 編譯器設定，告訴編譯器指令的選擇器，以及透過選擇器比對，指令應套用在範本的哪些位置。使用 `declarations` 陣列來設定。 |
+| 執行期 | 注入器設定，使用 `providers` 陣列。 |
+| 可組合性／分組 | 使用 `imports` 與 `exports` 陣列，將 NgModule 組合在一起並提供出來使用。 |
 
 <code-example format="typescript" language="typescript">
 
@@ -25,25 +24,25 @@ The metadata falls into three categories:
 
 </code-example>
 
-## `@NgModule` metadata
+## `@NgModule` 中繼資料
 
-The following table summarizes the `@NgModule` metadata properties.
+下表彙總 `@NgModule` 的中繼資料屬性。
 
-| Property       | Details |
+| 屬性 | 詳細說明 |
 |:---            |:---     |
-| `declarations` | A list of [declarable](guide/ngmodule-faq#q-declarable) classes \(*components*, *directives*, and *pipes*\) that *belong to this module*. <ol> <li> When compiling a template, you need to determine a set of selectors which should be used for triggering their corresponding directives. </li> <li> The template is compiled within the context of an NgModule &mdash;the NgModule within which the template's component is declared&mdash; which determines the set of selectors using the following rules: <ul> <li> All selectors of directives listed in `declarations`. </li> <li> All selectors of directives exported from imported NgModules. </li> </ul> </li> </ol> Components, directives, and pipes must belong to *exactly* one module. The compiler emits an error if you try to declare the same class in more than one module. Be careful not to re-declare a class that is imported directly or indirectly from another module.                                                                                                                                                                                                                                                 |
-| `providers`    | A list of dependency-injection providers. <br /> Angular registers these providers with the NgModule's injector. If it is the NgModule used for bootstrapping then it is the root injector. <br /> These services become available for injection into any component, directive, pipe or service which is a child of this injector. <br /> A lazy-loaded module has its own injector which is typically a child of the application root injector. <br /> Lazy-loaded services are scoped to the lazy module's injector. If a lazy-loaded module also provides the `UserService`, any component created within that module's context \(such as by router navigation\) gets the local instance of the service, not the instance in the root application injector. <br /> Components in external modules continue to receive the instance provided by their injectors. <br /> For more information on injector hierarchy and scoping, see [Providers](guide/providers) and the [DI Guide](guide/dependency-injection).                                                                                                                                                                                  |
-| `imports`      | A list of modules which should be folded into this module. Folded means it is as if all the imported NgModule's exported properties were declared here. <br /> Specifically, it is as if the list of modules whose exported components, directives, or pipes are referenced by the component templates were declared in this module. <br /> A component template can [reference](guide/ngmodule-faq#q-template-reference) another component, directive, or pipe when the reference is declared in this module or if the imported module has exported it. For example, a component can use the `NgIf` and `NgFor` directives only if the module has imported the Angular `CommonModule` \(perhaps indirectly by importing `BrowserModule`\). <br /> You can import many standard directives from the `CommonModule` but some familiar directives belong to other modules. For example, you can use `[(ngModel)]` only after importing the Angular `FormsModule`.                                                                                                                                                                                                                                     |
-| `exports`      | A list of declarations &mdash;*component*, *directive*, and *pipe* classes&mdash; that an importing module can use. <br /> Exported declarations are the module's *public API*. A component in another module can [use](guide/ngmodule-faq#q-template-reference) *this* module's `UserComponent` if it imports this module and this module exports `UserComponent`. <br /> Declarations are private by default. If this module does *not* export `UserComponent`, then only the components within *this* module can use `UserComponent`. <br /> Importing a module does *not* automatically re-export the imported module's imports. Module 'B' can't use `ngIf` just because it imported module 'A' which imported `CommonModule`. Module 'B' must import `CommonModule` itself. <br /> A module can list another module among its `exports`, in which case all of that module's public components, directives, and pipes are exported. <br /> [Re-export](guide/ngmodule-faq#q-reexport) makes module transitivity explicit. If Module 'A' re-exports `CommonModule` and Module 'B' imports Module 'A', Module 'B' components can use `ngIf` even though 'B' itself didn't import `CommonModule`. |
-| `bootstrap`    | A list of components that are automatically bootstrapped. <br /> Usually there's only one component in this list, the *root component* of the application. <br /> Angular can launch with multiple bootstrap components, each with its own location in the host web page.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `declarations` | [可宣告](guide/ngmodule-faq#q-declarable)類別（*元件*、*指令*與*管道*）的清單，這些類別*屬於此模組*。 <ol> <li> 編譯範本時，你需要決定一組選擇器，用來觸發其對應的指令。 </li> <li> 範本是在某個 NgModule 的脈絡中編譯的——即範本的元件所宣告的那個 NgModule——它會依照下列規則決定選擇器的集合： <ul> <li> `declarations` 中列出的所有指令的選擇器。 </li> <li> 從匯入的 NgModule 匯出的所有指令的選擇器。 </li> </ul> </li> </ol> 元件、指令與管道必須*恰好*屬於一個模組。如果你嘗試在一個以上的模組中宣告同一個類別，編譯器會發出錯誤。請小心不要重複宣告直接或間接從其他模組匯入的類別。 |
+| `providers` | 依賴注入提供者的清單。 <br /> Angular 會將這些提供者註冊到 NgModule 的注入器。如果這是用來啟動的 NgModule，它就是根注入器。 <br /> 這些服務可供注入到此注入器的任何子元件、指令、管道或服務中。 <br /> 延遲載入的模組有自己的注入器，通常是應用程式根注入器的子注入器。 <br /> 延遲載入的服務作用域限定在延遲載入模組的注入器。如果延遲載入的模組也提供了 `UserService`，在該模組脈絡中建立的任何元件（例如透過路由導覽）取得的是服務的本機實例，而不是根應用程式注入器中的實例。 <br /> 外部模組中的元件則繼續接收其注入器所提供的實例。 <br /> 關於注入器階層與作用域的更多資訊，請見 [Providers](guide/providers) 與 [DI 指南](guide/dependency-injection)。 |
+| `imports` | 應併入此模組的模組清單。併入的意思是，彷彿所有匯入的 NgModule 所匯出的屬性都宣告在此。 <br /> 具體來說，就彷彿那些其匯出的元件、指令或管道被元件範本參照的模組清單，宣告在此模組中。 <br /> 當參照宣告在此模組中，或匯入的模組已將其匯出時，元件範本可以[參照](guide/ngmodule-faq#q-template-reference)另一個元件、指令或管道。例如，元件只有在模組匯入了 Angular 的 `CommonModule`（或許是間接透過匯入 `BrowserModule`）時，才能使用 `NgIf` 與 `NgFor` 指令。 <br /> 你可以從 `CommonModule` 匯入許多標準指令，但有些熟悉的指令屬於其他模組。例如，匯入 Angular 的 `FormsModule` 之後，才能使用 `[(ngModel)]`。 |
+| `exports` | 匯入此模組的模組可以使用的宣告（*元件*、*指令*與*管道*類別）清單。 <br /> 匯出的宣告是模組的*公開 API*。如果另一個模組的元件匯入了此模組，且此模組匯出了 `UserComponent`，該元件就能[使用](guide/ngmodule-faq#q-template-reference)*此*模組的 `UserComponent`。 <br /> 宣告預設是私有的。如果此模組*沒有*匯出 `UserComponent`，就只有*此*模組內的元件能使用 `UserComponent`。 <br /> 匯入一個模組*不會*自動重新匯出該模組所匯入的內容。模組「B」不能只因為匯入了匯入 `CommonModule` 的模組「A」，就能使用 `ngIf`。模組「B」必須自己匯入 `CommonModule`。 <br /> 模組可以將另一個模組列入其 `exports`，此時該模組的所有公開元件、指令與管道都會被匯出。 <br /> [重新匯出](guide/ngmodule-faq#q-reexport)讓模組的遞移性明確化。如果模組「A」重新匯出了 `CommonModule`，而模組「B」匯入模組「A」，即使「B」本身沒有匯入 `CommonModule`，模組「B」的元件也能使用 `ngIf`。 |
+| `bootstrap` | 會自動啟動的元件清單。 <br /> 通常這份清單只有一個元件，即應用程式的*根元件*。 <br /> Angular 可以以多個啟動元件啟動，每個元件在宿主網頁中各自有其位置。 |
 
-## More on NgModules
+## 更多關於 NgModules
 
-You may also be interested in the following:
+你可能也會對以下內容有興趣：
 
-*   [Feature Modules](guide/feature-modules)
-*   [Providers](guide/providers)
-*   [Types of Feature Modules](guide/module-types)
+*   [功能模組](guide/feature-modules)
+*   [提供者](guide/providers)
+*   [功能模組的類型](guide/module-types)
 
 <!-- links -->
 

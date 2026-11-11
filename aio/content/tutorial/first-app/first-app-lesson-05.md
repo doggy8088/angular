@@ -1,55 +1,55 @@
-# Lesson 5: Add an input parameter to the component
+# 第 5 課：為元件加入 input 參數
 
-This tutorial lesson demonstrates how to create a component `@Input()` and use it to pass data to a component for customization.
+本教學課程示範如何建立元件的 `@Input()`，並用它將資料傳入元件進行自訂。
 
-**Estimated time**: ~10 minutes
+**預估時間**：約 10 分鐘
 
-**Starting code:** <live-example name="first-app-lesson-04"></live-example>
+**起始程式碼**： <live-example name="first-app-lesson-04"></live-example>
 
-**Completed code:** <live-example name="first-app-lesson-05"></live-example>
+**完成程式碼**： <live-example name="first-app-lesson-05"></live-example>
 
-## What you'll learn
+## 你將學到什麼
 
-Your app's `HousingLocationComponent` template has a `HousingLocation` property to receive input.
+你的應用程式的 `HousingLocationComponent` 範本有一個 `HousingLocation` 屬性，用來接收輸入。
 
-## Conceptual preview of Inputs
-[Inputs](api/core/Input) allow components to share data. The direction of the data sharing is from parent component to child component.
+## Input 概念預覽
+[Input](api/core/Input)讓元件能共享資料。資料共享的方向是從父元件到子元件。
 
-In this lesson, you'll define `@Input()` properties in the `HousingLocationComponent` component which will enable you to customize the data displayed in the component.
+在這一課中，你會在 `@Input()` 元件中定義 `HousingLocationComponent` 屬性，讓你能自訂元件中顯示的資料。
 
-Learn more in the [Sharing data between child and parent directives and components](guide/inputs-outputs) guide.
+如需進一步了解，請參閱[在子指令與父指令及元件之間共用資料](guide/inputs-outputs)指南。
 
-## Step 1 - Import the Input decorator
-This step imports the `Input` decorator into the class.
+## 步驟 1：匯入 Input 裝飾器
+這個步驟會把 `Input` 裝飾器匯入類別中。
 
-In the code editor:
-1.  Navigate to `src/app/housing-location/housing-location.component.ts`
-1.  Update the file imports to include `Input` and `HousingLocation`:
+在程式碼編輯器中：
+1.  前往 `src/app/housing-location/housing-location.component.ts`
+1.  更新檔案的 import，加入 `Input` 與 `HousingLocation`：
 
     <code-example header="Import HousingLocationComponent and Input in src/app/housing-location/housing-location.component.ts" path="first-app-lesson-05/src/app/housing-location/housing-location.component.ts" region="add-imports"></code-example>
 
-## Step 2 - Add the Input property
-1.  In the same file, add a property called `housingLocation` of type `HousingLocation` to the `HousingLocationComponent` class. Add an `!` after the property name and prefix it with the `@Input()` decorator:
+## 步驟 2：加入 Input 屬性
+1.  在同一個檔案中，為 `housingLocation` 類別加入一個名為 `HousingLocation`、型別為 `HousingLocationComponent` 的屬性。在屬性名稱後面加上 `!`，並在前面加上 `@Input()` 裝飾器：
 
     <code-example header="Import HousingLocationComponent and Input in src/app/housing-location/housing-location.component.ts" path="first-app-lesson-05/src/app/housing-location/housing-location.component.ts" region="add-housing-location-property"></code-example>
 
-    You have to add the `!` because the input is expecting the value to be passed. In this case, there is no default value. In our example application case we know that the value will be passed in - this is by design. The exclamation point is called the non-null assertion operator and it tells the TypeScript compiler that the value of this property won't be null or undefined.
+你必須加上 `!`，因為輸入預期會有值被傳入。在這個情況下，沒有預設值。在我們的範例應用程式中，我們知道這個值會被傳入，這是刻意設計的。這個驚嘆號稱為非空斷言運算子，它告訴 TypeScript 編譯器，這個屬性的值不會是 null 或 undefined。
 
-1.  Save your changes and confirm the app does not have any errors.
+1.  1. 儲存你的變更，確認應用程式沒有任何錯誤。
 
-1.  Correct any errors before you continue to the next step.
+1.  繼續下一步之前，請先修正任何錯誤。
 
-## Lesson review
+## 課程回顧
 
-In this lesson, you created a new property decorated with the `@Input()` decorator. You also used the non-null assertion operator to notify the compiler that the value of the new property won't be `null` or `undefined`.
+Summary: 在這一課中，你建立了一個以 `@Input()` 裝飾器裝飾的新屬性。你也使用了非空斷言運算子，通知編譯器新屬性的值不會是 `null` 或 `undefined`。
 
-If you are having any trouble with this lesson, you can review the completed code for it in the <live-example></live-example>.
+如果你在這一課遇到任何困難，可以在 <live-example></live-example> 中查看這一課的完成程式碼。
 
-## Next steps
+## 後續步驟
 
-* [Lesson 6 - Add a property binding to an component’s template](tutorial/first-app/first-app-lesson-06)
+* [第 6 課：為元件的範本加入屬性繫結](tutorial/first-app/first-app-lesson-06)
 
-## For more information about the topics covered in this lesson, visit:
-* [Sharing data between child and parent directives and components](guide/inputs-outputs)
+## 如需本課所涵蓋主題的更多資訊，請造訪：
+* [在子指令與父指令及元件之間共用資料](guide/inputs-outputs)
 
 @reviewed 2023-07-11

@@ -1,48 +1,36 @@
-# HTTP - Pass metadata to interceptors
+# HTTP - 將中繼資料傳遞給攔截器
 
-Many interceptors require or benefit from configuration.
-Consider an interceptor that retries failed requests.
-By default, the interceptor might retry a request three times, but you might want to override this retry count for particularly error-prone or sensitive requests.
+許多攔截器需要設定，或能從設定中受益。想像一個會重試失敗請求的攔截器。預設情況下，攔截器可能會重試請求三次，但對於特別容易出錯或敏感的請求，你可能會想覆寫這個重試次數。
 
-`HttpClient` requests contain a *context* that can carry metadata about the request.
-This context is available for interceptors to read or modify, though it is not transmitted to the backend server when the request is sent.
-This lets applications or other interceptors tag requests with configuration parameters, such as how many times to retry a request.
+`HttpClient` 請求包含一個 *context*，可以攜帶關於該請求的中繼資料。攔截器可以讀取或修改這個 context，不過在送出請求時，它不會被傳送到後端伺服器。這讓應用程式或其他攔截器可以用設定參數（例如重試請求的次數）來標記請求。
 
-## Create a context token
+## 建立 context 權杖
 
-Angular stores and retrieves a value in the context using an `HttpContextToken`.
-You can create a context token using the `new` operator, as in the following example:
+Angular 使用 `HttpContextToken` 在 context 中儲存與擷取值。你可以使用 `new` 運算子建立 context 權杖，如下列範例所示：
 
 <code-example header="creating a context token" path="http/src/app/http-interceptors/retry-interceptor.ts" region="context-token"></code-example>
 
-The lambda function `() => 3` passed during the creation of the `HttpContextToken` serves two purposes:
+在建立 `HttpContextToken` 時傳入的 lambda 函式 `() => 3` 有兩個用途：
 
-1.  It lets TypeScript infer the type of this token:
-    `HttpContextToken<number>`
-    The request context is type-safe &mdash;reading a token from a request's context returns a value of the appropriate type.
+1.  它讓 TypeScript 推斷這個權杖的型別：`HttpContextToken<number>`。請求 context 是型別安全的——從請求的 context 讀取權杖時，會回傳適當型別的值。
 
-1.  It sets the default value for the token.
-    This is the value that the request context returns if no other value was set for this token.
-    Using a default value avoids the need to check if a particular value is set.
+1.  它會設定權杖的預設值。這是當這個權杖未設定其他值時，請求 context 所回傳的值。使用預設值可以避免檢查某個特定值是否已設定。
 
-## Set context values when making a request
+## 發出請求時設定 context 值
 
-When making a request, you can provide an `HttpContext` instance, in which you have already set the context values.
+發出請求時，你可以提供一個 `HttpContext` 執行個體，其中已設定好 context 值。
 
 <code-example header="setting context values" path="http/src/app/http-interceptors/retry-interceptor.ts" region="set-context"></code-example>
 
-## Read context values in an interceptor
+## 在攔截器中讀取 context 值
 
-Within an interceptor, you can read the value of a token in a given request's context with `HttpContext.get()`.
-If you have not explicitly set a value for the token, Angular returns the default value specified in the token.
+在攔截器內，你可以使用 `HttpContext.get()` 讀取給定請求 context 中某個權杖的值。如果你沒有明確為該權杖設定值，Angular 會回傳該權杖中指定的預設值。
 
 <code-example header="reading context values in an interceptor" path="http/src/app/http-interceptors/retry-interceptor.ts" region="reading-context"></code-example>
 
-## Contexts are mutable
+## Context 是可變的
 
-Unlike most other aspects of `HttpRequest` instances, the request context is mutable and persists across other immutable transformations of the request.
-This lets interceptors coordinate operations through the context.
-For instance, the `RetryInterceptor` example could use a second context token to track how many errors occur during the execution of a given request:
+與 `HttpRequest` 執行個體的其他大部分層面不同，請求 context 是可變的，而且會在請求的其他不可變轉換中持續存在。這讓攔截器可以透過 context 協調操作。例如，`RetryInterceptor` 範例可以使用第二個 context 權杖，來追蹤給定請求執行期間發生了多少錯誤：
 
 <code-example header="coordinating operations through the context" path="http/src/app/http-interceptors/retry-interceptor.ts" region="mutable-context"></code-example>
 

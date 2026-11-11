@@ -1,16 +1,16 @@
-# RxJS Interop
+# RxJS 互通
 
 <div class="alert is-important">
 
-The RxJS Interop package is available for [developer preview](/guide/releases#developer-preview). It's ready for you to try, but it might change before it is stable.
+RxJS Interop 套件目前處於[開發者預覽](/guide/releases#開發者預覽)階段。它已經可以試用，但在成為穩定版之前仍可能有所變更。
 
 </div>
 
-Angular's `@angular/core/rxjs-interop` package which provides useful utilities to integrate [Angular Signals](/guide/signals) with RxJS Observables.
+Angular 的 `@angular/core/rxjs-interop` 套件提供實用的工具函式，協助你將 [Angular 訊號](/guide/signals) 與 RxJS Observable 整合。
 
 ## `toSignal`
 
-The `toSignal` function creates a signal which tracks the value of an Observable. It behaves similarly to the `async` pipe in templates, but is more flexible and can be used anywhere in an application.
+使用 `toSignal` 函式建立一個訊號，用來追蹤 Observable 的值。它的行為類似範本中的 `async` 管道，但更具彈性，可用在應用程式的任何地方。
 
 ```ts
 import { Component } from '@angular/core';
@@ -28,42 +28,41 @@ export class Ticker {
 }
 ```
 
-Like the `async` pipe, `toSignal` subscribes to the Observable immediately, which may trigger side effects. The subscription created by
-`toSignal` automatically unsubscribes from the given Observable upon destruction of the component in which `toSignal` is called.
+如同 `async` 管道，`toSignal` 會立即訂閱 Observable，這可能會觸發副作用。`toSignal` 建立的訂閱，會在呼叫 `toSignal` 的元件銷毀時，自動取消訂閱指定的 Observable。
 
-### Initial values
+### 初始值
 
-Observables may not produce a value synchronously on subscription, but signals always require a current value. There are several ways to deal with this "initial" value of `toSignal` signals.
+Observable 在訂閱時不一定會同步產生值，但訊號永遠需要一個目前值。以下有幾種方式可以處理 `toSignal` 訊號的這個「初始」值。
 
-#### The `initialValue` option
+#### `initialValue` 選項
 
-As in the example above, the `initialValue` option specifies the value the signal should return before the Observable emits for the first time.
+如同上述範例，`initialValue` 選項指定了訊號在 Observable 第一次發出值之前應傳回的值。
 
-#### `undefined` initial values
+#### `undefined` 初始值
 
-If `initialValue` is omitted, the signal returned by `toSignal` returns `undefined` until the Observable emits. This is similar to the `async` pipe's behavior of returning `null`.
+如果省略 `initialValue`，`toSignal` 傳回的訊號在 Observable 發出值之前會傳回 `undefined`。這與 `async` 管道傳回 `null` 的行為類似。
 
-#### The `requireSync` option
+#### `requireSync` 選項
 
-Some Observables are known to emit synchronously, such as `BehaviorSubject`. In those cases, you can specify the `requireSync: true` option.
+有些 Observable 保證會同步發送，例如 `BehaviorSubject`。在這種情況下，你可以指定 `requireSync: true` 選項。
 
-When `requiredSync` is `true`, `toSignal` enforces that the Observable emits synchronously on subscription. This guarantees that the signal always has a value, and no `undefined` type or initial value is required.
+當 `requiredSync` 為 `true` 時，`toSignal` 會強制要求 Observable 在訂閱時同步發送。這保證訊號永遠有值，不需要 `undefined` 型別，也不需要初始值。
 
 ### `manualCleanup`
 
-By default, `toSignal` automatically unsubscribes from the Observable upon destruction of the context in which it's created. For example, if `toSignal` is called during creation of a component, it cleans up its subscription when the component is destroyed.
+預設情況下，`toSignal` 會在建立它的情境銷毀時，自動取消訂閱 Observable。例如，如果在建立元件期間呼叫 `toSignal`，它會在元件銷毀時清理訂閱。
 
-The `manualCleanup` option disables this automatic cleanup. You can use this setting for Observables that complete themselves naturally.
+`manualCleanup` 選項會停用這種自動清理。如果 Observable 會自然完成，你可以使用這個設定。
 
-### Error and Completion
+### 錯誤與完成
 
-If an Observable used in `toSignal` produces an error, that error is thrown when the signal is read.
+如果用於 `toSignal` 的 Observable 產生錯誤，該錯誤會在讀取訊號時拋出。
 
-If an Observable used in `toSignal` completes, the signal continues to return the most recently emitted value before completion.
+如果用於 `toSignal` 的 Observable 完成，訊號會繼續回傳完成前最後發送的值。
 
 ## `toObservable`
 
-The `toObservable` utility creates an `Observable` which tracks the value of a signal. The signal's value is monitored with an `effect`, which emits the value to the Observable when it changes.
+使用 `toObservable` 工具函式建立一個 `Observable`，用來追蹤訊號的值。訊號的值由一個 `effect` 監控，當值變更時，effect 會把值發送給 Observable。
 
 ```ts
 import { Component, signal } from '@angular/core';
@@ -79,17 +78,17 @@ export class SearchResults {
 }
 ```
 
-As the `query` signal changes, the `query$` Observable emits the latest query and triggers a new HTTP request.
+隨著 `query` 訊號變更，`query$` Observable 會發送最新的查詢並觸發一個新的 HTTP 請求。
 
-### Injection context
+### 注入上下文
 
-`toObservable` by default needs to run in an [injection context](/guide/dependency-injection-context), such as during construction of a component or service. If an injection context is not available, an `Injector` can instead be explicitly specified.
+`toObservable` 預設需要在[注入上下文](/guide/dependency-injection-context)中執行，例如在建立元件或服務期間。如果沒有注入上下文，也可以明確指定一個 `Injector`。
 
-### Timing of `toObservable`
+### `toObservable` 的時機
 
-`toObservable` uses an effect to track the value of the signal in a `ReplaySubject`. On subscription, the first value (if available) may be emitted synchronously, and all subsequent values will be asynchronous.
+`toObservable` 使用 effect 在 `ReplaySubject` 中追蹤訊號的值。訂閱時，第一個值（如果有的話）可能會同步發送，之後的所有值都會是非同步的。
 
-Unlike Observables, signals never provide a synchronous notification of changes. Even if your code updates a signal's value multiple times, effects which depend on its value run only after the signal has "settled".
+與 Observable 不同，訊號絕不會同步通知變更。即使你的程式碼多次更新訊號的值，依賴該值的 `effect` 也只會在訊號「穩定下來」之後才執行。
 
 ```ts
 const obs$ = toObservable(mySignal);
@@ -100,4 +99,4 @@ mySignal.set(2);
 mySignal.set(3);
 ```
 
-Here, only the last value (3) will be logged.
+在這裡，只有最後的值（3）會被記錄下來。

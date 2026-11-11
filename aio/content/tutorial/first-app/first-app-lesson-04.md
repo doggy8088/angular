@@ -1,36 +1,34 @@
-# First Angular app lesson 4 - Creating an interface
+# 第一個 Angular 應用程式第 4 課：建立介面
 
-This tutorial lesson demonstrates how to create an interface and include it in a component of your app.
+本教學課程示範如何建立介面，並將它用在應用程式的元件中。
 
-**Estimated time**: ~10 minutes
+**預估時間**：約 10 分鐘
 
-**Starting code:** <live-example name="first-app-lesson-03"></live-example>
+**起始程式碼**： <live-example name="first-app-lesson-03"></live-example>
 
-**Completed code:** <live-example name="first-app-lesson-04"></live-example>
+**完成程式碼**： <live-example name="first-app-lesson-04"></live-example>
 
-## What you'll learn
+## 你將學到什麼
 
-*  Your app has a new interface that it can use as a data type.
-*  Your app has an instance of the new interface with sample data.
+*  你的應用程式有了一個新介面，可以用來作為資料型別。
+*  你的應用程式有了新介面的一個實例，並帶有範例資料。
 
-## Conceptual preview of interfaces
+## 介面概念預覽
 
-[Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html) are custom data types for your app.
+[介面](https://www.typescriptlang.org/docs/handbook/interfaces.html)是你的應用程式自訂的資料型別。
 
-Angular uses TypeScript to take advantage of working in a strongly typed programming environment.
-Strong type checking reduces the likelihood of one element in your app sending incorrectly formatted data to another.
-Such type-mismatch errors are caught by the TypeScript compiler and many such errors can also be caught in your IDE.
+Angular 使用 TypeScript，藉此善用強型別程式設計環境。 強型別檢查能降低應用程式中某個元素把格式不正確的資料傳給另一個元素的可能性。 這類型別不符的錯誤會被 TypeScript 編譯器抓出來，其中許多錯誤也能在你的 IDE 中被發現。
 
-In this lesson, you'll create an interface to define properties that represent data about a single housing location.
+在這一課中，你會建立一個介面，定義代表單一房屋地點資料的屬性。
 
-## Step 1 - Create a new Angular interface
+## 步驟 1：建立新的 Angular 介面
 
-This step creates a new interface in your app.
+這個步驟會在你的應用程式中建立一個新的介面。
 
-In the **Terminal** pane of your IDE:
+在 IDE 的 **Terminal** 窗格中：
 
-1.  In your project directory, navigate to the `first-app` directory.
-1.  In the `first-app` directory, run this command to create the new interface.
+1.  1. 在你的專案目錄中，進入 `first-app` 目錄。
+1.  在 `first-app` 目錄中，執行這個命令來建立新的介面。
 
     <code-example format="shell" language="shell">
 
@@ -38,73 +36,68 @@ In the **Terminal** pane of your IDE:
 
     </code-example>
 
-1.  Run `ng serve` to build the app and serve it to `http://localhost:4200`.
-1.  In a browser, open `http://localhost:4200` to see your app.
-1.  Confirm that the app builds without error.
-    Correct any errors before you continue to the next step.
+1.  執行 `ng serve` 來建置應用程式，並在 `http://localhost:4200` 上提供服務。
+1.  在瀏覽器中開啟 `http://localhost:4200` 來查看你的應用程式。
+1.  1. 確認應用程式能順利建置、沒有錯誤。 繼續下一個步驟之前，請先修正所有錯誤。
 
-## Step 2 - Add properties to the new interface
+## 步驟 2：為新介面加入屬性
 
-This step adds the properties to the interface that your app needs to represent a housing location.
+這個步驟會為介面加入屬性，讓你的應用程式能夠表示一個房屋地點。
 
-1.  In the **Terminal** pane of your IDE, start the `ng serve` command, if it isn't already running, to build the app and serve it to `http://localhost:4200`.
-1.  In the **Edit** pane of your IDE, open the `src/app/housinglocation.ts` file.
-1.  In `housinglocation.ts`, replace the default content with the following code to make your new interface to match this example.
+1.  在 IDE 的 **終端機** 窗格中，啟動 `ng serve` 命令（如果尚未執行），來建置應用程式並在 `http://localhost:4200` 上提供服務。
+1.  在 IDE 的 **編輯** 窗格中，開啟 `src/app/housinglocation.ts` 檔案。
+1.  在 `housinglocation.ts` 中，把預設內容替換成以下程式碼，讓你的新介面符合這個範例。
 
     <code-example header="Update src/app/housinglocation.ts to match this code" path="first-app-lesson-04/src/app/housinglocation.ts"></code-example>
 
-1.  Save your changes and confirm the app does not display any errors. Correct any errors before you continue to the next step.
+1.  1. 儲存你的變更，確認應用程式沒有顯示任何錯誤。繼續下一步之前，請先修正任何錯誤。
 
-At this point, you've defined an interface that represents data about a housing location including an id, name, and location information.
+到目前為止，你已經定義了一個代表房屋地點資料的介面，包含 id、name 與地點資訊。
 
-## Step 3 - Create a test house for your app
+## 步驟 3：為你的應用程式建立一間測試房屋
 
-You have an interface, but you aren't using it yet.
+你已經有了一個介面，但還沒有使用它。
 
-In this step, you create an instance of the interface and assign some sample data to it.
-You won't see this sample data appear in your app yet.
-There are a few more lessons to complete before that happens.
+在這個步驟中，你會建立介面的一個實例，並為它指派一些範例資料。 目前你還不會在應用程式中看到這些範例資料出現。 還要再完成幾課，才會看到它。
 
-1.  In the **Terminal** pane of your IDE, run the `ng serve` command, if it isn't already running, to build the app and serve your app to `http://localhost:4200`.
-1.  In the **Edit** pane of your IDE, open `src/app/home/home.component.ts`.
-1.  In `src/app/home/home.component.ts`, add this import statement after the existing `import` statements so that `HomeComponent` can use the new interface.
+1.  在 IDE 的 **終端機** 窗格中，執行 `ng serve` 命令（如果尚未執行），來建置應用程式並在 `http://localhost:4200` 上提供服務。
+1.  在 IDE 的 **Edit** 窗格中，在 `src/app/home/home.component.ts` 裡：
+1.  在 `src/app/home/home.component.ts` 中，在現有的 `import` 陳述式之後加入這行 import 陳述式，讓 `HomeComponent` 能夠使用新的介面。
 
     <code-example header="Import HomeComponent in src/app/home/home.component.ts" path="first-app-lesson-04/src/app/home/home.component.ts" region="housing-location-import"></code-example>
 
-1.  In `src/app/home/home.component.ts`, replace the empty `export class HomeComponent {}` definition with this code to create a single instance of the new interface in the component.
+1.  1. 在 `src/app/home/home.component.ts` 中，用下列程式碼取代空白的 `export class HomeComponent {}` 定義，在元件中建立新介面的一個實例。
 
     <code-example header="Add sample data to src/app/home/home.component.ts" path="first-app-lesson-04/src/app/home/home.component.ts" region="only-house"></code-example>
 
-1.  Confirm that your `home.component.ts` file matches like this example.
+1.  1. 確認你的 `home.component.ts` 檔案與這個範例一致。
 
     <code-example header="src/app/home/home.component.ts" path="first-app-lesson-04/src/app/home/home.component.ts"></code-example>
 
-    By adding the `housingLocation` property of type `HousingLocation` to the `HomeComponent` class, we're able to confirm that the data matches the description of the interface. If the data didn't satisfy the description of the interface, the IDE has enough information to give us helpful errors.
+透過為 `housingLocation` 類別加入型別為 `HousingLocation` 的 `HomeComponent` 屬性，我們就能確認資料符合介面的描述。如果資料不符合介面的描述，IDE 有足夠的資訊能給我們有幫助的錯誤提示。
 
-1.  Save your changes and confirm the app does not have any errors. Open the browser and confirm that your application still displays the message "housing-location works!"
+1.  1. 儲存你的變更，確認應用程式沒有任何錯誤。開啟瀏覽器，確認你的應用程式仍然顯示「housing-location works!」訊息。
 
     <section class="lightbox">
-    <img alt="browser frame of homes-app displaying logo, filter text input box and search button and the message 'housing-location works!'" src="generated/images/guide/faa/homes-app-lesson-03-step-2.png">
+    <img alt="homes-app 的瀏覽器畫面，顯示標誌、篩選文字輸入框、搜尋按鈕與訊息「housing-location works!」" src="generated/images/guide/faa/homes-app-lesson-03-step-2.png">
     </section>
 
-1.  Correct any errors before you continue to the next step.
+1.  繼續下一步之前，請先修正任何錯誤。
 
-## Lesson review
+## 課程回顧
 
-In this lesson, you created an interface that created a new data type for your app.
-This new data type makes it possible for you to specify where `HousingLocation` data is required.
-This new data type also makes your IDE and the TypeScript compiler ensure that `HousingLocation` data is used where it's required.
+Summary: 在這一課中，你建立了一個介面，為你的應用程式建立了新的資料型別。 有了這個新資料型別，你就能指定哪些地方需要 `HousingLocation` 資料。 這個新資料型別也能讓你的 IDE 與 TypeScript 編譯器確保 `HousingLocation` 資料被用在需要它的地方。
 
-If you are having any trouble with this lesson, you can review the completed code for it in the <live-example></live-example>.
+如果你在這一課遇到任何困難，可以在 <live-example></live-example> 中查看這一課的完成程式碼。
 
-## Next steps
+## 後續步驟
 
-* [Lesson 5 - Add an input parameter to the component](tutorial/first-app/first-app-lesson-05)
+* [第 5 課：為元件加入 input 參數](tutorial/first-app/first-app-lesson-05)
 
 
-## More information
+## 更多資訊
 
-For more information about the topics covered in this lesson, visit:
+如需本課所涵蓋主題的更多資訊，請造訪：
 
 <!-- vale Angular.Google_WordListSuggestions = NO -->
 

@@ -1,13 +1,13 @@
-# Prerendering static pages
+# 預渲染靜態頁面
 
-Angular Universal lets you prerender the pages of your application.
-Prerendering is the process where a dynamic page is processed at build time generating static HTML.
+Angular Universal 可以讓你預渲染應用程式的頁面。
+預渲染是指在建置期間處理動態頁面、產生靜態 HTML 的程序。
 
-## How to prerender a page
+## 如何預渲染頁面
 
-To prerender a static page make sure to add Server-Side Rendering (SSR) capabilities to your application.
-For more information see the [universal guide](guide/universal).
-Once SSR is added, run the following command:
+要預渲染靜態頁面，請確認已為應用程式加入伺服器端渲染（SSR）功能。
+如需更多資訊，請參閱 [Universal 指南](guide/universal)。
+加入 SSR 後，請執行下列命令：
 
 <code-example format="shell" language="shell">
 
@@ -15,34 +15,34 @@ npm run prerender
 
 </code-example>
 
-### Build options for prerendering
+### 預渲染的建置選項
 
-When you add prerendering to your application, the following build options are available:
+當你為應用程式加入預渲染時，可以使用下列建置選項：
 
-| Options         | Details |
+| 選項            | 詳細說明 |
 |:---             |:---     |
-| `browserTarget` | Specify the target to build.                                                                                                                       |
-| `serverTarget`  | Specify the Server target to use for prerendering the application.                                                                                 |
-| `routes`        | Define an array of extra routes to prerender.                                                                                                 |
-| `guessRoutes`   | Whether builder should extract routes and guess which paths to render. Defaults to `true`.                                                          |
-| `routesFile`    | Specify a file that contains a list of all routes to prerender, separated by newlines. This option is useful if you have a large number of routes. |
-| `numProcesses`  | Specify the number of CPUs to be used while running the prerendering command.                                                                      |
+| `browserTarget` | 指定要建置的目標。                                                                                                                       |
+| `serverTarget`  | 指定要用來預渲染應用程式的伺服器目標。                                                                                 |
+| `routes`        | 定義要預渲染的額外路由陣列。                                                                                                 |
+| `guessRoutes`   | 建置器是否應擷取路由並猜測要渲染哪些路徑。預設為 `true`。                                                          |
+| `routesFile`    | 指定一個檔案，其中包含要預渲染的所有路由清單，以換行分隔。如果你有大量路由，這個選項很有用。 |
+| `numProcesses`  | 指定執行預渲染命令時要使用的 CPU 數量。                                                                      |
 
-### Prerendering dynamic routes
+### 預渲染動態路由
 
-You can prerender dynamic routes.
-An example of a dynamic route is `product/:id`, where `id` is dynamically provided.
+你可以預渲染動態路由。
+動態路由的範例是 `product/:id`，其中 `id` 是動態提供的。
 
-To prerender dynamic routes, choose one from the following options:
+要預渲染動態路由，請從下列選項中選擇其一：
 
-*   Provide extra routes in the command line
-*   Provide routes using a file
-*   Prerender specific routes
+*   在命令列中提供額外路由
+*   使用檔案提供路由
+*   預渲染特定路由
 
-#### Provide extra routes in the command line
+#### 在命令列中提供額外路由
 
-While running the prerender command, you can provide extra routes.
-For example:
+執行預渲染命令時，你可以提供額外路由。
+例如：
 
 <code-example format="shell" language="shell">
 
@@ -50,14 +50,14 @@ ng run &lt;app-name&gt;:prerender --routes /product/1 /product/2
 
 </code-example>
 
-#### Providing extra routes using a file
+#### 使用檔案提供額外路由
 
-You can provide routes using a file to create static pages.
-This method is useful if you have a large number of routes to create. For example, product details for an e-commerce application, which might come from an external source, like a Database or Content Management System (CMS).
+你可以使用檔案提供路由來建立靜態頁面。
+如果你有大量路由要建立，這個方法很有用。例如，電子商務應用程式的產品詳細資訊，可能來自外部來源，例如資料庫或內容管理系統（CMS）。
 
-To provide routes using a file, use the `--routes-file` option with the name of a `.txt` file containing the routes.
+要使用檔案提供路由，請使用 `--routes-file` 選項，並指定一個包含路由的 `.txt` 檔案名稱。
 
-For example, you could create this file by using a script to extract IDs from a database and save them to a `routes.txt` file:
+例如，你可以使用指令碼從資料庫擷取 ID，並儲存到 `routes.txt` 檔案，來建立這個檔案：
 
 <code-example language="none" header="routes.txt">
 
@@ -66,7 +66,7 @@ For example, you could create this file by using a script to extract IDs from a 
 
 </code-example>
 
-When your `.txt` file is ready, run the following command to prerender the static files with dynamic values:
+當你的 `.txt` 檔案準備好後，請執行下列命令，以使用動態值預渲染靜態檔案：
 
 <code-example format="shell" language="shell">
 
@@ -74,10 +74,10 @@ ng run &lt;app-name&gt;:prerender --routes-file routes.txt
 
 </code-example>
 
-#### Prerendering specific routes
+#### 預渲染特定路由
 
-You can also pass specific routes to the prerender command.
-If you choose this option, make sure to turn off the `guessRoutes` option.
+你也可以把特定路由傳給預渲染命令。
+如果你選擇這個選項，請確認已關閉 `guessRoutes` 選項。
 
 <code-example format="shell" language="shell">
 

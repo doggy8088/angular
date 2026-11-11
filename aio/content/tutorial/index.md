@@ -1,29 +1,27 @@
-# Angular tutorials
+# Angular 教學
 
-This section contains tutorials to help you get started developing applications with Angular.
+本節包含多個教學，可協助你開始使用 Angular 開發應用程式。
 
-## First App Tutorial - Angular Homes
-[First App Tutorial - Angular Homes](tutorial/first-app) gets you started with Angular
-The First App tutorial guides you through building an Angular app by taking you step by step through the fundamentals of building an application in Angular.
+## 第一個應用程式教學 - Angular Homes
+[第一個應用程式教學 - Angular Homes](tutorial/first-app)可協助你開始使用 Angular。First App 教學會逐步帶你了解在 Angular 中建立應用程式的基礎知識，藉此引導你建立一個 Angular 應用程式。
 
-Learn how to use Standalone Components, Inputs, Angular templates, data binding and more.
+學習如何使用獨立元件、輸入、Angular 範本、資料繫結等。
 
-## Tour of Heroes
-[Tour of Heroes](tutorial/tour-of-heroes) helps you gain confidence that Angular can do whatever you need it to do by showing you how to:
+## 英雄之旅
+[英雄之旅](tutorial/tour-of-heroes)會向你展示如何做到下列事項，讓你有信心 Angular 能夠完成你需要的任何事：
 
-*   Use Angular [directives](guide/glossary#directive "Directives definition") to show and hide elements and display lists of hero data.
-*   Create Angular [components](guide/glossary#component "Components definition") to display hero details and show an array of heroes.
-*   Use one-way [data binding](guide/glossary#data-binding "Data binding definition") for read-only data.
-*   Add editable fields to update a model with two-way data binding.
-*   Bind component methods to user events, like keystrokes and clicks.
-*   Enable users to select a hero from a list and edit that hero in the details view.
-*   Format data with [pipes](guide/glossary#pipe "Pipe definition").
-*   Create a shared [service](guide/glossary#service "Service definition") to assemble the heroes.
-*   Use [routing](guide/glossary#router "Router definition") to navigate among different views and their components.
+*   使用 Angular [指令](guide/glossary#指令（directive） "Directives definition")來顯示與隱藏元素，並顯示英雄資料清單。
+*   建立 Angular [元件](guide/glossary#元件（component） "Components definition")，以顯示英雄詳細資訊並展示英雄陣列。
+*   使用單向[資料繫結](guide/glossary#資料繫結（data-binding） "Data binding definition")來處理唯讀資料。
+*   加入可編輯的欄位，使用雙向資料繫結來更新模型。
+*   將元件方法繫結到使用者事件，例如按鍵與點按。
+*   讓使用者可以從清單中選取一位英雄，並在詳細資訊檢視中編輯該英雄。
+*   使用[管道](guide/glossary#管道（pipe） "Pipe definition")來格式化資料。
+*   建立共用的[服務](guide/glossary#服務（service） "Service definition")來彙整英雄。
+*   使用[路由](guide/glossary#路由器（router） "Router definition")在不同檢視及其元件之間導覽。
 
-## Building a template-driven form
+## 建立範本驅動表單
 
-[Building a template-driven form](guide/forms) shows you how to create a template-driven form.
+[建立範本驅動表單](guide/forms)會說明如何建立範本驅動表單。
 
-The control elements in the form are bound to data properties that have input validation. The input validation helps maintain data integrity and styling to improve the user experience.
-Template-driven forms use two-way data binding to update the data model in the component as changes are made in the template and vice versa.
+表單中的控制元素會繫結到具有輸入驗證的資料屬性。輸入驗證有助於維持資料完整性與樣式，進而改善使用者體驗。範本驅動表單使用雙向資料繫結，在範本中進行變更時更新元件中的資料模型，反之亦然。

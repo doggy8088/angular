@@ -1,109 +1,109 @@
-# Component Lifecycle
+# 元件生命週期
 
-A component instance has a lifecycle that starts when Angular instantiates the component class and renders the component view along with its child views.
-The lifecycle continues with change detection, as Angular checks to see when data-bound properties change, and updates both the view and the component instance as needed.
-The lifecycle ends when Angular destroys the component instance and removes its rendered template from the DOM.
-Directives have a similar lifecycle, as Angular creates, updates, and destroys instances in the course of execution.
+元件實例有一個生命週期，從 Angular 具現化元件類別、並渲染元件檢視及其子檢視時開始。
+生命週期隨著變更偵測繼續進行，Angular 會檢查資料繫結屬性何時變更，並依需要更新檢視與元件實例。
+生命週期在 Angular 銷毀元件實例、並將其渲染的範本從 DOM 移除時結束。
+指令也有類似的生命週期，Angular 會在執行過程中建立、更新與銷毀實例。
 
-Your application can use [lifecycle hook methods](guide/glossary#lifecycle-hook "Definition of lifecycle hook") to tap into key events in the lifecycle of a component or directive to initialize new instances, initiate change detection when needed, respond to updates during change detection, and clean up before deletion of instances.
+你的應用程式可以使用[生命週期鉤子方法](guide/glossary#生命週期掛鉤（lifecycle-hook） "Definition of lifecycle hook")，在元件或指令生命週期的關鍵事件中介入，以初始化新實例、在需要時啟動變更偵測、回應變更偵測期間的更新，以及在實例刪除之前進行清理。
 
-## Prerequisites
+## 先備知識
 
-Before working with lifecycle hooks, you should have a basic understanding of the following:
+在使用生命週期鉤子之前，你應該對下列內容有基本了解：
 
-*   [TypeScript programming](https://www.typescriptlang.org)
-*   Angular app-design fundamentals, as described in [Angular Concepts](guide/architecture "Introduction to fundamental app-design concepts")
+*   [TypeScript 程式設計](https://www.typescriptlang.org)
+*   Angular 應用程式設計基礎，如 [Angular 概念](guide/architecture "Introduction to fundamental app-design concepts")所述
 
 <a id="hooks-overview"></a>
 
-## Responding to lifecycle events
+## 回應生命週期事件
 
-Respond to events in the lifecycle of a component or directive by implementing one or more of the *lifecycle hook* interfaces in the Angular `core` library.
-The hooks give you the opportunity to act on a component or directive instance at the appropriate moment, as Angular creates, updates, or destroys that instance.
+若要回應元件或指令生命週期中的事件，請實作 Angular `core` 程式庫中的一或多個*生命週期鉤子*介面。
+這些鉤子讓你有機會在適當的時機，對元件或指令實例採取行動，也就是 Angular 建立、更新或銷毀該實例的時候。
 
-Each interface defines the prototype for a single hook method, whose name is the interface name prefixed with `ng`.
-For example, the `OnInit` interface has a hook method named `ngOnInit()`.
-If you implement this method in your component or directive class, Angular calls it shortly after checking the input properties for that component or directive for the first time.
+每個介面為單一鉤子方法定義原型，其名稱是介面名稱加上 `ng` 前綴。
+例如，`OnInit` 介面有一個名為 `ngOnInit()` 的鉤子方法。
+如果你在元件或指令類別中實作這個方法，Angular 會在第一次檢查該元件或指令的輸入屬性後不久呼叫它。
 
 <code-example header="peek-a-boo.directive.ts (excerpt)" path="lifecycle-hooks/src/app/peek-a-boo.directive.ts" region="ngOnInit"></code-example>
 
-You don't have to implement all \(or any\) of the lifecycle hooks, just the ones you need.
+你不需要實作所有（或任何）生命週期鉤子，只需要實作你需要的那些。
 
 <a id="hooks-purpose-timing"></a>
 
-### Lifecycle event sequence
+### 生命週期事件順序
 
-After your application instantiates a component or directive by calling its constructor, Angular calls the hook methods you have implemented at the appropriate point in the lifecycle of that instance.
+在你的應用程式透過呼叫建構函式具現化元件或指令之後，Angular 會在該實例生命週期的適當時機，呼叫你已實作的鉤子方法。
 
-Angular executes hook methods in the following sequence.
-Use them to perform the following kinds of operations.
+Angular 會依下列順序執行鉤子方法。
+請用它們來執行下列各類操作。
 
-| Hook method               | Purpose                                                                                                                                                                                                                                                                                                                                                | Timing |
+| 鉤子方法 | 用途 | 時機 |
 |:---                       |:---                                                                                                                                                                                                                                                                                                                                                    |:---    |
-| `ngOnChanges()`           | Respond when Angular sets or resets data-bound input properties. The method receives a `SimpleChanges` object of current and previous property values. <br /> <div class="alert is-helpful"> **NOTE**: <br /> This happens frequently, so any operation you perform here impacts performance significantly. </div> See details in [Using change detection hooks](#onchanges) in this document. | Called before `ngOnInit()` \(if the component has bound inputs\) and whenever one or more data-bound input properties change. <br /> <div class="alert is-helpful"> **NOTE**: <br /> If your component has no inputs or you use it without providing any inputs, the framework will not call `ngOnChanges()`. </div> |
-| `ngOnInit()`              | Initialize the directive or component after Angular first displays the data-bound properties and sets the directive or component's input properties. See details in [Initializing a component or directive](#oninit) in this document.                                                                                                                 | Called once, after the first `ngOnChanges()`. `ngOnInit()` is still called even when `ngOnChanges()` is not \(which is the case when there are no template-bound inputs\).                                                                                              |
-| `ngDoCheck()`             | Detect and act upon changes that Angular can't or won't detect on its own. See details and example in [Defining custom change detection](#docheck) in this document.                                                                                                                                                                                   | Called immediately after `ngOnChanges()` on every change detection run, and immediately after `ngOnInit()` on the first run.                                                                                                                                            |
-| `ngAfterContentInit()`    | Respond after Angular projects external content into the component's view, or into the view that a directive is in. <br /> See details and example in [Responding to changes in content](#aftercontent) in this document.                                                                                                                              | Called *once* after the first `ngDoCheck()`.                                                                                                                                                                                                                            |
-| `ngAfterContentChecked()` | Respond after Angular checks the content projected into the directive or component. <br /> See details and example in [Responding to projected content changes](#aftercontent) in this document.                                                                                                                                                       | Called after `ngAfterContentInit()` and every subsequent `ngDoCheck()`.                                                                                                                                                                                                 |
-| `ngAfterViewInit()`       | Respond after Angular initializes the component's views and child views, or the view that contains the directive. <br /> See details and example in [Responding to view changes](#afterview) in this document.                                                                                                                                         | Called *once* after the first `ngAfterContentChecked()`.                                                                                                                                                                                                                |
-| `ngAfterViewChecked()`    | Respond after Angular checks the component's views and child views, or the view that contains the directive.                                                                                                                                                                                                                                           | Called after the `ngAfterViewInit()` and every subsequent `ngAfterContentChecked()`.                                                                                                                                                                                    |
-| `ngOnDestroy()`           | Cleanup just before Angular destroys the directive or component. Unsubscribe Observables and detach event handlers to avoid memory leaks. See details in [Cleaning up on instance destruction](#ondestroy) in this document.                                                                                                                           | Called immediately before Angular destroys the directive or component.                                                                                                                                                                                                  |
+| `ngOnChanges()`           | 在 Angular 設定或重設資料繫結輸入屬性時回應。這個方法會收到一個包含目前與先前屬性值的 `SimpleChanges` 物件。 <br /> <div class="alert is-helpful"> **NOTE**: <br /> 這種情況經常發生，因此你在這裡執行的任何操作都會顯著影響效能。 </div> 詳情請見本文件中的[使用變更偵測鉤子](#onchanges)。 | 在 `ngOnInit()` 之前呼叫（如果元件有繫結的輸入），以及每當一個或多個資料繫結輸入屬性變更時呼叫。 <br /> <div class="alert is-helpful"> **NOTE**: <br /> 如果你的元件沒有輸入，或你使用它時沒有提供任何輸入，框架不會呼叫 `ngOnChanges()`。 </div> |
+| `ngOnInit()`              | 在 Angular 首次顯示資料繫結屬性、並設定指令或元件的輸入屬性之後，初始化指令或元件。詳情請見本文件中的[初始化元件或指令](#oninit)。                                                                                                                 | 呼叫一次，在第一次 `ngOnChanges()` 之後。即使 `ngOnChanges()` 未被呼叫（也就是沒有範本繫結輸入時），`ngOnInit()` 仍會被呼叫。                                                                                              |
+| `ngDoCheck()`             | 偵測並處理 Angular 自身無法或不會偵測的變更。詳情與範例請見本文件中的[定義自訂變更偵測](#docheck)。                                                                                                                                                                                   | 在每次變更偵測執行時，緊接在 `ngOnChanges()` 之後呼叫；在第一次執行時，緊接在 `ngOnInit()` 之後呼叫。                                                                                                                                            |
+| `ngAfterContentInit()`    | 在 Angular 將外部內容投影到元件的檢視、或指令所在的檢視之後回應。 <br /> 詳情與範例請見本文件中的[回應內容的變更](#aftercontent)。                                                                                                                              | 在第一次 `ngDoCheck()` 之後呼叫*一次*。                                                                                                                                                                                                                            |
+| `ngAfterContentChecked()` | 在 Angular 檢查投影到指令或元件中的內容之後回應。 <br /> 詳情與範例請見本文件中的[回應投影內容的變更](#aftercontent)。                                                                                                                                                       | 在 `ngAfterContentInit()` 之後、以及其後的每一次 `ngDoCheck()` 之後呼叫。                                                                                                                                                                                                 |
+| `ngAfterViewInit()`       | 在 Angular 初始化元件的檢視與子檢視、或包含指令的檢視之後回應。 <br /> 詳情與範例請見本文件中的[回應檢視變更](#afterview)。                                                                                                                                         | 在第一次 `ngAfterContentChecked()` 之後呼叫*一次*。                                                                                                                                                                                                 |
+| `ngAfterViewChecked()`    | 在 Angular 檢查元件的檢視與子檢視、或包含指令的檢視之後回應。                                                                                                                                                                                                                                           | 在 `ngAfterViewInit()` 之後、以及其後的每一次 `ngAfterContentChecked()` 之後呼叫。                                                                                                                    |
+| `ngOnDestroy()`           | 在 Angular 銷毀指令或元件之前進行清理。取消訂閱 Observable 並分離事件處理常式，以避免記憶體洩漏。詳情請見本文件中的[在實例銷毀時清理](#ondestroy)。                                                                                                                           | 在 Angular 銷毀指令或元件之前立即呼叫。                                                                                                                                                                                                  |
 
 <a id="the-sample"></a>
 
-### Lifecycle example set
+### 生命週期範例集
 
-The <live-example></live-example> demonstrates the use of lifecycle hooks through a series of exercises presented as components under the control of the root `AppComponent`.
-In each case a *parent* component serves as a test rig for a *child* component that illustrates one or more of the lifecycle hook methods.
+<live-example></live-example> 透過一系列練習展示生命週期鉤子的使用，這些練習以元件形式呈現，由根元件 `AppComponent` 控制。
+在每個案例中，一個*父元件*作為測試台，測試一個展示一或多個生命週期鉤子方法的*子元件*。
 
-The following table lists the exercises with brief descriptions.
-The sample code is also used to illustrate specific tasks in the following sections.
+下表列出這些練習與簡要說明。
+範例程式碼也在以下各節中用來說明特定任務。
 
-| Component                     | Details |
+| 元件 | 詳細資訊 |
 |:---                           |:---     |
-| [Peek-a-boo](#peek-a-boo)     | Demonstrates every lifecycle hook. Each hook method writes to the on-screen log.                                                                                                                                          |
-| [Spy](#spy)                   | Shows how to use lifecycle hooks with a custom directive. The `SpyDirective` implements the `ngOnInit()` and `ngOnDestroy()` hooks, and uses them to watch and report when an element goes in or out of the current view. |
-| [OnChanges](#onchanges)       | Demonstrates how Angular calls the `ngOnChanges()` hook every time one of the component input properties changes, and shows how to interpret the `changes` object passed to the hook method.                              |
-| [DoCheck](#docheck)           | Implements the `ngDoCheck()` method with custom change detection. Watch the hook post changes to a log to see how often Angular calls this hook.                                                                          |
-| [AfterView](#afterview)       | Shows what Angular means by a [view](guide/glossary#view "Definition of view."). Demonstrates the `ngAfterViewInit()` and `ngAfterViewChecked()` hooks.                                                                   |
-| [AfterContent](#aftercontent) | Shows how to project external content into a component and how to distinguish projected content from a component's view children. Demonstrates the `ngAfterContentInit()` and `ngAfterContentChecked()` hooks.            |
-| [Counter](#counter)           | Demonstrates a combination of a component and a directive, each with its own hooks.                                                                                                                                       |
+| [Peek-a-boo](#peek-a-boo)     | 展示每一個生命週期鉤子。每個鉤子方法都會寫入螢幕上的記錄。 |
+| [Spy](#spy)                   | 展示如何將生命週期鉤子與自訂指令搭配使用。`SpyDirective` 實作了 `ngOnInit()` 與 `ngOnDestroy()` 鉤子，並用它們來監看與回報元素何時進入或離開目前的檢視。 |
+| [OnChanges](#onchanges)       | 展示 Angular 如何在元件輸入屬性每次變更時呼叫 `ngOnChanges()` 鉤子，並說明如何解讀傳給鉤子方法的 `changes` 物件。 |
+| [DoCheck](#docheck)           | 以自訂變更偵測實作 `ngDoCheck()` 方法。觀察鉤子將變更寫入記錄，看看 Angular 呼叫這個鉤子的頻率。 |
+| [AfterView](#afterview)       | 說明 Angular 所說的[檢視](guide/glossary#檢視（view） "Definition of view.")是什麼意思。展示 `ngAfterViewInit()` 與 `ngAfterViewChecked()` 鉤子。 |
+| [AfterContent](#aftercontent) | 展示如何將外部內容投影到元件中，以及如何區分投影內容與元件的檢視子元件。展示 `ngAfterContentInit()` 與 `ngAfterContentChecked()` 鉤子。 |
+| [Counter](#counter)           | 展示元件與指令的組合，各自有自己的鉤子。 |
 
 <a id="oninit"></a>
 
-## Initializing a component or directive
+## 初始化元件或指令
 
-Use the `ngOnInit()` method to perform the following initialization tasks.
+使用 `ngOnInit()` 方法來執行以下初始化任務。
 
-| Initialization tasks                                         | Details |
+| 初始化任務 | 詳細資訊 |
 |:---                                                          |:---     |
-| Perform complex initializations outside of the constructor   | Components should be cheap and safe to construct. You should not, for example, fetch data in a component constructor. You shouldn't worry that a new component will try to contact a remote server when created under test or before you decide to display it. <br /> An `ngOnInit()` is a good place for a component to fetch its initial data. For an example, see the [Tour of Heroes tutorial](tutorial/tour-of-heroes/toh-pt4#oninit).                                                                                                                    |
-| Set up the component after Angular sets the input properties | Constructors should do no more than set the initial local variables to simple values. <br /> Keep in mind that a directive's data-bound input properties are not set until *after construction*. If you need to initialize the directive based on those properties, set them when `ngOnInit()` runs. <div class="alert is-helpful"> The `ngOnChanges()` method is your first opportunity to access those properties. Angular calls `ngOnChanges()` before `ngOnInit()`, but also many times after that. It only calls `ngOnInit()` once. </div> |
+| 在建構函式之外執行複雜的初始化   | 元件的建構應該便宜又安全。例如，你不應該在元件建構函式中擷取資料。你不需要擔心新元件在測試中建立、或在你決定顯示它之前，會試圖聯繫遠端伺服器。 <br /> `ngOnInit()` 是元件擷取初始資料的好地方。範例請見 [Tour of Heroes 教學](tutorial/tour-of-heroes/toh-pt4#oninit)。 |
+| 在 Angular 設定輸入屬性之後設定元件 | 建構函式應該只將初始區域變數設定為簡單的值。 <br /> 請記住，指令的資料繫結輸入屬性要到*建構之後*才會被設定。如果你需要根據這些屬性來初始化指令，請在 `ngOnInit()` 執行時設定它們。 <div class="alert is-helpful"> `ngOnChanges()` 方法是你第一次存取這些屬性的機會。Angular 會在 `ngOnInit()` 之前呼叫 `ngOnChanges()`，但之後也會多次呼叫它。它只會呼叫 `ngOnInit()` 一次。 </div> |
 
 <a id="ondestroy"></a>
 
-## Cleaning up on instance destruction
+## 在實例銷毀時清理
 
-Angular provides several ways to clean up when an instance is destroyed.
+Angular 提供了幾種在實例銷毀時清理的方法。
 
 ### `ngOnDestroy`
 
-You can put cleanup logic in `ngOnDestroy()`, the logic that must run before Angular destroys the directive.
+你可以將清理邏輯放在 `ngOnDestroy()` 中，也就是 Angular 銷毀指令之前必須執行的邏輯。
 
-This is the place to free resources that won't be garbage-collected automatically.
-You risk memory leaks if you neglect to do so.
+這裡是釋放不會被自動垃圾回收的資源的地方。
+如果你忽略這一點，就有記憶體洩漏的風險。
 
-*   Unsubscribe from Observables and DOM events
-*   Stop interval timers
-*   Unregister all callbacks that the directive registered with global or application services
+*   取消訂閱 Observable 與 DOM 事件
+*   停止間隔計時器
+*   取消註冊指令向全域或應用程式服務註冊的所有回呼
 
-The `ngOnDestroy()` method is also the time to notify another part of the application that the component is going away.
+`ngOnDestroy()` 方法也是通知應用程式另一部分「元件即將消失」的時機。
 
 ### DestroyRef
 
-In addition to `ngOnDestroy()`, you can inject Angular's `DestroyRef` and register callback functions to be called when the enclosing context is destroyed. This can be useful for building reusable utilities that require cleanup.
+除了 `ngOnDestroy()` 之外，你還可以注入 Angular 的 `DestroyRef`，並註冊回呼函式，在封閉的脈絡被銷毀時呼叫。這對於建立需要清理的可重複使用公用程式很有幫助。
 
-Register a callback with the `DestroyRef`:
+向 `DestroyRef` 註冊回呼：
 
 ```ts
 @Component(...)
@@ -120,42 +120,42 @@ class Counter {
 }
 ```
 
-Like `ngOnDestroy`, `DestroyRef` works in any Angular service, directive, component, or pipe.
+與 `ngOnDestroy` 一樣，`DestroyRef` 可用於任何 Angular 服務、指令、元件或管道。
 
 ### `takeUntilDestroyed`
 
 <div class="alert is-important">
 
-`takeUntilDestroyed` is available for [developer preview](/guide/releases#developer-preview). It's ready for you to try, but it might change before it is stable.
+`takeUntilDestroyed` 已提供[開發者預覽](/guide/releases#開發者預覽)。它已經可以讓你試用，但可能在穩定之前有所變更。
 
 </div>
 
-When using RxJS Observables in components or directives, you may want to complete any observables when the component or directive is destroyed. Angular's `@angular/core/rxjs-interop` package provides an operator, `takeUntilDestroyed`, to simplify this common task:
+在元件或指令中使用 RxJS Observables 時，你可能希望在元件或指令被銷毀時完成所有 observable。Angular 的 `@angular/core/rxjs-interop` 套件提供了一個運算子 `takeUntilDestroyed`，來簡化這項常見任務：
 
 ```ts
 data$ = http.get('...').pipe(takeUntilDestroyed());
 ```
 
-By default, `takeUntilDestroyed` must be called in an [injection context](/guide/dependency-injection-context) so that it can access `DestroyRef`. If an injection context isn't available, you can explicitly provide a `DestroyRef`.
+依預設，`takeUntilDestroyed` 必須在[注入脈絡](/guide/dependency-injection-context)中呼叫，才能存取 `DestroyRef`。如果沒有注入脈絡可用，你可以明確提供一個 `DestroyRef`。
 
-## Reading and writing the DOM
+## 讀取與寫入 DOM
 
-Sometimes it's necessary to use browser-only APIs to manually read or write the DOM. This can be challenging to do with the [lifecycle events](#lifecycle-event-sequence) above, as they will also run during [server-side rendering and pre-rendering](guide/glossary#server-side-rendering). For this purpose, Angular provides `afterRender` and `afterNextRender`. These functions can be used unconditionally, but will only have an effect on the browser. Both functions accept a callback that will run after the next [change detection](/guide/glossary#change-detection) cycle (including any nested cycles) has completed.
+有時候需要使用僅限瀏覽器的 API，手動讀取或寫入 DOM。使用上述的[生命週期事件](#生命週期事件順序)來做這件事可能很困難，因為它們也會在[伺服器端渲染與預渲染](guide/glossary#伺服器端渲染（server-side-rendering）)期間執行。為此，Angular 提供了 `afterRender` 與 `afterNextRender`。這些函式可以無條件使用，但只會在瀏覽器中產生作用。這兩個函式都接受一個回呼，該回呼會在下一個[變更偵測](/guide/glossary#變更偵測（change-detection）)週期（包括任何巢狀週期）完成後執行。
 
 <div class="alert is-important">
 
-`afterRender` and `afterNextRender` are available for [developer preview](/guide/releases#developer-preview). They are ready for you to try, but they might change before they are stable.
+`afterRender` 與 `afterNextRender` 已提供[開發者預覽](/guide/releases#開發者預覽)。它們已經可以讓你試用，但可能在穩定之前有所變更。
 
 </div>
 
-| Function | Purpose | Timing |
+| 函式 | 用途 | 時機 |
 | ------ | ------- | ------ |
-| `afterNextRender` | Perform one-time initialization, or observe a single, specific change to the DOM. <br /> <div class="alert is-helpful">As a rule of thumb, you should use `afterRender` instead if you need to manually read or write any layout data such as size or location.</div> See details in [One-time initialization](#one-time-initialization) in this document. | _Once_ after the next change detection cycle. |
-| `afterRender` | Synchronize state with the DOM.  See details in [Handling synchronization](#handling-synchronization) in this document. | After _every_ change detection cycle that follows. |
+| `afterNextRender` | 執行一次性初始化，或觀察 DOM 的單一特定變更。 <br /> <div class="alert is-helpful">根據經驗法則，如果你需要手動讀取或寫入任何版面資料（例如大小或位置），應該改用 `afterRender`。</div> 詳情請見本文件中的[一次性初始化](#一次性初始化)。 | 在下一個變更偵測週期後執行_一次_。 |
+| `afterRender` | 將狀態與 DOM 同步。詳情請見本文件中的[處理同步](#處理同步)。 | 在之後的_每一個_變更偵測週期之後執行。 |
 
-### One-time initialization
+### 一次性初始化
 
-Generally, you will want to use `afterNextRender` to perform any one-time initialization, such as for a third-party library, or for browser-only APIs.
+一般來說，你會想使用 `afterNextRender` 來執行任何一次性初始化，例如第三方程式庫或僅限瀏覽器的 API。
 
 ```ts
 @Component({
@@ -174,7 +174,7 @@ export class MyChartCmp {
 }
 ```
 
-Instead of attempting to recreate their behaviors with `afterRender`, you should prefer to use built-in browser APIs like `ResizeObserver` and `IntersectionObserver` wherever possible. You can use `afterNextRender` to safely initialize such APIs on the browser only.
+你應該盡可能優先使用內建的瀏覽器 API，例如 `ResizeObserver` 與 `IntersectionObserver`，而不是試圖用 `afterRender` 重現它們的行為。你可以使用 `afterNextRender`，只在瀏覽器上安全地初始化這類 API。
 
 ```ts
 @Component({
@@ -204,13 +204,13 @@ export class MyComponent {
 
 <div class="alert is-important">
 
-As a rule of thumb, `afterNextRender` should be used to observe _discrete_ changes to the DOM, such as element creation or deletion. For manually reading or writing data that tends to change frequently, such as size or location, you should generally prefer to use `afterRender` instead.
+根據經驗法則，`afterNextRender` 應該用來觀察 DOM 的_離散_變更，例如元素的建立或刪除。對於需要手動讀取或寫入、且傾向頻繁變更的資料（例如大小或位置），一般來說你應該改用 `afterRender`。
 
 </div>
 
-### Handling synchronization
+### 處理同步
 
-As an escape hatch for when the browser does not provide a better API to do so, you can use `afterRender` to perform any additional read or writes to the DOM every time Angular finishes mutating it.
+作為瀏覽器沒有提供更好 API 時的逃生口，你可以使用 `afterRender`，在 Angular 每次完成 DOM 變更後，對 DOM 執行任何額外的讀取或寫入。
 
 ```ts
 @Component({
@@ -229,29 +229,29 @@ export class MyComponent {
 }
 ```
 
-## General examples
+## 一般範例
 
-The following examples demonstrate the call sequence and relative frequency of the various lifecycle events, and how the hooks can be used separately or together for components and directives.
+以下範例展示了各種生命週期事件的呼叫順序與相對頻率，以及鉤子如何分別或共同用於元件與指令。
 
 <a id="peek-a-boo"></a>
 
-### Sequence and frequency of all lifecycle events
+### 所有生命週期事件的順序與頻率
 
-To show how Angular calls the hooks in the expected order, the `PeekABooComponent` demonstrates all of the hooks in one component.
+為了展示 Angular 如何依預期順序呼叫鉤子，`PeekABooComponent` 在一個元件中展示了所有的鉤子。
 
-In practice you would rarely, if ever, implement all of the interfaces the way this demo does.
+實務上，你幾乎不會像這個展示這樣實作所有的介面。
 
-The following snapshot reflects the state of the log after the user clicked the **Create&hellip;** button and then the **Destroy&hellip;** button.
+以下快照反映了使用者點選 **Create&hellip;** 按鈕、再點選 **Destroy&hellip;** 按鈕之後的記錄狀態。
 
 <div class="lightbox">
 
-<img alt="Peek-a-boo" src="generated/images/guide/lifecycle-hooks/peek-a-boo.png">
+<img alt="Peek-a-boo 範例" src="generated/images/guide/lifecycle-hooks/peek-a-boo.png">
 
 </div>
 
-The sequence of log messages follows the prescribed hook calling order:
+記錄訊息的順序遵循規定的鉤子呼叫順序：
 
-| Hook order | Log message           |
+| 鉤子順序 | 記錄訊息 |
 |:---        |:---                   |
 | 1          | `OnChanges`           |
 | 2          | `OnInit`              |
@@ -268,135 +268,135 @@ The sequence of log messages follows the prescribed hook calling order:
 
 <div class="alert is-helpful">
 
-Notice that the log confirms that input properties \(the `name` property in this case\) have no assigned values at construction.
-The input properties are available to the `onInit()` method for further initialization.
+請注意，記錄確認了輸入屬性（在這個案例中是 `name` 屬性）在建構時還沒有被賦值。
+輸入屬性在 `onInit()` 方法中可用，供進一步初始化使用。
 
 </div>
 
-Had the user clicked the *Update Hero* button, the log would show another `OnChanges` and two more triplets of `DoCheck`, `AfterContentChecked`, and `AfterViewChecked`.
-Notice that these three hooks fire *often*, so it is important to keep their logic as lean as possible.
+如果使用者點選了 *Update Hero* 按鈕，記錄會再顯示一個 `OnChanges`，以及另外兩組 `DoCheck`、`AfterContentChecked` 與 `AfterViewChecked`。
+請注意，這三個鉤子觸發得*非常頻繁*，因此保持它們的邏輯盡可能精簡很重要。
 
 <a id="spy"></a>
 
-### Use directives to watch the DOM
+### 使用指令監看 DOM
 
-The `Spy` example demonstrates how to use the hook method for directives as well as components.
-The `SpyDirective` implements two hooks, `ngOnInit()` and `ngOnDestroy()`, to discover when a watched element is in the current view.
+`Spy` 範例展示如何將鉤子方法用於指令以及元件。
+`SpyDirective` 實作了兩個鉤子 `ngOnInit()` 與 `ngOnDestroy()`，來發現被監看的元素何時出現在目前的檢視中。
 
-This template applies the `SpyDirective` to a `<div>` in the `ngFor` *hero* repeater managed by the parent `SpyComponent`.
+這個範本將 `SpyDirective` 套用到父元件 `SpyComponent` 管理的 `ngFor` *hero* 重複器中的 `<div>` 上。
 
-The example does not perform any initialization or clean-up.
-It just tracks the appearance and disappearance of an element in the view by recording when the directive itself is instantiated and destroyed.
+這個範例不執行任何初始化或清理。
+它只是透過記錄指令本身何時被具現化與銷毀，來追蹤元素在檢視中的出現與消失。
 
-A spy directive like this can provide insight into a DOM object that you cannot change directly.
-You can't access the implementation of a built-in `<div>`, or modify a third party component.
-You do have the option to watch these elements with a directive.
+像這樣的間諜指令可以讓你深入了解無法直接變更的 DOM 物件。
+你無法存取內建 `<div>` 的實作，也無法修改第三方元件。
+但你確實可以選擇用指令來監看這些元素。
 
-The directive defines `ngOnInit()` and `ngOnDestroy()` hooks
-that log messages to the parent using an injected `LoggerService`.
+這個指令定義了 `ngOnInit()` 與 `ngOnDestroy()` 鉤子，
+使用注入的 `LoggerService` 將訊息記錄到父元件。
 
 <code-example header="src/app/spy.directive.ts" path="lifecycle-hooks/src/app/spy.directive.ts" region="spy-directive"></code-example>
 
-Apply the spy to any built-in or component element, and see that it is initialized and destroyed at the same time as that element.
-Here it is attached to the repeated hero `<p>`:
+將間諜套用到任何內建或元件元素上，你會看到它與該元素同時初始化與銷毀。
+這裡它附加到重複的英雄 `<p>` 上：
 
 <code-example header="src/app/spy.component.html" path="lifecycle-hooks/src/app/spy.component.html" region="template"></code-example>
 
-Each spy's creation and destruction marks the appearance and disappearance of the attached hero `<p>` with an entry in the *Hook Log*.
-Adding a hero results in a new hero `<p>`.
-The spy's `ngOnInit()` logs that event.
+每個間諜的建立與銷毀，都會在 *Hook Log* 中留下一筆記錄，標記所附加英雄 `<p>` 的出現與消失。
+新增英雄會產生一個新的英雄 `<p>`。
+間諜的 `ngOnInit()` 會記錄該事件。
 
-The *Reset* button clears the `heroes` list.
-Angular removes all hero `<p>` elements from the DOM and destroys their spy directives at the same time.
-The spy's `ngOnDestroy()` method reports its last moments.
+*Reset* 按鈕會清除 `heroes` 清單。
+Angular 會同時從 DOM 移除所有英雄 `<p>` 元素，並銷毀它們的間諜指令。
+間諜的 `ngOnDestroy()` 方法會回報它的最後時刻。
 
 <a id="counter"></a>
 
-### Use component and directive hooks together
+### 同時使用元件與指令的鉤子
 
-In this example, a `CounterComponent` uses the `ngOnChanges()` method to log a change every time the parent component increments its input `counter` property.
+在這個範例中，`CounterComponent` 使用 `ngOnChanges()` 方法，在父元件每次遞增其輸入 `counter` 屬性時記錄一次變更。
 
-This example applies the `SpyDirective` from the previous example to the `CounterComponent` log, to watch the creation and destruction of log entries.
+這個範例將前一個範例的 `SpyDirective` 套用到 `CounterComponent` 的記錄上，以監看記錄項目的建立與銷毀。
 
 <a id="onchanges"></a>
 
-## Using change detection hooks
+## 使用變更偵測鉤子
 
-Angular calls the `ngOnChanges()` method of a component or directive whenever it detects changes to the  ***input properties***.
-The *onChanges* example demonstrates this by monitoring the `OnChanges()` hook.
+每當 Angular 偵測到***輸入屬性***的變更時，就會呼叫元件或指令的 `ngOnChanges()` 方法。
+*onChanges* 範例透過監控 `OnChanges()` 鉤子來展示這一點。
 
 <code-example header="on-changes.component.ts (excerpt)" path="lifecycle-hooks/src/app/on-changes.component.ts" region="ng-on-changes"></code-example>
 
-The `ngOnChanges()` method takes an object that maps each changed property name to a [SimpleChange](api/core/SimpleChange) object holding the current and previous property values.
-This hook iterates over the changed properties and logs them.
+`ngOnChanges()` 方法接受一個物件，將每個變更的屬性名稱對應到一個 [SimpleChange](api/core/SimpleChange) 物件，該物件持有目前與先前的屬性值。
+這個鉤子會逐一走訪變更的屬性並記錄它們。
 
-The example component, `OnChangesComponent`, has two input properties: `hero` and `power`.
+範例元件 `OnChangesComponent` 有兩個輸入屬性：`hero` 與 `power`。
 
 <code-example header="src/app/on-changes.component.ts" path="lifecycle-hooks/src/app/on-changes.component.ts" region="inputs"></code-example>
 
-The host `OnChangesParentComponent` binds to them as follows.
+主元件 `OnChangesParentComponent` 按如下方式繫結它們。
 
 <code-example header="src/app/on-changes-parent.component.html" path="lifecycle-hooks/src/app/on-changes-parent.component.html" region="on-changes"></code-example>
 
-Here's the sample in action as the user makes changes.
+以下是使用者進行變更時，範例的實際運作情形。
 
 <div class="lightbox">
 
-<img alt="OnChanges" src="generated/images/guide/lifecycle-hooks/on-changes-anim.gif">
+<img alt="OnChanges 鉤子" src="generated/images/guide/lifecycle-hooks/on-changes-anim.gif">
 
 </div>
 
-The log entries appear as the string value of the *power* property changes.
-Notice, however, that the `ngOnChanges()` method does not catch changes to `hero.name`.
-This is because Angular calls the hook only when the value of the input property changes.
-In this case, `hero` is the input property, and the value of the `hero` property is the *reference to the hero object*.
-The object reference did not change when the value of its own `name` property changed.
+當 *power* 屬性的字串值變更時，就會出現記錄項目。
+但請注意，`ngOnChanges()` 方法不會捕捉 `hero.name` 的變更。
+這是因為 Angular 只在輸入屬性的值變更時才呼叫這個鉤子。
+在這個案例中，`hero` 是輸入屬性，而 `hero` 屬性的值是*指向英雄物件的參照*。
+當其本身 `name` 屬性的值變更時，物件參照並沒有改變。
 
 <a id="afterview"></a>
 
-### Responding to view changes
+### 回應檢視變更
 
-As Angular traverses the [view hierarchy](guide/glossary#view-hierarchy "Definition of view hierarchy definition") during change detection, it needs to be sure that a change in a child does not attempt to cause a change in its own parent.
-Such a change would not be rendered properly, because of how [unidirectional data flow](guide/glossary#unidirectional-data-flow "Definition") works.
+當 Angular 在變更偵測期間走訪[檢視階層](guide/glossary#檢視階層（view-hierarchy） "Definition of view hierarchy definition")時，它必須確保子元件的變更不會試圖造成其父元件的變更。
+由於[單向資料流](guide/glossary#單向資料流（unidirectional-data-flow） "Definition")的運作方式，這樣的變更無法正確渲染。
 
-If you need to make a change that inverts the expected data flow, you must trigger a new change detection cycle to allow that change to be rendered.
-The examples illustrate how to make such changes safely.
+如果你需要進行一項會顛覆預期資料流的變更，你必須觸發新的變更偵測週期，才能讓該變更被渲染。
+這些範例說明如何安全地進行這類變更。
 
-The *AfterView* sample explores the `AfterViewInit()` and `AfterViewChecked()` hooks that Angular calls *after* it creates a component's child views.
+*AfterView* 範例探討 Angular 在建立元件的子檢視*之後*呼叫的 `AfterViewInit()` 與 `AfterViewChecked()` 鉤子。
 
-Here's a child view that displays a hero's name in an `<input>`:
+以下是一個在 `<input>` 中顯示英雄名稱的子檢視：
 
 <code-example header="ChildViewComponent" path="lifecycle-hooks/src/app/child-view.component.ts" region="child-view"></code-example>
 
-The `AfterViewComponent` displays this child view *within its template*:
+`AfterViewComponent` 在*其範本內*顯示這個子檢視：
 
 <code-example header="AfterViewComponent (template)" path="lifecycle-hooks/src/app/after-view.component.ts" region="template"></code-example>
 
-The following hooks take action based on changing values *within the child view*, which can only be reached by querying for the child view using the property decorated with [@ViewChild](api/core/ViewChild).
+以下鉤子會根據*子檢視內*變更的值採取行動，而子檢視只能透過查詢以 [@ViewChild](api/core/ViewChild) 裝飾的屬性來取得。
 
 <code-example header="AfterViewComponent (class excerpts)" path="lifecycle-hooks/src/app/after-view.component.ts" region="hooks"></code-example>
 
 <a id="wait-a-tick"></a>
 
-#### Wait before updating the view
+#### 更新檢視前先等待
 
-In this example, the `doSomething()` method updates the screen when the hero name exceeds 10 characters, but waits a tick before updating `comment`.
+在這個範例中，當英雄名稱超過 10 個字元時，`doSomething()` 方法會更新畫面，但在更新 `comment` 之前會先等待一個 tick。
 
 <code-example header="AfterViewComponent (doSomething)" path="lifecycle-hooks/src/app/after-view.component.ts" region="do-something"></code-example>
 
-Both the `AfterViewInit()` and `AfterViewChecked()` hooks fire after the component's view is composed.
-If you modify the code so that the hook updates the component's data-bound `comment` property immediately, you can see that Angular throws an error.
+`AfterViewInit()` 與 `AfterViewChecked()` 鉤子都會在元件的檢視組成之後觸發。
+如果你修改程式碼，讓鉤子立即更新元件資料繫結的 `comment` 屬性，你會看到 Angular 拋出錯誤。
 
-The `LoggerService.tick_then()` statement postpones the log update for one turn of the browser's JavaScript cycle, which triggers a new change-detection cycle.
+`LoggerService.tick_then()` 陳述式會將記錄更新延後一個瀏覽器 JavaScript 週期，從而觸發新的變更偵測週期。
 
-#### Write lean hook methods to avoid performance problems
+#### 撰寫精簡的鉤子方法以避免效能問題
 
-When you run the *AfterView* sample, notice how frequently Angular calls `AfterViewChecked()` - often when there are no changes of interest.
-Be careful about how much logic or computation you put into one of these methods.
+當你執行 *AfterView* 範例時，請注意 Angular 呼叫 `AfterViewChecked()` 的頻率——通常是在沒有值得關注的變更時。
+請小心你在這些方法中放入多少邏輯或運算。
 
 <div class="lightbox">
 
-<img alt="AfterView" src="generated/images/guide/lifecycle-hooks/after-view-anim.gif">
+<img alt="AfterView 鉤子" src="generated/images/guide/lifecycle-hooks/after-view-anim.gif">
 
 </div>
 
@@ -405,54 +405,54 @@ Be careful about how much logic or computation you put into one of these methods
 
 <a id="content-projection"></a>
 
-### Responding to projected content changes
+### 回應投影內容的變更
 
-*Content projection* is a way to import HTML content from outside the component and insert that content  into the component's template in a designated spot.
-Identify content projection in a template by looking for the following constructs.
+*內容投影*是一種從元件外部匯入 HTML 內容、並將該內容插入元件範本中指定位置的方式。
+你可以透過尋找下列結構，來辨識範本中的內容投影。
 
-*   HTML between component element tags
-*   The presence of `<ng-content>` tags in the component's template
+*   元件元素標籤之間的 HTML
+*   元件範本中 `<ng-content>` 標籤的存在
 
 <div class="alert is-helpful">
 
-AngularJS developers know this technique as *transclusion*.
+AngularJS 開發者稱這種技術為 *transclusion*（轉置）。
 
 </div>
 
-The *AfterContent* sample explores the `AfterContentInit()` and `AfterContentChecked()` hooks that Angular calls *after* Angular projects external content into the component.
+*AfterContent* 範例探討 Angular 在將外部內容投影到元件之後呼叫的 `AfterContentInit()` 與 `AfterContentChecked()` 鉤子。
 
-Consider this variation on the [previous *AfterView*](#afterview) example.
-This time, instead of including the child view within the template, it imports the content from the `AfterContentComponent` hook's parent.
-The following is the parent's template.
+請看[前一個 *AfterView*](#afterview)範例的這個變化版本。
+這一次，它不是將子檢視包含在範本內，而是從 `AfterContentComponent` 鉤子的父元件匯入內容。
+以下是父元件的範本。
 
 <code-example header="AfterContentParentComponent (template excerpt)" path="lifecycle-hooks/src/app/after-content-parent.component.ts" region="parent-template"></code-example>
 
-Notice that the `<app-child>` tag is tucked between the `<after-content>` tags.
-Never put content between a component's element tags *unless you intend to project that content into the component*.
+請注意，`<app-child>` 標籤夾在 `<after-content>` 標籤之間。
+絕對不要在元件的元素標籤之間放置內容，*除非你打算將該內容投影到元件中*。
 
-Now look at the component's template.
+現在來看看元件的範本。
 
 <code-example header="AfterContentComponent (template)" path="lifecycle-hooks/src/app/after-content.component.ts" region="template"></code-example>
 
-The `<ng-content>` tag is a *placeholder* for the external content.
-It tells Angular where to insert that content.
-In this case, the projected content is the `<app-child>` from the parent.
+`<ng-content>` 標籤是外部內容的*預留位置*。
+它告訴 Angular 要在哪裡插入該內容。
+在這個案例中，投影的內容是來自父元件的 `<app-child>`。
 
 <div class="lightbox">
 
-<img alt="Projected Content" src="generated/images/guide/lifecycle-hooks/projected-child-view.png">
+<img alt="投影內容" src="generated/images/guide/lifecycle-hooks/projected-child-view.png">
 
 </div>
 
-#### Using AfterContent hooks
+#### 使用 AfterContent 鉤子
 
-*AfterContent* hooks are similar to the *AfterView* hooks.
-The key difference is in the child component.
+*AfterContent* 鉤子與 *AfterView* 鉤子類似。
+關鍵差異在於子元件。
 
-*   The *AfterView* hooks concern `ViewChildren`, the child components whose element tags appear *within* the component's template
-*   The *AfterContent* hooks concern `ContentChildren`, the child components that Angular projected into the component
+*   *AfterView* 鉤子關心的是 `ViewChildren`，也就是元素標籤出現在元件範本*內*的子元件
+*   *AfterContent* 鉤子關心的是 `ContentChildren`，也就是 Angular 投影到元件中的子元件
 
-The following *AfterContent* hooks take action based on changing values in a *content child*, which can only be reached by querying for them using the property decorated with [@ContentChild](api/core/ContentChild).
+以下 *AfterContent* 鉤子會根據*內容子元件*中變更的值採取行動，而內容子元件只能透過查詢以 [@ContentChild](api/core/ContentChild) 裝飾的屬性來取得。
 
 <code-example header="AfterContentComponent (class excerpts)" path="lifecycle-hooks/src/app/after-content.component.ts" region="hooks"></code-example>
 
@@ -460,46 +460,46 @@ The following *AfterContent* hooks take action based on changing values in a *co
 
 <div class="callout is-helpful">
 
-<header>No need to wait for content updates</header>
+<header>不需要等待內容更新</header>
 
-This component's `doSomething()` method updates the component's data-bound `comment` property immediately.
-There's no need to [delay the update to ensure proper rendering](#wait-a-tick "Delaying updates").
+這個元件的 `doSomething()` 方法會立即更新元件資料繫結的 `comment` 屬性。
+不需要[延遲更新以確保正確渲染](#wait-a-tick "Delaying updates")。
 
-Angular calls both *AfterContent* hooks before calling either of the *AfterView* hooks.
-Angular completes composition of the projected content *before* finishing the composition of this component's view.
-There is a small window between the `AfterContent...` and `AfterView...` hooks that lets you modify the host view.
+Angular 會在呼叫任一個 *AfterView* 鉤子之前，先呼叫兩個 *AfterContent* 鉤子。
+Angular 會在完成這個元件檢視的組成*之前*，先完成投影內容的組成。
+在 `AfterContent...` 與 `AfterView...` 鉤子之間有一個短暫的空檔，讓你可以修改主元件的檢視。
 
 </div>
 
 <a id="docheck"></a>
 
-## Defining custom change detection
+## 定義自訂變更偵測
 
-To monitor changes that occur where `ngOnChanges()` won't catch them, implement your own change check, as shown in the *DoCheck* example.
-This example shows how to use the `ngDoCheck()` hook to detect and act upon changes that Angular doesn't catch on its own.
+若要監控 `ngOnChanges()` 無法捕捉的變更，請如 *DoCheck* 範例所示，實作你自己的變更檢查。
+這個範例展示如何使用 `ngDoCheck()` 鉤子，來偵測並處理 Angular 自身無法捕捉的變更。
 
-The *DoCheck* sample extends the *OnChanges* sample with the following `ngDoCheck()` hook:
+*DoCheck* 範例以以下 `ngDoCheck()` 鉤子擴充了 *OnChanges* 範例：
 
 <code-example header="DoCheckComponent (ngDoCheck)" path="lifecycle-hooks/src/app/do-check.component.ts" region="ng-do-check"></code-example>
 
-This code inspects certain *values of interest*, capturing and comparing their current state against previous values.
-It writes a special message to the log when there are no substantive changes to the `hero` or the `power` so you can see how often `DoCheck()` is called.
-The results are illuminating.
+這段程式碼會檢查某些*關注的值*，擷取並比較它們目前的狀態與先前的狀態。
+當 `hero` 或 `power` 沒有實質變更時，它會在記錄中寫入一則特殊訊息，讓你看到 `DoCheck()` 被呼叫的頻率。
+結果很有啟發性。
 
 <div class="lightbox">
 
-<img alt="DoCheck" src="generated/images/guide/lifecycle-hooks/do-check-anim.gif">
+<img alt="DoCheck 鉤子" src="generated/images/guide/lifecycle-hooks/do-check-anim.gif">
 
 </div>
 
-While the `ngDoCheck()` hook can detect when the hero's `name` has changed, it is an expensive hook.
-This hook is called with enormous frequency &mdash;after *every* change detection cycle no matter where the change occurred.
-It's called over twenty times in this example before the user can do anything.
+雖然 `ngDoCheck()` 鉤子可以偵測英雄的 `name` 何時變更，但它是一個昂貴的鉤子。
+這個鉤子被呼叫的頻率極高 &mdash;在*每一次*變更偵測週期之後都會被呼叫，無論變更發生在哪裡。
+在使用者能夠做任何事之前，這個範例中它就被呼叫了二十多次。
 
-Most of these initial checks are triggered by Angular's first rendering of *unrelated data elsewhere on the page*.
-Just moving the cursor into another `<input>` triggers a call.
-Relatively few calls reveal actual changes to pertinent data.
-If you use this hook, your implementation must be extremely lightweight or the user experience suffers.
+這些初始檢查大多是由 Angular 首次渲染*頁面上其他地方的無關資料*所觸發。
+光是將游標移到另一個 `<input>` 就會觸發一次呼叫。
+相對較少的呼叫會顯示相關資料的實際變更。
+如果你使用這個鉤子，你的實作必須極為輕量，否則使用者體驗會受到影響。
 
 <!-- links -->
 

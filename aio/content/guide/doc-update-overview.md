@@ -1,102 +1,83 @@
-# Overview of Angular documentation editorial workflow
+# Angular 文件編輯工作流程概覽
 
-This section describes the process of making major changes to the Angular documentation.
-It also describes how Angular documentation is stored, built, revised, and tested.
+本節說明對 Angular 文件進行大幅變更的過程。也說明 Angular 文件的儲存、建置、修訂與測試方式。
 
-The following diagram illustrates the workflow for revising Angular documentation.
-The steps are summarized below and described in the topics of this section.
+下圖說明修訂 Angular 文件的工作流程。步驟摘要如下，並於本節的主題中說明。
 
 <div class="lightbox">
 
 <!-- Image source is found in angular/aio/src/assets/images/doc-contribute-images.sketch, in the sketch page that matches this topic's filename -->
-<img alt="A block diagram that shows the steps in the writing workflow" src="generated/images/guide/doc-update-overview/writing-workflow.png">
+<img alt="顯示寫作工作流程步驟的方塊圖" src="generated/images/guide/doc-update-overview/writing-workflow.png">
 
 </div>
 
-## Prepare to edit the docs
+## 準備編輯文件
 
-You perform this step one time to prepare your local computer to update the Angular documentation.
+你只需要執行這個步驟一次，以準備本地電腦來更新 Angular 文件。
 
-For more information about how to prepare to edit the docs, see [Preparing to edit documentation](guide/doc-prepare-to-edit).
+有關如何準備編輯文件的更多資訊，請參閱[準備編輯文件](guide/doc-prepare-to-edit)。
 
-## Select a documentation issue
+## 選擇文件議題
 
-The first step in resolving a documentation issue is to select one to fix.
-The issue that you fix can be one from the [list of documentation issues](https://github.com/angular/angular/issues?q=is%3Aissue+is%3Aopen+label%3A%22comp%3A+docs%22) in the `angular/angular` repo or one you create.
+解決文件議題的第一步是選擇一個要修正的議題。你要修正的議題可以是 `angular/angular` 儲存庫中[文件議題清單](https://github.com/angular/angular/issues?q=is%3Aissue+is%3Aopen+label%3A%22comp%3A+docs%22)中的一個，也可以是你自己建立的。
 
-For more information about how to select an issue to fix, see [Selecting a documentation issue](guide/doc-select-issue).
+有關如何選擇要修正的議題的更多資訊，請參閱[選擇文件議題](guide/doc-select-issue)。
 
-### Create a documentation issue
+### 建立文件議題
 
-If you want to fix a problem that has not already been described in an issue, [open a documentation issue](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml) before you start.
-When you can relate an issue to your pull request, reviewers can understand the problem better when they review your pull request.
+如果你想修正尚未在議題中描述的問題，請先[開啟文件議題](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml)再開始。當你能將議題與 pull request 關聯起來時，檢閱者在檢閱你的 pull request 時能更了解問題。
 
-### Create a working branch
+### 建立工作分支
 
-After you select an issue to resolve, create a `working` branch in the `working` directory on your local computer.
-You need to make your changes in this branch to save and test them while you edit.
-After you fix the issue, you use this branch when you open the pull request for your solution to be merged into `angular/angular`.
+選擇要解決的議題後，請在本地電腦上工作目錄中的 `working` 目錄內建立 `working` 分支。你需要在這個分支中進行變更，以便在編輯時儲存與測試它們。修正議題後，當你開啟 pull request 以將解決方案合併到 `angular/angular` 時，會使用這個分支。
 
-For more information about how to create a `working` branch, see [Starting to edit a documentation topic](guide/doc-update-start).
+有關如何建立 `working` 分支的更多資訊，請參閱[開始編輯文件主題](guide/doc-update-start)。
 
-## Revise topics
+## 修訂主題
 
-In your `working` branch, you edit and create the documentation topics necessary to resolve the issue.
-You perform most of this work in your integrated development environment \(IDE\).
+在你的 `working` 分支中，你可以編輯並建立解決議題所需的文件主題。你大部分的工作都是在整合式開發環境（IDE）中進行的。
 
-For more information about how to revise a documentation topic, see [Revising a documentation topic](guide/doc-editing).
+有關如何修訂文件主題的更多資訊，請參閱[修訂文件主題](guide/doc-editing)。
 
-### Resolve lint errors
+### 解決程式碼檢查工具錯誤
 
-Each time you save your edits to a documentation topic, the documentation linter reviews your topic.
-It reports the problems it finds in your topic to your IDE.
-To prevent delays later in the pull request process, you should correct these problems as they are reported.
-The documentation linter errors must be corrected before you open the pull request to pass the pull request review.
-Having lint errors in a topic can prevent the pull request from being approved for merging.
+每次將對文件主題的編輯儲存後，文件程式碼檢查工具都會檢閱你的主題。它會將在你的主題中發現的問題回報給你的 IDE。為避免在 pull request 流程後期造成延誤，你應該在問題回報時立即修正。文件程式碼檢查工具的錯誤必須在開啟 pull request 之前修正，才能通過 pull request 檢閱。主題中有程式碼檢查工具錯誤可能會導致 pull request 無法獲准合併。
 
-For more information about how to resolve lint problems in a documentation topic, see [Resolving documentation linter messages](guide/docs-lint-errors).
+有關如何解決文件主題中程式碼檢查工具問題的更多資訊，請參閱[解決文件程式碼檢查工具訊息](guide/docs-lint-errors)。
 
-### Test your changes
+### 測試你的變更
 
-As you edit documentation topics to resolve the issue you selected, you want to build a local version of the updated documentation.
-This is the easiest way to review your changes in the same context as the documentation's users.
+在你編輯文件主題以解決所選議題時，你會想要建置更新後文件的本地版本。這是在與文件使用者相同的情境中檢閱變更的最簡單方式。
 
-You can also run some of the automated tests on your local computer to catch other errors.
-Running these tests on your local computer before you open a pull request speeds up the pull-request approval process.
+你也可以在本地電腦上執行部分自動化測試以發現其他錯誤。在開啟 pull request 之前，先在本地電腦上執行這些測試，可以加快 pull request 核准流程。
 
-For more information about how to build and test your changes before you open a pull request, see [Building and testing documentation](guide/doc-build-test).
+有關如何在開啟 pull request 之前建置與測試變更的更多資訊，請參閱[建置與測試文件](guide/doc-build-test)。
 
-## Prepare your pull request
+## 準備你的 pull request
 
-To make your documentation changes ready to be added to the `angular/angular` repo, there are a few things to do before you open a pull request.
-For example, to make your pull request easy to review and approve, the commits and commit messages in your `working` branch must be formatted correctly.
+若要讓你的文件變更準備好加入 `angular/angular` 儲存庫，在開啟 pull request 之前還有一些事情要做。例如，為了讓 pull request 易於檢閱與核准，`working` 分支中的提交與提交訊息必須格式正確。
 
-For information about how to prepare your branch for a pull request, see [Preparing documentation for a pull request](guide/doc-pr-prep).
+有關如何為 pull request 準備分支的資訊，請參閱[為 pull request 準備文件](guide/doc-pr-prep)。
 
-### Open your pull request
+### 開啟你的 pull request
 
-Opening a documentation pull request sends your changes to the Angular reviewers who are familiar with the topic.
-To be processed correctly, pull requests for `angular/angular` must be formatted correctly and contain specific information.
+開啟文件 pull request 會將你的變更傳送給熟悉該主題的 Angular 檢閱者。為正確處理，`angular/angular` 的 pull request 必須格式正確並包含特定資訊。
 
-For information about how to format a pull request for your documentation update, see [Opening a documentation pull request](guide/doc-pr-open).
+有關如何為你的文件更新設定 pull request 格式的資訊，請參閱[開啟文件 pull request](guide/doc-pr-open)。
 
-### Update your pull request
+### 更新你的 pull request
 
-You might get feedback about your pull request that requires you to revise the topic.
-Because the pull-request process is designed for all Angular code, as well as the documentation, this process might seem intimidating the first time.
+你可能會收到關於 pull request 的意見回饋，要求你修訂主題。由於 pull request 流程是為所有 Angular 程式碼以及文件而設計的，這個流程第一次看起來可能令人卻步。
 
-For information about how to update your topics and respond to feedback on your changes, see [Updating a documentation pull request in progress](guide/doc-pr-update).
+有關如何更新主題並回應對變更的意見回饋的資訊，請參閱[更新進行中的文件 pull request](guide/doc-pr-update)。
 
-## Clean up after merge
+## 合併後清理
 
-After your pull request is approved and merged into `angular/angular`, it becomes part of the official Angular documentation.
-At that point, your changes are now in the `main` branch of `angular/angular`.
-This means that you can safely delete your `working` branch.
+pull request 核准並合併到 `angular/angular` 後，它就成為官方 Angular 文件的一部分。屆時，你的變更已進入 `angular/angular` 的 `main` 分支。這表示你可以安全地刪除 `working` 分支。
 
-It is generally a good practice to delete `working` branches after their changes are merged into the `main` branch of `angular/angular`.
-This prevents your personal fork from collecting lots of branches that could be confusing in the future.
+一般來說，在 `working` 分支的變更合併到 `angular/angular` 的 `main` 分支後刪除它們是良好的做法。這可以避免你的個人 fork 收集大量日後可能造成混淆的分支。
 
-For information about how to clean up safely after your pull request is merged, see [Finishing up a documentation pull request](guide/doc-edit-finish).
+有關如何在 pull request 合併後安全清理的資訊，請參閱[完成文件 pull request 的收尾工作](guide/doc-edit-finish)。
 
 <!-- links -->
 

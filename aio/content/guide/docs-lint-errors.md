@@ -1,56 +1,50 @@
-# Resolve documentation linter messages
+# 解決文件檢查工具訊息
 
-This topic describes different ways to resolve common messages that the documentation linter produces.
+本主題說明解決文件檢查工具產生的常見訊息的不同方式。
 
-## Anatomy of a documentation linter message
+## 文件檢查工具訊息的結構
 
-This is an example of a message produced by the documentation linter.
+以下為文件檢查工具產生的一則訊息範例。
 
 <div class="lightbox">
 
-<img alt="sample of a lint message" src="generated/images/guide/docs-lint-errors/sample-lint-error.png">
+<img alt="Lint 訊息範例" src="generated/images/guide/docs-lint-errors/sample-lint-error.png">
 
 </div>
 
-A documentation linter message contains these elements.
-Starting from the top line:
+文件檢查工具訊息包含下列元素。從最上面一行開始依序說明：
 
 <!-- vale Angular.Angular_Spelling = NO -->
 <!-- vale Angular.Google_Spacing = NO -->
 <!-- vale Angular.Google_We = NO -->
 
-*   The severity.
-    One of these icons indicates the severity of the message:
+*   嚴重程度。下列其中一個圖示表示訊息的嚴重程度：
 
-    *   **Error** \(A red `x` in a circle\)
-        Errors must be corrected before the file can be merged.
+    *   **錯誤**（圓圈中的紅色 `x`）錯誤必須在檔案合併前修正。
 
         <div class="lightbox">
 
-        <img alt="documentation style error icon" src="generated/images/guide/docs-lint-errors/lint-error-icon.png">
+        <img alt="文件風格錯誤圖示" src="generated/images/guide/docs-lint-errors/lint-error-icon.png">
 
         </div>
 
-    *   **Warning** \(A yellow exclamation mark in a triangle\)
-        Warnings should be corrected before the file is merged.
+    *   **警告**（三角形中的黃色驚嘆號）警告應在檔案合併前修正。
 
         <div class="lightbox">
 
-        <img alt="documentation style warning icon" src="generated/images/guide/docs-lint-errors/lint-warn-icon.png">
+        <img alt="文件風格警告圖示" src="generated/images/guide/docs-lint-errors/lint-warn-icon.png">
 
         </div>
 
-    *   **Info** \(A blue lower-case `i` in a circle\)
-        Informational messages should be corrected before the file is merged.
+    *   **資訊**（圓圈中的藍色小寫 `i`）資訊訊息應在檔案合併前修正。
 
         <div class="lightbox">
 
-        <img alt="documentation style info icon" src="generated/images/guide/docs-lint-errors/lint-info-icon.png">
+        <img alt="文件風格資訊圖示" src="generated/images/guide/docs-lint-errors/lint-info-icon.png">
 
         </div>
 
-*   The style rule message.
-    The style rule message in this example is:
+*   風格規則訊息。本範例中的風格規則訊息為：
 
     <code-example language="none" hideCopy>
 
@@ -58,9 +52,7 @@ Starting from the top line:
 
     </code-example>
 
-*   The style reference.
-    Some references are linked to a style guide topic that explains the rule.
-    The style reference in this example is:
+*   風格參照。有些參照會連結至說明該規則的風格指南主題。本範例中的風格參照為：
 
     <code-example language="none" hideCopy>
 
@@ -68,9 +60,7 @@ Starting from the top line:
 
     </code-example>
 
-*   The location of the problem text in the document identified by source line and column as precisely as possible.
-    Some messages might not have the exact location of the text that triggered the message.
-    The location in this example is:
+*   文件中問題文字的位置，以原始碼行與欄位盡可能精確標示。有些訊息可能沒有觸發訊息的文字的確切位置。本範例中的位置為：
 
     <code-example language="none" hideCopy>
 
@@ -78,8 +68,7 @@ Starting from the top line:
 
     </code-example>
 
-*   The style test definition file that produced the message, which is linked to the file.
-    The style test definition in this example is:
+*   產生此訊息的風格測試定義檔案，並連結至該檔案。本範例中的風格測試定義為：
 
     <code-example language="none" hideCopy>
 
@@ -91,70 +80,57 @@ Starting from the top line:
 <!-- vale Angular.Google_Spacing = YES -->
 <!-- vale Angular.Angular_Spelling = YES -->
 
-## Strategies to improve your documentation
+## 改善文件的策略
 
-These tips can help you improve your documentation and remove documentation linter messages.
+這些訣竅能協助你改善文件並消除文件檢查工具訊息。
 
-### Refer to the style guides
+### 參閱風格指南
 
-The lint tool tests against the styles found in these style guides.
-Most style tests include links to relevant sections in these documents for more information.
+檢查工具會依據這些風格指南中的風格進行測試。大多數風格測試都包含連結，可前往這些文件中的相關章節取得更多資訊。
 
-*   [Angular documentation style guide][AioGuideDocsStyleGuide]
-*   [Google Developer Documentation Style Guide][GoogleDevelopersStyle]
+*   [Angular 文件風格指南][AioGuideDocsStyleGuide]
+*   [Google 開發者文件風格指南][GoogleDevelopersStyle]
 
 <div class="alert is-helpful">
 
-Not every style mentioned in the style guides has a test.
-Style guides and the style tests can change.
+風格指南中提到的風格並非每一項都有測試。
+風格指南與風格測試都可能會改變。
 
 </div>
 
-### Split up long sentences
+### 拆分長句
 
-Generally, shorter sentences are easier to read than longer ones.
-Long sentences can occur when you try to say too much at once.
-Long sentences, as well as the use of parentheses, semicolons, or words identified as `too-wordy`, generally require rethinking and rewriting.
+一般來說，較短的句子比長句更容易閱讀。當你試圖一次表達太多內容時，就會出現長句。長句以及括號、分號或被標示為 `too-wordy` 的用詞，通常都需要重新思考並改寫。
 
-Consider restructuring a long sentence to break its individual ideas into distinct sentences or bullet points.
+考慮重組長句，將其中個別的想法拆成不同的句子或項目符號。
 
-### Use lists and tables
+### 使用清單與表格
 
-Sentences that contain comma-separated lists might be clearer if presented as a bulleted-list or table.
+含有逗號分隔清單的句子，若以項目符號清單或表格呈現可能會更清楚。
 
-Consider changing a comma-separated list of items in a sentence to a list of bullets to make those list items easier to read.
+考慮將句子中以逗號分隔的項目清單改為項目符號清單，讓這些清單項目更容易閱讀。
 
-### Use more common words
+### 使用更常見的用詞
 
-Shorter, more common words are generally easier to read than longer ones.
-This does not mean you need to write down to the audience.
-Technical docs should still be precise.
-Angular docs are read by many people around the world and should use language that the most people can understand.
+較短且較常見的用詞一般比長詞更容易閱讀。這並不表示你要刻意遷就讀者。技術文件仍應精確。Angular 文件由世界各地許多人閱讀，應使用最多人能理解的語言。
 
-If you think a specific term is required even though it has been flagged as uncommon, try to include a short explanation of the term.
-Also, try adding some context around its first mention.
+如果你認為某個特定術語雖然被標示為不常見，但仍有必要使用，請試著附上該術語的簡短說明。另外，也請試著在其首次出現處補充一些背景脈絡。
 
-Linking a term to another section or topic is also an option, but consider the disruption that causes to the reader before you use it.
-If you force a reader to go to another page for a definition, they might lose their concentration on the current topic and their primary goal.
+將術語連結至其他章節或主題也是一種選擇，但使用前請先考慮這對讀者造成的干擾。如果你迫使讀者為了一個定義前往另一個頁面，他們可能會失去對目前主題與主要目標的專注。
 
-### Use fewer words
+### 使用更少的文字
 
-If you can remove a word and not lose the meaning of the sentence, leave it out.
+如果你能刪掉一個詞而不失去句子的意思，那就刪掉它。
 
-One common place where removing words can help is in a list of examples with more than two or three items.
-Before you place the items in a bullet list, consider if only one of the items can convey the desired meaning.
-Another option might be to replace a list of items with a single term that describes all the elements in your list.
+刪減文字常見的適用處，是含有兩個或三個以上項目的範例清單。在將這些項目放入項目符號清單之前，請考慮是否只要其中一項就能傳達想要的意思。另一種選擇是以一個能描述清單中所有元素的單一術語來取代整份項目清單。
 
-## More about specific documentation linter messages
+## 關於特定文件檢查工具訊息的更多說明
 
-Most documentation linter messages are self-explanatory and include a link to supplementary documentation.
-Some messages identify areas in that the documentation might need more thought.
-The following types of messages often occur in areas of the text that should be reconsidered and rewritten to improve the text and remove the message.
+大多數文件檢查工具訊息都不言自明，並附有補充文件的連結。有些訊息指出文件可能需要多加思考的部分。下列類型的訊息經常出現在應該重新思考並改寫的文字範圍中，以改善文字並消除訊息。
 
-### A word is `too-wordy` or should be replaced by another
+### 某個詞被標示為 `too-wordy` 或應以其他詞取代
 
-Generally, technical documentation should use a simple and consistent vocabulary to be understood by a wide audience.
-Words that trigger this message are usually words for which there's a simpler way to convey the same thought.
+一般來說，技術文件應使用簡單且一致的詞彙，才能讓廣大的讀者理解。觸發此訊息的用詞，通常都有更簡單的方式來表達相同的意思。
 
 <!-- vale Angular.Google_Spacing = NO -->
 <!-- vale Angular.Google_Headings = NO -->
@@ -163,103 +139,94 @@ Words that trigger this message are usually words for which there's a simpler wa
 
 <!-- markdownlint-disable-file MD026 -->
 
-#### Angular.WriteGood_TooWordy - See if you can rewrite the sentence...
+#### Angular.WriteGood_TooWordy - 看看你是否能改寫這個句子……
 
 <!-- vale Angular.WriteGood_TooWordy = YES -->
 <!-- vale Angular.Google_Ellipses = YES -->
 <!-- vale Angular.Google_Headings = YES -->
 <!-- vale Angular.Google_Spacing = YES -->
 
-Words identified by this style test can usually be replaced by simpler words.
-If not, sentences with these words should be revised to use simpler language and avoid the word in the message.
+此風格測試找出的用詞通常可以替換為更簡單的詞。如果無法替換，含有這些詞的句子應修改為更簡單的語言，並避免使用訊息中指出的詞。
 
-The following table has some common words detected by this type of message and simpler words to try in their place.
+下表列出此類訊息偵測到的一些常見用詞，以及可嘗試用來取代的更簡單用詞。
 
 <!-- vale Angular.WriteGood_TooWordy = NO -->
 
-| `Too-wordy` word     | Simpler replacement |
-|:--                   |:--                  |
-| `accelerate`         | `speed up`            |
-| `accomplish`         | `perform` or `finish` |
-| `acquire`            | `get`                 |
-| `additional`         | `more`                |
-| `adjustment`         | `change`              |
-| `advantageous`       | `beneficial`          |
-| `consequently`       | `as a result`         |
-| `designate`          | `assign`              |
-| `equivalent`         | `the same`            |
-| `exclusively`        | `only`                |
-| `for the most part`  | `generally`           |
-| `have a tendency to` | `tend to`             |
-| `in addition`        | `furthermore`         |
-| `modify`             | `change` or `update`  |
-| `monitor`            | `observe`             |
-| `necessitate`        | `require`             |
-| `one particular`     | `one`                 |
-| `point in time`      | `moment`              |
-| `portion`            | `part`                |
-| `similar to`         | `like`                |
-| `validate`           | `verify`              |
-| `whether or not`     | `whether`             |
+| `Too-wordy` 用詞 | 較簡單的替代詞 |
+|:-- |:-- |
+| `accelerate` | `speed up` |
+| `accomplish` | `perform` or `finish` |
+| `acquire` | `get` |
+| `additional` | `more` |
+| `adjustment` | `change` |
+| `advantageous` | `beneficial` |
+| `consequently` | `as a result` |
+| `designate` | `assign` |
+| `equivalent` | `the same` |
+| `exclusively` | `only` |
+| `for the most part` | `generally` |
+| `have a tendency to` | `tend to` |
+| `in addition` | `furthermore` |
+| `modify` | `change` or `update` |
+| `monitor` | `observe` |
+| `necessitate` | `require` |
+| `one particular` | `one` |
+| `point in time` | `moment` |
+| `portion` | `part` |
+| `similar to` | `like` |
+| `validate` | `verify` |
+| `whether or not` | `whether` |
 
 <!-- vale Angular.WriteGood_TooWordy = YES -->
 
 <!-- vale Angular.Google_Headings = NO -->
 
-#### `WordList` messages
+#### `WordList` 訊息
 
 <!-- vale Angular.Google_Headings = YES -->
 
-The messages about words detected by these style tests generally suggest a better alternative.
-While the word you used would probably be understood, it most likely triggered this message for one of the following reasons:
+這些風格測試針對偵測到的用詞所發出的訊息，通常會建議更好的替代詞。雖然你使用的詞可能可以理解，但它最可能因為下列其中一個原因而觸發此訊息：
 
-*   The suggested works better in a screen-reader context
-*   The word that you used could produce an unpleasant response in the reader
-*   The suggested word is simpler, shorter, or easier for more people to understand
-*   The word you used has other possible variations.
-    The suggested word is the variation to use in the documentation to be consistent.
+*   建議的用詞在螢幕閱讀器情境下效果較好
+*   你使用的詞可能會引起讀者的不快
+*   建議的詞更簡單、更短，或讓更多人更容易理解
+*   你使用的詞還有其他可能的寫法。建議的詞是為了保持一致而應在文件中使用的寫法。
 
 <!-- vale Angular.Angular_Spelling = NO -->
 
-### `Proselint` messages
+### `Proselint` 訊息
 
-The Proselint style tests test for words that are jargon or that could be offensive to some people.
+Proselint 風格測試會檢查屬於行話或可能冒犯某些人的用詞。
 
 <!-- vale Angular.Angular_Spelling = YES -->
 
-Rewrite the text to replace the jargon or offensive language with more inclusive language.
+請改寫文字，以更具包容性的語言取代行話或冒犯性語言。
 
-### `Starting a sentence` messages
+### `Starting a sentence` 訊息
 
-Some words, such as *so* and *there is/are*, aren't necessary at the beginning of a sentence.
-Sentences that start with the words identified by this message can usually be made shorter, simpler, and clearer by rewriting them without those openings.
+有些詞，例如 *so* 和 *there is/are*，在句首並非必要。以此訊息指出的詞開頭的句子，通常可以改寫去掉這些開頭，讓句子更短、更簡單、更清楚。
 
-### Cliches
+### 陳腔濫調
 
-Cliches should be replaced by more literal text.
+陳腔濫調應以更直白的文字取代。
 
-Cliches make it difficult for people who don't understand English to understand the documentation.
-When cliches are translated by online tools such as Google Translate, they can produce confusing results.
+陳腔濫調會讓不懂英文的人難以理解文件。當陳腔濫調由 Google 翻譯等線上工具翻譯時，可能會產生令人困惑的結果。
 
-## If all else fails
+## 如果其他方法都不行
 
-The style rules generally guide you in the direction of clearer content, but sometimes you might need to break the rules.
-If you decide that the best choice for the text conflicts with the linter, mark the text as an exception to linting.
+風格規則一般會引導你寫出更清楚的內容，但有時你可能需要打破規則。如果你認為文字的最佳選擇與檢查工具相衝突，請將該文字標示為檢查例外。
 
-The documentation linter checks only the content that is rendered as text.
-It does not test code-formatted text.
-One common source of false problems is code references that are not formatted as code.
+文件檢查工具只檢查以文字形式呈現的內容，不測試以程式碼格式標示的文字。誤報的常見來源之一，是未以程式碼格式標示的程式碼參照。
 
-If you use these exceptions, please limit the amount of text that you exclude from analysis to the fewest lines possible.
+如果你使用這些例外，請將排除在分析之外的文字量限制在最少的行數。
 
-When necessary, you can apply these exceptions to your content.
+必要時，你可以將這些例外套用至你的內容。
 
-1.  **General exception**
+1.  **一般例外**
 
-    A general exception allows you to exclude the specified text from all lint testing.
+一般例外可讓你將指定的文字排除在所有檢查測試之外。
 
-    To apply a general exception, surround the text that you do not want the linter to test with the HTML
-    `comment` elements shown in this example.
+若要套用一般例外，請以本範例所示的 HTML `comment` 元素包住你不希望檢查工具測試的文字。
 
     <code-example format="html" language="html">
 
@@ -271,16 +238,13 @@ When necessary, you can apply these exceptions to your content.
 
     </code-example>
 
-    Be sure to leave a blank line before and after each comment.
+請務必在每個註解前後各留一個空行。
 
-1.  **Style exception**
+1.  **風格例外**
 
-    A style exception allows you to exclude text from an individual style test.
+風格例外可讓你將文字排除在個別風格測試之外。
 
-    To apply a style exception, surround the text that you do not want the linter to test with these HTML
-    `comment` elements.
-    Between these comments, the linter ignores the style test in the comment, but
-    still tests for all other styles that are in use.
+若要套用風格例外，請以這些 HTML `comment` 元素包住你不希望檢查工具測試的文字。在這些註解之間，檢查工具會忽略註解中的風格測試，但仍會測試其他所有正在使用的風格。
 
     <code-example format="html" language="html">
 
@@ -289,8 +253,7 @@ When necessary, you can apply these exceptions to your content.
 
     </code-example>
 
-    Replace `Style.Rule` in the comments with the style rule reference from the problem message displayed in the IDE.
-    For example, imagine that you got this problem message and you want to use the word it identified as a problem.
+請將註解中的 `Style.Rule` 替換為 IDE 中顯示的問題訊息裡的風格規則參照。例如，假設你收到這則問題訊息，而你想使用它指出有問題的詞。
 
     <code-example format="html" language="html">
 
@@ -299,8 +262,7 @@ When necessary, you can apply these exceptions to your content.
 
     </code-example>
 
-    The `Style.Rule` for this message is the text inside the parentheses: `Angular.Angular_Spelling` in this case.
-    To turn off that style test, use the comments shown in this example.
+此訊息的 `Style.Rule` 是括號內的文字，在本例中為 `Angular.Angular_Spelling`。若要關閉該風格測試，請使用本範例所示的註解。
 
     <code-example format="html" language="html">
 
@@ -316,11 +278,11 @@ When necessary, you can apply these exceptions to your content.
 
 <!-- links -->
 
-[AioGuideDocsStyleGuide]: /guide/docs-style-guide "Angular documentation style guide | Angular"
+[AioGuideDocsStyleGuide]: /guide/docs-style-guide "Angular 文件風格指南 | Angular"
 
 <!-- external links -->
 
-[GoogleDevelopersStyle]: https://developers.google.com/style "About this guide | Google developer documentation style guide | Google Developers"
+[GoogleDevelopersStyle]: https://developers.google.com/style "關於本指南 | Google 開發者文件風格指南 | Google Developers"
 
 <!-- end links -->
 

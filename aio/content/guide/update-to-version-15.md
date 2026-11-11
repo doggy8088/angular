@@ -1,4 +1,4 @@
-# Update Angular to v15
+# 將 Angular 更新到 v15
 
 <!-- NOTE to writers: When creating the topic for the next version,                               -->
 <!--   remember to update the redirect link in angular/aio/firebase.json                          -->
@@ -7,84 +7,84 @@
 <!--   2,  Update the destination value to refer to the new guide's URL                           -->
 <!--                                                                                              -->
 
-This topic provides information about updating your Angular applications to Angular version 15.
+本主題提供將 Angular 應用程式更新到 Angular 版本 15 的相關資訊。
 
-For a summary of this information and the step-by-step procedure to update your Angular application to v15, see the [Angular Update Guide](https://update.angular.io).
+如需本資訊的摘要，以及將 Angular 應用程式更新到 v15 的逐步程序，請參閱 [Angular Update Guide](https://update.angular.io)。
 
-The information in the [Angular Update Guide](https://update.angular.io) and this topic is summarized from these change logs:
+[Angular Update Guide](https://update.angular.io) 與本主題中的資訊，摘要自下列變更日誌：
 
 *  [angular/angular changelog](https://github.com/angular/angular/blob/main/CHANGELOG.md)
 *  [angular/angular-cli changelog](https://github.com/angular/angular-cli/blob/main/CHANGELOG.md)
 *  [angular/components changelog](https://github.com/angular/components/blob/main/CHANGELOG.md)
 
-Information about updating Angular applications to v14 is archived at [Update to version 14](/guide/update-to-version-14).
+將 Angular 應用程式更新到 v14 的資訊已封存於[更新到版本 14](/guide/update-to-version-14)。
 
 <a id="new-features"></a>
 
-## New features in Angular v15
+## Angular v15 的新功能
 
-Angular v15 brings many improvements and new features.
-This section only contains some of the innovations in v15.
+Angular v15 帶來許多改進與新功能。
+本節僅包含 v15 部分創新內容。
 
-For a comprehensive list of the new features, see the [Angular blog post on the update to v15](https://blog.angular.io/angular-v15-is-now-available-df7be7f2f4c8).
+如需新功能的完整清單，請參閱[關於更新到 v15 的 Angular 部落格文章](https://blog.angular.io/angular-v15-is-now-available-df7be7f2f4c8)。
 
 <!-- markdownLint-disable MD001 -->
 
-#### Standalone components are stable
+#### 獨立式元件已穩定
 
-The standalone components API lets you build Angular applications without the need to use NgModules. For more information about using these APIs in your next Angular application, see [Standalone components](guide/standalone-components).
+獨立式元件 API 讓你無需使用 NgModule 即可建置 Angular 應用程式。如需進一步了解如何在下一個 Angular 應用程式中使用這些 API，請參閱[獨立式元件](guide/standalone-components)。
 
-#### The `NgOptimizedImage` directive is stable
+#### `NgOptimizedImage` 指令已穩定
 
-Adding `NgOptimizedImage` directive to your component or NgModule can help reduce the download time of images in your Angular application. For more information about using the `NgOptimizedImage` directive, see [Getting started with `NgOptimizedImage`](guide/image-directive).
+在元件或 NgModule 中加入 `NgOptimizedImage` 指令，有助於縮短 Angular 應用程式中圖片的下載時間。如需進一步了解如何使用 `NgOptimizedImage` 指令，請參閱[`NgOptimizedImage` 入門](guide/image-directive)。
 
-#### Directives can be added to host elements
+#### 指令可以加入宿主元素
 
-The directive composition API makes it possible to add directives to host elements, addressing [feature request #8785](https://github.com/angular/angular/issues/8785). Directives let you add behaviors to your components behaviors without using inheritance.
+指令組合 API 讓你能夠將指令加入宿主元素，回應了[功能請求 #8785](https://github.com/angular/angular/issues/8785)。指令讓你無需使用繼承，即可為元件加入行為。
 
-#### Stack traces are more helpful
+#### 堆疊追蹤更有幫助
 
-Angular v15 makes debugging Angular applications easier with cleaner stack traces.
-Angular worked with Google Chrome developers to present stack traces that show more of your application's code and less from the libraries it calls.
+Angular v15 以更簡潔的堆疊追蹤，讓 Angular 應用程式的除錯更輕鬆。
+Angular 與 Google Chrome 開發人員合作，呈現顯示更多應用程式程式碼、更少所呼叫函式庫內容的堆疊追蹤。
 
-For more information about the Chrome DevTools and Angular's support for the cleaner stack traces, see [Modern web debugging in Chrome DevTools](https://developer.chrome.com/blog/devtools-modern-web-debugging/).
+如需進一步了解 Chrome DevTools 以及 Angular 對更簡潔堆疊追蹤的支援，請參閱 [Modern web debugging in Chrome DevTools](https://developer.chrome.com/blog/devtools-modern-web-debugging/)。
 
 <!-- vale Angular.Google_Acronyms = NO -->
 
-#### MDC-based components are stable
+#### 以 MDC 為基礎的元件已穩定
 
 <!-- vale Angular.Google_Acronyms = YES -->
 
-Many of the components in Angular Material v15 have been refactored to be based on Angular Material Design Components (MDC) for the Web.
-The refactored components offer improved accessibility and adherence to the Material Design spec.
+Angular Material v15 中的許多元件已重構為以 Web 版 Angular Material Design Components (MDC) 為基礎。
+重構後的元件提供更佳的無障礙支援，並更符合 Material Design 規範。
 
-For more information about the updated components, see [Migrating to MDC-based Angular Material Components](https://material.angular.io/guide/mdc-migration).
+如需進一步了解更新後的元件，請參閱[遷移到以 MDC 為基礎的 Angular Material 元件](https://material.angular.io/guide/mdc-migration)。
 
 <a id="breaking-changes"></a>
 
-## Breaking changes in Angular v15
+## Angular v15 的破壞性變更
 
-These are the aspects of Angular that behave differently in v15 and that might require you to review and refactor parts of your Angular application.
+以下是 Angular 在 v15 中行為有所不同的部分，可能需要你檢視並重構 Angular 應用程式的某些部分。
 
 <a id="v15-bc-01"></a>
 
-#### Angular v15 supports node.js versions: 14.20.x, 16.13.x and 18.10.x
+#### Angular v15 支援的 node.js 版本：14.20.x、16.13.x 與 18.10.x
 
-In v15, Angular no longer supports node.js versions 14.\[15-19\].x or 16.\[10-12\].x. [PR #47730](https://github.com/angular/angular/pull/47730)
+在 v15 中，Angular 不再支援 node.js 版本 14.\[15-19\].x 或 16.\[10-12\].x。[PR #47730](https://github.com/angular/angular/pull/47730)
 
 <a id="v15-bc-02"></a>
 
-#### Angular v15 supports TypeScript version 4.8 or later
+#### Angular v15 支援 TypeScript 4.8 或更新版本
 
-In v15, Angular no longer supports TypeScript versions older than 4.8. [PR #47690](https://github.com/angular/angular/pull/47690)
+在 v15 中，Angular 不再支援舊於 4.8 的 TypeScript 版本。[PR #47690](https://github.com/angular/angular/pull/47690)
 
 <a id="v15-bc-03"></a>
 
-#### `@keyframes` name format changes
+#### `@keyframes` 名稱格式變更
 
-In v15, `@keyframes` names are prefixed with the component's *scope name*. [PR #42608](https://github.com/angular/angular/pull/42608)
+在 v15 中，`@keyframes` 名稱會加上元件的*範圍名稱*作為前綴。[PR #42608](https://github.com/angular/angular/pull/42608)
 
-For example, in a component definition whose *scope name* is `host-my-cmp`, a  `@keyframes` rule with a name in v14 of:
+例如，在*範圍名稱*為 `host-my-cmp` 的元件定義中，v14 中名稱為下列內容的 `@keyframes` 規則：
 
 <code-example language="ts" hideCopy>
 
@@ -92,7 +92,7 @@ For example, in a component definition whose *scope name* is `host-my-cmp`, a  `
 
 </code-example>
 
-becomes in v15:
+在 v15 中變為：
 
 <code-example language="ts" hideCopy>
 
@@ -100,113 +100,113 @@ becomes in v15:
 
 </code-example>
 
-This change can break any TypeScript or JavaScript code that use the names of `@keyframes` rules.
+此變更可能會破壞任何使用 `@keyframes` 規則名稱的 TypeScript 或 JavaScript 程式碼。
 
-To accommodate this breaking change, you can:
+為因應此破壞性變更，你可以：
 
-*  Change the component's view encapsulation to `None` or `ShadowDom`.
-*  Define `@keyframes` rules in global stylesheets, such as `styles.css`.
-*  Define `@keyframes` rules in your own code.
+*  將元件的檢視封裝變更為 `None` 或 `ShadowDom`。
+*  在全域樣式表（例如 `styles.css`）中定義 `@keyframes` 規則。
+*  在自己的程式碼中定義 `@keyframes` 規則。
 
 <a id="v15-bc-05"></a>
 
-#### Invalid constructors for dependency injection can report compilation errors
+#### 用於依賴注入的無效建構函式可能會回報編譯錯誤
 
-When a class inherits its constructor from a base class, the compiler can report an error when that constructor cannot be used for dependency injection purposes. [PR #44615](https://github.com/angular/angular/pull/44615)
+當類別從基礎類別繼承其建構函式時，若該建構函式無法用於依賴注入，編譯器可能會回報錯誤。[PR #44615](https://github.com/angular/angular/pull/44615)
 
-This can happen:
+這種情況可能發生於：
 
-*  When the base class is missing an Angular decorator such as `@Injectable()` or `@Directive()`
-*  When the constructor contains parameters that do not have an associated token ,such as primitive types like `string`.
+*  基礎類別缺少 Angular 裝飾器，例如 `@Injectable()` 或 `@Directive()`
+*  建構函式包含沒有關聯權杖的參數，例如 `string` 等原始型別。
 
-These situations used to behave unexpectedly at runtime. For example, a class might be constructed without any of its constructor parameters.
-In v15, this is reported as a compilation error.
+這些情況在執行時期過去會有非預期的行為。例如，類別可能會在沒有任何建構函式參數的情況下被建構。
+在 v15 中，這會回報為編譯錯誤。
 
-New errors reported because of this change can be resolved by either:
+因這項變更而回報的新錯誤，可以透過下列任一方式解決：
 
-* Decorating the base class from which the constructor is inherited.
-* Adding an explicit constructor to the class for which the error is reported.
+* 為繼承建構函式的基礎類別加上裝飾器。
+* 為回報錯誤的類別加入明確的建構函式。
 
 <a id="v15-bc-06"></a>
 
-#### `setDisabledState` is always called when a `ControlValueAccessor` is attached
+#### 附加 `ControlValueAccessor` 時一律會呼叫 `setDisabledState`
 
-In v15, `setDisabledState` is always called when a `ControlValueAccessor` is attached. [PR #47576](https://github.com/angular/angular/pull/47576)
+在 v15 中，附加 `ControlValueAccessor` 時一律會呼叫 `setDisabledState`。[PR #47576](https://github.com/angular/angular/pull/47576)
 
-You can opt out of this behavior with `FormsModule.withConfig` or `ReactiveFormsModule.withConfig`.
+你可以使用 `FormsModule.withConfig` 或 `ReactiveFormsModule.withConfig` 來選擇退出此行為。
 
 <a id="v15-bc-07"></a>
 
-#### The `canParse` method has been removed
+#### `canParse` 方法已移除
 
-The `canParse` method has been removed from all translation parsers in `@angular/localize/tools`. [PR #47275](https://github.com/angular/angular/pull/47275)
+`canParse` 方法已從 `@angular/localize/tools` 中的所有翻譯解析器移除。[PR #47275](https://github.com/angular/angular/pull/47275)
 
-In v15, use `analyze` should instead and the `hint` parameter in the parse methods is mandatory.
+在 v15 中，應改用 `analyze`，且剖析方法中的 `hint` 參數為必填。
 
 <a id="v15-bc-08"></a>
 
-#### The `title` property is required on `ActivatedRouteSnapshot`
+#### `ActivatedRouteSnapshot` 上的 `title` 屬性為必填
 
-In v15, the `title` property is required on [`ActivatedRouteSnapshot`](api/router/ActivatedRouteSnapshot). [PR #47481](https://github.com/angular/angular/pull/47481)
+在 v15 中，[`ActivatedRouteSnapshot`](api/router/ActivatedRouteSnapshot) 上的 `title` 屬性為必填。[PR #47481](https://github.com/angular/angular/pull/47481)
 
 <a id="v15-bc-09"></a>
 
-#### `RouterOutlet` instantiates the component after change detection
+#### `RouterOutlet` 在變更偵測之後才執行個體化元件
 
-Before v15, during navigation, `RouterOutlet` instantiated the component being activated immediately. [PR #46554](https://github.com/angular/angular/pull/46554)
+在 v15 之前，導覽期間 `RouterOutlet` 會立即執行個體化正在啟用的元件。[PR #46554](https://github.com/angular/angular/pull/46554)
 
-In v15, the component is not instantiated until after change detection runs.
-This change could affect tests that do not trigger change detection after a router navigation.
-This can also affect production code that relies on the exact timing of component availability,
-for example, if your component's constructor calls `router.getCurrentNavigation()`.
+在 v15 中，元件要等到變更偵測執行後才會執行個體化。
+此變更可能會影響在路由器導覽後未觸發變更偵測的測試。
+這也可能影響仰賴元件可用性確切時機的正式程式碼，
+例如元件的建構函式呼叫 `router.getCurrentNavigation()` 的情況。
 
 <a id="v15-bc-10"></a>
 
-#### `relativeLinkResolution` is not configurable in the Router
+#### Router 中的 `relativeLinkResolution` 無法設定
 
-In v15, `relativeLinkResolution` is not configurable in the Router. [PR #47623](https://github.com/angular/angular/pull/47623)
+在 v15 中，Router 中的 `relativeLinkResolution` 無法設定。[PR #47623](https://github.com/angular/angular/pull/47623)
 
-In previous versions, this option was used to opt out of a bug fix.
+在先前的版本中，此選項用於選擇退出某個錯誤修正。
 
 <a id="v15-bc-04"></a>
 
-#### Angular compiler option `enableIvy` has been removed
+#### Angular 編譯器選項 `enableIvy` 已移除
 
-The Angular compiler option `enableIvy` has been removed because Ivy is Angular's only rendering engine. [PR #47346](https://github.com/angular/angular/pull/47346)
+Angular 編譯器選項 `enableIvy` 已移除，因為 Ivy 是 Angular 唯一的算繪引擎。[PR #47346](https://github.com/angular/angular/pull/47346)
 
 <a id="v15-bc-10"></a>
 
-#### Angular Material components based on MDC
+#### 以 MDC 為基礎的 Angular Material 元件
 
-In Angular Material v15, many components have been refactored to be based on the official Material Design Components for Web (MDC).
-For information about breaking changes in Material components v15, see [Migrating to MDC-based Angular Material Components](https://material.angular.io/guide/mdc-migration).
+在 Angular Material v15 中，許多元件已重構為以官方 Web 版 Material Design Components (MDC) 為基礎。
+如需進一步了解 Material 元件 v15 的破壞性變更，請參閱[遷移到以 MDC 為基礎的 Angular Material 元件](https://material.angular.io/guide/mdc-migration)。
 
 <a id="v15-bc-11"></a>
 
-#### Hardening attribute and property binding rules for `<iframe>` elements
+#### 強化 `<iframe>` 元素的屬性與特性繫結規則
 
-Existing `<iframe>` instances might have security-sensitive attributes applied to them as an attribute or property binding.
-These security-sensitive attributes can occur in a template or in a directive's host bindings.
-Such occurrences require an update to ensure compliance with the new and stricter rules about `<iframe>` bindings.
-For more information, see [the error page](/errors/NG0910).
+現有的 `<iframe>` 執行個體可能會以屬性或特性繫結的方式，套用具安全性敏感的屬性。
+這些具安全性敏感的屬性可能出現在範本中，或出現在指令的宿主繫結中。
+出現這類情況時，需要更新以確保符合關於 `<iframe>` 繫結的更新且更嚴格的規則。
+更多資訊請參閱[錯誤頁面](/errors/NG0910)。
 
 <a id="deprecations"></a>
 
-## Deprecations in Angular v15
+## Angular v15 的棄用項目
 
-These are the aspects of Angular that are being phased out.
-They are still available in v15, but they can be removed in future versions as Angular's [deprecation practices](/guide/releases#deprecation-practices) describe.
+以下是正在逐步淘汰的 Angular 功能。
+它們在 v15 中仍然可用，但如 Angular 的[棄用實務](/guide/releases#淘汰實務)所述，未來版本可能會移除它們。
 
-To maintain the reliability of your Angular application, review these notes and update your application as soon as practicable.
+為維持 Angular 應用程式的可靠性，請檢視這些注意事項，並儘快更新你的應用程式。
 
-| Removed | Replacement | Details |
+| 已移除 | 取代項目 | 詳細說明 |
 | :--- | :--- |:--- |
-| <a id="v15-dp-01"></a>[`DATE_PIPE_DEFAULT_TIMEZONE`](api/common/DATE_PIPE_DEFAULT_TIMEZONE) | [`DATE_PIPE_DEFAULT_OPTIONS`](api/common/DATE_PIPE_DEFAULT_OPTIONS) | The `timezone` field in `DATE_PIPE_DEFAULT_OPTIONS` defines the time zone.<br>[PR #43611](https://github.com/angular/angular/pull/43611) |
-| <a id="v15-dp-02"></a>[`Injector.get()`](api/core/Injector#get) with the `InjectFlags` parameter | [`Injector.get()`](api/core/Injector#get) with the `InjectOptions` object | [PR #41592](https://github.com/angular/angular/pull/41592) |
-| <a id="v15-dp-03"></a>[`TestBed.inject()`](api/core/testing/TestBed#inject) with the `InjectFlags` parameter | [`TestBed.inject()`](api/core/testing/TestBed#inject) with the `InjectOptions` object.| [PR #46761](https://github.com/angular/angular/pull/46761) |
-| <a id="v15-dp-04"></a>`providedIn: NgModule` for [`@Injectable`](api/core/Injectable) and [`InjectionToken`](api/core/InjectionToken)<br><a id="v15-dp-05"></a>`providedIn: 'any'` for an `@Injectable` or `InjectionToken` | See Details | `providedIn: NgModule` was intended to be a tree-shakable alternative to `NgModule` providers. It does not have wide usage and is often used incorrectly in cases where `providedIn: 'root'` would be preferred. If providers must be scoped to a specific [`NgModule`](api/core/NgModule), use `NgModule.providers` instead. [PR #47616](https://github.com/angular/angular/pull/47616)|
-| <a id="v15-dp-06"></a>[`RouterLinkWithHref`](api/router/RouterLinkWithHref) directive | [`RouterLink`](api/router/RouterLink) directive | The `RouterLink` directive contains the code from the `RouterLinkWithHref` directive to handle elements with `href` attributes. [PR #47630](https://github.com/angular/angular/pull/47630), [PR #47599](https://github.com/angular/angular/pull/47599)|
+| <a id="v15-dp-01"></a>[`DATE_PIPE_DEFAULT_TIMEZONE`](api/common/DATE_PIPE_DEFAULT_TIMEZONE) | [`DATE_PIPE_DEFAULT_OPTIONS`](api/common/DATE_PIPE_DEFAULT_OPTIONS) | `DATE_PIPE_DEFAULT_OPTIONS` 中的 `timezone` 欄位定義時區。<br>[PR #43611](https://github.com/angular/angular/pull/43611) |
+| <a id="v15-dp-02"></a>帶有 `InjectFlags` 參數的 [`Injector.get()`](api/core/Injector#get) | 帶有 `InjectOptions` 物件的 [`Injector.get()`](api/core/Injector#get) | [PR #41592](https://github.com/angular/angular/pull/41592) |
+| <a id="v15-dp-03"></a>帶有 `InjectFlags` 參數的 [`TestBed.inject()`](api/core/testing/TestBed#inject) | 帶有 `InjectOptions` 物件的 [`TestBed.inject()`](api/core/testing/TestBed#inject) | [PR #46761](https://github.com/angular/angular/pull/46761) |
+| <a id="v15-dp-04"></a>適用於 [`@Injectable`](api/core/Injectable) 與 [`InjectionToken`](api/core/InjectionToken) 的 `providedIn: NgModule`<br><a id="v15-dp-05"></a>適用於 `@Injectable` 或 `InjectionToken` 的 `providedIn: 'any'` | 請參閱詳細說明 | `providedIn: NgModule` 旨在作為 `NgModule` 提供者的可搖樹 (tree-shakable) 替代方案。它沒有廣泛使用，且經常在應偏好 `providedIn: 'root'` 的情況下被誤用。如果提供者必須限定於特定 [`NgModule`](api/core/NgModule)，請改用 `NgModule.providers`。[PR #47616](https://github.com/angular/angular/pull/47616)|
+| <a id="v15-dp-06"></a>[`RouterLinkWithHref`](api/router/RouterLinkWithHref) 指令 | [`RouterLink`](api/router/RouterLink) 指令 | `RouterLink` 指令包含來自 `RouterLinkWithHref` 指令的程式碼，用於處理具有 `href` 屬性的元素。[PR #47630](https://github.com/angular/angular/pull/47630)，[PR #47599](https://github.com/angular/angular/pull/47599)|
 
-For information about deprecations in Material components v15, see [Migrating to MDC-based Angular Material Components](https://material.angular.io/guide/mdc-migration).
+如需進一步了解 Material 元件 v15 的棄用項目，請參閱[遷移到以 MDC 為基礎的 Angular Material 元件](https://material.angular.io/guide/mdc-migration)。
 
 @reviewed 2022-11-15

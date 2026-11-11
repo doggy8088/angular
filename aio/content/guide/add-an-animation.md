@@ -1,12 +1,12 @@
-# Add an animation
+# 加入動畫
 
-The main Angular modules for animations are `@angular/animations` and `@angular/platform-browser`.
+動畫相關的主要 Angular 模組是 `@angular/animations` 與 `@angular/platform-browser`。
 
-To get started with adding Angular animations to your project, import the animation-specific modules along with standard Angular capability.
+要開始把 Angular 動畫加到專案中，請連同標準 Angular 功能一起匯入動畫專用模組。
 
-## Step 1: Enabling the animations module
+## 步驟 1：啟用動畫模組
 
-Import `provideAnimations` from `@angular/platform-browser/animations` and add it to the providers list in the `bootstrapApplication` function call.
+從 `@angular/platform-browser/animations` 匯入 `provideAnimations`，並將它加入 `bootstrapApplication` 函式呼叫的 providers 清單中。
 
 ```ts
 bootstrapApplication(AppComponent, {
@@ -16,20 +16,19 @@ bootstrapApplication(AppComponent, {
 });
 ```
 
-For `NgModule` based applications import `BrowserAnimationsModule`, which introduces the animation capabilities into your Angular root application module.
+對於以 `NgModule` 為基礎的應用程式，請匯入 `BrowserAnimationsModule`，它會把動畫功能帶進你的 Angular 根應用程式模組。
 
 <code-example header="src/app/app.module.ts" path="animations/src/app/app.module.1.ts"></code-example>
 
-## Step 2: Importing animation functions into component files
+## 步驟 2：將動畫函式匯入元件檔案
 
-If you plan to use specific animation functions in component files, import those functions from `@angular/animations`.
+如果你打算在元件檔案中使用特定的動畫函式，請從 `@angular/animations` 匯入這些函式。
 
 <code-example header="src/app/app.component.ts" path="animations/src/app/app.component.ts" region="imports"></code-example>
 
-## Step 3: Adding the animation metadata property
+## 步驟 3：加入動畫詮釋資料屬性
 
-In the component file, add a metadata property called `animations:` within the `@Component()` decorator.
-You put the trigger that defines an animation within the `animations` metadata property.
+在元件檔案中，於 `@Component()` 裝飾器內加入一個名為 `animations:` 的詮釋資料屬性。你把定義動畫的觸發器放在 `animations` 詮釋資料屬性中。
 
 <code-example header="src/app/app.component.ts" path="animations/src/app/app.component.ts" region="decorator"></code-example>
 

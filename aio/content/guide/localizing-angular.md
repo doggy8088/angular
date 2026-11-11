@@ -1,80 +1,70 @@
-# Angular documentation localization guidelines
+# Angular 文件在地化指南
 
-One way to contribute to Angular's documentation is to localize it into another language.
-This topic describes what you need to know to localize Angular and have it listed on our [Localized documentation](guide/localized-documentation) page.
+為 Angular 文件做出貢獻的方式之一，是將其在地化為其他語言。本主題說明在地化 Angular 所需瞭解的事項，以及如何讓你的在地化版本列在我們的[在地化文件](guide/localized-documentation)頁面上。
 
-## Before you begin
+## 開始之前
 
-Before you start localizing the Angular documentation, first check to see if a localized version already exists.
-See [Localized documentation](guide/localized-documentation) for a current list of localized versions of Angular documentation.
+在開始在地化 Angular 文件之前，請先確認是否已有在地化版本。請參閱[在地化文件](guide/localized-documentation)，查看目前的 Angular 文件在地化版本清單。
 
-## Getting started
+## 開始使用
 
-To have a localized version of Angular documentation listed on [angular.io](https://angular.io), you must either:
+若要讓 Angular 文件的在地化版本列在 [angular.io](https://angular.io) 上，你必須符合下列其中一項條件：
 
-*   Be an Angular [Google Developer Expert (GDE)](https://developers.google.com/community/experts)
-*   Have an Angular GDE nominate you for localizing the content
+*   是 Angular 的 [Google 開發者專家（GDE）](https://developers.google.com/community/experts)
+*   由一位 Angular GDE 提名你進行內容在地化
 
-Nomination, in this instance, means that the GDE knows who you are and can vouch for your capabilities.
-An Angular GDE can nominate someone by contacting the Angular team, providing your name, contact information, and the language to which you are localizing.
+在此情況下，提名表示該 GDE 認識你是誰，並且能為你的能力作保。Angular GDE 可以聯絡 Angular 團隊來提名某人，並提供你的姓名、聯絡資訊，以及你要進行在地化的語言。
 
-## What to localize
+## 要進行在地化的內容
 
-To localize Angular documentation, you must include, at a minimum, the following topics:
+若要在地化 Angular 文件，你至少必須包含下列主題：
 
-*   [Introduction to the Angular docs](docs)
-*   [What is Angular?](guide/what-is-angular)
-*   [Getting started with Angular](start)
-    *   [Adding navigation](start/start-routing)
-    *   [Managing data](start/start-data)
-    *   [Using forms for user input](start/start-forms)
-    *   [Deploying an application](start/start-deployment)
-    *   [Setting up the local environment and workspace](guide/setup-local)
-*   [Tour of Heroes app and tutorial](tutorial/tour-of-heroes)
-    *   [Create a new project](tutorial/tour-of-heroes/toh-pt0)
-    *   [The hero editor](tutorial/tour-of-heroes/toh-pt1)
-    *   [Display a selection list](tutorial/tour-of-heroes/toh-pt2)
-    *   [Create a feature component](tutorial/tour-of-heroes/toh-pt3)
-    *   [Add services](tutorial/tour-of-heroes/toh-pt4)
-    *   [Add navigation with routing](tutorial/tour-of-heroes/toh-pt5)
-    *   [Get data from a server](tutorial/tour-of-heroes/toh-pt6)
+*   [Angular 文件簡介](docs)
+*   [什麼是 Angular？](guide/what-is-angular)
+*   [Angular 入門](start)
+    *   [加入導覽](start/start-routing)
+    *   [管理資料](start/start-data)
+    *   [使用表單接收使用者輸入](start/start-forms)
+    *   [部署應用程式](start/start-deployment)
+    *   [設定本機環境與工作區](guide/setup-local)
+*   [英雄之旅應用程式與教學](tutorial/tour-of-heroes)
+    *   [建立新專案](tutorial/tour-of-heroes/toh-pt0)
+    *   [英雄編輯器](tutorial/tour-of-heroes/toh-pt1)
+    *   [顯示選取清單](tutorial/tour-of-heroes/toh-pt2)
+    *   [建立功能元件](tutorial/tour-of-heroes/toh-pt3)
+    *   [加入服務](tutorial/tour-of-heroes/toh-pt4)
+    *   [使用路由加入導覽](tutorial/tour-of-heroes/toh-pt5)
+    *   [從伺服器取得資料](tutorial/tour-of-heroes/toh-pt6)
 
-Because these topics reflect the minimum documentation set for localization, the Angular documentation team takes special precautions when making any changes to these topics.
-Specifically:
+由於這些主題反映了在地化的最低文件組合，Angular 文件團隊在變更這些主題時會採取特別的預防措施。具體來說：
 
-*   The Angular team carefully assesses any incoming pull requests or issues to determine their impact on localized content.
-*   If the Angular team incorporates changes into these topics, the Angular team will communicate those changes to members of the localization community.
-    See the section, [Communications](#communications), for more information.
+*   Angular 團隊會仔細評估任何收到的提取請求或問題，以判斷其對在地化內容的影響。
+*   如果 Angular 團隊將變更納入這些主題，Angular 團隊會將這些變更告知在地化社群的成員。如需更多資訊，請參閱[溝通](#溝通)一節。
 
-## Hosting
+## 代管
 
-Individuals and teams that localize Angular documentation assume responsibility for hosting their localized site.
-The Angular team does not host localized content.
-The Angular team is also not responsible for providing domain names.
+進行 Angular 文件在地化的個人與團隊需自行負責代管其在地化網站。Angular 團隊不代管在地化內容，也不負責提供網域名稱。
 
-## Awareness
+## 曝光
 
-As part of the localization effort, the Angular documentation team adds localized documentation to the [Localized documentation](guide/localized-documentation) page.
-This topic lists:
+作為在地化工作的一部分，Angular 文件團隊會將在地化文件加入[在地化文件](guide/localized-documentation)頁面。本主題列出：
 
-*   The language of the localized documentation
-*   The URL for the localized documentation
+*   在地化文件的語言
+*   在地化文件的 URL
 
-The Angular team can remove a link on this page for any reason, including but not limited to:
+Angular 團隊可以基於任何原因移除本頁的連結，包括但不限於：
 
-*   Inability to contact the individual or team
-*   Issues or complaints about the documentation that go unaddressed
+*   無法聯絡該個人或團隊
+*   關於文件、未獲處理的問題或投訴
 
-## Communications
+## 溝通
 
-The Angular documentation team uses a Slack channel to communicate with members of the community focused on localization efforts.
-After receiving a nomination to localize content, an individual or team can contact the Angular team to get access to this Slack channel.
+Angular 文件團隊使用 Slack 頻道與專注於在地化工作的社群成員溝通。在收到在地化內容的提名後，個人或團隊可以聯絡 Angular 團隊以取得此 Slack 頻道的存取權限。
 
-The Angular documentation team may also conduct meetings to discuss localization efforts.
-For example:
+Angular 文件團隊也可能舉行會議來討論在地化工作。例如：
 
-*   To discuss additional topics that should be part of the minimum documentation set
-*   To discuss issues with content language that is difficult to translate/localize
+*   討論應納入最低文件組合的其他主題
+*   討論難以翻譯／在地化的內容語言問題
 
 <!-- links -->
 

@@ -1,40 +1,37 @@
-# Finish up a documentation pull request
+# 完成文件 pull request 的收尾工作
 
 <!-- markdownLint-disable MD001 -->
 
-This topic describes how to keep your workspace tidy after your pull request is merged and closed.
+本主題說明 pull request 合併並關閉後，如何讓工作區保持整潔。
 
-## Review the commit log of the upstream repo
+## 檢閱上游儲存庫的提交記錄
 
-This procedure confirms that your commit is now in the `main` branch of the `angular/angular` repo.
+這個程序確認你的提交現在位於 `angular/angular` 儲存庫的 `main` 分支中。
 
-#### To review the commit log on <code>github.com</code> for your commit
+#### 在 <code>github.com</code> 上檢閱你的提交的提交記錄
 
-In a web browser, open [`https://github.com/angular/angular/commits/main`](https://github.com/angular/angular/commits/main).
+在網頁瀏覽器中，開啟 [`https://github.com/angular/angular/commits/main`](https://github.com/angular/angular/commits/main)。
 
-1.  Review the commit list.
-    1.  Find the entry with your GitHub username, commit message, and pull request number of your commit.
-        The commit number might not match the commit from your working branch because of how commits are merged.
+1.  檢閱提交清單。
+    1.  找到包含你的 GitHub 使用者名稱、提交訊息與你的提交的 pull request 編號的項目。由於提交的合併方式，提交編號可能與你的工作分支中的提交不符。
 
-    1.  If you see your commit listed, your commit has been merged into `angular/angular` and you can continue cleaning up your workspace.
+    1.  如果你看到自己的提交列在清單中，表示你的提交已合併到 `angular/angular`，你可以繼續清理工作區。
 
-    1.  If you don't see your commit in the list, you might need to wait before you retry this step.
-        Do not continue cleaning your workspace until you see your commit listed in or after the log entry that contains `origin/main`.
+    1.  如果你在清單中看不到自己的提交，你可能需要稍候再重試這個步驟。在看到你的提交列在包含 `origin/main` 的記錄項目中或之後之前，請勿繼續清理工作區。
 
-    1.  If you see your commit listed above the log entry that contains `origin/main`, then you might need to update your clone of the `angular/angular` repo again.
+    1.  如果你看到自己的提交列在包含 `origin/main` 的記錄項目上方，那麼你可能需要再次更新你的 `angular/angular` 儲存庫複本。
 
-## Update your fork from the upstream repo
+## 從上游儲存庫更新你的 fork
 
-After you see that the commit from your pull request has been merged into the upstream `angular/angular` repo, update your fork.
+看到 pull request 的提交已合併到上游 `angular/angular` 儲存庫後，請更新你的 fork。
 
-This procedure updates your clone of `personal/angular` on your local computer and then, the repo in the cloud.
+這個程序會更新你本地電腦上的 `personal/angular` 複本，然後再更新雲端中的儲存庫。
 
-#### To update your fork with the upstream repo
+#### 使用上游儲存庫更新你的 fork
 
-Perform these steps from a command-line tool on your local computer.
+請在本地電腦的命令列工具中執行下列步驟。
 
-1.  From your [workspace](guide/doc-prepare-to-edit#create-a-git-workspace-on-your-local-computer) directory, run this command to navigate to your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
-    Remember to replace `personal` with your GitHub username.
+1.  從你的[工作區](guide/doc-prepare-to-edit#在本地電腦上建立-git-工作區)目錄，執行這個指令以前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)。請記得將 `personal` 替換為你的 GitHub 使用者名稱。
 
     <code-example format="shell" language="shell">
 
@@ -42,7 +39,7 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  Run this command to check out the `main` branch.
+1.  執行這個指令以簽出 `main` 分支。
 
     <code-example format="shell" language="shell">
 
@@ -50,7 +47,7 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1. Run this command to update the `main` branch in the `working` directory on your local computer from the upstream `angular/angular` repo.
+1. 執行這個指令，以從上游 `angular/angular` 儲存庫更新本地電腦上 `working` 目錄中的 `main` 分支。
 
     <code-example format="shell" language="shell">
 
@@ -59,7 +56,7 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  Run this command to update your `personal/angular` repo on `github.com` with the latest from the upstream `angular/angular` repo.
+1.  執行這個指令，以上游 `angular/angular` 儲存庫的最新內容更新 `github.com` 上的 `personal/angular` 儲存庫。
 
     <code-example format="shell" language="shell">
 
@@ -67,10 +64,9 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1. Run this command to review the commit log of your fork.
+1. 執行這個指令以檢閱你的 fork 的提交記錄。
 
-    The `main` branch on your local computer and your origin repo on `github.com` are now in sync with the upstream `angular/angular` repo.
-    Run this command to list the recent commits.
+你本地電腦上的 `main` 分支與 `github.com` 上的 origin 儲存庫現在已與上游 `angular/angular` 儲存庫同步。執行這個指令以列出最近的提交。
 
     <code-example format="shell" language="shell">
 
@@ -78,25 +74,21 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  In the output of the previous `git log` command, find the entry with your GitHub username, commit message, and pull request number of your commit.
-    The commit number might not match the commit from your working branch because of how commits are merged.
+1.  在前一個 `git log` 指令的輸出中，找到包含你的 GitHub 使用者名稱、提交訊息與你的提交的 pull request 編號的項目。由於提交的合併方式，提交編號可能與你的工作分支中的提交不符。
 
-    You should find the commit from your pull request in or near the log entry that contains `upstream/main`.
+你應該會在包含 `upstream/main` 的記錄項目中或附近找到 pull request 的提交。
 
-If you find the commit from your pull request in the correct place, you can continue to delete your working branch.
+如果你在正確的位置找到 pull request 的提交，就可以繼續刪除工作分支。
 
-## Delete the working branch
+## 刪除工作分支
 
-After you confirm that your pull request is merged into `angular/angular` and appears in the `main` branch of your fork, you can delete the `working` branch.
+確認 pull request 已合併到 `angular/angular` 並出現在你的 fork 的 `main` 分支後，就可以刪除 `working` 分支。
 
-Because your working branch was merged into the `main` branch of your fork, and the pull request has been closed, you no longer need the `working` branch.
-It might be tempting to keep it around, just in case, but it is probably not necessary.
-If you keep all your old working branches, your repository can collect unnecessary clutter.
+由於你的工作分支已合併到你的 fork 的 `main` 分支，且 pull request 已關閉，你不再需要 `working` 分支。留著它以備不時之需或許很誘人，但可能沒有必要。如果你保留所有舊的工作分支，儲存庫可能會累積不必要的雜亂。
 
-#### To delete your working branch
+#### 刪除你的工作分支
 
-1.  From your [workspace](guide/doc-prepare-to-edit#create-a-git-workspace-on-your-local-computer) directory, run this command to navigate to your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
-    Remember to replace `personal` with your GitHub username.
+1.  從你的[工作區](guide/doc-prepare-to-edit#在本地電腦上建立-git-工作區)目錄，執行這個指令以前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)。請記得將 `personal` 替換為你的 GitHub 使用者名稱。
 
     <code-example format="shell" language="shell">
 
@@ -104,7 +96,7 @@ If you keep all your old working branches, your repository can collect unnecessa
 
     </code-example>
 
-1.  Run this command to check out the `main` branch.
+1.  執行這個指令以簽出 `main` 分支。
 
     <code-example format="shell" language="shell">
 
@@ -112,8 +104,7 @@ If you keep all your old working branches, your repository can collect unnecessa
 
     </code-example>
 
-1.  Run this command to delete the working branch used in the pull request from your local computer.
-    Replace `working-branch-name` with the name of your working branch.
+1.  執行這個指令以刪除本地電腦上用於 pull request 的工作分支。將 `working-branch-name` 替換為你的工作分支名稱。
 
     <code-example format="shell" language="shell">
 
@@ -121,8 +112,7 @@ If you keep all your old working branches, your repository can collect unnecessa
 
     </code-example>
 
-1.  Run this command to delete the working branch from your `personal/angular` repo on `github.com`.
-    Replace `working-branch-name` with the name of your working branch.
+1.  執行這個指令以刪除 `github.com` 上 `personal/angular` 儲存庫中的工作分支。將 `working-branch-name` 替換為你的工作分支名稱。
 
     <code-example format="shell" language="shell">
 
@@ -130,9 +120,9 @@ If you keep all your old working branches, your repository can collect unnecessa
 
     </code-example>
 
-## Next step
+## 下一步
 
-After you delete the working branch for your last issue, you're ready to [select another issue to resolve](guide/doc-select-issue).
+刪除最後一個議題的工作分支後，你就可以[選擇另一個要解決的議題](guide/doc-select-issue)了。
 
 <!-- links -->
 

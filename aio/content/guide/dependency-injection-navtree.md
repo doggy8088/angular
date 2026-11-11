@@ -1,155 +1,135 @@
-# Navigate the component tree with DI
+# 使用 DI 瀏覽元件樹
 
 <div class="callout is-critical">
 
-<header>Marked for archiving</header>
+<header>已標記為封存</header>
 
-To ensure that you have the best experience possible, this topic is marked for archiving until we determine that it clearly conveys the most accurate information possible.
+為了確保你獲得最佳體驗，本主題已標記為待歸檔，直到我們確定它能清楚傳達最正確的資訊為止。
 
-In the meantime, this topic might be helpful: [Hierarchical injectors](guide/hierarchical-dependency-injection).
+同時，下列主題可能對你有幫助：[階層式注入器](guide/hierarchical-dependency-injection)。
 
-If you think this content should not be archived, please file a [GitHub issue](https://github.com/angular/angular/issues/new?template=3-docs-bug.md).
+如果你認為這個內容不應該被歸檔，請提出一個 [GitHub issue](https://github.com/angular/angular/issues/new?template=3-docs-bug.md)。
 
 </div>
 
-Application components often need to share information.
-You can often use loosely coupled techniques for sharing information, such as data binding and service sharing, but sometimes it makes sense for one component to have a direct reference to another component.
-You need a direct reference, for instance, to access values or call methods on that component.
+應用程式元件經常需要分享資訊。你通常可以使用鬆散耦合的技巧來分享資訊，例如資料繫結與服務分享，但有時候讓一個元件直接參考另一個元件是合理的。舉例來說，你需要直接參考，才能存取值或呼叫該元件的方法。
 
-Obtaining a component reference is a bit tricky in Angular.
-Angular components themselves do not have a tree that you can inspect or navigate programmatically.
-The parent-child relationship is indirect, established through the components' [view objects](guide/glossary#view).
+在 Angular 中，取得元件參考有點棘手。Angular 元件本身並沒有一棵可以透過程式檢查或瀏覽的樹。父子關係是間接的，透過元件的[檢視物件](guide/glossary#檢視（view）)建立。
 
-Each component has a *host view*, and can have additional *embedded views*.
-An embedded view in component A is the host view of component B, which can in turn have embedded view.
-This means that there is a [view hierarchy](guide/glossary#view-hierarchy) for each component, of which that component's host view is the root.
+每個元件都有一個*宿主檢視*，也可以有額外的*內嵌檢視*。元件 A 中的內嵌檢視，就是元件 B 的宿主檢視，而元件 B 又可以有自己的內嵌檢視。這表示每個元件都有一個[檢視階層](guide/glossary#檢視階層（view-hierarchy）)，而該元件的宿主檢視就是這個階層的根。
 
-There is an API for navigating *down* the view hierarchy.
-Check out `Query`, `QueryList`, `ViewChildren`, and `ContentChildren` in the [API Reference](api).
+有一個 API 可以用來*向下*瀏覽檢視階層。請參閱 [API 參考](api)中的 `Query`、`QueryList`、`ViewChildren` 與 `ContentChildren`。
 
-There is no public API for acquiring a parent reference.
-However, because every component instance is added to an injector's container, you can use Angular dependency injection to reach a parent component.
+沒有公開 API 可以取得父元件參考。不過，由於每個元件實例都會被加入注入器的容器中，你可以使用 Angular 依賴注入來觸及父元件。
 
-This section describes some techniques for doing that.
+本節說明一些達成此目的的技巧。
 
 <a id="find-parent"></a>
 <a id="known-parent"></a>
 
-### Find a parent component of known type
+### 尋找已知型別的父元件
 
-You use standard class injection to acquire a parent component whose type you know.
+你可以使用標準的類別注入，來取得型別已知的父元件。
 
-In the following example, the parent `AlexComponent` has several children including a `CathyComponent`:
+在下列範例中，父元件 `AlexComponent` 有數個子元件，其中包括 `CathyComponent`：
 
 <a id="alex"></a>
 
 <code-example header="parent-finder.component.ts (AlexComponent v.1)" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="alex-1"></code-example>
 
-*Cathy* reports whether or not she has access to *Alex* after injecting an `AlexComponent` into her constructor:
+在把 `AlexComponent` 注入她的建構子之後，*Cathy* 會回報她是否能夠存取 *Alex*：
 
 <code-example header="parent-finder.component.ts (CathyComponent)" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="cathy"></code-example>
 
-Notice that even though the [@Optional](guide/dependency-injection-in-action#optional) qualifier is there for safety, the <live-example name="dependency-injection-in-action"></live-example> confirms that the `alex` parameter is set.
+請注意，雖然有 [@Optional](guide/dependency-injection-in-action#optional) 限定詞作為安全措施，但<live-example name="dependency-injection-in-action"></live-example>證實了 `alex` 參數已有設定。
 
 <a id="base-parent"></a>
 
-### Unable to find a parent by its base class
+### 無法透過基礎類別找到父元件
 
-What if you *don't* know the concrete parent component class?
+如果你*不知道*具體的父元件類別，該怎麼辦？
 
-A re-usable component might be a child of multiple components.
-Imagine a component for rendering breaking news about a financial instrument.
-For business reasons, this news component makes frequent calls directly into its parent instrument as changing market data streams by.
+一個可重複使用的元件可能是多個元件的子元件。想像一個用來算繪某金融工具突發新聞的元件。基於業務上的理由，這個新聞元件會在其父元件的金融工具資料隨市場資料串流變化時，頻繁地直接呼叫它。
 
-The app probably defines more than a dozen financial instrument components.
-If you're lucky, they all implement the same base class whose API your `NewsComponent` understands.
+應用程式可能定義了十幾個以上的金融工具元件。如果你夠幸運，它們全都實作了同一個基礎類別，而你的 `NewsComponent` 能理解該基礎類別的 API。
 
 <div class="alert is-helpful">
 
-Looking for components that implement an interface would be better.
-That's not possible because TypeScript interfaces disappear from the transpiled JavaScript, which doesn't support interfaces.
-There's no artifact to look for.
+尋找實作某個介面的元件會更好。
+但這是不可能的，因為 TypeScript 介面在轉譯後的 JavaScript 中會消失，而 JavaScript 不支援介面。
+沒有任何產物可以尋找。
 
 </div>
 
-This isn't necessarily good design.
-This example is examining *whether a component can inject its parent via the parent's base class*.
+這不一定是好的設計。這個範例要探討的是*元件是否可以透過父元件的基礎類別來注入其父元件*。
 
-The sample's `CraigComponent` explores this question.
-[Looking back](#alex), you see that the `Alex` component *extends* \(*inherits*\) from a class named `Base`.
+範例中的 `CraigComponent` 探討了這個問題。[回頭看](#alex)，你會發現 `Alex` 元件 *extends* \(*繼承*\) 自一個名為 `Base` 的類別。
 
 <code-example header="parent-finder.component.ts (Alex class signature)" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="alex-class-signature"></code-example>
 
-The `CraigComponent` tries to inject `Base` into its `alex` constructor parameter and reports if it succeeded.
+`CraigComponent` 嘗試把 `Base` 注入其 `alex` 建構子參數，並回報是否成功。
 
 <code-example header="parent-finder.component.ts (CraigComponent)" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="craig"></code-example>
 
-Unfortunately, this doesn't work.
-The <live-example name="dependency-injection-in-action"></live-example> confirms that the `alex` parameter is null.
-*You cannot inject a parent by its base class.*
+很可惜，這行不通。<live-example name="dependency-injection-in-action"></live-example>證實了 `alex` 參數是 null。*你無法透過基礎類別注入父元件。*
 
 <a id="class-interface-parent"></a>
 
-### Find a parent by its class interface
+### 透過類別介面尋找父元件
 
-You can find a parent component with a [class interface](guide/dependency-injection-in-action#class-interface).
+你可以使用[類別介面](guide/dependency-injection-in-action#類別介面)找到父元件。
 
-The parent must cooperate by providing an *alias* to itself in the name of a class interface token.
+父元件必須配合，以類別介面 token 的名義提供一個指向自身的*別名*。
 
-Recall that Angular always adds a component instance to its own injector; that's why you could inject *Alex* into *Cathy* [earlier](#known-parent).
+回想一下，Angular 總是把元件實例加入其自身的注入器；這就是你先前可以把 *Alex* 注入 *Cathy* 的原因[（見前文）](#known-parent)。
 
-Write an [*alias provider*](guide/dependency-injection-in-action#useexisting) &mdash;a `provide` object literal with a `useExisting` definition&mdash; that creates an *alternative* way to inject the same component instance and add that provider to the `providers` array of the `@Component()` metadata for the `AlexComponent`.
+撰寫一個[*別名提供者*](guide/dependency-injection-in-action#useexisting) &mdash;也就是一個帶有 `useExisting` 定義的 `provide` 物件字面值&mdash;它會建立一個*替代*方式來注入相同的元件實例，並把該提供者加入 `AlexComponent` 的 `@Component()` 中繼資料 `providers` 陣列中。
 
 <a id="alex-providers"></a>
 
 <code-example header="parent-finder.component.ts (AlexComponent providers)" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="alex-providers"></code-example>
 
-[Parent](#parent-token) is the provider's class interface token.
-The [*forwardRef*](guide/dependency-injection-in-action#forwardref) breaks the circular reference you just created by having the `AlexComponent` refer to itself.
+[Parent](#parent-token) 是該提供者的類別介面 token。[*forwardRef*](guide/dependency-injection-in-action#forwardref) 會打破你剛才因為讓 `AlexComponent` 參考自己而建立的循環參考。
 
-*Carol*, the third of *Alex*'s child components, injects the parent into its `parent` parameter, the same way you've done it before.
+*Carol* 是 *Alex* 的第三個子元件，她會用與之前相同的方式，把父元件注入其 `parent` 參數中。
 
 <code-example header="parent-finder.component.ts (CarolComponent class)" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="carol-class"></code-example>
 
-Here's *Alex* and family in action.
+以下是實際運作中的 *Alex* 一家人。
 
 <div class="lightbox">
 
-<img alt="Alex in action" src="generated/images/guide/dependency-injection-in-action/alex.png">
+<img alt="Alex 實際運作" src="generated/images/guide/dependency-injection-in-action/alex.png">
 
 </div>
 
 <a id="parent-tree"></a>
 
-### Find a parent in a tree with `@SkipSelf()`
+### 使用 `@SkipSelf()` 在樹中尋找父元件
 
-Imagine one branch of a component hierarchy: *Alice* -&gt; *Barry* -&gt; *Carol*.
-Both *Alice* and *Barry* implement the `Parent` class interface.
+想像元件階層中的一個分支：*Alice* -&gt; *Barry* -&gt; *Carol*。*Alice* 與 *Barry* 都實作了 `Parent` 類別介面。
 
-*Barry* is the problem.
-He needs to reach his parent, *Alice*, and also be a parent to *Carol*.
-That means he must both *inject* the `Parent` class interface to get *Alice* and *provide* a `Parent` to satisfy *Carol*.
+*Barry* 是問題所在。他需要觸及他的父元件 *Alice*，同時也要成為 *Carol* 的父元件。這表示他必須同時*注入* `Parent` 類別介面以取得 *Alice*，並*提供*一個 `Parent` 來滿足 *Carol*。
 
-Here's *Barry*.
+以下是 *Barry*。
 
 <code-example header="parent-finder.component.ts (BarryComponent)" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="barry"></code-example>
 
-*Barry*'s `providers` array looks just like [*Alex*'s](#alex-providers).
-If you're going to keep writing [*alias providers*](guide/dependency-injection-in-action#useexisting) like this you should create a helper function.
+*Barry* 的 `providers` 陣列看起來就跟 [*Alex* 的](#alex-providers)一模一樣。如果你要繼續像這樣撰寫[*別名提供者*](guide/dependency-injection-in-action#useexisting)，你應該建立一個輔助函式。
 
-For now, focus on *Barry*'s constructor.
+現在，請先注意 *Barry* 的建構子。
 
 <code-tabs>
     <code-pane header="Barry's constructor" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="barry-ctor"></code-pane>
     <code-pane header="Carol's constructor" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="carol-ctor"></code-pane>
 </code-tabs>
 
-It's identical to *Carol*'s constructor except for the additional `@SkipSelf` decorator.
+除了多了一個 `@SkipSelf` 裝飾器之外，它與 *Carol* 的建構子完全相同。
 
-`@SkipSelf` is essential for two reasons:
+`@SkipSelf` 之所以必要，有兩個原因：
 
-1.  It tells the injector to start its search for a `Parent` dependency in a component *above* itself, which *is* what parent means.
-1.  Angular throws a cyclic dependency error if you omit the `@SkipSelf` decorator.
+1.  它告訴注入器，從位於自身*上方*的元件開始搜尋 `Parent` 依賴，而這*正是*父元件的意思。
+1.  如果你省略 `@SkipSelf` 裝飾器，Angular 會擲出循環依賴錯誤。
 
     <code-example format="output" hideCopy language="shell">
 
@@ -157,43 +137,38 @@ It's identical to *Carol*'s constructor except for the additional `@SkipSelf` de
 
     </code-example>
 
-Here's *Alice*, *Barry*, and family in action.
+以下是實際運作中的 *Alice*、*Barry* 一家人。
 
 <div class="lightbox">
 
-<img alt="Alice in action" src="generated/images/guide/dependency-injection-in-action/alice.png">
+<img alt="Alice 實際運作" src="generated/images/guide/dependency-injection-in-action/alice.png">
 
 </div>
 
 <a id="parent-token"></a>
 
-###  Parent class interface
+### 父元件類別介面
 
-You [learned earlier](guide/dependency-injection-in-action#class-interface) that a class interface is an abstract class used as an interface rather than as a base class.
+你[先前學過](guide/dependency-injection-in-action#類別介面)，類別介面是當作介面而非基礎類別使用的抽象類別。
 
-The example defines a `Parent` class interface.
+這個範例定義了一個 `Parent` 類別介面。
 
 <code-example header="parent-finder.component.ts (Parent class-interface)" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="parent"></code-example>
 
-The `Parent` class interface defines a `name` property with a type declaration but *no implementation*.
-The `name` property is the only member of a parent component that a child component can call.
-Such a narrow interface helps decouple the child component class from its parent components.
+`Parent` 類別介面定義了一個 `name` 屬性，有型別宣告但*沒有實作*。`name` 屬性是子元件可以呼叫的父元件唯一成員。這種範圍狹窄的介面有助於讓子元件類別與其父元件解耦。
 
-A component that could serve as a parent *should* implement the class interface as the `AliceComponent` does.
+能夠擔任父元件的元件*應該*像 `AliceComponent` 那樣實作類別介面。
 
 <code-example header="parent-finder.component.ts (AliceComponent class signature)" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="alice-class-signature"></code-example>
 
-Doing so adds clarity to the code.
-But it's not technically necessary.
-Although `AlexComponent` has a `name` property, as required by its `Base` class,
-its class signature doesn't mention `Parent`.
+這麼做可以讓程式碼更清楚。但從技術上來說並非必要。雖然 `AlexComponent` 有一個 `name` 屬性（如其 `Base` 類別所要求），但它的類別簽名並沒有提到 `Parent`。
 
 <code-example header="parent-finder.component.ts (AlexComponent class signature)" path="dependency-injection-in-action/src/app/parent-finder.component.ts" region="alex-class-signature"></code-example>
 
 <div class="alert is-helpful">
 
-`AlexComponent` *should* implement `Parent` as a matter of proper style.
-It doesn't in this example *only* to demonstrate that the code will compile and run without the interface.
+就正確的風格而言，`AlexComponent` *應該*實作 `Parent`。
+在這個範例中它沒有這麼做，*只是*為了示範沒有介面時程式碼仍然可以編譯與執行。
 
 </div>
 

@@ -1,21 +1,19 @@
-# JavaScript modules vs. NgModules
+# JavaScript 模組與 NgModule
 
-JavaScript modules and NgModules can help you modularize your code, but they are very different.
-Angular applications rely on both kinds of modules.
+JavaScript 模組與 NgModule 都能協助你把程式碼模組化，但兩者非常不同。 Angular 應用程式同時依賴這兩種模組。
 
-## JavaScript modules: Files containing code
+## JavaScript 模組：包含程式碼的檔案
 
-A [JavaScript module](https://javascript.info/modules "JavaScript.Info - Modules") is an individual file with JavaScript code, usually containing a class or a library of functions for a specific purpose within your application.
-JavaScript modules let you spread your work across multiple files.
+[JavaScript 模組](https://javascript.info/modules "JavaScript.Info - Modules") 是包含 JavaScript 程式碼的獨立檔案，通常包含一個類別，或一組供應用程式中特定用途使用的函式函式庫。 JavaScript 模組讓你能把工作分散到多個檔案中。
 
 <div class="alert is-helpful">
 
-To learn more about JavaScript modules, see [ES6 In Depth: Modules](https://hacks.mozilla.org/2015/08/es6-in-depth-modules).
-For the module specification, see the [6th Edition of the ECMAScript standard](https://www.ecma-international.org/ecma-262/6.0/#sec-modules).
+如需進一步了解 JavaScript 模組，請參閱 [ES6 In Depth: Modules](https://hacks.mozilla.org/2015/08/es6-in-depth-modules)。
+關於模組規格，請參閱 [ECMAScript 標準第 6 版](https://www.ecma-international.org/ecma-262/6.0/#sec-modules)。
 
 </div>
 
-To make the code in a JavaScript module available to other modules, use an `export` statement at the end of the relevant code in the module, such as the following:
+若要讓 JavaScript 模組中的程式碼可供其他模組使用，請在模組中相關程式碼的結尾使用 `export` 陳述式，如下所示：
 
 <code-example format="typescript" language="typescript">
 
@@ -23,7 +21,7 @@ export class AppComponent { &hellip; }
 
 </code-example>
 
-When you need that module's code in another module, use an `import` statement as follows:
+當你在另一個模組中需要該模組的程式碼時，請如下使用 `import` 陳述式：
 
 <code-example format="typescript" language="typescript">
 
@@ -31,59 +29,41 @@ import { AppComponent } from './app.component';
 
 </code-example>
 
-Each module has its own top-level scope.
-In other words, top-level variables and functions in a module are not seen in other scripts or modules.
-Each module provides a namespace for identifiers to prevent them from clashing with identifiers in other modules.
-With multiple modules, you can prevent accidental global variables by creating a single global namespace and adding submodules to it.
+每個模組都有自己的頂層作用域。換句話說，模組中頂層的變數與函式在其他指令碼或模組中看不見。每個模組為識別符提供一個命名空間，以防止它們與其他模組中的識別符衝突。使用多個模組時，你可以透過建立單一全域命名空間並加入子模組來防止意外的全域變數。
 
-The Angular framework itself is loaded as a set of JavaScript modules.
+Angular 框架本身是以一組 JavaScript 模組載入的。
 
-## NgModules: Classes with metadata for compiling
+## NgModule：帶有編譯用中繼資料的類別
 
-An [NgModule](guide/glossary#ngmodule "Definition of NgModule") is a class marked by the `@NgModule` decorator with a metadata object that describes how that particular part of the application fits together with the other parts.
-NgModules are specific to Angular.
-While classes with an `@NgModule` decorator are by convention kept in their own files, they differ from JavaScript modules because they include this metadata.
+[NgModule](guide/glossary#ngmodule "Definition of NgModule")是以 `@NgModule` 裝飾器標記的類別，帶有一個中繼資料物件，描述應用程式的該特定部分如何與其他部分契合。NgModule 是 Angular 專屬的。帶有 `@NgModule` 裝飾器的類別依慣例放在各自的檔案中，但它們與 JavaScript 模組不同，因為它們包含這份中繼資料。
 
-The `@NgModule` metadata plays an important role in guiding the Angular compilation process that converts the application code you write into highly performant JavaScript code.
-The metadata describes how to compile a component's template and how to create an [injector](guide/glossary#injector "Definition of injector") at runtime.
-It identifies the NgModule's [components](guide/glossary#component "Definition of component"), [directives](guide/glossary#directive "Definition of directive"), and [pipes](guide/glossary#pipe "Definition of pipe)"),
-and makes some of them public through the `exports` property so that external components can use them.
-You can also use an NgModule to add [providers](guide/glossary#provider "Definition of provider") for [services](guide/glossary#service "Definition of a service"), so that the services are available elsewhere in your application.
+`@NgModule` 中繼資料在引導 Angular 編譯程序中扮演重要角色，該程序將你撰寫的應用程式程式碼轉換為高效能的 JavaScript 程式碼。中繼資料描述如何編譯元件的範本，以及如何在執行時期建立[注入器](guide/glossary#注入器（injector） "Definition of injector")。它識別 NgModule 的[元件](guide/glossary#元件（component） "Definition of component")、[指令](guide/glossary#指令（directive） "Definition of directive")與[管道](guide/glossary#管道（pipe） "Definition of pipe)")，並透過 `exports` 屬性將其中一些公開，讓外部元件可以使用它們。你也可以使用 NgModule 為[服務](guide/glossary#服務（service） "Definition of a service")加入[提供者](guide/glossary#提供者（provider） "Definition of provider")，讓這些服務可在應用程式的其他地方使用。
 
-Rather than defining all member classes in one giant file as a JavaScript module, declare which components, directives, and pipes belong to the NgModule in the `@NgModule.declarations` list.
-These classes are called [declarables](guide/glossary#declarable "Definition of a declarable").
-An NgModule can export only the declarable classes it owns or imports from other NgModules.
-It doesn't declare or export any other kind of class.
-Declarables are the only classes that matter to the Angular compilation process.
+與其將所有成員類別定義在一個巨大的檔案中作為 JavaScript 模組，不如在 `@NgModule.declarations` 清單中宣告哪些元件、指令與管道屬於該 NgModule。這些類別稱為[可宣告類別](guide/glossary#可宣告類別（declarable） "Definition of a declarable")。NgModule 只能匯出它擁有或從其他 NgModule 匯入的可宣告類別。它不會宣告或匯出任何其他種類的類別。可宣告類別是 Angular 編譯程序唯一關心的類別。
 
-For a complete description of the NgModule metadata properties, see [Using the NgModule metadata](guide/ngmodule-api "Using the NgModule metadata").
+NgModule 中繼資料屬性的完整說明，請參閱[使用 NgModule 中繼資料](guide/ngmodule-api "Using the NgModule metadata")。
 
-## An example that uses both
+## 同時使用兩者的範例
 
-The root NgModule `AppModule` generated by the [Angular CLI](cli) for a new application project demonstrates how you use both kinds of modules:
+由 [Angular CLI](cli) 為新應用程式專案產生的根 NgModule `AppModule`，示範了如何同時使用這兩種模組：
 
 <code-example header="src/app/app.module.ts (default AppModule)" path="ngmodules/src/app/app.module.1.ts"></code-example>
 
-The root NgModule starts with `import` statements to import JavaScript modules.
-It then configures the `@NgModule` with the following arrays:
+根 NgModule 以 `import` 陳述式開頭，匯入 JavaScript 模組。 接著用下列陣列設定 `@NgModule`：
 
-*   `declarations`: The components, directives, and pipes that belong to the NgModule.
-  A new application project's root NgModule has only one component, called `AppComponent`.
+*   `declarations`：屬於該 NgModule 的元件、指令與管道。 新應用程式專案的根 NgModule 只有一個元件，稱為 `AppComponent`。
 
-*   `imports`: Other NgModules you are using, so that you can use their declarables.
-  The newly generated root NgModule imports [`BrowserModule`](api/platform-browser/BrowserModule "BrowserModule NgModule") in order to use browser-specific services such as [DOM](https://www.w3.org/TR/DOM-Level-2-Core/introduction.html "Definition of Document Object Model") rendering, sanitization, and location.
+*   `imports`：你正在使用的其他 NgModule，讓你可以使用它們的可宣告類別。 新產生的根 NgModule 匯入 [`BrowserModule`](api/platform-browser/BrowserModule "BrowserModule NgModule")，以便使用瀏覽器專屬服務，例如 [DOM](https://www.w3.org/TR/DOM-Level-2-Core/introduction.html "Definition of Document Object Model") 渲染、清理與位置。
 
-*   `providers`: Providers of services that components in other NgModules can use.
-  There are no providers in a newly generated root NgModule.
+*   `providers`：其他 NgModule 中的元件可以使用的服務提供者。 新產生的根 NgModule 中沒有任何提供者。
 
-*   `bootstrap`: The component that Angular creates and inserts into the `index.html` host web page, thereby bootstrapping the application.
-  This component, `AppComponent`, appears in both the `declarations` and the `bootstrap` arrays.
+*   `bootstrap`：Angular 建立並插入 `index.html` 主機網頁的元件，藉此啟動應用程式。 這個元件 `AppComponent` 同時出現在 `declarations` 與 `bootstrap` 陣列中。
 
-## Next steps
+## 後續步驟
 
-*   For more about NgModules, see [Organizing your app with NgModules](guide/ngmodules "Organizing your app with NgModules").
-*   To learn more about the root NgModule, see [Launching an app with a root NgModule](guide/bootstrapping "Launching an app with a root NgModule").
-*   To learn about frequently used Angular NgModules and how to import them into your app, see [Frequently-used modules](guide/frequent-ngmodules "Frequently-used modules").
+*   更多關於 NgModule 的資訊，請參閱[使用 NgModule 組織你的應用程式](guide/ngmodules "Organizing your app with NgModules")。
+*   如需深入了解根 NgModule，請參閱[以根 NgModule 啟動應用程式](guide/bootstrapping "Launching an app with a root NgModule")。
+*   如需了解常用的 Angular NgModule 以及如何把它們匯入你的應用程式，請參閱[常用模組](guide/frequent-ngmodules "Frequently-used modules")。
 
 <!-- links -->
 

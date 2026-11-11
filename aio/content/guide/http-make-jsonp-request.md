@@ -1,14 +1,14 @@
-# HTTP: Make a JSONP request
+# HTTP：發出 JSONP 請求
 
-“JSON with Padding” (JSONP) is a method to deceive a web browser into carrying out requests with a `<script>` tag that uses the SRC attribute to make a special API request.
+「JSON with Padding」（JSONP）是一種欺騙網頁瀏覽器執行請求的方法：它使用 `<script>` 標籤，並利用 SRC 屬性發出特殊的 API 請求。
 
-Apps can use the `HttpClient` to make [JSONP](https://en.wikipedia.org/wiki/JSONP) requests across domains when a server doesn't support [CORS protocol](https://developer.mozilla.org/docs/Web/HTTP/CORS).
+當伺服器不支援 [CORS 協定](https://developer.mozilla.org/docs/Web/HTTP/CORS)時，應用程式可以使用 `HttpClient` 跨網域發出 [JSONP](https://en.wikipedia.org/wiki/JSONP) 請求。
 
-Angular JSONP requests return an `Observable`.
-Follow the pattern for subscribing to observables and use the RxJS `map` operator to transform the response before using the [async pipe](api/common/AsyncPipe) to manage the results.
+Angular 的 JSONP 請求會回傳一個 `Observable`。
+請依循訂閱 observable 的模式，並使用 RxJS 的 `map` 運算子轉換回應，再使用 [async 管道](api/common/AsyncPipe)來管理結果。
 
-In Angular, use JSONP by including `HttpClientJsonpModule` in the `NgModule` imports.
-In the following example, the `searchHeroes()` method uses a JSONP request to query for heroes whose names contain the search term.
+在 Angular 中使用 JSONP 的方式，是將 `HttpClientJsonpModule` 加入 `NgModule` 的 imports。
+在下列範例中，`searchHeroes()` 方法使用 JSONP 請求，查詢名稱包含搜尋字詞的英雄。
 
 <code-example format="typescript" language="typescript">
 
@@ -24,21 +24,21 @@ searchHeroes(term: string): Observable {
 
 </code-example>
 
-This request passes the `heroesURL` as the first parameter and the callback function name as the second parameter.
-The response is wrapped in the callback function, which takes the observables returned by the JSONP method and pipes them through to the error handler.
+這個請求將 `heroesURL` 作為第一個參數，並將回呼函式名稱作為第二個參數傳入。
+回應會包裝在回呼函式中，該函式接收 JSONP 方法回傳的 observable，並將它們透過管道傳給錯誤處理常式。
 
-## Request non-JSON data
+## 請求非 JSON 資料
 
-Not all APIs return JSON data.
-In this next example, a `DownloaderService` method reads a text file from the server and logs the file contents, before returning those contents to the caller as an `Observable<string>`.
+並非所有 API 都會回傳 JSON 資料。
+在接下來的範例中，`DownloaderService` 的方法會從伺服器讀取文字檔並記錄檔案內容，再將這些內容以 `Observable<string>` 的形式回傳給呼叫者。
 
 <code-example header="app/downloader/downloader.service.ts (getTextFile)" linenums="false" path="http/src/app/downloader/downloader.service.ts" region="getTextFile"></code-example>
 
-`HttpClient.get()` returns a string rather than the default JSON because of the `responseType` option.
+由於 `responseType` 選項，`HttpClient.get()` 回傳的是字串而非預設的 JSON。
 
-The RxJS `tap` operator lets the code inspect both success and error values passing through the observable without disturbing them.
+RxJS 的 `tap` 運算子讓程式碼可以檢查通過 observable 的成功值與錯誤值，而不干擾它們。
 
-A `download()` method in the `DownloaderComponent` initiates the request by subscribing to the service method.
+`DownloaderComponent` 中的 `download()` 方法會訂閱服務方法，藉此發起請求。
 
 <code-example header="app/downloader/downloader.component.ts (download)" linenums="false" path="http/src/app/downloader/downloader.component.ts" region="download"></code-example>
 
