@@ -236,11 +236,11 @@ export class SelfNoDataComponent {
 
 ### `skipSelf`
 
-`skipSelf` is the opposite of `self`.
-With `skipSelf`, Angular starts its search for a service in the parent `ElementInjector`, rather than in the current one.
-So if the parent `ElementInjector` were using the fern <code>&#x1F33F;</code> value for `emoji`, but you had maple leaf <code>&#x1F341;</code> in the component's `providers` array, Angular would ignore maple leaf <code>&#x1F341;</code> and use fern <code>&#x1F33F;</code>.
+`skipSelf` 與 `self` 相反。
+使用 `skipSelf` 時，Angular 會從父 `ElementInjector` 開始搜尋服務，而不是從目前的注入器開始。
+所以，如果父 `ElementInjector` 對 `emoji` 使用的是蕨類 <code>&#x1F33F;</code> 值，但你在元件的 `providers` 陣列中有楓葉 <code>&#x1F341;</code>，Angular 會忽略楓葉 <code>&#x1F341;</code>，改用蕨類 <code>&#x1F33F;</code>。
 
-To see this in code, assume that the following value for `emoji` is what the parent component were using, as in this service:
+若要在程式碼中看到這一點，假設父元件使用的 `emoji` 值如下，如這個服務所示：
 
 <docs-code header="src/app/leaf.service.ts" language="typescript">
 export class LeafService {
@@ -657,7 +657,7 @@ export class InspectorComponent {
 }
 </docs-code>
 
-You do not need a `providers` or `viewProviders` array.
+你不需要 `providers` 或 `viewProviders` 陣列。
 接著，在 `inspector.component.html` 中，加入與前面元件相同的標記：
 
 <docs-code header="src/app/inspector/inspector.component.html" language="html">
@@ -715,7 +715,7 @@ Emoji from AnimalService: &#x1F436;
 
 </docs-code>
 
-These four bindings demonstrate the difference between `providers` and `viewProviders`.
+這四個繫結示範了 `providers` 與 `viewProviders` 之間的差異。
 記住，狗 emoji <code>&#x1F436;</code> 是在 `ChildComponent` 的 `<#VIEW>` 內宣告的，對投影進來的內容不可見。
 相反地，投影進來的內容看到的是鯨魚 <code>&#x1F433;</code>。
 
@@ -761,7 +761,7 @@ These four bindings demonstrate the difference between `providers` and `viewProv
 可見性裝飾器影響在邏輯樹中搜尋注入 token 的起點和終點。
 若要做到這一點，把可見性設定放在注入點，也就是叫用 `inject()` 時，而不是宣告點。
 
-To alter where the injector starts looking for `FlowerService`, add `skipSelf` to the `<app-child>` `inject()` invocation where `FlowerService` is injected.
+若要改變注入器開始尋找 `FlowerService` 的位置，在注入 `FlowerService` 的 `<app-child>` 的 `inject()` 呼叫中加入 `skipSelf`。
 這個呼叫是 `<app-child>` 的屬性初始化器，如 `child.component.ts` 所示：
 
 <docs-code language="typescript">
