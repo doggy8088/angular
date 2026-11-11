@@ -44,12 +44,12 @@ HELPFUL: 程式庫專案結構的更多詳情，請參閱[專案檔案結構指�
   …
   "my-lib": {
     "root": "projects/my-lib",
-    "sourceRoot": "projects/my-lib/src",
+    "sourceRoot": "projects/my-lib",
     "projectType": "library",
     "prefix": "lib",
     "architect": {
       "build": {
-        "builder": "@angular/build:ng-packagr",
+        "builder": "@angular/build:library",
         …
 
 ```
@@ -81,16 +81,17 @@ ng lint my-lib
 *進入點*是一個模組指定符（module specifier），使用者從它匯入，連同該指定符所公開的公開 API。
 每個程式庫都有一個*主要進入點*，並且可以加入任意數量的*次要進入點*。
 
-主要進入點就是套件本身。
-程式庫根目錄的 `ng-package.json` 檔案負責設定它，而 `lib.entryFile` 指出定義其公開 API 的檔案名稱。
+你可以在程式庫的 `package.json` 檔案中，使用 `"exports"` 欄位來設定進入點。
+`"."` 鍵定義了主要進入點，指向匯出其公開 API 的 TypeScript 檔案：
 
-```json {header: 'projects/my-lib/ng-package.json'}
+```json {header: "projects/my-lib/package.json"}
 {
-  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/my-lib",
-  "lib": {
-    "entryFile": "src/public-api.ts"
-  }
+  "name": "my-lib",
+  "version": "0.0.1",
+  "exports": {
+    ".": "./src/public-api.ts"
+  },
+  …
 }
 ```
 
@@ -100,9 +101,8 @@ ng lint my-lib
 import {ThemeService} from 'my-lib';
 ```
 
-次要進入點是程式庫內部的一個目錄，它有自己的 `ng-package.json` 檔案。
-該目錄相對於程式庫根目錄的路徑，定義了匯入子路徑。
-例如，`button` 目錄讓使用者能使用 `my-lib/button`：
+次要進入點是 `"exports"` 中的一個額外子路徑鍵，指向它自己的公開 API 檔案。
+例如，`"./button"` 匯出會讓使用者能使用 `my-lib/button`：
 
 ```ts
 import {ButtonComponent} from 'my-lib/button';
@@ -115,53 +115,67 @@ HELPFUL: 進入點如何在 Angular 套件格式中實現程式碼分割並定�
 
 ### 加入次要進入點
 
-在程式庫內建立一個目錄，放入它自己的 `ng-package.json` 與公開 API 檔案：
+使用 [`entry-point` 原理圖](cli/generate/entry-point)來在你的程式庫中產生新的次要進入點：
 
-```text
-projects/my-lib/
-├── ng-package.json      (primary entry point: my-lib)
-├── package.json
-├── src/
-│   ├── public-api.ts
-│   └── lib/ …
-└── button/
-    ├── ng-package.json  (secondary entry point: my-lib/button)
-    └── src/
-        ├── public-api.ts
-        └── button.ts
+```shell
+ng generate entry-point button --project my-lib
 ```
 
-次要進入點的 `ng-package.json` 只設定進入點本身：
+你也可以產生巢狀子路徑，例如 `testing/harness`：
 
-```json {header: 'projects/my-lib/button/ng-package.json'}
-{
-  "$schema": "../../../node_modules/ng-packagr/ng-entrypoint.schema.json",
-  "lib": {
-    "entryFile": "src/public-api.ts"
-  }
-}
+```shell
+ng generate entry-point testing/harness --project my-lib
 ```
 
-IMPORTANT: 次要進入點的 `ng-package.json` 只接受 `lib` 選項。套件層級的選項（例如 `dest` 與 `assets`）屬於程式庫根目錄的 `ng-package.json`，並套用到每個進入點。
+執行 `ng generate entry-point button --project my-lib` 會執行下列步驟：
 
-你不需要在其他任何地方註冊次要進入點。
-建置期間，`ng-packagr` 會自動發現程式庫根目錄下的每個 `ng-package.json`，並從其目錄路徑推導出匯入子路徑（例如，`button/` 變成 `my-lib/button`，`testing/harness/` 變成 `my-lib/testing/harness`）。
+1. 在程式庫內建立一個 `button/src/` 目錄，裡面有它自己的 `public-api.ts` 檔案與初始元件檔案：
 
-若要從同一個工作區的應用程式匯入次要進入點，請在工作區的 `tsconfig.json` 中加入萬用字元路徑對應。
-依預設，`ng generate library` 只對應套件根目錄，並不涵蓋子路徑：
+   ```text
+   projects/my-lib/
+   ├── package.json
+   ├── src/
+   │   ├── public-api.ts         (primary entry point: my-lib)
+   │   └── lib/
+   │       ├── my-lib.spec.ts
+   │       └── my-lib.ts
+   └── button/
+       └── src/
+           ├── button.spec.ts
+           ├── button.ts
+           └── public-api.ts     (secondary entry point: my-lib/button)
+   ```
 
-```json {header: 'tsconfig.json'}
-{
-  "compilerOptions": {
-    "paths": {
-      "my-lib": ["./dist/my-lib"],
-      "my-lib/*": ["./dist/my-lib/*"]
-    }
-  }
-}
-```
+1. 在程式庫的 `package.json` 中註冊 `"./button"` 子路徑：
 
-IMPORTANT: 從同一個程式庫的另一個進入點匯入程式碼時，一律使用它的套件匯入路徑（例如 `import {ThemeService} from 'my-lib'`），不要使用相對路徑。`ng-packagr` 會依依賴順序分別建置每個進入點，因此跨進入點的相對匯入，以及進入點之間的循環依賴，都會導致建置失敗。
+   ```json {header: "projects/my-lib/package.json"}
+   {
+     "name": "my-lib",
+     "version": "0.0.1",
+     "exports": {
+       ".": "./src/public-api.ts",
+       "./button": "./button/src/public-api.ts"
+     },
+     …
+   }
+   ```
+
+1. 在工作區的 `tsconfig.json` 中加入 `"my-lib/*"` 萬用字元路徑對應（若尚未加入），讓同一個工作區中的應用程式能從已建置的程式庫輸出解析次要進入點：
+
+   ```json {header: "tsconfig.json"}
+   {
+     "compilerOptions": {
+       "paths": {
+         "my-lib": ["./dist/my-lib"],
+         "my-lib/*": ["./dist/my-lib/*"]
+       }
+     }
+   }
+   ```
+
+   因為 `"my-lib/*"` 是萬用字元模式，它會在你第一次產生次要進入點時加入，並自動涵蓋目前與未來所有的次要進入點，不需要再更新 `tsconfig.json`。
+
+在建置期間，`@angular/build:library` 會從 `projects/my-lib/package.json` 的 `"exports"` 欄位發現所有進入點，編譯並打包每個進入點，再將對應的 `types` 與 `default` 匯出條件寫入 `dist/my-lib/package.json`。
 
 ## 將應用程式的部分功能重構為程式庫
 
@@ -218,10 +232,10 @@ IMPORTANT: 從同一個程式庫的另一個進入點匯入程式碼時，一律
 
 使用 Angular CLI 與 npm 套件管理工具，將你的程式庫建置並發行為 npm 套件。
 
-Angular CLI 使用一個稱為 [ng-packagr](https://github.com/ng-packagr/ng-packagr/blob/main/README.md) 的工具，從你已編譯的程式碼建立可發行到 npm 的套件。
-`ng-packagr` 支援的發行格式，以及如何為你的程式庫選擇正確格式的指引，請參閱[以 Ivy 建置程式庫](tools/libraries/creating-libraries#publishing-libraries)。
+Angular CLI 使用 `@angular/build:library` 建置器，將你的程式碼編譯成符合 [Angular Package Format](tools/libraries/angular-package-format) 的套件，讓你可以發行到 npm。
+關於支援的發行格式，以及如何為你的程式庫選擇正確格式的指引，請參閱[發行程式庫](tools/libraries/creating-libraries#publishing-libraries)。
 
-你一律應使用 `production` 設定來建置待發行的程式庫。
+你一律應使用 `production` 設定（`ng build` 的預設設定）來建置待發行的程式庫。
 這能確保產生的輸出使用適當的最佳化，以及 npm 所需的正確套件格式。
 
 ```shell
@@ -235,30 +249,56 @@ npm publish
 ## 在程式庫中管理素材 {#managing-assets-in-a-library}
 
 在你的 Angular 程式庫中，可發行的產物可以包含額外的素材，例如主題檔案、Sass mixin 或文件（如更新記錄）。
-更多資訊請參閱[在建置過程中將素材複製到你的程式庫](https://github.com/ng-packagr/ng-packagr/blob/main/docs/copy-assets.md)，以及[將素材嵌入元件樣式](https://github.com/ng-packagr/ng-packagr/blob/main/docs/embed-assets-css.md)。
+依預設，程式庫建置器會將 `README.md` 與 `LICENSE*` 檔案從你的程式庫根目錄複製到輸出目錄，並將元件樣式表中以相對 `url()` 路徑參照的素材以 data URL 的形式內嵌。
+若要在建置時複製額外的檔案，請在 `angular.json` 中你的程式庫 `build` 目標上設定 [`assets` 選項](reference/configs/workspace-config#assets-configuration)：
 
-IMPORTANT: 包含 Sass mixin 或預先編譯的 CSS 等額外素材時。
-你需要手動將它們加入主要進入點 `package.json` 中有條件的 ["exports"](tools/libraries/angular-package-format#exports)。
-
-`ng-packagr` 會將手寫的 `"exports"` 與自動產生的合併，讓程式庫作者能設定額外的匯出子路徑或自訂條件。
-
-```json
-
-"exports": {
-  ".": {
-    "sass": "./_index.scss",
-  },
-  "./theming": {
-    "sass": "./_theming.scss"
-  },
-  "./prebuilt-themes/indigo-pink.css": {
-    "style": "./prebuilt-themes/indigo-pink.css"
+```json {header: "angular.json"}
+{
+  "projects": {
+    "my-lib": {
+      "architect": {
+        "build": {
+          "builder": "@angular/build:library",
+          "options": {
+            "tsConfig": "projects/my-lib/tsconfig.lib.json",
+            "assets": [
+              "projects/my-lib/CHANGELOG.md",
+              "projects/my-lib/_index.scss",
+              "projects/my-lib/prebuilt-themes",
+              {
+                "glob": "**/*.scss",
+                "input": "projects/my-lib/src/theming",
+                "output": "theming"
+              }
+            ]
+          }
+        }
+      }
+    }
   }
 }
-
 ```
 
-以上是 [@angular/material](https://unpkg.com/browse/@angular/material/package.json) 可發行產物的一段摘錄。
+IMPORTANT: 包含 Sass mixin 或預先編譯的 CSS 等額外素材時，請在你的程式庫 `package.json` 的 [`"exports"`](tools/libraries/angular-package-format#exports) 欄位中公開它們。
+
+程式庫建置器會將自訂的 `"exports"` 子路徑與條件，和產生的進入點匯出合併，讓你能在 TypeScript 進入點之外，公開樣式表或自訂條件：
+
+```json {header: "projects/my-lib/package.json"}
+{
+  "exports": {
+    ".": {
+      "sass": "./_index.scss",
+      "default": "./src/public-api.ts"
+    },
+    "./theming": {
+      "sass": "./theming/_theming.scss"
+    },
+    "./prebuilt-themes/indigo-pink.css": {
+      "style": "./prebuilt-themes/indigo-pink.css"
+    }
+  }
+}
+```
 
 ## 對等依賴
 
@@ -312,14 +352,9 @@ ng build my-lib --watch
 
 ```
 
-IMPORTANT: CLI 的 `build` 指令為程式庫使用的建置器與它為應用程式使用的不同，叫用的建置工具也不同。
+IMPORTANT: CLI 的 `build` 指令為程式庫使用的建置器（`@angular/build:library`），與為應用程式使用的建置器（`@angular/build:application`）不同。
 
-- 應用程式的建置系統 `@angular/build` 以 esbuild 為基礎，包含在所有新的 Angular CLI 專案中
-- 程式庫的建置系統以 `ng-packagr` 為基礎。
-  它只會在你使用 `ng generate library my-lib` 加入程式庫時，才被加入你的依賴中。
-
-這兩個建置系統支援的東西不同，即使支援相同的東西，做法也不一樣。
-這表示同一份 TypeScript 原始碼，在建置後的程式庫中產生的 JavaScript 程式碼，可能與在建置後的應用程式中產生的不同。
+程式庫會依照 [Angular Package Format](tools/libraries/angular-package-format) 進行編譯與打包，這表示同一份 TypeScript 原始碼，在建置後的程式庫中產生的輸出，會與在建置後的應用程式中產生的不同。
 
 正因如此，依賴某個程式庫的應用程式，應只使用指向*已建置程式庫*的 TypeScript 路徑對應。
 TypeScript 路徑對應*不應*指向程式庫的原始 `.ts` 檔案。
@@ -398,7 +433,7 @@ NOTE: 如果你的程式庫與應用程式位於同一個 Angular 工作區（mo
 例如，如果你有一個使用 Angular 13 版的程式庫，依賴該程式庫的應用程式應使用 Angular 13 版或更高版本。
 Angular 不支援應用程式使用較早的版本。
 
-如果你打算將程式庫發行到 npm，請在 `tsconfig.prod.json` 中設定 `"compilationMode": "partial"`，以 Partial-Ivy 程式碼編譯。
+如果你打算將程式庫發行到 npm，請使用 `production` 設定來建置，它預設會將 `"compilationMode"` 設為 `"partial"`，以發出 Partial-Ivy 程式碼。
 這種部分格式在不同版本的 Angular 之間是穩定的，因此發行到 npm 是安全的。
 採用這種格式的程式碼，會在應用程式建置期間使用相同版本的 Angular 編譯器處理，確保應用程式與其所有程式庫都使用單一版本的 Angular。
 

@@ -54,7 +54,7 @@ Angular 仰賴核心 API 的通知，來判斷何時執行變更偵測，以及�
 確保元件使用上述正確通知機制的其中一種方法，就是使用 [ChangeDetectionStrategy.OnPush](/best-practices/skipping-subtrees#using-onpush)。
 
 `OnPush` 變更偵測策略不是必要的，但對於應用程式元件來說，是邁向 zoneless 相容性的建議步驟。函式庫元件並非總是能使用 `ChangeDetectionStrategy.OnPush`。
-當函式庫元件是使用者元件的宿主，而該使用者元件可能使用 `ChangeDetectionStrategy.Eager`/`Default` 時，它不能使用 `OnPush`，因為那會讓子元件在不具備 `OnPush` 相容性、且仰賴 ZoneJS 觸發變更偵測時，無法被重新整理。元件可以使用 `Default` 策略，前提是它們在需要執行變更偵測時通知 Angular（呼叫 `markForCheck`、使用訊號、`AsyncPipe` 等）。
+當函式庫元件是使用者元件的宿主，而該使用者元件可能使用 `ChangeDetectionStrategy.Eager` 時，它不能使用 `OnPush`，因為那會讓子元件在不具備 `OnPush` 相容性、且仰賴 ZoneJS 觸發變更偵測時，無法被重新整理。元件可以使用 `Eager` 策略，前提是它們在需要執行變更偵測時通知 Angular（呼叫 `markForCheck`、使用訊號、`AsyncPipe` 等）。
 作為使用者元件的宿主，指的是使用像 `ViewContainerRef.createComponent` 這樣的 API，而不是僅僅承載使用者元件範本的一部分（也就是內容投影，或使用範本參照輸入）。
 
 ### 移除 `NgZone.onMicrotaskEmpty`、`NgZone.onUnstable`、`NgZone.isStable` 或 `NgZone.onStable`

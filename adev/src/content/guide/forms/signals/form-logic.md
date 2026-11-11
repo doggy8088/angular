@@ -262,7 +262,7 @@ export class Profile {
 
 ## 用 `readonly()` 顯示不可編輯的欄位 {#display-uneditable-fields-with-readonly}
 
-`readonly()` 規則防止使用者更新欄位。`[FormField]` 指令會自動把這個狀態繫結到 HTML `readonly` 屬性，在防止編輯的同時，仍允許使用者聚焦並選取文字。
+`readonly()` 規則防止使用者更新欄位。`FormField` 指令會自動把這個狀態繫結到 HTML `readonly` 屬性，在防止編輯的同時，仍允許使用者聚焦並選取文字。
 
 NOTE: 唯讀欄位會跳過[驗證](guide/forms/signals/validation)。
 
@@ -301,7 +301,7 @@ export class Account {
 }
 ```
 
-`[FormField]` 指令會依欄位狀態自動繫結 `readonly` 屬性。
+`FormField` 指令會依欄位狀態自動繫結 `readonly` 屬性。
 
 ### 有條件地唯讀
 
@@ -457,10 +457,18 @@ export class Search {
   });
 
   searchForm = form(this.searchModel, (schemaPath) => {
-    debounce(schemaPath.query, () => {
-      // Return a promise that resolves after 500ms
+    debounce(schemaPath.query, (context, abortSignal) => {
+      // Return a promise that resolves after 500ms, or right away when the debounce is aborted
       return new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), 500);
+        const timeoutId = setTimeout(resolve, 500);
+        abortSignal.addEventListener(
+          'abort',
+          () => {
+            clearTimeout(timeoutId);
+            resolve();
+          },
+          {once: true},
+        );
       });
     });
   });

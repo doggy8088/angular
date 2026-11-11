@@ -381,4 +381,8 @@ IMPORTANT: `freshness` 策略通常會導致更多請求送往伺服器，這可
 
 ### `applicationMaxAge` {#applicationmaxage}
 
-這個可選屬性讓你可以設定 Service Worker 會快取任何請求多久。在 `maxAge` 之內，檔案會從快取提供。超過之後，所有請求都只會從網路提供，包括資產與資料請求。
+這個可選屬性讓你可以設定 Service Worker 從快取提供某個應用程式版本多久。這個期限是從你建置應用程式的時間起算，而不是從檔案快取到裝置上的時間起算。
+
+在 `applicationMaxAge` 之內，Service Worker 會從快取提供檔案。超過之後，Service Worker 會把所有請求都送往網路，包括資產與資料請求，即使沒有較新的版本也一樣。在部署新版建置、且裝置已取得它之前，應用程式無法離線運作。
+
+若你省略 `applicationMaxAge`，就沒有限期上限，Service Worker 會提供快取的版本，不論它們有多舊。

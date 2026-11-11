@@ -118,7 +118,7 @@ provideRouter(routes, withRouterConfig({urlUpdateStrategy: 'eager'}));
 
 ### 選擇預設的查詢參數處理方式 {#choose-default-query-parameter-handling}
 
-`defaultQueryParamsHandling` 為 `Router.createUrlTree` 設定後備行為：當呼叫時未指定 `queryParamsHandling`，就以此為準。`'replace'` 是預設值，會換掉現有的查詢字串；`'merge'` 把提供的值與目前的值合併；`'preserve'` 則保留現有的查詢參數，除非你明確提供新的參數。
+`defaultQueryParamsHandling` 為 `Router.createUrlTree` 設定後備行為：當呼叫時未指定 `queryParamsHandling`，就以此為準。`'replace'` 是預設值，會換掉現有的查詢字串；`'merge'` 把提供的值與目前的值合併；`'preserve'` 則保留現有的查詢參數，並忽略你傳給這次呼叫的任何 `queryParams`。
 
 ```ts
 provideRouter(routes, withRouterConfig({defaultQueryParamsHandling: 'merge'}));
@@ -555,7 +555,7 @@ export const routes: Routes = [
 ];
 ```
 
-元件透過路由輸入接收抽取出的參數：
+若你啟用 [`withComponentInputBinding`](api/router/withComponentInputBinding)，元件會透過路由輸入接收抽取出的參數：
 
 ```angular-ts
 import {Component, input, inject, resource} from '@angular/core';
@@ -573,7 +573,7 @@ import {Component, input, inject, resource} from '@angular/core';
   `,
 })
 export class Documentation {
-  // Route parameters are automatically bound to signal inputs
+  // The router sets these inputs from the route parameters
   version = input.required<string>(); // Receives the version parameter
   section = input.required<string>(); // Receives the section parameter
 

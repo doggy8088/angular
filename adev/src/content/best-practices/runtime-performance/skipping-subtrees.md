@@ -10,6 +10,8 @@ OnPush 是 Angular 預設的變更偵測策略（自 v22 起）。它指示 Angu
 
 - 子樹的根元件因為範本繫結而收到新的輸入。Angular 會用 `Object.is` 比較輸入目前與先前的值。
 - Angular 在子樹的根元件或其任何子元件中處理了事件_（例如使用事件繫結、輸出繫結，或 `@HostListener`）_，無論它們是否使用 OnPush 變更偵測都一樣。
+- 子樹中的元件被標記為需要檢查，例如透過 `ChangeDetectorRef.markForCheck` 或 `AsyncPipe`。
+- 子樹中某個元件的範本所讀取的訊號變更。Angular 屆時只重新整理讀取該訊號的元件。
 
 ## 常見的變更偵測情境
 

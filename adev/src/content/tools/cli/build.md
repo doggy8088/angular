@@ -6,15 +6,15 @@
 `ng build` 只會執行 `angular.json` 中所指定預設專案的 `build` 目標所對應的建置器。
 Angular CLI 內含四個通常用作 `build` 目標的建置器：
 
-| 建置器                                          | 用途                                                                                                                                                                                                                                           |
+| 建置器 | 用途                                                                                                                                                                                                                                        |
 | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@angular/build:application`                    | 使用 [esbuild](https://esbuild.github.io/) 建置應用程式，包含用戶端 bundle、Node 伺服器，以及在建置時預渲染的路由。                                                                                                                           |
-| `@angular-devkit/build-angular:browser-esbuild` | 使用 [esbuild](https://esbuild.github.io/) 將用戶端應用程式打包成可在瀏覽器中使用的 bundle。更多資訊請參閱 [`browser-esbuild` 文件](tools/cli/build-system-migration#manual-migration-to-the-compatibility-builder)。                          |
-| `@angular-devkit/build-angular:browser`         | 使用 [webpack](https://webpack.js.org/) 將用戶端應用程式打包成可在瀏覽器中使用的 bundle。                                                                                                                                                    |
-| `@angular/build:ng-packagr`                     | 建置符合 [Angular Package Format](tools/libraries/angular-package-format) 的 Angular 程式庫。                                                                                                                                                  |
+| `@angular/build:application`                    | 使用 [esbuild](https://esbuild.github.io/) 建置應用程式，包含用戶端 bundle、Node 伺服器，以及在建置時預渲染的路由。                                                                                                  |
+| `@angular/build:library`                        | 建置符合 [Angular Package Format](tools/libraries/angular-package-format) 的 Angular 程式庫。                                                                                                                                    |
+| `@angular-devkit/build-angular:browser-esbuild` | 使用 [esbuild](https://esbuild.github.io/) 將用戶端應用程式打包成可在瀏覽器中使用的 bundle。更多資訊請參閱 [`browser-esbuild` 文件](tools/cli/build-system-migration#manual-migration-to-the-compatibility-builder)。 |
+| `@angular-devkit/build-angular:browser`         | 使用 [webpack](https://webpack.js.org/) 將用戶端應用程式打包成可在瀏覽器中使用的 bundle。                                                                                                                                                |
 
 `ng new` 產生的應用程式預設使用 `@angular/build:application`。
-`ng generate library` 產生的程式庫預設使用 `@angular/build:ng-packagr`。
+`ng generate library` 產生的程式庫預設使用 `@angular/build:library`。
 
 想知道某個專案使用哪個建置器，查閱該專案的 `build` 目標即可。
 

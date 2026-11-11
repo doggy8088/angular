@@ -474,7 +474,7 @@ signupForm = form(this.signupModel, (schemaPath) => {
 });
 ```
 
-如果電子郵件欄位是空的，只會出現 `required()` 錯誤。如果使用者輸入 "a@b"，`email()` 與 `minLength()` 錯誤會同時出現。所有驗證規則都會執行——驗證不會在第一個失敗後停止。
+如果電子郵件欄位是空的，只會出現 `required()` 錯誤。如果使用者輸入 "a@"，`email()` 與 `minLength()` 錯誤會同時出現。所有驗證規則都會執行——驗證不會在第一個失敗後停止。
 
 TIP: 在範本中使用 `touched() && invalid()` 模式，可避免錯誤在使用者與欄位互動之前就出現。如需顯示驗證錯誤的完整指引，請參閱[欄位狀態管理指南](guide/forms/signals/field-state-management#conditional-error-display)。
 
@@ -791,12 +791,12 @@ const userForm = form(signal({email: '', password: ''}), (schemaPath) => {
 
 ### 動態結構定義
 
-你可以傳入訊號而不是靜態結構定義，讓驗證結構定義在其相依性變更時自動更新。
+除了靜態結構定義之外，你也可以傳入一個傳回結構定義的函式。當該函式讀取的訊號變更時，驗證就會自動更新。
 
 ```angular-ts
 import {Component, computed, signal} from '@angular/core';
 import {form, FormField, validateStandardSchema} from '@angular/forms/signals';
-import z from 'zod';
+import * as z from 'zod';
 
 @Component({/* ... */})
 export class DynamicSchema {
@@ -826,3 +826,4 @@ export class DynamicSchema {
   <docs-pill href="guide/forms/signals/form-logic" title="新增表單邏輯" />
   <docs-pill href="guide/forms/signals/schemas" title="結構定義與結構定義的可組合性" />
 </docs-pill-row>
+

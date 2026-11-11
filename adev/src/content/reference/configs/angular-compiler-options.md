@@ -93,8 +93,6 @@ IMPORTANT: 此選項僅受 `@angular-devkit/build-angular:browser` 建置器支�
 
 啟用時，`ngc` 的 `.js` 輸出不會包含任何延遲載入的範本或樣式 URL。
 
-對於使用 Angular CLI 建立的函式庫專案，開發設定中的預設值為 `true`。
-
 ### `flatModuleId`
 
 匯入平面模組時要使用的模組 ID（當 `flatModuleOutFile` 為 `true` 時）。
@@ -155,8 +153,6 @@ Angular 社群不建議在 Angular 中使用 `--outFile`。
 
 可用來指示範本編譯器產生 `.metadata.json` 檔案，隨 `npm` 套件一同發布。這樣可避免產生無法發布到 `npm` 的 `.ngfactory.js` 與 `.ngstyle.js` 檔案。
 
-對於使用 Angular CLI 建立的函式庫專案，開發設定中的預設值為 `true`。
-
 ### `strictMetadataEmit`
 
 設為 `true` 時，若 `"skipMetadataEmit"` 為 `false`，會將錯誤回報到 `.metadata.json` 檔案。
@@ -174,8 +170,6 @@ Angular 社群不建議在 Angular 中使用 `--outFile`。
 
 若某個函式庫的用戶端打算在註解中使用某個符號，範本編譯器通常不會回報此事。它會在用戶端實際使用該符號之後才回報。
 此選項讓這些錯誤能在函式庫的建置階段被偵測出來，例如在產生 Angular 函式庫本身時便會用到。
-
-對於使用 Angular CLI 建立的函式庫專案，開發設定中的預設值為 `true`。
 
 ### `strictInjectionParameters`
 

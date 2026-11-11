@@ -17,7 +17,7 @@ HELPFUL: APF 會隨著 Angular 其餘部分一起版本化，每個主要版本�
 
 Angular 的發行格式支援所有常用的開發工具與工作流程，並特別著重那些能帶來更小的應用程式承載量（payload），或更快開發迭代週期（建置時間）的最佳化。
 
-開發者可以倚賴 Angular CLI 與 [ng-packagr](https://github.com/ng-packagr/ng-packagr)（Angular CLI 使用的建置工具）來產出 Angular 套件格式的套件。
+開發者可以倚賴 Angular CLI 來產出 Angular 套件格式的套件。
 詳情請參閱[建立程式庫](tools/libraries/creating-libraries)指南。
 
 ## 檔案配置
@@ -103,7 +103,7 @@ node_modules/@angular/core
 
 理解這些鍵的工具，可以優先從 `"exports"` 中選取合適的程式碼格式。
 
-程式庫可能想要公開額外的靜態檔案，這些檔案無法被以 JavaScript 為主的進入點的 exports 所涵蓋，例如 Sass mixin 或預先編譯好的 CSS。
+你可能也想公開額外的靜態檔案，例如 Sass mixin 或預先編譯好的 CSS，這些檔案不屬於以 JavaScript 為主的進入點。
 
 更多資訊請參閱[在程式庫中管理素材](tools/libraries/creating-libraries#managing-assets-in-a-library)。
 
@@ -160,7 +160,7 @@ APF 套件的一般原則是：進入點應盡可能用於邏輯上相關聯的�
 
 #### 次要進入點的解析
 
-次要進入點可以透過套件 `package.json` 的 `"exports"` 欄位來解析。
+模組解析器會使用套件 `package.json` 檔案中的 `"exports"` 欄位來解析次要進入點。
 
 若要了解如何在程式庫中設定次要進入點，請參閱[進入點](tools/libraries/creating-libraries#entry-points)。
 
@@ -206,35 +206,15 @@ Angular 套件格式規定程式碼以「扁平化」的 ES 模組格式發行�
 這能大幅減少 Angular 應用程式的建置時間，以及最終應用程式包的下載與解析時間。
 歡迎參閱 Nolan Lawson 的精彩文章[「The cost of small modules」](https://nolanlawson.com/2016/08/15/the-cost-of-small-modules)。
 
-Angular 編譯器可以產生索引 ES 模組檔案。Rollup / Rolldown 等工具可以使用這些檔案，產生*扁平化 ES 模組*（Flattened ES Module，FESM）檔案格式的扁平化模組。
-
 FESM 是一種檔案格式，透過將從某個進入點可存取的所有 ES Module 扁平化成單一 ES Module 而建立。
 它的形成方式是：追蹤套件的所有 import，將那些程式碼複製到單一檔案中，同時保留所有公開的 ES export，並移除所有私有的 import。
 不過在某些情況下，FESM 可能會依賴在多個進入點之間共享的共享區塊（chunk）。
 
-FESM 這個縮寫名稱讀作 *phe-som*，後面可以接一個數字，例如 FESM2020。
+FESM 這個縮寫名稱讀作 _phe-som_，後面可以接一個數字，例如 FESM2022。
 這個數字指的是模組內 JavaScript 的語言層級。
 因此，FESM2022 檔案會是 ESM+ES2022，包含 import/export 陳述式與 ES2022 原始碼。
 
-若要產生扁平化的 ES Module 索引檔，請在你的 tsconfig.json 檔案中使用下列設定選項：
-
-```js
-{
-  "compilerOptions": {
-    …
-    "module": "esnext",
-    "target": "es2022",
-    …
-  },
-  "angularCompilerOptions": {
-    …
-    "flatModuleOutFile": "my-ui-lib.js",
-    "flatModuleId": "my-ui-lib"
-  }
-}
-```
-
-索引檔（例如 `my-ui-lib.js`）由 ngc 產生後，就可以使用 Rollup、Rolldown 等打包工具與最佳化工具來產出扁平化的 ESM 檔案。
+使用 Angular CLI（`@angular/build:library`）建置時，建置器會以 `ngc` 編譯你的程式庫，並使用 Rolldown 將每個進入點直接打包成 `fesm2022/` 目錄中的扁平化 ES2022 模組。
 
 ### 「sideEffects」旗標 {#sideeffects-flag}
 
@@ -267,8 +247,9 @@ Angular 使用 [`rolldown-plugin-dts`](https://github.com/sxzz/rolldown-plugin-d
 
 ### Tslib
 
-自 APF v10 起，建議將 tslib 加入主要進入點的直接依賴。
-這是因為 tslib 的版本與用來編譯你的程式庫的 TypeScript 版本綁定在一起。
+自 APF v10 起，只要程式庫編譯後的輸出會從 `tslib` 匯入執行階段輔助函式，建議將 `tslib` 列為程式庫的直接依賴。
+這是因為 `tslib` 的版本與用來編譯你的程式庫的 TypeScript 版本綁定在一起。
+使用 `@angular/build:library` 建置時，若編譯後的程式碼有匯入 `tslib`，建置器會自動將 `tslib` 加入產生的 `package.json` 的 `dependencies` 中。
 
 ## 範例
 
@@ -372,4 +353,4 @@ Angular 的 Ahead of Time 編譯器。
 
 ### 扁平化型別定義
 
-使用 [API Extractor](https://api-extractor.com) 或 [rollup-plugin-dts](https://github.com/Swatinem/rollup-plugin-dts) 等工具產生的、合併打包後的 TypeScript 定義。
+使用 [API Extractor](https://api-extractor.com) 或 [`rolldown-plugin-dts`](https://github.com/sxzz/rolldown-plugin-dts) 等工具產生的、合併打包後的 TypeScript 定義。

@@ -6,15 +6,16 @@ TIP: 本指南假設你已讀過[基礎指南](essentials)。如果你是 Angula
 
 `@Component` 裝飾器接受 `changeDetection` 選項，用來控制元件的**變更偵測模式**。變更偵測模式有兩個選項。
 
-**`ChangeDetectionStrategy.Eager`/`Default`** 是選擇性使用的模式。在此模式下，只要全應用程式範圍內可能發生任何活動，Angular 就會檢查元件的 DOM 是否需要更新。會觸發這項檢查的活動包括使用者互動、網路回應、計時器等。
+**`ChangeDetectionStrategy.Eager`** 是選擇性使用的模式。在此模式下，只要全應用程式範圍內可能發生任何活動，Angular 就會檢查元件的 DOM 是否需要更新。會觸發這項檢查的活動包括使用者互動、網路回應、計時器等。
 
 **`ChangeDetectionStrategy.OnPush`** 是預設策略（自 v22 起）。此模式可減少 Angular 需要執行的檢查量。在此模式下，框架只在下列情況才檢查元件的 DOM 是否需要更新：
 
 - 元件輸入因範本中的繫結而變更，或
 - 此元件中的事件監聽器執行
 - 元件被明確標記為需要檢查，透過 `ChangeDetectorRef.markForCheck`，或透過包裝它的方法，例如 `AsyncPipe`。
+- 元件範本中讀取的訊號變更。
 
-此外，當 OnPush 元件被檢查時，Angular 也會一併檢查它的所有祖先元件，沿著應用程式樹向上遍歷。
+在前三種情況下，Angular _也會_檢查元件的所有祖先元件，沿著應用程式樹向上遍歷。當訊號變更時，Angular 只重新整理範本讀取該訊號的元件。
 
 ## PreserveWhitespaces
 

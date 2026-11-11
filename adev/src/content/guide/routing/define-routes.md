@@ -243,11 +243,13 @@ import {TitleStrategy, RouterStateSnapshot} from '@angular/router';
 @Injectable()
 export class AppTitleStrategy extends TitleStrategy {
   private readonly title = inject(Title);
+  // Read once: getTitle() returns the prefixed title after the first update
+  private readonly defaultTitle = this.title.getTitle();
 
   updateTitle(snapshot: RouterStateSnapshot): void {
     // PageTitle is equal to the "Title" of a route if it's set
-    // If its not set it will use the "title" given in index.html
-    const pageTitle = this.buildTitle(snapshot) || this.title.getTitle();
+    // If it's not set, it uses the "title" given in index.html
+    const pageTitle = this.buildTitle(snapshot) || this.defaultTitle;
     this.title.setTitle(`MyAwesomeApp - ${pageTitle}`);
   }
 }
@@ -329,6 +331,26 @@ const routes: Routes = [
 
 - [使用資源擷取資料](/guide/routing/data-fetching-with-resources)：使用 Angular Signals 的 `Resource` API，以反應式的方式擷取資料。
 - [路由資料解析器](/guide/routing/data-resolvers)：在路由啟用之前，使用解析器函式擷取資料。
+
+### 錯誤後備元件
+
+你可以在路由上指定 `errorComponent`，讓路由元件在初始化或渲染期間擲出錯誤時，渲染一個專用的後備元件：
+
+```ts
+import {Routes} from '@angular/router';
+import {ProductDetails} from './product-details';
+import {ProductErrorFallback} from './product-error-fallback';
+
+export const routes: Routes = [
+  {
+    path: 'product/:id',
+    component: ProductDetails,
+    errorComponent: ProductErrorFallback,
+  },
+];
+```
+
+如需進一步了解如何設定錯誤後備機制與重試失敗的路由，請參閱[錯誤邊界指南](/guide/routing/error-boundaries)。
 
 ## 巢狀路由
 

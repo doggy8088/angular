@@ -139,12 +139,10 @@ my-workspace/
 
 在 `projects/` 資料夾下，`my-lib` 資料夾包含你的函式庫程式碼。
 
-| 函式庫原始檔案           | 用途                                                                                                                                                                                         |
-| :----------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/lib`                | 包含你的函式庫專案的邏輯與資料。與應用程式專案一樣，函式庫專案可以包含元件、服務、模組、指令與管道。                                                                                         |
-| `src/public-api.ts`      | 指定從你的函式庫匯出的所有檔案。                                                                                                                                                             |
-| `ng-package.json`        | [ng-packagr](https://github.com/ng-packagr/ng-packagr) 用來建置你的函式庫的設定檔。                                                                                                          |
-| `package.json`           | 設定此函式庫所需的 [npm 套件相依性](reference/configs/npm-packages)。                                                                                                                        |
-| `tsconfig.lib.json`      | 函式庫專屬的 [TypeScript 設定](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)，包含 [Angular 編譯器選項](reference/configs/angular-compiler-options)。                       |
-| `tsconfig.lib.prod.json` | 函式庫專屬的 [TypeScript 設定](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)，在以生產模式建置函式庫時使用。                                                               |
-| `tsconfig.spec.json`     | 函式庫單元測試所用的 [TypeScript 設定](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)。                                                                                     |
+| 函式庫原始檔案 | 用途                                                                                                                                                                                         |
+| :------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/lib`            | 包含你的函式庫專案的邏輯與資料。與應用程式專案一樣，函式庫專案可以包含元件、服務、模組、指令與管道。                                |
+| `src/public-api.ts`  | 指定從你的函式庫主要進入點匯出的所有檔案。                                                                                                                  |
+| `package.json`       | 設定此函式庫的 [npm 套件相依性](reference/configs/npm-packages)與進入點（`exports`）。                                                                            |
+| `tsconfig.lib.json`  | 函式庫專屬的 [TypeScript 設定](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)，包含 [Angular 編譯器選項](reference/configs/angular-compiler-options)。 |
+| `tsconfig.spec.json` | 函式庫單元測試所用的 [TypeScript 設定](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)。                                                                       |

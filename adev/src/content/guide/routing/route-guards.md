@@ -48,7 +48,7 @@ Angular 提供了四種類型的路由守衛，每一種都有不同的用途：
 它可以存取以下這些預設引數：
 
 - `route`：`ActivatedRouteSnapshot`，包含即將被啟用的路由相關資訊
-- `state`：`RouterStateSnapshot`，包含路由器目前的狀態
+- `state`：`RouterStateSnapshot`，包含路由器正在導覽前往的狀態，而非目前的狀態（目前的狀態請用 `Router.routerState`）
 
 它可以回傳[標準的守衛回傳類型](#route-guard-return-types)。
 
@@ -73,7 +73,7 @@ TIP: 如果你需要將使用者重新導向到其他地方，請回傳一個 [`
 它可以存取以下這些預設引數：
 
 - `childRoute`：`ActivatedRouteSnapshot`，包含即將被啟用的子路由之「未來」快照（也就是路由器試圖導覽前往的狀態）的相關資訊
-- `state`：`RouterStateSnapshot`，包含路由器目前的狀態
+- `state`：`RouterStateSnapshot`，包含路由器正在導覽前往的狀態，而非目前的狀態（目前的狀態請用 `Router.routerState`）
 
 它可以回傳[標準的守衛回傳類型](#route-guard-return-types)。
 

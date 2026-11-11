@@ -64,6 +64,16 @@
         >
           {{ answerRevealed() ? '重設' : '顯示答案' }}
         </button>
+        @if (answerRevealed()) {
+          <button
+            type="button"
+            (click)="handleBackToMyCode()"
+            [disabled]="!canRevealAnswer()"
+            class="docs-reveal-answer-button adev-reveal-desktop-button docs-primary-btn"
+            [attr.text]="'回到我的程式碼'"
+            aria-label="回到我的程式碼"
+          >回到我的程式碼</button>
+        }
       }
 
       <!-- Download code -->
@@ -118,6 +128,16 @@
           >
             {{ answerRevealed() ? '重設' : '顯示答案' }}
           </button>
+          @if (answerRevealed()) {
+            <button
+              type="button"
+              (click)="handleBackToMyCode()"
+              [disabled]="!canRevealAnswer()"
+              class="docs-reveal-answer-button adev-reveal-mobile-button docs-primary-btn"
+              [attr.text]="'回到我的程式碼'"
+              aria-label="回到我的程式碼"
+            >回到我的程式碼</button>
+          }
         }
       </div>
 

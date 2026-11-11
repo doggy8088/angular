@@ -136,6 +136,37 @@ export const routes: Routes = [
 
 如需了解更多，請參閱 [RedirectFunction 的 API 文件](api/router/RedirectFunction)。
 
+## 使用 `RedirectCommand` 從元件與資源重新導向
+
+除了靜態與函式式路由重新導向之外，元件與路由資源也可以透過擲出 `RedirectCommand`，以命令式的方式觸發重新導向。這在重新導向未驗證的使用者，或是在擷取資料期間處理動態授權檢查時特別有用：
+
+```angular-ts
+import {Component, inject, resource} from '@angular/core';
+import {Router, RedirectCommand} from '@angular/router';
+
+@Component({
+  selector: 'app-account',
+  template: `<p>Account Details</p>`,
+})
+export class AccountPage {
+  private router = inject(Router);
+
+  accountData = resource({
+    loader: async () => {
+      const response = await fetch('/api/account');
+      if (response.status === 401) {
+        // Automatically redirects to /login when unauthorized
+        throw new RedirectCommand(this.router.parseUrl('/login'));
+      }
+      return response.json();
+    },
+  });
+}
+```
+
+當 `RedirectCommand` 在路由元件的建構函式、生命週期鉤子或路由資源載入器中被擲出時，Angular 路由器會攔截這個指令，並自動將導覽派送到目標 URL。
+
 ## 後續步驟
 
 如需關於 `redirectTo` 屬性的更多資訊，請參閱 [API 文件](api/router/Route#redirectTo)。
+如需進一步了解錯誤邊界與攔截元件失敗，請參閱[錯誤邊界指南](/guide/routing/error-boundaries)。

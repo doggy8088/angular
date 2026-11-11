@@ -190,8 +190,8 @@ onSuccess: (response: { usernameTaken: boolean; profanity: boolean }) => {
 // or
 
 options: {
-  parse: (response) => response as {usernameTaken: boolean; profanity: boolean};
-}
+  parse: (response) => response as {usernameTaken: boolean; profanity: boolean},
+},
 onSuccess: (response) => {
   // ...
 } // prettier-ignore
@@ -239,7 +239,7 @@ validateHttp(schemaPath.field, {
 });
 ```
 
-TIP: 所有可用選項請見 [httpResource API 文件](api/common/http/httpResource)。
+TIP: 所有可用的請求屬性請見 [`HttpResourceRequest` API 文件](api/common/http/HttpResourceRequest)，`options` 參數請見 [httpResource API 文件](api/common/http/httpResource)。
 
 ## 使用 validateAsync() 進行自訂非同步驗證 {#custom-async-validation-with-validateasync}
 

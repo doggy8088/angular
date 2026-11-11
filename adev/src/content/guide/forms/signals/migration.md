@@ -206,13 +206,12 @@ form.password().value(); // 'password'
 form().value(); // { email: '', password: FormControl}
 ```
 
-若你需要整份表單值，就必須手動組合：
+若你需要整份表單值，且控制項已解除包裝，請使用 `@angular/forms/signals/compat` 的 `extractValue`：
 
 ```typescript
-const formValue = computed(() => ({
-  email: form.email().value(),
-  password: form.password().value(),
-})); // {email: '', password: ''}
+import {extractValue} from '@angular/forms/signals/compat';
+
+const formValue = computed(() => extractValue(form)); // {email: '', password: 'password'}
 ```
 
 ## 由下而上遷移
@@ -513,3 +512,4 @@ export class ExampleComponent {
 ```
 
 對自訂 `app-basic-input` 控制項的任何變更，都會反映在反應式 `FormControl` 中。
+
