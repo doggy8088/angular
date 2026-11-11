@@ -102,9 +102,20 @@ jobs:
       - name: Collect static output
         run: |
           mkdir -p _site
+          echo "=== build/ top level ==="
+          ls dist/bin/adev/build/
+          echo "=== index.html candidates under build/ ==="
+          find dist/bin/adev/build -name 'index*.html' | head -20
           cp -rL dist/bin/adev/build/browser/. _site/
+          if [ ! -f _site/index.html ]; then
+            IDX=$(find dist/bin/adev/build -maxdepth 2 -name 'index.html' | head -1)
+            echo "index.html not in browser/, fallback source: $IDX"
+            test -n "$IDX"
+            cp "$IDX" _site/index.html
+          fi
           ls _site | head -20
           test -f _site/index.html
+          grep -q 'script src' _site/index.html
           test $(find _site -name '*.js' | wc -l) -gt 0
 
       - name: Add Cloudflare Pages headers
