@@ -223,7 +223,6 @@ Angular CLI 附帶兩種建置設定：`production` 與 `development`。
 | `budgets`                  | 應用程式全部或部分的預設大小預算型別與閾值。你可以設定建置器，在輸出達到或超過閾值大小時回報警告或錯誤。請參閱[設定大小預算](tools/cli/build#configure-size-budgets)。                                                                                                  |
 | `fileReplacements`         | 包含檔案及其編譯時期替代項的物件。更多資訊，請參閱[設定目標專屬檔案替代](tools/cli/build#configure-target-specific-file-replacements)。                                                                                                                                  |
 | `index`                    | 載入應用程式的基底 HTML 文件。更多資訊，請參閱[索引設定](#index-configuration)。                                                                                                                                                                                            |
-| `security`                 | 包含 `autoCsp` 鍵的物件，可設為 `true` 或 `false`。                                                                                                                                                                                            |
 
 ## 複雜設定值
 

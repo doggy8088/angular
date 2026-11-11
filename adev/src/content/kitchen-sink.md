@@ -244,7 +244,17 @@ NOTE: `preview` 只能搭配獨立元件使用。
 
 使用 `<docs-step>` 來為編號步驟套用樣式。編號是透過 CSS 產生的（很方便！）。
 
-### `<docs-workflow>
+### `<docs-workflow>` 與 `<docs-step>` 屬性
+
+| 屬性               | 說明                                                |
+| :----------------- | :-------------------------------------------------- |
+| `<docs-workflow>`  | 所有步驟都必須巢狀放在 workflow 裡面                |
+| `title`            | 步驟標題                                            |
+| 步驟主體內容       | 介於 `<docs-step>` 與 `</docs-step>` 之間的任何內容 |
+
+步驟必須另起新行，內容可以包含 `docs-code` 與其他巢狀元素及樣式。
+
+<docs-workflow>
 
 <docs-step title="安裝 Angular CLI">
   你會使用 Angular CLI 來建立專案、產生應用程式與函式庫程式碼，並執行各種持續性的開發工作，例如測試、打包與部署。
