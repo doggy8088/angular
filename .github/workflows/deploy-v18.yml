@@ -109,6 +109,9 @@ jobs:
           cp -rL dist/bin/adev/build/browser/. _site/
           if [ ! -f _site/index.html ]; then
             IDX=$(find dist/bin/adev/build -maxdepth 2 -name 'index.html' | head -1)
+            if [ -z "$IDX" ]; then
+              IDX=$(find dist/bin/adev/build -maxdepth 2 -name 'index.csr.html' | head -1)
+            fi
             echo "index.html not in browser/, fallback source: $IDX"
             test -n "$IDX"
             cp "$IDX" _site/index.html
