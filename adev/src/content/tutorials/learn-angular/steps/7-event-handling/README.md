@@ -1,14 +1,14 @@
-# Event handling
+# 事件處理
 
-Event handling enables interactive features on web apps. It gives you the ability as a developer to respond to user actions like button presses, form submissions and more.
+事件處理讓網路應用程式具備互動功能。它讓你身為開發者，能夠回應使用者的操作，例如按下按鈕、送出表單等等。
 
-Note: Learn more about [handling user interaction in the essentials guide](/essentials/templates#handling-user-interaction).
+Note: 在[核心概念指南](/essentials/templates#handling-user-interaction)中進一步了解如何處理使用者互動。
 
-In this activity, you'll learn how to add an event handler.
+在這個練習中，你將學習如何加上事件處理器。
 
 <hr />
 
-In Angular you bind to events with the parentheses syntax `()`. On a given element, wrap the event you want to bind to with parentheses and set an event handler. Consider this `button` example:
+在 Angular 中，你使用括號語法 `()` 來繫結事件。在某個元素上，把你想繫結的事件用括號括起來，並設定一個事件處理器。看看這個 `button` 範例：
 
 ```angular-ts
 @Component({
@@ -22,14 +22,14 @@ class AppComponent {
 }
 ```
 
-In this example, the `greet()` function will run every time the button is clicked. Take note that the `greet()` syntax includes the trailing parenthesis.
+在本範例中，每次按鈕被點選時，`greet()` 函式都會執行。請注意，`greet()` 語法包含結尾的括號。
 
-Alright, your turn to give this a try:
+好了，換你來試試看：
 
 <docs-workflow>
 
-<docs-step title="Add an event handler">
-Add the `onMouseOver` event handler function in the `AppComponent` class. Use the following code as the implementation:
+<docs-step title="加上事件處理器">
+在 `AppComponent` 類別中加上 `onMouseOver` 事件處理器函式。實作使用以下程式碼：
 
 ```ts
 onMouseOver() {
@@ -39,8 +39,8 @@ onMouseOver() {
 
 </docs-step>
 
-<docs-step title="Bind to the template event">
-Update the template code in `app.component.ts` to bind to the `mouseover` event of the `section` element.
+<docs-step title="繫結到範本事件">
+更新 `app.component.ts` 中的範本程式碼，繫結到 `section` 元素的 `mouseover` 事件。
 
 ```angular-html
 <section (mouseover)="onMouseOver()">
@@ -50,4 +50,4 @@ Update the template code in `app.component.ts` to bind to the `mouseover` event 
 
 </docs-workflow>
 
-And with a few steps in the code you've created your first event handler in Angular. Seems like you are getting pretty good at this, keep up the good work.
+只要在程式碼中完成幾個步驟，你就建立了在 Angular 中的第一個事件處理器。看來你愈來愈上手了，繼續保持。

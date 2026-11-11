@@ -1,14 +1,14 @@
 <div class="page docs-viewer">
-  <h1 class="page-header" tabindex="-1">Update Guide</h1>
+  <h1 class="page-header" tabindex="-1">更新指南</h1>
   <div class="wizard">
     <div>
-      <h2>Select the options that match your update</h2>
+      <h2>選擇符合你更新情境的選項</h2>
 
-      <h3>Angular versions</h3>
+      <h3>Angular 版本</h3>
 
       <div class="adev-version-selector">
         <span class="adev-template-select">
-          From v.
+          從 v.
 
           <button [cdkMenuTriggerFor]="templatesMenuFrom">
             <span>{{ from.name }}</span>
@@ -30,7 +30,7 @@
 
         <span>
           <span class="adev-template-select">
-            To v.
+            到 v.
             <button [cdkMenuTriggerFor]="templatesMenuTo">
               <span>{{ to.name }}</span>
               <docs-icon>expand_more</docs-icon>
@@ -54,9 +54,9 @@
       @if (from.number >= futureVersion || to.number >= futureVersion) {
         <div class="docs-alert docs-alert-critical">
           <p>
-            <strong>Warning:</strong>
-            Plans for releases after the current major release are not finalized and may change.
-            These recommendations are based on scheduled deprecations.
+            <strong>警告：</strong>
+            目前主要版本之後的發行計畫尚未定案，可能有所變更。
+            以下建議是根據已排定的淘汰時程所提供。
           </p>
         </div>
       }
@@ -64,8 +64,8 @@
       @if (from.number > to.number) {
         <div class="docs-alert docs-alert-critical">
           <p>
-            <strong>Warning:</strong>
-            We do not support downgrading versions of Angular.
+            <strong>警告：</strong>
+            我們不支援將 Angular 降級。
           </p>
         </div>
       }
@@ -73,46 +73,45 @@
       @if ((to.number - from.number > 150) && from.number > 240) {
         <div class="docs-alert docs-alert-critical">
           <p>
-            <strong>Warning:</strong>
-            Be sure to follow the guide below to migrate your application to the new version. You
-            can't run
+            <strong>警告：</strong>
+            請務必依照下方指南將你的應用程式遷移到新版本。你無法一次跨越多個主要版本執行
             <code>ng update</code>
-            to update Angular applications more than one major version at a time.
+            來更新 Angular 應用程式。
           </p>
         </div>
       }
 
-      <h3>Application complexity</h3>
+      <h3>應用程式複雜度</h3>
       <mat-button-toggle-group
         (change)="level = $event.value;"
         [value]="level"
         style="margin-bottom:16px;"
       >
-        <mat-button-toggle [value]="1">Basic</mat-button-toggle>
-        <mat-button-toggle [value]="2">Medium</mat-button-toggle>
-        <mat-button-toggle [value]="3">Advanced</mat-button-toggle>
+        <mat-button-toggle [value]="1">基本</mat-button-toggle>
+        <mat-button-toggle [value]="2">中等</mat-button-toggle>
+        <mat-button-toggle [value]="3">進階</mat-button-toggle>
       </mat-button-toggle-group>
       @if (level === 1) {
-        <p>Shows information for all Angular developers.</p>
+        <p>顯示所有 Angular 開發者都需要知道的資訊。</p>
       } @else if (level === 2) {
-        <p>Shows information that's of interest to more advanced Angular developers.</p>
+        <p>顯示較進階的 Angular 開發者會感興趣的資訊。</p>
       } @else if (level === 3) {
-        <p>Shows all the information we have about this update.</p>
+        <p>顯示我們所掌握、關於這次更新的全部資訊。</p>
       }
 
-      <h3>Other dependencies</h3>
+      <h3>其他相依套件</h3>
       @for (option of optionList; track $index) {
         <div>
           <mat-checkbox
             (change)="options[option.id] = $event.checked; showUpdatePath()"
             [checked]="options[option.id]"
-            >I use {{option.name}} {{option.description}}</mat-checkbox
+            >我有使用 {{option.name}} {{option.description}}</mat-checkbox
           >
         </div>
       }
 
       @if (from.number < 600) {
-        <h4>Package Manager</h4>
+        <h4>套件管理器</h4>
         <mat-button-toggle-group
           (change)="packageManager = $event.value; showUpdatePath()"
           [value]="packageManager"
@@ -126,9 +125,9 @@
         type="button"
         (click)="showUpdatePath()"
         class="docs-primary-btn show-button"
-        [attr.text]="'Show me how to update!'"
+        [attr.text]="'告訴我如何更新！'"
       >
-        Show me how to update!
+        告訴我如何更新！
       </button>
     </div>
   </div>
@@ -142,7 +141,7 @@
     <div class="recommendations">
       <h2>{{title}}</h2>
 
-      <h3>Before you update</h3>
+      <h3>更新之前</h3>
       @for (r  of beforeRecommendations; track $index) {
         <div class="adev-recommentation-item">
           <mat-checkbox></mat-checkbox>
@@ -151,14 +150,14 @@
       }
       @if (beforeRecommendations.length <= 0) {
         <div>
-          <em>You don't need to do anything before moving between these versions.</em>
+          <em>在這兩個版本之間遷移之前，你不需要做任何事。</em>
         </div>
       }
 
-      <h3>Update to the new version</h3>
+      <h3>更新到新版本</h3>
       @if (duringRecommendations.length > 0) {
         <div>
-          <em>Review these changes and perform the actions to update your application.</em>
+          <em>請檢視這些變更並執行相應操作，以更新你的應用程式。</em>
         </div>
       }
 
@@ -170,11 +169,11 @@
       }
       @if (duringRecommendations.length <= 0) {
         <div>
-          <em>There aren't any recommendations for moving between these versions.</em>
+          <em>在這兩個版本之間遷移沒有任何建議事項。</em>
         </div>
       }
 
-      <h3>After you update</h3>
+      <h3>更新之後</h3>
       @for (r of afterRecommendations; track $index) {
         <div class="adev-recommentation-item">
           <mat-checkbox></mat-checkbox>
@@ -183,7 +182,7 @@
       }
       @if (afterRecommendations.length <= 0) {
         <div>
-          <em>You don't need to do anything after moving between these versions.</em>
+          <em>在這兩個版本之間遷移之後，你不需要做任何事。</em>
         </div>
       }
     </div>

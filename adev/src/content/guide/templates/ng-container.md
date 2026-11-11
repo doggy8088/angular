@@ -1,6 +1,6 @@
-# Grouping elements with ng-container
+# 以 ng-container 將元素分組
 
-`<ng-container>` is a special element in Angular that groups multiple elements together or marks a location in a template without rendering a real element in the DOM.
+`<ng-container>` 是 Angular 中的一個特殊元素，它將多個元素分組在一起，或在範本中標記一個位置，而不會在 DOM 中算繪出真正的元素。
 
 ```angular-html
 <!-- Component template -->
@@ -20,17 +20,17 @@
 </section>
 ```
 
-You can apply directives to `<ng-container>` to add behaviors or configuration to a part of your template.
+你可以將指令套用到 `<ng-container>`，為範本的某個部分加入行為或設定。
 
-Angular ignores all attribute bindings and event listeners applied to `<ng-container>`, including those applied via directive.
+Angular 會忽略所有套用到 `<ng-container>` 的 attribute 繫結與事件監聽器，包括透過指令套用的那些。
 
-## Using `<ng-container>` to display dynamic contents
+## 使用 `<ng-container>` 顯示動態內容
 
-`<ng-container>` can act as a placeholder for rendering dynamic content.
+`<ng-container>` 可以作為算繪動態內容的預留位置。
 
-### Rendering components
+### 算繪元件
 
-You can use Angular's built-in `NgComponentOutlet` directive to dynamically render a component to the location of the `<ng-container>`.
+你可以使用 Angular 內建的 `NgComponentOutlet` 指令，將元件動態算繪到 `<ng-container>` 所在的位置。
 
 ```angular-ts
 @Component({
@@ -45,11 +45,11 @@ export class UserProfile {
 }
 ```
 
-In the example above, the `NgComponentOutlet` directive dynamically renders either `AdminProfile` or `BasicUserProfile` in the location of the `<ng-container>` element.
+在上述範例中，`NgComponentOutlet` 指令會將 `AdminProfile` 或 `BasicUserProfile` 動態算繪到 `<ng-container>` 元素所在的位置。
 
-### Rendering template fragments
+### 算繪範本片段
 
-You can use Angular's built-in `NgTemplateOutlet` directive to dynamically render a template fragment to the location of the `<ng-container>`.
+你可以使用 Angular 內建的 `NgTemplateOutlet` 指令，將範本片段動態算繪到 `<ng-container>` 所在的位置。
 
 ```angular-ts
 @Component({
@@ -69,13 +69,13 @@ export class UserProfile {
 }
 ```
 
-In the example above, the `ngTemplateOutlet` directive dynamically renders one of two template fragments in the location of the `<ng-container>` element.
+在上述範例中，`ngTemplateOutlet` 指令會將兩個範本片段的其中之一，動態算繪到 `<ng-container>` 元素所在的位置。
 
-For more information regarding NgTemplateOutlet, see the [NgTemplateOutlets API documentation page](/api/common/NgTemplateOutlet).
+如需更多關於 NgTemplateOutlet 的資訊，請參閱 [NgTemplateOutlets API 文件頁面](/api/common/NgTemplateOutlet)。
 
-## Using `<ng-container>` with structural directives
+## 將 `<ng-container>` 與結構指令搭配使用
 
-You can also apply structural directives to `<ng-container>` elements. Common examples of this include `ngIf`and `ngFor`.
+你也可以將結構指令套用到 `<ng-container>` 元素。常見的例子包括 `ngIf` 與 `ngFor`。
 
 ```angular-html
 <ng-container *ngIf="permissions == 'admin'">
@@ -89,11 +89,11 @@ You can also apply structural directives to `<ng-container>` elements. Common ex
 </ng-container>
 ```
 
-## Using `<ng-container>` for injection
+## 將 `<ng-container>` 用於注入
 
-See the Dependency Injection guide for more information on Angular's dependency injection system.
+如需更多關於 Angular 依賴注入系統的資訊，請參閱依賴注入指南。
 
-When you apply a directive to `<ng-container>`, descendant elements can inject the directive or anything that the directive provides. Use this when you want to declaratively provide a value to a specific part of your template.
+當你將指令套用到 `<ng-container>` 時，其後代元素可以注入該指令，或該指令提供的任何東西。當你想以宣告方式為範本的特定部分提供某個值時，可以使用這種方式。
 
 ```angular-ts
 @Directive({
@@ -112,4 +112,4 @@ export class Theme {
 </ng-container>
 ```
 
-In the example above, the `ProfilePic` and `UserBio` components can inject the `Theme` directive and apply styles based on its `mode`.
+在上述範例中，`ProfilePic` 與 `UserBio` 元件可以注入 `Theme` 指令，並依其 `mode` 套用樣式。

@@ -1,10 +1,10 @@
-# Create template fragments with ng-template
+# 以 ng-template 建立範本片段
 
-Inspired by the [native `<template>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template), the `<ng-template>` element lets you declare a **template fragment** – a section of content that you can dynamically or programmatically render.
+受[原生 `<template>` 元素](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template)啟發，`<ng-template>` 元素讓你能宣告**範本片段**：一段可以動態或以程式方式算繪的內容區段。
 
-## Creating a template fragment
+## 建立範本片段
 
-You can create a template fragment inside of any component template with the `<ng-template>` element:
+你可以在任何元件範本內以 `<ng-template>` 元素建立範本片段：
 
 ```angular-html
 <p>This is a normal element</p>
@@ -14,11 +14,11 @@ You can create a template fragment inside of any component template with the `<n
 </ng-template>
 ```
 
-When the above is rendered, the content of the `<ng-template>` element is not rendered on the page. Instead, you can get a reference to the template fragment and write code to dynamically render it.
+當上述內容算繪時，`<ng-template>` 元素的內容不會算繪到頁面上。相反地，你可以取得範本片段的參照，並撰寫程式碼來動態算繪它。
 
-### Binding context for fragments
+### 片段的繫結上下文
 
-Template fragments may contain bindings with dynamic expressions:
+範本片段可以包含帶有動態運算式的繫結：
 
 ```angular-ts
 @Component({
@@ -30,21 +30,21 @@ export class ItemCounter {
 }
 ```
 
-Expressions or statements in a template fragment are evaluated against the component in which the fragment is declared, regardless of where the fragment is rendered.
+範本片段中的運算式或陳述式，會以宣告該片段的元件來評估，與片段實際算繪的位置無關。
 
-## Getting a reference to a template fragment
+## 取得範本片段的參照 {#getting-a-reference-to-a-template-fragment}
 
-You can get a reference to a template fragment in one of three ways:
+你可以用下列三種方式之一取得範本片段的參照：
 
-- By declaring a [template reference variable](/guide/templates/variables#template-reference-variables) on the `<ng-template>` element
-- By querying for the fragment with [a component or directive query](/guide/components/queries)
-- By injecting the fragment in a directive that's applied directly to an `<ng-template>` element.
+- 在 `<ng-template>` 元素上宣告[範本參照變數](/guide/templates/variables#template-reference-variables)
+- 以[元件或指令查詢](/guide/components/queries)查詢該片段
+- 在直接套用到 `<ng-template>` 元素的指令中注入該片段。
 
-In all three cases, the fragment is represented by a [TemplateRef](/api/core/TemplateRef) object.
+在這三種情況下，片段都以 [TemplateRef](/api/core/TemplateRef) 物件表示。
 
-### Referencing a template fragment with a template reference variable
+### 以範本參照變數參照範本片段
 
-You can add a template reference variable to an `<ng-template>` element to reference that template fragment in other parts of the same template file:
+你可以為 `<ng-template>` 元素加上範本參照變數，以便在同一個範本檔案的其他部分參照該範本片段：
 
 ```angular-html
 <p>This is a normal element</p>
@@ -54,13 +54,13 @@ You can add a template reference variable to an `<ng-template>` element to refer
 </ng-template>
 ```
 
-You can then reference this fragment anywhere else in the template via the `myFragment` variable.
+接著你就可以透過 `myFragment` 變數，在範本的其他任何地方參照這個片段。
 
-### Referencing a template fragment with queries
+### 以查詢參照範本片段
 
-You can get a reference to a template fragment using any [component or directive query API](/guide/components/queries).
+你可以使用任何[元件或指令查詢 API](/guide/components/queries) 取得範本片段的參照。
 
-For example, if your template has exactly one template fragment, you can query directly for the `TemplateRef` object with a `@ViewChild` query:
+舉例來說，如果你的範本恰好只有一個範本片段，你可以直接使用 `@ViewChild` 查詢來查詢 `TemplateRef` 物件：
 
 ```angular-ts
 @Component({
@@ -78,9 +78,9 @@ export class ComponentWithFragment {
 }
 ```
 
-You can then reference this fragment in your component code or the component's template like any other class member.
+接著你就可以像其他類別成員一樣，在元件程式碼或元件範本中參照這個片段。
 
-If a template contains multiple fragments, you can assign a name to each fragment by adding a template reference variable to each `<ng-template>` element and querying for the fragments based on that name:
+如果一個範本包含多個片段，你可以為每個 `<ng-template>` 元素加上範本參照變數來為每個片段命名，並依該名稱查詢片段：
 
 ```angular-ts
 @Component({
@@ -105,11 +105,11 @@ export class ComponentWithFragment {
 }
 ```
 
-Again, you can then reference these fragments in your component code or the component's template like any other class members.
+同樣地，接著你就可以像其他類別成員一樣，在元件程式碼或元件範本中參照這些片段。
 
-### Injecting a template fragment
+### 注入範本片段
 
-A directive can inject a `TemplateRef` if that directive is applied directly to an `<ng-template>` element:
+如果一個指令直接套用到 `<ng-template>` 元素，該指令就可以注入 `TemplateRef`：
 
 ```angular-ts
 @Directive({
@@ -126,22 +126,22 @@ export class MyDirective {
 </ng-template>
 ```
 
-You can then reference this fragment in your directive code like any other class member.
+接著你就可以像其他類別成員一樣，在指令程式碼中參照這個片段。
 
-## Rendering a template fragment
+## 算繪範本片段
 
-Once you have a reference to a template fragment's `TemplateRef` object, you can render a fragment in one of two ways: in your template with the `NgTemplateOutlet` directive or in your TypeScript code with `ViewContainerRef`.
+一旦你取得範本片段的 `TemplateRef` 物件參照，你可以用兩種方式之一算繪片段：在範本中使用 `NgTemplateOutlet` 指令，或在 TypeScript 程式碼中使用 `ViewContainerRef`。
 
-### Using `NgTemplateOutlet`
+### 使用 `NgTemplateOutlet` {#using-ngtemplateoutlet}
 
-The `NgTemplateOutlet` directive from `@angular/common` accepts a `TemplateRef` and renders the fragment as a **sibling** to the element with the outlet. You should generally use `NgTemplateOutlet` on an [`<ng-container>` element](/guide/templates/ng-container).
+來自 `@angular/common` 的 `NgTemplateOutlet` 指令接受一個 `TemplateRef`，並將片段算繪為帶有該出口之元素的**同層同級元素**。一般來說，你應該在 [`<ng-container>` 元素](/guide/templates/ng-container)上使用 `NgTemplateOutlet`。
 
-First, import `NgTemplateOutlet`:
+首先，匯入 `NgTemplateOutlet`：
 ```typescript
 import { NgTemplateOutlet } from '@angular/common';
 ```
 
-The following example declares a template fragment and renders that fragment to a `<ng-container>` element with `NgTemplateOutlet`:
+下列範例宣告了一個範本片段，並以 `NgTemplateOutlet` 將該片段算繪到 `<ng-container>` 元素：
 
 ```angular-html
 <p>This is a normal element</p>
@@ -153,20 +153,20 @@ The following example declares a template fragment and renders that fragment to 
 <ng-container *ngTemplateOutlet="myFragment"></ng-container>
 ```
 
-This example produces the following rendered DOM:
+這個範例會產生下列算繪後的 DOM：
 
 ```angular-html
 <p>This is a normal element</p>
 <p>This is a fragment</p>
 ```
 
-### Using `ViewContainerRef`
+### 使用 `ViewContainerRef`
 
-A **view container** is a node in Angular's component tree that can contain content. Any component or directive can inject `ViewContainerRef` to get a reference to a view container corresponding to that component or directive's location in the DOM.
+**檢視容器**是 Angular 元件樹中的一個節點，可以容納內容。任何元件或指令都可以注入 `ViewContainerRef`，取得與該元件或指令在 DOM 中位置相對應的檢視容器參照。
 
-You can use the `createEmbeddedView` method on `ViewContainerRef` to dynamically render a template fragment. When you render a fragment with a `ViewContainerRef`, Angular appends it into the DOM as the next sibling of the component or directive that injected the `ViewContainerRef`.
+你可以使用 `ViewContainerRef` 上的 `createEmbeddedView` 方法來動態算繪範本片段。當你以 `ViewContainerRef` 算繪片段時，Angular 會將它附加到 DOM 中，成為注入該 `ViewContainerRef` 之元件或指令的下一個同層同級元素。
 
-The following example shows a component that accepts a reference to a template fragment as an input and renders that fragment into the DOM on a button click.
+下列範例展示一個元件，它接受範本片段的參照作為輸入，並在點選按鈕時將該片段算繪到 DOM 中。
 
 ```angular-ts
 @Component({
@@ -199,7 +199,7 @@ export class MyOutlet {
 }
 ```
 
-In the example above, clicking the "Show" button results in the following output:
+在上述範例中，點選「Show」按鈕會產生下列輸出：
 
 ```angular-html
 <component-with-fragment>
@@ -211,11 +211,11 @@ In the example above, clicking the "Show" button results in the following output
 </component-with-fragment>
 ```
 
-## Passing parameters when rendering a template fragment
+## 算繪範本片段時傳遞參數
 
-When declaring a template fragment with `<ng-template>`, you can additionally declare parameters accepted by the fragment. When you render a fragment, you can optionally pass a `context` object corresponding to these parameters. You can use data from this context object in binding expressions and statements, in addition to referencing data from the component in which the fragment is declared.
+以 `<ng-template>` 宣告範本片段時，你可以額外宣告該片段接受的參數。算繪片段時，你可以選擇傳入與這些參數相對應的 `context` 物件。除了參照宣告該片段之元件的資料外，你還可以在繫結運算式與陳述式中使用這個 context 物件的資料。
 
-Each parameter is written as an attribute prefixed with `let-` with a value matching a property name in the context object:
+每個參數都寫為以 `let-` 為前綴的 attribute，其值對應到 context 物件中的某個屬性名稱：
 
 ```angular-html
 <ng-template let-pizzaTopping="topping">
@@ -223,9 +223,9 @@ Each parameter is written as an attribute prefixed with `let-` with a value matc
 </ng-template>
 ```
 
-### Using `NgTemplateOutlet`
+### 使用 `NgTemplateOutlet` {#using-ngtemplateoutlet-with-parameters}
 
-You can bind a context object to the `ngTemplateOutletContext` input:
+你可以將 context 物件繫結到 `ngTemplateOutletContext` 輸入：
 
 ```angular-html
 <ng-template #myFragment let-pizzaTopping="topping">
@@ -238,22 +238,22 @@ You can bind a context object to the `ngTemplateOutletContext` input:
 />
 ```
 
-### Using `ViewContainerRef`
+### 使用 `ViewContainerRef` {#using-viewcontainerref-with-parameters}
 
-You can pass a context object as the second argument to `createEmbeddedView`:
+你可以將 context 物件作為第二個引數傳給 `createEmbeddedView`：
 
 ```angular-ts
 this.viewContainer.createEmbeddedView(this.myFragment, {topping: 'onion'});
 ```
 
-## Structural directives
+## 結構指令
 
-A **structural directive** is any directive that:
+**結構指令**是任何符合下列條件的指令：
 
-- Injects `TemplateRef`
-- Injects `ViewContainerRef` and programmatically renders the injected `TemplateRef`
+- 注入 `TemplateRef`
+- 注入 `ViewContainerRef`，並以程式方式算繪注入的 `TemplateRef`
 
-Angular supports a special convenience syntax for structural directives. If you apply the directive to an element and prefix the directive's selector with an asterisk (`*`) character, Angular interprets the entire element and all of its content as a template fragment:
+Angular 支援結構指令的特殊便利語法。如果你將指令套用到某個元素，並在該指令的選擇器前加上星號（`*`）字元，Angular 會將整個元素及其全部內容解讀為範本片段：
 
 ```angular-html
 <section *myDirective>
@@ -261,7 +261,7 @@ Angular supports a special convenience syntax for structural directives. If you 
 </section>
 ```
 
-This is equivalent to:
+這等同於：
 
 ```angular-html
 <ng-template myDirective>
@@ -271,13 +271,13 @@ This is equivalent to:
 </ng-template>
 ```
 
-Developers typically use structural directives to conditionally render fragments or render fragments multiple times.
+開發者通常使用結構指令來依條件算繪片段，或多次算繪片段。
 
-For more details, see [Structural Directives](/guide/directives/structural-directives).
+如需更多細節，請參閱[結構指令](/guide/directives/structural-directives)。
 
-## Additional resources
+## 其他資源
 
-For examples of how `ng-template` is used in other libraries, check out:
+如需了解其他函式庫如何使用 `ng-template` 的範例，請參閱：
 
-- [Tabs from Angular Material](https://material.angular.dev/components/tabs/overview) - nothing gets rendered into the DOM until the tab is activated
-- [Table from Angular Material](https://material.angular.dev/components/table/overview) - allows developers to define different ways to render data
+- [Angular Material 的 Tabs](https://material.angular.dev/components/tabs/overview)：在分頁啟用之前，不會有任何內容算繪到 DOM 中
+- [Angular Material 的 Table](https://material.angular.dev/components/table/overview)：讓開發者能定義不同的資料算繪方式

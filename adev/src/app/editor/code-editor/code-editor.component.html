@@ -27,7 +27,7 @@
           @if (tab.isActive && canRenameFile(file.filename)) {
             <button
               class="docs-rename-file"
-              aria-label="rename file"
+              aria-label="重新命名檔案"
               (click)="onRenameButtonClick()"
             >
               <docs-icon>edit</docs-icon>
@@ -36,7 +36,7 @@
           @if (tab.isActive && canDeleteFile(file.filename)) {
           <button
             class="docs-delete-file"
-            aria-label="Delete file"
+            aria-label="刪除檔案"
             (click)="deleteFile(file.filename)"
           >
             <docs-icon>delete</docs-icon>
@@ -60,7 +60,7 @@
       }
     </mat-tab-group>
 
-    <button class="adev-add-file" (click)="onAddButtonClick()" aria-label="Add a new file">
+    <button class="adev-add-file" (click)="onAddButtonClick()" aria-label="新增檔案">
       <docs-icon>add</docs-icon>
     </button>
   </div>
@@ -68,7 +68,7 @@
   <button
     class="adev-editor-download-button"
     type="button"
-    aria-label="Open current code in editor in an online editor"
+    aria-label="在線上編輯器中開啟目前的程式碼"
     [cdkMenuTriggerFor]="launcherMenu"
   >
     <docs-icon>launch</docs-icon>
@@ -77,11 +77,11 @@
   <ng-template #launcherMenu>
     <div class="adev-editor-dropdown" cdkMenu>
         <button cdkMenuItem (click)="openCurrentSolutionInIDX()">
-          <span>Open in IDX </span>
+          <span>在 IDX 中開啟 </span>
           <img class="icon" src="assets/images/tutorials/common/idx_logo.svg" height="32">
         </button>
         <button cdkMenuItem (click)="openCurrentCodeInStackBlitz()">
-          Open in StackBlitz
+          在 StackBlitz 中開啟
         </button>
     </div>
   </ng-template>
@@ -89,8 +89,8 @@
     class="adev-editor-download-button"
     type="button"
     (click)="downloadCurrentCodeEditorState()"
-    aria-label="Download current source code"
-    matTooltip="Download current source code"
+    aria-label="下載目前的原始碼"
+    matTooltip="下載目前的原始碼"
     matTooltipPosition="above"
   >
     <docs-icon>download</docs-icon>
@@ -106,7 +106,7 @@
   </button>
   <ul>
     @for (error of errors(); track error) {
-    <li>(line: {{ error.lineNumber }}:{{ error.characterPosition }}) {{ error.message }}</li>
+    <li>（第 {{ error.lineNumber }} 行，第 {{ error.characterPosition }} 字元）{{ error.message }}</li>
     }
   </ul>
 </div>

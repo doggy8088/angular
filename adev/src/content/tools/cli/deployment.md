@@ -1,17 +1,17 @@
-# Deployment
+# 部署
 
-When you are ready to deploy your Angular application to a remote server, you have various options.
+當你準備好將 Angular 應用程式部署到遠端伺服器時，有多種選擇。
 
-## Automatic deployment with the CLI
+## 使用 CLI 自動部署
 
-The Angular CLI command `ng deploy` executes the `deploy` [CLI builder](tools/cli/cli-builder) associated with your project.
-A number of third-party builders implement deployment capabilities to different platforms.
-You can add any of them to your project with `ng add`.
+Angular CLI 指令 `ng deploy` 會執行與你的專案相關聯的 `deploy` [CLI 建置器](tools/cli/cli-builder)。
+許多第三方建置器為不同平台實作了部署功能。
+你可以用 `ng add` 將其中任何一個加入專案。
 
-When you add a package with deployment capability, it will automatically update your workspace configuration (`angular.json` file) with a `deploy` section for the selected project.
-You can then use the `ng deploy` command to deploy that project.
+當你新增具備部署功能的套件時，它會自動在你的工作區設定（`angular.json` 檔案）中，為所選專案加入一段 `deploy` 設定。
+之後你就能用 `ng deploy` 指令部署該專案。
 
-For example, the following command automatically deploys a project to [Firebase](https://firebase.google.com/).
+例如，下列指令會自動將專案部署到 [Firebase](https://firebase.google.com/)。
 
 <docs-code language="shell">
 
@@ -20,107 +20,104 @@ ng deploy
 
 </docs-code>
 
-The command is interactive.
-In this case, you must have or create a Firebase account and authenticate using it.
-The command prompts you to select a Firebase project for deployment before building your application and uploading the production assets to Firebase.
+這個指令是互動式的。
+以此例來說，你必須擁有或建立一個 Firebase 帳號，並用它完成驗證。
+指令會提示你先選取一個用於部署的 Firebase 專案，然後才建置應用程式，並將正式環境的資產上傳到 Firebase。
 
-The table below lists tools which implement deployment functionality to different platforms.
-The `deploy` command for each package may require different command line options.
-You can read more by following the links associated with the package names below:
+下表列出為不同平台實作部署功能的工具。
+每個套件的 `deploy` 指令可能需要不同的命令列選項。
+你可以透過下表套件名稱旁的連結進一步瞭解：
 
-| Deployment to                                                     | Setup Command                                                                              |
-|:---                                                               |:---                                                                                  |
-| [Firebase hosting](https://firebase.google.com/docs/hosting)      | [`ng add @angular/fire`](https://npmjs.org/package/@angular/fire)                           |
-| [Vercel](https://vercel.com/solutions/angular)                    | [`vercel init angular`](https://github.com/vercel/vercel/tree/main/examples/angular) |
-| [Netlify](https://www.netlify.com)                                | [`ng add @netlify-builder/deploy`](https://npmjs.org/package/@netlify-builder/deploy)       |
-| [GitHub pages](https://pages.github.com)                          | [`ng add angular-cli-ghpages`](https://npmjs.org/package/angular-cli-ghpages)               |
+| 部署目標                                                          | 設定指令                                                                                    |
+| :---------------------------------------------------------------- | :------------------------------------------------------------------------------------------ |
+| [Firebase hosting](https://firebase.google.com/docs/hosting)      | [`ng add @angular/fire`](https://npmjs.org/package/@angular/fire)                       |
+| [Vercel](https://vercel.com/solutions/angular)                    | [`vercel init angular`](https://github.com/vercel/vercel/tree/main/examples/angular)        |
+| [Netlify](https://www.netlify.com)                                | [`ng add @netlify-builder/deploy`](https://npmjs.org/package/@netlify-builder/deploy)   |
+| [GitHub pages](https://pages.github.com)                          | [`ng add angular-cli-ghpages`](https://npmjs.org/package/angular-cli-ghpages)           |
 | [Amazon Cloud S3](https://aws.amazon.com/s3/?nc2=h_ql_prod_st_s3) | [`ng add @jefiozie/ngx-aws-deploy`](https://www.npmjs.com/package/@jefiozie/ngx-aws-deploy) |
 
-If you're deploying to a self-managed server or there's no builder for your favorite cloud platform, you can either [create a builder](tools/cli/cli-builder) that allows you to use the `ng deploy` command, or read through this guide to learn how to manually deploy your application.
+若你要部署到自行管理的伺服器，或你喜歡的雲端平台沒有對應的建置器，你可以[建立一個建置器](tools/cli/cli-builder)來使用 `ng deploy` 指令，或是閱讀本指南，瞭解如何手動部署應用程式。
 
-## Manual deployment to a remote server
+## 手動部署到遠端伺服器
 
-To manually deploy your application, create a production build and copy the output directory to a web server or content delivery network (CDN).
-By default, `ng build` uses the `production` configuration.
-If you have customized your build configurations, you may want to confirm [production optimizations](tools/cli/deployment#production-optimizations) are being applied before deploying.
+若要手動部署應用程式，先建立正式環境建置，再將輸出目錄複製到 Web 伺服器或內容傳遞網路（CDN）。
+預設情況下，`ng build` 使用 `production` 設定。
+若你自訂了建置設定，部署前可能需要先確認[正式環境最佳化](tools/cli/deployment#production-optimizations)有被套用。
 
-`ng build` outputs the built artifacts to `dist/my-app/` by default, however this path can be configured with the `outputPath` option in the `@angular-devkit/build-angular:browser` builder.
-Copy this directory to the server and configure it to serve the directory.
+`ng build` 預設將建置成品輸出到 `dist/my-app/`，不過這個路徑可以用 `@angular-devkit/build-angular:browser` 建置器的 `outputPath` 選項來設定。
+將這個目錄複製到伺服器，並設定伺服器提供該目錄的內容。
 
-While this is a minimal deployment solution, there are a few requirements for the server to serve your Angular application correctly.
+雖然這是最小可行的部署方案，但伺服器仍須滿足一些要求，才能正確提供你的 Angular 應用程式。
 
-## Server configuration
+## 伺服器設定
 
-This section covers changes you may need to configure on the server to run your Angular application.
+本節說明你可能需要在伺服器上設定的變更，才能執行 Angular 應用程式。
 
-### Routed apps must fall back to `index.html`
+### 具路由的應用程式必須退回 `index.html`
 
-Client-side rendered Angular applications are perfect candidates for serving with a static HTML server because all the content is static and generated at build time.
+用戶端渲染的 Angular 應用程式非常適合由靜態 HTML 伺服器提供，因為所有內容都是靜態的，並在建置時產生。
 
-If the application uses the Angular router, you must configure the server to return the application's host page (`index.html`) when asked for a file that it does not have.
+若應用程式使用 Angular 路由器，你必須設定伺服器：當被請求的檔案不存在時，改回傳應用程式的主頁（`index.html`）。
 
-A routed application should support "deep links".
-A *deep link* is a URL that specifies a path to a component inside the application.
-For example, `http://my-app.test/users/42` is a *deep link* to the user detail page that displays the user with `id` 42.
+具路由的應用程式應支援「深層連結」。
+_深層連結_ 是指向應用程式內部某個元件路徑的 URL。
+例如，`http://my-app.test/users/42` 就是指向使用者詳細頁面的_深層連結_，該頁面顯示 `id` 為 42 的使用者。
 
-There is no issue when the user initially loads the index page and then navigates to that URL from within a running client.
-The Angular router performs the navigation *client-side* and does not request a new HTML page.
+當使用者先載入索引頁、再從執行中的用戶端內部導航到該 URL 時，不會有任何問題。
+Angular 路由器會在_用戶端_執行導航，不會請求新的 HTML 頁面。
 
-But clicking a deep link in an email, entering it in the browser address bar, or even refreshing the browser while already on the deep linked page will all be handled by the browser itself, *outside* the running application.
-The browser makes a direct request to the server for `/users/42`, bypassing Angular's router.
+但在電子郵件中點選深層連結、在瀏覽器網址列輸入它，甚至在已停留在深層連結頁面時重新整理瀏覽器，這些都會由瀏覽器本身處理，_不在_執行中的應用程式之內。
+瀏覽器會直接向伺服器請求 `/users/42`，繞過 Angular 的路由器。
 
-A static server routinely returns `index.html` when it receives a request for `http://my-app.test/`.
-But most servers by default will reject `http://my-app.test/users/42` and returns a `404 - Not Found` error *unless* it is configured to return `index.html` instead.
-Configure the fallback route or 404 page to `index.html` for your server, so Angular is served for deep links and can display the correct route.
-Some servers call this fallback behavior "Single-Page Application" (SPA) mode.
+靜態伺服器在收到 `http://my-app.test/` 的請求時，通常會回傳 `index.html`。
+但多數伺服器預設會拒絕 `http://my-app.test/users/42` 並回傳 `404 - Not Found` 錯誤，_除非_它被設定為改回傳 `index.html`。
+請為你的伺服器設定退回路由或 404 頁面指向 `index.html`，這樣深層連結就能由 Angular 提供服務，並顯示正確的路由。
+有些伺服器將這種退回行為稱為「單頁應用程式」（SPA）模式。
 
-Once the browser loads the application, Angular router will read the URL to determine which page it is on and display `/users/42` correctly.
+瀏覽器載入應用程式後，Angular 路由器會讀取 URL 來判斷目前所在頁面，並正確顯示 `/users/42`。
 
-For "real" 404 pages such as `http://my-app.test/does-not-exist`, the server does not require any additional configuration.
-[404 pages implemented in the Angular router](guide/routing/common-router-tasks#displaying-a-404-page) will be displayed correctly.
+對於「真正的」404 頁面，例如 `http://my-app.test/does-not-exist`，伺服器不需要任何額外設定。
+[在 Angular 路由器中實作的 404 頁面](guide/routing/common-router-tasks#displaying-a-404-page)會正確顯示。
 
-### Requesting data from a different server (CORS)
+### 從不同的伺服器請求資料（CORS）
 
-Web developers may encounter a [*cross-origin resource sharing*](https://developer.mozilla.org/docs/Web/HTTP/CORS "Cross-origin resource sharing") error when making a network request to a server other than the application's own host server.
-Browsers forbid such requests unless the server explicitly permits them.
+Web 開發者在向非應用程式自身主機的伺服器發出網路請求時，可能會遇到[_跨來源資源共用_](https://developer.mozilla.org/docs/Web/HTTP/CORS 'Cross-origin resource sharing')錯誤。
+除非伺服器明確允許，否則瀏覽器禁止這類請求。
 
-There isn't anything Angular or the client application can do about these errors.
-The _server_ must be configured to accept the application's requests.
-Read about how to enable CORS for specific servers at [enable-cors.org](https://enable-cors.org/server.html "Enabling CORS server").
+對這類錯誤，Angular 或用戶端應用程式無能為力。
+必須設定_伺服器_來接受應用程式的請求。
+如何在特定伺服器上啟用 CORS，請參閱 [enable-cors.org](https://enable-cors.org/server.html 'Enabling CORS server')。
 
-## Production optimizations
+## 正式環境最佳化 {#production-optimizations}
 
-`ng build` uses the `production` configuration unless configured otherwise. This configuration enables the following build optimization features.
+`ng build` 除非另有設定，否則會使用 `production` 設定。這個設定會啟用下列建置最佳化功能。
 
-| Features                                                           | Details                                                                                       |
-|:---                                                                |:---                                                                                           |
-| [Ahead-of-Time (AOT) Compilation](tools/cli/aot-compiler)          | Pre-compiles Angular component templates.                                                     |
-| [Production mode](tools/cli/deployment#development-only-features) | Optimizes the application for the best runtime performance                                    |
-| Bundling                                                           | Concatenates your many application and library files into a minimum number of deployed files. |
-| Minification                                                       | Removes excess whitespace, comments, and optional tokens.                                     |
-| Mangling                                                           | Renames functions, classes, and variables to use shorter, arbitrary identifiers.              |
-| Dead code elimination                                              | Removes unreferenced modules and unused code.                                                 |
+| 功能                                                              | 詳細資訊                                                                                      |
+| :---------------------------------------------------------------- | :-------------------------------------------------------------------------------------------- |
+| [Ahead-of-Time (AOT) Compilation](tools/cli/aot-compiler)         | 預先編譯 Angular 元件範本。                                                                   |
+| [Production mode](tools/cli/deployment#development-only-features) | 將應用程式最佳化，以獲得最佳的執行期效能                                                      |
+| 打包                                                              | 將眾多應用程式與程式庫檔案串連成最少數量的部署檔案。                                          |
+| 最小化                                                            | 移除多餘的空白、註解與可選的標記。                                                            |
+| 名稱混淆                                                          | 將函式、類別與變數重新命名為更短的任意識別名稱。                                              |
+| 移除無用程式碼                                                    | 移除未被參考的模組與未使用的程式碼。                                                          |
 
-See [`ng build`](cli/build) for more about CLI build options and their effects.
+更多 CLI 建置選項及其效果，請參閱 [`ng build`](cli/build)。
 
-### Development-only features
+### 僅限開發的功能 {#development-only-features}
 
-When you run an application locally using `ng serve`, Angular uses the development configuration
-at runtime which enables:
+在本機使用 `ng serve` 執行應用程式時，Angular 會在執行期使用開發設定，並啟用：
 
-* Extra safety checks such as [`expression-changed-after-checked`](errors/NG0100) detection.
-* More detailed error messages.
-* Additional debugging utilities such as the global `ng` variable with [debugging functions](api#core-global) and [Angular DevTools](tools/devtools) support.
+- 額外的安全檢查，例如 [`expression-changed-after-checked`](errors/NG0100) 偵測。
+- 更詳細的錯誤訊息。
+- 額外的除錯工具，例如具有[除錯函式](api#core-global)的全域 `ng` 變數，以及 [Angular DevTools](tools/devtools) 支援。
 
-These features are helpful during development, but they require extra code in the app, which is
-undesirable in production. To ensure these features do not negatively impact bundle size for end users, Angular CLI
-removes development-only code from the bundle when building for production.
+這些功能在開發期間很有幫助，但它們需要在應用程式中加入額外程式碼，這在正式環境並不理想。為確保這些功能不會對終端使用者的 bundle 大小造成負面影響，Angular CLI 會在為正式環境建置時，從 bundle 中移除僅限開發的程式碼。
 
-Building your application with `ng build` by default uses the `production` configuration which removes these features from the output for optimal bundle size.
+使用 `ng build` 建置應用程式時，預設使用 `production` 設定，會從輸出中移除這些功能，以獲得最佳的 bundle 大小。
 
 ## `--deploy-url`
 
-`--deploy-url` is a command line option used to specify the base path for resolving relative URLs for assets such as images, scripts, and style sheets at *compile* time.
+`--deploy-url` 是一個命令列選項，用來指定在_編譯_時解析圖片、指令碼與樣式表等資產相對 URL 的基礎路徑。
 
 <docs-code language="shell">
 
@@ -128,7 +125,7 @@ ng build --deploy-url /my/assets
 
 </docs-code>
 
-The effect and purpose of `--deploy-url` overlaps with [`<base href>`](guide/routing/common-router-tasks). Both can be used for initial scripts, stylesheets, lazy scripts, and css resources.
+`--deploy-url` 的效果與用途與 [`<base href>`](guide/routing/common-router-tasks) 有所重疊。兩者都可用於初始指令碼、樣式表、延遲載入的指令碼與 CSS 資源。
 
-Unlike `<base href>` which can be defined in a single place at runtime, the `--deploy-url` needs to be hard-coded into an application at build time.
-Prefer `<base href>` where possible.
+與可在執行期單一位置定義的 `<base href>` 不同，`--deploy-url` 必須在建置時寫死進應用程式。
+請盡可能優先使用 `<base href>`。

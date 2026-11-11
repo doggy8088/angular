@@ -1,62 +1,62 @@
-# Adding harness support for additional testing environments
+# 為額外的測試環境加入測試工具支援
 
-## Before you start
+## 開始之前
 
-TIP: This guide assumes you've already read the [component harnesses overview guide](guide/testing/component-harnesses-overview). Read that first if you're new to using component harnesses.
+TIP: 本指南假設你已經閱讀過[元件測試工具總覽指南](guide/testing/component-harnesses-overview)。如果你是第一次使用元件測試工具，請先閱讀該指南。
 
-### When does adding support for a test environment make sense?
+### 什麼時候為測試環境加入支援是合理的？
 
-To use component harnesses in the following environments, you can use Angular CDK's two built-in environments:
+若要在以下環境中使用元件測試工具，你可以使用 Angular CDK 內建的兩個環境：
 
-- Unit tests
-- WebDriver end-to-end tests
+- 單元測試
+- WebDriver 端到端測試
 
-To use a supported testing environment, read the [Creating harnesses for your components guide](guide/testing/creating-component-harnesses).
+若要使用受支援的測試環境，請閱讀[為你的元件建立測試工具指南](guide/testing/creating-component-harnesses)。
 
-Otherwise, to add support for other environments, you need to define how to interact with a DOM element and how DOM interactions work in your environment. Continue reading to learn more.
+否則，若要為其他環境加入支援，你需要定義如何與 DOM 元素互動，以及 DOM 互動在你的環境中如何運作。請繼續閱讀以了解更多。
 
-### CDK Installation
+### 安裝 CDK
 
-The [Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) is a set of behavior primitives for building components. To use the component harnesses, first install `@angular/cdk` from npm. You can do this from your terminal using the Angular CLI:
+[Component Dev Kit (CDK)](https://material.angular.dev/cdk/categories) 是一組用於建置元件的行為原語。若要使用元件測試工具，請先從 npm 安裝 `@angular/cdk`。你可以在終端機中使用 Angular CLI 完成這件事：
 
 <docs-code language="shell">
   ng add @angular/cdk
 </docs-code>
 
-## Creating a `TestElement` implementation
+## 建立 `TestElement` 實作
 
-Every test environment must define a `TestElement` implementation. The `TestElement` interface serves as an environment-agnostic representation of a DOM element. It enables harnesses to interact with DOM elements regardless of the underlying environment. Because some environments don't support interacting with DOM elements synchronously (e.g. WebDriver), all `TestElement` methods are asynchronous, returning a `Promise` with the result of the operation.
+每個測試環境都必須定義一個 `TestElement` 實作。`TestElement` 介面是 DOM 元素的環境無關表示法。它讓測試工具能與 DOM 元素互動，無論底層環境為何。由於某些環境不支援同步與 DOM 元素互動（例如 WebDriver），所有 `TestElement` 方法都是非同步的，會回傳一個帶有操作結果的 `Promise`。
 
-`TestElement` offers a number of methods to interact with the underlying DOM such as `blur()`, `click()`, `getAttribute()`, and more. See the [TestElement API reference page](/api/cdk/testing/TestElement) for the full list of methods.
+`TestElement` 提供了許多與底層 DOM 互動的方法，例如 `blur()`、`click()`、`getAttribute()` 等。若要查看完整的方法清單，請參閱 [TestElement API 參考頁面](/api/cdk/testing/TestElement)。
 
-The `TestElement` interface consists largely of methods that resemble methods available on `HTMLElement`. Similar methods exist in most test environments, which makes implementing the methods fairly straightforward. However, one important difference to note when implementing the `sendKeys` method, is that the key codes in the `TestKey` enum likely differ from the key codes used in the test environment. Environment authors should maintain a mapping from `TestKey` codes to the codes used in the particular testing environment.
+`TestElement` 介面主要由與 `HTMLElement` 上的方法相似的方法組成。類似的方法在大多數測試環境中都存在，這讓實作這些方法相當直接。不過，實作 `sendKeys` 方法時有一個重要差異要注意：`TestKey` 列舉中的鍵碼，可能與測試環境使用的鍵碼不同。環境作者應該維護一份從 `TestKey` 鍵碼到特定測試環境所用鍵碼的對應。
 
-The [UnitTestElement](/api/cdk/testing/testbed/UnitTestElement) and [SeleniumWebDriverElement](/api/cdk/testing/selenium-webdriver/SeleniumWebDriverElement) implementations in Angular CDK serve as good examples of implementations of this interface.
+Angular CDK 中的 [UnitTestElement](/api/cdk/testing/testbed/UnitTestElement) 與 [SeleniumWebDriverElement](/api/cdk/testing/selenium-webdriver/SeleniumWebDriverElement) 實作，是這個介面的良好實作範例。
 
-## Creating a `HarnessEnvironment` implementation
+## 建立 `HarnessEnvironment` 實作
 
-Test authors use `HarnessEnvironment` to create component harness instances for use in tests. `HarnessEnvironment` is an abstract class that must be extended to create a concrete subclass for the new environment. When supporting a new test environment, create a `HarnessEnvironment` subclass that adds concrete implementations for all abstract members.
+測試作者使用 `HarnessEnvironment` 來建立元件測試工具執行個體，供測試使用。`HarnessEnvironment` 是一個抽象類別，必須被擴充，才能為新環境建立具體的子類別。支援新的測試環境時，請建立一個 `HarnessEnvironment` 子類別，為所有抽象成員加入具體實作。
 
-`HarnessEnvironment` has a generic type parameter: `HarnessEnvironment<E>`. This parameter, `E`, represents the raw element type of the environment. For example, this parameter is Element for unit test environments.
+`HarnessEnvironment` 有一個泛型型別參數：`HarnessEnvironment<E>`。這個參數 `E` 代表環境的原始元素型別。例如，在單元測試環境中，這個參數是 Element。
 
-The following are the abstract methods that must be implemented:
+以下是必須實作的抽象方法：
 
-| Method                                                       | Description                                                                                                                                                          |
+| 方法                                                       | 說明                                                                                                                                                          |
 | :----------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `abstract getDocumentRoot(): E`                              | Gets the root element for the environment (e.g. `document.body`).                                                                                                    |
-| `abstract createTestElement(element: E): TestElement`        | Creates a `TestElement` for the given raw element.                                                                                                                   |
-| `abstract createEnvironment(element: E): HarnessEnvironment` | Creates a `HarnessEnvironment` rooted at the given raw element.                                                                                                      |
-| `abstract getAllRawElements(selector: string): Promise<E[]>` | Gets all of the raw elements under the root element of the environment matching the given selector.                                                                  |
-| `abstract forceStabilize(): Promise<void>`                   | Gets a `Promise` that resolves when the `NgZone` is stable. Additionally, if applicable, tells `NgZone` to stabilize (e.g. calling `flush()` in a `fakeAsync` test). |
-| `abstract waitForTasksOutsideAngular(): Promise<void>`       | Gets a `Promise` that resolves when the parent zone of `NgZone` is stable.                                                                                           |
+| `abstract getDocumentRoot(): E`                              | 取得環境的根元素（例如 `document.body`）。                                                                                                    |
+| `abstract createTestElement(element: E): TestElement`        | 為給定的原始元素建立 `TestElement`。                                                                                                                   |
+| `abstract createEnvironment(element: E): HarnessEnvironment` | 建立以給定原始元素為根的 `HarnessEnvironment`。                                                                                                      |
+| `abstract getAllRawElements(selector: string): Promise<E[]>` | 取得環境根元素之下所有符合給定選擇器的原始元素。                                                                  |
+| `abstract forceStabilize(): Promise<void>`                   | 取得一個在 `NgZone` 穩定時解析的 `Promise`。此外，若適用，也會告訴 `NgZone` 進行穩定（例如在 `fakeAsync` 測試中呼叫 `flush()`）。 |
+| `abstract waitForTasksOutsideAngular(): Promise<void>`       | 取得一個在 `NgZone` 的父區域穩定時解析的 `Promise`。                                                                                           |
 
-In addition to implementing the missing methods, this class should provide a way for test authors to get `ComponentHarness` instances. You should define a protected constructor and provide a static method called `loader` that returns a `HarnessLoader` instance. This allows test authors to write code like: `SomeHarnessEnvironment.loader().getHarness(...)`. Depending on the needs of the particular environment, the class may provide several different static methods or require arguments to be passed. (e.g. the `loader` method on `TestbedHarnessEnvironment` takes a `ComponentFixture`, and the class provides additional static methods called `documentRootLoader` and `harnessForFixture`).
+除了實作缺少的方法之外，這個類別還應該提供一種方式，讓測試作者取得 `ComponentHarness` 執行個體。你應該定義一個受保護的建構函式，並提供一個名為 `loader` 的靜態方法，回傳 `HarnessLoader` 執行個體。這讓測試作者能撰寫像這樣的程式碼：`SomeHarnessEnvironment.loader().getHarness(...)`。視特定環境的需求而定，該類別可能提供幾個不同的靜態方法，或要求傳入引數。（例如，`TestbedHarnessEnvironment` 上的 `loader` 方法接受一個 `ComponentFixture`，而該類別還提供名為 `documentRootLoader` 與 `harnessForFixture` 的額外靜態方法）。
 
-The [`TestbedHarnessEnvironment`](/api/cdk/testing/testbed/TestbedHarnessEnvironment) and [SeleniumWebDriverHarnessEnvironment](/api/cdk/testing/selenium-webdriver/SeleniumWebDriverHarnessEnvironment) implementations in Angular CDK serve as good examples of implementations of this interface.
+Angular CDK 中的 [`TestbedHarnessEnvironment`](/api/cdk/testing/testbed/TestbedHarnessEnvironment) 與 [SeleniumWebDriverHarnessEnvironment](/api/cdk/testing/selenium-webdriver/SeleniumWebDriverHarnessEnvironment) 實作，是這個介面的良好實作範例。
 
-## Handling auto change detection
+## 處理自動變更偵測
 
-In order to support the `manualChangeDetection` and parallel APIs, your environment should install a handler for the auto change detection status.
+為了支援 `manualChangeDetection` 與平行 API，你的環境應該為自動變更偵測狀態安裝一個處理常式。
 
-When your environment wants to start handling the auto change detection status it can call `handleAutoChangeDetectionStatus(handler)`. The handler function will receive a `AutoChangeDetectionStatus` which has two properties `isDisabled` and `onDetectChangesNow()`. See the [AutoChangeDetectionStatus API reference page](/api/cdk/testing/AutoChangeDetectionStatus) for more information.
-If your environment wants to stop handling auto change detection status it can call `stopHandlingAutoChangeDetectionStatus()`.
+當你的環境想要開始處理自動變更偵測狀態時，可以呼叫 `handleAutoChangeDetectionStatus(handler)`。處理常式函式會收到一個 `AutoChangeDetectionStatus`，它有兩個屬性：`isDisabled` 與 `onDetectChangesNow()`。詳情請參閱 [AutoChangeDetectionStatus API 參考頁面](/api/cdk/testing/AutoChangeDetectionStatus)。
+如果你的環境想要停止處理自動變更偵測狀態，可以呼叫 `stopHandlingAutoChangeDetectionStatus()`。

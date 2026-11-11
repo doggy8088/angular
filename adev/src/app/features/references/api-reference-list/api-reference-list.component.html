@@ -1,25 +1,25 @@
 <header>
-  <h1>API Reference</h1>
+  <h1>API 參考</h1>
 </header>
 
 <div class="adev-reference-list-filter">
   <div class="adev-reference-list-query-filter">
     <docs-text-field
       name="query"
-      placeholder="Filter"
+      placeholder="篩選"
       [(ngModel)]="query"
       (ngModelChange)="syncUrlWithFilters()"
     />
 
     <docs-slide-toggle
       buttonId="includeDeprecated"
-      label="Show @deprecated"
+      label="顯示 @deprecated"
       name="includeDeprecated"
       [(ngModel)]="includeDeprecated"
     />
   </div>
 
-  <p class="adev-reference-list-type-filter-label">Filter by Identifier type</p>
+  <p class="adev-reference-list-type-filter-label">依識別碼類型篩選</p>
   <ul class="adev-reference-list-type-filter">
     @for (itemType of itemTypes; track itemType) {
       <li
@@ -38,6 +38,6 @@
   <adev-api-items-section [group]="group" />
 } @empty {
   <div class="adev-reference-list-empty">
-    <p>No API items found.</p>
+    <p>找不到 API 項目。</p>
   </div>
 }

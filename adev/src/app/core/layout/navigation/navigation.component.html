@@ -11,7 +11,7 @@
     <button
       type="button"
       class="adev-mobile-nav-button"
-      aria-label="Toggle mobile navigation"
+      aria-label="切換行動版導覽"
       (click)="openMobileNav($event)"
     >
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 223 236" width="32">
@@ -70,7 +70,7 @@
       type="button"
       class="adev-close-nav"
       (click)="closeMobileNav()"
-      aria-label="Close navigation"
+      aria-label="關閉導覽"
     >
       <docs-icon role="presentation">close</docs-icon>
     </button>
@@ -81,7 +81,7 @@
         class="adev-nav-item adev-nav-item--logo"
         [class.adev-nav-item--active]="activeRouteItem() === HOME_ROUTE"
       >
-        <a aria-label="Angular homepage" routerLink="/">
+        <a aria-label="Angular 首頁" routerLink="/">
           <!-- Logo Symbol -->
           @if (!isUwu) {
             <svg
@@ -138,7 +138,7 @@
               src="assets/images/uwu.png"
               style="width: auto; margin: 0"
               class="uwu-logo"
-              alt="Angular logo"
+              alt="Angular 標誌"
               height="34"
             />
           }
@@ -148,7 +148,7 @@
         <div class="adev-nav-item">
           <button
             type="button"
-            aria-label="Select Angular version"
+            aria-label="選擇 Angular 版本"
             role="menu"
             class="adev-version-button"
             [class.adev-mini-menu-open]="openedMenu === 'version-picker'"
@@ -194,7 +194,7 @@
           class="adev-nav-button"
           type="button"
           (click)="toggleSearchDialog($event)"
-          title="Search docs"
+          title="搜尋文件"
         >
           <svg
             aria-hidden="true"
@@ -209,7 +209,7 @@
           </svg>
           <span
             class="adev-nav-item__label adev-search-desktop"
-            [attr.aria-label]="'Open search dialog with ' + searchTitle"
+            [attr.aria-label]="'開啟搜尋對話框，快捷鍵為 ' + searchTitle"
           >
             <kbd>{{ searchLabel }}</kbd>
             <kbd>K</kbd>
@@ -231,7 +231,7 @@
               d="M3.645 13.792h6.708v-1.25H3.645v1.25Zm0-3.542h6.708V9H3.645v1.25Zm-2.063 7.083a1.2 1.2 0 0 1-.875-.375 1.2 1.2 0 0 1-.375-.875V1.917a1.2 1.2 0 0 1 .375-.875 1.2 1.2 0 0 1 .875-.375h7.52l4.563 4.562v10.854a1.2 1.2 0 0 1-.375.875 1.2 1.2 0 0 1-.875.375H1.582ZM8.478 5.792V1.917H1.582v14.166h10.833V5.792H8.478Z"
             />
           </svg>
-          <span class="adev-nav-item__label">Docs</span>
+          <span class="adev-nav-item__label">文件</span>
         </a>
       </li>
 
@@ -252,7 +252,7 @@
               d="m5.668 10-5-5 5-5 1.187 1.188L3.022 5.02l3.813 3.812L5.668 10Zm6.667 0-1.188-1.188L14.98 4.98l-3.812-3.812L12.335 0l5 5-5 5Z"
             />
           </svg>
-          <span class="adev-nav-item__label">Tutorials</span>
+          <span class="adev-nav-item__label">教學</span>
         </a>
       </li>
 
@@ -288,7 +288,7 @@
               d="M3.645 13.792h6.708v-1.25H3.645v1.25Zm0-3.542h6.708V9H3.645v1.25Zm-2.063 7.083a1.2 1.2 0 0 1-.875-.375 1.2 1.2 0 0 1-.375-.875V1.917a1.2 1.2 0 0 1 .375-.875 1.2 1.2 0 0 1 .875-.375h7.52l4.563 4.562v10.854a1.2 1.2 0 0 1-.375.875 1.2 1.2 0 0 1-.875.375H1.582ZM8.478 5.792V1.917H1.582v14.166h10.833V5.792H8.478Z"
             />
           </svg>
-          <span class="adev-nav-item__label">Reference</span>
+          <span class="adev-nav-item__label">API 參考</span>
         </a>
       </li>
     </ul>
@@ -301,7 +301,7 @@
           type="button"
           [cdkMenuTriggerFor]="socialMiniMenu"
           [cdkMenuPosition]="miniMenuPositions"
-          aria-label="Open social media links"
+          aria-label="開啟社群媒體連結"
           (cdkMenuClosed)="closeMenu()"
           (cdkMenuOpened)="openMenu('social')"
         >
@@ -314,7 +314,7 @@
               <a
                 [href]="YOUTUBE"
                 cdkMenuItem
-                title="Angular YouTube channel"
+                title="Angular YouTube 頻道"
                 target="_blank"
                 rel="noopener"
               >
@@ -336,7 +336,7 @@
               <a
                 [href]="X"
                 cdkMenuItem
-                title="Angular X (formerly Twitter) profile"
+                title="Angular X（前 Twitter）個人檔案"
                 target="_blank"
                 rel="noopener"
               >
@@ -358,7 +358,7 @@
               <a
                 [href]="BLUESKY"
                 cdkMenuItem
-                title="Angular Bluesky profile"
+                title="Angular Bluesky 個人檔案"
                 target="_blank"
                 rel="noopener"
               >
@@ -380,7 +380,7 @@
               <a
                 [href]="MEDIUM"
                 cdkMenuItem
-                title="Angular Medium blog"
+                title="Angular Medium 部落格"
                 target="_blank"
                 rel="noopener"
               >
@@ -443,7 +443,7 @@
           type="button"
           [cdkMenuTriggerFor]="themeMiniMenu"
           [cdkMenuPosition]="miniMenuPositions"
-          aria-label="Open theme picker"
+          aria-label="開啟主題選擇器"
           (cdkMenuClosed)="closeMenu()"
           (cdkMenuOpened)="openMenu('theme-picker')"
         >
@@ -469,10 +469,10 @@
                 type="button"
                 cdkMenuItem
                 (click)="setTheme('auto')"
-                aria-label="Set default system theme"
+                aria-label="設為系統預設主題"
               >
                 <docs-icon class="docs-icon_high-contrast">routine</docs-icon>
-                <span>System</span>
+                <span>系統</span>
               </button>
             </li>
             <li>
@@ -480,10 +480,10 @@
                 type="button"
                 cdkMenuItem
                 (click)="setTheme('dark')"
-                aria-label="Set dark theme"
+                aria-label="設為深色主題"
               >
                 <docs-icon class="docs-icon_high-contrast">dark_mode</docs-icon>
-                <span>Dark</span>
+                <span>深色</span>
               </button>
             </li>
             <li>
@@ -491,10 +491,10 @@
                 type="button"
                 cdkMenuItem
                 (click)="setTheme('light')"
-                aria-label="Set light theme"
+                aria-label="設為淺色主題"
               >
                 <docs-icon class="docs-icon_high-contrast">light_mode</docs-icon>
-                <span>Light</span>
+                <span>淺色</span>
               </button>
             </li>
           </ul>
@@ -509,7 +509,7 @@
       <button type="button" (click)="openMobileNav($event)">
         <docs-icon class="docs-icon_high-contrast">menu</docs-icon>
         @if (activeRouteItem() === DOCS_ROUTE) {
-          <span>Docs</span>
+          <span>文件</span>
         }
         @if (activeRouteItem() === REFERENCE_ROUTE) {
           <span>API</span>
