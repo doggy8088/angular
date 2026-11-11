@@ -102,7 +102,7 @@ jobs:
       - name: Collect static output
         run: |
           mkdir -p _site
-          cp -rL dist/bin/adev/build/. _site/
+          cp -rL dist/bin/adev/build/browser/. _site/
           ls _site | head -20
           test -f _site/index.html
           test $(find _site -name '*.js' | wc -l) -gt 0
