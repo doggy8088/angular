@@ -1,8 +1,8 @@
 # Angular 路由
 
-在單頁應用程式中，你會透過顯示或隱藏與特定元件對應的部分畫面來改變使用者看到的內容，而不是前往伺服器取得新頁面。當使用者執行應用程式任務時，他們需要在你定義的不同[檢視](guide/glossary#檢視（view） "Definition of view")之間移動。
+在單頁應用程式中，你會透過顯示或隱藏與特定元件對應的部分畫面來改變使用者看到的內容，而不是前往伺服器取得新頁面。當使用者執行應用程式任務時，他們需要在你定義的不同[檢視](guide/glossary#檢視view "Definition of view")之間移動。
 
-若要處理從一個[檢視](guide/glossary#檢視（view）)到下一個檢視的導覽，你會使用 Angular 的 **`Router`**。**`Router`** 會將瀏覽器 URL 解讀為變更檢視的指令，從而實現導覽。
+若要處理從一個[檢視](guide/glossary#檢視view)到下一個檢視的導覽，你會使用 Angular 的 **`Router`**。**`Router`** 會將瀏覽器 URL 解讀為變更檢視的指令，從而實現導覽。
 
 若要探索展示路由器主要功能的範例應用程式，請參閱 <live-example name="router"></live-example>。
 
@@ -11,7 +11,7 @@
 建立路由之前，你應該熟悉以下內容：
 
 *   [元件基礎](guide/architecture-components)
-*   [範本基礎](guide/glossary#範本（template）)
+*   [範本基礎](guide/glossary#範本template)
 *   一個 Angular 應用程式——你可以使用 [Angular CLI](cli) 產生一個基本的 Angular 應用程式。
 
 ## 了解 Angular 路由

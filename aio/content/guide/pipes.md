@@ -1,7 +1,7 @@
 # 使用管道轉換資料
 
-使用[管道](guide/glossary#管道（pipe） "Definition of a pipe")來轉換字串、貨幣金額、日期與其他資料，以供顯示。
-管道是在[範本運算式](guide/glossary#範本運算式（template-expression） "Definition of template expression")中使用的簡單函式，接受一個輸入值並回傳轉換後的值。
+使用[管道](guide/glossary#管道pipe "Definition of a pipe")來轉換字串、貨幣金額、日期與其他資料，以供顯示。
+管道是在[範本運算式](guide/glossary#範本運算式template-expression "Definition of template expression")中使用的簡單函式，接受一個輸入值並回傳轉換後的值。
 管道很有用，因為你可以在整個應用程式中使用它們，同時每個管道只需要宣告一次。
 例如，你可以使用管道把日期顯示為 **April 15, 1988** 這種格式，而不是原始字串格式。
 
@@ -37,8 +37,8 @@ Angular 提供用於典型資料轉換的內建管道，包括使用地區設定
 要使用管道，你應該對下列各項有基本的了解：
 
 *   [TypeScript](guide/glossary#typescript "Definition of Typescript") 與 HTML5 程式設計
-*   [範本](guide/glossary#範本（template） "Definition of a template")（HTML 加上 CSS 樣式）
-*   [元件](guide/glossary#元件（component） "Definition of a component")
+*   [範本](guide/glossary#範本template "Definition of a template")（HTML 加上 CSS 樣式）
+*   [元件](guide/glossary#元件component "Definition of a component")
 
 ## 在範本中使用管道
 
@@ -117,8 +117,8 @@ Angular 提供用於典型資料轉換的內建管道，包括使用地區設定
 
 ### 將類別標記為管道
 
-要把一個類別標記為管道並提供設定中繼資料，請對該類別套用 [`@Pipe`](api/core/Pipe "API reference for Pipe") [裝飾器](guide/glossary#decorator--decoration "Definition for decorator")。
-管道類別名稱請使用 [UpperCamelCase](guide/glossary#大小寫慣例（case-types） "Definition of case types")（類別名稱的一般慣例），對應的 `name` 字串則使用 [camelCase](guide/glossary#大小寫慣例（case-types） "Definition of case types")。
+要把一個類別標記為管道並提供設定中繼資料，請對該類別套用 [`@Pipe`](api/core/Pipe "API reference for Pipe") [裝飾器](guide/glossary#裝飾器decoratordecoration "Definition for decorator")。
+管道類別名稱請使用 [UpperCamelCase](guide/glossary#大小寫慣例case-types "Definition of case types")（類別名稱的一般慣例），對應的 `name` 字串則使用 [camelCase](guide/glossary#大小寫慣例case-types "Definition of case types")。
 不要在 `name` 中使用連字號。
 如需詳細資訊與更多範例，請參閱[管道名稱](guide/styleguide#管道名稱 "Pipe names in the Angular coding style guide")。
 
@@ -181,7 +181,7 @@ Superpower boost: 1024
 
 ## 透過資料繫結偵測管道中的變更
 
-你可以把[資料繫結](guide/glossary#資料繫結（data-binding） "Definition of data binding")與管道搭配使用，來顯示值並回應使用者操作。
+你可以把[資料繫結](guide/glossary#資料繫結data-binding "Definition of data binding")與管道搭配使用，來顯示值並回應使用者操作。
 如果資料是原始型別輸入值（例如 `String` 或 `Number`）或物件參照輸入（例如 `Date` 或 `Array`），每當 Angular 偵測到輸入值或參照的變更，就會執行管道。
 
 例如，你可以把前面的自訂管道範例改為使用 `ngModel` 的雙向資料繫結，來輸入金額與增強係數，如下列程式碼範例所示。
@@ -196,7 +196,7 @@ Angular 會偵測每一次變更並立即執行管道。
 
 ### 變更偵測的運作方式
 
-Angular 會在每次 DOM 事件之後執行的[變更偵測](guide/glossary#變更偵測（change-detection） "Definition of change detection")程序中，尋找資料繫結值的變更：每一次按鍵、滑鼠移動、計時器滴答與伺服器回應。
+Angular 會在每次 DOM 事件之後執行的[變更偵測](guide/glossary#變更偵測change-detection "Definition of change detection")程序中，尋找資料繫結值的變更：每一次按鍵、滑鼠移動、計時器滴答與伺服器回應。
 下列不使用管道的範例，展示了 Angular 如何使用預設的變更偵測策略，來監看並更新 `heroes` 陣列中每一位英雄的顯示。
 範例頁籤顯示下列內容：
 
@@ -312,7 +312,7 @@ Angular 會在每次偵測到變更時執行非純粹管道，也就是每一次
 
 ## 從 observable 解開資料
 
-[Observables](guide/glossary#可觀察物件（observable） "Definition of observable") 可以讓你在應用程式的各個部分之間傳遞訊息。
+[Observables](guide/glossary#可觀察物件observable "Definition of observable") 可以讓你在應用程式的各個部分之間傳遞訊息。
 建議使用 Observable 來處理事件、進行非同步程式設計，以及處理多個值。
 Observable 可以同步（像函式把值傳遞給呼叫者一樣）或依排程非同步地傳遞任何型別的單一或多個值。
 

@@ -372,7 +372,7 @@ export const yourGuardFunction: CanActivateFn = (
 
 </code-example>
 
-關於實際可運作的範例與更多資訊，請參閱路由教學中[關於路由守衛的一節](guide/router-tutorial-toh#里程碑-5：路由守衛)。
+關於實際可運作的範例與更多資訊，請參閱路由教學中[關於路由守衛的一節](guide/router-tutorial-toh#里程碑-5路由守衛)。
 
 ## 連結參數陣列
 

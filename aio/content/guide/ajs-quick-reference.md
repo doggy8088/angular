@@ -228,7 +228,7 @@ Angular 程式碼則以 TypeScript 顯示。
 [AioApiCommonDecimalpipe]: api/common/DecimalPipe "DecimalPipe | @angular/common - API | Angular"
 [AioApiCommonJsonpipe]: api/common/JsonPipe "JsonPipe | @angular/common - API | Angular"
 
-[AioGuideAjsQuickReferenceFiltersPipes]: guide/ajs-quick-reference#filters--pipes "篩選器／管道 — 從 AngularJS 到 Angular 的概念：快速參考 | Angular"
+[AioGuideAjsQuickReferenceFiltersPipes]: guide/ajs-quick-reference#篩選器--管道 "篩選器／管道 — 從 AngularJS 到 Angular 的概念：快速參考 | Angular"
 [AioGuideAjsQuickReferenceTemplateDirectives]: guide/ajs-quick-reference#範本指令 "範本指令 — 從 AngularJS 到 Angular 的概念：快速參考 | Angular"
 
 [AioGuideArchitecture]: guide/architecture "Angular 概念簡介 | Angular"

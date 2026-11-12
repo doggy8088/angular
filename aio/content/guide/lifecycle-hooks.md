@@ -5,7 +5,7 @@
 生命週期在 Angular 銷毀元件實例、並將其渲染的範本從 DOM 移除時結束。
 指令也有類似的生命週期，Angular 會在執行過程中建立、更新與銷毀實例。
 
-你的應用程式可以使用[生命週期鉤子方法](guide/glossary#生命週期掛鉤（lifecycle-hook） "Definition of lifecycle hook")，在元件或指令生命週期的關鍵事件中介入，以初始化新實例、在需要時啟動變更偵測、回應變更偵測期間的更新，以及在實例刪除之前進行清理。
+你的應用程式可以使用[生命週期鉤子方法](guide/glossary#生命週期掛鉤lifecycle-hook "Definition of lifecycle hook")，在元件或指令生命週期的關鍵事件中介入，以初始化新實例、在需要時啟動變更偵測、回應變更偵測期間的更新，以及在實例刪除之前進行清理。
 
 ## 先備知識
 
@@ -65,7 +65,7 @@ Angular 會依下列順序執行鉤子方法。
 | [Spy](#spy)                   | 展示如何將生命週期鉤子與自訂指令搭配使用。`SpyDirective` 實作了 `ngOnInit()` 與 `ngOnDestroy()` 鉤子，並用它們來監看與回報元素何時進入或離開目前的檢視。 |
 | [OnChanges](#onchanges)       | 展示 Angular 如何在元件輸入屬性每次變更時呼叫 `ngOnChanges()` 鉤子，並說明如何解讀傳給鉤子方法的 `changes` 物件。 |
 | [DoCheck](#docheck)           | 以自訂變更偵測實作 `ngDoCheck()` 方法。觀察鉤子將變更寫入記錄，看看 Angular 呼叫這個鉤子的頻率。 |
-| [AfterView](#afterview)       | 說明 Angular 所說的[檢視](guide/glossary#檢視（view） "Definition of view.")是什麼意思。展示 `ngAfterViewInit()` 與 `ngAfterViewChecked()` 鉤子。 |
+| [AfterView](#afterview)       | 說明 Angular 所說的[檢視](guide/glossary#檢視view "Definition of view.")是什麼意思。展示 `ngAfterViewInit()` 與 `ngAfterViewChecked()` 鉤子。 |
 | [AfterContent](#aftercontent) | 展示如何將外部內容投影到元件中，以及如何區分投影內容與元件的檢視子元件。展示 `ngAfterContentInit()` 與 `ngAfterContentChecked()` 鉤子。 |
 | [Counter](#counter)           | 展示元件與指令的組合，各自有自己的鉤子。 |
 
@@ -140,7 +140,7 @@ data$ = http.get('...').pipe(takeUntilDestroyed());
 
 ## 讀取與寫入 DOM
 
-有時候需要使用僅限瀏覽器的 API，手動讀取或寫入 DOM。使用上述的[生命週期事件](#生命週期事件順序)來做這件事可能很困難，因為它們也會在[伺服器端渲染與預渲染](guide/glossary#伺服器端渲染（server-side-rendering）)期間執行。為此，Angular 提供了 `afterRender` 與 `afterNextRender`。這些函式可以無條件使用，但只會在瀏覽器中產生作用。這兩個函式都接受一個回呼，該回呼會在下一個[變更偵測](/guide/glossary#變更偵測（change-detection）)週期（包括任何巢狀週期）完成後執行。
+有時候需要使用僅限瀏覽器的 API，手動讀取或寫入 DOM。使用上述的[生命週期事件](#生命週期事件順序)來做這件事可能很困難，因為它們也會在[伺服器端渲染與預渲染](guide/glossary#伺服器端渲染server-side-rendering)期間執行。為此，Angular 提供了 `afterRender` 與 `afterNextRender`。這些函式可以無條件使用，但只會在瀏覽器中產生作用。這兩個函式都接受一個回呼，該回呼會在下一個[變更偵測](/guide/glossary#變更偵測change-detection)週期（包括任何巢狀週期）完成後執行。
 
 <div class="alert is-important">
 
@@ -356,8 +356,8 @@ Angular 會同時從 DOM 移除所有英雄 `<p>` 元素，並銷毀它們的間
 
 ### 回應檢視變更
 
-當 Angular 在變更偵測期間走訪[檢視階層](guide/glossary#檢視階層（view-hierarchy） "Definition of view hierarchy definition")時，它必須確保子元件的變更不會試圖造成其父元件的變更。
-由於[單向資料流](guide/glossary#單向資料流（unidirectional-data-flow） "Definition")的運作方式，這樣的變更無法正確渲染。
+當 Angular 在變更偵測期間走訪[檢視階層](guide/glossary#檢視階層view-hierarchy "Definition of view hierarchy definition")時，它必須確保子元件的變更不會試圖造成其父元件的變更。
+由於[單向資料流](guide/glossary#單向資料流unidirectional-data-flow "Definition")的運作方式，這樣的變更無法正確渲染。
 
 如果你需要進行一項會顛覆預期資料流的變更，你必須觸發新的變更偵測週期，才能讓該變更被渲染。
 這些範例說明如何安全地進行這類變更。

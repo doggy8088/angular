@@ -8,9 +8,9 @@
 
 ## 應用程式架構
 
-*   目錄中的 **主要概念** 一節包含數個主題，說明如何將應用程式資料從 [元件](guide/glossary#元件（component）) 連接到負責顯示頁面的 [範本](guide/glossary#範本（template）)，建立完整的互動式應用程式。
+*   目錄中的 **主要概念** 一節包含數個主題，說明如何將應用程式資料從 [元件](guide/glossary#元件component) 連接到負責顯示頁面的 [範本](guide/glossary#範本template)，建立完整的互動式應用程式。
 *   [NgModules](guide/ngmodules) 指南深入說明 Angular 應用程式的模組化結構。
-*   [路由與導覽](guide/router) 指南深入說明如何建構應用程式，讓使用者能在單頁應用程式內瀏覽不同的 [檢視](guide/glossary#檢視（view）)。
+*   [路由與導覽](guide/router) 指南深入說明如何建構應用程式，讓使用者能在單頁應用程式內瀏覽不同的 [檢視](guide/glossary#檢視view)。
 *   [依賴注入](guide/dependency-injection) 指南深入說明如何建構應用程式，讓每個元件類別都能取得執行其功能所需的服務與物件。
 
 ## 回應式程式設計

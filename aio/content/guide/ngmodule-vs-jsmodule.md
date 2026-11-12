@@ -37,9 +37,9 @@ Angular 框架本身是以一組 JavaScript 模組載入的。
 
 [NgModule](guide/glossary#ngmodule "Definition of NgModule")是以 `@NgModule` 裝飾器標記的類別，帶有一個中繼資料物件，描述應用程式的該特定部分如何與其他部分契合。NgModule 是 Angular 專屬的。帶有 `@NgModule` 裝飾器的類別依慣例放在各自的檔案中，但它們與 JavaScript 模組不同，因為它們包含這份中繼資料。
 
-`@NgModule` 中繼資料在引導 Angular 編譯程序中扮演重要角色，該程序將你撰寫的應用程式程式碼轉換為高效能的 JavaScript 程式碼。中繼資料描述如何編譯元件的範本，以及如何在執行時期建立[注入器](guide/glossary#注入器（injector） "Definition of injector")。它識別 NgModule 的[元件](guide/glossary#元件（component） "Definition of component")、[指令](guide/glossary#指令（directive） "Definition of directive")與[管道](guide/glossary#管道（pipe） "Definition of pipe)")，並透過 `exports` 屬性將其中一些公開，讓外部元件可以使用它們。你也可以使用 NgModule 為[服務](guide/glossary#服務（service） "Definition of a service")加入[提供者](guide/glossary#提供者（provider） "Definition of provider")，讓這些服務可在應用程式的其他地方使用。
+`@NgModule` 中繼資料在引導 Angular 編譯程序中扮演重要角色，該程序將你撰寫的應用程式程式碼轉換為高效能的 JavaScript 程式碼。中繼資料描述如何編譯元件的範本，以及如何在執行時期建立[注入器](guide/glossary#注入器injector "Definition of injector")。它識別 NgModule 的[元件](guide/glossary#元件component "Definition of component")、[指令](guide/glossary#指令directive "Definition of directive")與[管道](guide/glossary#管道pipe "Definition of pipe)")，並透過 `exports` 屬性將其中一些公開，讓外部元件可以使用它們。你也可以使用 NgModule 為[服務](guide/glossary#服務service "Definition of a service")加入[提供者](guide/glossary#提供者provider "Definition of provider")，讓這些服務可在應用程式的其他地方使用。
 
-與其將所有成員類別定義在一個巨大的檔案中作為 JavaScript 模組，不如在 `@NgModule.declarations` 清單中宣告哪些元件、指令與管道屬於該 NgModule。這些類別稱為[可宣告類別](guide/glossary#可宣告類別（declarable） "Definition of a declarable")。NgModule 只能匯出它擁有或從其他 NgModule 匯入的可宣告類別。它不會宣告或匯出任何其他種類的類別。可宣告類別是 Angular 編譯程序唯一關心的類別。
+與其將所有成員類別定義在一個巨大的檔案中作為 JavaScript 模組，不如在 `@NgModule.declarations` 清單中宣告哪些元件、指令與管道屬於該 NgModule。這些類別稱為[可宣告類別](guide/glossary#可宣告類別declarable "Definition of a declarable")。NgModule 只能匯出它擁有或從其他 NgModule 匯入的可宣告類別。它不會宣告或匯出任何其他種類的類別。可宣告類別是 Angular 編譯程序唯一關心的類別。
 
 NgModule 中繼資料屬性的完整說明，請參閱[使用 NgModule 中繼資料](guide/ngmodule-api "Using the NgModule metadata")。
 

@@ -286,7 +286,7 @@ Angular 過去支援與 [Web Tracing Framework（WTF）](https://google.github.i
 
 穿透 shadow DOM 的子代組合器已被棄用，各大瀏覽器與工具正在[移除對它的支援](https://developers.google.com/web/updates/2017/10/remove-shadow-piercing)。因此，Angular 在 v4 中棄用了對 `/deep/`、`>>>` 與 `::ng-deep` 的支援。在移除之前，為了與工具保持更廣泛的相容性，建議優先使用 `::ng-deep`。
 
-更多資訊，請參閱 Component Styles 指南中的 [/deep/、>>> 與 ::ng-deep](guide/component-styles#deprecated-deep--and-ng-deep "Component Styles guide, Deprecated deep and ngdeep")。
+更多資訊，請參閱 Component Styles 指南中的 [/deep/、>>> 與 ::ng-deep](guide/component-styles#已棄用deep-與-ng-deep "Component Styles guide, Deprecated deep and ngdeep")。
 
 <a id="bind-syntax"></a>
 

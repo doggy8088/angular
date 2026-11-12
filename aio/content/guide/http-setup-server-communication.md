@@ -8,7 +8,7 @@
 
 <code-example header="app/config/config.service.ts (excerpt)" path="http/src/app/config/config.service.ts" region="proto"></code-example>
 
-`HttpClient` 服務對所有交易都使用 [observable](guide/glossary#可觀察物件（observable） "Observable definition")。
+`HttpClient` 服務對所有交易都使用 [observable](guide/glossary#可觀察物件observable "Observable definition")。
 你必須匯入範例程式碼片段中出現的 RxJS observable 與運算子符號。
 這些 `ConfigService` 的匯入方式很典型。
 

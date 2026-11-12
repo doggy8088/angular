@@ -73,7 +73,7 @@ Service Worker 會在初始化期間以及每次導覽請求時檢查更新—�
 
 呼叫 {@link SwUpdate#activateUpdate SwUpdate#activateUpdate()} 可以在不重新載入頁面的情況下，把分頁更新到最新版本，但這可能會破壞應用程式。
 
-不重新載入就更新，可能會造成[應用程式殼層](guide/glossary#應用程式殼層（app-shell）)與其他頁面資源（例如[延遲載入的 chunk](guide/glossary#延遲載入（lazy-loading）)，其檔案名稱可能在版本之間變更）之間的版本不一致。
+不重新載入就更新，可能會造成[應用程式殼層](guide/glossary#應用程式殼層app-shell)與其他頁面資源（例如[延遲載入的 chunk](guide/glossary#延遲載入lazy-loading)，其檔案名稱可能在版本之間變更）之間的版本不一致。
 
 你只應該在確定對你的特定使用情境是安全的情況下，才使用 `activateUpdate()`。
 

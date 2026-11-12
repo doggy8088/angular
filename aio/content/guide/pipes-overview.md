@@ -1,10 +1,10 @@
 # 了解管道
 
-使用[管道](guide/glossary#管道（pipe） "Definition of a pipe")來轉換字串、貨幣金額、日期與其他資料，以供顯示。
+使用[管道](guide/glossary#管道pipe "Definition of a pipe")來轉換字串、貨幣金額、日期與其他資料，以供顯示。
 
 ## 什麼是管道
 
-管道是在[範本運算式](/guide/glossary#範本運算式（template-expression） "Definition of template expression")中使用的簡單函式，接受一個輸入值並回傳轉換後的值。管道很有用，因為你可以在整個應用程式中使用它們，同時每個管道只需要宣告一次。
+管道是在[範本運算式](/guide/glossary#範本運算式template-expression "Definition of template expression")中使用的簡單函式，接受一個輸入值並回傳轉換後的值。管道很有用，因為你可以在整個應用程式中使用它們，同時每個管道只需要宣告一次。
 例如，你可以使用管道把日期顯示為 **April 15, 1988** 這種格式，而不是原始字串格式。
 
 <div class="alert is-helpful">

@@ -1,4 +1,4 @@
-建立程式庫
+# 建立程式庫
 
 本頁提供如何建立並發行新程式庫以擴充 Angular 功能的概念性總覽。
 
@@ -102,7 +102,7 @@ ng lint my-lib
 
 ## 透過程式碼產生原理圖與 CLI 整合
 
-程式庫通常包含*可重複使用的程式碼*，用來定義元件、服務與其他 Angular 產物（管道、指令），供你匯入專案中。 程式庫會被包裝成 npm 套件，以便發行與分享。 這個套件也可以包含[原理圖](guide/glossary#原理圖（schematic）)，為直接在你的專案中產生或轉換程式碼提供指示，就像 CLI 以 `ng generate component` 建立一個通用的新元件一樣。 與程式庫一起包裝的原理圖，例如可以向 Angular CLI 提供所需的資訊，產生一個能設定並使用該程式庫所定義的特定功能（或一組功能）的元件。 其中一個例子是 [Angular Material 的導航原理圖](https://material.angular.io/guide/schematics#navigation-schematic)，它設定 CDK 的 [BreakpointObserver](https://material.angular.io/cdk/layout/overview#breakpointobserver)，並將它與 Material 的 [MatSideNav](https://material.angular.io/components/sidenav/overview) 及 [MatToolbar](https://material.angular.io/components/toolbar/overview) 元件一起使用。
+程式庫通常包含*可重複使用的程式碼*，用來定義元件、服務與其他 Angular 產物（管道、指令），供你匯入專案中。 程式庫會被包裝成 npm 套件，以便發行與分享。 這個套件也可以包含[原理圖](guide/glossary#原理圖schematic)，為直接在你的專案中產生或轉換程式碼提供指示，就像 CLI 以 `ng generate component` 建立一個通用的新元件一樣。 與程式庫一起包裝的原理圖，例如可以向 Angular CLI 提供所需的資訊，產生一個能設定並使用該程式庫所定義的特定功能（或一組功能）的元件。 其中一個例子是 [Angular Material 的導航原理圖](https://material.angular.io/guide/schematics#navigation-schematic)，它設定 CDK 的 [BreakpointObserver](https://material.angular.io/cdk/layout/overview#breakpointobserver)，並將它與 Material 的 [MatSideNav](https://material.angular.io/components/sidenav/overview) 及 [MatToolbar](https://material.angular.io/components/toolbar/overview) 元件一起使用。
 
 建立並包含下列種類的原理圖：
 

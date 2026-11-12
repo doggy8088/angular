@@ -4,9 +4,9 @@
 
 ## 將類別標記為管道
 
-若要把類別標記為管道並提供設定中繼資料，請將 [`@Pipe`](/api/core/Pipe "API reference for Pipe") [裝飾器](/guide/glossary#decorator--decoration "Definition for decorator")套用到該類別。
+若要把類別標記為管道並提供設定中繼資料，請將 [`@Pipe`](/api/core/Pipe "API reference for Pipe") [裝飾器](/guide/glossary#裝飾器decoratordecoration "Definition for decorator")套用到該類別。
 
-管道類別名稱請使用 [UpperCamelCase](guide/glossary#大小寫慣例（case-types） "Definition of case types")（類別名稱的一般慣例），對應的 `name` 字串則使用 [camelCase](guide/glossary#大小寫慣例（case-types） "Definition of case types")。`name` 中不要使用連字號。
+管道類別名稱請使用 [UpperCamelCase](guide/glossary#大小寫慣例case-types "Definition of case types")（類別名稱的一般慣例），對應的 `name` 字串則使用 [camelCase](guide/glossary#大小寫慣例case-types "Definition of case types")。`name` 中不要使用連字號。
 
 詳細資訊與更多範例，請參閱 [Pipe names](guide/styleguide#管道名稱 "Pipe names in the Angular coding style guide")。
 

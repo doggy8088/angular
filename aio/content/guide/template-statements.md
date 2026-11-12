@@ -19,7 +19,7 @@
 
 <div class="alert is-helpful">
 
-回應事件是 Angular [單向資料流](guide/glossary#單向資料流（unidirectional-data-flow）)的一個面向。
+回應事件是 Angular [單向資料流](guide/glossary#單向資料流unidirectional-data-flow)的一個面向。
 在單一事件迴圈期間，你可以變更應用程式中的任何東西。
 
 </div>

@@ -67,7 +67,7 @@ ng serve
 <div class="alert is-helpful">
 
 注意：<br />
-設定檔中的選項名稱必須使用 [camelCase](guide/glossary#大小寫慣例（case-types）)，而提供給指令的選項名稱必須使用 dash-case。
+設定檔中的選項名稱必須使用 [camelCase](guide/glossary#大小寫慣例case-types)，而提供給指令的選項名稱必須使用 dash-case。
 
 </div>
 
@@ -91,7 +91,7 @@ ng serve
 
 *   一般來說，產生的人工產物名稱可以作為指令的引數提供，或用 `--name` 選項指定。
 
-*   引數與選項名稱必須使用 [dash-case](guide/glossary#大小寫慣例（case-types）)。例如：`--my-option-name`
+*   引數與選項名稱必須使用 [dash-case](guide/glossary#大小寫慣例case-types)。例如：`--my-option-name`
 
 ### 布林選項
 

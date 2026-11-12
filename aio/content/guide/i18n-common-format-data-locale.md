@@ -54,7 +54,7 @@ Angular 提供下列內建的資料轉換[管道][AioGuideGlossaryPipe]。資料
 [AioApiCommonPercentpipe]: api/common/PercentPipe "PercentPipe | Common - API | Angular"
 [AioApiCoreLocaleId]: api/core/LOCALE_ID "LOCALE_ID | Core - API | Angular"
 
-[AioGuideGlossaryPipe]: guide/glossary#管道（pipe） "pipe - 詞彙表 | Angular"
+[AioGuideGlossaryPipe]: guide/glossary#管道pipe "pipe - 詞彙表 | Angular"
 
 [AioGuideI18nCommonPrepare]: guide/i18n-common-prepare "準備元件以供翻譯 | Angular"
 

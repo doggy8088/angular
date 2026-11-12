@@ -186,7 +186,7 @@ CLI 會建置建置設定中定義的所有地區設定。
 
 [AioGuideBuild]: guide/build "Building and serving Angular apps | Angular"
 
-[AioGuideGlossaryAheadOfTimeAotCompilation]: guide/glossary#預先編譯（ahead-of-time-compilation，aot） "ahead-of-time (AOT) compilation - Glossary | Angular"
+[AioGuideGlossaryAheadOfTimeAotCompilation]: guide/glossary#預先編譯ahead-of-time-compilationaot "ahead-of-time (AOT) compilation - Glossary | Angular"
 
 [AioGuideI18nCommonDeploy]: guide/i18n-common-deploy "Deploy multiple locales | Angular"
 

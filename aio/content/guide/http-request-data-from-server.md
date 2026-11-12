@@ -44,7 +44,7 @@ options: {
 
 <a id="config-service"></a>
 
-這個範例遵循建立可擴充解決方案的最佳實務：定義一個可重複使用的[可注入服務](guide/glossary#服務（service） "service definition")來執行資料處理功能。
+這個範例遵循建立可擴充解決方案的最佳實務：定義一個可重複使用的[可注入服務](guide/glossary#服務service "service definition")來執行資料處理功能。
 除了擷取資料之外，這個服務還可以對資料進行後處理、加入錯誤處理與重試邏輯。
 
 `ConfigService` 使用 `HttpClient.get()` 方法擷取這個檔案。

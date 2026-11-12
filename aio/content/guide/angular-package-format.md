@@ -188,7 +188,7 @@ Angular 的發行格式支援所有常用的開發工具與工作流程，並特
 
 ### 副作用
 
-`package.json` 的最後一項功能是宣告套件是否有[副作用](#sideeffects-flag)。
+`package.json` 的最後一項功能是宣告套件是否有[副作用](#sideeffects旗標)。
 
 <code-example language="javascript">
 

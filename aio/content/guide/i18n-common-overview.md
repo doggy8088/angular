@@ -73,9 +73,9 @@
 
 [AioCliMain]: cli "CLI Overview and Command Reference | Angular"
 
-[AioGuideGlossaryCommandLineInterfaceCli]: guide/glossary#命令列介面（command-line-interface，cli） "命令列介面（CLI）- 詞彙表 | Angular"
-[AioGuideGlossaryComponent]: guide/glossary#元件（component） "元件 - 詞彙表 | Angular"
-[AioGuideGlossaryTemplate]: guide/glossary#範本（template） "範本 - 詞彙表 | Angular"
+[AioGuideGlossaryCommandLineInterfaceCli]: guide/glossary#命令列介面command-line-interfacecli "命令列介面（CLI）- 詞彙表 | Angular"
+[AioGuideGlossaryComponent]: guide/glossary#元件component "元件 - 詞彙表 | Angular"
+[AioGuideGlossaryTemplate]: guide/glossary#範本template "範本 - 詞彙表 | Angular"
 
 <!-- external links -->
 

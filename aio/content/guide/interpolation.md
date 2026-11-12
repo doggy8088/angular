@@ -3,7 +3,7 @@
 ## 先備知識
 
 * [元件基礎](guide/architecture-components)
-* [範本基礎](guide/glossary#範本（template）)
+* [範本基礎](guide/glossary#範本template)
 * [繫結語法](guide/binding-syntax)
 
 <!--todo: needs a level 2 heading for info below -->

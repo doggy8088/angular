@@ -235,7 +235,7 @@ Angular 處理巢狀運算式的方式，與處理替代運算式相同。 Angul
 [AioCliMain]: cli "CLI Overview and Command Reference | Angular"
 [AioCliExtractI18n]: cli/extract-i18n "ng extract-i18n | CLI | Angular"
 
-[AioGuideGlossaryCommandLineInterfaceCli]: guide/glossary#命令列介面（command-line-interface，cli） "命令列介面（CLI）- 詞彙表 | Angular"
+[AioGuideGlossaryCommandLineInterfaceCli]: guide/glossary#命令列介面command-line-interfacecli "命令列介面（CLI）- 詞彙表 | Angular"
 
 [AioGuideI18nCommonMerge]: guide/i18n-common-merge "將翻譯合併到應用程式中 | Angular"
 

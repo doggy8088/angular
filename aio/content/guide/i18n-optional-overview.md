@@ -36,9 +36,9 @@
 
 [AioCliMain]: cli "CLI Overview and Command Reference | Angular"
 
-[AioGuideGlossaryCommandLineInterfaceCli]: guide/glossary#命令列介面（command-line-interface，cli） "command-line interface (CLI) - Glossary | Angular"
-[AioGuideGlossaryComponent]: guide/glossary#元件（component） "component - Glossary | Angular"
-[AioGuideGlossaryTemplate]: guide/glossary#範本（template） "template - Glossary | Angular"
+[AioGuideGlossaryCommandLineInterfaceCli]: guide/glossary#命令列介面command-line-interfacecli "command-line interface (CLI) - Glossary | Angular"
+[AioGuideGlossaryComponent]: guide/glossary#元件component "component - Glossary | Angular"
+[AioGuideGlossaryTemplate]: guide/glossary#範本template "template - Glossary | Angular"
 
 [AioGuideI18nOptionalManageMarkedText]: guide/i18n-optional-manage-marked-text "Manage marked text with custom IDs | Angular"
 [AioGuideI18nOptionalImportGlobalVariants]: guide/i18n-optional-import-global-variants "Import global variants of the locale data | Angular"

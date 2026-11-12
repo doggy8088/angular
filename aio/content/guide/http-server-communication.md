@@ -12,7 +12,7 @@
 
 <code-example header="app/config/config.service.ts (excerpt)" path="http/src/app/config/config.service.ts" region="proto"></code-example>
 
-`HttpClient` 服務對所有交易都使用 [observable](guide/glossary#可觀察物件（observable） "Observable definition")。
+`HttpClient` 服務對所有交易都使用 [observable](guide/glossary#可觀察物件observable "Observable definition")。
 你必須匯入範例程式碼片段中出現的 RxJS observable 與運算子符號。
 這些 `ConfigService` 的匯入方式很典型。
 
@@ -77,7 +77,7 @@ options: {
 
 <a id="config-service"></a>
 
-這個範例遵循建立可擴充解決方案的最佳實務：定義一個可重複使用的[可注入服務](guide/glossary#服務（service） "service definition")來執行資料處理功能。
+這個範例遵循建立可擴充解決方案的最佳實務：定義一個可重複使用的[可注入服務](guide/glossary#服務service "service definition")來執行資料處理功能。
 除了擷取資料之外，這個服務還可以對資料進行後處理、加入錯誤處理與重試邏輯。
 
 `ConfigService` 使用 `HttpClient.get()` 方法擷取這個檔案。

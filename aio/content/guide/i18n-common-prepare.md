@@ -449,7 +449,7 @@ The author is male
 
 [AioApiLocalizeInitLocalize]: api/localize/init/$localize "$localize | init - localize - API  | Angular"
 
-[AioGuideGlossaryInterpolation]: guide/glossary#插值（interpolation） "interpolation - 詞彙表 | Angular"
+[AioGuideGlossaryInterpolation]: guide/glossary#插值interpolation "interpolation - 詞彙表 | Angular"
 
 [AioGuideI18nCommonPrepare]: guide/i18n-common-prepare "準備元件以供翻譯 | Angular"
 [AioGuideI18nCommonPrepareAddHelpfulDescriptionsAndMeanings]: guide/i18n-common-prepare#加入有幫助的說明與意義 "加入實用的描述與意義 - 準備元件以供翻譯 | Angular"

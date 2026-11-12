@@ -21,8 +21,8 @@
 
 ## 建立工作區與初始應用程式
 
-你是在 Angular [工作區](guide/glossary#工作區（workspace）)的脈絡下開發應用程式。
-一個*工作區*包含一個或多個[專案](guide/glossary#專案（project）)的檔案。
+你是在 Angular [工作區](guide/glossary#工作區workspace)的脈絡下開發應用程式。
+一個*工作區*包含一個或多個[專案](guide/glossary#專案project)的檔案。
 一個*專案*是由構成應用程式或程式庫的檔案所組成的集合。
 
 要建立新的工作區與初始專案：
