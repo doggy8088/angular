@@ -255,7 +255,6 @@ pub struct DirectiveData {
     /// True when the `standalone` property was present but did not fold to a boolean, in
     /// which case `standalone` falls back to `true` (the implicit default).
     pub standalone_dynamic: bool,
-    pub signals: bool,
     pub is_structural: bool,
     /// `exportAs` as the partial evaluator sees it.
     pub export_as: Option<Resolved<crate::evaluator::ExportAsNames>>,
@@ -357,9 +356,9 @@ impl DirectiveData {
                 .is_some_and(|io| io.contains_incomplete())
     }
 
-    async fn complete_declaration_metadata<Fs: crate::ResourceResolverFs + Clone + 'static>(
+    async fn complete_declaration_metadata(
         &mut self,
-        ctx: &crate::query::QueryContext<Fs>,
+        ctx: &crate::query::QueryContext,
         foreign: &[&dyn crate::evaluator::ForeignFunctionResolver],
     ) {
         if let Some(selector) = &mut self.selector {
@@ -412,10 +411,10 @@ impl DirectiveData {
 /// Stage 2 for `styleUrl`/`styleUrls` that named a constant from another file: complete the
 /// expressions, then read the stylesheets they name exactly as Stage 1 reads literal ones, and
 /// register them so an edit to one invalidates this component.
-async fn complete_style_urls<Fs: crate::ResourceResolverFs + Clone + 'static>(
+async fn complete_style_urls(
     c: &mut ComponentData,
     reference_id: crate::query::ReferenceId,
-    ctx: &crate::query::QueryContext<Fs>,
+    ctx: &crate::query::QueryContext,
     foreign: &[&dyn crate::evaluator::ForeignFunctionResolver],
 ) {
     let Some(mut sources) = c.pending_style_urls.take() else {
@@ -424,9 +423,9 @@ async fn complete_style_urls<Fs: crate::ResourceResolverFs + Clone + 'static>(
     for source in &mut sources {
         source.complete_with(ctx, foreign).await;
     }
+    let containing = ctx.lookup_id(reference_id.file);
     let file_path = ctx.lookup_path(reference_id.file);
-    let resource_resolver = crate::ResourceResolver::new(&ctx.fs, ctx.resolver.as_ref());
-    crate::analyzer::component::load_style_urls(&sources, c, &resource_resolver, &file_path);
+    crate::analyzer::component::load_style_urls(&sources, c, ctx.host.as_ref(), &containing).await;
     for style_url in c.style_urls.iter().flatten() {
         ctx.resource_registry.register_template(
             std::path::PathBuf::from(&style_url.resolved_path),
@@ -449,9 +448,9 @@ async fn complete_style_urls<Fs: crate::ResourceResolverFs + Clone + 'static>(
 /// expression it evaluated, so `FLAG ? ImportedDir : X` is still reported once `FLAG` resolves,
 /// even though the branch it selects is a plain identifier. Entries that fold land in
 /// `host_directives` too, since it is completed the same way.
-async fn complete_local_host_directives<Fs: crate::ResourceResolverFs + Clone + 'static>(
+async fn complete_local_host_directives(
     d: &mut DirectiveData,
-    ctx: &crate::query::QueryContext<Fs>,
+    ctx: &crate::query::QueryContext,
     foreign: &[&dyn crate::evaluator::ForeignFunctionResolver],
 ) {
     let ambient_only = ctx.engine.emit_declaration_only;
@@ -470,10 +469,10 @@ async fn complete_local_host_directives<Fs: crate::ResourceResolverFs + Clone + 
     });
 }
 
-async fn complete_for_local_compilation<T, Fs: crate::ResourceResolverFs + Clone + 'static>(
+async fn complete_for_local_compilation<T>(
     value: &mut Resolved<T>,
     ambient_only: bool,
-    ctx: &crate::query::QueryContext<Fs>,
+    ctx: &crate::query::QueryContext,
     foreign: &[&dyn crate::evaluator::ForeignFunctionResolver],
 ) {
     if ambient_only {
@@ -489,25 +488,26 @@ async fn complete_for_local_compilation<T, Fs: crate::ResourceResolverFs + Clone
 /// `resourceLoader.resolve(templateUrl, containingFile)` does — and register it so an edit to
 /// the template invalidates this component.
 /// https://github.com/angular/angular/blob/e3ac727/packages/compiler-cli/src/ngtsc/annotations/component/src/resources.ts#L392-L439
-async fn complete_template_url<Fs: crate::ResourceResolverFs + Clone + 'static>(
+async fn complete_template_url(
     c: &mut ComponentData,
     reference_id: crate::query::ReferenceId,
-    ctx: &crate::query::QueryContext<Fs>,
+    ctx: &crate::query::QueryContext,
     foreign: &[&dyn crate::evaluator::ForeignFunctionResolver],
 ) {
     let Some(mut source) = c.pending_template_url.take() else {
         return;
     };
     source.url.complete_with(ctx, foreign).await;
+    let containing = ctx.lookup_id(reference_id.file);
     let file_path = ctx.lookup_path(reference_id.file);
-    let resource_resolver = crate::ResourceResolver::new(&ctx.fs, ctx.resolver.as_ref());
     crate::analyzer::component::load_template_url(
         &source,
         c,
-        &resource_resolver,
-        &file_path,
+        ctx.host.as_ref(),
+        &containing,
         reference_id.file,
-    );
+    )
+    .await;
     if let Some(template_url) = &c.template_url {
         ctx.resource_registry.register_template(
             std::path::PathBuf::from(&template_url.resolved_path),
@@ -525,7 +525,6 @@ impl Default for DirectiveData {
             standalone: true,
             standalone_span: None,
             standalone_dynamic: false,
-            signals: false,
             is_structural: false,
             export_as: None,
             export_as_span: None,
@@ -1095,9 +1094,9 @@ impl StyleUrlSource {
         }
     }
 
-    pub async fn complete_with<Fs: crate::ResourceResolverFs + Clone + 'static>(
+    pub async fn complete_with(
         &mut self,
-        ctx: &crate::query::QueryContext<Fs>,
+        ctx: &crate::query::QueryContext,
         foreign: &[&dyn crate::evaluator::ForeignFunctionResolver],
     ) {
         match self {
@@ -1892,10 +1891,7 @@ impl ClassData {
         }
     }
 
-    pub async fn complete_selector<Fs: crate::ResourceResolverFs + Clone + 'static>(
-        &mut self,
-        ctx: &crate::query::QueryContext<Fs>,
-    ) {
+    pub async fn complete_selector(&mut self, ctx: &crate::query::QueryContext) {
         let Some(selector) = self.directive_part_mut().and_then(|d| d.selector.as_mut()) else {
             return;
         };
@@ -1904,10 +1900,7 @@ impl ClassData {
             .await;
     }
 
-    pub async fn complete_styles<Fs: crate::ResourceResolverFs + Clone + 'static>(
-        &mut self,
-        ctx: &crate::query::QueryContext<Fs>,
-    ) {
+    pub async fn complete_styles(&mut self, ctx: &crate::query::QueryContext) {
         let Some(styles) = self.as_component_mut().and_then(|c| c.styles.as_mut()) else {
             return;
         };
@@ -1923,12 +1916,7 @@ impl ClassData {
     /// global holes on `host`, `@Input`/`@Output` metadata, and decorator query predicates while
     /// keeping cross-file import holes intact for syntax-mode emission. `hostDirectives` is
     /// completed by [`complete_local_host_directives`].
-    pub async fn complete_local_compilation_constants<
-        Fs: crate::ResourceResolverFs + Clone + 'static,
-    >(
-        &mut self,
-        ctx: &crate::query::QueryContext<Fs>,
-    ) {
+    pub async fn complete_local_compilation_constants(&mut self, ctx: &crate::query::QueryContext) {
         let foreign = crate::analyzer::resolvers::angular_foreign_resolvers();
         if let Some(d) = self.directive_part_mut() {
             if let Some(export_as) = &mut d.export_as {
@@ -1967,10 +1955,7 @@ impl ClassData {
         }
     }
 
-    pub async fn complete_resource_urls<Fs: crate::ResourceResolverFs + Clone + 'static>(
-        &mut self,
-        ctx: &crate::query::QueryContext<Fs>,
-    ) {
+    pub async fn complete_resource_urls(&mut self, ctx: &crate::query::QueryContext) {
         let reference_id = self.reference_id;
         let Some(c) = self.as_component_mut() else {
             return;
@@ -1982,10 +1967,7 @@ impl ClassData {
 
     /// Resolve cross-file holes in the `emitDeclarationOnly` type tuples. Uses no foreign
     /// resolvers, like ngtsc's `transformToTypeTupleExpression`.
-    pub async fn complete_isolated_type_tuples<Fs: crate::ResourceResolverFs + Clone + 'static>(
-        &mut self,
-        ctx: &crate::query::QueryContext<Fs>,
-    ) {
+    pub async fn complete_isolated_type_tuples(&mut self, ctx: &crate::query::QueryContext) {
         let DecoratorData::NgModule(m) = &mut self.decorator else {
             return;
         };
@@ -2086,10 +2068,7 @@ impl ClassData {
     /// input/output declarations. Only the partial evaluator is involved — never another
     /// file's scope or semantic analysis — so `AnalyzeFileEvaluated` can run this for any file
     /// its consumers name without creating a query cycle.
-    pub async fn complete_declaration_metadata<Fs: crate::ResourceResolverFs + Clone + 'static>(
-        &mut self,
-        ctx: &crate::query::QueryContext<Fs>,
-    ) {
+    pub async fn complete_declaration_metadata(&mut self, ctx: &crate::query::QueryContext) {
         let foreign = crate::analyzer::resolvers::angular_foreign_resolvers();
         self.complete_selector(ctx).await;
         match &mut self.decorator {
@@ -2109,10 +2088,7 @@ impl ClassData {
     }
 
     /// Completely resolve all partially-evaluated fields in-place during Stage 2.
-    pub async fn resolve_semantic<Fs: crate::ResourceResolverFs + Clone + 'static>(
-        &mut self,
-        ctx: &crate::query::QueryContext<Fs>,
-    ) {
+    pub async fn resolve_semantic(&mut self, ctx: &crate::query::QueryContext) {
         self.complete_declaration_metadata(ctx).await;
         let foreign = crate::analyzer::resolvers::angular_foreign_resolvers();
         let reference_id = self.reference_id;
@@ -4937,7 +4913,6 @@ impl ClassData {
             decorator_name: d.decorator_name.clone(),
             selector: self.read_optional_string(&d.selector, cx, "directive.selector")?,
             standalone: d.standalone,
-            signals: d.signals,
             is_structural: d.is_structural,
             export_as: self
                 .read_optional_field(d.export_as.as_ref(), cx, "directive.exportAs")?
@@ -5078,7 +5053,6 @@ impl ClassData {
                 .map(|s| s.iter().map(|u| u.to_wire(cx.converter)).collect()),
             encapsulation,
             standalone: c.directive.standalone,
-            signals: c.directive.signals,
             export_as: self
                 .read_optional_field(c.directive.export_as.as_ref(), cx, "component.exportAs")?
                 .map(|names| names.0),

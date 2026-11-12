@@ -16,8 +16,6 @@ import {
   TmplAstBoundAttribute,
   TmplAstBoundEvent,
   TmplAstBoundaryBlock,
-  TmplAstComponent,
-  TmplAstDirective,
   TmplAstElement,
   TmplAstForLoopBlock,
   TmplAstForLoopBlockEmpty,
@@ -36,7 +34,7 @@ import {
   type TcbDirectiveMetadata,
   type TypeCheckId,
 } from '@angular/compiler';
-import {ErrorCode} from '@angular/compiler-cli/private/hybrid_preprocessor';
+import {ErrorCode} from './error_code.js';
 import {Diagnostic, DiagnosticRelatedInformation} from './diagnostic.js';
 
 /** Fallback code for generic template errors that do not have a dedicated `ErrorCode` member. */
@@ -288,7 +286,7 @@ export class OutOfBandDiagnosticRecorderImpl implements OutOfBandDiagnosticRecor
 
   missingRequiredInputs(
     id: TypeCheckId,
-    element: TmplAstElement | TmplAstTemplate | TmplAstComponent | TmplAstDirective,
+    element: TmplAstElement | TmplAstTemplate,
     directiveName: string,
     isComponent: boolean,
     inputAliases: string[],
@@ -368,8 +366,8 @@ export class OutOfBandDiagnosticRecorderImpl implements OutOfBandDiagnosticRecor
     const blockName = controlFlowNode?.nameSpan?.toString().trim() || 'block';
     let msg =
       `Node matches the "${selector}" slot of the "${componentName}" component, but will not be projected into the specific slot because the surrounding ${blockName} has more than one node at its root. To project the node in the right slot, you can:\n\n` +
-      `1. Wrap the content of the ${blockName} block in an <ng-container/> that matches the "${selector}" selector.\n` +
-      `2. Split the content of the ${blockName} block across multiple ${blockName} blocks such that each one only has a single projectable node at its root.\n` +
+      `1. Wrap the content of the ${blockName} block in an <ng-container ngProjectAs="${selector}"> to explicitly target the "${selector}" slot. Use this when all nodes in the block should be projected into the same slot.\n` +
+      `2. Split the content of the ${blockName} block across multiple ${blockName} blocks such that each one only has a single projectable node at its root. Use this when nodes in the block target different slots.\n` +
       `3. Remove all content from the ${blockName} block, except for the node being projected.\n`;
     if (preservesWhitespaces) {
       msg +=
@@ -413,42 +411,6 @@ export class OutOfBandDiagnosticRecorderImpl implements OutOfBandDiagnosticRecor
       decl.sourceSpan,
       OutOfBandDiagnosticCategory.Error,
       ErrorCode.CONFLICTING_LET_DECLARATION,
-    );
-  }
-
-  missingNamedTemplateDependency(id: TypeCheckId, node: TmplAstComponent | TmplAstDirective) {
-    this.pushDiagnostic(
-      id,
-      `Cannot find name "${node instanceof TmplAstDirective ? node.name : node.componentName}". ` +
-        `Selectorless references are only supported to classes or non-type import statements.`,
-      node.startSourceSpan,
-      OutOfBandDiagnosticCategory.Error,
-      ErrorCode.MISSING_NAMED_TEMPLATE_DEPENDENCY,
-    );
-  }
-
-  incorrectTemplateDependencyType(id: TypeCheckId, node: TmplAstComponent | TmplAstDirective) {
-    this.pushDiagnostic(
-      id,
-      `Incorrect reference type. Type must be a standalone @Component or @Directive.`,
-      node.startSourceSpan,
-      OutOfBandDiagnosticCategory.Error,
-      ErrorCode.INCORRECT_NAMED_TEMPLATE_DEPENDENCY_TYPE,
-    );
-  }
-
-  unclaimedDirectiveBinding(
-    id: TypeCheckId,
-    directive: TmplAstDirective,
-    node: TmplAstBoundAttribute | TmplAstTextAttribute | TmplAstBoundEvent,
-  ) {
-    this.pushDiagnostic(
-      id,
-      `Directive ${directive.name} does not have an input or output named "${node.name}". ` +
-        `Bindings to directives must target existing inputs or outputs.`,
-      node.keySpan || node.sourceSpan,
-      OutOfBandDiagnosticCategory.Error,
-      ErrorCode.UNCLAIMED_DIRECTIVE_BINDING,
     );
   }
 
@@ -529,7 +491,7 @@ export class OutOfBandDiagnosticRecorderImpl implements OutOfBandDiagnosticRecor
 
   conflictingHostDirectiveBinding(
     id: TypeCheckId,
-    node: TmplAstElement | TmplAstTemplate | TmplAstComponent | TmplAstDirective,
+    node: TmplAstElement | TmplAstTemplate,
     directiveName: string,
     kind: 'input' | 'output',
     classPropertyName: string,
@@ -553,15 +515,11 @@ export class OutOfBandDiagnosticRecorderImpl implements OutOfBandDiagnosticRecor
    * Span covering only the tag name of a node, since highlighting the entire start tag can be
    * noisy. Falls back to the whole start tag for nodes without a name (e.g. `<ng-template>`).
    */
-  private getTagNameSpan(
-    node: TmplAstElement | TmplAstTemplate | TmplAstComponent | TmplAstDirective,
-  ): ParseSourceSpan {
+  private getTagNameSpan(node: TmplAstElement | TmplAstTemplate): ParseSourceSpan {
     let name: string | null;
 
-    if (node instanceof TmplAstElement || node instanceof TmplAstDirective) {
+    if (node instanceof TmplAstElement) {
       name = node.name;
-    } else if (node instanceof TmplAstComponent) {
-      name = node.componentName;
     } else {
       name = null;
     }

@@ -487,7 +487,7 @@ CRITICAL: 在 SSR 期間，Fetch 實作會依照 [Fetch 標準](https://fetch.sp
 你可以透過設定 `HttpTransferCacheOptions`，來自訂 Angular 在伺服器端渲染（SSR）期間如何快取 HTTP 回應，以及在水合期間如何重用它們。  
 這個設定是透過在 `provideClientHydration()` 內使用 `withHttpTransferCacheOptions` 全域提供的。
 
-預設情況下，`HttpClient` 會快取所有不含 `Authorization`、`Proxy-Authorization` 或 `Cookie` 標頭、且不是以可傳送憑證的 `withCredentials` 或 Fetch API `credentials` 模式送出的 `HEAD` 與 `GET` 請求。當請求或回應包含禁止快取的 `Cache-Control` 指令（`no-store`、`no-cache` 或 `private`），或 Fetch API 的 `cache` 選項設為 `no-store` 或 `no-cache` 時，Angular 也會跳過傳輸快取。帶有 `Set-Cookie` 標頭的回應同樣會被跳過。你可以在水合設定中使用 `withHttpTransferCacheOptions` 來覆寫請求篩選設定。
+預設情況下，`HttpClient` 會快取所有不含 `Authorization`、`Proxy-Authorization` 或 `Cookie` 標頭、且不是以可傳送憑證的 `withCredentials` 或 Fetch API `credentials` 模式送出的 `HEAD`、`QUERY` 與 `GET` 請求。當請求或回應包含禁止快取的 `Cache-Control` 指令（`no-store`、`no-cache` 或 `private`），或 Fetch API 的 `cache` 選項設為 `no-store` 或 `no-cache` 時，Angular 也會跳過傳輸快取。帶有 `Set-Cookie` 標頭的回應同樣會被跳過。你可以在水合設定中使用 `withHttpTransferCacheOptions` 來覆寫請求篩選設定。
 
 ```ts
 import {
@@ -527,7 +527,7 @@ IMPORTANT: 避免包含驗證 token 等敏感標頭。這些標頭可能會在�
 
 ### `includePostRequests`
 
-預設情況下，只有 `GET` 與 `HEAD` 請求會被快取。  
+預設情況下，只有 `GET`、`QUERY` 與 `HEAD` 請求會被快取。  
 當 `POST` 請求被用作讀取操作（例如 GraphQL 查詢）時，你可以為它們啟用快取。
 
 ```ts

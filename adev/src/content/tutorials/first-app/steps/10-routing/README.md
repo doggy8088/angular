@@ -44,11 +44,11 @@ IMPORTANT: 我們建議使用你的本機環境來學習路由。
           <docs-code header="在 src/main.ts 中加入路由設定" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/main.ts" visibleLines="[6,8]"/>
 
 3.  在 `src/app/app.ts` 中，更新元件以使用路由：
-    1.  為路由指令 `RouterOutlet` 與 `RouterLink` 加入檔案層級的匯入：
+    1.  為路由指令 `RouterLink` 與 `RouterOutlet` 加入檔案層級的匯入：
 
-          <docs-code language="angular-ts" header="在 src/app/app.ts 中匯入路由指令" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/app.ts" visibleLines="[3]"/>
+          <docs-code language="angular-ts" header="在 src/app/app.ts 中匯入路由指令" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/app.ts" visibleLines="[2]"/>
 
-    1.  將 `RouterOutlet` 與 `RouterLink` 加入 `@Component` 中繼資料的 imports
+    1.  在 `@Component` 中繼資料的 imports 中，將 `Home` 換成 `RouterLink` 與 `RouterOutlet`：
 
           <docs-code language="angular-ts" header="將路由指令加入 src/app/app.ts 的元件 imports" path="adev/src/content/tutorials/first-app/steps/11-details-page/src/app/app.ts" visibleLines="[6]"/>
 

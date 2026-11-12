@@ -6,7 +6,6 @@
 use std::collections::{HashMap, HashSet};
 use std::sync::Arc;
 
-use crate::ResourceResolverFs;
 use futures::future::{BoxFuture, FutureExt};
 
 use crate::analyzer::flatten_class_info;
@@ -16,17 +15,17 @@ use crate::query::{FileId, QueryContext, QueryEngine, ReferenceId};
 use crate::types::analysis::{DeclarationData, OwningReference};
 use crate::ClassType;
 
-pub(crate) async fn resolve_reference_async<Fs: ResourceResolverFs + Clone + 'static>(
+pub(crate) async fn resolve_reference_async(
     reference: &crate::types::analysis::Reference,
-    ctx: &QueryContext<Fs>,
+    ctx: &QueryContext,
 ) -> Option<crate::ClassInfo> {
     let evaluated_file = ctx.analyze_file_evaluated(reference.file).await;
     evaluated_file.class_index.get(&reference.name).cloned()
 }
 
-async fn scope_references<Fs: ResourceResolverFs + Clone + 'static>(
+async fn scope_references(
     slot: &crate::evaluator::Resolved<Vec<crate::types::analysis::Reference>>,
-    ctx: &QueryContext<Fs>,
+    ctx: &QueryContext,
 ) -> Option<Vec<crate::types::analysis::Reference>> {
     let mut completed = slot.clone();
     completed
@@ -35,12 +34,12 @@ async fn scope_references<Fs: ResourceResolverFs + Clone + 'static>(
     ScopeReferences::from_value(completed.raw(), completed.origin).map(|refs| refs.0)
 }
 
-impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
+impl QueryEngine {
     /// All declarations (components/directives/pipes) transitively exported by an NgModule.
     pub(crate) async fn exports_scope_body(
         self: &Arc<Self>,
         reference_id: ReferenceId,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<Vec<DeclarationData>> {
         let mut visited = HashSet::new();
         visited.insert(reference_id);
@@ -53,7 +52,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     fn exports_scope_internal<'a>(
         self: &'a Arc<Self>,
         reference_id: ReferenceId,
-        ctx: &'a QueryContext<Fs>,
+        ctx: &'a QueryContext,
         visited: &'a mut HashSet<ReferenceId>,
     ) -> BoxFuture<'a, Vec<DeclarationData>> {
         async move {
@@ -125,7 +124,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     pub(crate) async fn imports_scope_body(
         self: &Arc<Self>,
         reference_id: ReferenceId,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<crate::query::keys::NgModuleImportsScopeData> {
         let fp = self.lookup_path(reference_id.file);
 
@@ -210,7 +209,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     pub(crate) async fn module_export_map_body(
         self: &Arc<Self>,
         file_id: FileId,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<ModuleExportMap> {
         let mut walk = ExportWalk::default();
         let table = module_export_table(ctx, file_id, &mut walk).await;
@@ -223,7 +222,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         references: &'a [crate::types::analysis::Reference],
         visited_modules: &'a mut HashSet<ReferenceId>,
         out_declarations: &'a mut Vec<DeclarationData>,
-        ctx: &'a QueryContext<Fs>,
+        ctx: &'a QueryContext,
     ) -> BoxFuture<'a, bool> {
         async move {
             let mut all_resolved = true;
@@ -377,8 +376,8 @@ struct ExportWalk {
 ///
 /// Re-exports are followed, not matched by name: `export {X} from './y'` proves nothing unless
 /// `./y` publishes an `X`, and only `./y` knows which declaration that is.
-fn module_export_table<'a, Fs: ResourceResolverFs + Clone + 'static>(
-    ctx: &'a QueryContext<Fs>,
+fn module_export_table<'a>(
+    ctx: &'a QueryContext,
     file_id: FileId,
     walk: &'a mut ExportWalk,
 ) -> BoxFuture<'a, Arc<ExportTable>> {
@@ -395,6 +394,52 @@ fn module_export_table<'a, Fs: ResourceResolverFs + Clone + 'static>(
         let cuts_before = walk.cuts;
 
         let syntax = ctx.analyze_file_syntax(file_id).await;
+
+        // Resolve every unique `(specifier, ImportKind)` referenced by this module's exports in a
+        // single concurrent wave before walking submodules, avoiding sequential async host stalls
+        // and duplicate lookups for multiple re-exports from the same file.
+        let mut unique_sources: Vec<(&str, crate::host::ImportKind)> = Vec::new();
+        let mut seen_sources: HashSet<(&str, crate::host::ImportKind)> = HashSet::new();
+        for a in &syntax.file_exports.local_aliases {
+            if a.is_type {
+                continue;
+            }
+            if let Some(binding) = import_binding(&syntax, &a.local_name) {
+                if !binding.is_type
+                    && binding.imported.is_some()
+                    && seen_sources.insert((binding.specifier, crate::host::ImportKind::Static))
+                {
+                    unique_sources.push((binding.specifier, crate::host::ImportKind::Static));
+                }
+            }
+        }
+        for r in &syntax.file_exports.named {
+            if !r.is_type
+                && r.local_name != "*"
+                && seen_sources.insert((r.source.as_str(), crate::host::ImportKind::ReExport))
+            {
+                unique_sources.push((r.source.as_str(), crate::host::ImportKind::ReExport));
+            }
+        }
+        for wildcard in &syntax.file_exports.wildcards {
+            if !wildcard.is_type
+                && seen_sources.insert((
+                    wildcard.source.as_str(),
+                    crate::host::ImportKind::ReExport,
+                ))
+            {
+                unique_sources.push((wildcard.source.as_str(), crate::host::ImportKind::ReExport));
+            }
+        }
+        let resolved_sources: HashMap<(&str, crate::host::ImportKind), Option<FileId>> =
+            futures::future::join_all(unique_sources.into_iter().map(|(specifier, kind)| async move {
+                let target = resolve_export_source(ctx, file_id, specifier, kind).await;
+                ((specifier, kind), target)
+            }))
+            .await
+            .into_iter()
+            .collect();
+
         let mut table = ExportTable::new();
 
         // `class_index` also holds non-exported `declare class`es, so it cannot prove export;
@@ -411,7 +456,10 @@ fn module_export_table<'a, Fs: ResourceResolverFs + Clone + 'static>(
                 }
                 let (Some(imported), Some(target)) = (
                     binding.imported,
-                    resolve_export_source(ctx, &syntax.file_path, binding.specifier),
+                    resolved_sources
+                        .get(&(binding.specifier, crate::host::ImportKind::Static))
+                        .copied()
+                        .flatten(),
                 ) else {
                     continue;
                 };
@@ -429,7 +477,11 @@ fn module_export_table<'a, Fs: ResourceResolverFs + Clone + 'static>(
             if r.is_type || r.local_name == "*" {
                 continue;
             }
-            let Some(target) = resolve_export_source(ctx, &syntax.file_path, &r.source) else {
+            let Some(target) = resolved_sources
+                .get(&(r.source.as_str(), crate::host::ImportKind::ReExport))
+                .copied()
+                .flatten()
+            else {
                 continue;
             };
             let sub = module_export_table(ctx, target, &mut *walk).await;
@@ -448,7 +500,10 @@ fn module_export_table<'a, Fs: ResourceResolverFs + Clone + 'static>(
             if wildcard.is_type {
                 continue;
             }
-            let Some(target) = resolve_export_source(ctx, &syntax.file_path, &wildcard.source)
+            let Some(target) = resolved_sources
+                .get(&(wildcard.source.as_str(), crate::host::ImportKind::ReExport))
+                .copied()
+                .flatten()
             else {
                 continue;
             };
@@ -510,13 +565,15 @@ fn import_binding<'a>(syntax: &'a crate::FileData, local: &str) -> Option<Import
     })
 }
 
-fn resolve_export_source<Fs: ResourceResolverFs + Clone + 'static>(
-    ctx: &QueryContext<Fs>,
-    from: &std::path::Path,
+async fn resolve_export_source(
+    ctx: &QueryContext,
+    from: FileId,
     source: &str,
+    kind: crate::host::ImportKind,
 ) -> Option<FileId> {
-    crate::evaluator::cross_file::resolve_specifier(ctx.engine.resolver.as_ref(), from, source)
-        .map(|path| ctx.engine.intern_path(&path))
+    ctx.resolve_from_id(from, source, kind)
+        .await
+        .map(|(id, _)| id)
 }
 
 /// Invert the table into upstream's `exportMap`: declaration -> the name it is published under,
@@ -541,10 +598,8 @@ fn export_names_by_decl(table: &ExportTable) -> ModuleExportMap {
 /// files degrade to relative imports into the package, which Google3/Bazel layouts reject. Source
 /// NgModules keep their own relative references (`LocalModuleScopeRegistry`): rerouting them
 /// through a tsconfig `paths` barrel could import the consumer back and close a cycle.
-pub(crate) async fn propagate_owning_reference_validated<
-    Fs: ResourceResolverFs + Clone + 'static,
->(
-    ctx: &QueryContext<Fs>,
+pub(crate) async fn propagate_owning_reference_validated(
+    ctx: &QueryContext,
     declarations: &[DeclarationData],
     owning_reference: &Option<OwningReference>,
     parent_file: FileId,
@@ -557,16 +612,18 @@ pub(crate) async fn propagate_owning_reference_validated<
     let absolute_owning = owning_reference.as_ref();
 
     // Resolve the package entry point so re-exported aliases use the published name.
-    let package_entry = absolute_owning
-        .and_then(|owning| {
-            crate::evaluator::cross_file::resolve_specifier(
-                ctx.engine.resolver.as_ref(),
-                &parent_path,
+    let package_entry = match absolute_owning {
+        Some(owning) => ctx
+            .resolve_from_id(
+                parent_file,
                 owning.specifier(),
+                crate::host::ImportKind::Static,
             )
-        })
-        .map(|path| ctx.engine.intern_path(&path))
-        .unwrap_or(parent_file);
+            .await
+            .map(|(id, _)| id)
+            .unwrap_or(parent_file),
+        None => parent_file,
+    };
 
     // Enumerate the entry point's exports once (matching ngtsc's `moduleExportsCache`): per-declaration
     // searches would re-walk the package and miss alternative export names required for the alias tie-break.
@@ -593,13 +650,12 @@ pub(crate) async fn propagate_owning_reference_validated<
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::fs::OverlayFileSystem;
     use crate::resource_registry::ResourceRegistry;
     use crate::test_utils::create_test_fs;
     use oxc_resolver::{ResolveOptions, ResolverGeneric};
     use std::path::PathBuf;
 
-    fn engine_for(files: &[(&str, &str)], entry: &str) -> Arc<QueryEngine<OverlayFileSystem>> {
+    fn engine_for(files: &[(&str, &str)], entry: &str) -> Arc<QueryEngine> {
         let fs = create_test_fs(files);
         let resolver = Arc::new(ResolverGeneric::new_with_file_system(
             fs.clone(),
@@ -616,7 +672,7 @@ mod tests {
     fn export_map_for(
         files: &[(&str, &str)],
         entry: &str,
-    ) -> (Arc<QueryEngine<OverlayFileSystem>>, Arc<ModuleExportMap>) {
+    ) -> (Arc<QueryEngine>, Arc<ModuleExportMap>) {
         let engine = engine_for(files, entry);
         let ctx = QueryContext::new(engine.clone());
         let entry_id = engine.intern_path(entry);
@@ -815,5 +871,177 @@ mod tests {
                 Some(&"StandaloneCmp".to_string())
             );
         });
+    }
+
+    #[test]
+    fn module_export_table_batches_and_deduplicates_export_resolutions() {
+        use crate::host::{
+            AnalysisHost, HostError, HostFuture, IdKind, ImportKind, LoadKind, LoadedModule,
+            ModuleFormat, ModuleId, ResolveRequest, ResolvedModule, ResolvedResourceId,
+            ResourceKind,
+        };
+        use std::sync::atomic::{AtomicUsize, Ordering};
+        use std::sync::Mutex;
+
+        fn yield_once<T: Send + 'static>(value: T) -> HostFuture<T> {
+            let mut yielded = false;
+            let mut value = Some(value);
+            Box::pin(std::future::poll_fn(move |cx| {
+                if !yielded {
+                    yielded = true;
+                    cx.waker().wake_by_ref();
+                    std::task::Poll::Pending
+                } else {
+                    std::task::Poll::Ready(value.take().expect("polled after completion"))
+                }
+            }))
+        }
+
+        struct CountingExportHost {
+            modules: HashMap<String, &'static str>,
+            resolutions: HashMap<(String, String), String>,
+            calls: Mutex<Vec<(String, String, ImportKind)>>,
+            in_flight: Arc<AtomicUsize>,
+            max_in_flight: AtomicUsize,
+        }
+
+        impl AnalysisHost for CountingExportHost {
+            fn resolve(
+                &self,
+                req: ResolveRequest,
+            ) -> HostFuture<Result<Option<ResolvedModule>, HostError>> {
+                let active = self.in_flight.fetch_add(1, Ordering::SeqCst) + 1;
+                self.max_in_flight.fetch_max(active, Ordering::SeqCst);
+                self.calls
+                    .lock()
+                    .unwrap()
+                    .push((req.importer.as_str().to_owned(), req.specifier.clone(), req.kind));
+                let hit = self
+                    .resolutions
+                    .get(&(req.importer.as_str().to_owned(), req.specifier))
+                    .map(|target| ResolvedModule {
+                        id: ModuleId::new(target.as_str()),
+                        id_kind: IdKind::Path,
+                        format: Some(ModuleFormat::Dts),
+                        external: false,
+                        code: None,
+                    });
+                let in_flight = Arc::clone(&self.in_flight);
+                Box::pin(async move {
+                    let res = yield_once(Ok(hit)).await;
+                    in_flight.fetch_sub(1, Ordering::SeqCst);
+                    res
+                })
+            }
+
+            fn load(
+                &self,
+                id: &ModuleId,
+                kind: LoadKind,
+                _external: bool,
+            ) -> HostFuture<Result<Option<LoadedModule>, HostError>> {
+                let hit = (kind == LoadKind::Module)
+                    .then(|| self.modules.get(id.as_str()).copied())
+                    .flatten()
+                    .map(|code| LoadedModule {
+                        code: Arc::from(code),
+                        format: Some(ModuleFormat::Dts),
+                    });
+                yield_once(Ok(hit))
+            }
+
+            fn resolve_resource(
+                &self,
+                _containing: &ModuleId,
+                _url: &str,
+                _kind: ResourceKind,
+            ) -> HostFuture<Result<Option<ResolvedResourceId>, HostError>> {
+                yield_once(Ok(None))
+            }
+        }
+
+        let modules = HashMap::from([
+            (
+                "/pkg/entry.d.ts".to_owned(),
+                "import { LocalA } from './local';\n\
+                 export { LocalA };\n\
+                 export { ReA, ReB } from './named';\n\
+                 export { ReC } from './named';\n\
+                 export * from './star';\n",
+            ),
+            (
+                "/pkg/local.d.ts".to_owned(),
+                "export declare class LocalA {}\n",
+            ),
+            (
+                "/pkg/named.d.ts".to_owned(),
+                "export declare class ReA {}\n\
+                 export declare class ReB {}\n\
+                 export declare class ReC {}\n",
+            ),
+            (
+                "/pkg/star.d.ts".to_owned(),
+                "export declare class StarD {}\n",
+            ),
+        ]);
+        let resolutions = HashMap::from([
+            (
+                ("/pkg/entry.d.ts".to_owned(), "./local".to_owned()),
+                "/pkg/local.d.ts".to_owned(),
+            ),
+            (
+                ("/pkg/entry.d.ts".to_owned(), "./named".to_owned()),
+                "/pkg/named.d.ts".to_owned(),
+            ),
+            (
+                ("/pkg/entry.d.ts".to_owned(), "./star".to_owned()),
+                "/pkg/star.d.ts".to_owned(),
+            ),
+        ]);
+        let host = Arc::new(CountingExportHost {
+            modules,
+            resolutions,
+            calls: Mutex::new(Vec::new()),
+            in_flight: Arc::new(AtomicUsize::new(0)),
+            max_in_flight: AtomicUsize::new(0),
+        });
+        let engine = QueryEngine::new_default_with_host(
+            host.clone(),
+            Arc::new(ResourceRegistry::default()),
+            Arc::new(std::sync::RwLock::new(Vec::new())),
+        );
+        let entry_id = engine.intern_path("/pkg/entry.d.ts");
+        let local_id = engine.intern_path("/pkg/local.d.ts");
+        let named_id = engine.intern_path("/pkg/named.d.ts");
+        let star_id = engine.intern_path("/pkg/star.d.ts");
+
+        let ctx = QueryContext::new(engine);
+        let map = futures::executor::block_on(ctx.module_export_map(entry_id));
+
+        assert_eq!(map.get(&(local_id, "LocalA".to_owned())).map(String::as_str), Some("LocalA"));
+        assert_eq!(map.get(&(named_id, "ReA".to_owned())).map(String::as_str), Some("ReA"));
+        assert_eq!(map.get(&(named_id, "ReB".to_owned())).map(String::as_str), Some("ReB"));
+        assert_eq!(map.get(&(named_id, "ReC".to_owned())).map(String::as_str), Some("ReC"));
+        assert_eq!(map.get(&(star_id, "StarD".to_owned())).map(String::as_str), Some("StarD"));
+
+        // All three unique export sources resolve concurrently in one wave without repeating `./named`.
+        assert_eq!(host.max_in_flight.load(Ordering::SeqCst), 3);
+        let calls = host.calls.lock().unwrap();
+        assert_eq!(calls.len(), 3);
+        assert!(calls.contains(&(
+            "/pkg/entry.d.ts".to_owned(),
+            "./local".to_owned(),
+            ImportKind::Static
+        )));
+        assert!(calls.contains(&(
+            "/pkg/entry.d.ts".to_owned(),
+            "./named".to_owned(),
+            ImportKind::ReExport
+        )));
+        assert!(calls.contains(&(
+            "/pkg/entry.d.ts".to_owned(),
+            "./star".to_owned(),
+            ImportKind::ReExport
+        )));
     }
 }

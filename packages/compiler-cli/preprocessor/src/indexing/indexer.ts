@@ -13,8 +13,6 @@ import {
   IndexerVisitor,
   TmplAstBoundAttribute,
   TmplAstBoundEvent,
-  TmplAstComponent,
-  TmplAstDirective,
   TmplAstElement,
   TmplAstLetDeclaration,
   TmplAstNode,
@@ -37,7 +35,7 @@ import {makeClassKey} from '../compiler-utils.js';
 import {createInputPropertyMapping, createOutputPropertyMapping} from '../tcb_adapter.js';
 import type * as nga from '../types.js';
 
-type DirectiveHost = TmplAstElement | TmplAstTemplate | TmplAstComponent | TmplAstDirective;
+type DirectiveHost = TmplAstElement | TmplAstTemplate;
 
 /** A matched directive, in the shape `AbstractBoundTemplate` reports it. */
 interface DirectiveRef {
@@ -139,28 +137,12 @@ export async function getIndexedComponents(
   const indexedComponents = new Map<string, IndexedComponent>();
 
   for (const [filePath, fileAnalysis] of compiler.fileCache.entries()) {
-    const result = await compiler.analyzer.getMetadataForFile(filePath);
+    const result = await compiler.getCachedMetadata(filePath);
     if (!result) continue;
     const boundAnalysis =
       fileAnalysis.preparedTcbData !== undefined
         ? fileAnalysis
         : await compiler.ensureBoundWithMetadata(result);
-    indexFileComponents(filePath, boundAnalysis, result, indexedComponents);
-  }
-
-  return indexedComponents;
-}
-
-export function getIndexedComponentsSync(compiler: HybridCompiler): Map<string, IndexedComponent> {
-  const indexedComponents = new Map<string, IndexedComponent>();
-
-  for (const [filePath, fileAnalysis] of compiler.fileCache.entries()) {
-    const result = compiler.getCachedMetadata(filePath);
-    if (!result) continue;
-    const boundAnalysis =
-      fileAnalysis.preparedTcbData !== undefined
-        ? fileAnalysis
-        : compiler.ensureBoundWithMetadataSync(result);
     indexFileComponents(filePath, boundAnalysis, result, indexedComponents);
   }
 

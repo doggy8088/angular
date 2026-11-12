@@ -1,3 +1,142 @@
+<a name="22.3.0-rc.0"></a>
+# 22.3.0-rc.0 (2026-11-12)
+### animations
+| Commit | Type | Description |
+| -- | -- | -- |
+| [a62ae5b04d](https://github.com/angular/angular/commit/a62ae5b04dfca682a61996c2c5920d0cacec52ea) | fix | memory leak in renderer |
+### common
+| Commit | Type | Description |
+| -- | -- | -- |
+| [00ea9a4556](https://github.com/angular/angular/commit/00ea9a4556cb1f2710edd7e184f16d0c28f92ca4) | fix | omit empty arrays from HttpParams |
+| [622a7c7f29](https://github.com/angular/angular/commit/622a7c7f29d397fee68ed39d753a088787625829) | fix | restore natural order when KeyValuePipe compareFn changes to null |
+### compiler
+| Commit | Type | Description |
+| -- | -- | -- |
+| [e4f67442bb](https://github.com/angular/angular/commit/e4f67442bbfc0a7d29793c4ff937a517887bc588) | feat | report unknown property bindings on explicit ng-template elements |
+| [5e9c18755c](https://github.com/angular/angular/commit/5e9c18755ce95118b022da5d993478ac40f87fc8) | fix | convert &amp;ngsp; to a space inside ngNonBindable |
+| [225d600314](https://github.com/angular/angular/commit/225d60031485306c20dc88a6a6783ed75b70b0a2) | fix | disallow attribute and property names starting with a colon |
+| [f9fe21d67f](https://github.com/angular/angular/commit/f9fe21d67f47bfc77eb3495d325e31ddc3adae69) | fix | handle void expressions in constant literals |
+| [9731822b27](https://github.com/angular/angular/commit/9731822b270573f7964089c54c0f082804e76b7e) | fix | report errors at arrow parameters |
+### compiler-cli
+| Commit | Type | Description |
+| -- | -- | -- |
+| [d3dedf53e4](https://github.com/angular/angular/commit/d3dedf53e4414f97d5e7610aaf0f8f0a5cf3f061) | fix | avoid names used in the file for generated namespace imports in ngp |
+| [8f6fd2bdf3](https://github.com/angular/angular/commit/8f6fd2bdf3d89243756e82255457cf6824707f1f) | fix | hoist `import x = …` declarations like ngtsc&apos;s ImportManager |
+| [670c17232b](https://github.com/angular/angular/commit/670c17232b06b26471414b7dc76d719af952087a) | fix | never drop hostDirectives entries in local compilation |
+| [13627163fd](https://github.com/angular/angular/commit/13627163fd3d1598e89592557542e800aaa82887) | fix | remove functions in text interpolations check |
+| [672b9dcfc2](https://github.com/angular/angular/commit/672b9dcfc21a94281b391563fb4d4c8f95089af8) | fix | remove nullish coalescing check |
+| [e150abb571](https://github.com/angular/angular/commit/e150abb57144f0f6ce5df3641df5e6ed5dcc68ec) | fix | remove optional chain check |
+| [19c56bd3fc](https://github.com/angular/angular/commit/19c56bd3fc3f8ec3839c1cd2b5d796a4799d25f5) | fix | remove uninvoked track function check |
+| [5ac4cf7b54](https://github.com/angular/angular/commit/5ac4cf7b546df2d26c7fe33ac70934c2f26ede84) | fix | resolve ambient global values declared in tsconfig .d.ts files |
+| [4fd60ae6c0](https://github.com/angular/angular/commit/4fd60ae6c05fc13c847054953b946f696487cfbc) | fix | share parsed .d.ts files within same process |
+| [dd3eb346c7](https://github.com/angular/angular/commit/dd3eb346c7b6c691e65d2df45179ef46dc26ba58) | fix | skip fingerprinting when incremental compilation is disabled |
+| [08d41a9e94](https://github.com/angular/angular/commit/08d41a9e94d0f456a8bf4e80d9e6050cc672e638) | fix | suggest ngProjectAs in control flow content projection diagnostic |
+| [4f3dec7b5a](https://github.com/angular/angular/commit/4f3dec7b5a35f9892d6d0d9764077d1642811346) | perf | look up ambient globals lazily in tsconfig order |
+| [77a5094b52](https://github.com/angular/angular/commit/77a5094b52ed338abc06aa9df07ab5b63abfacdb) | perf | memoize ambient global lookups from the start of tsconfig files |
+| [1bc2f95306](https://github.com/angular/angular/commit/1bc2f95306cd16a8c50f211c3204d71bf8d0491b) | perf | track ambient global consumers by name and cache .d.ts global names |
+### core
+| Commit | Type | Description |
+| -- | -- | -- |
+| [088cdd2cab](https://github.com/angular/angular/commit/088cdd2cab6d68aa1f8c5420bb6bd4940bdf5111) | fix | allow binding null and undefined to resource URL properties |
+| [efbab16e56](https://github.com/angular/angular/commit/efbab16e56734d7121d9dd29c2761dec6e787807) | fix | cancel obsolete resource loads when params become unavailable |
+| [2282d6637f](https://github.com/angular/angular/commit/2282d6637f979910c64b54bf1c4119a4d8957b48) | fix | detect own NgZone by reference instead of instance ID |
+| [af620ea3d9](https://github.com/angular/angular/commit/af620ea3d938fbec380166f25b18966621879b6d) | fix | guard hydrating map access and release pending task on error |
+| [c476164c6c](https://github.com/angular/angular/commit/c476164c6cf475544935420a2bd511071ddd8694) | fix | http golden symbols updated again |
+| [3296939422](https://github.com/angular/angular/commit/3296939422876b6f54f0715ca723069cf89b937d) | fix | improve error message for unparsable ICU expressions in translations |
+| [74260b298f](https://github.com/angular/angular/commit/74260b298fe7bc35c428780928d6d85da113eee1) | fix | remove early event listeners after replay |
+| [5f51154197](https://github.com/angular/angular/commit/5f511541978b3e927e58cf2a2a186725ce1c4bf5) | fix | resolve closure and reference retention leaks |
+| [e25a22841a](https://github.com/angular/angular/commit/e25a22841aa2e1dc6a3991012e3678745247f9dd) | fix | update golden symbols |
+| [2d6183f42f](https://github.com/angular/angular/commit/2d6183f42f42c8630ad0a4d73d04e6200e2c5f2c) | perf | allow `EffectRefImpl` to be tree-shaken |
+| [b662e55749](https://github.com/angular/angular/commit/b662e557498a15e03802ab123b7494fe9967ea69) | perf | allow `ResourceParamsStatus` to be tree-shaken |
+| [833c1f2c96](https://github.com/angular/angular/commit/833c1f2c96c514ad2d71a3ce5a1997ef2598eaf3) | perf | avoid unnecessary aborts and reuse abort reason during resource teardown |
+| [b178c11301](https://github.com/angular/angular/commit/b178c113010fcca221b85f6738e83e8bfe3b9d92) | perf | release intermediate inert trees while sanitizing HTML |
+| [4854f68e39](https://github.com/angular/angular/commit/4854f68e39130a6dec754354a535f0d2c075a418) | perf | tree-shake JIT dependencies from AOT module bootstrap |
+### forms
+| Commit | Type | Description |
+| -- | -- | -- |
+| [f9cf82642c](https://github.com/angular/angular/commit/f9cf82642ca205d4d761c952ddfa08a37a0627bb) | fix | apply validator directives to custom form controls |
+| [cf37344a4d](https://github.com/angular/angular/commit/cf37344a4d692d1099745901e2809691416d3e1e) | fix | flush debounced descendant values when a field is touched |
+| [11c32ff559](https://github.com/angular/angular/commit/11c32ff5590bee0b46f3b81c3e106a4fc53d521b) | fix | forms signals goldens update |
+| [12278e5f67](https://github.com/angular/angular/commit/12278e5f67b053dd82ef308b5dc1362e95cbf2f8) | fix | preserve options passed to SignalFormControl |
+| [84d332f9c5](https://github.com/angular/angular/commit/84d332f9c589b8d50b9f4b5c532688d2e98e84b9) | fix | prevent duplicate valueChanges events on parseErrors update |
+| [e6798fbfd4](https://github.com/angular/angular/commit/e6798fbfd4bf1e94bc7a7a3880770ca392fc2afd) | fix | untrack parseErrors read in validator and add unchanged model test |
+| [4422f4ef50](https://github.com/angular/angular/commit/4422f4ef50924bd7ff53414420d7e8293b336a9a) | perf | avoid retaining AbstractControl in signal forms |
+### http
+| Commit | Type | Description |
+| -- | -- | -- |
+| [effbe56432](https://github.com/angular/angular/commit/effbe56432499b961b0c8ad97e4777c310923cad) | feat | add `HttpClient.query()` method for HTTP QUERY requests |
+| [818742755c](https://github.com/angular/angular/commit/818742755cc5cc4089ee19fee1ab9f08635a9999) | fix | clean up pending tasks when interceptors throw synchronously |
+| [00e584e698](https://github.com/angular/angular/commit/00e584e6989c35f1a0d1ed9a41a11ae08a374f04) | fix | mark `httpResource` top-level IIFE as pure |
+| [b7cf38695f](https://github.com/angular/angular/commit/b7cf38695f3d4bc5d57475c98b105a0ef26054e6) | perf | tree-shake unused transfer cache from httpResource |
+### router
+| Commit | Type | Description |
+| -- | -- | -- |
+| [262417f155](https://github.com/angular/angular/commit/262417f15558b8999da310613173c2f88b6ede62) | feat | introduce route error boundaries and redirect handling |
+| [9ec80904ab](https://github.com/angular/angular/commit/9ec80904ab19202bab7ff2a03825fec103b43c6d) | fix | do not call history.go() when cancelling navigation before first success |
+| [4a1a7ad2d9](https://github.com/angular/angular/commit/4a1a7ad2d9d755f76a4d25a2259540146b946648) | fix | don&apos;t reload the page when restoring the URL with the Navigation API |
+| [e8b1afd07f](https://github.com/angular/angular/commit/e8b1afd07fe37e75c219ab068a0bf8316bce9cae) | perf | run loadComponent in parallel with route resources |
+
+<!-- CHANGELOG SPLIT MARKER -->
+
+<a name="22.2.6"></a>
+# 22.2.6 (2026-11-11)
+### animations
+| Commit | Type | Description |
+| -- | -- | -- |
+| [af0c243479](https://github.com/angular/angular/commit/af0c243479ec265d1871ece2218acfed649c186e) | fix | memory leak in renderer |
+### common
+| Commit | Type | Description |
+| -- | -- | -- |
+| [5cd5f0b760](https://github.com/angular/angular/commit/5cd5f0b76094eb6e1d456371d25371561f60b594) | fix | omit empty arrays from HttpParams |
+| [fb705aad90](https://github.com/angular/angular/commit/fb705aad90aadfd6c8dcc9bd7b6c3acf990d9e4d) | fix | restore natural order when KeyValuePipe compareFn changes to null |
+### compiler
+| Commit | Type | Description |
+| -- | -- | -- |
+| [649dbadb33](https://github.com/angular/angular/commit/649dbadb33e1897c49f49ac5a7a7f65c9aeb4440) | fix | convert &amp;ngsp; to a space inside ngNonBindable |
+| [97fbca6a35](https://github.com/angular/angular/commit/97fbca6a356c79f3cab4b44b57e4b507d3b119ba) | fix | handle void expressions in constant literals |
+| [de5a1df482](https://github.com/angular/angular/commit/de5a1df4821a556a157fdf4c79099fe658a83e1a) | fix | report errors at arrow parameters |
+### compiler-cli
+| Commit | Type | Description |
+| -- | -- | -- |
+| [30aee51dcd](https://github.com/angular/angular/commit/30aee51dcd5e3baaba2c6e91ce5beceefd0bf57e) | fix | fix compliance test golden and ignore missing input sourcemap on 22.2.x |
+### core
+| Commit | Type | Description |
+| -- | -- | -- |
+| [7c883e02bd](https://github.com/angular/angular/commit/7c883e02bdde46041b729906fec537ea4e57636b) | fix | allow binding null and undefined to resource URL properties |
+| [d8acf34b43](https://github.com/angular/angular/commit/d8acf34b4329053b16dc4806a3c98d2763b6a5cc) | fix | detect own NgZone by reference instead of instance ID |
+| [ea96450ee8](https://github.com/angular/angular/commit/ea96450ee8756ebe37ca9f8c907e1942d395eab7) | fix | guard hydrating map access and release pending task on error |
+| [bf2f213d69](https://github.com/angular/angular/commit/bf2f213d6962d5b8b781ba949f18f9f040f7968b) | fix | http golden symbols updated again |
+| [0f78a2f00c](https://github.com/angular/angular/commit/0f78a2f00cc82047132631cd506bcc9f0d34c41d) | fix | improve error message for unparsable ICU expressions in translations |
+| [6b257f59b4](https://github.com/angular/angular/commit/6b257f59b4231da9b2b0997442b5bb7654ff8e3e) | fix | remove early event listeners after replay |
+| [596a40061f](https://github.com/angular/angular/commit/596a40061fab2ed288eef6fe123178a47e65c8da) | fix | resolve closure and reference retention leaks |
+| [d5f31d86c9](https://github.com/angular/angular/commit/d5f31d86c9e8045747618867958f932032a8b89e) | fix | update golden symbols |
+| [c639183667](https://github.com/angular/angular/commit/c639183667b8588c68aa6671ff9c2f0bf6e1516a) | fix | Update golden symbols for forms and http |
+| [601989607e](https://github.com/angular/angular/commit/601989607e63aa0b2b70956976e5602f389460b4) | perf | allow `EffectRefImpl` to be tree-shaken |
+| [8d06d97c72](https://github.com/angular/angular/commit/8d06d97c723ecf58b8357ad17884ca9816ea8d45) | perf | allow `ResourceParamsStatus` to be tree-shaken |
+| [c489b852a5](https://github.com/angular/angular/commit/c489b852a5aa1d39ca5703da64ebd2888dbb199b) | perf | avoid unnecessary aborts and reuse abort reason during resource teardown |
+| [e7e03b78d5](https://github.com/angular/angular/commit/e7e03b78d5f64266f484cbdd628bb434cec347ef) | perf | release intermediate inert trees while sanitizing HTML |
+### forms
+| Commit | Type | Description |
+| -- | -- | -- |
+| [5b66fb4010](https://github.com/angular/angular/commit/5b66fb401044b43c729ac2eac469dda4353b2aac) | fix | flush debounced descendant values when a field is touched |
+| [6124529528](https://github.com/angular/angular/commit/61245295281e1b492a7f013e9ab4d6670e8ee477) | fix | preserve options passed to SignalFormControl |
+| [67c4e8fc6c](https://github.com/angular/angular/commit/67c4e8fc6c3409bbd018a6c71ff0a6270fd85e2f) | fix | prevent duplicate valueChanges events on parseErrors update |
+| [a55fb23376](https://github.com/angular/angular/commit/a55fb233761c964998265fb1a85468f4b73ceda4) | fix | untrack parseErrors read in validator and add unchanged model test |
+| [7e16d77e58](https://github.com/angular/angular/commit/7e16d77e58354c4b6da596ff9e3dca92144f5bfc) | perf | avoid retaining AbstractControl in signal forms |
+### http
+| Commit | Type | Description |
+| -- | -- | -- |
+| [7644d2dc4a](https://github.com/angular/angular/commit/7644d2dc4aa614ea845c2b493fea90ae6c1584de) | fix | clean up pending tasks when interceptors throw synchronously |
+| [a339c06f55](https://github.com/angular/angular/commit/a339c06f557cbd3990c0af02bf45d0369526bb85) | fix | mark `httpResource` top-level IIFE as pure |
+| [899302961a](https://github.com/angular/angular/commit/899302961a29c039e4866f3bc265be9d425a46ed) | perf | tree-shake unused transfer cache from httpResource |
+### router
+| Commit | Type | Description |
+| -- | -- | -- |
+| [0a40f5ac4e](https://github.com/angular/angular/commit/0a40f5ac4e3468a17062d27349831a17e3df387b) | fix | do not call history.go() when cancelling navigation before first success |
+| [53e9164101](https://github.com/angular/angular/commit/53e9164101487537e919a828247473ea3a28521c) | fix | don&apos;t reload the page when restoring the URL with the Navigation API |
+
+<!-- CHANGELOG SPLIT MARKER -->
+
 <a name="22.2.5"></a>
 # 22.2.5 (2026-11-06)
 ### core

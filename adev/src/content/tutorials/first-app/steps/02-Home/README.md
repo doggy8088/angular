@@ -6,7 +6,7 @@
 
 ## 你將學到什麼
 
-你的應用程式有了一個新元件：`Home`。
+你的應用程式將會有一個新元件：`Home`。
 
 ## Angular 元件概念預覽
 
@@ -20,7 +20,7 @@ Angular 應用程式圍繞著元件打造，元件是 Angular 的基本組成單
 - `selector`：描述 Angular 在範本中如何參照這個元件。
 - `imports`：描述元件的相依關係。
 - `template`：描述元件的 HTML 標記與版面配置。
-- `styleUrls`：以陣列列出元件所使用的 CSS 檔案 URL。
+- `styleUrl`：指定元件所使用的 CSS 檔案 URL。
 
 <docs-pill-row>
   <docs-pill href="api/core/Component" title="進一步了解元件"/>

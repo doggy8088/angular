@@ -12,8 +12,8 @@ IMPORTANT: 本教學的這個步驟，建議你在本機環境操作。
 
 ## 你會學到什麼
 
-- 你的應用程式會有一個表單，讓使用者輸入資料並送到應用程式的服務。
-- 服務會把表單的資料寫入瀏覽器的主控台日誌。
+- 你的應用程式將會有一個表單，讓使用者輸入資料並送到應用程式的服務。
+- 服務將會把表單的資料寫入瀏覽器的主控台日誌。
 
 <docs-workflow>
 
@@ -23,9 +23,9 @@ IMPORTANT: 本教學的這個步驟，建議你在本機環境操作。
 
 在 IDE 的 **Edit** 窗格中：
 
-1.  在 `src/app/housing.service.ts` 裡，找到 `HousingService` 類別，在類別定義的最下方貼上這個方法。
+1.  在 `src/app/housing-service.ts` 裡，找到 `HousingService` 類別，在類別定義的最下方貼上這個方法。
 
-       <docs-code header="src/app/housing.service.ts 中的提交方法" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/housing.service.ts" visibleLines="[118,122]"/>
+       <docs-code header="src/app/housing-service.ts 中的提交方法" path="adev/src/content/tutorials/first-app/steps/13-search/src/app/housing-service.ts" visibleLines="[119,123]"/>
 
 1.  確認應用程式能順利建置、沒有錯誤。
     繼續下一個步驟之前，請先修正所有錯誤。
@@ -96,7 +96,7 @@ IMPORTANT: 本教學的這個步驟，建議你在本機環境操作。
 
 </docs-workflow>
 
-SUMMARY: 在本課中，你更新了應用程式，使用 Angular 的表單功能加上一個表單，並透過事件處理器，把表單收集到的資料連接到元件。
+SUMMARY: 在本課中，你使用 Angular 的表單功能新增了一個表單，並透過事件處理器，把表單收集到的資料連接到元件。
 
 想進一步了解本課介紹的主題，請造訪：
 

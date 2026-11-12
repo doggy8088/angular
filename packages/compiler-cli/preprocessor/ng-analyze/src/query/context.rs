@@ -1,8 +1,6 @@
 use std::collections::HashSet;
 use std::sync::{Arc, Mutex};
 
-use crate::ResourceResolverFs;
-
 use crate::query::engine::QueryEngine;
 use crate::query::keys::{QueryKey, QueryValue};
 use crate::query::{FileId, ReferenceId};
@@ -10,12 +8,12 @@ use crate::{types::analysis::DeclarationData, FileData, NgModuleComponentMap};
 
 /// Context passed down during query execution to track dependencies.
 #[derive(Clone)]
-pub struct QueryContext<Fs: ResourceResolverFs + Clone + 'static> {
-    pub engine: Arc<QueryEngine<Fs>>,
+pub struct QueryContext {
+    pub engine: Arc<QueryEngine>,
     pub(crate) dependencies: Arc<Mutex<HashSet<FileId>>>,
 }
 
-impl<Fs: ResourceResolverFs + Clone + 'static> std::fmt::Debug for QueryContext<Fs> {
+impl std::fmt::Debug for QueryContext {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("QueryContext")
             .field("dependencies", &self.dependencies)
@@ -23,8 +21,8 @@ impl<Fs: ResourceResolverFs + Clone + 'static> std::fmt::Debug for QueryContext<
     }
 }
 
-impl<Fs: ResourceResolverFs + Clone + 'static> QueryContext<Fs> {
-    pub fn new(engine: Arc<QueryEngine<Fs>>) -> Self {
+impl QueryContext {
+    pub fn new(engine: Arc<QueryEngine>) -> Self {
         Self {
             engine,
             dependencies: Arc::new(Mutex::new(HashSet::new())),
@@ -80,10 +78,17 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryContext<Fs> {
         let cached = if let Some(shared) = self.engine.cache.get(&key) {
             shared.await
         } else {
-            let res = self.engine.clone().execute(key).await;
-            let (remote, handle) = futures::future::ready(res.clone()).remote_handle();
-            let _ = remote.now_or_never();
-            self.engine.cache.insert(key, handle.shared());
+            let (res, cacheable_epoch) = self.engine.clone().execute_tracked(key).await;
+            if let Some(started) = cacheable_epoch {
+                let (remote, handle) = futures::future::ready(res.clone()).remote_handle();
+                let _ = remote.now_or_never();
+                self.engine.cache_if_kind_unchanged(
+                    key,
+                    handle.shared(),
+                    &res.dependencies,
+                    started,
+                );
+            }
             res
         };
         self.extend_dependencies(cached.dependencies.iter().copied());
@@ -279,7 +284,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryContext<Fs> {
     /// [`QueryEngine::next_ambient_global_candidate`]). Records that `consumer_file` looked up
     /// `name` rather than depending on every `.d.ts` scanned, so editing one only evicts
     /// `consumer_file` if it starts or stops declaring `name`.
-    pub fn next_ambient_global_candidate(
+    pub async fn next_ambient_global_candidate(
         &self,
         name: &str,
         consumer_file: FileId,
@@ -289,7 +294,9 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryContext<Fs> {
         self.record_file(consumer_file);
         self.engine
             .record_ambient_global_dependent(name, consumer_file);
-        self.engine.next_ambient_global_candidate(name, position)
+        self.engine
+            .next_ambient_global_candidate(name, position)
+            .await
     }
 
     pub async fn has_path(&self, start: FileId, target: FileId) -> bool {
@@ -301,8 +308,8 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryContext<Fs> {
     }
 }
 
-impl<Fs: ResourceResolverFs + Clone + 'static> std::ops::Deref for QueryContext<Fs> {
-    type Target = QueryEngine<Fs>;
+impl std::ops::Deref for QueryContext {
+    type Target = QueryEngine;
 
     fn deref(&self) -> &Self::Target {
         &self.engine

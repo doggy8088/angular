@@ -58,11 +58,11 @@ IMPORTANT: 我們建議使用你的本機環境來學習路由。
 
          ```ts
          export class Details {
-            route: ActivatedRoute = inject(ActivatedRoute);
-            housingLocationId = -1;
-            constructor() {
-            this.housingLocationId = Number(this.route.snapshot.params['id']);
-            }
+           route: ActivatedRoute = inject(ActivatedRoute);
+           housingLocationId = -1;
+           constructor() {
+             this.housingLocationId = Number(this.route.snapshot.params['id']);
+           }
          }
          ```
 
@@ -96,9 +96,6 @@ IMPORTANT: 我們建議使用你的本機環境來學習路由。
 
    並儲存你的變更
 
-1. 在 `Details` 中，使用剛建立的 `details.css` 檔案作為樣式的來源：
-   <docs-code language="angular-ts" header="更新 details.ts，改用剛建立的 css 檔案" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/details/details.ts" visibleLines="[30]"/>
-
 1. 在瀏覽器中重新整理頁面，確認當你點選特定房屋地點的「Learn More」連結時，詳細資訊頁面會依所選項目的資料顯示正確資訊。
 
 <img alt="列出房屋資訊的詳細資訊頁面" src="assets/images/tutorials/first-app/homes-app-lesson-11-step-3.png">
@@ -110,7 +107,7 @@ IMPORTANT: 我們建議使用你的本機環境來學習路由。
 
 1.  確認你的程式碼與下列內容一致：
 
-      <docs-code language="angular-ts" header="確認 app.ts 中的 routerLink" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/app.ts" visibleLines="[8,19]"/>
+      <docs-code language="angular-ts" header="確認 app.ts 中的 routerLink" path="adev/src/content/tutorials/first-app/steps/12-forms/src/app/app.ts" visibleLines="[7,18]"/>
 
     你的程式碼應該已經是最新的了，但還是確認一下比較保險。
 

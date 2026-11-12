@@ -26,7 +26,7 @@ IMPORTANT: 本教學的這個步驟，建議你在本機環境操作。
 
 1. 頁面載入時，`filteredLocationList` 預設應該包含全部的住房地點值。請更新 `Home` 的 `constructor` 來設定這個值。
 
-   <docs-code header="設定 filteredLocationList 的值" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[29,32]"/>
+   <docs-code header="設定 filteredLocationList 的值" path="adev/src/content/tutorials/first-app/steps/14-http/src/app/home/home.ts" visibleLines="[30,33]"/>
 
 </docs-step>
 
@@ -69,7 +69,7 @@ IMPORTANT: 本教學的這個步驟，建議你在本機環境操作。
 
 </docs-workflow>
 
-SUMMARY: 在本課中，你更新了應用程式，使用範本變數與範本值互動，並運用事件繫結與陣列函式加上搜尋功能。
+SUMMARY: 在本課中，你使用範本變數與範本值互動，並運用事件繫結與陣列函式新增搜尋功能。
 
 想進一步了解本課介紹的主題，請造訪：
 

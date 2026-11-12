@@ -34,7 +34,7 @@ import {
   SelectorlessMatcher,
   ForeignComponentMeta,
 } from '@angular/compiler';
-import {ErrorCode} from '@angular/compiler-cli/private/hybrid_preprocessor';
+import {ErrorCode} from './error_code.js';
 import * as nga from './types.js';
 import {PipeMeta} from './tcb.js';
 import type {ParsedComponentTemplate} from './file_analysis.js';
@@ -796,8 +796,8 @@ export function makeClassKey(className: string | undefined | null, spanStart: nu
 }
 
 /**
- * Creates the selectorless matcher `R3TargetBinder` uses to recognize foreign components (one
- * registry entry per `foreignImports` name), or `null` when there are none.
+ * Creates the name-keyed `SelectorlessMatcher` that `R3TargetBinder` uses to recognize foreign
+ * components (one registry entry per `foreignImports` name), or `null` when there are none.
  * https://github.com/angular/angular/blob/e3ac727/packages/compiler-cli/src/ngtsc/metadata/src/util.ts#L384-L396
  */
 export function createForeignComponentMatcher(

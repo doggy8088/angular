@@ -42,7 +42,7 @@ export class DefinitionBuilder {
     position: {line: number; character: number},
     fileContent: string,
   ): Promise<unknown> {
-    const setup = getSetup(this.hybridCompiler, filePath, position);
+    const setup = await getSetup(this.hybridCompiler, filePath, position);
     if (!setup) {
       return null;
     }
@@ -80,12 +80,12 @@ export class DefinitionBuilder {
       templateName = node.name;
     }
 
-    const tcbResult = this.templateTypeChecker.getTcb(filePath, position);
+    const tcbResult = await this.templateTypeChecker.getTcb(filePath, position);
     if (!tcbResult) {
       return null;
     }
 
-    const ngSymbol = this.templateTypeChecker.getSymbolOfNode(filePath, position);
+    const ngSymbol = await this.templateTypeChecker.getSymbolOfNode(filePath, position);
     if (!ngSymbol) {
       return null;
     }
@@ -94,9 +94,7 @@ export class DefinitionBuilder {
     await this.facade.ensureDocument(tcbUri, tcbResult.code);
 
     switch (ngSymbol.kind) {
-      case SymbolKind.Directive:
-      case SymbolKind.SelectorlessComponent:
-      case SymbolKind.SelectorlessDirective: {
+      case SymbolKind.Directive: {
         if (!ngSymbol.tcbLocation) return null;
         const pos = offsetToPosition(tcbResult.code, ngSymbol.tcbLocation.positionInFile);
 

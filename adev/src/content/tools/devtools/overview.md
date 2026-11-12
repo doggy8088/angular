@@ -24,7 +24,7 @@ HELPFUL: Chrome 的新分頁頁面不會執行已安裝的擴充功能，因此 
 | [Injector Tree](tools/devtools/injectors) | 讓你視覺化呈現環境注入器與元素注入器的階層                                                      |
 | [Router Tree](tools/devtools/router)      | 讓你視覺化呈現應用程式的路由樹。                                                               |
 
-`Transfer State` 等其他分頁屬於實驗性質，可透過 DevTools 設定啟用，目前尚未有文件說明。
+當應用程式使用水合時，也會出現 `Transfer State` 分頁。
 
 HELPFUL: 使用 Chromium 系列瀏覽器的使用者，可能會對 [Performance 面板整合](/best-practices/profiling-with-chrome-devtools)有興趣。
 

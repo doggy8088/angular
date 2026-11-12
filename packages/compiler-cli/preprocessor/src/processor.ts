@@ -47,9 +47,8 @@ import {
   type R3DeferPerBlockDependency,
   type R3DeferPerComponentDependency,
 } from '@angular/compiler';
-import {ErrorCode} from '@angular/compiler-cli/private/hybrid_preprocessor';
+import {ErrorCode} from './error_code.js';
 import MagicString, {type SourceMap} from 'magic-string';
-import * as fsSync from 'node:fs';
 import * as path from 'path';
 import {hasAnimations} from './animations.js';
 import {
@@ -86,7 +85,6 @@ import type {IAnalyzer} from './hybrid_compiler.js';
 import {ExpressionPrinter, RawSource} from './output_ast_printer.js';
 import {OutputSourceMapBuilder, type OutputSourceMapOptions} from './output_source_map.js';
 import {Counter, SpanKind, type Tracer} from './perf.js';
-import {analyzeTemplateForSelectorless} from './selectorless.js';
 import {
   combineTcbContent,
   generateTcbCode,
@@ -143,13 +141,6 @@ const DeclarationListEmitMode = {
 const DeferBlockDepsEmitMode = {PerBlock: 0, PerComponent: 1} as const;
 const R3NgModuleMetadataKind = {Global: 0, Local: 1, Isolated: 2} as const;
 const R3SelectorScopeMode = {Inline: 0, SideEffect: 1, Omit: 2} as const;
-
-/**
- * Shape of the namespace aliases this compiler generates (`i0`, `i1`, … and the `ɵ`-prefixed
- * variants). Matching one in an already-processed file lets its alias be reused rather than a
- * second one minted for the same module.
- */
-const GENERATED_NAMESPACE_ALIAS = /^(ɵ?i\d+|ɵng)$/;
 
 export interface ProcessedFile {
   magicString: MagicString;
@@ -228,12 +219,6 @@ export function buildTcbTargets(
         }
       }
 
-      let selectorlessEnabled = false;
-      if (options.enableSelectorless) {
-        const analysis = analyzeTemplateForSelectorless(parsed.nodes);
-        selectorlessEnabled = analysis.isSelectorless;
-      }
-
       // 9. Collect component for TCB generation (optimize mode only)
       tcbTargets.push({
         // TODO(cleanup): access fields mirrored from `classMeta` directly instead of duplicating them on `TcbTargetInput`.
@@ -245,8 +230,6 @@ export function buildTcbTargets(
           component.resolvedDeclarations ?? [],
           consumer,
         ),
-        enableSelectorless: options.enableSelectorless ?? false,
-        selectorlessEnabled,
         ownDeclaration: metadataToDeclaration(
           component,
           cls,
@@ -349,7 +332,7 @@ export async function processFile(
   }
   // Templates of dependencies declared in other files are needed to bind this file's
   // templates for type-checking; read them here, where the analyzer can be awaited. The
-  // condition mirrors when `processFileSync` builds the TCB targets.
+  // condition mirrors when `processFile` builds the TCB targets.
   if (rawCtx.optimize && !rawCtx.emitDeclarationOnly) {
     await new DependencyTemplates(
       rawCtx.analyzer,
@@ -359,18 +342,6 @@ export async function processFile(
       rawCtx.tracer,
     ).prefetch(result);
   }
-  return processFileSync(rawCtx, filePath, content, resourceMap, result, chunkContext, fileId);
-}
-
-export function processFileSync(
-  rawCtx: HybridCompilerContext,
-  filePath: string,
-  content: string,
-  readResource?: ((file: string) => string | undefined) | Map<string, nga.ResolvedResource | null>,
-  metadata?: nga.AnalysisResult,
-  chunkContext?: ChunkContext,
-  fileId = 0,
-): ProcessedFile {
   const ctx: ProcessFileContext = {
     ...rawCtx,
     remoteScopedClasses:
@@ -382,14 +353,14 @@ export function processFileSync(
   const fileDiagnostics: nga.NgDiagnostic[] = [];
   const referencedStyleFiles: string[] = [];
 
-  const result = metadata || ctx.analyzer.getMetadataForFileSync(filePath);
-  if (!result) {
-    return unprocessedFile(s);
-  }
-  const {classes, importsEnd, imports: importDeclarations} = result;
+  const {classes, imports: importDeclarations} = result;
 
   // Inside `@angular/core` itself, generated imports of `@angular/core` go to `r3_symbols.ts`.
-  const printer = new ExpressionPrinter(filePath, result.r3SymbolsSpecifier ?? null);
+  const printer = new ExpressionPrinter(
+    filePath,
+    result.r3SymbolsSpecifier ?? null,
+    new Set(result.namespaceAliasConflicts),
+  );
   // Compiled text goes through `out` rather than `s` directly, so its source mappings survive.
   const out = new OutputSourceMapBuilder(s, printer, filePath, content);
   const generateSourceMap = (options?: OutputSourceMapOptions) => out.generateMap(options);
@@ -397,19 +368,6 @@ export function processFileSync(
   if (!ctx.emitDeclarationOnly) {
     insertSignalDebugNames(s, result.signalDebugNames, printer.emitTypes);
   }
-
-  // Reuse namespace aliases the file already has, so re-processing an already-processed file
-  // doesn't mint a second `i0` for `@angular/core`.
-  for (const decl of importDeclarations) {
-    for (const binding of decl.bindings) {
-      // `imported` is absent exactly for `import * as ns from '...'`.
-      if (binding.imported == null && GENERATED_NAMESPACE_ALIAS.test(binding.local)) {
-        printer.addNamespaceImport(decl.specifier, binding.local);
-      }
-    }
-  }
-
-  const {parsedTemplates: templatesByClass} = getOrCreateFileAnalysis(ctx.fileCache, filePath);
 
   // Shared pool for all components and directives in the file.
   // This mirrors Angular's behavior:
@@ -459,7 +417,7 @@ export function processFileSync(
     ctx,
     filePath,
     content,
-    readResource,
+    readResource: resourceMap,
     s,
     result,
     printer,
@@ -513,13 +471,12 @@ type ProcessFileContext = HybridCompilerContext & {
   eagerlyUsedDeclarations: Map<string, nga.DeclarationMetadata[]>;
 };
 
-/** The state of one `processFileSync` call that its passes below share. */
+/** The state of one `processFile` call that its passes below share. */
 interface FileCompilation {
   ctx: ProcessFileContext;
   filePath: string;
   content: string;
-  readResource:
-    ((file: string) => string | undefined) | Map<string, nga.ResolvedResource | null> | undefined;
+  readResource: ReadonlyMap<string, nga.ResolvedResource | null>;
   s: MagicString;
   result: nga.AnalysisResult;
   printer: ExpressionPrinter;
@@ -866,31 +823,7 @@ function compileClasses(file: FileCompilation): string | null | undefined {
       // preprocessor-extension fallback as the decorator's `styleUrls`.
       // https://github.com/angular/angular/blob/e3ac727/packages/compiler-cli/src/ngtsc/annotations/component/src/handler.ts#L876-L923
       for (const styleUrl of parsed.styleUrls) {
-        let resource: nga.ResolvedResource | null = null;
-        if (readResource instanceof Map) {
-          resource = readResource.get(styleUrl) ?? null;
-        } else if (ctx.analyzer.readResourceSync) {
-          resource = ctx.analyzer.readResourceSync(filePath, styleUrl);
-          if (resource === null && typeof readResource === 'function') {
-            const resolvedPath = path.resolve(path.dirname(filePath), styleUrl);
-            const content = readResource(resolvedPath);
-            if (content !== undefined) {
-              resource = {resolvedPath, content};
-            }
-          }
-        } else if (typeof readResource === 'function') {
-          const resolvedPath = path.resolve(path.dirname(filePath), styleUrl);
-          const content = readResource(resolvedPath);
-          resource = content !== undefined ? {resolvedPath, content} : null;
-        } else {
-          const resolvedPath = path.resolve(path.dirname(filePath), styleUrl);
-          try {
-            const content = fsSync.readFileSync(resolvedPath, 'utf8');
-            resource = {resolvedPath, content};
-          } catch {
-            resource = null;
-          }
-        }
+        const resource = readResource.get(styleUrl) ?? null;
 
         if (resource !== null) {
           referencedStyleFiles.push(resource.resolvedPath);
@@ -1589,7 +1522,6 @@ function compileClasses(file: FileCompilation): string | null | undefined {
             )
           : null,
         isStandalone: standalone,
-        isSignal: component.signals,
         hostDirectives: buildHostDirectives(hostDirectives),
 
         // Component-specific
@@ -1631,9 +1563,7 @@ function compileClasses(file: FileCompilation): string | null | undefined {
       };
 
       // 5. Compile
-      const bindingParser = makeBindingParser(
-        ctx.templateParseOptions?.enableSelectorless ?? false,
-      );
+      const bindingParser = makeBindingParser();
 
       let compileResult: R3CompiledExpression;
       try {
@@ -1722,15 +1652,12 @@ function compileClasses(file: FileCompilation): string | null | undefined {
             )
           : null,
         isStandalone: standalone,
-        isSignal: directive.signals,
         hostDirectives: buildHostDirectives(hostDirectives),
         legacyOptionalChaining: ctx.legacyOptionalChaining,
       };
 
       // Compile directive
-      const bindingParser = makeBindingParser(
-        ctx.templateParseOptions?.enableSelectorless ?? false,
-      );
+      const bindingParser = makeBindingParser();
       let compileResult: R3CompiledExpression;
 
       try {
@@ -2087,7 +2014,8 @@ function generateTcb(file: FileCompilation): TcbResult | undefined {
     analysis.sourceContent = content;
   }
   const tcb = prepared
-    ? (generateTcbCode(filePath, prepared, ctx.tcbConfig) ?? undefined)
+    ? (generateTcbCode(filePath, prepared, ctx.tcbConfig, result.namespaceAliasConflicts) ??
+      undefined)
     : undefined;
 
   const returnTcb = tcb

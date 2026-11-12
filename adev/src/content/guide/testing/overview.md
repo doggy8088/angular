@@ -87,7 +87,7 @@ HELPFUL: 建立像 `src/test-providers.ts` 這樣的新 TypeScript 檔案作為�
 
 IMPORTANT: 使用自訂設定雖然能啟用進階選項，但 Angular 團隊不支援設定檔的內容或任何第三方外掛。CLI 也會覆寫某些屬性（`test.projects`、`test.include`）以確保正確整合。
 
-你可以建立一個 Vitest 設定檔（例如 `vitest-base.config.ts`），並在 `angular.json` 中引用它：
+你可以建立一個 Vitest 設定檔（例如 `vitest-base.config.mts`），並在 `angular.json` 中引用它：
 
 ```json
 {
@@ -97,7 +97,7 @@ IMPORTANT: 使用自訂設定雖然能啟用進階選項，但 Angular 團隊不
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "runnerConfig": "vitest-base.config.ts"
+            "runnerConfig": "vitest-base.config.mts"
           }
         }
       }
@@ -112,7 +112,7 @@ IMPORTANT: 使用自訂設定雖然能啟用進階選項，但 Angular 團隊不
 ng generate config vitest
 ```
 
-這會建立一個 `vitest-base.config.ts` 檔案，供你自訂。
+這會建立一個 `vitest-base.config.mts` 檔案，供你自訂。
 
 HELPFUL: 關於 Vitest 設定的更多資訊，請參閱 [Vitest 官方文件](https://vitest.dev/config/)。
 

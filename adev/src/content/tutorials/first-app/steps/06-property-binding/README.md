@@ -6,8 +6,8 @@
 
 ## 你將學到什麼
 
-- 你的應用程式在 `Home` 範本中有資料繫結。
-- 你的應用程式會將資料從 `Home` 傳送到 `HousingLocation`。
+- 你的應用程式將會在 `Home` 範本中有資料繫結。
+- 你的應用程式將會把資料從 `Home` 傳送到 `HousingLocation`。
 
 ## Input 概念預覽
 

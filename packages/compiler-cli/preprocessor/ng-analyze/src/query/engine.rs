@@ -1,5 +1,6 @@
 use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, RwLock};
 
 use crate::ResourceResolverFs;
@@ -22,8 +23,8 @@ use crate::{ClassInfo, FileData, NgModuleComponentMap};
 
 /// Cheap-to-clone handle to the [`QueryEngine`] that is captured into every query body. Sub-queries
 /// are requested through this handle (`ctx.analyze_file_semantic(p).await`) instead of threading
-/// `fs`/`resolver`/`resource_registry`/`file_analysis` through every call.
-pub type QueryCtx<Fs> = Arc<QueryEngine<Fs>>;
+/// `host`/`resource_registry`/`file_analysis` through every call.
+pub type QueryCtx = Arc<QueryEngine>;
 
 /// The file inside `@angular/core` that re-exports the runtime symbols generated code needs, and
 /// that core's own compilation imports instead of `@angular/core` (`packages/core/src/r3_symbols.ts`).
@@ -56,6 +57,10 @@ const _: () = {
     assert!(R3_SYMBOLS_ROOT_FILE_ID > MAX_INTERNED_FILE_ID);
 };
 
+/// How many times a query is re-run because a file it read changed kind while it ran (see
+/// [`QueryEngine::kind_changed`]) before its last result is returned without being cached.
+const MAX_KIND_CHANGE_RERUNS: usize = 3;
+
 /// The ambient global value names a `.d.ts` file may declare (see
 /// [`extract_ambient_global_names_in_dts`]).
 pub(crate) type AmbientGlobalNames = Arc<HashSet<String>>;
@@ -80,20 +85,23 @@ impl FirstAmbientGlobalCandidates {
 /// Every "question" the analyzer answers is a [`QueryKey`]; [`QueryEngine::query`] returns a cached,
 /// self-driving handle (the body is spawned onto the executor the moment the key is first
 /// requested, so `join_all` over several queries fans out across pool threads). The engine owns the
-/// ambient analysis state (`fs`, `resolver`, `resource_registry`, `entrypoints`) so query bodies
-/// don't have to thread it; the cross-file symbol table lives on the `AnalyzeFileSyntax` results.
-///
-/// `Fs` is generic over [`ResourceResolverFs`]; the concrete `Analyzer` instantiates
-/// `QueryEngine<OverlayFileSystem>`.
-pub struct QueryEngine<Fs: ResourceResolverFs + Clone + 'static> {
-    pub(crate) fs: Fs,
-    pub(crate) resolver: Arc<ResolverGeneric<Fs>>,
+/// ambient analysis state (`host`, `resource_registry`, `entrypoints`) so query bodies don't have
+/// to thread it; the cross-file symbol table lives on the `AnalyzeFileSyntax` results.
+pub struct QueryEngine {
+    pub(crate) host: Arc<dyn crate::host::AnalysisHost>,
     pub(crate) resource_registry: Arc<ResourceRegistry>,
     pub(crate) entrypoints: Arc<std::sync::RwLock<Vec<PathBuf>>>,
     pub(crate) tsconfig_dts_files: RwLock<Vec<PathBuf>>,
     pub(crate) interner: Arc<FileIdInterner>,
     pub(crate) reverse_index: RwLock<HashMap<FileId, HashSet<QueryKey>>>,
     pub(crate) cache: crate::QueryCache<QueryKey, CachedResult>,
+    /// The kind epoch at which a host resolution last changed each file's
+    /// [`crate::host::IdKind`]. A completing query holds the read lock while it checks this and
+    /// records its dependencies, and a kind change holds the write lock while it evicts, so a query
+    /// that read a file under its previous kind is either re-run or evicted.
+    kind_changes: RwLock<HashMap<FileId, u64>>,
+    /// Counts kind changes; only advanced under the [`Self::kind_changes`] write lock.
+    kind_epoch: AtomicU64,
     pub(crate) static_import_graph: RwLock<Option<Arc<StaticImportGraph>>>,
     /// Canonical [`FileId`]s of a prefix of `tsconfig_dts_files`, extended on demand and
     /// dropped when the roots change.
@@ -101,8 +109,9 @@ pub struct QueryEngine<Fs: ResourceResolverFs + Clone + 'static> {
     /// The ambient global value names each `.d.ts` scanned by an ambient global lookup declares.
     pub(crate) ambient_global_names: RwLock<HashMap<FileId, AmbientGlobalNames>>,
     /// Held while a lookup scans `.d.ts` files whose names aren't cached yet, so concurrent
-    /// lookups wait for that scan once rather than at every file.
-    ambient_global_scan: Mutex<()>,
+    /// lookups wait for that scan once rather than at every file. Async, since the scan awaits host
+    /// loads while holding it.
+    ambient_global_scan: futures::lock::Mutex<()>,
     /// The first candidate of each name looked up from the start of the tsconfig's `files`.
     ambient_global_first_candidates: RwLock<FirstAmbientGlobalCandidates>,
     /// The names an invalidated `.d.ts` declared in each version a lookup may have read, until
@@ -137,8 +146,8 @@ pub struct QueryEngine<Fs: ResourceResolverFs + Clone + 'static> {
     pub experimental_local_compilation: bool,
 }
 
-impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
-    pub fn new(
+impl QueryEngine {
+    pub fn new<Fs: ResourceResolverFs + Clone + 'static>(
         fs: Fs,
         resolver: Arc<ResolverGeneric<Fs>>,
         resource_registry: Arc<ResourceRegistry>,
@@ -166,7 +175,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     }
 
     #[allow(clippy::too_many_arguments)]
-    pub fn new_with_options(
+    pub fn new_with_options<Fs: ResourceResolverFs + Clone + 'static>(
         fs: Fs,
         resolver: Arc<ResolverGeneric<Fs>>,
         resource_registry: Arc<ResourceRegistry>,
@@ -184,19 +193,58 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         emit_declaration_only: bool,
         experimental_local_compilation: bool,
     ) -> Arc<Self> {
+        let host = Arc::new(crate::host::DefaultFsHost::new(fs, resolver));
+        Self::new_with_host(
+            host,
+            resource_registry,
+            entrypoints,
+            reference_strategy,
+            r3_symbols_file,
+            angular_core_compilation,
+            generate_extra_imports_in_local_mode,
+            compile_non_exported_classes,
+            enable_hmr,
+            strict_standalone,
+            use_poisoned_data,
+            strict_injection_parameters,
+            implicit_standalone,
+            emit_declaration_only,
+            experimental_local_compilation,
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub fn new_with_host(
+        host: Arc<dyn crate::host::AnalysisHost>,
+        resource_registry: Arc<ResourceRegistry>,
+        entrypoints: Arc<std::sync::RwLock<Vec<PathBuf>>>,
+        reference_strategy: Arc<dyn crate::analyzer::import_emit::ReferenceEmitStrategy>,
+        r3_symbols_file: Option<PathBuf>,
+        angular_core_compilation: Option<bool>,
+        generate_extra_imports_in_local_mode: bool,
+        compile_non_exported_classes: bool,
+        enable_hmr: bool,
+        strict_standalone: bool,
+        use_poisoned_data: bool,
+        strict_injection_parameters: bool,
+        implicit_standalone: bool,
+        emit_declaration_only: bool,
+        experimental_local_compilation: bool,
+    ) -> Arc<Self> {
         Arc::new(Self {
-            fs,
-            resolver,
+            host,
             resource_registry,
             entrypoints,
             tsconfig_dts_files: RwLock::new(Vec::new()),
             interner: Arc::new(FileIdInterner::new()),
             reverse_index: RwLock::new(HashMap::new()),
             cache: crate::QueryCache::new(),
+            kind_changes: RwLock::new(HashMap::new()),
+            kind_epoch: AtomicU64::new(0),
             static_import_graph: RwLock::new(None),
             tsconfig_dts_file_ids: RwLock::new(Vec::new()),
             ambient_global_names: RwLock::new(HashMap::new()),
-            ambient_global_scan: Mutex::new(()),
+            ambient_global_scan: futures::lock::Mutex::new(()),
             ambient_global_first_candidates: RwLock::new(FirstAmbientGlobalCandidates::default()),
             stale_ambient_global_names: Mutex::new(HashMap::new()),
             ambient_global_dependents: RwLock::new(HashMap::new()),
@@ -221,7 +269,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         })
     }
 
-    pub fn new_default(
+    pub fn new_default<Fs: ResourceResolverFs + Clone + 'static>(
         fs: Fs,
         resolver: Arc<ResolverGeneric<Fs>>,
         resource_registry: Arc<ResourceRegistry>,
@@ -236,15 +284,71 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         )
     }
 
+    pub fn new_default_with_host(
+        host: Arc<dyn crate::host::AnalysisHost>,
+        resource_registry: Arc<ResourceRegistry>,
+        entrypoints: Arc<std::sync::RwLock<Vec<PathBuf>>>,
+    ) -> Arc<Self> {
+        Self::new_with_host(
+            host,
+            resource_registry,
+            entrypoints,
+            Arc::new(crate::analyzer::import_emit::ApfImportStrategy::new()),
+            None,
+            None,
+            false,
+            true,
+            false,
+            false,
+            false,
+            false,
+            true,
+            false,
+            false,
+        )
+    }
+
     pub fn intern_path(&self, path: impl AsRef<Path>) -> FileId {
         let path = path.as_ref();
         if let Some(id) = self.interner.get_if_interned(path) {
             return id;
         }
-        match self.fs.resolve_root_dirs_backing_path(path) {
+        match self.host.resolve_backing_path(path) {
             Some(backing) => self.interner.intern_path(backing),
             None => self.interner.intern_path(path),
         }
+    }
+
+    pub fn intern_module(&self, id: &str, kind: crate::host::IdKind) -> FileId {
+        if kind == crate::host::IdKind::Path {
+            return self.intern_path(Path::new(id));
+        }
+        self.interner.intern_module(id, kind)
+    }
+
+    /// Intern a module a host resolution reported. The host's `id_kind` wins over the kind the
+    /// module was interned with before, and whatever was computed under that kind is evicted
+    /// ([`Self::kind_changed`]).
+    pub fn intern_resolved(
+        &self,
+        id: &crate::host::ModuleId,
+        id_kind: crate::host::IdKind,
+    ) -> FileId {
+        let backing = match id_kind {
+            crate::host::IdKind::Path => self.host.resolve_backing_path(Path::new(id.as_str())),
+            crate::host::IdKind::Virtual => None,
+        };
+        let (file_id, previous_kind) = match backing {
+            Some(backing) => self.interner.intern_authoritative(
+                crate::host::ModuleId::from_path(&backing).as_str(),
+                crate::host::IdKind::Path,
+            ),
+            None => self.interner.intern_authoritative(id.as_str(), id_kind),
+        };
+        if previous_kind.is_some() {
+            self.kind_changed(file_id);
+        }
+        file_id
     }
 
     pub fn validation_context(
@@ -273,6 +377,62 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
             .map(crate::fs::path_to_string)
     }
 
+    pub fn lookup_id(&self, id: FileId) -> crate::host::ModuleId {
+        self.interner.lookup_id(id)
+    }
+
+    pub fn lookup_kind(&self, id: FileId) -> crate::host::IdKind {
+        self.interner.lookup_kind(id)
+    }
+
+    pub fn lookup_module(&self, id: FileId) -> (crate::host::ModuleId, crate::host::IdKind) {
+        self.interner.lookup_module(id)
+    }
+
+    pub async fn resolve_from_id(
+        &self,
+        importer: FileId,
+        specifier: &str,
+        kind: crate::host::ImportKind,
+    ) -> Option<(FileId, crate::host::ResolvedModule)> {
+        let importer_id = self.lookup_id(importer);
+        let resolved = self
+            .host
+            .resolve(crate::host::ResolveRequest::new(
+                importer_id,
+                specifier,
+                kind,
+            ))
+            .await
+            .ok()??;
+        let target_id = self.intern_resolved(&resolved.id, resolved.id_kind);
+        Some((target_id, resolved))
+    }
+
+    pub async fn resolve_from_path(
+        &self,
+        importer_path: &Path,
+        specifier: &str,
+        kind: crate::host::ImportKind,
+    ) -> Option<(FileId, PathBuf)> {
+        if let Some(importer_id) = self.get_interned_file_id(importer_path) {
+            let (target_id, _) = self.resolve_from_id(importer_id, specifier, kind).await?;
+            return Some((target_id, self.lookup_path(target_id)));
+        }
+        let importer_id = crate::host::ModuleId::from_path(importer_path);
+        let resolved = self
+            .host
+            .resolve(crate::host::ResolveRequest::new(
+                importer_id,
+                specifier,
+                kind,
+            ))
+            .await
+            .ok()??;
+        let target_id = self.intern_resolved(&resolved.id, resolved.id_kind);
+        Some((target_id, self.lookup_path(target_id)))
+    }
+
     pub fn r3_symbols_file(&self) -> Option<PathBuf> {
         if let Some(explicit) = &self.r3_symbols_file {
             return Some(explicit.clone());
@@ -296,7 +456,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
 
     /// [`Self::r3_symbols_file`], recording on `ctx` when it falls back to the roots so that the
     /// calling query re-runs once they add, remove or replace `r3_symbols.ts`.
-    pub(crate) fn r3_symbols_file_tracked(&self, ctx: &QueryContext<Fs>) -> Option<PathBuf> {
+    pub(crate) fn r3_symbols_file_tracked(&self, ctx: &QueryContext) -> Option<PathBuf> {
         if self.r3_symbols_file.is_none() {
             ctx.record_file(R3_SYMBOLS_ROOT_FILE_ID);
         }
@@ -308,7 +468,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     /// `ITS_JUST_ANGULAR = true` (ngtsc's `isAngularCorePackage`), in which case the calling query
     /// depends on that file and on the roots naming it.
     /// https://github.com/angular/angular/blob/4f6d294917/packages/compiler-cli/src/ngtsc/core/src/compiler.ts#L1320-L1321
-    async fn is_angular_core_compilation(&self, ctx: &QueryContext<Fs>) -> bool {
+    async fn is_angular_core_compilation(&self, ctx: &QueryContext) -> bool {
         if let Some(configured) = self.angular_core_compilation {
             return configured;
         }
@@ -322,8 +482,8 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
 
     fn get_interned_file_id(&self, path: &Path) -> Option<FileId> {
         self.interner.get_if_interned(path).or_else(|| {
-            self.fs
-                .resolve_root_dirs_backing_path(path)
+            self.host
+                .resolve_backing_path(path)
                 .and_then(|backing| self.interner.get_if_interned(backing))
         })
     }
@@ -368,6 +528,69 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
                 is_optimized,
             })
             .is_some()
+    }
+
+    /// Evict what was computed for `file_id` under its previous kind, after a host resolution
+    /// changed it. Queries still running aren't in the reverse index yet; when they complete,
+    /// [`Self::record_dependencies`] has them re-run instead.
+    fn kind_changed(&self, file_id: FileId) {
+        let mut kind_changes = self.kind_changes.write().unwrap();
+        let epoch = self.kind_epoch.load(Ordering::SeqCst) + 1;
+        kind_changes.insert(file_id, epoch);
+        self.invalidate_file_id(file_id);
+        // Publish the epoch only after the eviction, so a query that starts at it can't read a
+        // result computed under the previous kind.
+        self.kind_epoch.store(epoch, Ordering::SeqCst);
+    }
+
+    /// The current kind epoch, noted by a query run when it starts.
+    pub(crate) fn kind_epoch(&self) -> u64 {
+        self.kind_epoch.load(Ordering::SeqCst)
+    }
+
+    /// Whether one of `deps` changed kind after kind epoch `started`.
+    fn changed_kind_since(
+        &self,
+        kind_changes: &HashMap<FileId, u64>,
+        started: u64,
+        deps: &HashSet<FileId>,
+    ) -> bool {
+        self.kind_epoch() != started
+            && deps
+                .iter()
+                .any(|dep| kind_changes.get(dep).is_some_and(|&changed| changed > started))
+    }
+
+    /// Record `key` in the reverse index under `deps`, the dependencies of a run of `key` that
+    /// started at kind epoch `started`. Returns `false` without recording anything when one of
+    /// them changed kind since: the run may have read it under its previous kind.
+    fn record_dependencies(&self, key: QueryKey, deps: &HashSet<FileId>, started: u64) -> bool {
+        let kind_changes = self.kind_changes.read().unwrap();
+        if self.changed_kind_since(&kind_changes, started, deps) {
+            return false;
+        }
+        if let Ok(mut r_guard) = self.reverse_index.write() {
+            for &file_id in deps {
+                r_guard.entry(file_id).or_default().insert(key);
+            }
+        }
+        true
+    }
+
+    /// Cache `shared` under `key` (run inline from kind epoch `started` after recording `deps`)
+    /// only if none of `deps` changed kind after `started`. Holding `kind_changes.read()` across
+    /// the check and insertion prevents a concurrent `kind_changed` eviction from missing `key`.
+    pub(crate) fn cache_if_kind_unchanged(
+        &self,
+        key: QueryKey,
+        shared: crate::SharedQuery<CachedResult>,
+        deps: &HashSet<FileId>,
+        started: u64,
+    ) {
+        let kind_changes = self.kind_changes.read().unwrap();
+        if !self.changed_kind_since(&kind_changes, started, deps) {
+            self.cache.insert(key, shared);
+        }
     }
 
     /// Purge every cached query that depends on `file_id` using the granular reverse invalidation index.
@@ -572,15 +795,17 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
 
     /// The consumers of every ambient global name that an invalidated `.d.ts` started or stopped
     /// declaring since a lookup scanned it.
-    fn changed_ambient_global_consumers(&self) -> HashSet<FileId> {
+    async fn changed_ambient_global_consumers(&self) -> HashSet<FileId> {
         let stale = std::mem::take(&mut *self.stale_ambient_global_names.lock().unwrap());
-        let dependents = self.ambient_global_dependents.read().unwrap();
         let mut changed = HashSet::new();
-        if dependents.is_empty() {
+        if self.ambient_global_dependents.read().unwrap().is_empty() {
             return changed;
         }
         for (file_id, versions) in stale {
-            let current = self.ambient_global_names(file_id);
+            // Load the current names before taking the dependents lock, which can't be held across
+            // the host load.
+            let current = self.ambient_global_names(file_id).await;
+            let dependents = self.ambient_global_dependents.read().unwrap();
             for name in versions
                 .iter()
                 .flat_map(|previous| previous.symmetric_difference(&current))
@@ -656,8 +881,8 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     /// A value change within the same `.d.ts` (`declare const COMPILED: true` → `false`) leaves its
     /// names alone; the consumer depends on that `.d.ts` directly (it parsed it to evaluate the
     /// declaration), so the ordinary invalidation evicts it.
-    fn refresh_ambient_global_lookups(&self) {
-        let changed = self.changed_ambient_global_consumers();
+    async fn refresh_ambient_global_lookups(&self) {
+        let changed = self.changed_ambient_global_consumers().await;
         if !changed.is_empty() {
             self.evict_evaluated_dependents(changed);
         }
@@ -677,7 +902,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         let mut file_ids = self.tsconfig_dts_file_ids.write().unwrap();
         while file_ids.len() <= position {
             let path = dts_files.get(file_ids.len())?;
-            let path = self.fs.canonicalize(path).unwrap_or_else(|_| path.clone());
+            let path = self.host.canonicalize_path(path).unwrap_or_else(|| path.clone());
             file_ids.push(self.intern_path(&path));
         }
         Some(file_ids[position])
@@ -687,13 +912,13 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     /// global value `name`, and its position. Scans in `files` order and stops at the first match,
     /// so most lookups read only a prefix of the list. Lookups from the start, which nearly all are,
     /// are memoized until a scanned `.d.ts` is invalidated or the roots change.
-    pub(crate) fn next_ambient_global_candidate(
+    pub(crate) async fn next_ambient_global_candidate(
         &self,
         name: &str,
         position: usize,
     ) -> Option<(usize, FileId)> {
         if position != 0 {
-            return self.scan_for_ambient_global_candidate(name, position);
+            return self.scan_for_ambient_global_candidate(name, position).await;
         }
         let generation = {
             let first = self.ambient_global_first_candidates.read().unwrap();
@@ -702,7 +927,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
             }
             first.generation
         };
-        let candidate = self.scan_for_ambient_global_candidate(name, 0);
+        let candidate = self.scan_for_ambient_global_candidate(name, 0).await;
         let mut first = self.ambient_global_first_candidates.write().unwrap();
         // Skip memoizing a scan that may have read names invalidated since it started.
         if first.generation == generation {
@@ -711,7 +936,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         candidate
     }
 
-    fn scan_for_ambient_global_candidate(
+    async fn scan_for_ambient_global_candidate(
         &self,
         name: &str,
         mut position: usize,
@@ -722,10 +947,14 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
             }
             position += 1;
         }
-        let _scan = self.ambient_global_scan.lock().unwrap();
-        (position..)
-            .map_while(|position| Some((position, self.tsconfig_dts_file_id(position)?)))
-            .find(|&(_, file_id)| self.ambient_global_names(file_id).contains(name))
+        let _scan = self.ambient_global_scan.lock().await;
+        while let Some(file_id) = self.tsconfig_dts_file_id(position) {
+            if self.ambient_global_names(file_id).await.contains(name) {
+                return Some((position, file_id));
+            }
+            position += 1;
+        }
+        None
     }
 
     /// The `.d.ts` at `position` in the tsconfig's `files` and the names it declares, if a lookup
@@ -744,16 +973,17 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         Some((file_id, names))
     }
 
-    /// The ambient global value names `file_id` declares, or none if it can't be read. Cached per
-    /// engine until the file is invalidated, and across engines while its text is unchanged.
-    pub(crate) fn ambient_global_names(&self, file_id: FileId) -> AmbientGlobalNames {
+    /// The ambient global value names `file_id` declares, or none if the host can't load it.
+    /// Cached per engine until the file is invalidated, and across engines while its text is
+    /// unchanged.
+    pub(crate) async fn ambient_global_names(&self, file_id: FileId) -> AmbientGlobalNames {
         if let Some(names) = self.ambient_global_names.read().unwrap().get(&file_id) {
             return names.clone();
         }
         let path = self.lookup_path(file_id);
-        let names = match self.fs.read_to_string(&path) {
-            Ok(source) => shared_dts_parse_cache::ambient_global_names(path, &source),
-            Err(_) => AmbientGlobalNames::default(),
+        let names = match self.load_dts_file(file_id).await {
+            Some(loaded) => shared_dts_parse_cache::ambient_global_names(path, &loaded.code),
+            None => AmbientGlobalNames::default(),
         };
         self.ambient_global_names
             .write()
@@ -766,7 +996,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     /// Re-evaluate whole-program singletons if they were invalidated since a previous build so
     /// any diff-based evictions happen before per-file semantic/wire queries read the cache.
     pub async fn ensure_singletons_fresh(self: &Arc<Self>, is_optimized: bool) {
-        self.refresh_ambient_global_lookups();
+        self.refresh_ambient_global_lookups().await;
         if !is_optimized && !self.generate_extra_imports_in_local_mode {
             return;
         }
@@ -810,7 +1040,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     ///
     /// Must not run while a resolution is in progress.
     pub fn invalidate_module_resolution(&self) -> Vec<QueryKey> {
-        self.resolver.clear_cache();
+        self.host.clear_cache();
         self.invalidate_file_id(UNRESOLVED_IMPORTS_FILE_ID)
     }
 
@@ -831,6 +1061,26 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
 
     /// Dispatch a query key to its computation. Each arm may request sub-queries via `self`.
     pub(crate) fn execute(self: Arc<Self>, key: QueryKey) -> BoxFuture<'static, Arc<CachedResult>> {
+        self.execute_run(key, 0).map(|(res, _)| res).boxed()
+    }
+
+    /// Like [`Self::execute`], also returning the kind epoch the final run started at when its
+    /// dependencies were recorded (`None` if [`MAX_KIND_CHANGE_RERUNS`] was exhausted).
+    pub(crate) fn execute_tracked(
+        self: Arc<Self>,
+        key: QueryKey,
+    ) -> BoxFuture<'static, (Arc<CachedResult>, Option<u64>)> {
+        self.execute_run(key, 0)
+    }
+
+    /// One run of [`Self::execute`]. A run that read a file whose kind changed while it ran is
+    /// discarded and `key` re-run (`rerun` counts those), so every caller gets a result computed
+    /// under the file's current kind.
+    fn execute_run(
+        self: Arc<Self>,
+        key: QueryKey,
+        rerun: usize,
+    ) -> BoxFuture<'static, (Arc<CachedResult>, Option<u64>)> {
         // `kind` indexes `QueryKey::KIND_NAMES`; `key` is only formatted in perf detail mode.
         let span = tracing::info_span!(
             target: crate::perf::QUERY_TARGET,
@@ -842,6 +1092,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         );
         let done = span.clone();
         async move {
+            let started = self.kind_epoch();
             let child_ctx = QueryContext::new(self.clone());
             let res = match key {
                 QueryKey::AnalyzeFileSemantic(file_id) => Arc::new(QueryValue::Semantic(
@@ -902,7 +1153,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
                     self.program_files_body(&child_ctx).await,
                 )),
                 QueryKey::AmbientModuleFiles => Arc::new(QueryValue::AmbientModuleFiles(
-                    self.ambient_module_files_body(&child_ctx),
+                    self.ambient_module_files_body(&child_ctx).await,
                 )),
                 QueryKey::LocalExtraImports => Arc::new(QueryValue::LocalExtraImports(
                     self.local_extra_imports_body(&child_ctx).await,
@@ -913,13 +1164,18 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
                 value: res,
                 dependencies: deps.clone(),
             });
-            if let Ok(mut r_guard) = self.reverse_index.write() {
-                for &file_id in &deps {
-                    r_guard.entry(file_id).or_default().insert(key);
-                }
-            }
+            let cacheable_epoch = if self.record_dependencies(key, &deps, started) {
+                Some(started)
+            } else if rerun < MAX_KIND_CHANGE_RERUNS {
+                return self.execute_run(key, rerun + 1).await;
+            } else {
+                // The host keeps changing the kind of a file this query reads: hand out the last
+                // run's result without caching it.
+                self.remove_cached_key(&key);
+                None
+            };
             done.record("done", true);
-            cached_res
+            (cached_res, cacheable_epoch)
         }
         .instrument(span)
         .boxed()
@@ -985,39 +1241,104 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         Self::block_on_query(QueryContext::new(self.clone()).parse_file(file_id))
     }
 
+    /// Synchronously resolve and load a component resource through [`crate::host::AnalysisHost`].
+    ///
+    /// Requires a synchronous host ([`crate::host::AnalysisHost::is_synchronous`]).
+    pub fn read_resource_blocking(
+        self: &Arc<Self>,
+        containing_file: &str,
+        url: &str,
+        kind: crate::host::ResourceKind,
+    ) -> Option<crate::ResolvedResource> {
+        assert!(
+            self.host.is_synchronous(),
+            "synchronous APIs require a synchronous host"
+        );
+        let containing = self
+            .get_interned_file_id(Path::new(containing_file))
+            .map(|id| self.lookup_id(id))
+            .unwrap_or_else(|| crate::host::ModuleId::from(containing_file));
+        let host = Arc::clone(&self.host);
+        let url = url.to_owned();
+        Self::block_on_query(async move {
+            let (resolved_path, content) = crate::analyzer::resolve_and_load_resource(
+                host.as_ref(),
+                &containing,
+                &url,
+                kind,
+            )
+            .await?;
+            Some(crate::ResolvedResource {
+                resolved_path,
+                content,
+            })
+        })
+    }
+
     async fn parse_file_body(
         self: &Arc<Self>,
         file_id: FileId,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<Mutex<crate::ParsedFile>> {
         ctx.record_file(file_id);
+        let (module_id, id_kind) = self.lookup_module(file_id);
         let file_path = self.lookup_path(file_id);
-        let (source_text, cache_key) = match self.fs.read_to_string(&file_path) {
+        // TODO(ngp-host-h5): echo `ResolvedModule::external` instead of passing `false`, and
+        // reuse inline `ResolvedModule::code` in H6.
+        let (source_text, host_format, cache_key) = match self
+            .host
+            .load(&module_id, crate::host::LoadKind::Module, false)
+            .await
+        {
             // Declaration files are shared by every compilation a long-lived analyzer process
             // serves (a persistent build worker analyzes one target per request, and each
             // target's program pulls in the same framework `.d.ts` files), and parsing them is
             // the bulk of a request's analysis time. Reuse the parse across analyzers while the
             // file's text is unchanged.
-            Ok(s) => {
-                let cache_key = crate::utils::is_dts(&file_path)
-                    .then(|| shared_dts_parse_cache::SourceKey::of(&s));
+            Ok(Some(loaded)) => {
+                let is_dts_path =
+                    id_kind == crate::host::IdKind::Path && crate::utils::is_dts(&file_path);
+                let cache_key =
+                    is_dts_path.then(|| shared_dts_parse_cache::SourceKey::of(&loaded.code));
                 if let Some(key) = &cache_key {
                     if let Some(parsed) = shared_dts_parse_cache::get(&file_path, key) {
                         return parsed;
                     }
                 }
-                (s, cache_key)
+                (loaded.code.to_string(), loaded.format, cache_key)
+            }
+            Ok(None) => {
+                // Warn before falling back to an empty parse so unreadable files are not silently skipped.
+                #[allow(clippy::print_stderr)]
+                {
+                    eprintln!(
+                        "Warning: Failed to read '{}': module not found",
+                        module_id
+                    );
+                }
+                (String::new(), None, None)
             }
             Err(e) => {
                 // Warn before falling back to an empty parse so unreadable files are not silently skipped.
                 #[allow(clippy::print_stderr)]
                 {
-                    eprintln!("Warning: Failed to read '{}': {}", file_path.display(), e);
+                    eprintln!("Warning: Failed to read '{}': {}", module_id, e);
                 }
-                (String::new(), None)
+                (String::new(), None, None)
             }
         };
         let cache_entry = cache_key.map(|key| (file_path.clone(), key));
+
+        // TODO(ngp-host-h6): fall back to `ResolvedModule::format` when `LoadedModule::format` is `None`.
+        let source_type = match id_kind {
+            crate::host::IdKind::Path => oxc_span::SourceType::from_path(&file_path)
+                .ok()
+                .or_else(|| host_format.map(crate::host::ModuleFormat::to_oxc_source_type))
+                .unwrap_or_else(oxc_span::SourceType::ts),
+            crate::host::IdKind::Virtual => host_format
+                .map(crate::host::ModuleFormat::to_oxc_source_type)
+                .unwrap_or_else(oxc_span::SourceType::ts),
+        };
 
         let owner = crate::ParsedFileOwner {
             file_path,
@@ -1025,9 +1346,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
             allocator: oxc_allocator::Allocator::default(),
         };
 
-        let parsed = crate::ParsedFile::new(owner, |owner| {
-            let source_type = oxc_span::SourceType::from_path(&owner.file_path)
-                .unwrap_or_else(|_| oxc_span::SourceType::ts());
+        let parsed = crate::ParsedFile::new(owner, move |owner| {
             let ret =
                 oxc_parser::Parser::new(&owner.allocator, &owner.source_text, source_type).parse();
             let program = owner.allocator.alloc(ret.program);
@@ -1070,12 +1389,25 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     async fn analyze_file_syntax_body(
         self: &Arc<Self>,
         file_id: FileId,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<FileData> {
         let parsed = ctx.parse_file(file_id).await;
+        let (module_id, id_kind) = self.lookup_module(file_id);
         let file_path = self.lookup_path(file_id);
 
-        if crate::utils::is_dts(&file_path) {
+        let is_dts_file = match id_kind {
+            crate::host::IdKind::Path => crate::utils::is_dts(&file_path),
+            crate::host::IdKind::Virtual => {
+                let guard = parsed.lock().unwrap();
+                guard
+                    .borrow_dependent()
+                    .program
+                    .source_type
+                    .is_typescript_definition()
+            }
+        };
+
+        if is_dts_file {
             let (converter, result, errors) = {
                 let guard = parsed.lock().unwrap();
                 let source_text = &guard.borrow_owner().source_text;
@@ -1118,6 +1450,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
                 signal_debug_names: Vec::new(),
                 is_core: false,
                 top_level_value_bindings: None,
+                namespace_alias_conflicts: Vec::new(),
             });
         }
 
@@ -1143,42 +1476,66 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
             (converter, analysis, dep.errors.clone())
         };
 
-        let resource_resolver = crate::ResourceResolver::new(&self.fs, self.resolver.as_ref());
-        crate::analyzer::load_syntax_resources(
-            &mut analysis.classes,
-            &resource_resolver,
-            &file_path,
-            file_id,
-        );
+        // Resolve component resources and static/dynamic module dependencies concurrently through
+        // `AnalysisHost` so async hosts can batch all single-file lookups into one wave.
+        let resolve_ts_sources = |specifiers: &[String], kind: crate::host::ImportKind| {
+            futures::future::join_all(specifiers.iter().map(|specifier| {
+                let module_id = module_id.clone();
+                // Owned, so the returned futures don't borrow the closure's argument.
+                let specifier = specifier.clone();
+                async move {
+                    let Ok(Some(resolved)) = self
+                        .host
+                        .resolve(crate::host::ResolveRequest::new(module_id, specifier, kind))
+                        .await
+                    else {
+                        // Creating the file this specifier names must re-run this query.
+                        ctx.record_file(UNRESOLVED_IMPORTS_FILE_ID);
+                        return None;
+                    };
+                    let target_id = self.intern_resolved(&resolved.id, resolved.id_kind);
+                    if resolved.external {
+                        return None;
+                    }
+                    let is_program_ts_source = match resolved.id_kind {
+                        crate::host::IdKind::Path => is_ts_source(Path::new(resolved.id.as_str())),
+                        crate::host::IdKind::Virtual => resolved
+                            .format
+                            .is_some_and(crate::host::ModuleFormat::is_ts_source),
+                    };
+                    is_program_ts_source.then(|| self.lookup_path(target_id))
+                }
+            }))
+        };
+
+        let (_, static_resolved, dynamic_resolved) = futures::future::join3(
+            crate::analyzer::load_syntax_resources(
+                &mut analysis.classes,
+                self.host.as_ref(),
+                &module_id,
+                file_id,
+            ),
+            resolve_ts_sources(
+                &analysis.static_dependencies,
+                crate::host::ImportKind::Static,
+            ),
+            // TODO(ngp-host-h3/h5): split `import type` / `export type` and `TSImportType` out of
+            // `dynamic_dependencies` so `ResolveRequest` carries `type_only: true` and
+            // `ImportKind::TypeImport`.
+            resolve_ts_sources(
+                &analysis.dynamic_dependencies,
+                crate::host::ImportKind::Dynamic,
+            ),
+        )
+        .await;
+        let resolved_dependencies: Vec<PathBuf> = static_resolved.into_iter().flatten().collect();
+        let dynamic_dependencies: Vec<PathBuf> = dynamic_resolved.into_iter().flatten().collect();
 
         self.resource_registry
             .register_resources(&file_path, analysis.classes.iter());
 
         let (class_index, symbol_index) =
             class_index_from_registrations(&file_path, &analysis.registrations);
-
-        // Resolve the file's static and dynamic dependencies to on-disk TS sources. Single-file
-        // work (no other file is read); shared by the program closure (`ProgramFiles`), the
-        // streaming coordinator's traversal, and the static import graph.
-        let file_dir = file_path.parent().unwrap_or(Path::new("."));
-        let resolve_ts_sources = |specifiers: &[String]| {
-            let mut resolved_sources = Vec::new();
-            for specifier in specifiers {
-                let Ok(resolution) = self.resolver.resolve(file_dir, specifier) else {
-                    // Creating the file this specifier names must re-run this query.
-                    ctx.record_file(UNRESOLVED_IMPORTS_FILE_ID);
-                    continue;
-                };
-                let resolved = resolution.into_path_buf();
-                let canonical = self.fs.canonicalize(&resolved).unwrap_or(resolved);
-                if is_ts_source(&canonical) {
-                    resolved_sources.push(canonical);
-                }
-            }
-            resolved_sources
-        };
-        let resolved_dependencies = resolve_ts_sources(&analysis.static_dependencies);
-        let dynamic_dependencies = resolve_ts_sources(&analysis.dynamic_dependencies);
 
         Arc::new(FileData {
             file_id,
@@ -1205,6 +1562,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
             signal_debug_names: analysis.signal_debug_names,
             is_core: analysis.is_core,
             top_level_value_bindings: analysis.top_level_value_bindings,
+            namespace_alias_conflicts: analysis.namespace_alias_conflicts,
         })
     }
 
@@ -1214,7 +1572,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     async fn analyze_file_evaluated_body(
         self: &Arc<Self>,
         file_id: FileId,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<FileData> {
         let syntax = ctx.analyze_file_syntax(file_id).await;
         if !syntax
@@ -1255,7 +1613,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     async fn analyze_file_semantic_body(
         self: &Arc<Self>,
         file_id: FileId,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<FileData> {
         let local_result = ctx.analyze_file_evaluated(file_id).await;
         self.optimized_stage2(local_result.file_path.clone(), (*local_result).clone(), ctx)
@@ -1266,7 +1624,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         self: &Arc<Self>,
         file_id: FileId,
         is_optimized: bool,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<crate::query::keys::WireFileResult> {
         let parse_res = ctx.parse_file(file_id).await;
         let source_text = parse_res.lock().unwrap().borrow_owner().source_text.clone();
@@ -1342,7 +1700,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     /// `LocalModuleScopeRegistry` learns NgModules from any program file, not only the roots.
     /// Every walked file is a recorded dependency, since editing one can change the closure, and so
     /// is the root list itself ([`ROOTS_FILE_ID`]).
-    async fn program_files_body(self: &Arc<Self>, ctx: &QueryContext<Fs>) -> Arc<Vec<FileId>> {
+    async fn program_files_body(self: &Arc<Self>, ctx: &QueryContext) -> Arc<Vec<FileId>> {
         ctx.record_file(ROOTS_FILE_ID);
         let roots: Vec<PathBuf> = self.entrypoints.read().unwrap().clone();
 
@@ -1373,23 +1731,41 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         Arc::new(program_files)
     }
 
+    /// The contents of the tsconfig `.d.ts` `file_id`, loaded through the host, or `None` if the
+    /// host can't load it.
+    async fn load_dts_file(&self, file_id: FileId) -> Option<crate::host::LoadedModule> {
+        self.host
+            .load(&self.lookup_id(file_id), crate::host::LoadKind::Module, false)
+            .await
+            .ok()
+            .flatten()
+    }
+
     /// Index the tsconfig's `.d.ts` files by the ambient modules they may declare, from a textual
     /// scan of each file rather than a parse, so that resolving an import against ambient modules
     /// only parses the few files that can declare it. The `.d.ts` paths are canonicalized lazily
-    /// ([`Self::tsconfig_dts_file_id`]). Every scanned file is a recorded dependency, since an
-    /// edit to any of them may add or remove a declaration, and so is the list itself.
-    fn ambient_module_files_body(
+    /// ([`Self::tsconfig_dts_file_id`]) and the files loaded through the host in a single wave.
+    /// Every scanned file is a recorded dependency, since an edit to any of them may add or remove
+    /// a declaration, and so is the list itself.
+    async fn ambient_module_files_body(
         self: &Arc<Self>,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<crate::query::keys::AmbientModuleFiles> {
         ctx.record_file(ROOTS_FILE_ID);
-        let mut index = crate::query::keys::AmbientModuleFiles::new();
-        for file_id in (0..).map_while(|position| self.tsconfig_dts_file_id(position)) {
+        let dts_ids: Vec<FileId> = (0..)
+            .map_while(|position| self.tsconfig_dts_file_id(position))
+            .collect();
+        for &file_id in &dts_ids {
             ctx.record_file(file_id);
-            let Ok(source) = self.fs.read_to_string(&self.lookup_path(file_id)) else {
+        }
+        let loads = dts_ids.iter().map(|&file_id| self.load_dts_file(file_id));
+        let loaded_files = futures::future::join_all(loads).await;
+        let mut index = crate::query::keys::AmbientModuleFiles::new();
+        for (file_id, loaded) in dts_ids.into_iter().zip(loaded_files) {
+            let Some(loaded) = loaded else {
                 continue;
             };
-            for specifier in ambient_module_names(&source) {
+            for specifier in ambient_module_names(&loaded.code) {
                 let files = index.entry(specifier.to_string()).or_default();
                 if files.last() != Some(&file_id) {
                     files.push(file_id);
@@ -1403,7 +1779,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     /// `ComponentMapping` singleton).
     async fn component_mapping_body(
         self: &Arc<Self>,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<NgModuleComponentMap> {
         let program_files = ctx.program_files().await;
         let analyze_futures = program_files
@@ -1463,7 +1839,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
 
     async fn local_extra_imports_body(
         self: &Arc<Self>,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<crate::query::keys::LocalExtraImportsData> {
         ctx.record_file(ROOTS_FILE_ID);
         let entrypoints: Vec<PathBuf> = self.entrypoints.read().unwrap().clone();
@@ -1471,66 +1847,72 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
             .iter()
             .map(|path| self.intern_path(path))
             .collect();
-        let entrypoints_set: HashSet<PathBuf> = entrypoints
-            .iter()
-            .map(|path| crate::fs::normalize_path(path).into_owned())
-            .collect();
+        let mut entrypoints_set: HashSet<PathBuf> = HashSet::with_capacity(entrypoints.len() * 2);
+        for path in &entrypoints {
+            entrypoints_set.insert(crate::fs::normalize_path(path).into_owned());
+            if let Some(canon) = self.host.canonicalize_path(path) {
+                entrypoints_set.insert(crate::fs::normalize_path(&canon).into_owned());
+            }
+        }
 
         let analyze_futures = entrypoints
             .iter()
             .map(|path| ctx.analyze_file_syntax(self.intern_path(path)));
         let entrypoint_syntax = futures::future::join_all(analyze_futures).await;
 
-        let mut global_extra_imports: Vec<(FileId, String)> = Vec::new();
-        let mut seen_global: HashSet<(FileId, String)> = HashSet::new();
+        let mut candidates: Vec<(FileId, String)> = Vec::new();
         for syntax in &entrypoint_syntax {
             let ep_id = syntax.file_id;
-            let ep_dir = syntax
-                .file_path
-                .parent()
-                .unwrap_or(Path::new("."))
-                .to_path_buf();
-
             for class in &syntax.classes {
                 let Some(ng_module) = class.as_ng_module() else {
                     continue;
                 };
-
-                let mut specifiers: Vec<String> = Vec::new();
                 if let Some(imports) = &ng_module.imports {
                     for hole in crate::evaluator::value::collect_holes(imports.raw()) {
                         if let crate::evaluator::value::IncompleteDep::Reference(target) = &hole.dep
                         {
-                            specifiers.push(target.specifier.clone());
+                            candidates.push((ep_id, target.specifier.clone()));
                         }
                     }
                 }
                 for import_info in &ng_module.parsed_imports {
                     if let Some(source) = &import_info.import_source {
-                        specifiers.push(source.clone());
+                        candidates.push((ep_id, source.clone()));
                     }
                 }
+            }
+        }
 
-                for specifier in specifiers {
-                    let is_local_entrypoint = self
-                        .resolver
-                        .resolve(&ep_dir, &specifier)
-                        .ok()
-                        .map(|resolution| resolution.into_path_buf())
-                        .is_some_and(|path| {
-                            entrypoints_set.contains(crate::fs::normalize_path(&path).as_ref())
-                                || self.fs.canonicalize(&path).is_ok_and(|canon| {
-                                    entrypoints_set
-                                        .contains(crate::fs::normalize_path(&canon).as_ref())
-                                })
-                        });
-                    if is_local_entrypoint {
-                        continue;
-                    }
-                    if seen_global.insert((ep_id, specifier.clone())) {
-                        global_extra_imports.push((ep_id, specifier));
-                    }
+        let resolved_candidates =
+            futures::future::join_all(candidates.into_iter().map(|(ep_id, specifier)| async move {
+                let resolved = self
+                    .resolve_from_id(ep_id, &specifier, crate::host::ImportKind::Static)
+                    .await;
+                (ep_id, specifier, resolved)
+            }))
+            .await;
+
+        let mut global_extra_imports: Vec<(FileId, String)> = Vec::new();
+        let mut seen_global: HashSet<(FileId, String)> = HashSet::new();
+        for (ep_id, specifier, resolved) in resolved_candidates {
+            let is_local_entrypoint = resolved.is_some_and(|(target_id, module)| {
+                if entrypoints_ids.contains(&target_id) {
+                    return true;
                 }
+                if module.id_kind != crate::host::IdKind::Path {
+                    return false;
+                }
+                let path = Path::new(module.id.as_str());
+                entrypoints_set.contains(crate::fs::normalize_path(path).as_ref())
+                    || self.host.canonicalize_path(path).is_some_and(|canon| {
+                        entrypoints_set.contains(crate::fs::normalize_path(&canon).as_ref())
+                    })
+            });
+            if is_local_entrypoint {
+                continue;
+            }
+            if seen_global.insert((ep_id, specifier.clone())) {
+                global_extra_imports.push((ep_id, specifier));
             }
         }
 
@@ -1551,7 +1933,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
     pub async fn populate_local_compilation_extra_imports(
         self: &Arc<Self>,
         local_result: &mut FileData,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) {
         let mut has_component_candidate = false;
         let mut has_directive_or_pipe_candidate = false;
@@ -1640,7 +2022,7 @@ impl<Fs: ResourceResolverFs + Clone + 'static> QueryEngine<Fs> {
         self: &Arc<Self>,
         file_path: PathBuf,
         mut local_result: FileData,
-        ctx: &QueryContext<Fs>,
+        ctx: &QueryContext,
     ) -> Arc<FileData> {
         let function_facts = local_result.function_facts.clone();
         for class in &mut local_result.classes {
@@ -1957,10 +2339,10 @@ pub enum SymbolValueKind {
 /// intermediate re-export/import hop to [`SymbolValueKind::Unresolved`]. `Unresolved` (not
 /// `TypeOnly`) keeps the reference in metadata and the factory with only the `@ts-ignore` guard,
 /// matching the chase's handling of `export type { X } from`.
-async fn classify_declaration<Fs: ResourceResolverFs + Clone + 'static>(
+async fn classify_declaration(
     decl: Option<crate::evaluator::cross_file::DeclaredSymbol>,
     consumer: &Path,
-    ctx: &QueryContext<Fs>,
+    ctx: &QueryContext,
 ) -> SymbolValueKind {
     let Some(decl) = decl else {
         return SymbolValueKind::Unresolved;
@@ -1978,10 +2360,10 @@ async fn classify_declaration<Fs: ResourceResolverFs + Clone + 'static>(
 /// the symbol only in type position. Imports are judged by the bound name (`decl.aliases`) and
 /// exports by the exported name (`decl.export_hops`), since a hop may rename
 /// (`export type { X as Y }` records `Y` in `export_hops` and `X` in `aliases`).
-async fn reached_through_type_only_hop<Fs: ResourceResolverFs + Clone + 'static>(
+async fn reached_through_type_only_hop(
     decl: &crate::evaluator::cross_file::DeclaredSymbol,
     consumer: &Path,
-    ctx: &QueryContext<Fs>,
+    ctx: &QueryContext,
 ) -> bool {
     let consumer_id = ctx.engine.intern_path(consumer);
     for (file_id, local_name) in &decl.aliases {
@@ -2012,11 +2394,7 @@ async fn reached_through_type_only_hop<Fs: ResourceResolverFs + Clone + 'static>
 }
 
 /// Whether `file` binds or exports `name` only in type position (used for re-exported namespaces).
-async fn namespace_is_type_only<Fs: ResourceResolverFs + Clone + 'static>(
-    file: &Path,
-    name: &str,
-    ctx: &QueryContext<Fs>,
-) -> bool {
+async fn namespace_is_type_only(file: &Path, name: &str, ctx: &QueryContext) -> bool {
     let parsed = ctx.parse_file(ctx.engine.intern_path(file)).await;
     let guard = parsed.lock().unwrap();
     let dep = guard.borrow_dependent();
@@ -2024,10 +2402,10 @@ async fn namespace_is_type_only<Fs: ResourceResolverFs + Clone + 'static>(
         || crate::analyzer::utils::exports_type_only(dep.program, name)
 }
 
-pub fn resolve_symbol_value_kind<'a, Fs: ResourceResolverFs + Clone + 'static>(
+pub fn resolve_symbol_value_kind<'a>(
     name: String,
     file_path: PathBuf,
-    ctx: &'a QueryContext<Fs>,
+    ctx: &'a QueryContext,
     visited: &'a mut HashSet<(PathBuf, String)>,
 ) -> BoxFuture<'a, SymbolValueKind> {
     async move {
@@ -2070,10 +2448,10 @@ pub fn resolve_symbol_value_kind<'a, Fs: ResourceResolverFs + Clone + 'static>(
 /// then. Without one the module is missing and its symbols have no value — except under
 /// `@angular/*`, which unit tests omitting the `@angular/core` `.d.ts` stubs still expect to be
 /// values like `ElementRef`.
-async fn classify_unresolvable_import<Fs: ResourceResolverFs + Clone + 'static>(
+async fn classify_unresolvable_import(
     file_path: &Path,
     name: &str,
-    ctx: &QueryContext<Fs>,
+    ctx: &QueryContext,
 ) -> Option<SymbolValueKind> {
     let syntax = ctx
         .analyze_file_syntax(ctx.engine.intern_path(file_path))
@@ -2085,12 +2463,10 @@ async fn classify_unresolvable_import<Fs: ResourceResolverFs + Clone + 'static>(
             .find(|binding| binding.local == name && !binding.is_type)?;
         Some((decl.specifier.as_str(), binding))
     })?;
-    if crate::evaluator::cross_file::resolve_specifier(
-        ctx.engine.resolver.as_ref(),
-        file_path,
-        specifier,
-    )
-    .is_some()
+    if ctx
+        .resolve_from_path(file_path, specifier, crate::host::ImportKind::Static)
+        .await
+        .is_some()
     {
         return None;
     }
@@ -2112,11 +2488,11 @@ fn find_namespace_import_specifier<'a>(syntax: &'a FileData, ns_prefix: &str) ->
     None
 }
 
-async fn resolve_qualified_symbol_value_kind<Fs: ResourceResolverFs + Clone + 'static>(
+async fn resolve_qualified_symbol_value_kind(
     ns_prefix: &str,
     member_name: &str,
     file_path: PathBuf,
-    ctx: &QueryContext<Fs>,
+    ctx: &QueryContext,
     visited: &mut HashSet<(PathBuf, String)>,
 ) -> SymbolValueKind {
     if !visited.insert((file_path.clone(), format!("{ns_prefix}.{member_name}"))) {
@@ -2154,11 +2530,10 @@ async fn resolve_qualified_symbol_value_kind<Fs: ResourceResolverFs + Clone + 's
     };
 
     if let Some((inner_ns, _)) = member_name.split_once('.') {
-        let Some(target_file) = crate::evaluator::cross_file::resolve_specifier(
-            ctx.engine.resolver.as_ref(),
-            &file_path,
-            specifier,
-        ) else {
+        let Some((_, target_file)) = ctx
+            .resolve_from_path(&file_path, specifier, crate::host::ImportKind::Static)
+            .await
+        else {
             return resolve_ambient_module_member(specifier, member_name, ctx)
                 .await
                 .unwrap_or(SymbolValueKind::Unresolved);
@@ -2203,19 +2578,17 @@ async fn resolve_qualified_symbol_value_kind<Fs: ResourceResolverFs + Clone + 's
 /// module shapes `cross_file_resolve` cannot chase, since it only tracks ES module exports: a
 /// `.d.ts` on disk whose exports are the members of a `declare namespace foo { ... } export = foo;`,
 /// or an ambient `declare module` standing in for a specifier that is no file at all.
-async fn resolve_namespace_module_member<Fs: ResourceResolverFs + Clone + 'static>(
+async fn resolve_namespace_module_member(
     file_path: &Path,
     specifier: &str,
     member_path: &str,
-    ctx: &QueryContext<Fs>,
+    ctx: &QueryContext,
 ) -> Option<SymbolValueKind> {
-    let target_file = crate::evaluator::cross_file::resolve_specifier(
-        ctx.engine.resolver.as_ref(),
-        file_path,
-        specifier,
-    );
-    match target_file {
-        Some(target_file) => {
+    let resolved = ctx
+        .resolve_from_path(file_path, specifier, crate::host::ImportKind::Static)
+        .await;
+    match resolved {
+        Some((_, target_file)) => {
             resolve_export_equals_namespace_member(&target_file, member_path, ctx).await
         }
         None => resolve_ambient_module_member(specifier, member_path, ctx).await,
@@ -2223,10 +2596,10 @@ async fn resolve_namespace_module_member<Fs: ResourceResolverFs + Clone + 'stati
 }
 
 /// Resolves a member inside a `declare namespace N { ... } export = N;` ambient `.d.ts` file.
-async fn resolve_export_equals_namespace_member<Fs: ResourceResolverFs + Clone + 'static>(
+async fn resolve_export_equals_namespace_member(
     target_file: &Path,
     member_path: &str,
-    ctx: &QueryContext<Fs>,
+    ctx: &QueryContext,
 ) -> Option<SymbolValueKind> {
     let file_id = ctx.engine.intern_path(target_file);
     let parsed = ctx.parse_file(file_id).await;
@@ -2253,10 +2626,10 @@ async fn resolve_export_equals_namespace_member<Fs: ResourceResolverFs + Clone +
 /// files export it, or `None` when none of them declares the module. TS merges same-named
 /// blocks, so a value declared by any of them wins, then a type, then the bare fact that the
 /// module exists with exports this reader cannot see (as with a bodiless `declare module 'x';`).
-async fn resolve_ambient_module_member<Fs: ResourceResolverFs + Clone + 'static>(
+async fn resolve_ambient_module_member(
     specifier: &str,
     member: &str,
-    ctx: &QueryContext<Fs>,
+    ctx: &QueryContext,
 ) -> Option<SymbolValueKind> {
     // Only the files the index finds a `declare module '<specifier>'` in are parsed, so a
     // specifier no file declares (a typo, an uninstalled package) costs a map lookup.
@@ -2914,6 +3287,8 @@ mod tests {
 
     #[test]
     fn test_ambient_global_names_and_lookup_order() {
+        use futures::executor::block_on;
+
         let fs = create_test_fs(&[
             (
                 "/project/script.d.ts",
@@ -2976,7 +3351,7 @@ mod tests {
         // A lookup stops at the first file that may declare the name, and depends on the roots
         // rather than on the files it scanned.
         assert_eq!(
-            ctx.next_ambient_global_candidate("COMPILED", consumer_id, 0),
+            block_on(ctx.next_ambient_global_candidate("COMPILED", consumer_id, 0)),
             Some((0, script_id))
         );
         assert!(!engine
@@ -2985,15 +3360,15 @@ mod tests {
             .unwrap()
             .contains_key(&umd_id));
         assert_eq!(
-            ctx.next_ambient_global_candidate("NESTED_GLOBAL_AUG", consumer_id, 0),
+            block_on(ctx.next_ambient_global_candidate("NESTED_GLOBAL_AUG", consumer_id, 0)),
             Some((3, esm_id))
         );
         assert_eq!(
-            ctx.next_ambient_global_candidate("NESTED_GLOBAL_AUG", consumer_id, 4),
+            block_on(ctx.next_ambient_global_candidate("NESTED_GLOBAL_AUG", consumer_id, 4)),
             None
         );
         assert_eq!(
-            ctx.next_ambient_global_candidate("UNDECLARED", consumer_id, 0),
+            block_on(ctx.next_ambient_global_candidate("UNDECLARED", consumer_id, 0)),
             None
         );
         assert!(ctx.dependencies().contains(&ROOTS_FILE_ID));
@@ -3010,7 +3385,7 @@ mod tests {
                 .contains_key(&id));
         }
 
-        let names = |id| engine.ambient_global_names(id);
+        let names = |id| block_on(engine.ambient_global_names(id));
         for name in [
             "TOKEN",
             "COMPILED",
@@ -3042,10 +3417,7 @@ mod tests {
     fn ambient_global_test_engine(
         files: &[(String, String)],
         dts_paths: Vec<PathBuf>,
-    ) -> (
-        Arc<QueryEngine<crate::fs::OverlayFileSystem>>,
-        crate::fs::OverlayFileSystem,
-    ) {
+    ) -> (Arc<QueryEngine>, crate::fs::OverlayFileSystem) {
         let fs = create_test_fs(&[]);
         for (path, content) in files {
             fs.upsert_file(PathBuf::from(path), content.clone());
@@ -3070,10 +3442,7 @@ mod tests {
         (engine, fs)
     }
 
-    fn app_selector(
-        engine: &Arc<QueryEngine<crate::fs::OverlayFileSystem>>,
-        is_optimized: bool,
-    ) -> Option<String> {
+    fn app_selector(engine: &Arc<QueryEngine>, is_optimized: bool) -> Option<String> {
         let wire = engine.analyze_file_wire_blocking("/project/app.ts", is_optimized);
         let result = wire.0.as_ref().unwrap();
         assert!(result.diagnostics.is_empty(), "{:?}", result.diagnostics);
@@ -3189,7 +3558,7 @@ mod tests {
         // A lookup from another file's analysis rescans `extra.d.ts` without evicting anything
         // partway through that analysis...
         assert_eq!(
-            engine.next_ambient_global_candidate("FUTURE_SEL", 0),
+            futures::executor::block_on(engine.next_ambient_global_candidate("FUTURE_SEL", 0)),
             Some((1, extra_id))
         );
         assert!(engine.has_cached_wire(app_id, true));
@@ -3295,7 +3664,8 @@ mod tests {
         let (engine, fs) =
             ambient_global_test_engine(&files, vec![PathBuf::from("/project/globals.d.ts")]);
         let app_id = engine.intern_path("/project/app.ts");
-        let candidates = || engine.next_ambient_global_candidate("COMPILED", 0);
+        let candidates =
+            || futures::executor::block_on(engine.next_ambient_global_candidate("COMPILED", 0));
 
         assert_eq!(app_selector(&engine, true).as_deref(), Some("app-prod"));
         assert_eq!(app_selector(&engine, false).as_deref(), Some("app-prod"));
@@ -3444,6 +3814,8 @@ mod tests {
 
     #[test]
     fn test_repeated_ambient_global_lookups_are_memoized() {
+        use futures::executor::block_on;
+
         let mut files = Vec::new();
         let mut dts_paths = Vec::new();
         for i in 0..4 {
@@ -3453,21 +3825,24 @@ mod tests {
         }
         let (engine, fs) = ambient_global_test_engine(&files, dts_paths);
         let lib_3_id = engine.intern_path("/project/lib_3.d.ts");
-        assert_eq!(engine.next_ambient_global_candidate("Number", 0), None);
         assert_eq!(
-            engine.next_ambient_global_candidate("G3", 0),
+            block_on(engine.next_ambient_global_candidate("Number", 0)),
+            None
+        );
+        assert_eq!(
+            block_on(engine.next_ambient_global_candidate("G3", 0)),
             Some((3, lib_3_id))
         );
 
         // Repeated lookups, including of a name no `.d.ts` declares, neither walk the files again
         // nor wait for a scan.
-        let scan = engine.ambient_global_scan.lock().unwrap();
+        let scan = block_on(engine.ambient_global_scan.lock());
         let (sender, receiver) = std::sync::mpsc::channel();
         let lookup_engine = engine.clone();
         std::thread::spawn(move || {
             let _ = sender.send((
-                lookup_engine.next_ambient_global_candidate("Number", 0),
-                lookup_engine.next_ambient_global_candidate("G3", 0),
+                block_on(lookup_engine.next_ambient_global_candidate("Number", 0)),
+                block_on(lookup_engine.next_ambient_global_candidate("G3", 0)),
             ));
         });
         let memoized = receiver.recv_timeout(std::time::Duration::from_secs(10));
@@ -3482,7 +3857,7 @@ mod tests {
         engine.invalidate_file(Path::new("/project/lib_0.d.ts"));
         let lib_0_id = engine.intern_path("/project/lib_0.d.ts");
         assert_eq!(
-            engine.next_ambient_global_candidate("Number", 0),
+            block_on(engine.next_ambient_global_candidate("Number", 0)),
             Some((0, lib_0_id))
         );
     }
@@ -4391,10 +4766,7 @@ mod tests {
         );
     }
 
-    fn selector_engine(
-        files: &[(&str, &str)],
-        entry: &str,
-    ) -> Arc<QueryEngine<crate::fs::OverlayFileSystem>> {
+    fn selector_engine(files: &[(&str, &str)], entry: &str) -> Arc<QueryEngine> {
         let fs = create_test_fs(files);
         let resolver = Arc::new(ResolverGeneric::new_with_file_system(
             fs.clone(),
@@ -4421,11 +4793,7 @@ mod tests {
     }
 
     /// The selector a cross-file consumer sees for `name`, declared in `file`.
-    async fn resolved_selector(
-        ctx: &QueryContext<crate::fs::OverlayFileSystem>,
-        file: FileId,
-        name: &str,
-    ) -> Option<String> {
+    async fn resolved_selector(ctx: &QueryContext, file: FileId, name: &str) -> Option<String> {
         let evaluated = ctx.analyze_file_evaluated(file).await;
         evaluated.class_index[name].selector.clone()
     }
@@ -4556,19 +4924,812 @@ mod tests {
             .collect();
         assert_eq!(selectors, vec![Some("my-dialog")]);
     }
+
+    fn yield_once<T: Send + 'static>(value: T) -> crate::host::HostFuture<T> {
+        let mut yielded = false;
+        let mut value = Some(value);
+        Box::pin(std::future::poll_fn(move |cx| {
+            if !yielded {
+                yielded = true;
+                cx.waker().wake_by_ref();
+                std::task::Poll::Pending
+            } else {
+                std::task::Poll::Ready(value.take().expect("polled after completion"))
+            }
+        }))
+    }
+
+    struct AsyncMemoryHost {
+        resolutions: HashMap<(String, String), crate::host::ResolvedModule>,
+        modules: HashMap<String, crate::host::LoadedModule>,
+        resources: HashMap<(String, String), crate::host::ResolvedResourceId>,
+        resource_contents: HashMap<String, String>,
+    }
+
+    impl crate::host::AnalysisHost for AsyncMemoryHost {
+        fn resolve(
+            &self,
+            req: crate::host::ResolveRequest,
+        ) -> crate::host::HostFuture<
+            Result<Option<crate::host::ResolvedModule>, crate::host::HostError>,
+        > {
+            let hit = self
+                .resolutions
+                .get(&(req.importer.as_str().to_owned(), req.specifier))
+                .cloned();
+            yield_once(Ok(hit))
+        }
+
+        fn load(
+            &self,
+            id: &crate::host::ModuleId,
+            kind: crate::host::LoadKind,
+            _external: bool,
+        ) -> crate::host::HostFuture<
+            Result<Option<crate::host::LoadedModule>, crate::host::HostError>,
+        > {
+            let hit = match kind {
+                crate::host::LoadKind::Module => self.modules.get(id.as_str()).cloned(),
+                crate::host::LoadKind::Template | crate::host::LoadKind::Style => {
+                    self.resource_contents.get(id.as_str()).map(|text| {
+                        crate::host::LoadedModule {
+                            code: Arc::from(text.as_str()),
+                            format: None,
+                        }
+                    })
+                }
+            };
+            yield_once(Ok(hit))
+        }
+
+        fn resolve_resource(
+            &self,
+            containing: &crate::host::ModuleId,
+            url: &str,
+            _kind: crate::host::ResourceKind,
+        ) -> crate::host::HostFuture<
+            Result<Option<crate::host::ResolvedResourceId>, crate::host::HostError>,
+        > {
+            let hit = self
+                .resources
+                .get(&(containing.as_str().to_owned(), url.to_owned()))
+                .cloned();
+            yield_once(Ok(hit))
+        }
+    }
+
+    #[test]
+    fn async_host_resolves_virtual_modules_and_resources_end_to_end() {
+        use crate::host::{
+            IdKind, LoadedModule, ModuleFormat, ModuleId, ResolvedModule, ResolvedResourceId,
+        };
+
+        let app_mod = ModuleId::new("\0virtual:app");
+        let child_mod = ModuleId::new("\0virtual:child");
+        let tpl_res = ModuleId::new("\0virtual:app.html");
+        let css_res = ModuleId::new("\0virtual:app.css");
+
+        let mut resolutions = HashMap::new();
+        resolutions.insert(
+            (app_mod.as_str().to_owned(), "virtual:child".to_owned()),
+            ResolvedModule {
+                id: child_mod.clone(),
+                id_kind: IdKind::Virtual,
+                format: Some(ModuleFormat::Ts),
+                external: false,
+                code: None,
+            },
+        );
+
+        let mut modules = HashMap::new();
+        modules.insert(
+            app_mod.as_str().to_owned(),
+            LoadedModule {
+                code: Arc::from(
+                    "import { Component } from '@angular/core';\n\
+                     import { ChildCmp } from 'virtual:child';\n\
+                     @Component({\n\
+                       selector: 'app-root',\n\
+                       templateUrl: './app.html',\n\
+                       styleUrl: './app.css',\n\
+                       imports: [ChildCmp],\n\
+                     })\n\
+                     export class AppCmp {}\n",
+                ),
+                format: Some(ModuleFormat::Ts),
+            },
+        );
+        modules.insert(
+            child_mod.as_str().to_owned(),
+            LoadedModule {
+                code: Arc::from(
+                    "import { Component } from '@angular/core';\n\
+                     @Component({ selector: 'child-cmp', template: '<span>hi</span>' })\n\
+                     export class ChildCmp {}\n",
+                ),
+                format: Some(ModuleFormat::Ts),
+            },
+        );
+
+        let mut resources = HashMap::new();
+        resources.insert(
+            (app_mod.as_str().to_owned(), "./app.html".to_owned()),
+            ResolvedResourceId {
+                id: tpl_res,
+                id_kind: IdKind::Virtual,
+                code: Some(Arc::from("<child-cmp></child-cmp>")),
+            },
+        );
+        resources.insert(
+            (app_mod.as_str().to_owned(), "./app.css".to_owned()),
+            ResolvedResourceId {
+                id: css_res.clone(),
+                id_kind: IdKind::Virtual,
+                code: None,
+            },
+        );
+
+        let mut resource_contents = HashMap::new();
+        resource_contents.insert(
+            css_res.as_str().to_owned(),
+            "\u{feff}.host { color: red; }".to_owned(),
+        );
+
+        let host = Arc::new(AsyncMemoryHost {
+            resolutions,
+            modules,
+            resources,
+            resource_contents,
+        });
+        let registry = Arc::new(ResourceRegistry::default());
+        let entrypoints = Arc::new(std::sync::RwLock::new(vec![PathBuf::from(
+            app_mod.as_str(),
+        )]));
+        let engine = QueryEngine::new_default_with_host(host, registry, entrypoints);
+
+        let app_id = engine.intern_module(app_mod.as_str(), IdKind::Virtual);
+        let ctx = QueryContext::new(engine.clone());
+        let (program_files, semantic) = block_on_with_timeout(async move {
+            futures::future::join(ctx.program_files(), ctx.analyze_file_semantic(app_id)).await
+        });
+
+        let child_id = engine.intern_module(child_mod.as_str(), IdKind::Virtual);
+        assert_eq!(engine.lookup_kind(app_id), IdKind::Virtual);
+        assert_eq!(engine.lookup_kind(child_id), IdKind::Virtual);
+        assert_eq!(*program_files, vec![app_id, child_id]);
+
+        let cmp = semantic.classes[0].as_component().expect("AppCmp");
+        assert_eq!(
+            cmp.template.as_ref().and_then(|template| template.get_optional()),
+            Some("<child-cmp></child-cmp>".to_owned())
+        );
+        assert_eq!(cmp.styles_from_urls, Some(vec![".host { color: red; }".to_owned()]));
+        let decls = cmp
+            .resolved_declarations
+            .as_ref()
+            .expect("resolved declarations");
+        assert_eq!(decls.len(), 1);
+        assert_eq!(decls[0].selector.as_deref(), Some("child-cmp"));
+    }
+
+    #[test]
+    fn async_host_excludes_external_modules_from_program_closure_while_reading_metadata() {
+        use crate::host::{IdKind, LoadedModule, ModuleFormat, ModuleId, ResolvedModule};
+
+        let app_mod = ModuleId::new("\0virtual:app");
+        let ext_dts_mod = ModuleId::new("\0ext:@ext/pkg/index.d.ts");
+        let ext_ts_mod = ModuleId::new("\0ext:helper.ts");
+
+        let mut resolutions = HashMap::new();
+        resolutions.insert(
+            (app_mod.as_str().to_owned(), "@ext/pkg".to_owned()),
+            ResolvedModule {
+                id: ext_dts_mod.clone(),
+                id_kind: IdKind::Virtual,
+                format: Some(ModuleFormat::Dts),
+                external: true,
+                code: None,
+            },
+        );
+        resolutions.insert(
+            (app_mod.as_str().to_owned(), "./helper".to_owned()),
+            ResolvedModule {
+                id: ext_ts_mod.clone(),
+                id_kind: IdKind::Virtual,
+                format: Some(ModuleFormat::Ts),
+                external: true,
+                code: None,
+            },
+        );
+
+        let mut modules = HashMap::new();
+        modules.insert(
+            app_mod.as_str().to_owned(),
+            LoadedModule {
+                code: Arc::from(
+                    "import { Component } from '@angular/core';\n\
+                     import { ExtDir } from '@ext/pkg';\n\
+                     import './helper';\n\
+                     @Component({\n\
+                       selector: 'app-root',\n\
+                       template: '<div extDir></div>',\n\
+                       imports: [ExtDir],\n\
+                     })\n\
+                     export class AppCmp {}\n",
+                ),
+                format: Some(ModuleFormat::Ts),
+            },
+        );
+        modules.insert(
+            ext_dts_mod.as_str().to_owned(),
+            LoadedModule {
+                code: Arc::from(
+                    "import * as i0 from '@angular/core';\n\
+                     export declare class ExtDir {\n\
+                       static ɵdir: i0.ɵɵDirectiveDeclaration<ExtDir, '[extDir]', never, {}, {}, never, never, true, never>;\n\
+                     }\n",
+                ),
+                format: Some(ModuleFormat::Dts),
+            },
+        );
+        modules.insert(
+            ext_ts_mod.as_str().to_owned(),
+            LoadedModule {
+                code: Arc::from("export const HELPER = 1;\n"),
+                format: Some(ModuleFormat::Ts),
+            },
+        );
+
+        let host = Arc::new(AsyncMemoryHost {
+            resolutions,
+            modules,
+            resources: HashMap::new(),
+            resource_contents: HashMap::new(),
+        });
+        let registry = Arc::new(ResourceRegistry::default());
+        let entrypoints = Arc::new(std::sync::RwLock::new(vec![PathBuf::from(
+            app_mod.as_str(),
+        )]));
+        let engine = QueryEngine::new_default_with_host(host, registry, entrypoints);
+
+        let app_id = engine.intern_module(app_mod.as_str(), IdKind::Virtual);
+        let ctx = QueryContext::new(engine);
+        let (program_files, semantic) = block_on_with_timeout(async move {
+            futures::future::join(ctx.program_files(), ctx.analyze_file_semantic(app_id)).await
+        });
+
+        assert_eq!(*program_files, vec![app_id]);
+
+        let cmp = semantic.classes[0].as_component().expect("AppCmp");
+        let decls = cmp
+            .resolved_declarations
+            .as_ref()
+            .expect("resolved declarations");
+        assert_eq!(decls.len(), 1);
+        assert_eq!(decls[0].selector.as_deref(), Some("[extDir]"));
+    }
+
+    #[test]
+    fn kind_change_reruns_only_runs_that_read_the_file_before_it_changed() {
+        use crate::host::{IdKind, ModuleId};
+
+        let host = Arc::new(AsyncMemoryHost {
+            resolutions: HashMap::new(),
+            modules: HashMap::new(),
+            resources: HashMap::new(),
+            resource_contents: HashMap::new(),
+        });
+        let registry = Arc::new(ResourceRegistry::default());
+        let entrypoints = Arc::new(std::sync::RwLock::new(Vec::new()));
+        let engine = QueryEngine::new_default_with_host(host, registry, entrypoints);
+        let lib_mod = ModuleId::new("/kind_change_runs/lib.ts");
+        let lib_id = engine.intern_module(lib_mod.as_str(), IdKind::Path);
+        let other_id = engine.intern_module("/kind_change_runs/other.ts", IdKind::Path);
+        let key = QueryKey::AnalyzeFileSyntax(other_id);
+
+        // Reporting the kind `lib.ts` was interned with isn't a change.
+        let started = engine.kind_epoch();
+        assert_eq!(engine.intern_resolved(&lib_mod, IdKind::Path), lib_id);
+        assert_eq!(engine.kind_epoch(), started);
+
+        assert_eq!(engine.intern_resolved(&lib_mod, IdKind::Virtual), lib_id);
+        assert_eq!(engine.lookup_kind(lib_id), IdKind::Virtual);
+        // A run that started before the change and read `lib.ts` is discarded, but not one that
+        // didn't read it or that started after the change.
+        assert!(!engine.record_dependencies(key, &HashSet::from([lib_id]), started));
+        assert!(engine.record_dependencies(key, &HashSet::from([other_id]), started));
+        assert!(engine.record_dependencies(key, &HashSet::from([lib_id]), engine.kind_epoch()));
+    }
+
+    #[test]
+    fn query_reruns_when_a_file_it_read_changes_kind_while_it_runs() {
+        use crate::host::{IdKind, LoadedModule, ModuleFormat, ModuleId, ResolvedModule};
+
+        let lib = "/kind_change_rerun/lib.ts";
+        // `lib.ts` is interned as a path, as a bare-string root would be. Its syntax analysis
+        // resolves its own import, for which the host reports `reported_kind`.
+        let analyze = |reported_kind: IdKind| {
+            let mut resolutions = HashMap::new();
+            resolutions.insert(
+                (lib.to_owned(), "./lib".to_owned()),
+                ResolvedModule {
+                    id: ModuleId::new(lib),
+                    id_kind: reported_kind,
+                    format: Some(ModuleFormat::Dts),
+                    external: false,
+                    code: None,
+                },
+            );
+            let mut modules = HashMap::new();
+            modules.insert(
+                lib.to_owned(),
+                LoadedModule {
+                    code: Arc::from(
+                        "import { Component } from '@angular/core';\n\
+                         import './lib';\n\
+                         @Component({ selector: 'lib-cmp', template: '' })\n\
+                         export class LibCmp {}\n",
+                    ),
+                    format: Some(ModuleFormat::Dts),
+                },
+            );
+            let host = Arc::new(AsyncMemoryHost {
+                resolutions,
+                modules,
+                resources: HashMap::new(),
+                resource_contents: HashMap::new(),
+            });
+            let registry = Arc::new(ResourceRegistry::default());
+            let entrypoints = Arc::new(std::sync::RwLock::new(Vec::new()));
+            let engine = QueryEngine::new_default_with_host(host, registry, entrypoints);
+            let lib_id = engine.intern_module(lib, IdKind::Path);
+            let ctx = QueryContext::new(engine.clone());
+            let syntax =
+                block_on_with_timeout(async move { ctx.analyze_file_syntax(lib_id).await });
+            let selector = syntax
+                .class_index
+                .get("LibCmp")
+                .and_then(|class| class.selector.clone());
+            (engine.lookup_kind(lib_id), selector)
+        };
+
+        // Still a path, `lib.ts` is analyzed as the TypeScript module declaring `lib-cmp`.
+        assert_eq!(
+            analyze(IdKind::Path),
+            (IdKind::Path, Some("lib-cmp".to_owned()))
+        );
+        // Reported as a virtual `.d.ts` partway through, the run that analyzed it as TypeScript is
+        // discarded and the analysis re-runs on the `.d.ts`, which declares no component.
+        assert_eq!(analyze(IdKind::Virtual), (IdKind::Virtual, None));
+    }
+
+    #[test]
+    fn async_host_resolves_ambient_globals_from_tsconfig_dts_files() {
+        use crate::host::{IdKind, LoadedModule, ModuleFormat, ModuleId};
+
+        let app_mod = ModuleId::new("\0virtual:app");
+        // The `.d.ts` caches are process-wide, so this test uses its own path.
+        let globals = PathBuf::from("/async_host_ambient/globals.d.ts");
+
+        let mut modules = HashMap::new();
+        modules.insert(
+            app_mod.as_str().to_owned(),
+            LoadedModule {
+                code: Arc::from(
+                    "import { Component } from '@angular/core';\n\
+                     @Component({ selector: COMPILED ? 'app-prod' : 'app-dev', template: '' })\n\
+                     export class AppCmp {}\n",
+                ),
+                format: Some(ModuleFormat::Ts),
+            },
+        );
+        modules.insert(
+            ModuleId::from_path(&globals).as_str().to_owned(),
+            LoadedModule {
+                code: Arc::from("declare const COMPILED: true;\n"),
+                format: Some(ModuleFormat::Dts),
+            },
+        );
+
+        let host = Arc::new(AsyncMemoryHost {
+            resolutions: HashMap::new(),
+            modules,
+            resources: HashMap::new(),
+            resource_contents: HashMap::new(),
+        });
+        let entrypoints = Arc::new(std::sync::RwLock::new(vec![PathBuf::from(
+            app_mod.as_str(),
+        )]));
+        let registry = Arc::new(ResourceRegistry::default());
+        let engine = QueryEngine::new_default_with_host(host, registry, entrypoints);
+        *engine.tsconfig_dts_files.write().unwrap() = vec![globals.clone()];
+
+        let app_id = engine.intern_module(app_mod.as_str(), IdKind::Virtual);
+        let globals_id = engine.intern_path(&globals);
+        let ctx = QueryContext::new(engine.clone());
+        let selector = block_on_with_timeout(async move {
+            ctx.analyze_file_evaluated(app_id).await.class_index["AppCmp"]
+                .selector
+                .clone()
+        });
+
+        // Both the lookup's scan and the declaration's evaluation read `globals.d.ts` through the
+        // host.
+        assert_eq!(selector.as_deref(), Some("app-prod"));
+        assert!(engine
+            .ambient_global_names
+            .read()
+            .unwrap()
+            .contains_key(&globals_id));
+    }
+
+    struct FlippingKindHost {
+        id: String,
+        resolve_calls: std::sync::atomic::AtomicUsize,
+        load_calls: std::sync::atomic::AtomicUsize,
+    }
+
+    impl crate::host::AnalysisHost for FlippingKindHost {
+        fn resolve(
+            &self,
+            req: crate::host::ResolveRequest,
+        ) -> crate::host::HostFuture<
+            Result<Option<crate::host::ResolvedModule>, crate::host::HostError>,
+        > {
+            use std::sync::atomic::Ordering;
+            if req.specifier != "./lib" {
+                return yield_once(Ok(None));
+            }
+            let call = self.resolve_calls.fetch_add(1, Ordering::SeqCst);
+            let id_kind = if call % 2 == 0 {
+                crate::host::IdKind::Virtual
+            } else {
+                crate::host::IdKind::Path
+            };
+            yield_once(Ok(Some(crate::host::ResolvedModule {
+                id: crate::host::ModuleId::new(self.id.as_str()),
+                id_kind,
+                format: Some(crate::host::ModuleFormat::Ts),
+                external: false,
+                code: None,
+            })))
+        }
+
+        fn load(
+            &self,
+            id: &crate::host::ModuleId,
+            kind: crate::host::LoadKind,
+            _external: bool,
+        ) -> crate::host::HostFuture<
+            Result<Option<crate::host::LoadedModule>, crate::host::HostError>,
+        > {
+            use std::sync::atomic::Ordering;
+            let loaded = (kind == crate::host::LoadKind::Module && id.as_str() == self.id).then(
+                || {
+                    let load = self.load_calls.fetch_add(1, Ordering::SeqCst);
+                    crate::host::LoadedModule {
+                        code: Arc::from(format!(
+                            "import {{ Component }} from '@angular/core';\n\
+                             import './lib';\n\
+                             @Component({{ selector: 'cmp-{load}', template: '' }})\n\
+                             export class LibCmp {{}}\n"
+                        )),
+                        format: Some(crate::host::ModuleFormat::Ts),
+                    }
+                },
+            );
+            yield_once(Ok(loaded))
+        }
+
+        fn resolve_resource(
+            &self,
+            _containing: &crate::host::ModuleId,
+            _url: &str,
+            _kind: crate::host::ResourceKind,
+        ) -> crate::host::HostFuture<
+            Result<Option<crate::host::ResolvedResourceId>, crate::host::HostError>,
+        > {
+            yield_once(Ok(None))
+        }
+    }
+
+    #[test]
+    fn kind_change_stops_after_max_reruns_and_skips_cache() {
+        use crate::host::IdKind;
+        use std::sync::atomic::Ordering;
+
+        let lib = "/kind_flip/lib.ts";
+        let host = Arc::new(FlippingKindHost {
+            id: lib.to_owned(),
+            resolve_calls: std::sync::atomic::AtomicUsize::new(0),
+            load_calls: std::sync::atomic::AtomicUsize::new(0),
+        });
+        let engine = QueryEngine::new_default_with_host(
+            host.clone(),
+            Arc::new(ResourceRegistry::default()),
+            Arc::new(std::sync::RwLock::new(Vec::new())),
+        );
+        let lib_id = engine.intern_module(lib, IdKind::Path);
+        let ctx = QueryContext::new(engine.clone());
+        let syntax = block_on_with_timeout(async move { ctx.analyze_file_syntax(lib_id).await });
+
+        assert_eq!(
+            host.resolve_calls.load(Ordering::SeqCst),
+            1 + MAX_KIND_CHANGE_RERUNS
+        );
+        assert!(engine
+            .cache
+            .get(&QueryKey::AnalyzeFileSyntax(lib_id))
+            .is_none());
+        assert_eq!(
+            syntax
+                .class_index
+                .get("LibCmp")
+                .and_then(|class| class.selector.as_deref()),
+            Some("cmp-3")
+        );
+    }
+
+    #[test]
+    fn wire_query_caches_after_kind_change_rerun_and_skips_cache_when_flipping() {
+        use crate::host::{IdKind, LoadedModule, ModuleFormat, ModuleId, ResolvedModule};
+
+        let lib = "/wire_kind_change/lib.ts";
+        let source = Arc::from(
+            "import { Component } from '@angular/core';\n\
+             import './lib';\n\
+             @Component({ selector: 'lib-cmp', template: '' })\n\
+             export class LibCmp {}\n",
+        );
+
+        let mut resolutions = HashMap::new();
+        resolutions.insert(
+            (lib.to_owned(), "./lib".to_owned()),
+            ResolvedModule {
+                id: ModuleId::new(lib),
+                id_kind: IdKind::Virtual,
+                format: Some(ModuleFormat::Dts),
+                external: false,
+                code: None,
+            },
+        );
+        let mut modules = HashMap::new();
+        modules.insert(
+            lib.to_owned(),
+            LoadedModule {
+                code: source,
+                format: Some(ModuleFormat::Dts),
+            },
+        );
+        let single_flip_engine = QueryEngine::new_default_with_host(
+            Arc::new(AsyncMemoryHost {
+                resolutions,
+                modules,
+                resources: HashMap::new(),
+                resource_contents: HashMap::new(),
+            }),
+            Arc::new(ResourceRegistry::default()),
+            Arc::new(std::sync::RwLock::new(Vec::new())),
+        );
+        let lib_id = single_flip_engine.intern_module(lib, IdKind::Path);
+        let ctx = QueryContext::new(single_flip_engine.clone());
+        let wire = block_on_with_timeout(async move { ctx.analyze_file_wire(lib_id, false).await });
+        assert!(wire.0.as_ref().unwrap().classes.is_empty());
+        assert!(single_flip_engine.has_cached_wire(lib_id, false));
+
+        let flipping_engine = QueryEngine::new_default_with_host(
+            Arc::new(FlippingKindHost {
+                id: lib.to_owned(),
+                resolve_calls: std::sync::atomic::AtomicUsize::new(0),
+                load_calls: std::sync::atomic::AtomicUsize::new(0),
+            }),
+            Arc::new(ResourceRegistry::default()),
+            Arc::new(std::sync::RwLock::new(Vec::new())),
+        );
+        let flipping_id = flipping_engine.intern_module(lib, IdKind::Path);
+        let ctx = QueryContext::new(flipping_engine.clone());
+        let _wire = block_on_with_timeout(async move { ctx.analyze_file_wire(flipping_id, false).await });
+        assert!(!flipping_engine.has_cached_wire(flipping_id, false));
+    }
+
+    #[test]
+    fn read_resource_blocking_reads_via_default_fs_host() {
+        let fs = create_test_fs(&[
+            ("/app/cmp.ts", "export class Cmp {}"),
+            ("/app/cmp.css", "\u{feff}.host { color: blue; }"),
+        ]);
+        let resolver = Arc::new(ResolverGeneric::new_with_file_system(
+            fs.clone(),
+            ResolveOptions::default(),
+        ));
+        let engine = QueryEngine::new_default(
+            fs,
+            resolver,
+            Arc::new(ResourceRegistry::default()),
+            Arc::new(std::sync::RwLock::new(vec![PathBuf::from("/app/cmp.ts")])),
+        );
+        let res = engine
+            .read_resource_blocking("/app/cmp.ts", "./cmp.css", crate::host::ResourceKind::Style)
+            .expect("resource result");
+        assert_eq!(res.resolved_path, "/app/cmp.css");
+        assert_eq!(res.content.as_deref(), Some(".host { color: blue; }"));
+    }
+
+    #[test]
+    #[should_panic(expected = "synchronous APIs require a synchronous host")]
+    fn read_resource_blocking_panics_on_async_host() {
+        let host = Arc::new(AsyncMemoryHost {
+            resolutions: HashMap::new(),
+            modules: HashMap::new(),
+            resources: HashMap::new(),
+            resource_contents: HashMap::new(),
+        });
+        let engine = QueryEngine::new_default_with_host(
+            host,
+            Arc::new(ResourceRegistry::default()),
+            Arc::new(std::sync::RwLock::new(Vec::new())),
+        );
+        let _ =
+            engine.read_resource_blocking("/app/cmp.ts", "./cmp.css", crate::host::ResourceKind::Style);
+    }
+
+    #[test]
+    fn host_directive_dts_owning_reference_falls_back_to_parent_directive_file() {
+        use crate::host::{IdKind, LoadedModule, ModuleFormat, ModuleId, ResolvedModule};
+
+        let app = "/app/app.ts";
+        let wrapper = "/node_modules/pkg-wrapper/index.d.ts";
+        let pkg_a = "/node_modules/pkg-wrapper/node_modules/pkg-a/index.d.ts";
+        let host_target = "/shared/pkg-a-src/host.d.ts";
+
+        let mut resolutions = HashMap::new();
+        resolutions.insert(
+            (app.to_owned(), "pkg-wrapper".to_owned()),
+            ResolvedModule {
+                id: ModuleId::new(wrapper),
+                id_kind: IdKind::Path,
+                format: Some(ModuleFormat::Dts),
+                external: false,
+                code: None,
+            },
+        );
+        // `pkg-a` is nested under `pkg-wrapper/node_modules`, so neither `/app/app.ts` nor the
+        // symlinked `/shared/pkg-a-src/host.d.ts` can resolve `'pkg-a'`.
+        resolutions.insert(
+            (wrapper.to_owned(), "pkg-a".to_owned()),
+            ResolvedModule {
+                id: ModuleId::new(pkg_a),
+                id_kind: IdKind::Path,
+                format: Some(ModuleFormat::Dts),
+                external: false,
+                code: None,
+            },
+        );
+        resolutions.insert(
+            (pkg_a.to_owned(), "pkg-a".to_owned()),
+            ResolvedModule {
+                id: ModuleId::new(pkg_a),
+                id_kind: IdKind::Path,
+                format: Some(ModuleFormat::Dts),
+                external: false,
+                code: None,
+            },
+        );
+        resolutions.insert(
+            (pkg_a.to_owned(), "./host".to_owned()),
+            ResolvedModule {
+                id: ModuleId::new(host_target),
+                id_kind: IdKind::Path,
+                format: Some(ModuleFormat::Dts),
+                external: false,
+                code: None,
+            },
+        );
+
+        let mut modules = HashMap::new();
+        modules.insert(
+            app.to_owned(),
+            LoadedModule {
+                code: Arc::from(
+                    "import { Component } from '@angular/core';\n\
+                     import { WrapperModule } from 'pkg-wrapper';\n\
+                     @Component({ selector: 'app-cmp', template: '<div parentDir></div>', imports: [WrapperModule] })\n\
+                     export class AppCmp {}\n",
+                ),
+                format: Some(ModuleFormat::Ts),
+            },
+        );
+        modules.insert(
+            wrapper.to_owned(),
+            LoadedModule {
+                code: Arc::from(
+                    "import * as i0 from '@angular/core';\n\
+                     import { ParentDir } from 'pkg-a';\n\
+                     export declare class WrapperModule {\n\
+                       static ɵmod: i0.ɵɵNgModuleDeclaration<WrapperModule, never, never, [typeof ParentDir]>;\n\
+                     }\n",
+                ),
+                format: Some(ModuleFormat::Dts),
+            },
+        );
+        modules.insert(
+            pkg_a.to_owned(),
+            LoadedModule {
+                code: Arc::from(
+                    "import * as i0 from '@angular/core';\n\
+                     import * as i1 from './host';\n\
+                     export { HostDir } from './host';\n\
+                     export declare class ParentDir {\n\
+                       static ɵdir: i0.ɵɵDirectiveDeclaration<ParentDir, '[parentDir]', never, {}, {}, never, never, true, [{ directive: typeof i1.HostDir; inputs: {}; outputs: {} }]>;\n\
+                     }\n",
+                ),
+                format: Some(ModuleFormat::Dts),
+            },
+        );
+        modules.insert(
+            host_target.to_owned(),
+            LoadedModule {
+                code: Arc::from(
+                    "import * as i0 from '@angular/core';\n\
+                     export declare class HostDir {\n\
+                       static ɵdir: i0.ɵɵDirectiveDeclaration<HostDir, '[hostDir]', never, {}, {}, never, never, true, never>;\n\
+                     }\n",
+                ),
+                format: Some(ModuleFormat::Dts),
+            },
+        );
+
+        let engine = QueryEngine::new_default_with_host(
+            Arc::new(AsyncMemoryHost {
+                resolutions,
+                modules,
+                resources: HashMap::new(),
+                resource_contents: HashMap::new(),
+            }),
+            Arc::new(ResourceRegistry::default()),
+            Arc::new(std::sync::RwLock::new(vec![PathBuf::from(app)])),
+        );
+        let app_id = engine.intern_path(app);
+        let ctx = QueryContext::new(engine);
+        let wire = block_on_with_timeout(async move { ctx.analyze_file_wire(app_id, true).await });
+        let analysis = wire.0.as_ref().expect("wire analysis");
+        let decls = analysis.classes[0]
+            .component
+            .as_ref()
+            .and_then(|c| c.resolved_declarations.as_ref())
+            .expect("resolved declarations");
+        let parent = decls
+            .iter()
+            .find(|d| d.name == "ParentDir")
+            .expect("ParentDir declaration");
+        let host_dirs = parent
+            .resolved_host_directives
+            .as_ref()
+            .expect("resolved host directives");
+        assert_eq!(host_dirs.len(), 1);
+        assert_eq!(host_dirs[0].directive.r#ref.invalid_reason, None);
+        assert_eq!(
+            host_dirs[0]
+                .directive
+                .r#ref
+                .typecheck_import
+                .as_ref()
+                .map(|r| (r.specifier.as_str(), r.symbol.as_str())),
+            Some(("pkg-a", "HostDir"))
+        );
+    }
 }
 
 #[cfg(test)]
 mod shared_dts_parse_cache_tests {
     use super::shared_dts_parse_cache::{Cache, SourceKey};
     use super::*;
-    use crate::fs::OverlayFileSystem;
     use crate::test_utils::create_test_fs;
     use oxc_resolver::ResolveOptions;
 
     // The cache is process-wide and tests run in parallel, so every test uses its own paths.
 
-    fn engine_over(files: &[(&str, &str)]) -> Arc<QueryEngine<OverlayFileSystem>> {
+    fn engine_over(files: &[(&str, &str)]) -> Arc<QueryEngine> {
         let fs = create_test_fs(files);
         let resolver = Arc::new(ResolverGeneric::new_with_file_system(
             fs.clone(),
@@ -4582,10 +5743,7 @@ mod shared_dts_parse_cache_tests {
         )
     }
 
-    fn parse(
-        engine: &Arc<QueryEngine<OverlayFileSystem>>,
-        path: &str,
-    ) -> Arc<Mutex<crate::ParsedFile>> {
+    fn parse(engine: &Arc<QueryEngine>, path: &str) -> Arc<Mutex<crate::ParsedFile>> {
         let file_id = engine.intern_path(path);
         let ctx = QueryContext::new(engine.clone());
         futures::executor::block_on(engine.parse_file_body(file_id, &ctx))
@@ -4651,7 +5809,7 @@ mod shared_dts_parse_cache_tests {
         let path = "/shared_dts_global_names/globals.d.ts";
         let names = |source: &str| {
             let engine = engine_over(&[(path, source)]);
-            engine.ambient_global_names(engine.intern_path(path))
+            futures::executor::block_on(engine.ambient_global_names(engine.intern_path(path)))
         };
         let first = names("declare const SHARED_GLOBAL: true;");
         let second = names("declare const SHARED_GLOBAL: true;");
@@ -4668,7 +5826,8 @@ mod shared_dts_parse_cache_tests {
         let files = [(path, "declare const PARSED_GLOBAL: true;")];
         parse(&engine_over(&files), path);
         let engine = engine_over(&files);
-        let names = engine.ambient_global_names(engine.intern_path(path));
+        let names =
+            futures::executor::block_on(engine.ambient_global_names(engine.intern_path(path)));
         assert_eq!(*names, HashSet::from(["PARSED_GLOBAL".to_string()]));
     }
 

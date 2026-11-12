@@ -180,6 +180,7 @@ import {platformBrowser} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 @NgModule({
+  declarations: [MyApplication],
   bootstrap: [MyApplication],
 })
 export class MyApplicationModule {}
@@ -187,6 +188,6 @@ export class MyApplicationModule {}
 platformBrowser().bootstrapModule(MyApplicationModule);
 ```
 
-列在 `bootstrap` 中的元件會自動包含在 NgModule 的宣告中。
+列在 `bootstrap` 中的元件也必須在 NgModule 的 `declarations` 中宣告。
 
 當你從 NgModule 啟動應用程式時，該模組收集到的 `providers`，以及它所有 `imports` 的 `providers`，都會被積極載入，並可供整個應用程式注入使用。

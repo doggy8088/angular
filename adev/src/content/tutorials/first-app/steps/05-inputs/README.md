@@ -8,7 +8,7 @@ NOTE: 這部影片反映的是較舊的語法，但主要概念仍然適用。
 
 ## 你將學到什麼
 
-你的應用程式的 `HousingLocation` 範本有一個 `HousingLocation` 屬性，用來接收輸入。
+你的應用程式的 `HousingLocation` 範本將會有一個 `HousingLocation` 屬性，用來接收輸入。
 
 ## Input 概念預覽
 

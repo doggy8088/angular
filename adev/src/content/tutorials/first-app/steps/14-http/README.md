@@ -150,19 +150,19 @@ JSON Server 是一個開源工具，用來建立模擬的 REST API。你會用�
 <docs-step title="更新服務，改用網路伺服器而非本機陣列">
 資料來源已經設定完成，下一步是更新你的網路應用程式，讓它連接到資料來源並使用這些資料。
 
-1.  在 `src/app/housing.service.ts` 中，進行以下變更：
+1.  在 `src/app/housing-service.ts` 中，進行以下變更：
 
 1.  更新程式碼，移除 `housingLocationList` 屬性與存放資料的陣列，以及 `baseUrl` 屬性。
 
 1.  加上一個名為 `url` 的字串屬性，並把它的值設為 `'http://localhost:3000/locations'`
 
-    <docs-code header="在 housing.service.ts 中加入 url 屬性" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[6]"/>
+    <docs-code header="在 housing-service.ts 中加入 url 屬性" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing-service.ts" visibleLines="[6]"/>
 
     這段程式碼會讓檔案其餘部分出現錯誤，因為它們依賴 `housingLocationList` 屬性。接下來我們要更新服務的方法。
 
 1.  更新 `getAllHousingLocations` 函式，讓它呼叫你剛設定好的網路伺服器。
 
-     <docs-code header="更新 housing.service.ts 中的 getAllHousingLocations 方法" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[8,11]"/>
+     <docs-code header="更新 housing-service.ts 中的 getAllHousingLocations 方法" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing-service.ts" visibleLines="[8,11]"/>
 
     這段程式碼現在使用非同步程式碼，透過 HTTP 發出 **GET** 請求。
 
@@ -172,11 +172,11 @@ JSON Server 是一個開源工具，用來建立模擬的 REST API。你會用�
 
     HELPFUL: 注意 `fetch` 的 URL 現在會把 `id` 附加為路徑的一段（`${this.url}/${id}`），用來請求 `id` 屬性值相符的地點。
 
-     <docs-code header="更新 housing.service.ts 中的 getHousingLocationById 方法" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[13,17]"/>
+     <docs-code header="更新 housing-service.ts 中的 getHousingLocationById 方法" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing-service.ts" visibleLines="[13,17]"/>
 
 1.  所有更新都完成後，你更新好的服務應該與以下程式碼相符。
 
-     <docs-code header="housing.service.ts 的最終版本" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing.service.ts" visibleLines="[1,23]" />
+     <docs-code header="housing-service.ts 的最終版本" path="adev/src/content/tutorials/first-app/steps/14-http/src-final/app/housing-service.ts" visibleLines="[1,23]" />
 
 </docs-step>
 
@@ -200,7 +200,7 @@ JSON Server 是一個開源工具，用來建立模擬的 REST API。你會用�
 
 NOTE: 本課依賴 `fetch` 瀏覽器 API。關於攔截器的支援，請參閱 [HTTP 用戶端文件](/guide/http)
 
-SUMMARY: 在本課中，你更新了應用程式，使用本機網路伺服器（`json-server`），並使用非同步的服務方法來擷取資料。
+SUMMARY: 在本課中，你使用本機網路伺服器（`json-server`）與非同步的服務方法來擷取資料。
 
 恭喜！你已經成功完成本教學，準備好繼續用 Angular 建置更複雜的應用程式了。
 

@@ -36,6 +36,7 @@ import MagicString from 'magic-string';
 
 import {makeClassKey} from './compiler-utils.js';
 import {OutOfBandDiagnosticRecorderImpl} from './oob.js';
+import {allocateNamespaceAlias} from './output_ast_printer.js';
 import {NOOP_TRACER, type Tracer} from './perf.js';
 import {adaptTcbInput, ExtendedTcbTypeParameter} from './tcb_adapter.js';
 import {requiresInlineDeclaration, requiresInlineTypeCheckBlock} from './tcb_util.js';
@@ -57,8 +58,6 @@ export interface TcbTargetInput {
   schemas: SchemaMetadata[];
   typeParameters: nga.TypeParameterMetadata[] | null;
   pipeRegistry: Map<string, PipeMeta> | null;
-  enableSelectorless?: boolean;
-  selectorlessEnabled?: boolean;
   foreignImports?: nga.ForeignImportMetadata[] | null;
 }
 
@@ -227,6 +226,7 @@ export function buildTypeCheckingConfig(
       allowDomEventAssertion: true,
       checkUnclaimedEventNames: false,
       checkUnknownElements: false,
+      checkTypeOfNgTemplateBindings: false,
     };
   } else {
     typeCheckingConfig = {
@@ -265,6 +265,7 @@ export function buildTypeCheckingConfig(
       allowDomEventAssertion: true,
       checkUnclaimedEventNames: false,
       checkUnknownElements: false,
+      checkTypeOfNgTemplateBindings: false,
     };
   }
 
@@ -306,6 +307,9 @@ export function buildTypeCheckingConfig(
   if (options.strictUnknownElements !== undefined) {
     typeCheckingConfig.checkUnknownElements = options.strictUnknownElements;
   }
+  if (options.strictNgTemplateTypes !== undefined) {
+    typeCheckingConfig.checkTypeOfNgTemplateBindings = options.strictNgTemplateTypes;
+  }
   typeCheckingConfig.typeCheckHostBindings = options.typeCheckHostBindings ?? true;
   typeCheckingConfig.usePoisonedData =
     usePoisonedData || Boolean(options._compilePoisonedComponents);
@@ -326,10 +330,12 @@ export class TcbImportManager {
   private readonly imports = new Map<string, string>();
   private nextIndex = 0;
 
+  constructor(private readonly namespaceAliasConflicts: ReadonlySet<string> = new Set()) {}
+
   addImport(moduleSpecifier: string): string {
     let alias = this.imports.get(moduleSpecifier);
     if (alias === undefined) {
-      alias = `i${this.nextIndex++}`;
+      alias = allocateNamespaceAlias(this.nextIndex++, this.namespaceAliasConflicts);
       this.imports.set(moduleSpecifier, alias);
     }
     return alias;
@@ -657,11 +663,16 @@ export function generateTcbCode(
   filePath: string,
   preparedData: PreparedTcbData,
   config: NgpTypeCheckingConfig,
+  namespaceAliasConflicts?: ReadonlyArray<string>,
 ): TcbResult | null {
   const {targets, requiresInline} = preparedData;
   if (targets.length === 0) return null;
 
-  const importManager = new TcbImportManager();
+  // Inline TCBs share file scope with the copied source content, so generated imports must avoid
+  // any alias-shaped bindings in the file (`AnalysisResult.namespaceAliasConflicts`).
+  const importManager = new TcbImportManager(
+    requiresInline && namespaceAliasConflicts ? new Set(namespaceAliasConflicts) : undefined,
+  );
   const oobRecorder = new OutOfBandDiagnosticRecorderImpl();
   const domSchemaChecker = new RegistryDomSchemaChecker();
   const semanticsDiagnostics: Diagnostic[] = [];

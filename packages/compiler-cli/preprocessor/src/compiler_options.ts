@@ -6,7 +6,7 @@
  * found in the LICENSE file at https://angular.dev/license
  */
 
-import {ErrorCode} from '@angular/compiler-cli/private/hybrid_preprocessor';
+import {ErrorCode} from './error_code.js';
 import type {NgDiagnostic} from './types.js';
 
 /**
@@ -103,6 +103,7 @@ export interface NgpCompilerOptions {
   strictLiteralTypes?: boolean;
   strictUnclaimedEventNames?: boolean;
   strictUnknownElements?: boolean;
+  strictNgTemplateTypes?: boolean;
   typeCheckHostBindings?: boolean;
 
   // Diagnostics (`DiagnosticOptions`).

@@ -16,10 +16,10 @@ HELPFUL: 比較喜歡看影片嗎？我們也為本教學準備了完整的 [You
 
 本教學的課程假設你已經具備下列經驗：
 
-1. 曾經直接編輯 HTML 來建立 HTML 網頁。
-1. 曾經用 JavaScript 為網站內容撰寫程式。
-1. 讀過層疊樣式表（CSS）內容，並了解選擇器的使用方式。
-1. 曾經使用命令列指令在電腦上執行工作。
+1. 直接編輯 HTML 來建立 HTML 網頁。
+1. 用 JavaScript 為網站內容撰寫程式。
+1. 閱讀層疊樣式表（CSS）內容，並了解選擇器的使用方式。
+1. 使用命令列指令在電腦上執行工作。
 
 ### 你的設備
 
@@ -65,8 +65,9 @@ Angular 需要使用中的 LTS 或維護中 LTS 版本的 Node。我們先來確
 你可以自由使用任何喜歡的工具來用 Angular 建立應用程式。我們推薦下列工具：
 
 1. [Visual Studio Code](https://code.visualstudio.com/)
-2. 選用但推薦的步驟：安裝 [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)，進一步提升你的開發體驗
-3. [WebStorm](https://www.jetbrains.com/webstorm/)
+1. [Visual Studio Code](https://code.visualstudio.com/)
+   - 選用但推薦的步驟：安裝 [Angular Language Service](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)，進一步提升你的開發體驗
+1. [WebStorm](https://www.jetbrains.com/webstorm/)
    </docs-step>
 
 <docs-step title="選用：設定你的 AI 驅動 IDE">

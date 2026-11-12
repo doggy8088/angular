@@ -6,8 +6,7 @@
 
 ## 你將學到什麼
 
-你的應用程式有一個服務，負責將資料提供給應用程式。
-在這一課結束時，服務會從本機的靜態資料讀取資料。
+你的應用程式將會有一個服務，它會讀取本機的靜態資料並提供給你的應用程式。
 在之後的課程中，你會更新這個服務，讓它從網路服務取得資料。
 
 ## 服務概念預覽
@@ -36,7 +35,7 @@ _依賴注入_是管理應用程式元件相依性，以及其他元件可使用
 1. 在 `first-app` 目錄中，執行下列指令，建立新服務。
 
    ```shell
-   ng generate service housing --skip-tests
+   ng generate service housingService --skip-tests
    ```
 
 1. 執行 `ng serve`，建置應用程式並將它提供到 `http://localhost:4200`。
@@ -52,18 +51,18 @@ _依賴注入_是管理應用程式元件相依性，以及其他元件可使用
 在 IDE 的 **Edit** 窗格中：
 
 1. 在 `src/app/home/home.ts` 中，從 `Home` 複製 `baseUrl` 變數與 `housingLocationList` 變數及其陣列值。
-1. 在 `src/app/housing.service.ts` 中：
+1. 在 `src/app/housing-service.ts` 中：
    1. 在 `HousingService` 類別內，貼上你在上一個步驟中從 `Home` 複製的變數。
    1. 在 `HousingService` 類別內，將這些函式貼在你剛複製的資料之後。
       這些函式讓相依者能存取服務的資料。
 
-      <docs-code header="src/app/housing.service.ts 中的服務函式" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/housing.service.ts" visibleLines="[110,116]"/>
+      <docs-code header="src/app/housing-service.ts 中的服務函式" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/housing-service.ts" visibleLines="[111,117]"/>
 
       之後的課程會用到這些函式。目前只要理解這些函式會依 id 回傳特定的 `HousingLocation`，或回傳整份清單即可。
 
    1. 為 `HousingLocation` 加入檔案層級的匯入。
 
-      <docs-code header="在 src/app/housing.service.ts 中匯入 HousingLocation 型別" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/housing.service.ts" visibleLines="[2]"/>
+      <docs-code header="在 src/app/housing-service.ts 中匯入 HousingLocation 型別" path="adev/src/content/tutorials/first-app/steps/10-routing/src/app/housing-service.ts" visibleLines="[2]"/>
 
 1. 確認應用程式建置時沒有錯誤。
    繼續下一步之前，請先修正任何錯誤。

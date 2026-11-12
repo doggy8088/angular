@@ -26,7 +26,9 @@ TIP: 你也可以在 Angular 專案中建立一個獨立的 TypeScript 檔案，
 | `UrlTree` 或 `RedirectCommand`  | 改為重新導向到另一個路由，而不是直接阻擋導覽                                              |
 | `Promise<T>` 或 `Observable<T>` | Router 會採用第一個發出的值，然後解除訂閱                                                 |
 
-NOTE: `CanMatch` 的行為有所不同：當它回傳 `false` 時，Angular 會嘗試其他可比對的路由，而不是完全阻擋導覽。
+NOTE: 路由守衛必須發出一個值。如果 `Observable` 在未發出任何值的情況下就完成，例如 `EMPTY` 或任何 `Observable<never>`，路由器會因為沒有結果而讓導覽失敗，並拋出 RxJS 的 `EmptyError`。這種情況常發生在攔截器取消請求時。如果你的來源可能會在沒有值的情況下完成，請用 `defaultIfEmpty(false)` 給它一個值。
+
+NOTE: `CanMatch` 有所不同。當它回傳 `false` 時，Angular 會嘗試其他可比對的路由，而不是阻擋導覽。
 
 ## 路由守衛的類型 {#types-of-route-guards}
 
