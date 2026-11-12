@@ -234,6 +234,7 @@ Universal 應用程式使用 Angular `platform-server` 套件（而非 `platform
 
 最後，伺服器會把算繪完成的頁面回傳給用戶端。
 
+<a id="caching-data-when-using-httpclient"></a>
 ### 使用 HttpClient 時快取資料
 預設情況下，[`provideClientHydration()`](api/platform-browser/provideClientHydration) 函式會啟用建議的功能組合，為大多數應用程式提供最佳效能。其中包括下列功能：
 * 協調 DOM 水合（進一步了解請參閱[這裡](guide/hydration)）。

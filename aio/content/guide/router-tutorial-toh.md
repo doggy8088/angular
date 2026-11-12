@@ -1361,6 +1361,7 @@ localhost:4200/crisis-center/2
 
 <a id="named-outlets"></a>
 
+<a id="displaying-multiple-routes-in-named-outlets"></a>
 ### 在具名 outlet 中顯示多個路由
 
 你決定提供使用者聯絡危機中心的方式。當使用者點選「聯絡」按鈕時，你希望在彈出視窗中顯示一則訊息。

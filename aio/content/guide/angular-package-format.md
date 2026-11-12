@@ -307,6 +307,7 @@ FESM 這個縮寫名稱讀作 *phe-som*，後面可以接一個數字，例如 F
 
 索引檔（例如 `my-ui-lib.js`）由 ngc 產生後，就可以使用 Rollup 等打包工具與最佳化工具來產出扁平化的 ESM 檔案。
 
+<a id="關於-packagejson-預設值的說明"></a>
 #### 關於 package.json 預設值的說明
 
 自 webpack v4 起，對 webpack 使用者而言，ES 模組扁平化最佳化應該已無必要。在 webpack 中不扁平化模組，應該就能獲得更好的程式碼分割效果。
@@ -315,6 +316,7 @@ FESM 這個縮寫名稱讀作 *phe-som*，後面可以接一個數字，例如 F
 這個問題目前正在調查中。預期在大小迴歸問題解決之後，會把 `module` 與 `es2022` 這兩個 package.json 進入點切換為未扁平化的檔案。
 APF 目前包含未扁平化的 ESM2022 程式碼，目的就是為了驗證這樣的未來變更。
 
+<a id="sideeffects旗標"></a>
 ### 「sideEffects」旗標
 
 ECMAScript Modules 預設具有副作用：從模組匯入會確保該模組最上層的任何程式碼都應執行。

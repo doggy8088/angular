@@ -262,6 +262,7 @@ Angular 應用程式可以透過指定一組可用的 providers 來設定依賴�
 *   **模組注入器**，其 providers 設定於 `@NgModule.providers` 或 `@Injectable({providedIn: "..."})`。這些應用程式層級的 providers 對所有元件都可見，也對模組注入器中設定的其他服務可見。
 *   **節點注入器**，設定於 `@Directive.providers`／`@Component.providers` 或 `@Component.viewProviders`。這些 providers 僅對指定的元件及其所有子元件可見。
 
+<a id="environment-injectors"></a>
 #### 環境注入器
 
 讓 `NgModule` 成為可選的，將需要新的方式來設定帶有應用程式層級 providers 的「模組」注入器（例如 [HttpClient](/api/common/http/HttpClient)）。在獨立應用程式（也就是以 `bootstrapApplication` 建立的應用程式）中，「模組」providers 可以在啟動過程中，於 `providers` 選項中設定：

@@ -135,6 +135,7 @@ CLI 會建置建置設定中定義的所有地區設定。
 
 <code-example header="angular.json" path="i18n/angular.json" region="build-production-french" ></code-example>
 
+<a id="report-missing-translations"></a>
 ## 回報缺少的翻譯
 
 當翻譯缺少時，建置仍會成功，但會產生類似 `Missing translation for message "{translation_text}"` 的警告。

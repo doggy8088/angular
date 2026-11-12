@@ -21,6 +21,7 @@ Angular Router 是一項選擇性服務，會針對給定的 URL 呈現特定的
 
 <a id="basics-config"></a>
 
+<a id="configuration"></a>
 ## 設定
 
 經路由的 Angular 應用程式會有一個 `Router` 服務的單例實例。
@@ -151,6 +152,7 @@ routerLinkActive="..."
 | `firstChild`    | 包含此路由的子路由清單中的第一個 `ActivatedRoute`。 |
 | `children`      | 包含目前路由之下已啟用的所有[子路由](guide/router-tutorial-toh#子路由元件)。 |
 
+<a id="router-events"></a>
 ## 路由器事件
 
 每次導覽期間，`Router` 都會透過 `Router.events` 屬性發出導覽事件。

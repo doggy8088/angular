@@ -60,6 +60,7 @@ Angular 的預先編譯（AOT）編譯器會在建置階段將 Angular HTML 與 
 為類別提供中繼資料的結構。
 詳見[裝飾器][AioGuideGlossaryDecoratorDecoration]。
 
+<a id="app-shell"></a>
 ## 應用程式殼層（app-shell）
 
 應用程式殼層是一種在建置時期使用路由渲染應用程式一部分的方式。
@@ -125,6 +126,7 @@ Angular CLI 的 [`ng run`][AioCliRun] 命令會以特定的[目標設定][AioGui
 <a id="case-conventions"></a>
 <a id="dash-case"></a>
 
+<a id="case-types"></a>
 ## 大小寫慣例（case types）
 
 Angular 使用大小寫慣例來區分各種類型的名稱，如風格指南的[命名準則章節][AioGuideStyleguide0201]所述。
@@ -245,6 +247,7 @@ Web 平台功能，目前大多數瀏覽器都支援，其他瀏覽器可透過 
 *   [類別與樣式繫結][AioGuideAttributeBindingBindingToTheClassAttribute]
 *   [使用 ngModel 的雙向資料繫結][AioGuideBuiltInDirectivesDisplayingAndUpdatingPropertiesWithNgmodel]
 
+<a id="declarable"></a>
 ## 可宣告類別（declarable）
 
 可以加入 [NgModule][AioGuideGlossaryNgmodule] 的 `declarations` 清單中的類別。
@@ -282,6 +285,7 @@ Angular 定義了裝飾器，將中繼資料附加到類別或屬性上，讓框
 應用程式的[注入器][AioGuideGlossaryInjector]（在啟動期間自動建立）會在需要時，使用已設定的服務或值的[提供者][AioGuideGlossaryProvider]來具現化依賴。
 詳見 [Angular 的依賴注入][AioGuideDependencyInjection]。
 
+<a id="di-token"></a>
 ## DI 權杖（DI token）
 
 與依賴[提供者][AioGuideGlossaryProvider]相關聯的查詢權杖，供[依賴注入][AioGuideGlossaryDependencyInjectionDi]系統使用。
@@ -339,6 +343,7 @@ Angular 以領域特定語言擴充 TypeScript，涵蓋與 Angular 應用程式�
 [轉譯器][AioGuideGlossaryTranspile]的一個例子是 [TypeScript][AioGuideGlossaryTypescript]。
 詳見[瀏覽器支援][AioGuideBrowserSupport]。
 
+<a id="element"></a>
 ## 元素（element）
 
 Angular 定義了 `ElementRef` 類別，用來包裝與渲染相關的原生 UI 元素。
@@ -393,6 +398,7 @@ Angular 定義了 `ElementRef` 類別，用來包裝與渲染相關的原生 UI 
 
 其他項目（例如常數值）也可以是可注入的。
 
+<a id="injector"></a>
 ## 注入器（injector）
 
 Angular [依賴注入][AioGuideGlossaryDependencyInjectionDi]系統中的物件，可以在其快取中找到具名的依賴，或使用已設定的[提供者][AioGuideGlossaryProvider]建立依賴。
@@ -445,6 +451,7 @@ Angular 的即時（JIT）編譯器會在執行時期、作為啟動的一部分
 
 與[預先編譯（AOT）][AioGuideGlossaryAheadOfTimeAotCompilation]比較。
 
+<a id="lazy-loading"></a>
 ## 延遲載入（lazy loading）
 
 一種透過將應用程式分割為多個套件並按需載入，來加快應用程式載入時間的流程。
@@ -596,6 +603,7 @@ Angular 應用程式最常見的平台是 Web 瀏覽器，但也可以是行動�
 
 [`angular.json`][AioGuideWorkspaceConfig] 檔案會設定[工作區][AioGuideGlossaryWorkspace]中的所有專案。
 
+<a id="provider"></a>
 ## 提供者（provider）
 
 實作 [`Provider`][AioApiCoreProvider] 介面之一的物件。
@@ -712,6 +720,7 @@ NgModule 會在限定範圍套件中提供，其名稱以 Angular 的*範圍名�
 
 <code-example path="architecture/src/app/app.component.ts" header="architecture/src/app/app.component.ts (import)" region="import"></code-example>
 
+<a id="server-side-rendering"></a>
 ## 伺服器端渲染（server-side rendering）
 
 一種在伺服器上產生靜態應用程式頁面的技術，並可回應瀏覽器的請求產生與提供這些頁面。
@@ -899,6 +908,7 @@ TypeScript 是 Angular 開發的首選語言。
 初始靜態頁面可作為快速載入的預留位置，同時完整應用程式正在準備於瀏覽器中正常執行。
 詳見 [Angular Universal：伺服器端渲染][AioGuideUniversal]。
 
+<a id="view"></a>
 ## 檢視（view）
 
 可以一起建立與銷毀的最小顯示元素群組。
@@ -924,6 +934,7 @@ View Engine 在第 9 版棄用，並於第 13 版移除。
 
 <a id="view-tree"></a>
 
+<a id="view-hierarchy"></a>
 ## 檢視階層（view hierarchy）
 
 一組相關檢視構成的樹狀結構，可以作為一個整體來操作。

@@ -249,6 +249,7 @@ AngularJS 與 Angular 都有各自的模組概念，用來協助把應用程式�
 
 恭喜。你正在執行混合應用程式。現有的 AngularJS 程式碼一如往常地運作，*而且*你已經準備好開始加入 Angular 程式碼。
 
+<a id="using-angular-components-from-angularjs-code"></a>
 ### 從 AngularJS 程式碼使用 Angular 元件
 
 <div class="lightbox">
@@ -556,6 +557,7 @@ AngularJS 元素指令是根據其*名稱*來比對的。
 
 當你的應用程式比對到需要 AngularJS 的路由時，AngularJS 應用程式會被載入並啟動，AngularJS 路由會比對必要的 URL 來渲染其內容，而你的應用程式會繼續同時使用 AngularJS 與 Angular 框架執行。
 
+<a id="using-the-unified-angular-location-service"></a>
 ## 使用統一的 Angular 位置服務
 
 在 AngularJS 中，[$location 服務][AngularjsDocsApiNgServiceLocation] 會處理所有的路由設定與導覽、URL 的編碼與解碼、重新導向，以及與瀏覽器 API 的互動。Angular 會使用其底層的 `Location` 服務來處理所有這些工作。
