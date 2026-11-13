@@ -428,6 +428,7 @@ AngularJS 將擁有應用程式的根範本。
 一如往常地運作，*而且*你已經準備好開始加入 Angular 程式碼。
 
 
+<a id="using-angular-components-from-angularjs-code"></a>
 ### 從 AngularJS 程式碼使用 Angular 元件
 
 <img src="generated/images/guide/upgrade/ajs-to-a.png" alt="在 AngularJS 程式碼中使用 Angular 元件" class="left">
@@ -925,6 +926,7 @@ Router 會先嘗試比對較具體的路由，例如靜態路由與變數路由�
 應用程式會被載入並啟動，AngularJS 路由會比對必要的 URL
 來渲染其內容，而你的應用程式會繼續同時使用 AngularJS 與 Angular 框架執行。
 
+<a id="using-the-unified-angular-location-service"></a>
 ## 使用統一的 Angular 位置服務
 
 在 AngularJS 中，[$location 服務](https://docs.angularjs.org/api/ng/service/$location) 處理所有路由

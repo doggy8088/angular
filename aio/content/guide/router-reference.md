@@ -22,6 +22,7 @@ Angular Router 是一項選擇性服務，會針對給定的 URL 呈現特定的
 
 {@a basics-config}
 
+<a id="configuration"></a>
 ### 設定
 
 經路由的 Angular 應用程式會有一個 `Router` 服務的單例實例。
@@ -267,6 +268,7 @@ Angular Router 是一項選擇性服務，會針對給定的 URL 呈現特定的
   </tr>
 </table>
 
+<a id="router-events"></a>
 ### 路由器事件
 
 每次導覽期間，`Router` 都會透過 `Router.events` 屬性發出導覽事件。

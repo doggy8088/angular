@@ -407,6 +407,7 @@ Angular 會同時從 DOM 移除所有英雄 `<div>` 元素，並銷毀它們的�
 
 {@a onchanges}
 
+<a id="using-change-detection-hooks"></a>
 ## 使用變更偵測鉤子
 
 每當 Angular 偵測到***輸入屬性***的變更時，就會呼叫元件或指令的 `ngOnChanges()` 方法。
@@ -568,6 +569,7 @@ Angular 會在完成這個元件檢視的組成*之前*，先完成投影內容�
 
 {@a docheck}
 
+<a id="defining-custom-change-detection"></a>
 ## 定義自訂變更偵測
 
 若要監控 `ngOnChanges()` 無法捕捉的變更，請如 *DoCheck* 範例所示，實作你自己的變更檢查。

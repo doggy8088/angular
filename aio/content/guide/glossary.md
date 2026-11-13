@@ -104,6 +104,7 @@ Angular CLI 的 [`ng run`](cli/run) 命令會以特定的[目標設定](#目標t
 {@a dash-case}
 {@a camelcase}
 {@a kebab-case}
+<a id="case-types"></a>
 ## 大小寫慣例（case types）
 
 Angular 使用大小寫慣例來區分各種類型的名稱，如風格指南的[命名準則章節](guide/styleguide#02-01)所述。以下是大小寫慣例的摘要：
