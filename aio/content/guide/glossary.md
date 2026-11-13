@@ -11,6 +11,7 @@ Angular 有自己的一套詞彙。
 
 {@a A}
 {@a aot}
+<a id="預先編譯ahead-of-time-compilationaot"></a>
 ## 預先編譯（ahead-of-time compilation，AOT）
 
 Angular 的預先編譯（AOT）編譯器會在建置階段將 Angular HTML 與 TypeScript 程式碼轉換為高效率的 JavaScript 程式碼，也就是在瀏覽器下載並執行該程式碼之前。
@@ -19,6 +20,7 @@ Angular 的預先編譯（AOT）編譯器會在建置階段將 Angular HTML 與 
 使用 `ngc` 命令列工具編譯應用程式時，可以直接啟動至模組工廠，因此不需要在 JavaScript 套件中包含 Angular 編譯器。
 
 {@a angular-element}
+<a id="angular-元素angular-element"></a>
 ## Angular 元素（Angular element）
 
 包裝為[自訂元素](#自訂元素custom-element)的 Angular [元件](#元件component)。
@@ -60,6 +62,7 @@ Architect 是一個殼層，會以給定的[目標設定](#目標target)執行[�
 
 {@a attribute-directive}
 {@a attribute-directives}
+<a id="屬性指令attribute-directive"></a>
 ## 屬性指令（attribute directive）
 
 一類[指令](#指令directive)，可以監聽並修改其他 HTML 元素、屬性、特性與元件的行為。
@@ -89,6 +92,7 @@ Architect 是一個殼層，會以給定的[目標設定](#目標target)執行[�
 詳見[啟動](guide/bootstrapping)。
 
 {@a builder}
+<a id="建置器builder"></a>
 ## 建置器（builder）
 
 使用 [Architect](#architect) API 執行 `build` 或 `test` 等複雜流程的函式。
@@ -105,6 +109,7 @@ Angular CLI 的 [`ng run`](cli/run) 命令會以特定的[目標設定](#目標t
 {@a camelcase}
 {@a kebab-case}
 <a id="case-types"></a>
+<a id="大小寫慣例case-types"></a>
 ## 大小寫慣例（case types）
 
 Angular 使用大小寫慣例來區分各種類型的名稱，如風格指南的[命名準則章節](guide/styleguide#02-01)所述。以下是大小寫慣例的摘要：
@@ -124,6 +129,7 @@ Angular 使用大小寫慣例來區分各種類型的名稱，如風格指南的
 大寫蛇形式寫法使用全大寫單字並以底線連接。例如 "FIX_ME"。
 
 {@a change-detection}
+<a id="變更偵測change-detection"></a>
 ## 變更偵測（change detection）
 
 Angular 框架用來同步應用程式 UI 狀態與資料狀態的機制。
@@ -143,6 +149,7 @@ Angular 框架用來同步應用程式 UI 狀態與資料狀態的機制。
 詳見[最佳化 Angular 的變更偵測](https://web.dev/faster-angular-change-detection)。
 
 {@a class-decorator}
+<a id="類別裝飾器class-decorator"></a>
 ## 類別裝飾器（class decorator）
 
 緊接在類別定義之前出現的[裝飾器](#裝飾器decoratordecoration)，用來宣告該類別屬於指定類型，並提供適合該類型的中繼資料。
@@ -156,17 +163,20 @@ Angular 框架用來同步應用程式 UI 狀態與資料狀態的機制。
 *   `@NgModule()`
 
 {@a class-field-decorator}
+<a id="類別欄位裝飾器class-field-decorator"></a>
 ## 類別欄位裝飾器（class field decorator）
 
 緊接在類別定義中某個欄位之前的[裝飾器](#裝飾器decoratordecoration)陳述式，用來宣告該欄位的類型。
 例如 `@Input` 與 `@Output`。
 
 {@a collection}
+<a id="集合collection"></a>
 ## 集合（collection）
 
 在 Angular 中，指收集於某個 [npm 套件](#npm-套件)中的一組相關[原理圖](#原理圖schematic)。
 
 {@a cli}
+<a id="命令列介面command-line-interfacecli"></a>
 ## 命令列介面（command-line interface，CLI）
 
 [Angular CLI](cli) 是管理 Angular 開發週期的命令列工具。
@@ -179,6 +189,7 @@ Angular CLI 支援開發週期的所有階段，包括建置、測試、打包�
 另見 [Schematics CLI](#schematics-cli)。
 
 {@a component}
+<a id="元件component"></a>
 ## 元件（component）
 
 具有 `@Component()` [裝飾器](#裝飾器decoratordecoration)的類別，裝飾器會將其與伴隨的[範本](#範本template)關聯。
@@ -190,6 +201,7 @@ Angular 元件類別負責透過[資料繫結](#資料繫結data-binding)公開�
 
 在 [Angular 概念簡介](guide/architecture)中進一步了解元件類別、範本與檢視。
 
+<a id="設定configuration"></a>
 ## 設定（configuration）
 
 見[工作區設定](#工作區設定workspace-configuration)
@@ -202,6 +214,7 @@ Angular 元件類別負責透過[資料繫結](#資料繫結data-binding)公開�
 詳見[回應內容的變更](guide/lifecycle-hooks#回應投影內容的變更)。
 
 {@a custom-element}
+<a id="自訂元素custom-element"></a>
 ## 自訂元素（custom element）
 
 Web 平台功能，目前大多數瀏覽器都支援，其他瀏覽器可透過 polyfill 使用。
@@ -218,6 +231,7 @@ Web 平台功能，目前大多數瀏覽器都支援，其他瀏覽器可透過 
 
 {@a D}
 {@a data-binding}
+<a id="資料繫結data-binding"></a>
 ## 資料繫結（data binding）
 
 讓應用程式能向使用者顯示資料值並回應使用者操作的流程。
@@ -237,6 +251,7 @@ Web 平台功能，目前大多數瀏覽器都支援，其他瀏覽器可透過 
 *   [使用 ngModel 的雙向資料繫結](guide/built-in-directives#ngModel)
 
 {@a declarable}
+<a id="可宣告類別declarable"></a>
 ## 可宣告類別（declarable）
 
 可以加入 [NgModule](#ngmodule) 的 `declarations` 清單中的類別類型。
@@ -254,6 +269,7 @@ Web 平台功能，目前大多數瀏覽器都支援，其他瀏覽器可透過 
 
 {@a decorator}
 {@a decoration}
+<a id="裝飾器decoratordecoration"></a>
 ## 裝飾器（decorator、decoration）
 
 修改類別或屬性定義的函式。
@@ -268,6 +284,7 @@ Angular 定義了裝飾器，將中繼資料附加到類別或屬性上，讓框
 
 {@a di}
 {@a dependency-injection}
+<a id="依賴注入dependency-injectiondi"></a>
 ## 依賴注入（dependency injection，DI）
 
 一種設計模式與機制，用來建立應用程式的某些部分（依賴）並交付給需要它們的其他部分。
@@ -277,6 +294,7 @@ Angular 定義了裝飾器，將中繼資料附加到類別或屬性上，讓框
 詳見 [Angular 的依賴注入](guide/dependency-injection)。
 
 {@a di-token}
+<a id="di-權杖di-token"></a>
 ## DI 權杖（DI token）
 
 與依賴[提供者](#提供者provider)相關聯的查詢權杖，供[依賴注入](#依賴注入dependency-injectiondi)系統使用。
@@ -290,6 +308,7 @@ Angular 定義了裝飾器，將中繼資料附加到類別或屬性上，讓框
 
 {@a directive}
 {@a directives}
+<a id="指令directive"></a>
 ## 指令（directive）
 
 可以修改 DOM 結構，或修改 DOM 中的屬性與元件資料模型的類別。
@@ -319,6 +338,7 @@ Angular 提供了許多以 `ng` 前綴開頭的內建指令。
 Angular 以領域特定語言擴充 TypeScript，涵蓋與 Angular 應用程式相關的多個領域，定義於 [animations](guide/animations)、[forms](guide/forms) 與[路由與導覽](guide/router) 等 NgModule 中。
 
 {@a dynamic-components}
+<a id="動態元件載入dynamic-component-loading"></a>
 ## 動態元件載入（dynamic component loading）
 
 在執行時期將元件加入 DOM 的技術。
@@ -328,6 +348,7 @@ Angular 以領域特定語言擴充 TypeScript，涵蓋與 Angular 應用程式�
 
 {@a E}
 {@a eager-loading}
+<a id="積極載入eager-loading"></a>
 ## 積極載入（eager loading）
 
 在啟動時載入的 NgModule 或元件稱為積極載入，以區別於在執行時期載入、稱為延遲載入的項目。
@@ -400,6 +421,7 @@ Angular 定義了 `ElementRef` 類別，用來包裝與渲染相關的原生 UI 
 [範本驅動表單](#範本驅動表單template-driven-forms)則使用 `NgModel` 與[雙向資料繫結](#資料繫結data-binding)執行可變變更，直接修改現有的資料模型。
 
 {@a injectable}
+<a id="可注入injectable"></a>
 ## 可注入（injectable）
 
 使用[依賴注入](#依賴注入dependency-injectiondi)機制提供依賴的 Angular 類別或其他定義。
@@ -408,6 +430,7 @@ Angular 定義了 `ElementRef` 類別，用來包裝與渲染相關的原生 UI 
 其他項目（例如常數值）也可以是可注入的。
 
 {@a injector}
+<a id="注入器injector"></a>
 ## 注入器（injector）
 
 Angular [依賴注入](#依賴注入dependency-injectiondi)系統中的物件，可以在其快取中找到具名的依賴，或使用已設定的[提供者](#提供者provider)建立依賴。
@@ -455,6 +478,7 @@ Ivy 是 Angular [次世代編譯與渲染管線](https://blog.angular.io/a-plan-
 另見 [TypeScript](#typescript)。
 
 {@a jit}
+<a id="即時編譯just-in-time-compilationjit"></a>
 ## 即時編譯（just-in-time compilation，JIT）
 
 Angular 的即時（JIT）編譯器會在執行時期、作為啟動的一部分，將你的 Angular HTML 與 TypeScript 程式碼轉換為高效率的 JavaScript 程式碼。
@@ -467,6 +491,7 @@ Angular 的即時（JIT）編譯器會在執行時期、作為啟動的一部分
 {@a K}
 {@a L}
 {@a lazy-load}
+<a id="延遲載入lazy-loading"></a>
 ## 延遲載入（lazy loading）
 
 一種透過將應用程式分割為多個套件並按需載入，來加快應用程式載入時間的流程。
@@ -477,6 +502,7 @@ Angular 的即時（JIT）編譯器會在執行時期、作為啟動的一部分
 同樣地，你可以建置自訂元素，在需要時載入 Angular 應用程式中。
 
 {@a library}
+<a id="程式庫library"></a>
 ## 程式庫（library）
 
 在 Angular 中，指提供功能、可納入其他 Angular 應用程式的[專案](#專案project)。
@@ -512,6 +538,7 @@ Angular 依以下順序執行這些掛鉤方法：
 
 {@a M}
 {@a module}
+<a id="模組module"></a>
 ## 模組（module）
 
 一般而言，模組會收集專用於單一用途的一組程式碼。
@@ -567,6 +594,7 @@ NgModule 通常以定義匯出內容的檔案命名。
 
 {@a O}
 {@a observable}
+<a id="可觀察物件observable"></a>
 ## 可觀察物件（observable）
 
 多個值的生產者，會將值推送給[訂閱者](#訂閱者subscriber)。
@@ -584,6 +612,7 @@ Angular 使用名為 [Reactive Extensions（RxJS）](http://reactivex.io/rxjs/) 
 詳見[可觀察物件](guide/observables)。
 
 {@a observer}
+<a id="觀察者observer"></a>
 ## 觀察者（observer）
 
 傳遞給[可觀察物件](#可觀察物件observable)的 `subscribe()` 方法的物件。
@@ -599,6 +628,7 @@ Angular 使用名為 [Reactive Extensions（RxJS）](http://reactivex.io/rxjs/) 
 
 {@a P}
 {@a pipe}
+<a id="管道pipe"></a>
 ## 管道（pipe）
 
 以 `@Pipe{}` 裝飾器為前綴的類別，定義一個函式，可將輸入值轉換為輸出值以顯示於[檢視](#檢視view)中。
@@ -628,6 +658,7 @@ Angular 應用程式最常見的平台是 Web 瀏覽器，但也可以是行動�
 見[瀏覽器支援](guide/browser-support)，了解為特定平台上的特定功能提供支援的 polyfill。
 
 {@a project}
+<a id="專案project"></a>
 ## 專案（project）
 
 在 Angular CLI 中，指可以由 Angular CLI 命令建立或修改的獨立應用程式或[程式庫](#程式庫library)。
@@ -640,6 +671,7 @@ Angular 應用程式最常見的平台是 Web 瀏覽器，但也可以是行動�
 [`angular.json`](guide/workspace-config) 檔案會設定[工作區](#工作區workspace)中的所有專案。
 
 {@a provider}
+<a id="提供者provider"></a>
 ## 提供者（provider）
 
 實作 [`Provider`](api/core/Provider) 介面之一的物件。
@@ -657,6 +689,7 @@ Angular 會為其定義的服務向每個注入器註冊自己的提供者。
 {@a Q}
 {@a R}
 {@a reactive-forms}
+<a id="反應式表單reactive-forms"></a>
 ## 反應式表單（reactive forms）
 
 透過元件中的程式碼建置 Angular 表單的框架。
@@ -682,6 +715,7 @@ Angular 會為其定義的服務向每個注入器註冊自己的提供者。
 請參閱使用[解析守衛](guide/router-tutorial-toh#resolve預先擷取元件資料)擷取動態資料的範例。
 
 {@a route-guard}
+<a id="路由守衛route-guard"></a>
 ## 路由守衛（route guard）
 
 在路由應用程式中控制導覽至請求路由的方法。
@@ -691,6 +725,7 @@ Angular 會為其定義的服務向每個注入器註冊自己的提供者。
 
 {@a router}
 {@a router-module}
+<a id="路由器router"></a>
 ## 路由器（router）
 
 在 Angular 應用程式中設定並實作狀態與[檢視](#檢視view)之間導覽的工具。
@@ -711,6 +746,7 @@ Angular 會為其定義的服務向每個注入器註冊自己的提供者。
 Angular 會依目前的路由器狀態動態渲染範本。
 
 {@a router-component}
+<a id="路由元件routing-component"></a>
 ## 路由元件（routing component）
 
 範本中有 `RouterOutlet` 指令、會依路由器導覽顯示檢視的 Angular [元件](#元件component)。
@@ -718,12 +754,14 @@ Angular 會依目前的路由器狀態動態渲染範本。
 詳見[路由與導覽](guide/router)。
 
 {@a rule}
+<a id="規則rule"></a>
 ## 規則（rule）
 
 在[原理圖](#原理圖schematic)中，指操作[檔案樹](#樹狀結構tree)、以特定方式建立、刪除或修改檔案的函式。
 
 {@a S}
 {@a schematic}
+<a id="原理圖schematic"></a>
 ## 原理圖（schematic）
 
 一種鷹架程式庫，定義如何透過建立、修改、重構或移動檔案與程式碼，來產生或轉換程式設計專案。
@@ -757,6 +795,7 @@ npm install -g @angular-devkit/schematics-cli
 你也可以使用 `schematics` 命令將新的原理圖加入現有集合，或擴充現有的原理圖。
 
 {@a scoped-package}
+<a id="限定範圍套件scoped-package"></a>
 ## 限定範圍套件（scoped package）
 
 一種將相關的 [npm 套件](guide/npm-packages)分組的方式。
@@ -770,6 +809,7 @@ NgModule 會在限定範圍套件中提供，其名稱以 Angular 的*範圍名�
 </code-example>
 
 {@a server-side-rendering}
+<a id="伺服器端渲染server-side-rendering"></a>
 ## 伺服器端渲染（server-side rendering）
 
 一種在伺服器上產生靜態應用程式頁面的技術，並可回應瀏覽器的請求產生與提供這些頁面。
@@ -781,6 +821,7 @@ NgModule 會在限定範圍套件中提供，其名稱以 Angular 的*範圍名�
 你可以使用 [Angular CLI](#命令列介面command-line-interfacecli) 執行 [Angular Universal](#universal) 工具，搭配 `@nguniversal/express-engine` [原理圖](#原理圖schematic)，輕鬆為應用程式準備伺服器端渲染。
 
 {@a service}
+<a id="服務service"></a>
 ## 服務（service）
 
 在 Angular 中，指具有 [@Injectable()](#可注入injectable) 裝飾器、封裝可跨應用程式重複使用的非 UI 邏輯與程式碼的類別。
@@ -794,6 +835,7 @@ Angular 區分元件與服務，以提高模組化與可重複使用性。
 
 {@a structural-directive}
 {@a structural-directives}
+<a id="結構指令structural-directive"></a>
 ## 結構指令（structural directive）
 
 一類[指令](#指令directive)，負責透過修改 DOM 來塑造 HTML 版面配置。
@@ -802,6 +844,7 @@ Angular 區分元件與服務，以提高模組化與可重複使用性。
 詳見[結構指令](guide/structural-directives)。
 
 {@a subscriber}
+<a id="訂閱者subscriber"></a>
 ## 訂閱者（subscriber）
 
 定義如何取得或產生要發布的值或訊息的函式。
@@ -818,6 +861,7 @@ Angular 區分元件與服務，以提高模組化與可重複使用性。
 
 {@a T}
 {@a target}
+<a id="目標target"></a>
 ## 目標（target）
 
 [專案](#專案project)中可建置或可執行的子集，設定為[工作區設定檔](guide/workspace-config#專案工具設定選項)中的物件，並由 [Architect](#architect) [建置器](#建置器builder)執行。
@@ -838,6 +882,7 @@ Angular [CLI](#命令列介面command-line-interfacecli) 的 [`ng new`](cli/new)
 然後你可以使用 Angular [CLI](#命令列介面command-line-interfacecli) 的 [`ng run`](cli/run) 命令執行該目標。
 
 {@a template}
+<a id="範本template"></a>
 ## 範本（template）
 
 定義如何渲染元件[檢視](#檢視view)的程式碼。
@@ -852,6 +897,7 @@ Angular 元素會在頁面顯示之前插入或計算值，以修改 HTML 元素
 以 `TemplateRef` 物件表示的其他範本，可以定義替代或*內嵌*檢視，供多個元件參照。
 
 {@a template-driven-forms}
+<a id="範本驅動表單template-driven-forms"></a>
 ## 範本驅動表單（template-driven forms）
 
 一種使用檢視中的 HTML 表單與輸入元素建置 Angular 表單的格式。
@@ -870,6 +916,7 @@ Angular 元素會在頁面顯示之前插入或計算值，以修改 HTML 元素
 關於兩種表單方法的介紹與比較，請參閱 [Angular 表單簡介](guide/forms-overview)。
 
 {@a template-expression}
+<a id="範本運算式template-expression"></a>
 ## 範本運算式（template expression）
 
 一種類似 TypeScript 的語法，Angular 會在[資料繫結](#資料繫結data-binding)中對其求值。
@@ -888,17 +935,20 @@ Angular 元素會在頁面顯示之前插入或計算值，以修改 HTML 元素
 詳見[範本參照變數](guide/template-reference-variables)。
 
 {@a token}
+<a id="權杖token"></a>
 ## 權杖（token）
 
 用於高效率表格查詢的不透明識別碼。
 在 Angular 中，[DI 權杖](#di-權杖di-token)用於在[依賴注入](#依賴注入dependency-injectiondi)系統中尋找依賴的[提供者](#提供者provider)。
 
 {@a transpile}
+<a id="轉譯transpile"></a>
 ## 轉譯（transpile）
 
 將某個版本的 JavaScript 轉換為另一個版本的翻譯過程；例如，將 ES2015 降級為較舊的 ES5 版本。
 
 {@a file-tree}
+<a id="樹狀結構tree"></a>
 ## 樹狀結構（tree）
 
 在[原理圖](#原理圖schematic)中，指以 `Tree` 類別表示的虛擬檔案系統。
@@ -922,6 +972,7 @@ TypeScript 是 Angular 開發的首選語言。
 
 {@a U}
 {@a unidirectional-data-flow}
+<a id="單向資料流unidirectional-data-flow"></a>
 ## 單向資料流（unidirectional data flow）
 
 一種資料流模型，其中元件樹總是沿著從父元件到子元件的單一方向檢查變更，可防止變更偵測圖中出現循環。
@@ -944,6 +995,7 @@ TypeScript 是 Angular 開發的首選語言。
 
 {@a V}
 {@a view}
+<a id="檢視view"></a>
 ## 檢視（view）
 
 可以一起建立與銷毀的最小顯示元素群組。
@@ -965,6 +1017,7 @@ Angular 會在一個或多個[指令](#指令directive)的控制下渲染檢視�
 Angular 在第 9 版之前使用的編譯與渲染管線。比較 [Ivy](#ivy)。
 
 {@a view-tree}
+<a id="檢視階層view-hierarchy"></a>
 ## 檢視階層（view hierarchy）
 
 一組相關檢視構成的樹狀結構，可以作為一個整體來操作。
@@ -983,6 +1036,7 @@ Angular 在第 9 版之前使用的編譯與渲染管線。比較 [Ivy](#ivy)。
 見[自訂元素](#自訂元素custom-element)。
 
 {@a workspace}
+<a id="工作區workspace"></a>
 ## 工作區（workspace）
 
 由 Angular [CLI](#命令列介面command-line-interfacecli) 驅動的一組 Angular [專案](#專案project)（也就是應用程式與程式庫），通常共同位於單一原始碼控制儲存庫（例如 [git](https://git-scm.com)）中。
@@ -995,6 +1049,7 @@ Angular [CLI](#命令列介面command-line-interfacecli) 的 [`ng new`](cli/new)
 
 {@a cli-config}
 {@a config}
+<a id="工作區設定workspace-configuration"></a>
 ## 工作區設定（workspace configuration）
 
 位於 Angular [工作區](#工作區workspace)根層級、名為 `angular.json` 的檔案，為由 Angular [CLI](#命令列介面command-line-interfacecli) 提供或與其整合的建置與開發工具，提供工作區範圍與專案專屬的設定預設值。

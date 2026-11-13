@@ -996,6 +996,7 @@ ng generate module my-module --routing
 
 {@a snapshot}
 
+<a id="snapshot無-observable-的替代方案"></a>
 #### `snapshot`：無 observable 的替代方案
 
 這個應用程式不會重複使用 `HeroDetailComponent`。
@@ -2321,6 +2322,7 @@ URL 中與 `...` 相關的部分如下：
 
 {@a resolve-guard}
 
+<a id="resolve預先擷取元件資料"></a>
 ### _Resolve_：預先擷取元件資料
 
 在 `Hero Detail` 與 `Crisis Detail` 中，應用程式會等到路由被啟用後才擷取對應的英雄或危機。
@@ -2600,6 +2602,7 @@ Angular 提供了一個內建的模組載入器，支援 SystemJS 以非同步�
 
 {@a preloading}
 
+<a id="預先載入在背景載入功能區"></a>
 ### 預先載入：在背景載入功能區
 
 除了隨選載入模組之外，你也可以使用預先載入來非同步載入模組。

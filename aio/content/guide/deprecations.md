@@ -444,6 +444,7 @@ export class MyModule {
 ```
 
 {@a ie-9-10-and-mobile}
+<a id="ie-910-與-ie-mobile-支援"></a>
 ### IE 9、10 與 IE mobile 支援
 
 對 IE 9 與 10 的支援已被棄用，對 IE Mobile 的支援亦然。這些支援將在未來版本中移除。

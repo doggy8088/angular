@@ -42,6 +42,7 @@ OR
 如需了解如何選擇，請參閱[下一個問題](#how-do-i-choose)。
 
 {@a how-do-i-choose}
+<a id="我該如何選擇-static-旗標的值true-或-false"></a>
 ### 我該如何選擇 `static` 旗標的值：`true` 或 `false`？
 
 在官方 API 文件中，我們一直建議在檢視查詢的 [`ngAfterViewInit`](api/core/ViewChild#description)，以及內容查詢的 [`ngAfterContentInit`](api/core/ContentChild#description) 中取得查詢結果。
@@ -52,6 +53,7 @@ OR
 在較為罕見的情況下，可能需要 `{static: true}` 旗標（請參閱[此處的解答](#should-i-use-static-true)）。
 
 {@a should-i-use-static-true}
+<a id="有沒有什麼情況下我應該使用-static-true"></a>
 ### 有沒有什麼情況下我應該使用 `{static: true}`？
 
 這個選項是為了支援即時建立內嵌檢視而引入的。
@@ -67,6 +69,7 @@ OR
 這些結果只有在變更偵測執行後才能取得。
 
 {@a what-does-this-flag-mean}
+<a id="這個旗標是什麼意思為什麼需要它"></a>
 ### 這個旗標是什麼意思？為什麼需要它？
 
 查詢的預設行為在歷史上一直沒有文件記載，也令人困惑，而且經常導致難以除錯的問題。

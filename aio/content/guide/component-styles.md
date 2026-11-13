@@ -90,6 +90,7 @@ Angular 應用程式使用標準 CSS 設定樣式。也就是說，你可以
 
 <code-example path="component-styles/src/app/hero-details.component.css" region="hostcontext" header="src/app/hero-details.component.css"></code-example>
 
+<a id="已棄用deep-與-ng-deep"></a>
 ### （已棄用）`/deep/`、`>>>` 與 `::ng-deep`
 
 元件樣式通常只會套用到元件自己範本中的 HTML。
