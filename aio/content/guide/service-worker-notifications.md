@@ -1,41 +1,38 @@
-# Service worker notifications
+# Service Worker 推播通知
 
-Push notifications are a compelling way to engage users.
-Through the power of service workers, notifications can be delivered to a device even when your application is not in focus.
+推播通知是吸引使用者參與的有效方式。 透過 service worker 的能力，即使你的應用程式不在焦點中，通知也能傳送到裝置上。
 
-The Angular service worker enables the display of push notifications and the handling of notification click events.
-
-<div class="alert is-helpful">
-
-When using the Angular service worker, push notification interactions are handled using the `SwPush` service.
-To learn more about the browser APIs involved see [Push API](https://developer.mozilla.org/docs/Web/API/Push_API) and [Using the Notifications API](https://developer.mozilla.org/docs/Web/API/Notifications_API/Using_the_Notifications_API).
-
-</div>
-
-## Prerequisites
-
-We recommend you have a basic understanding of the following:
-
-*   [Getting Started with Service Workers](guide/service-worker-getting-started)
-
-## Notification payload
-
-Invoke push notifications by pushing a message with a valid payload.
-See `SwPush` for guidance.
+Angular service worker 能顯示推播通知，並處理通知點擊事件。
 
 <div class="alert is-helpful">
 
-In Chrome, you can test push notifications without a backend.
-Open Devtools -&gt; Application -&gt; Service Workers and use the `Push` input to send a JSON notification payload.
+使用 Angular Service Worker 時，推播通知的互動是透過 `SwPush` 服務來處理。
+如要進一步了解所涉及的瀏覽器 API，請參閱 [Push API](https://developer.mozilla.org/docs/Web/API/Push_API) 與 [Using the Notifications API](https://developer.mozilla.org/docs/Web/API/Notifications_API/Using_the_Notifications_API)。
 
 </div>
 
-## Notification click handling
+## 先備知識
 
-The default behavior for the `notificationclick` event is to close the notification and notify `SwPush.notificationClicks`.
+建議你先對以下內容有基本的了解：
 
-You can specify an additional operation to be executed on `notificationclick` by adding an `onActionClick` property to the `data` object, and providing a `default` entry.
-This is especially useful for when there are no open clients when a notification is clicked.
+*   [Service Worker 入門](guide/service-worker-getting-started)
+
+## 通知 payload
+
+透過推送帶有有效 payload 的訊息來觸發推播通知。 請參閱 `SwPush` 的說明。
+
+<div class="alert is-helpful">
+
+在 Chrome 中，你可以在沒有後端的情況下測試推播通知。
+開啟開發人員工具 -&gt; Application -&gt; Service Workers，並使用 `Push` 輸入框來傳送 JSON 通知承載。
+
+</div>
+
+## 通知點擊處理
+
+`notificationclick` 事件的預設行為是關閉通知，並通知 `SwPush.notificationClicks`。
+
+你可以透過在 `notificationclick` 物件中加入 `onActionClick` 屬性並提供 `data` 條目，指定在 `default` 時要額外執行的操作。 當通知被點擊時沒有開啟中的用戶端，這特別有用。
 
 <code-example format="json" language="json">
 
@@ -52,30 +49,29 @@ This is especially useful for when there are no open clients when a notification
 
 </code-example>
 
-### Operations
+### 操作
 
-The Angular service worker supports the following operations:
+Angular service worker 支援下列操作：
 
-| Operations                  | Details |
+| 操作 | 詳細說明 |
 |:---                         |:---     |
-| `openWindow`                | Opens a new tab at the specified URL, which is resolved relative to the service worker scope.                                                                                                            |
-| `focusLastFocusedOrOpen`    | Focuses the last focused client. If there is no client open, then it opens a new tab at the specified URL, which is resolved relative to the service worker scope.                                       |
-| `navigateLastFocusedOrOpen` | Focuses the last focused client and navigates it to the specified URL, which is resolved relative to the service worker scope. If there is no client open, then it opens a new tab at the specified URL. |
+| `openWindow` | 在指定的 URL 開啟新分頁，該 URL 會相對於 service worker 的範圍來解析。 |
+| `focusLastFocusedOrOpen` | 將焦點移至最後聚焦的用戶端。如果沒有開啟中的用戶端，則在指定的 URL 開啟新分頁，該 URL 會相對於 service worker 的範圍來解析。 |
+| `navigateLastFocusedOrOpen` | 將焦點移至最後聚焦的用戶端，並將它導向指定的 URL，該 URL 會相對於 service worker 的範圍來解析。如果沒有開啟中的用戶端，則在指定的 URL 開啟新分頁。 |
 
 <div class="alert is-important">
 
-If an `onActionClick` item does not define a `url`, then the service worker's registration scope is used.
-  
+如果某個 `onActionClick` 項目沒有定義 `url`，就會使用 Service Worker 的註冊範圍。
+
 </div>
 
-### Actions
+### 動作
 
-Actions offer a way to customize how the user can interact with a notification.
+動作提供了一種方式，讓你自訂使用者如何與通知互動。
 
-Using the `actions` property, you can define a set of available actions.
-Each action is represented as an action button that the user can click to interact with the notification.
+使用 `actions` 屬性，你可以定義一組可用的動作。 每個動作會呈現為一個動作按鈕，使用者可以點選它來與通知互動。
 
-In addition, using the `onActionClick` property on the `data` object, you can tie each action to an operation to be performed when the corresponding action button is clicked:
+此外，使用 `onActionClick` 物件上的 `data` 屬性，你可以將每個動作綁定到對應動作按鈕被點選時要執行的操作：
 
 <code-example format="typescript" language="typescript">
 
@@ -103,15 +99,15 @@ In addition, using the `onActionClick` property on the `data` object, you can ti
 
 <div class="alert is-important">
 
-If an action does not have a corresponding `onActionClick` entry, then the notification is closed and `SwPush.notificationClicks` is notified on existing clients.
+如果某個動作沒有對應的 `onActionClick` 項目，通知就會關閉，並且會在現有的用戶端上通知 `SwPush.notificationClicks`。
 
 </div>
 
-## More on Angular service workers
+## 更多 Angular Service Worker 資訊
 
-You might also be interested in the following:
+你可能也會對以下內容有興趣：
 
-*   [Service Worker in Production](guide/service-worker-devops)
+*   [正式環境中的 Service Worker](guide/service-worker-devops)
 
 <!-- links -->
 

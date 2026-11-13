@@ -1,24 +1,24 @@
-# Create a feature component
+# 建立功能元件
 
-At the moment, the `HeroesComponent` displays both the list of heroes and the selected hero's details.
+目前 `HeroesComponent` 同時顯示英雄清單與所選英雄的詳細資料。
 
-Keeping all features in one component as the application grows will not be maintainable.
-You'll want to split up large components into smaller sub-components, each focused on a specific task or workflow.
+隨著應用程式成長，把所有功能都放在一個元件裡將無法維持可維護性。
+你會想要把大型元件拆成較小的子元件，每個子元件專注於特定的任務或工作流程。
 
-In this page, you'll take the first step in that direction by moving the hero details into a separate, reusable `HeroDetailComponent`.
+在本頁中，你將朝這個方向踏出第一步，把英雄詳細資料移到一個獨立、可重複使用的 `HeroDetailComponent`。
 
-The `HeroesComponent` will only present the list of heroes.
-The `HeroDetailComponent` will present details of a selected hero.
+`HeroesComponent` 將只呈現英雄清單。
+`HeroDetailComponent` 將呈現所選英雄的詳細資料。
 
 <div class="alert is-helpful">
 
-  For the sample application that this page describes, see the <live-example></live-example>.
+  關於本頁說明的範例應用程式，請參閱 <live-example></live-example>。
 
 </div>
 
-## Make the `HeroDetailComponent`
+## 建立 `HeroDetailComponent`
 
-Use the Angular CLI to generate a new component named `hero-detail`.
+使用 Angular CLI 產生一個名為 `hero-detail` 的新元件。
 
 <code-example format="shell" language="shell">
 
@@ -26,119 +26,112 @@ ng generate component hero-detail
 
 </code-example>
 
-The command scaffolds the following:
+此命令會建立以下內容：
 
-*   Creates a directory `src/app/hero-detail`.
+*   建立目錄 `src/app/hero-detail`。
 
-Inside that directory four files are generated:
+在該目錄內會產生四個檔案：
 
-*   A CSS file for the component styles.
-*   An HTML file for the component template.
-*   A TypeScript file with a component class named `HeroDetailComponent`.
-*   A test file for the `HeroDetailComponent` class.
+*   元件樣式的 CSS 檔案。
+*   元件範本的 HTML 檔案。
+*   一個 TypeScript 檔案，內含名為 `HeroDetailComponent` 的元件類別。
+*   一個 `HeroDetailComponent` 類別的測試檔案。
 
-The command also adds the `HeroDetailComponent` as a declaration in the `@NgModule` decorator of the `src/app/app.module.ts` file.
+此命令也會在 `src/app/app.module.ts` 檔案的 `@NgModule` 裝飾器中，把 `HeroDetailComponent` 加入宣告。
 
-### Write the template
+### 撰寫範本
 
-Cut the HTML for the hero detail from the bottom of the `HeroesComponent` template and paste it over the generated boilerplate in the `HeroDetailComponent` template.
+把英雄詳細資料的 HTML 從 `HeroesComponent` 範本底部剪下，貼到產生的樣板內容上，覆蓋 `HeroDetailComponent` 範本原有內容。
 
-The pasted HTML refers to a `selectedHero`.
-The new `HeroDetailComponent` can present *any* hero, not just a selected hero.
-So replace "selectedHero" with "hero" everywhere in the template.
+貼上的 HTML 參照了 `selectedHero`。
+新的 `HeroDetailComponent` 可以呈現*任何*英雄，而不只是所選的英雄。
+所以請在範本中把所有 "selectedHero" 取代為 "hero"。
 
-When you're done, the `HeroDetailComponent` template should look like this:
+完成後，`HeroDetailComponent` 範本應如下所示：
 
 <code-example header="src/app/hero-detail/hero-detail.component.html" path="toh-pt3/src/app/hero-detail/hero-detail.component.html"></code-example>
 
-### Add the `@Input()` hero property
+### 加入 `@Input()` hero 屬性
 
-The `HeroDetailComponent` template binds to the component's `hero` property
-which is of type `Hero`.
+`HeroDetailComponent` 範本會繫結到元件的 `hero` 屬性，該屬性是 `Hero` 型別。
 
-Open the `HeroDetailComponent` class file and import the `Hero` symbol.
+開啟 `HeroDetailComponent` 類別檔案並匯入 `Hero` 符號。
 
 <code-example path="toh-pt3/src/app/hero-detail/hero-detail.component.ts"
 region="import-hero" header="src/app/hero-detail/hero-detail.component.ts (import Hero)"></code-example>
 
-The `hero` property
-[must be an `Input` property](guide/inputs-outputs "Input and Output properties"),
-annotated with the `@Input()` decorator,
-because the *external* `HeroesComponent` [will bind to it](#heroes-component-template) like this.
+`hero` 屬性
+[必須是 `Input` 屬性](guide/inputs-outputs "輸入與輸出屬性")，
+並以 `@Input()` 裝飾器標註，
+因為*外部*的 `HeroesComponent` [將像這樣繫結到它](#heroes-component-template)。
 
 <code-example path="toh-pt3/src/app/heroes/heroes.component.html" region="hero-detail-binding"></code-example>
 
-Amend the `@angular/core` import statement to include the `Input` symbol.
+修改 `@angular/core` 的匯入陳述式，加入 `Input` 符號。
 
 <code-example header="src/app/hero-detail/hero-detail.component.ts (import Input)" path="toh-pt3/src/app/hero-detail/hero-detail.component.ts" region="import-input"></code-example>
 
-Add a `hero` property, preceded by the `@Input()` decorator.
+加入 `hero` 屬性，並在前面加上 `@Input()` 裝飾器。
 
 <code-example header="src/app/hero-detail/hero-detail.component.ts" path="toh-pt3/src/app/hero-detail/hero-detail.component.ts" region="input-hero"></code-example>
 
-That's the only change you should make to the `HeroDetailComponent` class.
-There are no more properties. There's no presentation logic.
-This component only receives a hero object through its `hero` property and displays it.
+這是你唯一需要對 `HeroDetailComponent` 類別做的變更。
+沒有其他屬性，也沒有呈現邏輯。
+這個元件只會透過 `hero` 屬性接收一個英雄物件並顯示它。
 
-## Show the `HeroDetailComponent`
+## 顯示 `HeroDetailComponent`
 
-The `HeroesComponent` used to display the hero details on its own, before you removed that portion of the template.
-This section guides you through delegating logic to the `HeroDetailComponent`.
+在你移除範本中那部分的內容之前，`HeroesComponent` 原本會自行顯示英雄詳細資料。
+本節會引導你把邏輯委派給 `HeroDetailComponent`。
 
-The two components will have a parent/child relationship.
-The parent `HeroesComponent` will control the child `HeroDetailComponent`
-by sending it a new hero to display whenever
-the user selects a hero from the list.
+這兩個元件具有父子關係。
+父元件 `HeroesComponent` 會控制子元件 `HeroDetailComponent`，在使用者從清單中選取英雄時，隨時傳送新的英雄給它顯示。
 
-You won't change the `HeroesComponent` *class* but you will change its *template*.
+你不會變更 `HeroesComponent` *類別*，但會變更它的*範本*。
 
 <a id="heroes-component-template"></a>
 
-### Update the `HeroesComponent` template
+### 更新 `HeroesComponent` 範本
 
-The `HeroDetailComponent` selector is `'app-hero-detail'`.
-Add an `<app-hero-detail>` element near the bottom of the `HeroesComponent` template, where the hero detail view used to be.
+`HeroDetailComponent` 的選取器是 `'app-hero-detail'`。
+請在 `HeroesComponent` 範本底部附近、英雄詳細檢視原本所在的位置，加入一個 `<app-hero-detail>` 元素。
 
-Bind the `HeroesComponent.selectedHero` to the element's `hero` property like this.
+像這樣把 `HeroesComponent.selectedHero` 繫結到該元素的 `hero` 屬性。
 
 <code-example header="heroes.component.html (HeroDetail binding)" path="toh-pt3/src/app/heroes/heroes.component.html" region="hero-detail-binding"></code-example>
 
-`[hero]="selectedHero"` is an Angular [property binding](guide/property-binding).
+`[hero]="selectedHero"` 是 Angular 的[屬性繫結](guide/property-binding)。
 
-It's a *one way* data binding from
-the `selectedHero` property of the `HeroesComponent` to the `hero` property of the target element, which maps to the `hero` property of the `HeroDetailComponent`.
+這是從 `HeroesComponent` 的 `selectedHero` 屬性到目標元素的 `hero` 屬性（對應到 `HeroDetailComponent` 的 `hero` 屬性）的*單向*資料繫結。
 
-Now when the user clicks a hero in the list, the `selectedHero` changes.
-When the `selectedHero` changes, the *property binding* updates `hero`
-and the `HeroDetailComponent` displays the new hero.
+現在當使用者在清單中點選英雄時，`selectedHero` 就會變更。
+當 `selectedHero` 變更時，*屬性繫結*會更新 `hero`，而 `HeroDetailComponent` 就會顯示新的英雄。
 
-The revised `HeroesComponent` template should look like this:
+修改後的 `HeroesComponent` 範本應如下所示：
 
 <code-example path="toh-pt3/src/app/heroes/heroes.component.html"
   header="heroes.component.html"></code-example>
 
-The browser refreshes and the application starts working again as it did before.
+瀏覽器會重新整理，應用程式會像之前一樣重新開始運作。
 
-## What changed?
+## 變更了什麼？
 
-As [before](tutorial/toh-pt2), whenever a user clicks on a hero name,
-the hero detail appears below the hero list.
-Now the `HeroDetailComponent` is presenting those details instead of the `HeroesComponent`.
+如同[前面](tutorial/toh-pt2)所述，每當使用者點選英雄名稱，英雄詳細資料就會出現在英雄清單下方。
+現在改由 `HeroDetailComponent` 來呈現這些詳細資料，而不是 `HeroesComponent`。
 
-Refactoring the original `HeroesComponent` into two components yields benefits, both now and in the future:
+把原本的 `HeroesComponent` 重構成兩個元件，無論現在或未來都有好處：
 
-1. You reduced the `HeroesComponent` responsibilities.
+1. 你減少了 `HeroesComponent` 的職責。
 
-1. You can evolve the `HeroDetailComponent` into a rich hero editor
-without touching the parent `HeroesComponent`.
+1. 你可以把 `HeroDetailComponent` 演進為功能豐富的英雄編輯器，而不需動到父元件 `HeroesComponent`。
 
-1. You can evolve the `HeroesComponent` without touching the hero detail view.
+1. 你可以演進 `HeroesComponent`，而不需動到英雄詳細檢視。
 
-1. You can re-use the `HeroDetailComponent` in the template of some future component.
+1. 你可以在未來某個元件的範本中重複使用 `HeroDetailComponent`。
 
-## Final code review
+## 最終程式碼檢閱
 
-Here are the code files discussed on this page.
+以下是本頁討論過的程式碼檔案。
 
 <code-tabs>
 
@@ -152,12 +145,10 @@ Here are the code files discussed on this page.
 
 </code-tabs>
 
-## Summary
+## 摘要
 
-*   You created a separate, reusable `HeroDetailComponent`.
+*   你建立了一個獨立、可重複使用的 `HeroDetailComponent`。
 
-*   You used a [property binding](guide/property-binding) to give the parent `HeroesComponent` control over the child `HeroDetailComponent`.
+*   你使用[屬性繫結](guide/property-binding)，讓父元件 `HeroesComponent` 能控制子元件 `HeroDetailComponent`。
 
-*   You used the [`@Input` decorator](guide/inputs-outputs)
-to make the `hero` property available for binding
-by the external `HeroesComponent`.
+*   你使用 [`@Input` 裝飾器](guide/inputs-outputs)，讓 `hero` 屬性可供外部的 `HeroesComponent` 繫結。

@@ -1,37 +1,37 @@
-# Update `module` and `target` compiler options migration
+# 更新 `module` 與 `target` 編譯器選項遷移
 
-## What does this migration do?
+## 這個遷移做什麼？
 
-This migration adjusts the [`target`](https://www.typescriptlang.org/tsconfig#target) and [`module`](https://www.typescriptlang.org/tsconfig#module) settings within the [TypeScript configuration files](guide/typescript-configuration) for the workspace.
-The changes to each option vary based on the builder or command that uses the TypeScript configuration file.
-Unless otherwise commented, changes are only made if the existing value was not changed since the project was created.
-This process helps ensure that intentional changes to the options are kept in place.
+此遷移會調整工作區 [TypeScript 設定檔案](guide/typescript-configuration) 中的 [`target`](https://www.typescriptlang.org/tsconfig#target) 和 [`module`](https://www.typescriptlang.org/tsconfig#module) 設定。
+每個選項的變更內容會依使用該 TypeScript 設定檔案的建置器或命令而有所不同。
+除非另有註明，否則只有在現有值自專案建立後未曾變更時，才會進行變更。
+此流程有助於確保對這些選項的有意變更得以保留下來。
 
-| TypeScript configuration files                                     | Changed property | Existing value | New value |
+| TypeScript 設定檔案                                                | 變更的屬性       | 現有值         | 新值      |
 |:---                                                                |:---              |:---            |:---       |
 | `<workspace base>/tsconfig.json`                                   | `"module"`       | `"esnext"`     | `"es2020"` |
-| Used in `browser`  builder options \(`ng build` for applications\) | `"module"`       | `"esnext"`     | `"es2020"` |
-| Used in `ng-packagr` builder options \(`ng build` for libraries\)  | `"module"`       | `"esnext"`     | `"es2020"` |
-| Used in `karma` builder options \(`ng test` for applications\)     | `"module"`       | `"esnext"`     | `"es2020"` |
-| Used in `server` builder options \(universal\)                     | `"module"`       | `"commonjs"`   | *removed*  |
-| Used in `server` builder options \(universal\)                     | `"target"`       | *any*          | `"es2016"` |
-| Used in `protractor` builder options \(`ng e2e` for applications\) | `"target"`       | `"es5"`        | `"es2018"` |
+| 用於 `browser` 建置器選項 \(`ng build` for applications\)          | `"module"`       | `"esnext"`     | `"es2020"` |
+| 用於 `ng-packagr` 建置器選項 \(`ng build` for libraries\)          | `"module"`       | `"esnext"`     | `"es2020"` |
+| 用於 `karma` 建置器選項 \(`ng test` for applications\)             | `"module"`       | `"esnext"`     | `"es2020"` |
+| 用於 `server` 建置器選項 \(universal\)                             | `"module"`       | `"commonjs"`   | *已移除*  |
+| 用於 `server` 建置器選項 \(universal\)                             | `"target"`       | *任意值*       | `"es2016"` |
+| 用於 `protractor` 建置器選項 \(`ng e2e` for applications\)         | `"target"`       | `"es5"`        | `"es2018"` |
 
-## Why is this migration necessary?
+## 為什麼需要這個遷移？
 
-This migration provides improvements to the long-term supportability of projects by updating the projects to use recommended best practice compilation options.
+此遷移透過將專案更新為使用建議的最佳實務編譯選項，提升專案的長期可支援性。
 
-For the functionality that executes on Node.js, such as Universal and Protractor, the new settings provide performance and troubleshooting benefits as well.
-The minimum Node.js version for the Angular CLI \(v10.13\) supports features in ES2018 and earlier.
-By targeting later ES versions, the compiler transforms less code and can use newer features directly.
-Since zone.js does not support native `async` and `await`, the universal builds still target ES2016.
+對於在 Node.js 上執行的功能，例如 Universal 和 Protractor，新設定也能帶來效能和疑難排解方面的好處。
+Angular CLI \(v10.13\) 支援的最低 Node.js 版本支援 ES2018 及更早版本的功能。
+透過以較新的 ES 版本為目標，編譯器需要轉換的程式碼更少，並且可以直接使用較新的功能。
+由於 zone.js 不支援原生的 `async` 和 `await`，Universal 建置仍以 ES2016 為目標。
 
-## Why `"es2020"` instead of `"esnext"`?
+## 為什麼使用 `"es2020"` 而不是 `"esnext"`？
 
-In TypeScript 3.9, the behavior of the TypeScript compiler controlled by `module` is the same with both `"esnext"` and `"es2020"` values.
-This behavior can change in the future, because the `"esnext"` option could evolve in a backwards incompatible ways, resulting in build-time or run-time errors during a TypeScript update.
-As a result, code can become unstable.
-Using the `"es2020"` option mitigates this risk.
+在 TypeScript 3.9 中，由 `module` 控制的 TypeScript 編譯器行為，在 `"esnext"` 和 `"es2020"` 兩種值下是相同的。
+這種行為未來可能會改變，因為 `"esnext"` 選項可能會以不向後相容的方式演進，導致 TypeScript 更新時出現建置時期或執行時期錯誤。
+因此，程式碼可能變得不穩定。
+使用 `"es2020"` 選項可以降低此風險。
 
 <!-- links -->
 

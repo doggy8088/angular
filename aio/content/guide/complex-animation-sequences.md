@@ -1,156 +1,140 @@
-# Complex animation sequences
+# 複雜動畫序列
 
-## Prerequisites
+## 先決條件
 
-A basic understanding of the following concepts:
+對下列概念有基本的了解：
 
-*   [Introduction to Angular animations](guide/animations)
-*   [Transition and triggers](guide/transition-and-triggers)
+*   [Angular 動畫簡介](guide/animations)
+*   [轉場與觸發器](guide/transition-and-triggers)
 
-So far, we've learned simple animations of single HTML elements.
-Angular also lets you animate coordinated sequences, such as an entire grid or list of elements as they enter and leave a page.
-You can choose to run multiple animations in parallel, or run discrete animations sequentially, one following another.
+到目前為止，我們已學會單一 HTML 元素的簡單動畫。 Angular 也能讓你為協調好的序加入動畫，例如整個格線或元素清單在進入與離開頁面時的動畫。 你可以選擇讓多個動畫平行執行，或讓各自獨立的動畫依序一個接一個執行。
 
-The functions that control complex animation sequences are:
+控制複雜動畫序列的函式如下：
 
-| Functions                         | Details |
+| 函式 | 說明 |
 |:---                               |:---     |
-| `query()`                         | Finds one or more inner HTML elements. |
-| `stagger()`                       | Applies a cascading delay to animations for multiple elements. |
-| [`group()`](api/animations/group) | Runs multiple animation steps in parallel. |
-| `sequence()`                      | Runs animation steps one after another. |
+| `query()` | 尋找一個或多個內部 HTML 元素。 |
+| `stagger()` | 為多個元素的動畫套用瀑布式延遲。 |
+| [`group()`](api/animations/group) | 平行執行多個動畫步驟。 |
+| `sequence()` | 一個接一個地執行動畫步驟。 |
 
 <a id="complex-sequence"></a>
 
-## The query() function
+## query() 函式
 
-Most complex animations rely on the `query()` function to find child elements and apply animations to them, basic examples of such are:
+大多數複雜動畫都仰賴 `query()` 函式來尋找子元素並為它們套用動畫。基本範例包括：
 
-| Examples                               | Details |
+| 範例 | 說明 |
 |:---                                    |:---     |
-| `query()` followed by `animate()`      | Used to query simple HTML elements and directly apply animations to them.                                                                                                                            |
-| `query()` followed by `animateChild()` | Used to query child elements, which themselves have animations metadata applied to them and trigger such animation \(which would be otherwise be blocked by the current/parent element's animation\). |
+| `query()` 之後接 `animate()` | 用來查詢簡單的 HTML 元素並直接為它們套用動畫。 |
+| `query()` 之後接 `animateChild()` | 用來查詢子元素，這些子元素本身帶有套用在其上的動畫中繼資料，並觸發這類動畫（否則會被目前／父元素的動畫擋住）。 |
 
-The first argument of `query()` is a [css selector](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors) string which can also contain the following Angular-specific tokens:
+`query()` 的第一個參數是一個 [CSS 選擇器](https://developer.mozilla.org/docs/Web/CSS/CSS_Selectors)字串，其中也可以包含以下 Angular 專用 token：
 
-| Tokens                     | Details |
+| Token | 說明 |
 |:---                        |:---     |
-| `:enter` <br /> `:leave`   | For entering/leaving elements.               |
-| `:animating`               | For elements currently animating.            |
-| `@*` <br /> `@triggerName` | For elements with any—or a specific—trigger. |
-| `:self`                    | The animating element itself.                |
+| `:enter` <br /> `:leave` | 用於正在進入／離開的元素。 |
+| `:animating` | 用於目前正在播放動畫的元素。 |
+| `@*` <br /> `@triggerName` | 用於帶有任何（或特定）觸發器的元素。 |
+| `:self` | 正在播放動畫的元素本身。 |
 
 <div class="callout is-helpful">
 
-<header>Entering and Leaving Elements</header>
+<header>進入與離開的元素</header>
 
-Not all child elements are actually considered as entering/leaving; this can, at times, be counterintuitive and confusing. Please see the [query api docs](api/animations/query#entering-and-leaving-elements) for more information.
+並非所有子元素實際上都會被視為進入／離開；這有時可能違反直覺、令人困惑。更多資訊請參閱 [query api docs](api/animations/query#entering-and-leaving-elements)。
 
-You can also see an illustration of this in the animations live example \(introduced in the animations [introduction section](guide/animations#about-this-guide)\) under the Querying tab.
+你也可以在動畫即時範例 \(在動畫 [introduction section](guide/animations#關於本指南) 中介紹\) 的 Querying 分頁中看到相關說明。
 
 </div>
 
-## Animate multiple elements using query() and stagger() functions
+## 使用 query() 與 stagger() 函式為多個元素加入動畫
 
-After having queried child elements via `query()`, the `stagger()` function lets you define a timing gap between each queried item that is animated and thus animates elements with a delay between them.
+透過 `query()` 查詢子元素之後，`stagger()` 函式能讓你定義每個項目之間的時間間隔，讓元素以彼此延遲的方式播放動畫。
 
-The following example demonstrates how to use the `query()` and `stagger()` functions to animate a list \(of heroes\) adding each in sequence, with a slight delay, from top to bottom.
+以下範例示範如何使用 `query()` 與 `stagger()` 函式，為一個清單（英雄清單）加入動畫：每個英雄依序加入，彼此之間略有延遲，從上到下排列。
 
-*   Use `query()` to look for an element entering the page that meets certain criteria
-*   For each of these elements, use `style()` to set the same initial style for the element.
-    Make it transparent and use `transform` to move it out of position so that it can slide into place.
+*   使用 `query()` 尋找符合特定條件、正在進入頁面的元素
+*   對這些元素中的每一個，使用 `style()` 設定相同的初始樣式。 讓它變透明，並使用 `transform` 把它移出原位，讓它能滑入定位。
 
-*   Use `stagger()` to delay each animation by 30 milliseconds
-*   Animate each element on screen for 0.5 seconds using a custom-defined easing curve, simultaneously fading it in and un-transforming it
+*   使用 `stagger()` 讓每個動畫延遲 30 毫秒
+*   使用自訂的緩動曲線，讓每個元素在畫面上播放 0.5 秒，同時淡入並還原 transform
 
 <code-example header="src/app/hero-list-page.component.ts" path="animations/src/app/hero-list-page.component.ts" region="page-animations"></code-example>
 
-## Parallel animation using group() function
+## 使用 group() 函式的平行動畫
 
-You've seen how to add a delay between each successive animation.
-But you might also want to configure animations that happen in parallel.
-For example, you might want to animate two CSS properties of the same element but use a different `easing` function for each one.
-For this, you can use the animation [`group()`](api/animations/group) function.
+你已看過如何在每個連續動畫之間加入延遲。 但你可能也想設定平行發生的動畫。 例如，你可能想為同一個元素的兩個 CSS 屬性加入動畫，但每個屬性使用不同的 `easing` 函式。 為此，你可以使用動畫的 [`group()`](api/animations/group) 函式。
 
 <div class="alert is-helpful">
 
-**NOTE**: <br />
-The [`group()`](api/animations/group) function is used to group animation *steps*, rather than animated elements.
+注意：<br />
+[`group()`](api/animations/group) 函式是用來群組動畫 *steps*，而不是動畫元素。
 
 </div>
 
-The following example uses [`group()`](api/animations/group)s on both `:enter` and `:leave` for two different timing configurations, thus applying two independent animations to the same element in parallel.
+以下範例在 `:enter` 與 `:leave` 上都使用了 [`group()`](api/animations/group)，採用兩種不同的時間設定，因此把兩個獨立的動畫平行套用到同一個元素上。
 
 <code-example header="src/app/hero-list-groups.component.ts (excerpt)" path="animations/src/app/hero-list-groups.component.ts" region="animationdef"></code-example>
 
-## Sequential vs. parallel animations
+## 依序動畫與平行動畫
 
-Complex animations can have many things happening at once.
-But what if you want to create an animation involving several animations happening one after the other? Earlier you used [`group()`](api/animations/group) to run multiple animations all at the same time, in parallel.
+複雜動畫可以同時發生很多事。 但如果你想建立一個由多個動畫一個接一個發生的動畫呢？先前你用 [`group()`](api/animations/group) 讓多個動畫同時平行執行。
 
-A second function called `sequence()` lets you run those same animations one after the other.
-Within `sequence()`, the animation steps consist of either `style()` or `animate()` function calls.
+另一個叫 `sequence()` 的函式，能讓你把同樣的動畫一個接一個地執行。 在 `sequence()` 內部，動畫步驟由 `style()` 或 `animate()` 函式呼叫組成。
 
-*   Use `style()` to apply the provided styling data immediately.
-*   Use `animate()` to apply styling data over a given time interval.
+*   使用 `style()` 立即套用所提供的樣式資料。
+*   使用 `animate()` 在一段指定時間區間內套用樣式資料。
 
-## Filter animation example
+## 篩選動畫範例
 
-Take a look at another animation on the live example page.
-Under the Filter/Stagger tab, enter some text into the **Search Heroes** text box, such as `Magnet` or `tornado`.
+再看看範例頁面上的另一個動畫。 在「Filter/Stagger」分頁下，在 **Search Heroes** 文字方塊中輸入一些文字，例如 `Magnet` 或 `tornado`。
 
-The filter works in real time as you type.
-Elements leave the page as you type each new letter and the filter gets progressively stricter.
-The heroes list gradually re-enters the page as you delete each letter in the filter box.
+當你輸入時，篩選會即時運作。 隨著你輸入每個新字母、篩選條件越來越嚴格，元素會離開頁面。 當你刪除篩選方塊中的每個字母時，英雄清單會逐漸重新進入頁面。
 
-The HTML template contains a trigger called `filterAnimation`.
+HTML 範本包含一個叫 `filterAnimation` 的觸發器。
 
 <code-example header="src/app/hero-list-page.component.html" path="animations/src/app/hero-list-page.component.html" region="filter-animations"></code-example>
 
-The `filterAnimation` in the component's decorator contains three transitions.
+元件裝飾器中的 `filterAnimation` 包含三個轉場。
 
 <code-example header="src/app/hero-list-page.component.ts" path="animations/src/app/hero-list-page.component.ts" region="filter-animations"></code-example>
 
-The code in this example performs the following tasks:
+這個範例中的程式碼執行以下工作：
 
-*   Skips animations when the user first opens or navigates to this page \(the filter animation narrows what is already there, so it only works on elements that already exist in the DOM\)
-*   Filters heroes based on the search input's value
+*   當使用者第一次開啟或瀏覽到此頁面時跳過動畫（篩選動畫會縮小已存在的內容範圍，所以它只對 DOM 中已存在的元素有效）
+*   根據搜尋輸入的值篩選英雄
 
-For each change:
+對每一次變化：
 
-*   Hides an element leaving the DOM by setting its opacity and width to 0
-*   Animates an element entering the DOM over 300 milliseconds.
-    During the animation, the element assumes its default width and opacity.
+*   把正在離開 DOM 的元素的 opacity 與 width 設為 0，將它隱藏
+*   在 300 毫秒內為正在進入 DOM 的元素加入動畫。 在動畫期間，元素會回復到預設的寬度與不透明度。
 
-*   If there are multiple elements entering or leaving the DOM, staggers each animation starting at the top of the page, with a 50-millisecond delay between each element
+*   若有多個元素正在進入或離開 DOM，從頁面頂部開始錯開每個動畫，每個元素之間延遲 50 毫秒
 
-## Animating the items of a reordering list
+## 為重新排序清單的項目加入動畫
 
-Although Angular animates correctly `*ngFor` list items out of the box, it will not be able to do so if their ordering changes.
-This is because it will lose track of which element is which, resulting in broken animations.
-The only way to help Angular keep track of such elements is by assigning a `TrackByFunction` to the `NgForOf` directive.
-This makes sure that Angular always knows which element is which, thus allowing it to apply the correct animations to the correct elements all the time.
+雖然 Angular 開箱即可正確為 `*ngFor` 清單項目加入動畫，但若它們的順序改變，Angular 就做不到了。 這是因為它會無法追蹤每個元素是哪一個，導致動畫損壞。 幫助 Angular 追蹤這類元素的唯一方法，是為 `NgForOf` 指令指定一個 `TrackByFunction`。 這能確保 Angular 永遠知道每個元素是哪一個，進而永遠能把正確的動畫套用到正確的元素上。
 
 <div class="alert is-important">
 
-**IMPORTANT**: <br />
-If you need to animate the items of an `*ngFor` list and there is a possibility that the order of such items will change during runtime, always use a `TrackByFunction`.
+IMPORTANT: <br />
+如果你需要為 `*ngFor` 清單的項目加上動畫，而且這些項目的順序有可能在執行階段改變，請務必使用 `TrackByFunction`。
 
 </div>
 
-## Animation sequence summary
+## 動畫序列小結
 
-Angular functions for animating multiple elements start with `query()` to find inner elements; for example, gathering all images within a `<div>`.
-The remaining functions, `stagger()`, [`group()`](api/animations/group), and `sequence()`, apply cascades or let you control how multiple animation steps are applied.
+為多個元素加入動畫的 Angular 函式，從 `query()` 開始尋找內部元素；例如，收集一個 `<div>` 內的所有圖片。 其餘函式 `stagger()`、[`group()`](api/animations/group) 與 `sequence()`，會套用瀑布效果，或讓你控制多個動畫步驟如何套用。
 
-## More on Angular animations
+## 深入了解 Angular 動畫
 
-You might also be interested in the following:
+你可能也會對以下內容有興趣：
 
-*   [Introduction to Angular animations](guide/animations)
-*   [Transition and triggers](guide/transition-and-triggers)
-*   [Reusable animations](guide/reusable-animations)
-*   [Route transition animations](guide/route-animations)
+*   [Angular 動畫簡介](guide/animations)
+*   [轉場與觸發器](guide/transition-and-triggers)
+*   [可重複使用的動畫](guide/reusable-animations)
+*   [路由轉場動畫](guide/route-animations)
 
 <!-- links -->
 

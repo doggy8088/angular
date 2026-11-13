@@ -1,18 +1,18 @@
-# Set the runtime locale manually
+# 手動設定執行階段地區設定
 
 <!--todo: The Angular CLI sets the locale ID token as part of the translation. -->
 
 <!--todo: To override the provider for the locale ID token. -->
 
-The inital installation of Angular already contains locale data for English in the United States \(`en-US`\).
-The [Angular CLI][AioCliMain] automatically includes the locale data and sets the `LOCALE_ID` value when you use the `--localize` option with [`ng build`][AioCliBuild] command.
+Angular 的初始安裝已包含美國英文 \(`en-US`\) 的地區設定資料。
+[Angular CLI][AioCliMain] 會在你以 [`ng build`][AioCliBuild] 指令搭配 `--localize` 選項時，自動包含地區設定資料並設定 `LOCALE_ID` 的值。
 
-To manually set the runtime locale of an application to one other than the automatic value, complete the following actions.
+若要手動將應用程式的執行階段地區設定設為自動值以外的值，請完成以下動作。
 
-1.  Search for the Unicode locale ID in the language-locale combination in the [`@angular/common/locales/`][UnpkgBrowseAngularCommonLocales] directory.
-1.  Set the [`LOCALE_ID`][AioApiCoreLocaleId] token.
+1.  在 [`@angular/common/locales/`][UnpkgBrowseAngularCommonLocales] 目錄中，搜尋語言-地區設定組合的 Unicode 地區設定 ID。
+1.  設定 [`LOCALE_ID`][AioApiCoreLocaleId] token。
 
-The following example sets the value of `LOCALE_ID` to `fr` for French.
+以下範例將 `LOCALE_ID` 的值設為法文的 `fr`。
 
 <code-example header="src/app/app.module.ts" path="i18n/doc-files/app.module.ts" region="locale-id"></code-example>
 

@@ -1,15 +1,14 @@
-# Getting started with Angular
+# 開始使用 Angular
 
-Welcome to Angular!
+歡迎使用 Angular！
 
-This tutorial introduces you to the essentials of Angular by walking you through building an e-commerce site with a catalog, shopping cart, and check-out form.
+本教學將帶你逐步建立一個包含商品目錄、購物車與結帳表單的電子商務網站，藉此介紹 Angular 的基本要素。
 
-To help you get started right away, this tutorial uses a ready-made application that you can examine and modify interactively on [StackBlitz](https://stackblitz.com) &mdash;without having to [set up a local work environment](guide/setup-local "Setup guide").
-StackBlitz is a browser-based development environment where you can create, save, and share projects using a variety of technologies.
+為了讓你立即開始，本教學使用一個現成的應用程式，你可以在 [StackBlitz](https://stackblitz.com) 上互動式地檢視與修改它 &mdash;不需要[設定本機工作環境](guide/setup-local "Setup guide")。StackBlitz 是一個以瀏覽器為基礎的開發環境，你可以在其中使用各種技術建立、儲存及分享專案。
 
-## Prerequisites
+## 先備條件
 
-To get the most out of this tutorial you should already have a basic understanding of the following.
+為了充分利用本教學，你應該已經對下列內容有基本的了解。
 
 *   [HTML](https://developer.mozilla.org/docs/Learn/HTML "Learning HTML: Guides and tutorials")
 *   [JavaScript](https://developer.mozilla.org/docs/Web/JavaScript "JavaScript")
@@ -17,181 +16,163 @@ To get the most out of this tutorial you should already have a basic understandi
 
 <a id="components"></a>
 
-## Take a tour of the example application
+## 瀏覽範例應用程式
 
-You build Angular applications with components.
-Components define areas of responsibility in the UI that let you reuse sets of UI functionality.
+你使用元件來建立 Angular 應用程式。元件定義了 UI 中的責任範圍，讓你可以重複使用一組 UI 功能。
 
-A component consists of three things:
+一個元件由三個部分組成：
 
-|                           | Details |
+|                           | 詳細資訊 |
 |:---                       |:---     |
-| A component class         | Handles data and functionality. |
-| An HTML template          | Determines the UI.              |
-| Component-specific styles | Define the look and feel.       |
+| 元件類別 | 處理資料與功能。 |
+| HTML 範本 | 決定 UI。 |
+| 元件專屬樣式 | 定義外觀與感覺。 |
 
-This guide demonstrates building an application with the following components.
+本指南示範如何使用下列元件來建立應用程式。
 
-| Components             | Details |
+| 元件 | 詳細資訊 |
 |:---                    |:---     |
-| `<app-root>`           | The first component to load and the container for the other components. |
-| `<app-top-bar>`        | The store name and checkout button.                                     |
-| `<app-product-list>`   | The product list.                                                       |
-| `<app-product-alerts>` | A component that contains the application's alerts.                     |
+| `<app-root>` | 第一個載入的元件，也是其他元件的容器。 |
+| `<app-top-bar>` | 商店名稱與結帳按鈕。 |
+| `<app-product-list>` | 商品清單。 |
+| `<app-product-alerts>` | 包含應用程式提醒的元件。 |
 
 <div class="lightbox">
 
-<img alt="Online store with three components" src="generated/images/guide/start/app-components.png">
+<img alt="含三個元件的線上商店" src="generated/images/guide/start/app-components.png">
 
 </div>
 
-For more information about components, see [Introduction to Components](guide/architecture-components "Introduction to Components and Templates").
+如需進一步了解元件，請參閱[元件簡介](guide/architecture-components "Introduction to Components and Templates")。
 
 <a id="new-project"></a>
 
-## Create the sample project
+## 建立範例專案
 
-To create the sample project, generate the <live-example name="getting-started-v0" noDownload>ready-made sample project in StackBlitz</live-example>.
-To save your work:
+若要建立範例專案，請產生 <live-example name="getting-started-v0" noDownload>StackBlitz 中的現成範例專案</live-example>。若要儲存你的工作：
 
-1.  Log into StackBlitz.
-1.  Fork the project you generated.
-1.  Save periodically.
-
-<div class="lightbox">
-
-<img alt="Fork the project" src="generated/images/guide/start/fork-the-project.png">
-
-</div>
-
-In StackBlitz, the preview pane on the right shows the starting state of the example application.
-The preview features two areas:
-
-*   A top bar with the store name, `My Store`, and a checkout button
-*   A header for a product list, `Products`
+1.  登入 StackBlitz。
+1.  分叉你產生的專案。
+1.  定期儲存。
 
 <div class="lightbox">
 
-<img alt="Starter online store application" src="generated/images/guide/start/new-app-all.gif">
+<img alt="Fork 專案" src="generated/images/guide/start/fork-the-project.png">
 
 </div>
 
-The project section on the left shows the source files that make up the application, including the infrastructure and configuration files.
+在 StackBlitz 中，右側的預覽窗格會顯示範例應用程式的起始狀態。預覽包含兩個區域：
 
-When you generate the StackBlitz example applications that accompany the tutorials, StackBlitz creates the starter files and mock data for you.
-The files you use throughout the tutorial are in the `src` folder.
+*   頂端列，包含商店名稱 `My Store` 與一個結帳按鈕
+*   商品清單的標頭 `Products`
 
-For more information on how to use StackBlitz, see the [StackBlitz documentation](https://developer.stackblitz.com/docs/platform).
+<div class="lightbox">
+
+<img alt="入門線上商店應用程式" src="generated/images/guide/start/new-app-all.gif">
+
+</div>
+
+左側的專案區段會顯示構成應用程式的原始碼檔案，包括基礎架構與設定檔。
+
+當你產生教學隨附的 StackBlitz 範例應用程式時，StackBlitz 會為你建立起始檔案與模擬資料。你在整個教學中使用的檔案都位於 `src` 資料夾中。
+
+如需進一步了解如何使用 StackBlitz，請參閱 [StackBlitz 文件](https://developer.stackblitz.com/docs/platform)。
 
 <a id="product-list"></a>
 
-## Create the product list
+## 建立商品清單
 
-In this section, you'll update the application to display a list of products.
-You'll use predefined product data from the `products.ts` file and methods from the `product-list.component.ts` file.
-This section guides you through editing the HTML, also known as the template.
+在本節中，你將更新應用程式以顯示商品清單。你將使用 `products.ts` 檔案中預先定義的商品資料，以及 `product-list.component.ts` 檔案中的方法。本節將引導你編輯 HTML，也就是所謂的範本。
 
-1.  In the `product-list` folder, open the template file `product-list.component.html`.
+1.  在 `product-list` 資料夾中，開啟範本檔案 `product-list.component.html`。
 
-1.  Add an `*ngFor` structural directive on a `<div>`, as follows.
+1.  在 `*ngFor` 上加入 `<div>` 結構指令，如下所示。
 
     <code-example header="src/app/product-list/product-list.component.html" path="getting-started/src/app/product-list/product-list.component.2.html" region="ngfor"></code-example>
 
-    With `*ngFor`, the `<div>` repeats for each product in the list.
+使用 `*ngFor` 時，`<div>` 會針對清單中的每項商品重複出現。
 
-    Structural directives shape or reshape the DOM's structure, by adding, removing, and manipulating elements.
-    For more information about structural directives, see [Structural directives](guide/structural-directives).
+結構指令會透過新增、移除與操作元素，來塑造或重塑 DOM 的結構。如需進一步了解結構指令，請參閱[結構指令](guide/structural-directives)。
 
-1.  Inside the `<div>`, add an `<h3>` and `{{ product.name }}`.
-    The `{{ product.name }}` statement is an example of Angular's interpolation syntax.
-    Interpolation `{{ }}` lets you render the property value as text.
+1.  在 `<div>` 內加入 `<h3>` 與 `{{ product.name }}`。`{{ product.name }}` 陳述式是 Angular 內插語法的一個範例。內插 `{{ }}` 可讓你將屬性值渲染為文字。
 
     <code-example header="src/app/product-list/product-list.component.html" path="getting-started/src/app/product-list/product-list.component.2.html" region="interpolation"></code-example>
 
-    The preview pane updates to display the name of each product in the list.
+預覽窗格會更新，顯示清單中每項商品的名稱。
 
     <div class="lightbox">
 
-    <img alt="Product names added to list" src="generated/images/guide/start/template-syntax-product-names.png">
+    <img alt="已將產品名稱加入清單" src="generated/images/guide/start/template-syntax-product-names.png">
 
     </div>
 
-1.  To make each product name a link to product details, add the `<a>` element around `{{ product.name }}`.
+1.  若要讓每個商品名稱成為連結到商品詳細資訊的連結，請在 `<a>` 外圍加入 `{{ product.name }}` 元素。
 
-1.  Set the title to be the product's name by using the property binding `[ ]` syntax, as follows:
+1.  使用屬性繫結 `[ ]` 語法，將 title 設定為商品名稱，如下所示：
 
     <code-example header="src/app/product-list/product-list.component.html" path="getting-started/src/app/product-list/product-list.component.2.html"></code-example>
 
-    In the preview pane, hover over a product name to see the bound name property value, which is the product name plus the word "details".
-    Property binding `[ ]` lets you use the property value in a template expression.
+在預覽窗格中，將滑鼠游標停留在商品名稱上，即可看到繫結的 name 屬性值，也就是商品名稱加上「details」一詞。屬性繫結 `[ ]` 可讓你在範本運算式中使用屬性值。
 
     <div class="lightbox">
 
-    <img alt="Product name anchor text is product name property" src="generated/images/guide/start/template-syntax-product-anchor.png">
+    <img alt="產品名稱錨點文字為產品名稱屬性" src="generated/images/guide/start/template-syntax-product-anchor.png">
 
     </div>
 
-1.  Add the product descriptions.
-    On a `<p>` element, use an `*ngIf` directive so that Angular only creates the `<p>` element if the current product has a description.
+1.  加入商品描述。在 `<p>` 元素上使用 `*ngIf` 指令，讓 Angular 只有在目前商品有描述時才建立 `<p>` 元素。
 
     <code-example header="src/app/product-list/product-list.component.html" path="getting-started/src/app/product-list/product-list.component.3.html"></code-example>
 
-    The application now displays the name and description of each product in the list.
-    Notice that the final product does not have a description paragraph.
-    Angular doesn't create the `<p>` element because the product's description property is empty.
+應用程式現在會顯示清單中每項商品的名稱與描述。請注意，最後一項商品沒有描述段落。Angular 不會建立 `<p>` 元素，因為該商品的 description 屬性是空的。
 
     <div class="lightbox">
 
-    <img alt="Product descriptions added to list" src="generated/images/guide/start/template-syntax-product-description.png">
+    <img alt="已將產品描述加入清單" src="generated/images/guide/start/template-syntax-product-description.png">
 
     </div>
 
-1.  Add a button so users can share a product.
-    Bind the button's `click` event to the `share()` method in `product-list.component.ts`.
-    Event binding uses a set of parentheses, `( )`, around the event, as in the `(click)` event on the  `<button>` element.
+1.  加入一個按鈕，讓使用者可以分享商品。將按鈕的 `click` 事件繫結到 `share()` 中的 `product-list.component.ts` 方法。事件繫結會在事件周圍使用一組括號 `( )`，例如 `(click)` 元素上的 `<button>` 事件。
 
     <code-example header="src/app/product-list/product-list.component.html" path="getting-started/src/app/product-list/product-list.component.4.html"></code-example>
 
-    Each product now has a **Share** button.
+每項商品現在都有一個 **Share** 按鈕。
 
     <div class="lightbox">
 
-    <img alt="Share button added for each product" src="generated/images/guide/start/template-syntax-product-share-button.png">
+    <img alt="已為每個產品加入分享按鈕" src="generated/images/guide/start/template-syntax-product-share-button.png">
 
     </div>
 
-    Clicking the **Share** button triggers an alert that states, "The product has been shared!".
+按一下 **Share** 按鈕會觸發一個提醒，指出「The product has been shared!」。
 
     <div class="lightbox">
 
-    <img alt="Alert box indicating product has been shared" src="generated/images/guide/start/template-syntax-product-share-alert.png">
+    <img alt="表示產品已分享的警示方塊" src="generated/images/guide/start/template-syntax-product-share-alert.png">
 
     </div>
 
-In editing the template, you have explored some of the most popular features of Angular templates.
-For more information, see [Introduction to components and templates](guide/architecture-components#template-syntax "Template Syntax").
+在編輯範本的過程中，你已經探索了 Angular 範本一些最受歡迎的功能。如需進一步了解，請參閱[元件與範本簡介](guide/architecture-components#範本語法 "Template Syntax")。
 
 <a id="passing-data-in"></a>
 
-## Pass data to a child component
+## 將資料傳遞給子元件
 
-Currently, the product list displays the name and description of each product.
-The `ProductListComponent` also defines a `products` property that contains imported data for each product from the `products` array in `products.ts`.
+目前商品清單會顯示每項商品的名稱與描述。`ProductListComponent` 也定義了一個 `products` 屬性，其中包含從 `products` 的 `products.ts` 陣列匯入的每項商品資料。
 
-The next step is to create a new alert feature that uses product data from the `ProductListComponent`.
-The alert checks the product's price, and, if the price is greater than &dollar;700, displays a **Notify Me** button that lets users sign up for notifications when the product goes on sale.
+下一步是建立一個新的提醒功能，它會使用來自 `ProductListComponent` 的商品資料。該提醒會檢查商品的價格，如果價格大於 &dollar;700，就會顯示 **Notify Me** 按鈕，讓使用者能註冊通知，在商品特價時收到通知。
 
-This section walks you through creating a child component, `ProductAlertsComponent` that can receive data from its parent component, `ProductListComponent`.
+本節將帶你逐步建立一個子元件 `ProductAlertsComponent`，它可以從其父元件 `ProductListComponent` 接收資料。
 
-1.  Click on the plus sign above the current terminal to create a new terminal to run the command to generate the component.
+1.  按一下目前終端機上方的加號，建立一個新的終端機來執行產生元件的指令。
 
     <div class="lightbox">
 
-    <img alt="StackBlitz command to generate component" src="generated/images/guide/start/create-new-terminal.png">
+    <img alt="產生元件的 StackBlitz 指令" src="generated/images/guide/start/create-new-terminal.png">
 
     </div>
 
-1.  In the new terminal, generate a new component named `product-alerts` by running the following command.
+1.  在新的終端機中，執行下列指令來產生一個名為 `product-alerts` 的新元件。
 
     <code-example format="shell" language="shell">
 
@@ -199,117 +180,104 @@ This section walks you through creating a child component, `ProductAlertsCompone
   
     </code-example>
 
-    The generator creates starter files for the three parts of the component:
+產生器會為元件的三個部分建立起始檔案：
 
     *   `product-alerts.component.ts`
     *   `product-alerts.component.html`
     *   `product-alerts.component.css`
 
-1.  Open `product-alerts.component.ts`.
-    The `@Component()` decorator indicates that the following class is a component.
-    `@Component()` also provides metadata about the component, including its selector, templates, and styles.
+1.  開啟 `product-alerts.component.ts`。`@Component()` 裝飾器表示接下來的類別是一個元件。`@Component()` 也會提供關於元件的中繼資料，包括其選取器、範本與樣式。
 
     <code-example header="src/app/product-alerts/product-alerts.component.ts" path="getting-started/src/app/product-alerts/product-alerts.component.1.ts" region="as-generated"></code-example>
 
-    Key features in the `@Component()` are as follows:
+`@Component()` 中的主要功能如下：
 
-    *   The `selector`, `app-product-alerts`, identifies the component.
-        By convention, Angular component selectors begin with the prefix `app-`, followed by the component name.
+    *   `selector`（即 `app-product-alerts`）用來識別元件。按照慣例，Angular 元件選取器以 `app-` 前置詞開頭，後面接著元件名稱。
 
-    *   The template and style filenames reference the component's HTML and CSS
-    *   The `@Component()` definition also exports the class, `ProductAlertsComponent`, which handles functionality for the component
+    *   範本與樣式檔案名稱參照元件的 HTML 與 CSS
+    *   `@Component()` 定義也會匯出 `ProductAlertsComponent` 類別，該類別負責處理元件的功能
 
-1.  To set up `ProductAlertsComponent` to receive product data, first import `Input` from `@angular/core`.
+1.  若要設定 `ProductAlertsComponent` 來接收商品資料，請先從 `Input` 匯入 `@angular/core`。
 
     <code-example header="src/app/product-alerts/product-alerts.component.ts" path="getting-started/src/app/product-alerts/product-alerts.component.1.ts" region="imports"></code-example>
 
-1.  In the `ProductAlertsComponent` class definition, define a property named `product` with an `@Input()` decorator.
-    The `@Input()` decorator indicates that the property value passes in from the component's parent, `ProductListComponent`.
+1.  在 `ProductAlertsComponent` 類別定義中，定義一個名為 `product` 的屬性，並加上 `@Input()` 裝飾器。`@Input()` 裝飾器表示該屬性值是從元件的父元件 `ProductListComponent` 傳入的。
 
     <code-example header="src/app/product-alerts/product-alerts.component.ts" path="getting-started/src/app/product-alerts/product-alerts.component.1.ts" region="input-decorator"></code-example>
 
-1.  Open `product-alerts.component.html` and replace the placeholder paragraph with a **Notify Me** button that appears if the product price is over &dollar;700.
+1.  開啟 `product-alerts.component.html`，將預留位置段落替換為一個 **Notify Me** 按鈕，該按鈕會在商品價格超過 &dollar;700 時出現。
 
     <code-example header="src/app/product-alerts/product-alerts.component.html" path="getting-started/src/app/product-alerts/product-alerts.component.1.html"></code-example>
 
-1.  The generator automatically added the `ProductAlertsComponent` to the `AppModule` to make it available to other components in the application.
+1.  產生器已自動將 `ProductAlertsComponent` 加入 `AppModule`，讓應用程式中的其他元件可以使用它。
 
     <code-example header="src/app/app.module.ts" path="getting-started/src/app/app.module.ts" region="declare-product-alerts"></code-example>
 
-1.  Finally, to display `ProductAlertsComponent` as a child of `ProductListComponent`, add the `<app-product-alerts>` element to `product-list.component.html`.
-    Pass the current product as input to the component using property binding.
+1.  最後，若要將 `ProductAlertsComponent` 顯示為 `ProductListComponent` 的子元件，請將 `<app-product-alerts>` 元素加入 `product-list.component.html`。使用屬性繫結將目前商品作為輸入傳遞給該元件。
 
     <code-example header="src/app/product-list/product-list.component.html" path="getting-started/src/app/product-list/product-list.component.5.html" region="app-product-alerts"></code-example>
 
-The new product alert component takes a product as input from the product list.
-With that input, it shows or hides the **Notify Me** button, based on the price of the product.
-The Phone XL price is over &dollar;700, so the **Notify Me** button appears on that product.
+新的商品提醒元件會從商品清單接收一項商品作為輸入。有了該輸入，它會根據商品價格顯示或隱藏 **Notify Me** 按鈕。Phone XL 的價格超過 &dollar;700，因此 **Notify Me** 按鈕會出現在該商品上。
 
 <div class="lightbox">
 
-<img alt="Product alert button added to products over $700" src="generated/images/guide/start/product-alert-button.png">
+<img alt="已為超過 700 美元的產品加入產品警示按鈕" src="generated/images/guide/start/product-alert-button.png">
 
 </div>
 
 <a id="output"></a>
 
-## Pass data to a parent component
+## 將資料傳遞給父元件
 
-To make the **Notify Me** button work, the child component needs to notify and pass the data to the parent component.
-The `ProductAlertsComponent` needs to emit an event when the user clicks **Notify Me** and the `ProductListComponent` needs to respond to the event.
+若要讓 **Notify Me** 按鈕發揮作用，子元件需要通知父元件並將資料傳遞給它。當使用者按一下 **Notify Me** 時，`ProductAlertsComponent` 需要發出一個事件，而 `ProductListComponent` 需要回應此事件。
 
 <div class="alert is-helpful">
 
-In new components, the Angular Generator includes an empty `constructor()`, the `OnInit` interface, and the `ngOnInit()` method.
-Since these steps don't use them, the following code examples omit them for brevity.
+在新元件中，Angular 產生器會加入一個空的 `constructor()`、`OnInit` 介面以及 `ngOnInit()` 方法。由於這些步驟不會用到它們，以下程式碼範例為求簡潔將其省略。
 
 </div>
 
-1.  In `product-alerts.component.ts`, import `Output` and `EventEmitter` from `@angular/core`.
+1.  在 `product-alerts.component.ts` 中，從 `Output` 匯入 `EventEmitter` 與 `@angular/core`。
 
     <code-example header="src/app/product-alerts/product-alerts.component.ts" path="getting-started/src/app/product-alerts/product-alerts.component.ts" region="imports"></code-example>
 
-1.  In the component class, define a property named `notify` with an `@Output()` decorator and an instance of `EventEmitter()`.
-    Configuring `ProductAlertsComponent` with an `@Output()` allows the `ProductAlertsComponent` to emit an event when the value of the `notify` property changes.
+1.  在元件類別中，定義一個名為 `notify` 的屬性，並加上 `@Output()` 裝飾器與 `EventEmitter()` 的執行個體。使用 `ProductAlertsComponent` 設定 `@Output()`，可讓 `ProductAlertsComponent` 在 `notify` 屬性的值變更時發出事件。
 
     <code-example header="src/app/product-alerts/product-alerts.component.ts" path="getting-started/src/app/product-alerts/product-alerts.component.ts" region="input-output"></code-example>
 
-1.  In `product-alerts.component.html`, update the **Notify Me** button with an event binding to call the `notify.emit()` method.
+1.  在 `product-alerts.component.html` 中，更新 **Notify Me** 按鈕，加入事件繫結以呼叫 `notify.emit()` 方法。
 
     <code-example header="src/app/product-alerts/product-alerts.component.html" path="getting-started/src/app/product-alerts/product-alerts.component.html"></code-example>
 
-1.  Define the behavior that happens when the user clicks the button.
-    The parent, `ProductListComponent` &mdash;not the `ProductAlertsComponent`&mdash; acts when the child raises the event.
-    In  `product-list.component.ts`, define an `onNotify()` method, similar to the `share()` method.
+1.  定義使用者按一下按鈕時發生的行為。當子元件引發事件時，是由父元件 `ProductListComponent` &mdash;而非 `ProductAlertsComponent`&mdash; 採取行動。在 `product-list.component.ts` 中，定義一個 `onNotify()` 方法，類似於 `share()` 方法。
 
     <code-example header="src/app/product-list/product-list.component.ts" path="getting-started/src/app/product-list/product-list.component.ts" region="on-notify"></code-example>
 
-1.  Update the `ProductListComponent` to receive data from the `ProductAlertsComponent`.
+1.  更新 `ProductListComponent`，使其從 `ProductAlertsComponent` 接收資料。
 
-    In `product-list.component.html`, bind `<app-product-alerts>`  to the `onNotify()` method of the product list component.
-    `<app-product-alerts>` is what displays the **Notify Me** button.
+在 `product-list.component.html` 中，將 `<app-product-alerts>` 繫結到商品清單元件的 `onNotify()` 方法。`<app-product-alerts>` 就是顯示 **Notify Me** 按鈕的元素。
 
     <code-example header="src/app/product-list/product-list.component.html" path="getting-started/src/app/product-list/product-list.component.6.html" region="on-notify"></code-example>
 
-1.  Click the **Notify Me** button to trigger an alert which reads, "You will be notified when the product goes on sale".
+1.  按一下 **Notify Me** 按鈕，觸發一個內容為「You will be notified when the product goes on sale」的提醒。
 
     <div class="lightbox">
 
-    <img alt="Product alert notification confirmation dialog" src="generated/images/guide/start/product-alert-notification.png">
+    <img alt="產品警示通知確認對話方塊" src="generated/images/guide/start/product-alert-notification.png">
 
     </div>
 
-For more information on communication between components, see [Component Interaction](guide/component-interaction "Component interaction").
+如需進一步了解元件之間的通訊，請參閱[元件互動](guide/component-interaction "Component interaction")。
 
 <a id="whats-next"></a>
 
-## What's next
+## 後續步驟
 
-In this section, you've created an application that iterates through data and features components that communicate with each other.
+在本節中，你已經建立了一個會逐一處理資料的應用程式，其中包含彼此通訊的元件。
 
-To continue exploring Angular and developing this application:
+若要繼續探索 Angular 並開發此應用程式：
 
-*   Continue to [In-app navigation](start/start-routing "Getting started: In-app navigation") to create a product details page.
-*   Skip ahead to [Deployment](start/start-deployment "Getting started: Deployment") to move to local development, or deploy your application to Firebase or your own server.
+*   繼續前往[應用程式內導覽](start/start-routing "Getting started: In-app navigation")，建立商品詳細資訊頁面。
+*   直接跳到[部署](start/start-deployment "Getting started: Deployment")，轉移到本機開發，或將應用程式部署到 Firebase 或你自己的伺服器。
 
 @reviewed 2022-02-28

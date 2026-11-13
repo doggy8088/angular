@@ -1,109 +1,105 @@
-# Angular service worker introduction
+# Angular service worker 簡介
 
-Service workers augment the traditional web deployment model and empower applications to deliver a user experience with the reliability and performance on par with code that is written to run on your operating system and hardware.
-Adding a service worker to an Angular application is one of the steps for turning an application into a [Progressive Web App](https://developers.google.com/web/progressive-web-apps) \(also known as a PWA\).
+Service worker 強化了傳統的 Web 部署模式，讓應用程式能提供與在作業系統與硬體上原生執行的程式碼同等級的可靠性與效能體驗。
+將 service worker 加入 Angular 應用程式，是把應用程式轉變為 [Progressive Web App](https://developers.google.com/web/progressive-web-apps)（也稱為 PWA）的步驟之一。
 
-At its simplest, a service worker is a script that runs in the web browser and manages caching for an application.
+最簡單來說，service worker 是一個在 Web 瀏覽器中執行的指令碼，負責管理應用程式的快取。
 
-Service workers function as a network proxy.
-They intercept all outgoing HTTP requests made by the application and can choose how to respond to them.
-For example, they can query a local cache and deliver a cached response if one is available.
-Proxying isn't limited to requests made through programmatic APIs, such as `fetch`; it also includes resources referenced in HTML and even the initial request to `index.html`.
-Service worker-based caching is thus completely programmable and doesn't rely on server-specified caching headers.
+Service worker 扮演網路 proxy 的角色。
+它們會攔截應用程式發出的所有 HTTP 請求，並能自行決定如何回應這些請求。
+例如，它們可以查詢本機快取，若有可用的快取回應就直接傳回。
+Proxy 的攔截不限於透過 `fetch` 等程式化 API 發出的請求，也包括 HTML 中參照的資源，甚至最初對 `index.html` 的請求。
+因此，基於 service worker 的快取是完全可程式化的，不依賴伺服器指定的快取標頭。
 
-Unlike the other scripts that make up an application, such as the Angular application bundle, the service worker is preserved after the user closes the tab.
-The next time that browser loads the application, the service worker loads first, and can intercept every request for resources to load the application.
-If the service worker is designed to do so, it can *completely satisfy the loading of the application, without the need for the network*.
+與構成應用程式的其他指令碼（例如 Angular 應用程式套件）不同，service worker 在使用者關閉分頁後仍會保留下來。
+下次瀏覽器載入應用程式時，service worker 會先載入，並能攔截載入應用程式所需的每一個資源請求。
+如果 service worker 的設計如此，它可以_完全滿足應用程式的載入，完全不需要網路_。
 
-Even across a fast reliable network, round-trip delays can introduce significant latency when loading the application.
-Using a service worker to reduce dependency on the network can significantly improve the user experience.
+即使在快速可靠的網路上，來回延遲在載入應用程式時仍可能造成顯著的延遲。
+使用 service worker 降低對網路的依賴，可以大幅改善使用者體驗。
 
-## Service workers in Angular
+## Angular 中的 service worker
 
-Angular applications, as single-page applications, are in a prime position to benefit from the advantages of service workers.
-Starting with version 5.0.0, Angular ships with a service worker implementation.
-Angular developers can take advantage of this service worker and benefit from the increased reliability and performance it provides, without needing to code against low-level APIs.
+Angular 應用程式作為單頁應用程式，正好能充分受益於 service worker 的優勢。從 5.0.0 版開始，Angular 隨附 service worker 實作。Angular 開發者可以直接利用這個 service worker，享受它帶來的可靠性與效能提升，無需針對低階 API 撰寫程式。
 
-Angular's service worker is designed to optimize the end user experience of using an application over a slow or unreliable network connection, while also minimizing the risks of serving outdated content.
+Angular 的 service worker 旨在最佳化最終使用者在緩慢或不可靠的網路連線下使用應用程式的體驗，同時將提供過時內容的風險降到最低。
 
-To achieve this, the Angular service worker follows these guidelines:
+為了達成這一點，Angular service worker 遵循下列指導原則：
 
-*   Caching an application is like installing a native application.
-    The application is cached as one unit, and all files update together.
+*   快取應用程式就像安裝原生應用程式一樣。
+    應用程式會作為一個整體被快取，所有檔案一起更新。
 
-*   A running application continues to run with the same version of all files.
-    It does not suddenly start receiving cached files from a newer version, which are likely incompatible.
+*   執行中的應用程式會持續使用相同版本的全部檔案。
+    它不會突然開始接收來自較新版本的快取檔案，因為這些檔案很可能不相容。
 
-*   When users refresh the application, they see the latest fully cached version.
-    New tabs load the latest cached code.
+*   當使用者重新整理應用程式時，他們看到的是最新且完整快取的版本。
+    新分頁會載入最新快取的程式碼。
 
-*   Updates happen in the background, relatively quickly after changes are published.
-    The previous version of the application is served until an update is installed and ready.
+*   更新在背景進行，在變更發布後相對快速地完成。
+    在更新安裝完成並準備就緒之前，會持續提供前一版本的應用程式。
 
-*   The service worker conserves bandwidth when possible.
-    Resources are only downloaded if they've changed.
+*   Service worker 會盡可能節省頻寬。
+    資源只有在變更時才會下載。
 
-To support these behaviors, the Angular service worker loads a *manifest* file from the server.
-The file, called `ngsw.json` \(not to be confused with the [web app manifest](https://developer.mozilla.org/docs/Web/Manifest)\), describes the resources to cache and includes hashes of every file's contents.
-When an update to the application is deployed, the contents of the manifest change, informing the service worker that a new version of the application should be downloaded and cached.
-This manifest is generated from a CLI-generated configuration file called `ngsw-config.json`.
+為了支援這些行為，Angular service worker 會從伺服器載入一份 _manifest_ 檔案。
+這個名為 `ngsw.json` 的檔案（不要與 [web app manifest](https://developer.mozilla.org/docs/Web/Manifest) 混淆）描述了要快取的資源，並包含每個檔案內容的雜湊值。
+當應用程式的更新部署後，manifest 的內容隨之改變，通知 service worker 應該下載並快取新版本的應用程式。
+這份 manifest 是由 CLI 產生的設定檔 `ngsw-config.json` 所生成的。
 
-Installing the Angular service worker is as straightforward as including an `NgModule`.
-In addition to registering the Angular service worker with the browser, this also makes a few services available for injection which interact with the service worker and can be used to control it.
-For example, an application can ask to be notified when a new update becomes available, or an application can ask the service worker to check the server for available updates.
+安裝 Angular service worker 就像加入一個 `NgModule` 一樣簡單。除了向瀏覽器註冊 Angular service worker 之外，這也會提供幾個可注入的服務，讓你與 service worker 互動並加以控制。例如，應用程式可以要求在有新更新可用時收到通知，也可以要求 service worker 檢查伺服器上是否有可用的更新。
 
-## Prerequisites
+## 先決條件
 
-To make use of all the features of Angular service workers, use the latest versions of Angular and the Angular CLI.
+若要使用 Angular service worker 的所有功能，請使用最新版本的 Angular 與 Angular CLI。
 
-For service workers to be registered, the application must be accessed over HTTPS, not HTTP.
-Browsers ignore service workers on pages that are served over an insecure connection.
-The reason is that service workers are quite powerful, so extra care is needed to ensure the service worker script has not been tampered with.
+若要註冊 service worker，應用程式必須透過 HTTPS 存取，而不是 HTTP。
+瀏覽器會忽略透過不安全連線提供的頁面上的 service worker。
+原因是 service worker 相當強大，因此需要格外小心，確保 service worker 指令碼未被竄改。
 
-There is one exception to this rule: to make local development more straightforward, browsers do *not* require a secure connection when accessing an application on `localhost`.
+這條規則有一個例外：為了讓本機開發更簡單，瀏覽器在存取 `localhost` 上的應用程式時，_不_要求安全連線。
 
-### Browser support
+### 瀏覽器支援
 
-To benefit from the Angular service worker, your application must run in a web browser that supports service workers in general.
-Currently, service workers are supported in the latest versions of Chrome, Firefox, Edge, Safari, Opera, UC Browser \(Android version\) and Samsung Internet.
-Browsers like IE and Opera Mini do not support service workers.
+若要受益於 Angular service worker，你的應用程式必須在普遍支援 service worker 的 Web 瀏覽器中執行。
+目前，最新版的 Chrome、Firefox、Edge、Safari、Opera、UC Browser（Android 版）與 Samsung Internet 都支援 service worker。
+IE 與 Opera Mini 等瀏覽器不支援 service worker。
 
-If the user is accessing your application with a browser that does not support service workers, the service worker is not registered and related behavior such as offline cache management and push notifications does not happen.
-More specifically:
+如果使用者用來存取你的應用程式的瀏覽器不支援 service worker，service worker 就不會被註冊，離線快取管理與推播通知等相關行為也不會發生。
+具體來說：
 
-*   The browser does not download the service worker script and the `ngsw.json` manifest file
-*   Active attempts to interact with the service worker, such as calling `SwUpdate.checkForUpdate()`, return rejected promises
-*   The observable events of related services, such as `SwUpdate.available`, are not triggered
+*   瀏覽器不會下載 service worker 指令碼與 `ngsw.json` manifest 檔案
+*   主動嘗試與 service worker 互動的操作（例如呼叫 `SwUpdate.checkForUpdate()`）會傳回被拒絕的 promise
+*   相關服務的 observable 事件（例如 `SwUpdate.available`）不會被觸發
 
-It is highly recommended that you ensure that your application works even without service worker support in the browser.
-Although an unsupported browser ignores service worker caching, it still reports errors if the application attempts to interact with the service worker.
-For example, calling `SwUpdate.checkForUpdate()` returns rejected promises.
-To avoid such an error, check whether the Angular service worker is enabled using `SwUpdate.isEnabled`.
+強烈建議你確保應用程式即使在瀏覽器不支援 service worker 的情況下也能運作。
+雖然不支援的瀏覽器會忽略 service worker 快取，但如果應用程式嘗試與 service worker 互動，它仍會回報錯誤。
+例如，呼叫 `SwUpdate.checkForUpdate()` 會傳回被拒絕的 promise。
+若要避免這類錯誤，請使用 `SwUpdate.isEnabled` 檢查 Angular service worker 是否已啟用。
 
-To learn more about other browsers that are service worker ready, see the [Can I Use](https://caniuse.com/#feat=serviceworkers) page and [MDN docs](https://developer.mozilla.org/docs/Web/API/Service_Worker_API).
+若要深入了解其他已支援 service worker 的瀏覽器，請參閱 [Can I Use](https://caniuse.com/#feat=serviceworkers) 頁面與 [MDN 文件](https://developer.mozilla.org/docs/Web/API/Service_Worker_API)。
 
-## Related resources
+## 相關資源
 
-The rest of the articles in this section specifically address the Angular implementation of service workers.
+本節的其餘文章專門討論 service worker 的 Angular 實作。
 
-*   [App Shell](guide/app-shell)
-*   [Service Worker Communication](guide/service-worker-communications)
-*   [Service Worker Notifications](guide/service-worker-notifications)
-*   [Service Worker in Production](guide/service-worker-devops)
-*   [Service Worker Configuration](guide/service-worker-config)
+*   [應用程式殼層](guide/app-shell)
+*   [Service Worker 通訊](guide/service-worker-communications)
+*   [Service Worker 通知](guide/service-worker-notifications)
+*   [正式環境中的 Service Worker](guide/service-worker-devops)
+*   [Service Worker 設定](guide/service-worker-config)
 
-For more information about service workers in general, see [Service Workers: an Introduction](https://developers.google.com/web/fundamentals/primers/service-workers).
+如需 service worker 的一般資訊，請參閱 [Service Workers: an Introduction](https://developers.google.com/web/fundamentals/primers/service-workers)。
 
-For more information about browser support, see the [browser support](https://developers.google.com/web/fundamentals/primers/service-workers/#browser_support) section of [Service Workers: an Introduction](https://developers.google.com/web/fundamentals/primers/service-workers), Jake Archibald's [Is Serviceworker ready?](https://jakearchibald.github.io/isserviceworkerready), and [Can I Use](https://caniuse.com/serviceworkers).
+如需瀏覽器支援的資訊，請參閱 [Service Workers: an Introduction](https://developers.google.com/web/fundamentals/primers/service-workers) 的 [browser support](https://developers.google.com/web/fundamentals/primers/service-workers/#browser_support) 章節、Jake Archibald 的 [Is Serviceworker ready?](https://jakearchibald.github.io/isserviceworkerready) 以及 [Can I Use](https://caniuse.com/serviceworkers)。
 
-For additional recommendations and examples, see:
+如需更多建議與範例，請參閱：
 
-*   [Precaching with Angular Service Worker](https://web.dev/precaching-with-the-angular-service-worker)
-*   [Creating a PWA with Angular CLI](https://web.dev/creating-pwa-with-angular-cli)
+*   [使用 Angular Service Worker 預先快取](https://web.dev/precaching-with-the-angular-service-worker)
+*   [使用 Angular CLI 建立 PWA](https://web.dev/creating-pwa-with-angular-cli)
 
-## Next steps
+## 後續步驟
 
-To begin using Angular service workers, see [Getting Started with service workers](guide/service-worker-getting-started).
+若要開始使用 Angular service worker，請參閱[開始使用 service worker](guide/service-worker-getting-started)。
 
 <!-- links -->
 

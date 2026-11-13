@@ -1,32 +1,25 @@
-# Manage marked text with custom IDs
+# 以自訂 ID 管理標記的文字
 
-The Angular extractor generates a file with a translation unit entry each of the following instances.
+Angular 擷取工具會針對下列每種情況，產生一個含有翻譯單元條目的檔案。
 
-*   Each `i18n` attribute in a component template
-*   Each [`$localize`][AioApiLocalizeInitLocalize] tagged message string in component code
+*   元件範本中的每個 `i18n` 屬性
+*   元件程式碼中的每個 [`$localize`][AioApiLocalizeInitLocalize] 標記訊息字串
 
-As described in [How meanings control text extraction and merges][AioGuideI18nCommonPrepareHowMeaningsControlTextExtractionAndMerges], Angular assigns each translation unit a unique ID.
+如[意義如何控制文字擷取與合併][AioGuideI18nCommonPrepareHowMeaningsControlTextExtractionAndMerges]所述，Angular 會為每個翻譯單元指派唯一的 ID。
 
-The following example displays translation units with unique IDs.
+下列範例顯示具有唯一 ID 的翻譯單元。
 
 <code-example header="messages.fr.xlf.html" path="i18n/doc-files/messages.fr.xlf.html" region="generated-id"></code-example>
 
-When you change the translatable text, the extractor generates a new ID for that translation unit.
-In most cases, changes in the source text also require a change to the translation.
-Therefore, using a new ID keeps the text change in sync with translations.
+當你變更可翻譯的文字時，擷取工具會為該翻譯單元產生新的 ID。 在大多數情況下，來源文字變更時，翻譯也需要跟著變更。 因此，使用新的 ID 能讓文字變更與翻譯保持同步。
 
-However, some translation systems require a specific form or syntax for the ID.
-To address the requirement, use a custom ID to mark text.
-Most developers don't need to use a custom ID.
-If you want to use a unique syntax to convey additional metadata, use a custom ID.
-Additional metadata may include the library, component, or area of the application in which the text appears.
+不過，有些翻譯系統要求 ID 採用特定的形式或語法。 為了滿足這項要求，請使用自訂 ID 來標記文字。 大多數開發者不需要使用自訂 ID。 若你想用獨特的語法傳達額外的中繼資料，請使用自訂 ID。 額外的中繼資料可以包括文字出現的函式庫、元件，或應用程式中的區域。
 
-To specify a custom ID in the `i18n` attribute or [`$localize`][AioApiLocalizeInitLocalize] tagged message string, use the `@@` prefix.
-The following example defines the `introductionHeader` custom ID in a heading element.
+若要在 `i18n` 屬性或 [`$localize`][AioApiLocalizeInitLocalize] 標記訊息字串中指定自訂 ID，請使用 `@@` 前綴。 下列範例在標題元素中定義了 `introductionHeader` 自訂 ID。
 
 <code-example header="app/app.component.html" path="i18n/doc-files/app.component.html" region="i18n-attribute-solo-id"></code-example>
 
-The following example defines the `introductionHeader` custom ID for a variable.
+下列範例為變數定義了 `introductionHeader` 自訂 ID。
 
 <!--todo: replace with code example -->
 
@@ -36,23 +29,21 @@ variableText1 = &dollar;localize `:&commat;&commat;introductionHeader:Hello i18n
 
 </code-example>
 
-When you specify a custom ID, the extractor generates a translation unit with the custom ID.
+指定自訂 ID 後，擷取工具會產生一個帶有該自訂 ID 的翻譯單元。
 
 <code-example header="messages.fr.xlf.html" path="i18n/doc-files/messages.fr.xlf.html" region="custom-id"></code-example>
 
-If you change the text, the extractor does not change the ID.
-As a result, you don't have to take the extra step to update the translation.
-The drawback of using custom IDs is that if you change the text, your translation may be out-of-sync with the newly changed source text.
+若你變更文字，擷取工具不會變更 ID。 如此一來，你就不必多花一個步驟去更新翻譯。 使用自訂 ID 的缺點是：若你變更文字，你的翻譯可能與變更後的來源文字不同步。
 
-#### Use a custom ID with a description
+#### 搭配說明使用自訂 ID
 
-Use a custom ID in combination with a description and a meaning to further help the translator.
+將自訂 ID 與說明、意義搭配使用，能進一步協助譯者。
 
-The following example includes a description, followed by the custom ID.
+下列範例先包含一段說明，接著是自訂 ID。
 
 <code-example header="app/app.component.html" path="i18n/doc-files/app.component.html" region="i18n-attribute-id"></code-example>
 
-The following example defines the `introductionHeader` custom ID and description for a variable.
+下列範例為變數定義了 `introductionHeader` 自訂 ID 與說明。
 
 <!--todo: replace with code example -->
 
@@ -62,11 +53,11 @@ variableText2 = &dollar;localize `:An introduction header for this sample&commat
 
 </code-example>
 
-The following example adds a meaning.
+下列範例加入了意義。
 
 <code-example header="app/app.component.html" path="i18n/doc-files/app.component.html" region="i18n-attribute-meaning-and-id"></code-example>
 
-The following example defines the `introductionHeader` custom ID for a variable.
+下列範例為變數定義了 `introductionHeader` 自訂 ID。
 
 <!--todo: replace with code example -->
 
@@ -76,20 +67,19 @@ variableText3 = &dollar;localize `:site header|An introduction header for this s
 
 </code-example>
 
-#### Define unique custom IDs
+#### 定義唯一的自訂 ID
 
-Be sure to define custom IDs that are unique.
-If you use the same ID for two different text elements, the extraction tool extracts only the first one, and Angular uses the translation in place of both original text elements.
+請務必定義唯一的自訂 ID。 若你對兩個不同的文字元素使用相同 ID，擷取工具只會擷取第一個，而 Angular 會用該翻譯取代兩個原始文字元素。
 
-For example, in the following code snippet the same `myId` custom ID is defined for two different text elements.
+例如，在下列程式碼片段中，兩個不同的文字元素定義了相同的 `myId` 自訂 ID。
 
 <code-example header="app/app.component.html" path="i18n/doc-files/app.component.html" region="i18n-duplicate-custom-id"></code-example>
 
-The following displays the translation in French.
+下列顯示法文翻譯。
 
 <code-example header="src/locale/messages.fr.xlf" path="i18n/doc-files/messages.fr.xlf.html" region="i18n-duplicate-custom-id"></code-example>
 
-Both elements now use the same translation \(`Bonjour`\), because both were defined with the same custom ID.
+兩個元素現在都使用相同的翻譯 \(`Bonjour`\)，因為兩者定義了相同的自訂 ID。
 
 <code-example path="i18n/doc-files/rendered-output.html"></code-example>
 
@@ -97,7 +87,7 @@ Both elements now use the same translation \(`Bonjour`\), because both were defi
 
 [AioApiLocalizeInitLocalize]: api/localize/init/$localize "$localize | init - localize - API | Angular"
 
-[AioGuideI18nCommonPrepareHowMeaningsControlTextExtractionAndMerges]: guide/i18n-common-prepare#how-meanings-control-text-extraction-and-merges "How meanings control text extraction and merges - Prepare components for translations | Angular"
+[AioGuideI18nCommonPrepareHowMeaningsControlTextExtractionAndMerges]: guide/i18n-common-prepare#how-meanings-control-text-extraction-and-merges "意義如何控制文字擷取與合併 - 準備元件以供翻譯 | Angular"
 
 <!-- external links -->
 

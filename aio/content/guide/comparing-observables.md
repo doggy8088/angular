@@ -1,117 +1,107 @@
-# Observables compared to other techniques
+# Observable 與其他技術的比較
 
-You can often use observables instead of promises to deliver values asynchronously.
-Similarly, observables can take the place of event handlers.
-Finally, because observables deliver multiple values, you can use them where you might otherwise build and operate on arrays.
+你經常可以用 observable 取代 promise，以非同步方式傳遞值。同樣地，observable 也可以取代事件處理常式。最後，由於 observable 可以傳遞多個值，你可以在原本需要建立陣列並對其操作的場合使用它。
 
-Observables behave somewhat differently from the alternative techniques in each of these situations, but offer some significant advantages.
-Here are detailed comparisons of the differences.
+在上述每種情況下，observable 的行為都與替代技術略有不同，但提供了一些顯著的優點。以下詳細比較這些差異。
 
-## Observables compared to promises
+## Observable 與 Promise 的比較
 
-Observables are often compared to promises.
-Here are some key differences:
+Observable 經常被拿來與 promise 比較。以下是一些主要的差異：
 
-*   Observables are declarative; computation does not start until subscription.
-    Promises execute immediately on creation.
-    This makes observables useful for defining recipes that can be run whenever you need the result.
+*   Observable 是宣告式的；計算要等到訂閱時才開始。
+    Promise 在建立時會立即執行。
+    這讓 observable 很適合用來定義配方，在你需要結果時隨時執行。
 
-*   Observables provide many values.
-    Promises provide one.
-    This makes observables useful for getting multiple values over time.
+*   Observable 提供多個值。
+    Promise 只提供一個值。
+    這讓 observable 很適合用來隨時間取得多個值。
 
-*   Observables differentiate between chaining and subscription.
-    Promises only have `.then()` clauses.
-    This makes observables useful for creating complex transformation recipes to be used by other part of the system, without causing the work to be executed.
+*   Observable 會區分鏈結與訂閱。
+    Promise 只有 `.then()` 子句。
+    這讓 observable 很適合用來建立複雜的轉換配方，供系統的其他部分使用，而不會導致工作被執行。
 
-*   Observables `subscribe()` is responsible for handling errors.
-    Promises push errors to the child promises.
-    This makes observables useful for centralized and predictable error handling.
+*   Observable 的 `subscribe()` 負責處理錯誤。
+    Promise 會把錯誤推給子 promise。
+    這讓 observable 很適合用來集中且可預測地處理錯誤。
 
-### Creation and subscription
+### 建立與訂閱
 
-*   Observables are not executed until a consumer subscribes.
-    The `subscribe()` executes the defined behavior once, and it can be called again.
-    Each subscription has its own computation.
-    Resubscription causes recomputation of values.
+*   在消費者訂閱之前，observable 不會執行。
+    `subscribe()` 會執行已定義的行為一次，而且可以再次呼叫。
+    每次訂閱都有自己的計算。
+    重新訂閱會導致重新計算值。
 
     <code-example header="src/observables.ts (observable)" path="comparing-observables/src/observables.ts" region="observable"></code-example>
 
-*   Promises execute immediately, and just once.
-    The computation of the result is initiated when the promise is created.
-    There is no way to restart work.
-    All `then` clauses \(subscriptions\) share the same computation.
+*   Promise 會立即執行，而且只執行一次。
+    結果的計算在 promise 建立時啟動。
+    沒有辦法重新開始工作。
+    所有的 `then` 子句（訂閱）共享同一個計算。
 
     <code-example header="src/promises.ts (promise)" path="comparing-observables/src/promises.ts" region="promise"></code-example>
 
-### Chaining
+### 鏈結
 
-*   Observables differentiate between transformation function such as a map and subscription.
-    Only subscription activates the subscriber function to start computing the values.
+*   Observable 會區分轉換函式（例如 map）與訂閱。
+    只有訂閱會啟用訂閱者函式，開始計算值。
 
     <code-example header="src/observables.ts (chain)" path="comparing-observables/src/observables.ts" region="chain"></code-example>
 
-*   Promises do not differentiate between the last `.then` clauses \(equivalent to subscription\) and intermediate `.then` clauses \(equivalent to map\).
+*   Promise 不會區分最後的 `.then` 子句（相當於訂閱）與中間的 `.then` 子句（相當於 map）。
 
     <code-example header="src/promises.ts (chain)" path="comparing-observables/src/promises.ts" region="chain"></code-example>
 
-### Cancellation
+### 取消
 
-*   Observable subscriptions are cancellable.
-    Unsubscribing removes the listener from receiving further values, and notifies the subscriber function to cancel work.
+*   Observable 的訂閱可以取消。
+    取消訂閱會讓監聽器不再接收後續的值，並通知訂閱者函式取消工作。
 
     <code-example header="src/observables.ts (unsubscribe)" path="comparing-observables/src/observables.ts" region="unsubscribe"></code-example>
 
-*   Promises are not cancellable.
+*   Promise 無法取消。
 
-### Error handling
+### 錯誤處理
 
-*   Observable execution errors are delivered to the subscriber's error handler, and the subscriber automatically unsubscribes from the observable.
+*   Observable 的執行錯誤會傳遞給訂閱者的錯誤處理常式，且訂閱者會自動取消訂閱 observable。
 
     <code-example header="src/observables.ts (error)" path="comparing-observables/src/observables.ts" region="error"></code-example>
 
-*   Promises push errors to the child promises.
+*   Promise 會把錯誤推給子 promise。
 
     <code-example header="src/promises.ts (error)" path="comparing-observables/src/promises.ts" region="error"></code-example>
 
-### Cheat sheet
+### 速查表
 
-The following code snippets illustrate how the same kind of operation is defined using observables and promises.
+下列程式碼片段說明了如何使用 observable 與 promise 定義同一種操作。
 
-| Operation   | Observable                                                                                                                                                           | Promise |
+| 操作   | Observable                                                                                                                                                           | Promise |
 |:---         |:---                                                                                                                                                                  |:---     |
-| Creation    | <code-example format="typescript" hideCopy language="typescript"> new Observable((observer) =&gt; { &NewLine;&nbsp; observer.next(123); &NewLine;}); </code-example> | <code-example format="typescript" hideCopy language="typescript"> new Promise((resolve, reject) =&gt; { &NewLine;&nbsp; resolve(123); &NewLine;}); </code-example> |
-| Transform   | <code-example format="typescript" hideCopy language="typescript"> obs.pipe(map((value) =&gt; value &ast; 2));</pre>                                                  | <code-example format="typescript" hideCopy language="typescript"> promise.then((value) =&gt; value &ast; 2);</code-example>                                        |
-| Subscribe   | <code-example format="typescript" hideCopy language="typescript"> sub = obs.subscribe((value) =&gt; { &NewLine;&nbsp; console.log(value) &NewLine;});</code-example> | <code-example format="typescript" hideCopy language="typescript"> promise.then((value) =&gt; { &NewLine;&nbsp; console.log(value); &NewLine;}); </code-example>    |
-| Unsubscribe | <code-example format="typescript" hideCopy language="typescript"> sub.unsubscribe();</code-example>                                                                  | Implied by promise resolution.                                                                                                                                     |
+| 建立    | <code-example format="typescript" hideCopy language="typescript"> new Observable((observer) =&gt; { &NewLine;&nbsp; observer.next(123); &NewLine;}); </code-example> | <code-example format="typescript" hideCopy language="typescript"> new Promise((resolve, reject) =&gt; { &NewLine;&nbsp; resolve(123); &NewLine;}); </code-example> |
+| 轉換   | <code-example format="typescript" hideCopy language="typescript"> obs.pipe(map((value) =&gt; value &ast; 2));</pre>                                                  | <code-example format="typescript" hideCopy language="typescript"> promise.then((value) =&gt; value &ast; 2);</code-example>                                        |
+| 訂閱   | <code-example format="typescript" hideCopy language="typescript"> sub = obs.subscribe((value) =&gt; { &NewLine;&nbsp; console.log(value) &NewLine;});</code-example> | <code-example format="typescript" hideCopy language="typescript"> promise.then((value) =&gt; { &NewLine;&nbsp; console.log(value); &NewLine;}); </code-example>    |
+| 取消訂閱 | <code-example format="typescript" hideCopy language="typescript"> sub.unsubscribe();</code-example>                                                                  | 由 promise 解析時自動處理。                                                                                                                                     |
 
-## Observables compared to events API
+## Observable 與 Events API 的比較
 
-Observables are very similar to event handlers that use the events API.
-Both techniques define notification handlers, and use them to process multiple values delivered over time.
-Subscribing to an observable is equivalent to adding an event listener.
-One significant difference is that you can configure an observable to transform an event before passing the event to the handler.
+Observable 與使用 Events API 的事件處理常式非常相似。兩種技術都會定義通知處理常式，並用它們處理隨時間傳遞的多個值。訂閱 observable 就相當於加入事件監聽器。一個顯著的差異是，你可以設定 observable，在事件傳遞給處理常式之前先轉換它。
 
-Using observables to handle events and asynchronous operations can have the advantage of greater consistency in contexts such as HTTP requests.
+在 HTTP 請求等情境中，使用 observable 處理事件與非同步操作的好處是具備更高的一致性。
 
-Here are some code samples that illustrate how the same kind of operation is defined using observables and the events API.
+以下是一些程式碼範例，說明如何使用 observable 與 Events API 定義同一種操作。
 
 |                             | Observable                                                                                                                                                                                                                                                                                                                                                      | Events API |
 |:---                         |:---                                                                                                                                                                                                                                                                                                                                                             |:---        |
-| Creation &amp; cancellation | <code-example format="typescript" hideCopy language="typescript"> // Setup &NewLine;const clicks&dollar; = fromEvent(buttonEl, 'click'); &NewLine;// Begin listening &NewLine;const subscription = clicks&dollar; &NewLine;&nbsp; .subscribe(e =&gt; console.log('Clicked', e)) &NewLine;// Stop listening &NewLine;subscription.unsubscribe(); </code-example> | <code-example format="typescript" hideCopy language="typescript">function handler(e) { &NewLine;&nbsp; console.log('Clicked', e); &NewLine;} &NewLine;// Setup &amp; begin listening &NewLine;button.addEventListener('click', handler); &NewLine;// Stop listening &NewLine;button.removeEventListener('click', handler); </code-example> |
-| Subscription                | <code-example format="typescript" hideCopy language="typescript">observable.subscribe(() =&gt; { &NewLine;&nbsp; // notification handlers here &NewLine;});</code-example>                                                                                                                                                                                      | <code-example format="typescript" hideCopy language="typescript">element.addEventListener(eventName, (event) =&gt; { &NewLine;&nbsp; // notification handler here &NewLine;}); </code-example>                                                                                                                                             |
-| Configuration               | Listen for keystrokes, but provide a stream representing the value in the input. <code-example format="typescript" hideCopy language="typescript"> fromEvent(inputEl, 'keydown').pipe( &NewLine;&nbsp; map(e =&gt; e.target.value) &NewLine;); </code-example>                                                                                                  | Does not support configuration. <code-example format="typescript" hideCopy language="typescript"> element.addEventListener(eventName, (event) =&gt; { &NewLine;&nbsp; // Cannot change the passed Event into another &NewLine;&nbsp; // value before it gets to the handler &NewLine;}); </code-example>                                   |
+| 建立與取消 | <code-example format="typescript" hideCopy language="typescript"> // Setup &NewLine;const clicks&dollar; = fromEvent(buttonEl, 'click'); &NewLine;// Begin listening &NewLine;const subscription = clicks&dollar; &NewLine;&nbsp; .subscribe(e =&gt; console.log('Clicked', e)) &NewLine;// Stop listening &NewLine;subscription.unsubscribe(); </code-example> | <code-example format="typescript" hideCopy language="typescript">function handler(e) { &NewLine;&nbsp; console.log('Clicked', e); &NewLine;} &NewLine;// Setup &amp; begin listening &NewLine;button.addEventListener('click', handler); &NewLine;// Stop listening &NewLine;button.removeEventListener('click', handler); </code-example> |
+| 訂閱                | <code-example format="typescript" hideCopy language="typescript">observable.subscribe(() =&gt; { &NewLine;&nbsp; // notification handlers here &NewLine;});</code-example>                                                                                                                                                                                      | <code-example format="typescript" hideCopy language="typescript">element.addEventListener(eventName, (event) =&gt; { &NewLine;&nbsp; // notification handler here &NewLine;}); </code-example>                                                                                                                                             |
+| 設定               | 監聽按鍵，但提供一個代表輸入框中值的串流。 <code-example format="typescript" hideCopy language="typescript"> fromEvent(inputEl, 'keydown').pipe( &NewLine;&nbsp; map(e =&gt; e.target.value) &NewLine;); </code-example>                                                                                                  | 不支援設定。 <code-example format="typescript" hideCopy language="typescript"> element.addEventListener(eventName, (event) =&gt; { &NewLine;&nbsp; // Cannot change the passed Event into another &NewLine;&nbsp; // value before it gets to the handler &NewLine;}); </code-example>                                   |
 
-## Observables compared to arrays
+## Observable 與陣列的比較
 
-An observable produces values over time.
-An array is created as a static set of values.
-In a sense, observables are asynchronous where arrays are synchronous.
-In the following examples, <code>&rarr;</code> implies asynchronous value delivery.
+Observable 會隨時間產生值。陣列則是建立為一組靜態的值。某種意義上，observable 是非同步的，而陣列是同步的。在下列範例中，<code>&rarr;</code> 表示非同步的值傳遞。
 
-| Values        | Observable                                                                                                                                                                                                                                           | Array                                                                                                                                                                                                                |
+| 值        | Observable                                                                                                                                                                                                                                           | 陣列                                                                                                                                                                                                                |
 |:---           |:---                                                                                                                                                                                                                                                  |:---                                                                                                                                                                                                                 |
-| Given         | <code-example format="typescript" hideCopy language="typescript"> obs: &rarr;1&rarr;2&rarr;3&rarr;5&rarr;7 </code-example> <code-example format="typescript" hideCopy language="typescript"> obsB: &rarr;'a'&rarr;'b'&rarr;'c' </code-example>       | <code-example format="typescript" hideCopy language="typescript"> arr: [1, 2, 3, 5, 7] </code-example> <code-example format="typescript" hideCopy language="typescript"> arrB: ['a', 'b', 'c'] </code-example>      |
+| 已知值         | <code-example format="typescript" hideCopy language="typescript"> obs: &rarr;1&rarr;2&rarr;3&rarr;5&rarr;7 </code-example> <code-example format="typescript" hideCopy language="typescript"> obsB: &rarr;'a'&rarr;'b'&rarr;'c' </code-example>       | <code-example format="typescript" hideCopy language="typescript"> arr: [1, 2, 3, 5, 7] </code-example> <code-example format="typescript" hideCopy language="typescript"> arrB: ['a', 'b', 'c'] </code-example>      |
 | `concat()`    | <code-example format="typescript" hideCopy language="typescript"> concat(obs, obsB) </code-example> <code-example format="typescript" hideCopy language="typescript"> &rarr;1&rarr;2&rarr;3&rarr;5&rarr;7&rarr;'a'&rarr;'b'&rarr;'c' </code-example> | <code-example format="typescript" hideCopy language="typescript"> arr.concat(arrB) </code-example> <code-example format="typescript" hideCopy language="typescript"> [1,2,3,5,7,'a','b','c'] </code-example>        |
 | `filter()`    | <code-example format="typescript" hideCopy language="typescript"> obs.pipe(filter((v) =&gt; v&gt;3)) </code-example> <code-example format="typescript" hideCopy language="typescript"> &rarr;5&rarr;7 </code-example>                                | <code-example format="typescript" hideCopy language="typescript"> arr.filter((v) =&gt; v&gt;3) </code-example> <code-example format="typescript" hideCopy language="typescript"> [5, 7] </code-example>             |
 | `find()`      | <code-example format="typescript" hideCopy language="typescript"> obs.pipe(find((v) =&gt; v&gt;3)) </code-example> <code-example format="typescript" hideCopy language="typescript"> &rarr;5 </code-example>                                         | <code-example format="typescript" hideCopy language="typescript"> arr.find((v) =&gt; v&gt;3) </code-example> <code-example format="typescript" hideCopy language="typescript"> 5 </code-example>                    |

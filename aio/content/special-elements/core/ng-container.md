@@ -1,18 +1,18 @@
-A special element that can hold structural directives without adding new elements to the DOM.
+一種特殊元素，可以容納結構指令，而不會在 DOM 中加入新的元素。
 
-The `<ng-container>` allows us to use structural directives without any extra element, making sure that the only DOM changes being applied are those dictated by the directives themselves.
+`<ng-container>` 讓我們可以在不加入任何額外元素的情況下使用結構指令，確保套用的 DOM 變更只有指令本身所指示的那些。
 
-This not only increases performance \(even so slightly\) since the browser ends up rendering less elements but can also be a valuable asset in having cleaner DOMs and styles alike.
+這不僅能提升效能 \(即使只是些微提升\)，因為瀏覽器最終需要渲染的元素變少了，還能讓 DOM 與樣式都更乾淨，這也是一項寶貴的優點。
 
-It can for example enable us to use structural directives without breaking styling dependent on a precise DOM structure \(as for example the ones we get when using flex containers, margins, the child combinator selector, etc.\).
+例如，它能讓我們使用結構指令，而不會破壞依賴精確 DOM 結構的樣式 \(例如使用彈性容器、邊距、子代組合選擇器等時得到的樣式\)。
 
 @usageNotes
 
-### With `*NgIf`s
+### 搭配 `*NgIf` 使用
 
-One common use case of `<ng-container>` is alongside the `*ngIf` structural directive. By using the special element we can produce very clean templates easy to understand and work with.
+`<ng-container>` 的一個常見使用情境，是搭配 `*ngIf` 結構指令使用。透過使用這個特殊元素，我們可以產生非常乾淨、容易理解與使用的範本。
 
-For example, we may want to have a number of elements shown conditionally but they do not need to be all under the same root element. That can be easily done by wrapping them in such a block:
+例如，我們可能希望有多個元素依條件顯示，但它們不需要全部位於同一個根元素之下。只要用這樣的區塊將它們包起來，就能輕鬆做到：
 
 <code-example format="html" language="html">
 
@@ -22,7 +22,7 @@ For example, we may want to have a number of elements shown conditionally but th
 
 </code-example>
 
-This can also be augmented with the an else statement alongside an `<ng-template>` as:
+這也可以搭配 `else` 陳述式與 `<ng-template>` 一起使用，如下所示：
 
 <code-example format="html" language="html">
 
@@ -35,11 +35,11 @@ This can also be augmented with the an else statement alongside an `<ng-template
 
 </code-example>
 
-### Combination of multiple structural directives
+### 結合多個結構指令
 
-Multiple structural directives cannot be used on the same element; if you need to take advantage of more than one structural directive, it is advised to use an `<ng-container>` per structural directive.
+多個結構指令不能用在同一個元素上；如果你需要使用一個以上的結構指令，建議為每個結構指令使用一個 `<ng-container>`。
 
-The most common scenario is with `*ngIf` and `*ngFor`. For example, let's imagine that we have a list of items but each item needs to be displayed only if a certain condition is true. We could be tempted to try something like:
+最常見的情境是搭配 `*ngIf` 與 `*ngFor` 使用。例如，假設我們有一個項目清單，但每個項目只有在特定條件為真時才需要顯示。我們可能會想嘗試這樣寫：
 
 <code-example format="html" language="html">
 
@@ -51,7 +51,7 @@ The most common scenario is with `*ngIf` and `*ngFor`. For example, let's imagin
 
 </code-example>
 
-As we said that would not work, what we can do is to simply move one of the structural directives to an `<ng-container>` element, which would then wrap the other one, like so:
+如我們所說，那樣做行不通，我們可以做的是把其中一個結構指令移到 `<ng-container>` 元素上，由它包住另一個指令，像這樣：
 
 <code-example format="html" language="html">
 
@@ -65,17 +65,17 @@ As we said that would not work, what we can do is to simply move one of the stru
 
 </code-example>
 
-This would work as intended without introducing any new unnecessary elements in the DOM.
+這樣就能如預期運作，而且不會在 DOM 中引入任何不必要的新元素。
 
-For more information see [one structural directive per element](guide/structural-directives#one-per-element).
+如需更多資訊，請參閱[每個元素一個結構指令](guide/structural-directives#one-per-element)。
 
-### Use alongside ngTemplateOutlet
+### 搭配 ngTemplateOutlet 使用
 
-The `NgTemplateOutlet` directive can be applied to any element but most of the time it's applied to `<ng-container>` ones. By combining the two, we get a very clear and easy to follow HTML and DOM structure in which no extra elements are necessary and template views are instantiated where requested.
+`NgTemplateOutlet` 指令可以套用到任何元素上，但大多數時候是套用到 `<ng-container>` 元素上。將兩者結合，我們就能得到非常清楚、容易理解的 HTML 與 DOM 結構，其中不需要額外的元素，範本檢視會在要求的位置具現化。
 
-For example, imagine a situation in which we have a large HTML, in which a small portion needs to be repeated in different places. A simple solution is to define an `<ng-template>` containing our repeating HTML and render that where necessary by using `<ng-container>` alongside an `NgTemplateOutlet`.
+例如，想像一種情況：我們有一大段 HTML，其中有一小部分需要在不同位置重複出現。一個簡單的解決方法是定義一個包含重複 HTML 的 `<ng-template>`，並在需要的地方使用 `<ng-container>` 搭配 `NgTemplateOutlet` 來渲染它。
 
-Like so:
+如下所示：
 
 <code-example format="html" language="html">
 
@@ -97,5 +97,5 @@ Like so:
 
 </code-example>
 
-For more information regarding `NgTemplateOutlet`, see the [`NgTemplateOutlet`s api documentation page](api/common/NgTemplateOutlet).
+如需更多關於 `NgTemplateOutlet` 的資訊，請參閱 [`NgTemplateOutlet` 的 API 說明文件頁面](api/common/NgTemplateOutlet)。
 

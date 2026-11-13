@@ -1,12 +1,12 @@
 
-# Persistent disk cache
+# 持續性磁碟快取
 
-Angular CLI saves a number of cachable operations on disk by default.
+Angular CLI 預設會將一些可快取的操作儲存到磁碟上。
 
-When you re-run the same build, the build system restores the state of the previous build and re-uses previously performed operations, which decreases the time taken to build and test your applications and libraries.
+當你重新執行相同的建置時，建置系統會還原上一次建置的狀態並重用先前執行過的操作，從而減少建置和測試你的應用程式與函式庫所需的時間。
 
-To amend the default cache settings, add the `cli.cache` object to your [Workspace Configuration](guide/workspace-config).
-The object goes under `cli.cache` at the top level of the file, outside the `projects` sections.
+若要修改預設的快取設定，請將 `cli.cache` 物件加入你的[工作區設定](guide/workspace-config)。
+該物件位於檔案最上層的 `cli.cache`，在 `projects` 區段之外。
 
 <code-example format="json" language="json">
 
@@ -23,12 +23,12 @@ The object goes under `cli.cache` at the top level of the file, outside the `pro
 
 </code-example>
 
-For more information, see [cache options](guide/workspace-config#cache-options).
+更多資訊請參閱[快取選項](guide/workspace-config#cache-options)。
 
-### Enabling and disabling the cache
+### 啟用和停用快取
 
-Caching is enabled by default.
-To disable caching run the following command:
+快取預設為啟用。
+若要停用快取，請執行以下命令：
 
 <code-example format="shell" language="shell">
 
@@ -36,13 +36,13 @@ ng config cli.cache.enabled false
 
 </code-example>
 
-To re-enable caching, set `cli.cache.enabled` to `true`.
+若要重新啟用快取，請將 `cli.cache.enabled` 設為 `true`。
 
-### Cache environments
+### 快取環境
 
-By default, disk cache is only enabled for local environments.
+預設情況下，磁碟快取僅在本地環境中啟用。
 
-To enable caching for all environments, run the following command:
+若要在所有環境中啟用快取，請執行以下命令：
 
 <code-example format="shell" language="shell">
 
@@ -50,18 +50,18 @@ ng config cli.cache.environment all
 
 </code-example>
 
-For more information, see `environment` in [cache options](guide/workspace-config#cache-options).
+更多資訊請參閱[快取選項](guide/workspace-config#cache-options)中的 `environment`。
 
 <div class="alert is-helpful">
 
-The Angular CLI checks for the presence and value of the `CI` environment variable to determine in which environment it is running.
+Angular CLI 會檢查 `CI` 環境變數是否存在及其值，以判斷它正在哪個環境中執行。
 
 </div>
 
-### Cache path
+### 快取路徑
 
-By default, `.angular/cache` is used as a base directory to store cache results.
-To change this path, run the following command:
+預設使用 `.angular/cache` 作為儲存快取結果的基礎目錄。
+若要更改此路徑，請執行以下命令：
 
 <code-example format="shell" language="shell">
 
@@ -69,11 +69,11 @@ ng config cli.cache.path ".cache/ng"
 
 </code-example>
 
-### Clearing the cache
+### 清除快取
 
-To clear the cache, run one of the following commands.
+若要清除快取，請執行下列命令之一。
 
-To clear the cache on Unix-based operating systems:
+若要在 Unix 類作業系統上清除快取：
 
 <code-example format="shell" language="shell">
 
@@ -81,7 +81,7 @@ rm -rf .angular/cache
 
 </code-example>
 
-To clear the cache on Windows:
+若要在 Windows 上清除快取：
 
 <code-example format="shell" language="shell">
 
@@ -89,4 +89,4 @@ rmdir /s /q .angular\cache
 
 </code-example>
 
-For more information, see [rm command](https://man7.org/linux/man-pages/man1/rm.1.html) and [rmdir command](https://docs.microsoft.com/windows-server/administration/windows-commands/rmdir).
+更多資訊請參閱 [rm 命令](https://man7.org/linux/man-pages/man1/rm.1.html) 和 [rmdir 命令](https://docs.microsoft.com/windows-server/administration/windows-commands/rmdir)。

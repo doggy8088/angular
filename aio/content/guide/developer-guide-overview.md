@@ -1,81 +1,81 @@
-# Angular Developer Guides
+# Angular 開發人員指南
 
-As an application framework, Angular includes a collection of well-integrated libraries that cover a wide variety of features.
+作為一個應用程式框架，Angular 包含一組整合良好的程式庫，涵蓋各式各樣的功能。
 
-The Angular libraries include routing, forms management, client-server communication, and more.
+Angular 程式庫包含路由、表單管理、客戶端與伺服器通訊等功能。
 
-This topic lists the various developer guides for you to learn more about these Angular features and to help you determine the correct use of each in your application.
+本主題列出了各種開發人員指南，幫助你進一步了解這些 Angular 功能，並判斷在你的應用程式中如何正確使用每一項功能。
 
-## Prerequisites
+## 必要條件
 
-To get the most out of these developer guides, you should review the following topics:
+若要充分運用這些開發人員指南，你應該先閱讀下列主題：
 
-*   [What is Angular][AioGuideWhatIsAngular]
-*   [Getting started tutorial][AioStart]
-*   [Understanding Angular][AioGuideUnderstandingAngularOverview]
+*   [什麼是 Angular][AioGuideWhatIsAngular]
+*   [入門教學][AioStart]
+*   [了解 Angular][AioGuideUnderstandingAngularOverview]
 
-## Learn about Angular's features
+## 了解 Angular 的功能
 
 <div class="card-container">
-  <a href="guide/routing-overview" class="docs-card" title="Routing and navigation developer guide">
-    <section>Routing and Navigation</section>
-    <p>Learn how to use the Angular router to handle page navigation and other tasks.</p>
-    <p class="card-footer">Router</p>
+  <a href="guide/routing-overview" class="docs-card" title="路由與導覽開發人員指南">
+    <section>路由與導覽</section>
+    <p>了解如何使用 Angular 路由器處理頁面導覽與其他工作。</p>
+    <p class="card-footer">路由器</p>
   </a>
-  <a href="guide/forms-overview" class="docs-card" title="Angular forms developer guide">
-    <section>Forms</section>
-    <p>Learn about the two approaches to forms in Angular: template-driven and reactive.</p>
-    <p class="card-footer">Forms</p>
+  <a href="guide/forms-overview" class="docs-card" title="Angular 表單開發人員指南">
+    <section>表單</section>
+    <p>了解 Angular 的兩種表單做法：範本驅動與響應式。</p>
+    <p class="card-footer">表單</p>
   </a>
-  <a href="guide/http" class="docs-card" title="Angular HTTP client developer guide">
+  <a href="guide/http" class="docs-card" title="Angular HTTP 客戶端開發人員指南">
     <section>HTTP</section>
-    <p>Learn how to connect to a server using the HTTP client service in Angular.</p>
-    <p class="card-footer">HTTP client</p>
+    <p>了解如何使用 Angular 的 HTTP 客戶端服務連接到伺服器。</p>
+    <p class="card-footer">HTTP 客戶端</p>
   </a>
-  <a href="guide/testing" class="docs-card" title="Angular testing developer guide">
-    <section>Testing</section>
-    <p>Learn about tips and techniques for testing Angular applications.</p>
-    <p class="card-footer">Testing</p>
+  <a href="guide/testing" class="docs-card" title="Angular 測試開發人員指南">
+    <section>測試</section>
+    <p>了解測試 Angular 應用程式的提示與技巧。</p>
+    <p class="card-footer">測試</p>
   </a>
-  <a href="guide/i18n-overview" class="docs-card" title="Angular internationalization developer guide">
-    <section>Internationalization</section>
-    <p>Learn how to localize your Angular application.</p>
-    <p class="card-footer">i18n and &dollar;localize</p>
+  <a href="guide/i18n-overview" class="docs-card" title="Angular 國際化開發人員指南">
+    <section>國際化</section>
+    <p>了解如何將你的 Angular 應用程式在地化。</p>
+    <p class="card-footer">i18n 與 $localize</p>
   </a>
-  <a href="guide/animations" class="docs-card" title="Angular animations developer guide">
-    <section>Animations</section>
-    <p>Learn about how to add an animation to your Angular application.</p>
-    <p class="card-footer">Animations</p>
+  <a href="guide/animations" class="docs-card" title="Angular 動畫開發人員指南">
+    <section>動畫</section>
+    <p>了解如何為你的 Angular 應用程式加入動畫。</p>
+    <p class="card-footer">動畫</p>
   </a>
-  <a href="guide/service-worker-intro" class="docs-card" title="Angular service worker developer guide">
-    <section>Service Workers and PWA</section>
-    <p>Learn about how to use a service worker to create a progressive web application.</p>
-    <p class="card-footer">Service workers and PWA</p>
+  <a href="guide/service-worker-intro" class="docs-card" title="Angular Service Worker 開發人員指南">
+    <section>Service Worker 與 PWA</section>
+    <p>了解如何使用 Service Worker 建立漸進式網頁應用程式。</p>
+    <p class="card-footer">Service Worker 與 PWA</p>
   </a>
-  <a href="guide/web-worker" class="docs-card" title="Web Workers">
-    <section>Web Workers</section>
-    <p>Learn more about how to use a web worker to run a CPU-intensive computation in a background thread.</p>
-    <p class="card-footer">Web Workers</p>
+  <a href="guide/web-worker" class="docs-card" title="Web Worker">
+    <section>Web Worker</section>
+    <p>進一步了解如何使用 Web Worker 在背景執行緒中執行 CPU 密集的計算。</p>
+    <p class="card-footer">Web Worker</p>
   </a>
-  <a href="guide/universal" class="docs-card" title="Server-side rendering">
-    <section>Server-side rendering</section>
-    <p>Learn more about how to use Angular Universal to create a static application page.</p>
-    <p class="card-footer">Server-side rendering</p>
+  <a href="guide/universal" class="docs-card" title="伺服器端渲染">
+    <section>伺服器端渲染</section>
+    <p>進一步了解如何使用 Angular Universal 建立靜態應用程式頁面。</p>
+    <p class="card-footer">伺服器端渲染</p>
   </a>
-  <a href="guide/prerendering" class="docs-card" title="Pre-rendering">
-    <section>Pre-rendering</section>
-    <p>Learn about how to use pre-rendering to process a dynamic page at build time.</p>
-    <p class="card-footer">Pre-rendering</p>
+  <a href="guide/prerendering" class="docs-card" title="預渲染">
+    <section>預渲染</section>
+    <p>了解如何使用預渲染在建置時處理動態頁面。</p>
+    <p class="card-footer">預渲染</p>
   </a>
 </div>
 
 <!-- links -->
 
-[AioGuideUnderstandingAngularOverview]: guide/understanding-angular-overview "Understanding Angular | Angular"
+[AioGuideUnderstandingAngularOverview]: guide/understanding-angular-overview "了解 Angular | Angular"
 
-[AioGuideWhatIsAngular]: guide/what-is-angular "What is Angular\? | Angular"
+[AioGuideWhatIsAngular]: guide/what-is-angular "什麼是 Angular？ | Angular"
 
-[AioStart]: start "Getting started with Angular | Angular"
+[AioStart]: start "開始使用 Angular | Angular"
 
 <!-- external links -->
 

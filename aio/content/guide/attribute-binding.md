@@ -1,28 +1,26 @@
-# Attribute, class, and style bindings
+# attribute、類別與樣式繫結
 
-Attribute binding in Angular helps you set values for attributes directly.
-With attribute binding, you can improve accessibility, style your application dynamically, and manage multiple CSS classes or styles simultaneously.
+Angular 的 attribute 繫結能協助你直接為 attribute 設定值。透過 attribute 繫結，你可以改善無障礙體驗、動態地為應用程式設定樣式，並同時管理多個 CSS 類別或樣式。
 
 <div class="alert is-helpful">
 
-See the <live-example></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example></live-example>，查看包含本指南程式碼片段的實際範例。
 
 </div>
 
-## Binding to an attribute
+## 繫結到 attribute
 
-It is recommended that you set an element property with a [property binding](guide/property-binding) whenever possible.
-However, sometimes you don't have an element property to bind.
-In those situations, use attribute binding.
+建議只要有可能，就用[屬性繫結](guide/property-binding)設定元素屬性。
+然而，有時候你沒有可以繫結的元素屬性。
+在這種情況下，就使用 attribute 繫結。
 
-For example, [ARIA](https://developer.mozilla.org/docs/Web/Accessibility/ARIA) and [SVG](https://developer.mozilla.org/docs/Web/SVG) are purely attributes.
-Neither ARIA nor SVG correspond to element properties and don't set element properties.
-In these cases, you must use attribute binding because there are no corresponding property targets.
+例如，[ARIA](https://developer.mozilla.org/docs/Web/Accessibility/ARIA) 與 [SVG](https://developer.mozilla.org/docs/Web/SVG) 純粹是 attribute。
+ARIA 與 SVG 都不對應元素屬性，也不會設定元素屬性。
+在這些情況下，你必須使用 attribute 繫結，因為沒有對應的屬性目標。
 
-## Syntax
+## 語法
 
-Attribute binding syntax resembles [property binding](guide/property-binding), but instead of an element property between brackets, you precede the name of the attribute with the prefix `attr`, followed by a period \(full-stop\) character.
-Then, you set the attribute value with an expression that resolves to a string.
+attribute 繫結的語法與[屬性繫結](guide/property-binding)相似，但你不是把元素屬性放在中括號之間，而是在 attribute 名稱前加上前綴 `attr`，後面再接一個點（句點）字元。然後，你用一個解析為字串的運算式設定 attribute 的值。
 
 <code-example format="html" language="html">
 
@@ -32,27 +30,27 @@ Then, you set the attribute value with an expression that resolves to a string.
 
 <div class="alert is-helpful">
 
-When the expression resolves to `null` or `undefined`, Angular removes the attribute altogether.
+當運算式解析為 `null` 或 `undefined` 時，Angular 會完全移除該 attribute。
 
 </div>
 
-## Binding ARIA attributes
+## 繫結 ARIA attribute
 
-One of the primary use cases for attribute binding is to set ARIA attributes, as in this example:
+attribute 繫結的主要使用案例之一，就是設定 ARIA attribute，如下列範例所示：
 
 <code-example header="src/app/app.component.html" path="attribute-binding/src/app/app.component.html" region="attrib-binding-aria"></code-example>
 
 <a id="colspan"></a>
 
-## Binding to `colspan`
+## 繫結到 `colspan`
 
-Another common use case for attribute binding is with the `colspan` attribute in tables.
-Binding to the `colspan` attribute helps you keep your tables programmatically dynamic.
-Depending on the amount of data that your application populates a table with, the number of columns that a row spans could change.
+attribute 繫結另一個常見的使用案例，是表格中的 `colspan` attribute。
+繫結到 `colspan` attribute，能協助你讓表格以程式方式保持動態。
+視應用程式填入表格的資料量而定，一列所跨越的欄數可能會改變。
 
-To use attribute binding with the `<td>` attribute `colspan`:
+要對 `<td>` 的 attribute `colspan` 使用 attribute 繫結：
 
-1.  Specify the `colspan` attribute by using the following syntax:
+1.  使用下列語法指定 `colspan` attribute：
 
     <code-example format="html" hideCopy language="html">
 
@@ -60,34 +58,34 @@ To use attribute binding with the `<td>` attribute `colspan`:
 
     </code-example>
 
-1.  Set `[attr.colspan]` equal to an expression.
+1.  將 `[attr.colspan]` 設為等於一個運算式。
 
-In the following example, you bind the `colspan` attribute to the expression `1 + 1`.
+在下列範例中，你將 `colspan` attribute 繫結到運算式 `1 + 1`。
 
 <code-example header="src/app/app.component.html" path="attribute-binding/src/app/app.component.html" region="colspan"></code-example>
 
-This binding causes the `<td>` to span two columns.
+這個繫結會使 `<td>` 跨越兩欄。
 
 <div class="alert is-helpful">
 
-Sometimes there are differences between the name of property and an attribute.
+有時候，屬性的名稱與 attribute 的名稱會有所不同。
 
-`colspan` is an attribute of `<td>`, while `colSpan`  with a capital "S" is a property.
-When using attribute binding, use `colspan` with a lowercase "s".
-For more information on how to bind to the `colSpan` property, see the [`colspan` and `colSpan`](guide/property-binding#colspan) section of [Property Binding](guide/property-binding).
+`colspan` 是 `<td>` 的 attribute，而 `colSpan`（S 大寫）是屬性。
+使用 attribute 繫結時，請使用小寫 s 的 `colspan`。
+關於如何繫結到 `colSpan` 屬性，更多資訊請參閱 [Property Binding](guide/property-binding) 的 [`colspan` and `colSpan`](guide/property-binding#colspan) 一節。
 
 </div>
 
 <a id="class-binding"></a>
 
-## Binding to the `class` attribute
+## 繫結到 `class` attribute
 
-Use class binding to add and remove CSS class names from an element's `class` attribute.
+使用類別繫結，可以從元素的 `class` attribute 中加入和移除 CSS 類別名稱。
 
-### Binding to a single CSS `class`
+### 繫結到單一 CSS `class`
 
-To create a single class binding, use the prefix `class` followed by a dot and the name of the CSS class.
-For example,
+要建立單一類別繫結，請使用前綴 `class`，後面接一個點，再接 CSS 類別的名稱。
+例如，
 
 <code-example format="typescript" language="typescript">
 
@@ -95,13 +93,13 @@ For example,
 
 </code-example>
 
-Angular adds the class when the bound expression, `onSale` is truthy, and it removes the class when the expression is falsy &mdash;with the exception of `undefined`.
-See [styling delegation](guide/style-precedence#styling-delegation) for more information.
+當繫結的運算式 `onSale` 為 truthy 時，Angular 會加入該類別；當運算式為 falsy 時，則會移除該類別——`undefined` 除外。
+更多資訊請參閱[樣式委派](guide/style-precedence#styling-delegation)。
 
-### Binding to multiple CSS classes
+### 繫結到多個 CSS 類別
 
-To bind to multiple classes, use `[class]` set to an expression.
-For example,
+要繫結到多個類別，請將 `[class]` 設為一個運算式。
+例如，
 
 <code-example format="typescript" language="typescript">
 
@@ -109,42 +107,42 @@ For example,
 
 </code-example>
 
-The expression can be one of:
+運算式可以是下列其中之一：
 
-*   A space-delimited string of class names
-*   An object with class names as the keys and truthy or falsy expressions as the values
-*   An array of class names
+*   以空白分隔的類別名稱字串
+*   以類別名稱為鍵、以 truthy 或 falsy 運算式為值的物件
+*   類別名稱的陣列
 
-With the object format, Angular adds a class only if its associated value is truthy.
+使用物件格式時，Angular 只會在類別的關聯值為 truthy 時加入該類別。
 
 <div class="alert is-important">
 
-With any object-like expression &mdash;such as `object`, `Array`, `Map`, or `Set`&mdash; the identity of the object must change for Angular to update the class list.
-Updating the property without changing object identity has no effect.
+對於任何類物件的運算式&mdash;例如 `object`、`Array`、`Map` 或 `Set`&mdash;物件的身分必須改變，Angular 才會更新類別清單。
+只更新屬性而不改變物件身分是沒有效果的。
 
 </div>
 
-If there are multiple bindings to the same class name, Angular uses [styling precedence](guide/style-precedence) to determine which binding to use.
+如果有多個繫結指向同一個類別名稱，Angular 會使用[樣式優先順序](guide/style-precedence)來決定採用哪個繫結。
 
-The following table summarizes class binding syntax.
+下表摘要整理了類別繫結語法。
 
-| Binding Type         | Syntax                      | Input Type                                                                  | Example Input Values |
+| 繫結類型         | 語法                      | 輸入類型                                                                  | 輸入值範例 |
 |:---                  |:---                         |:---                                                                         |:---                  |
-| Single class binding | `[class.sale]="onSale"`     | <code>boolean &verbar; undefined &verbar; null</code>                       | `true`, `false`                      |
-| Multi-class binding  | `[class]="classExpression"` | `string`                                                                    | `"my-class-1 my-class-2 my-class-3"` |
-| Multi-class binding  | `[class]="classExpression"` | <code>Record&lt;string, boolean &verbar; undefined &verbar; null&gt;</code> | `{foo: true, bar: false}`            |
-| Multi-class binding  | `[class]="classExpression"` | <code>Array&lt;string&gt;</code>                                            | `['foo', 'bar']`                     |
+| 單一類別繫結 | `[class.sale]="onSale"`     | <code>boolean &verbar; undefined &verbar; null</code>                       | `true`, `false`                      |
+| 多類別繫結  | `[class]="classExpression"` | `string`                                                                    | `"my-class-1 my-class-2 my-class-3"` |
+| 多重類別繫結  | `[class]="classExpression"` | <code>Record&lt;string, boolean &verbar; undefined &verbar; null&gt;</code> | `{foo: true, bar: false}`            |
+| 多類別繫結  | `[class]="classExpression"` | <code>Array&lt;string&gt;</code>                                            | `['foo', 'bar']`                     |
 
 <a id="style-binding"></a>
 
-## Binding to the style attribute
+## 繫結到 style attribute
 
-Use style binding to set styles dynamically.
+使用樣式繫結，可以動態設定樣式。
 
-### Binding to a single style
+### 繫結到單一樣式
 
-To create a single style binding, use the prefix `style` followed by a dot and the name of the CSS style property.
-For example,
+要建立單一樣式繫結，請使用前綴 `style`，後面接一個點，再接 CSS 樣式屬性的名稱。
+例如，
 
 <code-example format="typescript" language="typescript">
 
@@ -152,12 +150,12 @@ For example,
 
 </code-example>
 
-Angular sets the property to the value of the bound expression, which is usually a string.
-Optionally, you can add a unit extension like `em` or `%`, which requires a number type.
+Angular 會將屬性設為繫結運算式的值，該值通常是字串。
+你也可以選擇性地加上單位後綴，例如 `em` 或 `%`，這需要數字型別。
 
 <div class="alert is-helpful">
 
-You can write a style property name in either [dash-case](guide/glossary#dash-case), or [camelCase](guide/glossary#camelcase).
+你可以用 [dash-case](guide/glossary#dash-case) 或 [camelCase](guide/glossary#camelcase) 來寫樣式屬性名稱。
 
 <code-example format="html" language="html">
 
@@ -169,10 +167,10 @@ You can write a style property name in either [dash-case](guide/glossary#dash-ca
 
 </div>
 
-### Binding to multiple styles
+### 繫結到多個樣式
 
-To toggle multiple styles, bind to the `[style]` attribute.
-For example,
+要切換多個樣式，請繫結到 `[style]` attribute。
+例如，
 
 <code-example format="typescript" language="typescript">
 
@@ -180,9 +178,9 @@ For example,
 
 </code-example>
 
-The `styleExpression` can be one of:
+`styleExpression` 可以是下列其中之一：
 
-*   A string list of styles, such as
+*   樣式的字串清單，例如
 
     <code-example format="css" hideCopy language="css">
 
@@ -190,7 +188,7 @@ The `styleExpression` can be one of:
 
     </code-example>
 
-*   An object with style names as the keys and style values as the values, such as
+*   以樣式名稱為鍵、以樣式值為值的物件，例如
 
     <code-example format="typescript" hideCopy language="typescript">
 
@@ -201,111 +199,111 @@ The `styleExpression` can be one of:
 <div class="alert is-helpful">
 
 **NOTE**: <br />
-Binding an array to `[style]` is not supported.
+不支援將陣列繫結到 `[style]`。
 
 </div>
 
 <div class="alert is-important">
 
-When binding `[style]` to an object expression, the identity of the object must change for Angular to update the class list.
-Updating the property without changing object identity has no effect.
+將 `[style]` 繫結到物件運算式時，物件的身分必須改變，Angular 才會更新類別清單。
+只更新屬性而不改變物件身分是沒有效果的。
 
 </div>
 
-#### Single and multiple-style binding example
+#### 單一與多樣式繫結範例
 
 <code-example header="nav-bar.component.ts" path="attribute-binding/src/app/single-and-multiple-style-binding.component.ts"></code-example>
 
-If there are multiple bindings to the same style attribute, Angular uses [styling precedence](guide/style-precedence) to determine which binding to use.
+如果有多個繫結指向同一個樣式 attribute，Angular 會使用[樣式優先順序](guide/style-precedence)來決定採用哪個繫結。
 
-The following table summarizes style binding syntax.
+下表摘要整理了樣式繫結語法。
 
-| Binding Type                    | Syntax                      | Input Type                                                                 | Example Input Values |
+| 繫結類型                    | 語法                      | 輸入類型                                                                 | 輸入值範例 |
 |:---                             |:---                         |:---                                                                        |:---                  |
-| Single style binding            | `[style.width]="width"`     | <code>string &verbar; undefined &verbar; null</code>                       | `"100px"`                           |
-| Single style binding with units | `[style.width.px]="width"`  | <code>number &verbar; undefined &verbar; null</code>                       | `100`                               |
-| Multi-style binding             | `[style]="styleExpression"` | `string`                                                                   | `"width: 100px; height: 100px"`     |
-| Multi-style binding             | `[style]="styleExpression"` | <code>Record&lt;string, string &verbar; undefined &verbar; null&gt;</code> | `{width: '100px', height: '100px'}` |
+| 單一樣式繫結            | `[style.width]="width"`     | <code>string &verbar; undefined &verbar; null</code>                       | `"100px"`                           |
+| 單一樣式繫結（附單位） | `[style.width.px]="width"`  | <code>number &verbar; undefined &verbar; null</code>                       | `100`                               |
+| 多樣式繫結            | `[style]="styleExpression"` | `string`                                                                   | `"width: 100px; height: 100px"`     |
+| 多重樣式繫結            | `[style]="styleExpression"` | <code>Record&lt;string, string &verbar; undefined &verbar; null&gt;</code> | `{width: '100px', height: '100px'}` |
 
 <div class="alert is-helpful">
 
-The [NgStyle](guide/built-in-directives/#ngstyle) directive can be used as an alternative to direct `[style]` bindings.
-However, using the preceding style binding syntax without `NgStyle` is preferred because due to improvements in style binding in Angular, `NgStyle` no longer provides significant value, and might eventually be removed in the future.
+[NgStyle](guide/built-in-directives/#ngstyle) 指令可以作為直接使用 `[style]` 繫結的替代方案。
+不過，由於 Angular 的樣式繫結已有所改進，`NgStyle` 不再提供顯著的價值，未來可能最終被移除，因此建議使用前面不搭配 `NgStyle` 的樣式繫結語法。
 
 </div>
 
 <a id="styling-precedence"></a>
 
-## Styling Precedence
+## 樣式優先順序
 
-A single HTML element can have its CSS class list and style values bound to multiple sources \(for example, host bindings from multiple directives\).
+單一 HTML 元素的 CSS 類別清單與樣式值，可以繫結到多個來源（例如，來自多個指令的宿主繫結）。
 
-When there are multiple bindings to the same class name or style property, Angular uses a set of precedence rules to resolve conflicts and determine which classes or styles are ultimately applied to the element.
+當有多個繫結指向同一個類別名稱或樣式屬性時，Angular 會使用一組優先順序規則來解決衝突，並決定最終要對元素套用哪些類別或樣式。
 
 <div class="alert is-helpful">
 
-<header>Styling precedence (highest to lowest)</header>
+<header>樣式優先順序（從最高到最低）</header>
 
-1.  Template bindings
-    1.  Property binding
+1.  範本繫結
+    1.  屬性繫結
 
         <code-tabs>
             <code-pane format="html" header="class.foo" hideCopy language="html"> &lt;div [class.foo]="hasFoo"&gt; </code-pane>
             <code-pane format="html" header="style.color" hideCopy language="html"> &lt;div [style.color]="color"&gt; </code-pane>
         </code-tabs>
 
-    1.  Map binding
+    1.  對映繫結
 
         <code-tabs>
             <code-pane format="html" header="class" hideCopy language="html"> &lt;div [class]="classExpr"&gt; </code-pane>
             <code-pane format="html" header="style" hideCopy language="html"> &lt;div [style]="styleExpr"&gt; </code-pane>
         </code-tabs>
 
-    1.  Static value
+    1.  靜態值
 
         <code-tabs>
             <code-pane format="html" header="class" hideCopy language="html"> &lt;div class="foo"&gt; </code-pane>
             <code-pane format="html" header="style" hideCopy language="html"> &lt;div style="color: blue"&gt; </code-pane>
         </code-tabs>
 
-1.  Directive host bindings
-    1.  Property binding
+1.  指令宿主繫結
+    1.  屬性繫結
 
         <code-tabs>
             <code-pane format="html" header="class" hideCopy language="html"> host: {'[class.foo]': 'hasFoo'} </code-pane>
             <code-pane format="html" header="style" hideCopy language="html"> host: {'[style.color]': 'color'} </code-pane>
         </code-tabs>
 
-    1.  Map binding
+    1.  對映繫結
 
         <code-tabs>
             <code-pane format="html" header="class" hideCopy language="html"> host: {'[class]': 'classExpr'} </code-pane>
             <code-pane format="html" header="style" hideCopy language="html"> host: {'[style]': 'styleExpr'} </code-pane>
         </code-tabs>
 
-    1.  Static value
+    1.  靜態值
 
         <code-tabs>
             <code-pane format="html" header="class" hideCopy language="html"> host: host: {'class': 'foo'} </code-pane>
             <code-pane format="html" header="style" hideCopy language="html"> host: {'style': 'color: blue'} </code-pane>
         </code-tabs>
 
-1.  Component host bindings
-    1.  Property binding
+1.  元件宿主繫結
+    1.  屬性繫結
 
         <code-tabs>
             <code-pane format="html" header="class" hideCopy language="html"> host: {'[class.foo]': 'hasFoo'} </code-pane>
             <code-pane format="html" header="style" hideCopy language="html"> host: {'[style.color]': 'color'} </code-pane>
         </code-tabs>
 
-    1.  Map binding
+    1.  對映繫結
 
         <code-tabs>
             <code-pane format="html" header="class" hideCopy language="html"> host: {'[class]': 'classExpr'} </code-pane>
             <code-pane format="html" header="style" hideCopy language="html"> host: {'[style]': 'styleExpr'} </code-pane>
         </code-tabs>
 
-    1.  Static value
+    1.  靜態值
 
         <code-tabs>
             <code-pane format="html" header="class" hideCopy language="html"> host: {'class': 'foo'} </code-pane>
@@ -314,55 +312,55 @@ When there are multiple bindings to the same class name or style property, Angul
 
 </div>
 
-The more specific a class or style binding is, the higher its precedence.
+類別或樣式繫結越具體，它的優先順序就越高。
 
-A binding to a specific class \(for example, `[class.foo]`\) takes precedence over a generic `[class]` binding, and a binding to a specific style \(for example, `[style.bar]`\) takes precedence over a generic `[style]` binding.
+繫結到特定類別（例如 `[class.foo]`）的優先順序高於一般的 `[class]` 繫結；繫結到特定樣式（例如 `[style.bar]`）的優先順序高於一般的 `[style]` 繫結。
 
 <code-example header="src/app/app.component.html" path="attribute-binding/src/app/app.component.html" region="basic-specificity"></code-example>
 
-Specificity rules also apply when it comes to bindings that originate from different sources.
-It's possible for an element to have bindings in the template where it's declared, from host bindings on matched directives, and from host bindings on matched components.
+具體程度規則也適用於來自不同來源的繫結。
+一個元素可以同時擁有：在宣告它的範本中的繫結、來自相符指令的宿主繫結，以及來自相符元件的宿主繫結。
 
-Template bindings are the most specific because they apply to the element directly and exclusively, so they have the highest precedence.
+範本繫結最為具體，因為它們直接且專門地套用到元素上，所以具有最高的優先順序。
 
-Directive host bindings are considered less specific because directives can be used in multiple locations, so they have a lower precedence than template bindings.
+指令宿主繫結被認為較不具體，因為指令可以在多個位置使用，所以其優先順序比範本繫結低。
 
-Directives often augment component behavior, so host bindings from components have the lowest precedence.
+指令經常擴充元件的行為，因此來自元件的宿主繫結具有最低的優先順序。
 
 <code-example header="src/app/app.component.html" path="attribute-binding/src/app/app.component.html" region="source-specificity"></code-example>
 
-In addition, bindings take precedence over static attributes.
+此外，繫結的優先順序高於靜態屬性。
 
-In the following case, `class` and `[class]` have similar specificity, but the `[class]` binding takes precedence because it is dynamic.
+在以下情形中，`class` 與 `[class]` 的具體程度相似，但 `[class]` 繫結是動態的，因此其優先順序較高。
 
 <code-example header="src/app/app.component.html" path="attribute-binding/src/app/app.component.html" region="dynamic-priority"></code-example>
 
 <a id="styling-delegation"></a>
 
-### Delegating to styles with lower precedence
+### 委派給優先順序較低的樣式
 
-It is possible for higher precedence styles to "delegate" to lower precedence styles using `undefined` values.
-Whereas setting a style property to `null` ensures the style is removed, setting it to `undefined` causes Angular to fall back to the next-highest precedence binding to that style.
+優先順序較高的樣式可以使用 `undefined` 值，「委派」給優先順序較低的樣式。
+將樣式屬性設為 `null` 可以確保該樣式被移除；將它設為 `undefined`，則會讓 Angular 退回該樣式次高優先順序的繫結。
 
-For example, consider the following template:
+舉例來說，請看下列範本：
 
 <code-example header="src/app/app.component.html" path="attribute-binding/src/app/app.component.html" region="style-delegation"></code-example>
 
-Imagine that the `dirWithHostBinding` directive and the `comp-with-host-binding` component both have a `[style.width]` host binding.
-In that case, if `dirWithHostBinding` sets its binding to `undefined`, the `width` property falls back to the value of the `comp-with-host-binding` host binding.
-However, if `dirWithHostBinding` sets its binding to `null`, the `width` property will be removed entirely.
+假設 `dirWithHostBinding` 指令與 `comp-with-host-binding` 元件都有一個 `[style.width]` 宿主繫結。
+在這種情況下，如果 `dirWithHostBinding` 把它的繫結設定為 `undefined`，`width` 屬性就會退回 `comp-with-host-binding` 宿主繫結的值。
+然而，如果 `dirWithHostBinding` 把它的繫結設定為 `null`，`width` 屬性就會被完全移除。
 
-## Injecting attribute values
+## 注入 attribute 值
 
-There are cases where you need to differentiate the behavior of a [Component](api/core/Component) or [Directive](api/core/Directive) based on a static value set on the host element as an HTML attribute.
-For example, you might have a directive that needs to know the `type` of a `<button>` or `<input>` element.
+在某些情況下，你需要根據在宿主元素上以 HTML attribute 設定的靜態值，來區分 [Component](api/core/Component) 或 [Directive](api/core/Directive) 的行為。
+例如，你可能有一個指令需要知道 `<button>` 或 `<input>` 元素的 `type`。
 
-The [Attribute](api/core/Attribute) parameter decorator is great for passing the value of an HTML attribute to a component/directive constructor using [dependency injection](guide/dependency-injection).
+[Attribute](api/core/Attribute) 參數裝飾器非常適合透過[依賴注入](guide/dependency-injection)，將 HTML attribute 的值傳遞給元件／指令的建構函式。
 
 <div class="alert is-helpful">
 
-The injected value captures the value of the specified HTML attribute at that moment.
-Future updates to the attribute value are not reflected in the injected value.
+注入的值擷取的是該時刻指定 HTML attribute 的值。
+日後對 attribute 值的更新，不會反映在注入的值中。
 
 </div>
 
@@ -370,16 +368,16 @@ Future updates to the attribute value are not reflected in the injected value.
 
 <code-example header="src/app/app.component.html" path="attribute-binding/src/app/app.component.html" region="attribute-decorator"></code-example>
 
-In the preceding example, the result of `app.component.html` is **The type of the input is: number**.
+在前面的範例中，`app.component.html` 的結果是 **The type of the input is: number**。
 
-Another example is the [RouterOutlet](api/router/RouterOutlet) directive, which makes use of the [Attribute](api/core/Attribute) decorator to retrieve the unique [name](api/router/RouterOutlet#description) on each outlet.
+另一個例子是 [RouterOutlet](api/router/RouterOutlet) 指令，它使用 [Attribute](api/core/Attribute) 裝飾器來取得每個出口上唯一的 [name](api/router/RouterOutlet#description)。
 
 <div class="callout is-helpful">
 
 <header><code>&commat;Attribute()</code> vs <code>&commat;Input()</code></header>
 
-Remember, use [@Input()](api/core/Input) when you want to keep track of the attribute value and update the associated property.
-Use [@Attribute()](api/core/Attribute) when you want to inject the value of an HTML attribute to a component or directive constructor.
+請記住，當你想追蹤 attribute 值並更新關聯屬性時，請使用 [@Input()](api/core/Input)。
+當你想將 HTML attribute 的值注入元件或指令的建構函式時，請使用 [@Attribute()](api/core/Attribute)。
 
 </div>
 

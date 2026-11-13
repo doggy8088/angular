@@ -1,43 +1,38 @@
-# TypeScript configuration
+# TypeScript 設定
 
-TypeScript is a primary language for Angular application development.
-It is a superset of JavaScript with design-time support for type safety and tooling.
+TypeScript 是 Angular 應用程式開發的主要語言。它是 JavaScript 的超集，在設計階段支援型別安全與工具。
 
-Browsers can't execute TypeScript directly.
-Typescript must be "transpiled" into JavaScript using the *tsc* compiler, which requires some configuration.
+瀏覽器無法直接執行 TypeScript。Typescript 必須使用 *tsc* 編譯器「轉譯」為 JavaScript，這需要一些設定。
 
-This page covers some aspects of TypeScript configuration and the TypeScript environment
-that are important to Angular developers, including details about the following files:
+本頁介紹 TypeScript 設定與 TypeScript 環境中對 Angular 開發者重要的部分，包括以下檔案的詳細資訊：
 
-| Files                                                    | Details |
+| 檔案 | 說明 |
 |:---                                                      |:---     |
-| [tsconfig.json](guide/typescript-configuration#tsconfig) | TypeScript compiler configuration. |
-| [typings](guide/typescript-configuration#typings)        | TypesScript declaration files.     |
+| [tsconfig.json](guide/typescript-configuration#tsconfig) | TypeScript 編譯器設定。 |
+| [typings](guide/typescript-configuration#typings) | TypesScript 宣告檔案。 |
 
 <a id="tsconfig"></a>
 
-## Configuration files
+## 設定檔
 
-A given Angular workspace contains several TypeScript configuration files.
-At the root `tsconfig.json` file specifies the base TypeScript and Angular compiler options that all projects in the workspace inherit.
-
-<div class="alert is-helpful">
-
-See the [Angular compiler options](guide/angular-compiler-options) guide for information about what Angular specific options are available.
-
-</div>
-
-The TypeScript and Angular have a wide range of options which can be used to configure type-checking features and generated output.
-For more information, see the [Configuration inheritance with extends](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#configuration-inheritance-with-extends) section of the TypeScript documentation.
+每個 Angular 工作區都包含數個 TypeScript 設定檔。位於根目錄的 `tsconfig.json` 檔案會指定工作區中所有專案繼承的基礎 TypeScript 與 Angular 編譯器選項。
 
 <div class="alert is-helpful">
 
-For more information TypeScript configuration files, see the official [TypeScript wiki](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
-For details about configuration inheritance, see the [Configuration inheritance with extends](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#configuration-inheritance-with-extends) section.
+如需了解有哪些 Angular 專屬選項可用，請參閱 [Angular 編譯器選項](guide/angular-compiler-options)指南。
 
 </div>
 
-The initial `tsconfig.json` for an Angular workspace typically looks like the following example.
+TypeScript 與 Angular 提供了多種選項，可用來設定型別檢查功能與產生的輸出。如需更多資訊，請參閱 TypeScript 文件中的 [Configuration inheritance with extends](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#configuration-inheritance-with-extends) 一節。
+
+<div class="alert is-helpful">
+
+如需了解更多 TypeScript 設定檔的資訊，請參閱官方 [TypeScript wiki](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)。
+如需了解設定繼承的詳細資訊，請參閱 [Configuration inheritance with extends](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html#configuration-inheritance-with-extends) 一節。
+
+</div>
+
+Angular 工作區初始的 `tsconfig.json` 通常如下列範例所示。
 
 <code-example lang="json" header="tsconfig.json" linenums="false">
 {
@@ -63,23 +58,17 @@ The initial `tsconfig.json` for an Angular workspace typically looks like the fo
 
 <a id="noImplicitAny"></a>
 
-### `noImplicitAny` and `suppressImplicitAnyIndexErrors`
+### `noImplicitAny` 與 `suppressImplicitAnyIndexErrors`
 
-TypeScript developers disagree about whether the `noImplicitAny` flag should be `true` or `false`.
-There is no correct answer and you can change the flag later.
-But your choice now can make a difference in larger projects, so it merits discussion.
+TypeScript 開發者對於 `noImplicitAny` 旗標應該設為 `true` 還是 `false` 意見不一。沒有正確答案，而且你之後也可以更改旗標。但你現在的選擇可能會對較大的專案造成影響，因此值得討論。
 
-When the `noImplicitAny` flag is `false` \(the default\), and if the compiler cannot infer the variable type based on how it's used, the compiler silently defaults the type to `any`.
-That's what is meant by *implicit `any`*.
+當 `noImplicitAny` 旗標為 `false`（預設值），且編譯器無法根據變數的使用方式推斷其型別時，編譯器會默默地將型別預設為 `any`。這就是 *隱含 `any`* 的意思。
 
-When the `noImplicitAny` flag is `true` and the TypeScript compiler cannot infer the type, it still generates the JavaScript files, but it also **reports an error**.
-Many seasoned developers prefer this stricter setting because type checking catches more unintentional errors at compile time.
+當 `noImplicitAny` 旗標為 `true` 且 TypeScript 編譯器無法推斷型別時，它仍會產生 JavaScript 檔案，但同時也會**回報錯誤**。許多經驗豐富的開發者偏好這種較嚴格的設定，因為型別檢查能在編譯時期捕捉更多無意的錯誤。
 
-You can set a variable's type to `any` even when the `noImplicitAny` flag is `true`.
+即使 `any` 旗標為 `noImplicitAny`，你仍可把變數的型別設為 `true`。
 
-When the `noImplicitAny` flag is `true`, you may get *implicit index errors* as well.
-Most developers feel that *this particular error* is more annoying than helpful.
-You can suppress them with the following additional flag:
+當 `noImplicitAny` 旗標為 `true` 時，你可能還會遇到 *隱含索引錯誤*。大多數開發者認為 *這個特定錯誤* 帶來的困擾大於幫助。你可以用下列額外的旗標來抑制它們：
 
 <code-example>
 
@@ -89,66 +78,56 @@ You can suppress them with the following additional flag:
 
 <div class="alert is-helpful">
 
-For more information about how the TypeScript configuration affects compilation, see [Angular Compiler Options](guide/angular-compiler-options) and [Template Type Checking](guide/template-typecheck).
+如需了解 TypeScript 設定如何影響編譯，請參閱 [Angular 編譯器選項](guide/angular-compiler-options)與[範本型別檢查](guide/template-typecheck)。
 
 </div>
 
 <a id="typings"></a>
 
-## TypeScript typings
+## TypeScript 型別定義
 
-Many JavaScript libraries, such as jQuery, the Jasmine testing library, and Angular, extend the JavaScript environment with features and syntax that the TypeScript compiler doesn't recognize natively.
-When the compiler doesn't recognize something, it reports an error.
+許多 JavaScript 函式庫（例如 jQuery、Jasmine 測試函式庫與 Angular）以 TypeScript 編譯器本身無法辨識的功能與語法，擴充了 JavaScript 環境。當編譯器無法辨識某個內容時，就會回報錯誤。
 
-Use [TypeScript type definition files](https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html) &mdash;`d.ts files`&mdash; to tell the compiler about the libraries you load.
+使用 [TypeScript 型別定義檔](https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html) &mdash;`d.ts files`&mdash; 來告訴編譯器你載入的函式庫。
 
-TypeScript-aware editors leverage these same definition files to display type information about library features.
+支援 TypeScript 的編輯器會利用這些相同的定義檔，來顯示函式庫功能的型別資訊。
 
-Many libraries include definition files in their npm packages where both the TypeScript compiler and editors
-can find them.
-Angular is one such library.
-The `node_modules/@angular/core/` folder of any Angular application contains several `d.ts` files that describe parts of Angular.
+許多函式庫會在 npm 套件中附上定義檔，讓 TypeScript 編譯器與編輯器都能找到它們。Angular 就是其中一個函式庫。任何 Angular 應用程式的 `node_modules/@angular/core/` 資料夾中，都包含數個描述 Angular 各部分的 `d.ts` 檔案。
 
 <div class="alert is-helpful">
 
-You don't need to do anything to get *typings* files for library packages that include `d.ts` files.
-Angular packages include them already.
+對於內含 `d.ts` 檔案的函式庫套件，你不需要做任何事就能取得 *typings* 檔案。
+Angular 套件已內含這些檔案。
 
 </div>
 
 ### `lib.d.ts`
 
-TypeScript includes a special declaration file called `lib.d.ts`.
-This file contains the ambient declarations for various common JavaScript constructs present in JavaScript runtimes and the DOM.
+TypeScript 內含一個特殊的宣告檔案，稱為 `lib.d.ts`。這個檔案包含 JavaScript 執行階段與 DOM 中各種常見 JavaScript 結構的環境宣告。
 
-Based on the `--target`, TypeScript adds *additional* ambient declarations like `Promise` if the target is `es6`.
+根據 `--target`，TypeScript 會加入*額外的*環境宣告，例如當 target 為 `es6` 時加入 `Promise`。
 
-By default, the target is `es2015`.
-If you are targeting `es5`, you still have newer type declarations due to the list of declaration files included:
+預設的 target 為 `es2015`。如果你以 `es5` 為目標，由於納入的宣告檔案清單，你仍然會有較新的型別宣告：
 
 <code-example header="tsconfig.json (lib excerpt)" path="getting-started/tsconfig.0.json" region="lib"></code-example>
 
-### Installable typings files
+### 可安裝的型別定義檔
 
-Many libraries &mdash;jQuery, Jasmine, and Lodash among them&mdash; do *not* include `d.ts` files in their npm packages.
-Fortunately, either their authors or community contributors have created separate `d.ts` files for these libraries and published them in well-known locations.
+許多函式庫——其中包括 jQuery、Jasmine 與 Lodash——*並未*在 npm 套件中附上 `d.ts` 檔案。幸好，這些函式庫的作者或社群貢獻者已為它們建立了獨立的 `d.ts` 檔案，並發佈在眾所周知的位置。
 
-You can install these typings with `npm` using the [`@types/*` scoped package](https://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html).
+你可以使用 [`npm` 範圍套件](https://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html)，透過 `@types/*` 安裝這些型別定義。
 
-Which ambient declaration files in `@types/*` are automatically included is determined by the [`types` TypeScript compiler option](https://www.typescriptlang.org/tsconfig#types).
-The Angular CLI generates a `tsconfig.app.json` file which is used to build an application, in which the `types` compiler option is set to `[]` to disable automatic inclusion of declarations from `@types/*`.
-Similarly, the `tsconfig.spec.json` file is used for testing and sets `"types": ["jasmine"]` to allow using Jasmine's ambient declarations in tests.
+`@types/*` 中哪些環境宣告檔案會自動納入，由 [`types` TypeScript 編譯器選項](https://www.typescriptlang.org/tsconfig#types)決定。Angular CLI 會產生用於建置應用程式的 `tsconfig.app.json` 檔案，其中 `types` 編譯器選項設為 `[]`，以停用來自 `@types/*` 的宣告自動納入。同樣地，`tsconfig.spec.json` 檔案用於測試，並設定 `"types": ["jasmine"]`，以便在測試中使用 Jasmine 的環境宣告。
 
-After installing `@types/*` declarations, you have to update the `tsconfig.app.json` and `tsconfig.spec.json` files to add the newly installed declarations to the list of `types`.
-If the declarations are only meant for testing, then only the `tsconfig.spec.json` file should be updated.
+安裝 `@types/*` 宣告之後，你必須更新 `tsconfig.app.json` 與 `tsconfig.spec.json` 檔案，把新安裝的宣告加入 `types` 清單。如果這些宣告僅供測試使用，則只需更新 `tsconfig.spec.json` 檔案。
 
-For instance, to install typings for `chai` you run `npm install @types/chai --save-dev` and then update `tsconfig.spec.json` to add `"chai"` to the list of `types`.
+例如，要安裝 `chai` 的型別定義，你可以執行 `npm install @types/chai --save-dev`，然後更新 `tsconfig.spec.json`，把 `"chai"` 加入 `types` 清單。
 
 <a id="target"></a>
 
 ### `target`
 
-By default, the target is `es2017`, which is supported in modern browsers.
+預設的目標為 `es2017`，現代瀏覽器皆有支援。
 
 <!-- links -->
 

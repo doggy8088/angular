@@ -1,25 +1,25 @@
-# `Renderer` to `Renderer2` migration
+# 從 `Renderer` 遷移到 `Renderer2`
 
-## Migration Overview
+## 遷移總覽
 
-The `Renderer` class has been marked as deprecated since Angular version 4.
-This section provides guidance on migrating from this deprecated API to the newer `Renderer2` API and what it means for your app.
+`Renderer` 類別自 Angular 第 4 版起就被標記為已棄用。
+本節提供從這個已棄用 API 遷移到較新的 `Renderer2` API 的指引，以及這對你的應用程式意味著什麼。
 
-## Why should I migrate to Renderer2?
+## 為什麼我應該遷移到 Renderer2？
 
-The deprecated `Renderer` class has been removed in version 9 of Angular, so it's necessary to migrate to a supported API.
-Using `Renderer2` is the recommended strategy because it supports a similar set of functionality to `Renderer`.
-The API surface is quite large \(with 19 methods\, but the schematic should simplify this process for your applications.
+已棄用的 `Renderer` 類別已在 Angular 第 9 版中移除，因此必須遷移到受支援的 API。
+使用 `Renderer2` 是建議的策略，因為它支援與 `Renderer` 類似的一組功能。
+這個 API 共有 19 個方法，介面相當龐大，但原理圖應該能為你的應用程式簡化這個過程。
 
-## Is there action required on my end?
+## 我這邊需要採取任何行動嗎？
 
-No.
-The schematic should handle most cases with the exception of `Renderer.animate()` and `Renderer.setDebugInfo()`, which already aren't supported.
+不需要。
+原理圖應該能處理大多數情況，例外是 `Renderer.animate()` 和 `Renderer.setDebugInfo()`，這兩者本來就不受支援。
 
-## What are the `__ngRendererX` methods? Why are they necessary?
+## `__ngRendererX` 方法是什麼？為什麼需要它們？
 
-Some methods either don't have exact equivalents in `Renderer2`, or they correspond to more than one expression.
-For example, both renderers have a `createElement()` method, but they're not equal because a call such as `renderer.createElement(parentNode, namespaceAndName)` in the `Renderer` corresponds to the following block of code in `Renderer2`:
+有些方法在 `Renderer2` 中沒有完全對應的等價方法，或者對應到不只一個運算式。
+例如，兩個渲染器都有 `createElement()` 方法，但它們並不相等，因為在 `Renderer` 中的呼叫（如 `renderer.createElement(parentNode, namespaceAndName)`）對應到 `Renderer2` 中的下列程式碼區塊：
 
 <code-example format="typescript" language="typescript">
 
@@ -32,12 +32,12 @@ return el;
 
 </code-example>
 
-Migration has to guarantee that the return values of functions and types of variables stay the same.
-To handle the majority of cases safely, the schematic declares helper functions at the bottom of the user's file.
-These helpers encapsulate your own logic and keep the replacements inside your code down to a single function call.
-Here's an example of how the `createElement()` migration looks:
+遷移必須保證函式的回傳值和變數的型別保持相同。
+為了安全地處理大多數情況，原理圖會在使用者檔案的底部宣告輔助函式。
+這些輔助函式封裝了你自己的邏輯，讓程式碼中的替換縮減為單一函式呼叫。
+以下是 `createElement()` 遷移的範例：
 
-**Before**:
+**之前**：
 
 <code-example format="typescript" language="typescript">
 
@@ -49,7 +49,7 @@ public createAndAppendElement() {
 
 </code-example>
 
-**After**:
+**之後**：
 
 <code-example format="typescript" language="typescript">
 
@@ -73,17 +73,17 @@ __ngRendererSplitNamespace(nameAndNamespace: any) {
 
 </code-example>
 
-When implementing these helper functions, the schematic ensures that they're only declared once per file and that their names are unique enough that there's a small chance of colliding with pre-existing functions in your code.
-The schematic also keeps their parameter types as `any` so that it doesn't have to insert extra logic that ensures that their values have the correct type.
+在實作這些輔助函式時，原理圖會確保它們在每個檔案中只宣告一次，而且名稱夠獨特，與你程式碼中既有函式發生衝突的機會很小。
+原理圖也會將它們的參數型別保持為 `any`，這樣就不必插入額外邏輯來確保它們的值具有正確的型別。
 
-### I'm a library author. Should I run this migration?
+### 我是函式庫作者。我應該執行這個遷移嗎？
 
-**Library authors should definitely use this migration to move away from the `Renderer`.**
-**Otherwise, the libraries won't work with applications built with version 9.**
+**函式庫作者絕對應該使用這個遷移，擺脫 `Renderer`。**
+**否則，函式庫將無法與以第 9 版建置的應用程式搭配運作。**
 
-### Full list of method migrations
+### 方法遷移完整清單
 
-The following table shows all methods that the migration maps from `Renderer` to `Renderer2`.
+下表展示了遷移將所有方法從 `Renderer` 對應到 `Renderer2` 的情形。
 
 | Renderer                                                                                 | Renderer2 |
 |:---                                                                                      |:---       |
@@ -102,10 +102,10 @@ The following table shows all methods that the migration maps from `Renderer` to
 | `attachViewAfter(node, viewRootNodes)`                                                   | `const parentElement = parentNode(node); const nextSibling = nextSibling(node); for (let i = 0; i < viewRootNodes.length; i++) { insertBefore(parentElement, viewRootNodes[i], nextSibling);}` |
 | `detachView(viewRootNodes)`                                                              | `for (let i = 0; i < viewRootNodes.length; i++) {const node = viewRootNodes[i]; const parentElement = parentNode(node); removeChild(parentElement, node);}`                                    |
 | `destroyView(hostElement, viewAllNodes)`                                                 | `for (let i = 0; i < viewAllNodes.length; i++) { destroyNode(viewAllNodes[i]); }`                                                                                                              |
-| `setBindingDebugInfo()`                                                                  | This function is a noop in `Renderer2`.                                                                                                                                                        |
-| `createViewRoot(hostElement)`                                                            | Should be replaced with a reference to `hostElement`                                                                                                                                           |
+| `setBindingDebugInfo()`                                                                  | 這個函式在 `Renderer2` 中是無操作（noop）。                                                                                                                                                        |
+| `createViewRoot(hostElement)`                                                            | 應替換為對 `hostElement` 的參照                                                                                                                                           |
 | `invokeElementMethod(renderElement, methodName, args?)`                                  | `(renderElement as any)[methodName].apply(renderElement, args);`                                                                                                                               |
-| `animate(element, startingStyles, keyframes, duration, delay, easing, previousPlayers?)` | Throws an error \(same behavior as `Renderer.animate()`\)                                                                                                                                      |
+| `animate(element, startingStyles, keyframes, duration, delay, easing, previousPlayers?)` | 拋出錯誤（與 `Renderer.animate()` 的行為相同）                                                                                                                                      |
 
 <!-- links -->
 

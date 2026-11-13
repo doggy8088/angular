@@ -1,45 +1,44 @@
-# Setting up the local environment and workspace
+# 設定本機環境與工作區
 
-This guide explains how to set up your environment for Angular development using the [Angular CLI tool](cli "CLI command reference").
-It includes information about prerequisites, installing the CLI, creating an initial workspace and starter app, and running that app locally to verify your setup.
+本指南說明如何使用 [Angular CLI](cli "CLI command reference") 為 Angular 開發設定你的環境。 內容包括安裝 CLI、建立初始工作區與起始應用程式，以及在本機執行該應用程式來驗證你的設定。
 
 <div class="callout is-helpful">
 
-<header>Try Angular without local setup</header>
+<header>不用在本機設定，直接試用 Angular</header>
 
-If you are new to Angular, you might want to start with [Try it now!](start), which introduces the essentials of Angular in the context of a ready-made basic online store app for you to examine and modify.
-This standalone tutorial takes advantage of the interactive [StackBlitz](https://stackblitz.com) environment for online development.
-You don't need to set up your local environment until you're ready.
+如果你是 Angular 新手，或許可以先從 [立即試用！](start)開始，它會在一個現成的基本線上商店應用程式的脈絡中介紹 Angular 的基本概念，供你檢視與修改。
+這份獨立教學利用互動式 [StackBlitz](https://stackblitz.com) 環境進行線上開發。
+在你準備好之前，不需要先設定本機環境。
 
 </div>
 
 <a id="devenv"></a>
 <a id="prerequisites"></a>
 
-## Prerequisites
+## 必要條件
 
-To use the Angular framework, you should be familiar with the following:
+若要使用 Angular 框架，你應該熟悉下列技術：
 
 *   [JavaScript](https://developer.mozilla.org/docs/Web/JavaScript/A_re-introduction_to_JavaScript)
 *   [HTML](https://developer.mozilla.org/docs/Learn/HTML/Introduction_to_HTML)
 *   [CSS](https://developer.mozilla.org/docs/Learn/CSS/First_steps)
 
-Knowledge of [TypeScript](https://www.typescriptlang.org) is helpful, but not required.
+具備 [TypeScript](https://www.typescriptlang.org) 知識會很有幫助，但並非必要。
 
-To install Angular on your local system, you need the following:
+若要在本機系統上安裝 Angular，你需要下列項目：
 
-| Requirements                         | Details |
+| 需求 | 詳細資訊 |
 |:---                                  |:---     |
-| Node.js <a id="nodejs"></a>          | Angular requires an [active LTS or maintenance LTS](https://nodejs.org/about/releases) version of Node.js.  <div class="alert is-helpful"> For information about specific version requirements, see the `engines` key in the [package.json](https://unpkg.com/browse/@angular/core/package.json) file. </div> For more information on installing Node.js, see [nodejs.org](https://nodejs.org "Nodejs.org"). If you are unsure what version of Node.js runs on your system, run `node -v` in a terminal window. |
-| npm package manager <a id="npm"></a> | Angular, the Angular CLI, and Angular applications depend on [npm packages](https://docs.npmjs.com/getting-started/what-is-npm) for many features and functions. To download and install npm packages, you need an npm package manager. This guide uses the [npm client](https://docs.npmjs.com/cli/install) command line interface, which is installed with `Node.js` by default. To check that you have the npm client installed, run `npm -v` in a terminal window.                                          |
+| Node.js <a id="nodejs"></a> | Angular 需要 [現行 LTS 或維護 LTS](https://nodejs.org/about/releases) 版本的 Node.js。<div class="alert is-helpful">如需特定版本需求的相關資訊，請參閱 [package.json](https://unpkg.com/browse/@angular/core/package.json) 檔案中的 `engines` 鍵。</div> 如需更多安裝 Node.js 的資訊，請參閱 [nodejs.org](https://nodejs.org "Nodejs.org")。如果你不確定系統上執行的是哪個版本的 Node.js，請在終端機視窗中執行 `node -v`。 |
+| npm 套件管理員 <a id="npm"></a> | Angular、Angular CLI 與 Angular 應用程式在許多功能上都依賴 [npm 套件](https://docs.npmjs.com/getting-started/what-is-npm)。若要下載並安裝 npm 套件，你需要一個 npm 套件管理員。本指南使用 [npm 客戶端](https://docs.npmjs.com/cli/install)命令列介面，它會隨 `Node.js` 一起預設安裝。若要確認你已安裝 npm 客戶端，請在終端機視窗中執行 `npm -v`。 |
 
 <a id="install-cli"></a>
 
-## Install the Angular CLI
+## 安裝 Angular CLI
 
-You use the Angular CLI to create projects, generate application and library code, and perform a variety of ongoing development tasks such as testing, bundling, and deployment.
+你可以使用 Angular CLI 來建立專案、產生應用程式與函式庫程式碼，並執行各種持續性的開發工作，例如測試、打包與部署。
 
-To install the Angular CLI, open a terminal window and run the following command:
+若要安裝 Angular CLI，請開啟終端機視窗並執行下列指令：
 
 <code-example format="shell" language="shell">
 
@@ -48,22 +47,22 @@ npm install -g &commat;angular/cli<aio-angular-dist-tag class="pln"></aio-angula
 </code-example>
 
 <div class="alert is-helpful">
-  <p>On Windows client computers, the execution of PowerShell scripts is disabled by default. To allow the execution of PowerShell scripts, which is needed for npm global binaries, you must set the following <a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies">execution policy</a>:</p>
+  <p>在 Windows 客戶端電腦上，PowerShell 指令碼的執行預設為停用。若要允許執行 PowerShell 指令碼（npm 全域二進位檔需要），你必須設定下列<a href="https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies">執行原則</a>：</p>
   <code-example language="sh">
   Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
   </code-example>
-  <p>Carefully read the message displayed after executing the command and follow the instructions. Make sure you understand the implications of setting an execution policy.</p>
+  <p>請仔細閱讀執行指令後顯示的訊息，並依照指示操作。請確認你了解設定執行原則的影響。</p>
 </div>
 
 <a id="create-proj"></a>
 
-## Create a workspace and initial application
+## 建立工作區與初始應用程式
 
-You develop apps in the context of an Angular [**workspace**](guide/glossary#workspace).
+你是在 Angular [**工作區**](guide/glossary#工作區workspace)的脈絡下開發應用程式。
 
-To create a new workspace and initial starter app:
+要建立新的工作區與初始的入門應用程式：
 
-1.  Run the CLI command `ng new` and provide the name `my-app`, as shown here:
+1.  * 執行 CLI 指令 `ng new`，並提供名稱 `my-app`，如下所示：
 
     <code-example format="shell" language="shell">
 
@@ -71,22 +70,20 @@ To create a new workspace and initial starter app:
 
     </code-example>
 
-1.  The `ng new` command prompts you for information about features to include in the initial app.
-    Accept the defaults by pressing the Enter or Return key.
+1.  * `ng new` 指令會提示你提供初始應用程式要包含哪些功能的資訊。按下 Enter 或 Return 鍵，接受預設值即可。
 
-The Angular CLI installs the necessary Angular npm packages and other dependencies.
-This can take a few minutes.
+Angular CLI 會安裝必要的 Angular npm 套件與其他相依套件。 這可能需要幾分鐘。
 
-The CLI creates a new workspace and a simple Welcome app, ready to run.
+CLI 會建立一個新的工作區和一個簡單的 Welcome 應用程式，隨時可以執行。
 
 <a id="serve"></a>
 
-## Run the application
+## 執行應用程式
 
-The Angular CLI includes a server, for you to build and serve your app locally.
+Angular CLI 內含一個伺服器，讓你在本機建置並提供你的應用程式。
 
-1.  Navigate to the workspace folder, such as `my-app`.
-1.  Run the following command:
+1.  前往工作區資料夾，例如 `my-app`。
+1.  執行下列指令：
 
     <code-example format="shell" language="shell">
 
@@ -95,31 +92,27 @@ The Angular CLI includes a server, for you to build and serve your app locally.
 
     </code-example>
 
-The `ng serve` command launches the server, watches your files,
-and rebuilds the app as you make changes to those files.
+`ng serve` 指令會啟動伺服器、監看你的檔案，並在你變更這些檔案時重建應用程式。
 
-The `--open` \(or just `-o`\) option automatically opens your browser
-to `http://localhost:4200/`.
+`--open` \（或簡寫 `-o`\) 選項會自動開啟你的瀏覽器，前往 `http://localhost:4200/`。
 
-If your installation and setup was successful, you should see a page similar to the following.
+如果安裝與設定成功，你應該會看到類似下列的頁面。
 
 <div class="lightbox">
 
-<img alt="Welcome to my-app!" src="generated/images/guide/setup-local/app-works.png">
+<img alt="顯示「Welcome to my-app!」的畫面" src="generated/images/guide/setup-local/app-works.png">
 
 </div>
 
-## Next steps
+## 後續步驟
 
-*   For a more thorough introduction to the fundamental concepts and terminology of Angular single-page app architecture and design principles, read the [Angular Concepts](guide/architecture) section.
+*   若要更深入了解 Angular 單頁應用程式架構與設計原則的基本概念與術語，請閱讀 [Angular 概念](guide/architecture)一節。
 
-*   Work through the [Tour of Heroes Tutorial](tutorial), a complete hands-on exercise that introduces you to the app development process using the Angular CLI and walks through important subsystems.
+*   跟著 [Tour of Heroes 教學](tutorial)實作，這是一份完整的動手練習，介紹使用 Angular CLI 的應用程式開發流程，並帶你走過重要的子系統。
 
-*   To learn more about using the Angular CLI, see the [CLI Overview](cli "CLI Overview").
-    In addition to creating the initial workspace and app scaffolding, use the CLI to generate Angular code such as components and services.
-    The CLI supports the full development cycle, including building, testing, bundling, and deployment.
+*   若要進一步了解如何使用 Angular CLI，請參閱 [CLI 概覽](cli "CLI Overview")。除了建立初始工作區與應用程式鷹架之外，你還可以使用 CLI 來產生 Angular 程式碼，例如元件與服務。CLI 支援完整的開發週期，包括建置、測試、打包與部署。
 
-*   For more information about the Angular files generated by `ng new`, see [Workspace and Project File Structure](guide/file-structure).
+*   如需更多關於 `ng new` 所產生的 Angular 檔案的資訊，請參閱[工作區與專案檔案結構](guide/file-structure)。
 
 <!-- links -->
 
