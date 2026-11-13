@@ -1,45 +1,45 @@
-# Understanding Pipes
+# 了解管道
 
-Use [pipes](guide/glossary#pipe "Definition of a pipe") to transform strings, currency amounts, dates, and other data for display.
+使用[管道](guide/glossary#管道pipe "Definition of a pipe")來轉換字串、貨幣金額、日期與其他資料，以供顯示。
 
-## What is a pipe
+## 什麼是管道
 
-Pipes are simple functions to use in [template expressions](/guide/glossary#template-expression "Definition of template expression") to accept an input value and return a transformed value. Pipes are useful because you can use them throughout your application, while only declaring each pipe once.
-For example, you would use a pipe to show a date as **April 15, 1988** rather than the raw string format.
-
-<div class="alert is-helpful">
-
-For the sample application used in this topic, see the <live-example name="pipes"></live-example>.
-
-</div>
-
-## Built-in pipes
-
-Angular provides built-in pipes for typical data transformations, including transformations for internationalization (i18n), which use locale information to format data.
-The following are commonly used built-in pipes for data formatting:
-
-*   [`DatePipe`](api/common/DatePipe): Formats a date value according to locale rules.
-*   [`UpperCasePipe`](api/common/UpperCasePipe): Transforms text to all upper case.
-*   [`LowerCasePipe`](api/common/LowerCasePipe): Transforms text to all lower case.
-*   [`CurrencyPipe`](api/common/CurrencyPipe): Transforms a number to a currency string, formatted according to locale rules.
-*   [`DecimalPipe`](/api/common/DecimalPipe): Transforms a number into a string with a decimal point, formatted according to locale rules.
-*   [`PercentPipe`](api/common/PercentPipe): Transforms a number to a percentage string, formatted according to locale rules.
+管道是在[範本運算式](/guide/glossary#範本運算式template-expression "Definition of template expression")中使用的簡單函式，接受一個輸入值並回傳轉換後的值。管道很有用，因為你可以在整個應用程式中使用它們，同時每個管道只需要宣告一次。
+例如，你可以使用管道把日期顯示為 **April 15, 1988** 這種格式，而不是原始字串格式。
 
 <div class="alert is-helpful">
 
-*   For a complete list of built-in pipes, see the [pipes API documentation](/api/common#pipes "Pipes API reference summary").
-*   To learn more about using pipes for internationalization (i18n) efforts, see [formatting data based on locale][AioGuideI18nCommonFormatDataLocale].
+如需查看本主題所用的範例應用程式，請參閱 <live-example name="pipes"></live-example>。
 
 </div>
 
-Create pipes to encapsulate custom transformations and use your custom pipes in template expressions.
+## 內建管道
 
-## Pipes and precedence
+Angular 提供用於典型資料轉換的內建管道，包括使用地區設定資訊來格式化資料的國際化（i18n）轉換。
+以下是常用的資料格式化內建管道：
 
-The pipe operator has a higher precedence than the ternary operator (`?:`), which means `a ? b : c | x` is parsed as `a ? b : (c | x)`.
-The pipe operator cannot be used without parentheses in the first and second operands of `?:`.
+*   [`DatePipe`](api/common/DatePipe)：依據地區設定規則格式化日期值。
+*   [`UpperCasePipe`](api/common/UpperCasePipe)：把文字轉換為全部大寫。
+*   [`LowerCasePipe`](api/common/LowerCasePipe)：把文字轉換為全部小寫。
+*   [`CurrencyPipe`](api/common/CurrencyPipe)：把數字轉換為貨幣字串，依據地區設定規則格式化。
+*   [`DecimalPipe`](/api/common/DecimalPipe)：把數字轉換為帶有小數點的字串，依據地區設定規則格式化。
+*   [`PercentPipe`](api/common/PercentPipe)：把數字轉換為百分比字串，依據地區設定規則格式化。
 
-Due to precedence, if you want a pipe to apply to the result of a ternary, wrap the entire expression in parentheses; for example, `(a ? b : c) | x`.
+<div class="alert is-helpful">
+
+*   如需內建管道的完整清單，請參閱[管道 API 文件](/api/common#pipes "Pipes API reference summary")。
+*   如需進一步了解如何在國際化（i18n）工作中使用管道，請參閱[依據地區設定格式化資料][AioGuideI18nCommonFormatDataLocale]。
+
+</div>
+
+建立管道來封裝自訂轉換，並在範本運算式中使用你的自訂管道。
+
+## 管道與優先順序
+
+管道運算子的優先順序高於三元運算子（`?:`），也就是說 `a ? b : c | x` 會被解析為 `a ? b : (c | x)`。
+管道運算子不能在 `?:` 的第一與第二個運算元中不加括號使用。
+
+由於優先順序的關係，如果你想讓管道套用到三元運算的結果，請把整個運算式用括號包起來；例如 `(a ? b : c) | x`。
 
 <code-example path="pipes/src/app/precedence.component.html" region="precedence" header="src/app/precedence.component.html"></code-example>
 

@@ -1,82 +1,80 @@
-# HTTP -  interceptor use-cases
+# HTTP — 攔截器使用案例
 
-Following are a number of common uses for interceptors.
+以下列出攔截器的數種常見用途。
 
-## Set default headers
+## 設定預設標頭
 
-Apps often use an interceptor to set default headers on outgoing requests.
+應用程式常使用攔截器，為發出的請求設定預設標頭。
 
-The sample app has an `AuthService` that produces an authorization token.
-Here is its `AuthInterceptor` that injects that service to get the token and adds an authorization header with that token to every outgoing request:
+範例應用程式有一個會產生授權權杖的 `AuthService`。
+以下是它的 `AuthInterceptor`，它會注入該服務以取得權杖，並為每個發出的請求加上帶有該權杖的授權標頭：
 
 <code-example header="app/http-interceptors/auth-interceptor.ts" path="http/src/app/http-interceptors/auth-interceptor.ts"></code-example>
 
-The practice of cloning a request to set new headers is so common that there's a `setHeaders` shortcut for it:
+複製請求以設定新標頭的做法非常常見，因此有一個 `setHeaders` 捷徑可用：
 
 <code-example path="http/src/app/http-interceptors/auth-interceptor.ts" region="set-header-shortcut"></code-example>
 
-An interceptor that alters headers can be used for a number of different operations, including:
+會修改標頭的攔截器可用於許多不同的操作，包括：
 
-*   Authentication/authorization
-*   Caching behavior; for example, `If-Modified-Since`
-*   XSRF protection
+*   驗證／授權
+*   快取行為；例如 `If-Modified-Since`
+*   XSRF 防護
 
-## Log request and response pairs
+## 記錄請求與回應配對
 
-Because interceptors can process the request and response *together*, they can perform tasks such as timing and logging an entire HTTP operation.
+因為攔截器可以*一起*處理請求與回應，所以它們可以執行諸如為整個 HTTP 操作計時與記錄等工作。
 
-Consider the following `LoggingInterceptor`, which captures the time of the request,
-the time of the response, and logs the outcome with the elapsed time
-with the injected `MessageService`.
+請看下列 `LoggingInterceptor`，它會擷取請求的時間與回應的時間，並使用注入的 `MessageService` 記錄結果與經過的時間。
 
 <code-example header="app/http-interceptors/logging-interceptor.ts)" path="http/src/app/http-interceptors/logging-interceptor.ts" region="excerpt"></code-example>
 
-The RxJS `tap` operator captures whether the request succeeded or failed.
-The RxJS `finalize` operator is called when the response observable either returns an error or completes and reports the outcome to the `MessageService`.
+RxJS 的 `tap` 運算子會擷取請求成功或失敗的狀態。
+當回應 observable 回傳錯誤或完成時，RxJS 的 `finalize` 運算子會被呼叫，並將結果回報給 `MessageService`。
 
-Neither `tap` nor `finalize` touch the values of the observable stream returned to the caller.
+`tap` 與 `finalize` 都不會碰觸回傳給呼叫者的 observable 串流的值。
 
 <a id="custom-json-parser"></a>
 
-## Custom JSON parsing
+## 自訂 JSON 解析
 
-Interceptors can be used to replace the built-in JSON parsing with a custom implementation.
+攔截器可用來自訂實作取代內建的 JSON 解析。
 
-The `CustomJsonInterceptor` in the following example demonstrates how to achieve this.
-If the intercepted request expects a `'json'` response, the `responseType` is changed to `'text'` to disable the built-in JSON parsing.
-Then the response is parsed via the injected `JsonParser`.
+下列範例中的 `CustomJsonInterceptor` 示範如何做到這一點。
+如果被攔截的請求預期收到 `'json'` 回應，`responseType` 會改為 `'text'`，以停用內建的 JSON 解析。
+接著回應會透過注入的 `JsonParser` 進行解析。
 
 <code-example header="app/http-interceptors/custom-json-interceptor.ts" path="http/src/app/http-interceptors/custom-json-interceptor.ts" region="custom-json-interceptor"></code-example>
 
-You can then implement your own custom `JsonParser`.
-Here is a custom JsonParser that has a special date reviver.
+接著你可以實作自己的自訂 `JsonParser`。
+以下是自訂 JsonParser，具備特殊的日期還原器。
 
 <code-example header="app/http-interceptors/custom-json-interceptor.ts" path="http/src/app/http-interceptors/custom-json-interceptor.ts" region="custom-json-parser"></code-example>
 
-You provide the `CustomParser` along with the `CustomJsonInterceptor`.
+你需要同時提供 `CustomParser` 與 `CustomJsonInterceptor`。
 
 <code-example header="app/http-interceptors/index.ts" path="http/src/app/http-interceptors/index.ts" region="custom-json-interceptor"></code-example>
 
 <a id="caching"></a>
 
-## Cache requests
+## 快取請求
 
-Interceptors can handle requests by themselves, without forwarding to `next.handle()`.
+攔截器可以自行處理請求，不需要轉發給 `next.handle()`。
 
-For example, you might decide to cache certain requests and responses to improve performance.
-You can delegate caching to an interceptor without disturbing your existing data services.
+例如，你可能會決定快取某些請求與回應，以提升效能。
+你可以將快取委派給攔截器，而不干擾現有的資料服務。
 
-The `CachingInterceptor` in the following example demonstrates this approach.
+下列範例中的 `CachingInterceptor` 示範了這種做法。
 
 <code-example header="app/http-interceptors/caching-interceptor.ts)" path="http/src/app/http-interceptors/caching-interceptor.ts" region="v1"></code-example>
 
-*   The `isCacheable()` function determines if the request is cacheable.
-    In this sample, only GET requests to the package search API are cacheable.
+*   `isCacheable()` 函式會判斷請求是否可快取。
+    在這個範例中，只有發往套件搜尋 API 的 GET 請求可以快取。
 
-*   If the request is not cacheable, the interceptor forwards the request to the next handler in the chain
-*   If a cacheable request is found in the cache, the interceptor returns an `of()` *observable* with the cached response, by-passing the `next` handler and all other interceptors downstream
-*   If a cacheable request is not in cache, the code calls `sendRequest()`.
-    This function forwards the request to `next.handle()` which ultimately calls the server and returns the server's response.
+*   如果請求不可快取，攔截器會將請求轉發給鏈中的下一個處理常式
+*   如果在快取中找到可快取的請求，攔截器會回傳帶有快取回應的 `of()` *observable*，略過 `next` 處理常式與下游所有其他攔截器
+*   如果可快取的請求不在快取中，程式碼會呼叫 `sendRequest()`。
+    這個函式會將請求轉發給 `next.handle()`，最終呼叫伺服器並回傳伺服器的回應。
 
 <a id="send-request"></a>
 
@@ -84,43 +82,43 @@ The `CachingInterceptor` in the following example demonstrates this approach.
 
 <div class="alert is-helpful">
 
-Notice how `sendRequest()` intercepts the response on its way back to the application.
-This method pipes the response through the `tap()` operator, whose callback adds the response to the cache.
+請注意 `sendRequest()` 如何在回應返回應用程式的途中攔截它。
+這個方法會將回應透過管道傳給 `tap()` 運算子，其回呼函式會將回應加入快取。
 
-The original response continues untouched back up through the chain of interceptors to the application caller.
+原始回應會原封不動地沿著攔截器鏈返回應用程式呼叫者。
 
-Data services, such as `PackageSearchService`, are unaware that some of their `HttpClient` requests actually return cached responses.
+資料服務（例如 `PackageSearchService`）並不知道，它們的某些 `HttpClient` 請求實際上回傳的是快取回應。
 
 </div>
 
 
 <a id="cache-refresh"></a>
 
-## Use interceptors to request multiple values
+## 使用攔截器請求多個值
 
-The `HttpClient.get()` method normally returns an observable that emits a single value, either the data or an error.
-An interceptor can change this to an observable that emits [multiple values](guide/observables).
+`HttpClient.get()` 方法通常會回傳一個 observable，只發出一個值——資料或錯誤。
+攔截器可以將其改為會發出[多個值](guide/observables)的 observable。
 
-The following revised version of the `CachingInterceptor` optionally returns an observable that immediately emits the cached response, sends the request on to the package search API, and emits again later with the updated search results.
+下列修訂版 `CachingInterceptor` 可以選擇性地回傳一個 observable：它會立即發出快取回應，將請求繼續送往套件搜尋 API，稍後再以更新後的搜尋結果再次發出。
 
 <code-example path="http/src/app/http-interceptors/caching-interceptor.ts" region="intercept-refresh"></code-example>
 
 <div class="alert is-helpful">
 
-The *cache-then-refresh* option is triggered by the presence of a custom `x-refresh` header.
+*先快取再重新整理*選項是由自訂 `x-refresh` 標頭的存在所觸發。
 
-A checkbox on the `PackageSearchComponent` toggles a `withRefresh` flag, which is one of the arguments to `PackageSearchService.search()`.
-That `search()` method creates the custom `x-refresh` header and adds it to the request before calling `HttpClient.get()`.
+`PackageSearchComponent` 上的一個核取方塊會切換 `withRefresh` 旗標，它是 `PackageSearchService.search()` 的其中一個引數。
+該 `search()` 方法會建立自訂的 `x-refresh` 標頭，並在呼叫 `HttpClient.get()` 之前將其加入請求。
 
 </div>
 
-The revised `CachingInterceptor` sets up a server request whether there's a cached value or not, using the same `sendRequest()` method described [above](#send-request).
-The `results$` observable makes the request when subscribed.
+修訂版 `CachingInterceptor` 無論是否有快取值都會建立伺服器請求，使用的是[上文](#send-request)所述的相同 `sendRequest()` 方法。
+`results$` observable 會在被訂閱時發出請求。
 
-*   If there's no cached value, the interceptor returns `results$`.
-*   If there is a cached value, the code *pipes* the cached response onto `results$`. This produces a recomposed observable that emits two responses, so subscribers will see a sequence of these two responses:  
-  *   The cached response that's emitted immediately
-  *   The response from the server, that's emitted later
+*   如果沒有快取值，攔截器會回傳 `results$`。
+*   如果有快取值，程式碼會將快取回應 *透過管道* 傳給 `results$`。這會產生一個重新組合的 observable，發出兩個回應，因此訂閱者會看到這兩個回應的序列：  
+  *   立即發出的快取回應
+  *   稍後發出的伺服器回應
 
 <a id="report-progress"></a>
 

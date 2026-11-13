@@ -1,80 +1,73 @@
-# Review documentation
+# 檢閱文件
 
-You can review the Angular documentation, even if you have never contributed to Angular before.
-Reviewing the Angular documentation provides a valuable contribution to the community.
+即使你從未為 Angular 做出過貢獻，你也可以檢閱 Angular 文件。檢閱 Angular 文件是對社群的寶貴貢獻。
 
-Finding and reporting issues in the documentation helps the community know that the content is up to date.
-Even if you don't find any problems, seeing that a document has been reviewed recently, gives readers confidence in the content.
+找出並回報文件中的問題，有助於社群了解內容是最新的。即使你沒有發現任何問題，看到文件最近曾被檢閱過，也能讓讀者對內容更有信心。
 
-This topic describes how you can review and update the Angular documentation to help keep it up to date.
+本主題說明如何檢閱與更新 Angular 文件，以協助讓它保持最新狀態。
 
 <!-- markdownLint-disable MD001 -->
 <!-- markdownLint-disable MD033 -->
 
-#### To review a topic in angular.io
+#### 在 angular.io 中檢閱主題
 
-Perform these steps in a browser.
+請在瀏覽器中執行下列步驟。
 
-1.  [Find a topic to review](#find-topics-to-review) by:
-    1.  Finding a topic with a **Last reviewed** date that is six months or more in the past.
-    1.  Finding a topic that has no **Last reviewed** date.
-    1.  Finding a topic that you've read recently.
-1.  Review the topic for errors or inaccuracies.
-1.  Complete the review.
-    1.  If the topic looks good:
-        1.  [Update or add the `@reviewed` entry](#update-the-last-reviewed-date) at the end of the topic's source code.
-        1.  [Make a minor change to a documentation topic](/guide/contributors-guide-overview#to-make-a-minor-change-to-a-documentation-topic) to publish the new reviewed date.
+1.  [尋找要檢閱的主題](#尋找要檢閱的主題)，方式如下：
+    1.  尋找 **Last reviewed** 日期為六個月或更久以前的主題。
+    1.  尋找沒有 **Last reviewed** 日期的主題。
+    1.  尋找你最近閱讀過的主題。
+1.  檢閱主題是否有錯誤或不正確之處。
+1.  完成檢閱。
+    1.  如果主題看起來沒問題：
+        1.  在主題原始碼的末尾[更新或新增 `@reviewed` 項目](#更新上次檢閱日期)。
+        1.  [對文件主題進行小幅變更](/guide/contributors-guide-overview#對文件主題進行小幅變更)以發佈新的檢閱日期。
 
-    1.  If you find an error that you don't feel comfortable fixing:
-        1.  [Open a docs issue in GitHub](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml).
-        1.  [Update or add the `@reviewed` entry](#update-the-last-reviewed-date) at the end of the topic's source code.
-        1.  [Make a minor change to a documentation topic](/guide/contributors-guide-overview#to-make-a-minor-change-to-a-documentation-topic) to publish the new reviewed date.
+    1.  如果你發現自己不放心修正的錯誤：
+        1.  [在 GitHub 上開啟文件議題](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml)。
+        1.  在主題原始碼的末尾[更新或新增 `@reviewed` 項目](#更新上次檢閱日期)。
+        1.  [對文件主題進行小幅變更](/guide/contributors-guide-overview#對文件主題進行小幅變更)以發佈新的檢閱日期。
 
-    1.  If you find an error that needs only a minor change:
-        1.  [Update or add the `@reviewed` entry](#update-the-last-reviewed-date) at the end of the topic's source code.
-        1.  [Make a minor change to a documentation topic](/guide/contributors-guide-overview#to-make-a-minor-change-to-a-documentation-topic) to fix the error and save the new reviewed date.
+    1.  如果你發現只需要小幅變更的錯誤：
+        1.  在主題原始碼的末尾[更新或新增 `@reviewed` 項目](#更新上次檢閱日期)。
+        1.  [對文件主題進行小幅變更](/guide/contributors-guide-overview#對文件主題進行小幅變更)以修正錯誤並儲存新的檢閱日期。
 
-    1.  If you find an error that needs major changes:
-        1.  Address the error:
-            1.  [Make a major change](guide/contributors-guide-overview#make-a-major-change), if you're comfortable, or
-            1.  [Open a docs issue in GitHub](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml).
-        1.  Whether you fix the error or open a new issue, [update or add the `@reviewed` entry](#update-the-last-reviewed-date) at the end of the topic's source code.
-        1.  [Make a minor change to a documentation topic](/guide/contributors-guide-overview#to-make-a-minor-change-to-a-documentation-topic) to save the new reviewed date.
+    1.  如果你發現需要大幅變更的錯誤：
+        1.  處理該錯誤：
+            1.  如果你有把握，請[進行大幅變更](guide/contributors-guide-overview#進行大幅變更)，或
+            1.  [在 GitHub 上開啟文件議題](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml)。
+        1.  無論你修正錯誤或開啟新議題，都請在主題原始碼的末尾[更新或新增 `@reviewed` 項目](#更新上次檢閱日期)。
+        1.  [對文件主題進行小幅變更](/guide/contributors-guide-overview#對文件主題進行小幅變更)以儲存新的檢閱日期。
 
-## Find topics to review
+## 尋找要檢閱的主題
 
-You can review any topic in the Angular documentation, but these are the topics that benefit most from your review.
+你可以檢閱 Angular 文件中的任何主題，但這些主題最能從你的檢閱中受益。
 
-### Topics that have not been reviewed in over six months
+### 超過六個月未檢閱的主題
 
-At the bottom of some topics, there's a date that shows when the topic was last reviewed.
-If that date is over six months ago, the topic is ready for a review.
+在某些主題的底部，有一個顯示主題上次檢閱時間的日期。如果該日期是六個月以前，該主題就準備好接受檢閱了。
 
-This is an example of a **Last reviewed** date from the bottom of a topic.
-You can also see an example of this at the end of this topic.
+這是主題底部 **Last reviewed** 日期的範例。你也可以在本主題的末尾看到這樣的範例。
 
 <div class="lightbox">
 
-<img alt="Example of the last reviewed date entry showing the date the topic was reviewed as month, day, and year" src="generated/images/guide/contributors-guide/last-reviewed.png">
+<img alt="最後審閱日期項目的範例，顯示主題審閱的月、日、年" src="generated/images/guide/contributors-guide/last-reviewed.png">
 
 </div>
 
-### Topics that have never been reviewed
+### 從未檢閱過的主題
 
-If a topic doesn't have a **Last reviewed** date at the bottom, it has never been reviewed.
-You can review such a topic and add a new **Last reviewed** date after you review it.
+如果主題底部沒有 **Last reviewed** 日期，表示它從未被檢閱過。你可以檢閱這樣的主題，並在檢閱後新增一個新的 **Last reviewed** 日期。
 
-### Topics that you know have a problem
+### 你知道有問題的主題
 
-If you know of a topic that has an error or inaccuracy, you can review it and make corrections during your review. If you don't feel comfortable fixing an error during your review, [open a docs issue in GitHub](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml).
-Be sure to add or update the **Last reviewed** date after you review the topic. Whether you fix the error or just open an issue, you still reviewed the topic.
+如果你知道某個主題有錯誤或不正確之處，你可以檢閱它，並在檢閱期間進行修正。如果你在檢閱期間不放心修正錯誤，請[在 GitHub 上開啟文件議題](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml)。請務必在檢閱主題後新增或更新 **Last reviewed** 日期。無論你修正錯誤或只是開啟議題，你都已經檢閱過該主題。
 
-## Update the last reviewed date
+## 更新上次檢閱日期
 
-After you review a topic, whether you change it or not, update the topic's **Last reviewed** date.
-The **Last reviewed** text at the bottom of the topic is created by the `@reviewed` tag followed by the date you reviewed the topic.
+檢閱主題後，無論你是否變更它，都請更新主題的 **Last reviewed** 日期。主題底部的 **Last reviewed** 文字是由 `@reviewed` 標籤加上你檢閱主題的日期所建立的。
 
-This is an example of an `@reviewed` tag at the end of the topic's source code as it appears in a code editor.
+這是主題原始碼末尾的 `@reviewed` 標籤在程式碼編輯器中的樣子。
 
 <code-example>
 
@@ -82,36 +75,36 @@ This is an example of an `@reviewed` tag at the end of the topic's source code a
 
 </code-example>
 
-The date is formatted as `YYYY-MM-DD` where:
+日期格式為 `YYYY-MM-DD`，其中：
 
-* `YYYY` is the current year
-* `MM` is the two-digit number of the current month with a leading zero if the month is 01 (January) through 09 (September)
-* `DD` is the two-digit number of the current day of the month with a leading zero if the day is 01-09.
+* `YYYY` 是目前的年份
+* `MM` 是目前月份的兩位數數字，如果月份為 01（一月）至 09（九月），前方會有一個前導零
+* `DD` 是目前日期的兩位數數字，如果日期為 01–09，前方會有一個前導零。
 
-For example:
+例如：
 
-| Review date | `@reviewed` tag | Resulting text displayed in the docs
+| 檢閱日期 | `@reviewed` 標籤 | 文件中顯示的結果文字 |
 |:--- |:--- |:---
-| January 12, 2023 | `@reviewed 2023-01-12` | *Last reviewed on Thu Jan 12, 2023*
-| November 3, 2022 | `@reviewed 2022-11-03` | *Last reviewed on Fri Nov 03, 2022*
+| 2023 年 1 月 12 日 | `@reviewed 2023-01-12` | *Last reviewed on Thu Jan 12, 2023* |
+| 2022 年 11 月 3 日 | `@reviewed 2022-11-03` | *Last reviewed on Fri Nov 03, 2022* |
 
-## Reviewing and updating a topic
+## 檢閱並更新主題
 
-These are the actions you can take after you review a topic.
+以下是檢閱主題後可以採取的行動。
 
-### The topic is accurate and has no errors
+### 主題正確且沒有錯誤
 
-If the topic is accurate and has no errors, [make a minor change](/guide/contributors-guide-overview#to-make-a-minor-change-to-a-documentation-topic) to [update the **Last reviewed** date](#update-the-last-reviewed-date) at the bottom of the page. You can use the GitHub user interface to edit the topic's source code.
+如果主題正確且沒有錯誤，請[進行小幅變更](/guide/contributors-guide-overview#對文件主題進行小幅變更)以[更新 **Last reviewed** 日期](#更新上次檢閱日期)。你可以使用 GitHub 使用者介面來編輯主題的原始碼。
 
-### The topic requires minor changes
+### 主題需要小幅變更
 
-If the topic has minor errors, you can fix them when you [make a minor change](/guide/contributors-guide-overview#to-make-a-minor-change-to-a-documentation-topic). Remember to [update the **Last reviewed** date](#update-the-last-reviewed-date) at the bottom of the page when you fix the error. For a minor change, you can use the GitHub user interface in a browser to edit the topic's source code.
+如果主題有小錯誤，你可以在[進行小幅變更](/guide/contributors-guide-overview#對文件主題進行小幅變更)時修正它們。修正錯誤時，請記得[更新 **Last reviewed** 日期](#更新上次檢閱日期)。若要進行小幅變更，你可以在瀏覽器中使用 GitHub 使用者介面來編輯主題的原始碼。
 
-### The topic requires major changes
+### 主題需要大幅變更
 
-If the topic requires major changes, you can [make a major change](guide/contributors-guide-overview#make-a-major-change), or [open a docs issue in GitHub](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml). You shouldn't make major changes in the GitHub user interface because it doesn't allow you to test them before you submit them.
+如果主題需要大幅變更，你可以[進行大幅變更](guide/contributors-guide-overview#進行大幅變更)，或[在 GitHub 上開啟文件議題](https://github.com/angular/angular/issues/new?assignees=&labels=&template=3-docs-bug.yaml)。你不應該在 GitHub 使用者介面中進行大幅變更，因為它不允許你在提交之前先測試它們。
 
-Whether you make the changes the topic needs or open a docs issue, you should still [update the **Last reviewed** date](#update-the-last-reviewed-date). You can use the GitHub user interface in the browser if you only want to update the **Last reviewed** date.
+無論你進行主題所需的變更或開啟文件議題，都仍應[更新 **Last reviewed** 日期](#更新上次檢閱日期)。如果你只想更新 **Last reviewed** 日期，可以在瀏覽器中使用 GitHub 使用者介面。
 
 <!-- links -->
 

@@ -1,10 +1,10 @@
-# Version compatibility
+# 版本相容性
 
-The following tables describe the versions of Node.js, TypeScript, and RxJS that each version of Angular requires. This information is collected from Angular's [package.json](https://unpkg.com/browse/@angular/core/package.json) file.
+下列表格說明每個 Angular 版本所需的 Node.js、TypeScript 與 RxJS 版本。這些資訊收集自 Angular 的 [package.json](https://unpkg.com/browse/@angular/core/package.json) 檔案。
 
-## Actively supported versions
+## 積極支援中的版本
 
-This table covers [Angular versions under active support](guide/releases#actively-supported-versions).
+本表涵蓋[積極支援中的 Angular 版本](guide/releases#積極支援中的版本)。
 
 | Angular            | Node.js                              | TypeScript     | RxJS               |
 | ------------------ | ------------------------------------ | -------------- | ------------------ |
@@ -16,9 +16,9 @@ This table covers [Angular versions under active support](guide/releases#activel
 | 13.1.x \|\| 13.2.x | ^12.20.0 \|\| ^14.15.0 \|\| ^16.10.0 | >=4.4.3 <4.6.0 | ^6.5.3 \|\| ^7.4.0 |
 | 13.0.x             | ^12.20.0 \|\| ^14.15.0 \|\| ^16.10.0 | ~4.4.3         | ^6.5.3 \|\| ^7.4.0 |
 
-## Unsupported Angular versions
+## 不再支援的 Angular 版本
 
-This table covers Angular versions that are no longer under long-term support (LTS). This information was correct when each version went out of LTS and is provided without any further guarantees. It is listed here for historical reference.
+本表涵蓋已不在長期支援（LTS）期間內的 Angular 版本。這些資訊在各版本結束 LTS 時是正確的，在此提供但不附帶任何進一步的保證。列在這裡僅供歷史參考。
 
 | Angular                     | Angular CLI      | Node.js                | TypeScript     | RxJS               |
 | --------------------------- | ---------------- | ---------------------- | -------------- | ------------------ |

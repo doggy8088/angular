@@ -1,6 +1,6 @@
-# Updating topics through the GitHub user interface
+# 透過 GitHub 使用者介面更新主題
 
-This topic has been replaced by [Make a minor change](guide/contributors-guide-overview#make-a-minor-change).
+本主題已被 [進行小幅變更](guide/contributors-guide-overview#進行小幅變更) 取代。
 
 <!-- links -->
 

@@ -1,29 +1,28 @@
-# HTTP: Setup for server communication
+# HTTP：設定伺服器通訊
 
-Before you can use `HttpClient`, you need to import the Angular `HttpClientModule`.
-Most apps do so in the root `AppModule`.
+使用 `HttpClient` 之前，你需要匯入 Angular 的 `HttpClientModule`。大多數應用程式會在根 `AppModule` 中這麼做。
 
 <code-example header="app/app.module.ts (excerpt)" path="http/src/app/app.module.ts" region="sketch"></code-example>
 
-You can then inject the `HttpClient` service as a dependency of an application class, as shown in the following `ConfigService` example.
+接著，你可以將 `HttpClient` 服務當作應用程式類別的相依性注入，如下列 `ConfigService` 範例所示。
 
 <code-example header="app/config/config.service.ts (excerpt)" path="http/src/app/config/config.service.ts" region="proto"></code-example>
 
-The `HttpClient` service makes use of [observables](guide/glossary#observable "Observable definition") for all transactions.
-You must import the RxJS observable and operator symbols that appear in the example snippets.
-These `ConfigService` imports are typical.
+`HttpClient` 服務對所有交易都使用 [observable](guide/glossary#可觀察物件observable "Observable definition")。
+你必須匯入範例程式碼片段中出現的 RxJS observable 與運算子符號。
+這些 `ConfigService` 的匯入方式很典型。
 
 <code-example header="app/config/config.service.ts (RxJS imports)" path="http/src/app/config/config.service.ts" region="rxjs-imports"></code-example>
 
 <div class="alert is-helpful">
 
-You can run the <live-example></live-example> that accompanies this guide.
+你可以執行本指南隨附的 <live-example></live-example>。
 
-The sample app does not require a data server.
-It relies on the [Angular *in-memory-web-api*](https://github.com/angular/angular/tree/main/packages/misc/angular-in-memory-web-api), which replaces the *HttpClient* module's `HttpBackend`.
-The replacement service simulates the behavior of a REST-like backend.
+範例應用程式不需要資料伺服器。
+它仰賴 [Angular *in-memory-web-api*](https://github.com/angular/angular/tree/main/packages/misc/angular-in-memory-web-api)，以取代 *HttpClient* 模組的 `HttpBackend`。
+這個替代服務會模擬類 REST 後端的行為。
 
-Look at the `AppModule` *imports* to see how it is configured.
+請查看 `AppModule` 的 *imports*，了解它的設定方式。
 
 </div>
 

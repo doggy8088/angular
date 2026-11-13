@@ -1,74 +1,69 @@
-# HTTP client - Test requests
+# HTTP 用戶端 - 測試請求
 
-As for any external dependency, you must mock the HTTP backend so your tests can simulate interaction with a remote server.
-The `@angular/common/http/testing` library makes it straightforward to set up such mocking.
+如同任何外部相依性，你必須模擬 HTTP 後端，讓測試可以模擬與遠端伺服器的互動。`@angular/common/http/testing` 函式庫讓設定這種模擬變得簡單明瞭。
 
-## HTTP testing library
+## HTTP 測試函式庫
 
-Angular's HTTP testing library is designed for a pattern of testing in which the app executes code and makes requests first.
-The test then expects that certain requests have or have not been made, performs assertions against those requests, and finally provides responses by "flushing" each expected request.
+此測試函式庫的設計模式是：應用程式先執行程式碼並發出請求。接著，測試預期某些請求已經或尚未發出，對這些請求進行斷言，最後透過對每個預期請求呼叫「flush」來提供回應。
 
-At the end, tests can verify that the app made no unexpected requests.
+最後，測試可以驗證應用程式沒有發出任何未預期的請求。
 
 <div class="alert is-helpful">
 
-You can run <live-example stackblitz="specs">these sample tests</live-example> in a live coding environment.
+你可以在即時編碼環境中執行 <live-example stackblitz="specs">這些範例測試</live-example>。
 
-The tests described in this guide are in `src/testing/http-client.spec.ts`.
-There are also tests of an application data service that call `HttpClient` in `src/app/heroes/heroes.service.spec.ts`.
+本指南所述的測試位於 `src/testing/http-client.spec.ts`。
+在 `src/app/heroes/heroes.service.spec.ts` 中，也有一些測試會呼叫 `HttpClient` 的應用程式資料服務。
 
 </div>
 
-## Setup for testing
+## 測試設定
 
-To begin testing calls to `HttpClient`, import the `HttpClientTestingModule` and the mocking controller, `HttpTestingController`, along with the other symbols your tests require.
+若要開始測試對 `HttpClient` 的呼叫，請匯入 `HttpClientTestingModule` 與模擬控制器 `HttpTestingController`，以及測試所需的其他符號。
 
 <code-example header="app/testing/http-client.spec.ts (imports)" path="http/src/testing/http-client.spec.ts" region="imports"></code-example>
 
-Then add the `HttpClientTestingModule` to the `TestBed` and continue with the setup of the *service-under-test*.
+接著將 `HttpClientTestingModule` 加入 `TestBed`，並繼續設定*受測服務*。
 
 <code-example header="app/testing/http-client.spec.ts(setup)" path="http/src/testing/http-client.spec.ts" region="setup"></code-example>
 
-Now requests made in the course of your tests hit the testing backend instead of the normal backend.
+現在，測試過程中發出的請求會打到測試後端，而不是一般的後端。
 
-This setup also calls `TestBed.inject()` to inject the `HttpClient` service and the mocking controller so they can be referenced during the tests.
+這個設定也會呼叫 `TestBed.inject()` 來注入 `HttpClient` 服務與模擬控制器，以便在測試期間參照它們。
 
-## Expect and answer requests
+## 預期並回應請求
 
-Now you can write a test that expects a GET Request to occur and provides a mock response.
+現在你可以撰寫一個測試，預期會發生一個 GET 請求，並提供一個模擬回應。
 
 <code-example header="app/testing/http-client.spec.ts (HttpClient.get)" path="http/src/testing/http-client.spec.ts" region="get-test"></code-example>
 
-The last step, verifying that no requests remain outstanding, is common enough for you to move it into an `afterEach()` step:
+最後一個步驟 — 驗證沒有請求仍未處理 — 相當常見，你可以把它移到 `afterEach()` 步驟中：
 
 <code-example path="http/src/testing/http-client.spec.ts" region="afterEach"></code-example>
 
-### Custom request expectations
+### 自訂請求預期
 
-If matching by URL isn't sufficient, it's possible to implement your own matching function.
-For example, you could look for an outgoing request that has an authorization header:
+如果僅以 URL 比對還不夠，你可以實作自己的比對函式。例如，你可以尋找帶有授權標頭的送出請求：
 
 <code-example path="http/src/testing/http-client.spec.ts" region="predicate"></code-example>
 
-As with the previous `expectOne()`, the test fails if 0 or 2+ requests satisfy this predicate.
+如同先前的 `expectOne()`，如果有 0 個或 2 個以上的請求滿足這個述詞，測試就會失敗。
 
-### Handle more than one request
+### 處理多個請求
 
-If you need to respond to duplicate requests in your test, use the `match()` API instead of `expectOne()`.
-It takes the same arguments but returns an array of matching requests.
-Once returned, these requests are removed from future matching and you are responsible for flushing and verifying them.
+如果你的測試需要回應重複的請求，請使用 `match()` API 而非 `expectOne()`。它接受相同的參數，但回傳一個符合條件的請求陣列。回傳後，這些請求會從後續的比對中移除，你需要負責對它們送出回應並驗證。
 
 <code-example path="http/src/testing/http-client.spec.ts" region="multi-request"></code-example>
 
-## Test for errors
+## 測試錯誤
 
-You should test the app's defenses against HTTP requests that fail.
+你應該測試應用程式對失敗的 HTTP 請求的防禦能力。
 
-Call `request.flush()` with an error message, as seen in the following example.
+使用錯誤訊息呼叫 `request.flush()`，如下列範例所示。
 
 <code-example path="http/src/testing/http-client.spec.ts" region="404"></code-example>
 
-Alternatively, call `request.error()` with a `ProgressEvent`.
+或者，使用 `ProgressEvent` 呼叫 `request.error()`。
 
 <code-example path="http/src/testing/http-client.spec.ts" region="network-error"></code-example>
 

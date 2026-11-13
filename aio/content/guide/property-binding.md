@@ -1,113 +1,113 @@
-# Property binding
+# 屬性繫結
 
-Property binding in Angular helps you set values for properties of HTML elements or directives. Use property binding to do things such as toggle button features, set paths programmatically, and share values between components.
-
-<div class="alert is-helpful">
-
-See the <live-example></live-example> for a working example containing the code snippets in this guide.
-
-</div>
-
-## Prerequisites
-
-* [Basics of components](guide/architecture-components)
-* [Basics of templates](guide/glossary#template)
-* [Binding syntax](guide/binding-syntax)
-
-## Understanding the flow of data
-
-Property binding moves a value in one direction, from a component's property into a target element property.
+Angular 中的屬性繫結協助你設定 HTML 元素或指令的屬性值。使用屬性繫結，可以切換按鈕功能、以程式方式設定路徑，以及在元件之間共用值。
 
 <div class="alert is-helpful">
 
-For more information on listening for events, see [Event binding](guide/event-binding).
+請參閱 <live-example></live-example>，查看包含本指南程式碼片段的實際範例。
 
 </div>
 
-To read a target element property or call one of its methods, see the API reference for [ViewChild](api/core/ViewChild) and [ContentChild](api/core/ContentChild).
+## 先決條件
 
-## Binding to a property
+* [元件基礎](guide/architecture-components)
+* [範本基礎](guide/glossary#範本template)
+* [繫結語法](guide/binding-syntax)
 
-To bind to an element's property, enclose it in square brackets, `[]`, which identifies the property as a target property.
+## 了解資料流
 
-A target property is the DOM property to which you want to assign a value.
+屬性繫結以單一方向移動值，從元件的屬性進入目標元素屬性。
 
-To assign a value to a target property for the image element's `src` property, type the following code:
+<div class="alert is-helpful">
+
+如需進一步了解監聽事件，請參閱[事件繫結](guide/event-binding)。
+
+</div>
+
+若要讀取目標元素屬性或呼叫它的方法，請參閱 [ViewChild](api/core/ViewChild) 與 [ContentChild](api/core/ContentChild) 的 API 參考。
+
+## 繫結到屬性
+
+若要繫結到元素的屬性，請用方括號 `[]` 將它括起來，這會將該屬性標示為目標屬性。
+
+目標屬性是你想要指派值的 DOM 屬性。
+
+若要將值指派給圖片元素 `src` 屬性的目標屬性，請輸入以下程式碼：
 
 <code-example path="property-binding/src/app/app.component.html" region="property-binding" header="src/app/app.component.html"></code-example>
 
-In most cases, the target name is the name of a property, even when it appears to be the name of an attribute.
+在大多數情況下，目標名稱是屬性的名稱，即使它看起來像是 attribute 的名稱。
 
-In this example, `src` is the name of the `<img>` element property.
-
-<!-- vale Angular.Google_WordListSuggestions = NO -->
-
-The brackets, `[]`, cause Angular to evaluate the right-hand side of the assignment as a dynamic expression.
+在這個範例中，`src` 是 `<img>` 元素屬性的名稱。
 
 <!-- vale Angular.Google_WordListSuggestions = NO -->
 
-Without the brackets, Angular treats the right-hand side as a string literal and sets the property to that static value.
+括號 `[]` 會讓 Angular 將指派的右側評估為動態運算式。
 
-To assign a string to a property, type the following code:
+<!-- vale Angular.Google_WordListSuggestions = NO -->
+
+沒有括號時，Angular 會將右側視為字串字面值，並把屬性設為該靜態值。
+
+若要將字串指派給屬性，請輸入以下程式碼：
 
 <code-example path="property-binding/src/app/app.component.html" region="no-evaluation" header="src/app.component.html"></code-example>
 
-Omitting the brackets renders the string `parentItem`, not the value of `parentItem`.
+省略括號會算繪出字串 `parentItem`，而不是 `parentItem` 的值。
 
-## Setting an element property to a component property value
+## 將元素屬性設為元件屬性值
 
-To bind the `src` property of an `<img>` element to a component's property, place `src` in square brackets followed by an equal sign and then the property.
+若要將 `<img>` 元素的 `src` 屬性繫結到元件的屬性，請將 `src` 放在方括號中，後面接等號，再接屬性。
 
-Using the property `itemImageUrl`, type the following code:
+使用 `itemImageUrl` 屬性，輸入以下程式碼：
 
 <code-example path="property-binding/src/app/app.component.html" region="property-binding" header="src/app/app.component.html"></code-example>
 
-Declare the `itemImageUrl` property in the class, in this case `AppComponent`.
+在類別中宣告 `itemImageUrl` 屬性，在這個案例中是 `AppComponent`。
 
 <code-example path="property-binding/src/app/app.component.ts" region="item-image" header="src/app/app.component.ts"></code-example>
 
 {@a colspan}
 
-#### `colspan` and `colSpan`
+#### `colspan` 與 `colSpan`
 
-A common point of confusion is between the attribute, `colspan`, and the property, `colSpan`.  Notice that these two names differ by only a single letter.
+常見的混淆點是 attribute `colspan` 與屬性 `colSpan` 之間。請注意，這兩個名稱只差一個字母。
 
-To use property binding using `colSpan`, type the following:
+若要使用 `colSpan` 進行屬性繫結，請輸入以下內容：
 
 <code-example path="attribute-binding/src/app/app.component.html" region="colSpan" header="src/app/app.component.html"></code-example>
 
-To disable a button while the component's `isUnchanged` property is `true`, type the following:
+若要在元件的 `isUnchanged` 屬性為 `true` 時停用按鈕，請輸入以下內容：
 
 <code-example path="property-binding/src/app/app.component.html" region="disabled-button" header="src/app/app.component.html"></code-example>
 
-To set a property of a directive, type the following:
+若要設定指令的屬性，請輸入以下內容：
 
 <code-example path="property-binding/src/app/app.component.html" region="class-binding" header="src/app/app.component.html"></code-example>
 
-To set the model property of a custom component for parent and child components to communicate with each other, type the following:
+若要設定自訂元件的 model 屬性，讓父元件與子元件彼此溝通，請輸入以下內容：
 
 <code-example path="property-binding/src/app/app.component.html" region="model-property-binding" header="src/app/app.component.html"></code-example>
 
-## Toggling button features
+## 切換按鈕功能
 
 <!-- vale Angular.Google_WordListSuggestions = NO -->
 
-To use a Boolean value to disable a button's features, bind the `disabled` DOM attribute to a Boolean property in the class.
+若要使用布林值停用按鈕的功能，請將 `disabled` DOM attribute 繫結到類別中的布林屬性。
 
 <!-- vale Angular.Google_WordListSuggestions = YES -->
 
 <code-example path="property-binding/src/app/app.component.html" region="disabled-button" header="src/app/app.component.html"></code-example>
 
-Because the value of the property `isUnchanged` is `true` in the `AppComponent`, Angular disables the button.
+因為 `AppComponent` 中 `isUnchanged` 屬性的值是 `true`，Angular 會停用該按鈕。
 
 <code-example path="property-binding/src/app/app.component.ts" region="boolean" header="src/app/app.component.ts"></code-example>
 
-## What's next
+## 後續步驟
 
-* [Property binding best practices](guide/property-binding-best-practices)
-* [Event binding](guide/event-binding)
-* [Text Interpolation](guide/interpolation)
-* [Class & Style Binding](guide/class-binding)
-* [Attribute Binding](guide/attribute-binding)
+* [屬性繫結最佳實務](guide/property-binding-best-practices)
+* [事件繫結](guide/event-binding)
+* [文字插值](guide/interpolation)
+* [類別與樣式繫結](guide/class-binding)
+* [attribute 繫結](guide/attribute-binding)
 
 @reviewed 2022-04-14

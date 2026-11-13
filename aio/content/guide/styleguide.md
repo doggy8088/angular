@@ -1,112 +1,94 @@
-# Angular coding style guide
+# Angular 程式碼樣式指南
 
-Looking for an opinionated guide to Angular syntax, conventions, and application structure?
-Step right in.
-This style guide presents preferred conventions and, as importantly, explains why.
+想找一份對 Angular 語法、慣例與應用程式結構有明確主張的指南嗎？ 歡迎進來看看。 本樣式指南提出偏好的慣例，而且同等重要的是，會說明背後的原因。
 
 <a id="toc"></a>
 
-## Style vocabulary
+## 樣式詞彙
 
-Each guideline describes either a good or bad practice, and all have a consistent presentation.
+每條準則描述的不是好的做法就是壞的做法，而且全都有一致的呈現方式。
 
-The wording of each guideline indicates how strong the recommendation is.
+每條準則的措辭，表明了該建議的強度。
 
 <div class="s-rule do">
 
-**Do** is one that should always be followed.
-*Always* might be a bit too strong of a word.
-Guidelines that literally should always be followed are extremely rare.
-On the other hand, you need a really unusual case for breaking a *Do* guideline.
+**Do** 是應該永遠遵循的準則。 *Always*（永遠）這個詞可能稍微太強烈了些。 真正應該永遠遵循的準則極為罕見。 反過來說，你需要非常特殊的理由，才有正當性打破 **Do** 準則。
 
 </div>
 
 <div class="s-rule consider">
 
-**Consider** guidelines should generally be followed.
-If you fully understand the meaning behind the guideline and have a good reason to deviate, then do so.
-Aim to be consistent.
+**Consider** 準則通常應該遵循。 如果你完全理解準則背後的意義，而且有充分的理由偏離，那就偏離吧。 目標是保持一致。
 
 </div>
 
 <div class="s-rule avoid">
 
-**Avoid** indicates something you should almost never do.
-Code examples to *avoid* have an unmistakable red header.
+**Avoid** 表示某件事幾乎永遠不該做。 應該 *avoid*（避免）的程式碼範例，有著醒目的紅色標頭。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Gives reasons for following the previous recommendations.
+**Why**? <br /> 說明遵循前面建議的理由。
 
 </div>
 
-## File structure conventions
+## 檔案結構慣例
 
-Some code examples display a file that has one or more similarly named companion files.
-For example, `hero.component.ts` and `hero.component.html`.
+有些程式碼範例會顯示一個檔案，它同時有一或多個名稱相似的伴隨檔案。 例如 `hero.component.ts` 與 `hero.component.html`。
 
-The guideline uses the shortcut `hero.component.ts|html|css|spec` to represent those various files.
-Using this shortcut makes this guide's file structures easier to read and more terse.
+準則使用 `hero.component.ts|html|css|spec` 這個簡寫來代表這些不同的檔案。 使用這個簡寫，能讓本指南的檔案結構更容易閱讀、也更簡潔。
 
 <a id="single-responsibility"></a>
 
-## Single responsibility
+## 單一職責
 
-Apply the [*single responsibility principle (SRP)*](https://wikipedia.org/wiki/Single_responsibility_principle) to all components, services, and other symbols.
-This helps make the application cleaner, easier to read and maintain, and more testable.
+對所有元件、服務和其他符號，套用[*單一職責原則（SRP）*](https://wikipedia.org/wiki/Single_responsibility_principle)。 這有助於讓應用程式更簡潔、更容易閱讀與維護，也更容易測試。
 
 <a id="01-01"></a>
 
-### Rule of One
+### 單一規則
 
 #### Style 01-01
 
 <div class="s-rule do">
 
-**Do** define one thing, such as a service or component, per file.
+**Do** 每個檔案定義一件事情，例如一個服務或一個元件。
 
 </div>
 
 <div class="s-rule consider">
 
-**Consider** limiting files to 400 lines of code.
+**Consider** 把檔案限制在 400 行程式碼以內。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-One component per file makes it far easier to read, maintain, and avoid collisions with teams in source control.
+**Why**? <br /> 每個檔案一個元件，能讓閱讀、維護變得容易得多，也能避免在原始碼控制中與團隊成員發生衝突。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-One component per file avoids hidden bugs that often arise when combining components in a file where they may share variables, create unwanted closures, or unwanted coupling with dependencies.
+**Why**? <br /> 每個檔案一個元件，能避免把多個元件合併在同一個檔案中時經常出現的隱藏錯誤，因為它們可能共用變數、產生非預期的閉包，或與依賴產生非預期的耦合。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-A single component can be the default export for its file which facilitates lazy loading with the router.
+**Why**? <br /> 單一元件可以作為其檔案的預設匯出，有利於搭配路由器進行延遲載入。
 
 </div>
 
-The key is to make the code more reusable, easier to read, and less mistake-prone.
+關鍵是讓程式碼更容易重複使用、更容易閱讀，也更不容易出錯。
 
-The following *negative* example defines the `AppComponent`, bootstraps the app,
-defines the `Hero` model object, and loads heroes from the server all in the same file.
-*Don't do this*.
+下面的*反面*範例在同一個檔案中定義了 `AppComponent`、啟動應用程式、 定義 `Hero` 模型物件，並從伺服器載入英雄。 *不要這麼做*。
 
 <code-example format="typescript" path="styleguide/src/01-01/app/heroes/hero.component.avoid.ts" language="typescript" header="app/heroes/hero.component.ts"></code-example>
 
-It is a better practice to redistribute the component and its
-supporting classes into their own, dedicated files.
+更好的做法是把元件和它的 支援類別重新分配到各自專屬的檔案中。
 
 <code-tabs>
     <code-pane header="main.ts" path="styleguide/src/01-01/main.ts"></code-pane>
@@ -118,348 +100,319 @@ supporting classes into their own, dedicated files.
     <code-pane header="app/heroes/shared/mock-heroes.ts" path="styleguide/src/01-01/app/heroes/shared/mock-heroes.ts"></code-pane>
 </code-tabs>
 
-As the application grows, this rule becomes even more important.
+隨著應用程式成長，這條規則會變得更加重要。
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="01-02"></a>
 
-### Small functions
+### 小型函式
 
 #### Style 01-02
 
 <div class="s-rule do">
 
-**Do** define small functions
+**Do** 定義小型函式
 
 </div>
 
 <div class="s-rule consider">
 
-**Consider** limiting to no more than 75 lines.
+**Consider** 限制在不超過 75 行以內。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-Small functions are easier to test, especially when they do one thing and serve one purpose.
+小型函式更容易測試，尤其當它們只做一件事、只服務一個目的時。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-Small functions promote reuse.
+小型函式有助於重複使用。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-Small functions are easier to read.
+小型函式更容易閱讀。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-Small functions are easier to maintain.
+小型函式更容易維護。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-Small functions help avoid hidden bugs that come with large functions that share variables with external scope, create unwanted closures, or unwanted coupling with dependencies.
+小型函式有助於避免大型函式帶來的隱藏錯誤，大型函式會與外部作用域共用變數、產生非預期的閉包，或與相依性產生非預期的耦合。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
-## Naming
+## 命名
 
-Naming conventions are hugely important to maintainability and readability.
-This guide recommends naming conventions for the file name and the symbol name.
+命名慣例對可維護性與可讀性極為重要。 本指南為檔案名稱與符號名稱提出命名慣例建議。
 
 <a id="02-01"></a>
 
-### General Naming Guidelines
+### 一般命名準則
 
 #### Style 02-01
 
 <div class="s-rule do">
 
-**Do** use consistent names for all symbols.
+**Do** 為所有符號使用一致的名稱。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** follow a pattern that describes the symbol's feature then its type.
-The recommended pattern is `feature.type.ts`.
+**Do** 遵循先描述符號的功能、再描述其類型的模式。 建議的模式是 `feature.type.ts`。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Naming conventions help provide a consistent way to find content at a glance.
-Consistency within the project is vital.
-Consistency with a team is important.
-Consistency across a company provides tremendous efficiency.
+**Why**? <br /> 命名慣例提供了一眼就能找到內容的一致方式。 專案內部的一致性至關重要。 與團隊保持一致很重要。 全公司的一致性能帶來巨大的效率。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-The naming conventions should help find desired code faster and make it easier to understand.
+**Why**? <br /> 命名慣例應該要能幫助你更快找到想要的程式碼，並讓程式碼更容易理解。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Names of folders and files should clearly convey their intent.
-For example, `app/heroes/hero-list.component.ts` may contain a component that manages a list of heroes.
+**Why**? <br /> 資料夾與檔案的名稱，應該清楚傳達它們的意圖。 例如，`app/heroes/hero-list.component.ts` 可能包含一個管理英雄清單的元件。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="02-02"></a>
 
-### Separate file names with dots and dashes
+### 以點與連字號分隔檔案名稱
 
 #### Style 02-02
 
 <div class="s-rule do">
 
-**Do** use dashes to separate words in the descriptive name.
+**Do** 使用連字號分隔描述性名稱中的單字。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** use dots to separate the descriptive name from the type.
+**Do** 使用點分隔描述性名稱與類型。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** use consistent type names for all components following a pattern that describes the component's feature then its type.
-A recommended pattern is `feature.type.ts`.
+**Do** 為所有元件使用一致的類型名稱，遵循先描述元件功能、再描述其類型的模式。 建議的模式是 `feature.type.ts`。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** use conventional type names including `.service`, `.component`, `.pipe`, `.module`, and `.directive`.
-Invent additional type names if you must but take care not to create too many.
+**Do** 使用慣用的類型名稱，包括 `.service`、`.component`、`.pipe`、`.module` 與 `.directive`。 必要時可以創造額外的類型名稱，但要注意不要創造太多。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Type names provide a consistent way to quickly identify what is in the file.
+**Why**? <br /> 類型名稱提供了一眼識別檔案內容的一致方式。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Type names make it easy to find a specific file type using an editor or IDE's fuzzy search techniques.
+**Why**? <br /> 類型名稱讓人能用編輯器或 IDE 的模糊搜尋技巧，輕鬆找到特定類型的檔案。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Unabbreviated type names such as `.service` are descriptive and unambiguous.
-Abbreviations such as `.srv`, `.svc`, and `.serv` can be confusing.
+**Why**? <br /> 不縮寫的類型名稱（例如 `.service`）描述性強且不含糊。 `.srv`、`.svc`、`.serv` 之類的縮寫可能造成混淆。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Type names provide pattern matching for any automated tasks.
+**Why**? <br /> 類型名稱能為任何自動化工作提供模式比對。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="02-03"></a>
 
-### Symbols and file names
+### 符號與檔案名稱
 
 #### Style 02-03
 
 <div class="s-rule do">
 
-**Do** use consistent names for all assets named after what they represent.
+**Do** 為所有代表其內容的資產使用一致的名稱。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** use upper camel case for class names.
+**Do** 類別名稱使用大駝峰式命名（upper camel case）。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** match the name of the symbol to the name of the file.
+**Do** 讓符號名稱與檔案名稱相符。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** append the symbol name with the conventional suffix \(such as `Component`, `Directive`, `Module`, `Pipe`, or `Service`\) for a thing of that type.
+**Do** 為該類型的事物在符號名稱後面加上慣用後綴（例如 `Component`、`Directive`、`Module`、`Pipe` 或 `Service`）。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** give the filename the conventional suffix \(such as `.component.ts`, `.directive.ts`, `.module.ts`, `.pipe.ts`, or `.service.ts`\) for a file of that type.
+**Do** 為該類型的檔案在檔案名稱後面加上慣用後綴（例如 `.component.ts`、`.directive.ts`、`.module.ts`、`.pipe.ts` 或 `.service.ts`）。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Consistent conventions make it easy to quickly identify and reference assets of different types.
+**Why**? <br /> 一致的慣例讓人能快速識別並參考不同類型的資產。
 
 </div>
 
-| Symbol name                                                                                                                                                                          | File name |
+| 符號名稱 | 檔案名稱 |
 |:---                                                                                                                                                                                  |:---       |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class AppComponent { } </code-example>                             | app.component.ts |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class HeroesComponent { } </code-example>                          | heroes.component.ts |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class HeroListComponent { } </code-example>                        | hero-list.component.ts |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class HeroDetailComponent { } </code-example>                      | hero-detail.component.ts |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;Directive({ &hellip; }) &NewLine;export class ValidationDirective { } </code-example>                      | validation.directive.ts |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class AppModule </code-example>                                     | app.module.ts |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class AppComponent { } </code-example> | app.component.ts |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class HeroesComponent { } </code-example> | heroes.component.ts |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class HeroListComponent { } </code-example> | hero-list.component.ts |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;Component({ &hellip; }) &NewLine;export class HeroDetailComponent { } </code-example> | hero-detail.component.ts |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;Directive({ &hellip; }) &NewLine;export class ValidationDirective { } </code-example> | validation.directive.ts |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class AppModule </code-example> | app.module.ts |
 | <code-example format="typescript" hideCopy language="typescript"> &commat;Pipe({ name: 'initCaps' }) &NewLine;export class InitCapsPipe implements PipeTransform { } </code-example> | init-caps.pipe.ts |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;Injectable() &NewLine;export class UserProfileService { } </code-example>                                  | user-profile.service.ts |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;Injectable() &NewLine;export class UserProfileService { } </code-example> | user-profile.service.ts |
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="02-04"></a>
 
-### Service names
+### 服務名稱
 
 #### Style 02-04
 
 <div class="s-rule do">
 
-**Do** use consistent names for all services named after their feature.
+**Do** 為所有服務使用一致的名稱，依其功能命名。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** suffix a service class name with `Service`.
-For example, something that gets data or heroes should be called a `DataService` or a `HeroService`.
+**Do** 在服務類別名稱後面加上 `Service` 後綴。 例如，取得資料或英雄的服務，應該叫做 `DataService` 或 `HeroService`。
 
-A few terms are unambiguously services.
-They typically indicate agency by ending in "-er".
-You may prefer to name a service that logs messages `Logger` rather than `LoggerService`.
-Decide if this exception is agreeable in your project.
-As always, strive for consistency.
+有少數詞彙明確就是服務。 它們通常以「-er」結尾，表示執行者的角色。 對於記錄訊息的服務，你可能偏好命名為 `Logger`，而不是 `LoggerService`。 請自行決定這個例外在你的專案中是否合適。 一如既往，努力保持一致。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Provides a consistent way to quickly identify and reference services.
+**Why**? <br /> 提供一眼識別並參考服務的一致方式。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Clear service names such as `Logger` do not require a suffix.
+**Why**? <br /> `Logger` 之類清楚的服務名稱不需要後綴。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Service names such as `Credit` are nouns and require a suffix and should be named with a suffix when it is not obvious if it is a service or something else.
+**Why**? <br /> `Credit` 之類的服務名稱是名詞，需要後綴；當無法一眼看出它是服務還是其他東西時，應該加上後綴命名。
 
 </div>
 
-| Symbol name                                                                                                                                      | File name |
+| 符號名稱 | 檔案名稱 |
 |:---                                                                                                                                              |:---       |
 | <code-example format="typescript" hideCopy language="typescript"> &commat;Injectable() &NewLine;export class HeroDataService { } </code-example> | hero-data.service.ts |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;Injectable() &NewLine;export class CreditService { } </code-example>   | credit.service.ts    |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;Injectable() &NewLine;export class Logger { } </code-example>          | logger.service.ts    |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;Injectable() &NewLine;export class CreditService { } </code-example> | credit.service.ts |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;Injectable() &NewLine;export class Logger { } </code-example> | logger.service.ts |
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="02-05"></a>
 
-### Bootstrapping
+### 啟動
 
 #### Style 02-05
 
 <div class="s-rule do">
 
-**Do** put bootstrapping and platform logic for the application in a file named `main.ts`.
+**Do** 把應用程式的啟動與平台邏輯放在名為 `main.ts` 的檔案中。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** include error handling in the bootstrapping logic.
+**Do** 在啟動邏輯中加入錯誤處理。
 
 </div>
 
 <div class="s-rule avoid">
 
-**Avoid** putting application logic in `main.ts`.
-Instead, consider placing it in a component or service.
+**Avoid** 把應用程式邏輯放在 `main.ts` 中。 相反地，考慮把它放在元件或服務中。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Follows a consistent convention for the startup logic of an app.
+**Why**? <br /> 遵循應用程式啟動邏輯的一致慣例。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Follows a familiar convention from other technology platforms.
+**Why**? <br /> 遵循其他技術平台的熟悉慣例。
 
 </div>
 
 <code-example header="main.ts" path="styleguide/src/02-05/main.ts"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="05-02"></a>
 
-### Component selectors
+### 元件選擇器
 
 #### Style 05-02
 
 <div class="s-rule do">
 
-**Do** use *dashed-case* or *kebab-case* for naming the element selectors of components.
+**Do** 為元件的元素選擇器使用 *dashed-case*（串連式命名）或 *kebab-case*（烤肉串式命名）。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Keeps the element names consistent with the specification for [Custom Elements](https://www.w3.org/TR/custom-elements).
+**Why**? <br /> 讓元素名稱與 [Custom Elements](https://www.w3.org/TR/custom-elements) 規格保持一致。
 
 </div>
 
@@ -470,51 +423,48 @@ Keeps the element names consistent with the specification for [Custom Elements](
     <code-pane header="app/app.component.html" path="styleguide/src/05-02/app/app.component.html"></code-pane>
 </code-tabs>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="02-07"></a>
 
-### Component custom prefix
+### 元件自訂前綴
 
 #### Style 02-07
 
 <div class="s-rule do">
 
-**Do** use a hyphenated, lowercase element selector value; for example, `admin-users`.
+**Do** 使用以連字號分隔的小寫元素選擇器值，例如 `admin-users`。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** use a custom prefix for a component selector.
-For example, the prefix `toh` represents **T**our **o**f **H**eroes and the prefix `admin` represents an admin feature area.
+**Do** 為元件選取器使用自訂前綴。
+例如，前綴 `toh` 代表 **T**our **o**f **H**eroes，前綴 `admin` 代表管理功能區域。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** use a prefix that identifies the feature area or the application itself.
+**Do** 使用能識別功能領域或應用程式本身的前綴。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Prevents element name collisions with components in other applications and with native HTML elements.
+**Why**? <br /> 避免元素名稱與其他應用程式中的元件、以及原生 HTML 元素發生衝突。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Makes it easier to promote and share the component in other applications.
+**Why**? <br /> 讓元件更容易推廣並分享到其他應用程式。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Components are easy to identify in the DOM.
+**Why**? <br /> 元件在 DOM 中很容易識別。
 
 </div>
 
@@ -526,71 +476,67 @@ Components are easy to identify in the DOM.
 
 <code-example header="app/users/users.component.ts" path="styleguide/src/02-07/app/users/users.component.ts" region="example"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="02-06"></a>
 
-### Directive selectors
+### 指令選擇器
 
 #### Style 02-06
 
 <div class="s-rule do">
 
-**Do** Use lower camel case for naming the selectors of directives.
+**Do** 為指令的選擇器使用小駝峰式命名（lower camel case）。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Keeps the names of the properties defined in the directives that are bound to the view consistent with the attribute names.
+**Why**? <br /> 讓指令中定義、並繫結到檢視的屬性名稱，與屬性名稱保持一致。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-The Angular HTML parser is case-sensitive and recognizes lower camel case.
+**Why**? <br /> Angular 的 HTML 解析器區分大小寫，並能辨識小駝峰式命名。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="02-08"></a>
 
-### Directive custom prefix
+### 指令自訂前綴
 
 #### Style 02-08
 
 <div class="s-rule do">
 
-**Do** use a custom prefix for the selector of directives \(for example, the prefix `toh` from **T**our **o**f **H**eroes\).
+**Do** 為指令的選取器使用自訂前綴（例如，前綴 `toh` 來自 **T**our **o**f **H**eroes）。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** spell non-element selectors in lower camel case unless the selector is meant to match a native HTML attribute.
+**Do** 把非元素選擇器拼成小駝峰式命名，除非該選擇器意在比對原生 HTML 屬性。
 
 </div>
 
 <div class="s-rule avoid">
 
-**Don't** prefix a directive name with `ng` because that prefix is reserved for Angular and using it could cause bugs that are difficult to diagnose.
+**Don't** 為指令名稱加上 `ng` 前綴，因為該前綴是 Angular 保留的，使用它可能造成難以診斷的錯誤。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Prevents name collisions.
+**Why**? <br /> 避免名稱衝突。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Directives are easily identified.
+**Why**? <br /> 指令很容易識別。
 
 </div>
 
@@ -598,198 +544,189 @@ Directives are easily identified.
 
 <code-example header="app/shared/validate.directive.ts" path="styleguide/src/02-08/app/shared/validate.directive.ts" region="example"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="02-09"></a>
 
-### Pipe names
+### 管道名稱
 
 #### Style 02-09
 
 <div class="s-rule do">
 
-**Do** use consistent names for all pipes, named after their feature.
-The pipe class name should use [UpperCamelCase](guide/glossary#case-types) \(the general convention for class names\), and the corresponding `name` string should use *lowerCamelCase*.
-The `name` string cannot use hyphens \("dash-case" or "kebab-case"\).
+**Do** 為所有管道使用一致的名稱，以其功能命名。
+管道類別名稱應使用 [UpperCamelCase](guide/glossary#大小寫慣例case-types)（類別名稱的一般慣例），對應的 `name` 字串則應使用 *lowerCamelCase*。
+`name` 字串不能使用連字號（「dash-case」或「kebab-case」）。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Provides a consistent way to quickly identify and reference pipes.
+**Why**? <br /> 提供一眼識別並參考管道的一致方式。
 
 </div>
 
-| Symbol name                                                                                                                                                                          | File name |
+| 符號名稱 | 檔案名稱 |
 |:---                                                                                                                                                                                  |:---       |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;Pipe({ name: 'ellipsis' }) &NewLine;export class EllipsisPipe implements PipeTransform { } </code-example> | ellipsis.pipe.ts  |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;Pipe({ name: 'ellipsis' }) &NewLine;export class EllipsisPipe implements PipeTransform { } </code-example> | ellipsis.pipe.ts |
 | <code-example format="typescript" hideCopy language="typescript"> &commat;Pipe({ name: 'initCaps' }) &NewLine;export class InitCapsPipe implements PipeTransform { } </code-example> | init-caps.pipe.ts |
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="02-10"></a>
 
-### Unit test file names
+### 單元測試檔案名稱
 
 #### Style 02-10
 
 <div class="s-rule do">
 
-**Do** name test specification files the same as the component they test.
+**Do** 讓測試規格檔案與它所測試的元件同名。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** name test specification files with a suffix of `.spec`.
+**Do** 為測試規格檔案加上 `.spec` 後綴。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Provides a consistent way to quickly identify tests.
+**Why**? <br /> 提供一眼識別測試的一致方式。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Provides pattern matching for [karma](https://karma-runner.github.io) or other test runners.
+**Why**? <br /> 為 [karma](https://karma-runner.github.io) 或其他測試執行器提供模式比對。
 
 </div>
 
-| Test type  | File names |
+| 測試類型 | 檔案名稱 |
 |:---        |:---        |
-| Components | heroes.component.spec.ts <br /> hero-list.component.spec.ts <br /> hero-detail.component.spec.ts |
-| Services   | logger.service.spec.ts <br /> hero.service.spec.ts <br /> filter-text.service.spec.ts            |
-| Pipes      | ellipsis.pipe.spec.ts <br /> init-caps.pipe.spec.ts                                              |
+| 元件 | heroes.component.spec.ts <br /> hero-list.component.spec.ts <br /> hero-detail.component.spec.ts |
+| 服務 | logger.service.spec.ts <br /> hero.service.spec.ts <br /> filter-text.service.spec.ts |
+| 管道 | ellipsis.pipe.spec.ts <br /> init-caps.pipe.spec.ts |
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="02-11"></a>
 
-### *End-to-End* (E2E) test file names
+### *端對端*（E2E）測試檔案名稱
 
 #### Style 02-11
 
 <div class="s-rule do">
 
-**Do** name end-to-end test specification files after the feature they test with a suffix of `.e2e-spec`.
+**Do** 以受測功能命名端對端測試規格檔案，並加上 `.e2e-spec` 後綴。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-Provides a consistent way to quickly identify end-to-end tests.
+提供一致的方式，快速辨識端對端測試。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-Provides pattern matching for test runners and build automation.
+提供測試執行器與建置自動化可用的模式比對。
 
 </div>
 
-| Test type        | File names |
+| 測試類型 | 檔案名稱 |
 |:---              |:---        |
-| End-to-End Tests | app.e2e-spec.ts <br /> heroes.e2e-spec.ts |
+| 端對端測試 | app.e2e-spec.ts <br /> heroes.e2e-spec.ts |
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="02-12"></a>
 
-### Angular `NgModule` names
+### Angular `NgModule` 名稱
 
 #### Style 02-12
 
 <div class="s-rule do">
 
-**Do** append the symbol name with the suffix `Module`.
+**Do** 在符號名稱後面加上 `Module` 後綴。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** give the file name the `.module.ts` extension.
+**Do** 為檔案名稱加上 `.module.ts` 副檔名。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** name the module after the feature and folder it resides in.
+**Do** 以功能與其所在資料夾為模組命名。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-Provides a consistent way to quickly identify and reference modules.
+提供一致的方式，快速辨識與參照模組。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-Upper camel case is conventional for identifying objects that can be instantiated using a constructor.
+大寫駝峰式命名法是辨識可用建構子具現化之物件的慣例。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-Easily identifies the module as the root of the same named feature.
+可輕鬆辨識該模組為同名功能的根模組。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** suffix a `RoutingModule` class name with `RoutingModule`.
+**Do** 為 `RoutingModule` 類別名稱加上 `RoutingModule` 後綴。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** end the filename of a `RoutingModule` with `-routing.module.ts`.
+**Do** 以 `-routing.module.ts` 結尾作為 `RoutingModule` 的檔案名稱。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-A `RoutingModule` is a module dedicated exclusively to configuring the Angular router.
-A consistent class and file name convention make these modules easy to spot and verify.
+`RoutingModule` 是專門用來設定 Angular 路由器的模組。
+一致的類別與檔案名稱慣例讓這些模組容易辨認與驗證。
 
 </div>
 
-| Symbol name                                                                                                                                                    | File name |
+| 符號名稱 | 檔案名稱 |
 |:---                                                                                                                                                            |:---       |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class AppModule { } </code-example>           | app.module.ts            |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class HeroesModule { } </code-example>        | heroes.module.ts         |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class VillainsModule { } </code-example>      | villains.module.ts       |
-| <code-example format="typescript" hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class AppRoutingModule { } </code-example>    | app-routing.module.ts    |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class AppModule { } </code-example> | app.module.ts |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class HeroesModule { } </code-example> | heroes.module.ts |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class VillainsModule { } </code-example> | villains.module.ts |
+| <code-example format="typescript" hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class AppRoutingModule { } </code-example> | app-routing.module.ts |
 | <code-example format="typescript" hideCopy language="typescript"> &commat;NgModule({ &hellip; }) &NewLine;export class HeroesRoutingModule { } </code-example> | heroes-routing.module.ts |
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
-## Application structure and NgModules
+## 應用程式結構與 NgModule
 
-Have a near-term view of implementation and a long-term vision.
-Start small but keep in mind where the application is heading.
+對實作要有近期的看法，也要有長遠的願景。 從小處著手，但要記住應用程式的發展方向。
 
-All of the application's code goes in a folder named `src`.
-All feature areas are in their own folder, with their own NgModule.
+應用程式的所有程式碼都放在名為 `src` 的資料夾中。所有功能領域都有各自的資料夾，並有各自的 NgModule。
 
-All content is one asset per file.
-Each component, service, and pipe is in its own file.
-All third party vendor scripts are stored in another folder and not in the `src` folder.
-You didn't write them and you don't want them cluttering `src`.
-Use the naming conventions for files in this guide.
+所有內容都是一個檔案一個資產。每個元件、服務與管道都有自己的檔案。所有第三方供應商指令碼都存放在另一個資料夾，而不是 `src` 資料夾中。這些指令碼不是你寫的，你也不希望它們塞滿 `src`。檔案請使用本指南中的命名慣例。
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-01"></a>
 
@@ -799,208 +736,206 @@ Use the naming conventions for files in this guide.
 
 <div class="s-rule do">
 
-**Do** structure the application such that you can **L**ocate code quickly, **I**dentify the code at a glance, keep the **F**lattest structure you can, and **T**ry to be DRY.
+**Do** 以能夠**快速定位**程式碼、**一眼辨識**程式碼、保持**最扁平**的結構、**力求 DRY** 的方式來組織應用程式。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** define the structure to follow these four basic guidelines, listed in order of importance.
+**Do** 定義結構時遵循以下四項基本準則，依重要性順序列出。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-LIFT provides a consistent structure that scales well, is modular, and makes it easier to increase developer efficiency by finding code quickly.
-To confirm your intuition about a particular structure, ask:
-*Can I quickly open and start work in all of the related files for this feature*?
+LIFT 提供一致的結構，擴充性佳、模組化程度高，並讓開發者能快速找到程式碼，提高開發效率。
+若要確認自己對特定結構的直覺是否正確，可以問：
+*我能快速開啟並開始處理這個功能的所有相關檔案嗎*？
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-02"></a>
 
-### Locate
+### 定位
 
 #### Style 04-02
 
 <div class="s-rule do">
 
-**Do** make locating code intuitive and fast.
+**Do** 讓定位程式碼直覺又快速。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-To work efficiently you must be able to find files quickly, especially when you do not know \(or do not remember\) the file *names*.
-Keeping related files near each other in an intuitive location saves time.
-A descriptive folder structure makes a world of difference to you and the people who come after you.
+要有效率地工作，必須能快速找到檔案，尤其當你不知道（或不記得）檔案*名稱*時。
+把相關檔案放在直覺的位置、彼此靠近，可以節省時間。
+描述性的資料夾結構對你和後來接手的人來說大有不同。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-03"></a>
 
-### Identify
+### 識別
 
 #### Style 04-03
 
 <div class="s-rule do">
 
-**Do** name the file such that you instantly know what it contains and represents.
+**Do** 為檔案命名時，讓人一眼就知道其中包含什麼、代表什麼。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** be descriptive with file names and keep the contents of the file to exactly one component.
+**Do** 以描述性的方式為檔案命名，並讓每個檔案只包含一個元件。
 
 </div>
 
 <div class="s-rule avoid">
 
-**Avoid** files with multiple components, multiple services, or a mixture.
+**Avoid** 包含多個元件、多個服務，或兩者混合的檔案。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-Spend less time hunting and pecking for code, and become more efficient.
-Longer file names are far better than *short-but-obscure* abbreviated names.
+少花時間翻找程式碼，提高效率。
+較長的檔案名稱遠比*短卻晦澀*的縮寫名稱好。
 
 </div>
 
 <div class="alert is-helpful">
 
-It may be advantageous to deviate from the *one-thing-per-file* rule when you have a set of small, closely-related features that are better discovered and understood in a single file than as multiple files.
-Be wary of this loophole.
+當你有一組小型且密切相關的功能，放在同一個檔案中比拆成多個檔案更容易發現與理解時，偏離*一個檔案一件事*的規則可能是有利的。
+請提防這個漏洞。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-04"></a>
 
-### Flat
+### 扁平
 
 #### Style 04-04
 
 <div class="s-rule do">
 
-**Do** keep a flat folder structure as long as possible.
+**Do** 盡可能保持扁平的資料夾結構。
 
 </div>
 
 <div class="s-rule consider">
 
-**Consider** creating sub-folders when a folder reaches seven or more files.
+**Consider** 當資料夾達到七個或更多檔案時，建立子資料夾。
 
 </div>
 
 <div class="s-rule consider">
 
-**Consider** configuring the IDE to hide distracting, irrelevant files such as generated `.js` and `.js.map` files.
+**Consider** 設定 IDE，隱藏令人分心的無關檔案，例如產生的 `.js` 與 `.js.map` 檔案。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-No one wants to search for a file through seven levels of folders.
-A flat structure is easy to scan.
+沒有人想在七層深的資料夾中搜尋檔案。
+扁平的結構容易瀏覽。
 
-On the other hand, [psychologists believe](https://en.wikipedia.org/wiki/The_Magical_Number_Seven,_Plus_or_Minus_Two) that humans start to struggle when the number of adjacent interesting things exceeds nine.
-So when a folder has ten or more files, it may be time to create subfolders.
+另一方面，[心理學家認為](https://en.wikipedia.org/wiki/The_Magical_Number_Seven,_Plus_or_Minus_Two)當相鄰的有趣事物數量超過九個時，人類便開始感到吃力。
+因此，當資料夾有十個或更多檔案時，可能是建立子資料夾的時候了。
 
-Base your decision on your comfort level.
-Use a flatter structure until there is an obvious value to creating a new folder.
+根據自己的舒適程度來做決定。
+在有明顯價值建立新資料夾之前，先使用較扁平的結構。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-05"></a>
 
-### *T-DRY* \(Try to be *DRY*\)
+### *T-DRY* \(盡量做到 *DRY*\)
 
 #### Style 04-05
 
 <div class="s-rule do">
 
-**Do** be DRY \(Don't Repeat Yourself\).
+**Do** 保持 DRY（不要重複自己）。
 
 </div>
 
 <div class="s-rule avoid">
 
-**Avoid** being so DRY that you sacrifice readability.
+**Avoid** 過度追求 DRY，以致犧牲可讀性。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-Being DRY is important, but not crucial if it sacrifices the other elements of LIFT.
-That's why it's called *T-DRY*.
-For example, it's redundant to name a template `hero-view.component.html` because with the `.html` extension, it is obviously a view.
-But if something is not obvious or departs from a convention, then spell it out.
+保持 DRY 很重要，但如果犧牲了 LIFT 的其他要素，就沒那麼關鍵。
+這就是為什麼它被稱為 *T-DRY*。
+例如，把範本命名為 `hero-view.component.html` 是多餘的，因為有了 `.html` 副檔名，顯然它就是一個檢視。
+但如果某件事不明顯，或偏離了慣例，那就寫清楚。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-06"></a>
 
-### Overall structural guidelines
+### 整體結構準則
 
 #### Style 04-06
 
 <div class="s-rule do">
 
-**Do** start small but keep in mind where the application is heading down the road.
+**Do** 從小處著手，但要記住應用程式未來的發展方向。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** have a near term view of implementation and a long term vision.
+**Do** 對實作要有近期的看法，也要有長遠的願景。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** put all of the application's code in a folder named `src`.
+**Do** 把應用程式的所有程式碼放在名為 `src` 的資料夾中。
 
 </div>
 
 <div class="s-rule consider">
 
-**Consider** creating a folder for a component when it has multiple accompanying files \(`.ts`, `.html`, `.css`, and `.spec`\).
+**Consider** 當元件有多個伴隨檔案（`.ts`、`.html`、`.css` 與 `.spec`）時，為它建立一個資料夾。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Helps keep the application structure small and easy to maintain in the early stages, while being easy to evolve as the application grows.
+**Why**? <br /> 有助於在早期階段讓應用程式結構保持小巧且易於維護，同時在應用程式成長時也容易演進。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Components often have four files \(for example, `*.html`, `*.css`, `*.ts`, and `*.spec.ts`\) and can clutter a folder quickly.
+**Why**? <br /> 元件通常有四個檔案（例如 `*.html`、`*.css`、`*.ts` 與 `*.spec.ts`），很容易讓資料夾變得雜亂。
 
 </div>
 
 <a id="file-tree"></a>
 
-Here is a compliant folder and file structure:
+以下是一個符合規定的資料夾與檔案結構：
 
 <div class="filetree">
   <div class="file">
@@ -1156,280 +1091,258 @@ Here is a compliant folder and file structure:
 
 <div class="alert is-helpful">
 
-While components in dedicated folders are widely preferred, another option for small applications is to keep components flat \(not in a dedicated folder\).
-This adds up to four files to the existing folder, but also reduces the folder nesting.
-Whatever you choose, be consistent.
+雖然大家普遍偏好把元件放在專屬資料夾中，但小型應用程式的另一種選擇是讓元件保持扁平\（不放在專屬資料夾中）。
+這麼做會在現有資料夾中多出最多四個檔案，但同時也減少了資料夾巢狀層級。
+無論你選擇哪一種，請保持一致。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-07"></a>
 
-### *Folders-by-feature* structure
+### *依功能分資料夾*的結構
 
 #### Style 04-07
 
 <div class="s-rule do">
 
-**Do** create folders named for the feature area they represent.
+**Do** 為資料夾以其所代表的功能領域命名。
+
+</div>
+
+<div class="s-why">
+
+**Why**? <br /> 開發者能一眼定位程式碼，並識別每個檔案代表什麼。 結構儘可能扁平，而且沒有重複或多餘的名稱。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-A developer can locate the code and identify what each file represents at a glance.
-The structure is as flat as it can be and there are no repetitive or redundant names.
+LIFT 準則都已涵蓋。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-The LIFT guidelines are all covered.
+有助於透過組織內容並使其與 LIFT 準則保持一致，減少應用程式變得雜亂。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Helps reduce the application from becoming cluttered through organizing the content and keeping them aligned with the LIFT guidelines.
-
-</div>
-
-<div class="s-why">
-
-**Why**? <br />
-When there are a lot of files, for example 10+, locating them is easier with a consistent folder structure and more difficult in a flat structure.
+**Why**? <br /> 當檔案很多（例如 10 個以上）時，採用一致的資料夾結構比較容易找到它們，扁平結構則比較困難。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** create an NgModule for each feature area.
+**Do** 為每個功能區域建立一個 NgModule。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-NgModules make it easy to lazy load routable features.
+NgModule 讓延遲載入可路由的功能變得容易。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-NgModules make it easier to isolate, test, and reuse features.
+NgModule 讓隔離、測試與重複使用功能變得更容易。
 
 </div>
 
 <div>
 
-For more information, refer to [this folder and file structure example](#file-tree).
+如需更多資訊，請參閱[此資料夾與檔案結構範例](#file-tree)。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-08"></a>
 
-### App *root module*
+### 應用程式*根模組*
 
 #### Style 04-08
 
 <div class="s-rule do">
 
-**Do** create an NgModule in the application's root folder, for example, in `/src/app`.
+**Do** 在應用程式的根資料夾中建立一個 NgModule，例如 `/src/app`。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-Every application requires at least one root NgModule.
+每個應用程式至少需要一個根 NgModule。
 
 </div>
 
 <div class="s-rule consider">
 
-**Consider** naming the root module `app.module.ts`.
+**Consider** 把根模組命名為 `app.module.ts`。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Makes it easier to locate and identify the root module.
+**Why**? <br /> 讓根模組更容易定位與識別。
 
 </div>
 
 <code-example format="typescript" path="styleguide/src/04-08/app/app.module.ts" language="typescript" region="example" header="app/app.module.ts"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-09"></a>
 
-### Feature modules
+### 功能模組
 
 #### Style 04-09
 
 <div class="s-rule do">
 
-**Do** create an NgModule for all distinct features in an application; for example, a `Heroes` feature.
+**Do** 為應用程式中所有不同的功能建立一個 NgModule，例如 `Heroes` 功能。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** place the feature module in the same named folder as the feature area; for example, in `app/heroes`.
+**Do** 把功能模組放在與功能領域同名的資料夾中，例如 `app/heroes`。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** name the feature module file reflecting the name of the feature area and folder; for example, `app/heroes/heroes.module.ts`.
+**Do** 讓功能模組檔案的名稱反映功能領域與資料夾的名稱，例如 `app/heroes/heroes.module.ts`。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** name the feature module symbol reflecting the name of the feature area, folder, and file; for example, `app/heroes/heroes.module.ts` defines `HeroesModule`.
+**Do** 讓功能模組符號的名稱反映功能領域、資料夾與檔案的名稱，例如 `app/heroes/heroes.module.ts` 定義了 `HeroesModule`。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-A feature module can expose or hide its implementation from other modules.
+**Why**? <br /> 功能模組可以對其他模組公開或隱藏它的實作。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-A feature module identifies distinct sets of related components that comprise the feature area.
+**Why**? <br /> 功能模組標示出構成該功能領域的不同組別的相關元件。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-A feature module can easily be routed to both eagerly and lazily.
+**Why**? <br /> 功能模組可以輕鬆地以即時（eager）與延遲（lazy）兩種方式被路由到。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-A feature module defines clear boundaries between specific functionality and other application features.
+**Why**? <br /> 功能模組在特定功能與其他應用程式功能之間定義了清楚的邊界。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-A feature module helps clarify and make it easier to assign development responsibilities to different teams.
+**Why**? <br /> 功能模組有助於釐清，並讓把開發責任分配給不同團隊變得更容易。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-A feature module can easily be isolated for testing.
+**Why**? <br /> 功能模組可以輕鬆地被隔離出來進行測試。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-10"></a>
 
-### Shared feature module
+### 共用功能模組
 
 #### Style 04-10
 
 <div class="s-rule do">
 
-**Do** create a feature module named `SharedModule` in a `shared` folder; for example, `app/shared/shared.module.ts` defines `SharedModule`.
+**Do** 在 `shared` 資料夾中建立一個名為 `SharedModule` 的功能模組，例如 `app/shared/shared.module.ts` 定義了 `SharedModule`。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** declare components, directives, and pipes in a shared module when those items will be re-used and referenced by the components declared in other feature modules.
+**Do** 當元件、指令與管道會被其他功能模組中宣告的元件重複使用並參考時，在共用模組中宣告它們。
 
 </div>
 
 <div class="s-rule consider">
 
-**Consider** using the name SharedModule when the contents of a shared
-module are referenced across the entire application.
+**Consider** 當共用模組的內容被整個應用程式參考時，使用 SharedModule 這個名稱。
 
 </div>
 
 <div class="s-rule avoid">
 
-**Consider** *not* providing services in shared modules.
-Services are usually singletons that are provided once for the entire application or in a particular feature module.
-There are exceptions, however.
-For example, in the sample code that follows, notice that the `SharedModule` provides `FilterTextService`.
-This is acceptable here because the service is stateless;that is, the consumers of the service aren't impacted by new instances.
+**Consider** *不要*在共用模組中提供服務。 服務通常是單例，只會為整個應用程式提供一次，或在某個特定功能模組中提供。 不過也有例外。 例如，在下面的範例程式碼中，請注意 `SharedModule` 提供了 `FilterTextService`。 這在這裡是可以接受的，因為該服務是無狀態的；也就是說，服務的使用者不會受到新實例的影響。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** import all modules required by the assets in the `SharedModule`; for example, `CommonModule` and `FormsModule`.
+**Do** 匯入 `SharedModule` 中的資產所需要的所有模組，例如 `CommonModule` 與 `FormsModule`。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-`SharedModule` will contain components, directives, and pipes that may need features from another common module; for example, `ngFor` in `CommonModule`.
+**Why**? <br /> `SharedModule` 會包含可能需要另一個共用模組功能的元件、指令與管道，例如 `CommonModule` 中的 `ngFor`。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** declare all components, directives, and pipes in the `SharedModule`.
+**Do** 在 `SharedModule` 中宣告所有的元件、指令與管道。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** export all symbols from the `SharedModule` that other feature modules need to use.
+**Do** 從 `SharedModule` 匯出其他功能模組需要使用的所有符號。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-`SharedModule` exists to make commonly used components, directives, and pipes available for use in the templates of components in many other modules.
+**Why**? <br /> `SharedModule` 的存在，是為了讓常用的元件、指令與管道，能在許多其他模組的元件範本中使用。
 
 </div>
 
 <div class="s-rule avoid">
 
-**Avoid** specifying app-wide singleton providers in a `SharedModule`.
-Intentional singletons are OK.
-Take care.
+**Avoid** 在 `SharedModule` 中指定應用程式全域的單例提供者。 有意的單例是可以的。 請小心。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-A lazy loaded feature module that imports that shared module will make its own copy of the service and likely have undesirable results.
+**Why**? <br /> 延遲載入的功能模組若匯入了那個共用模組，就會建立它自己的服務副本，很可能產生不想要的結果。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-You don't want each module to have its own separate instance of singleton services.
-Yet there is a real danger of that happening if the `SharedModule` provides a service.
+**Why**? <br /> 你不會希望每個模組都有各自獨立的單例服務實例。 但如果 `SharedModule` 提供了服務，這種事確實有發生的危險。
 
 </div>
 
@@ -1490,114 +1403,109 @@ Yet there is a real danger of that happening if the `SharedModule` provides a se
     <code-pane header="app/heroes/heroes.component.html" path="styleguide/src/04-10/app/heroes/heroes.component.html"></code-pane>
 </code-tabs>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-11"></a>
 
-### Lazy Loaded folders
+### 延遲載入資料夾
 
 #### Style 04-11
 
-A distinct application feature or workflow may be *lazy loaded* or *loaded on demand* rather than when the application starts.
+一個獨特的應用程式功能或工作流程，可能會被*延遲載入*，或*依需求載入*，而不是在應用程式啟動時載入。
 
 <div class="s-rule do">
 
-**Do** put the contents of lazy loaded features in a *lazy loaded folder*.
-A typical *lazy loaded folder* contains a *routing component*, its child components, and their related assets and modules.
+**Do** 將延遲載入功能的內容放在*延遲載入資料夾*中。
+典型的*延遲載入資料夾*包含一個*路由元件*、其子元件，以及相關的資產與模組。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-The folder makes it easy to identify and isolate the feature content.
+**Why**? <br /> 資料夾讓功能內容更容易識別與隔離。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="04-12"></a>
 
-### Never directly import lazy loaded folders
+### 絕對不要直接匯入延遲載入的資料夾
 
 #### Style 04-12
 
 <div class="s-rule avoid">
 
-**Avoid** allowing modules in sibling and parent folders to directly import a module in a *lazy loaded feature*.
+**Avoid** 讓同層或父層資料夾中的模組直接匯入*延遲載入功能*中的模組。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-Directly importing and using a module will load it immediately when the intention is to load it on demand.
+直接匯入並使用模組會讓它立即載入，而原本的意圖是按需載入。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
-### Do not add filtering and sorting logic to pipes
+### 不要在管道中加入篩選與排序邏輯
 
 #### Style 04-13
 
 <div class="s-rule avoid">
 
-**Avoid** adding filtering or sorting logic into custom pipes.
+**Avoid** 在自訂管道中加入篩選或排序邏輯。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** pre-compute the filtering and sorting logic in components or services before binding the model in templates.
+**Do** 在範本中繫結模型之前，先在元件或服務中預先計算篩選與排序邏輯。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-Filtering and especially sorting are expensive operations.
-As Angular can call pipe methods many times per second, sorting and filtering operations can degrade the user experience severely for even moderately-sized lists.
+篩選，尤其是排序，是昂貴的操作。
+由於 Angular 每秒可能多次呼叫管道方法，排序與篩選操作即使對中等大小的清單，也可能嚴重降低使用者體驗。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
-## Components
+## 元件
 
 <a id="05-03"></a>
 
-### Components as elements
+### 把元件當作元素
 
 #### Style 05-03
 
 <div class="s-rule do">
 
-**Consider** giving components an *element* selector, as opposed to *attribute* or *class* selectors.
+**Consider** 給元件*元素*選擇器，而不是*屬性*或*類別*選擇器。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Components have templates containing HTML and optional Angular template syntax.
-They display content.
-Developers place components on the page as they would native HTML elements and web components.
+**Why**? <br /> 元件有包含 HTML 與選用 Angular 範本語法的範本。 它們會顯示內容。 開發者把元件像原生 HTML 元素與 Web 元件一樣，放在頁面上。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-It is easier to recognize that a symbol is a component by looking at the template's html.
+**Why**? <br /> 看範本的 html，就更容易辨認出某個符號是元件。
 
 </div>
 
 <div class="alert is-helpful">
 
-There are a few cases where you give a component an attribute, such as when you want to augment a built-in element.
-For example, [Material Design](https://material.angular.io/components/button/overview) uses this technique with `<button mat-button>`.
-However, you wouldn't use this technique on a custom element.
+在少數情況下，你會為元件加上屬性，例如想擴充內建元素時。
+舉例來說，[Material Design](https://material.angular.io/components/button/overview) 就是用這種技巧來寫 `<button mat-button>`。
+不過，你不會對自訂元素使用這種技巧。
 
 </div>
 
@@ -1610,64 +1518,59 @@ However, you wouldn't use this technique on a custom element.
     <code-pane header="app/app.component.html" path="styleguide/src/05-03/app/app.component.html"></code-pane>
 </code-tabs>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="05-04"></a>
 
-### Extract templates and styles to their own files
+### 把範本與樣式抽出到各自的檔案
 
 #### Style 05-04
 
 <div class="s-rule do">
 
-**Do** extract templates and styles into a separate file, when more than 3 lines.
+**Do** 當範本與樣式超過 3 行時，把它們抽出到獨立的檔案。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** name the template file `[component-name].component.html`, where [component-name] is the component name.
+**Do** 把範本檔案命名為 `[component-name].component.html`，其中 [component-name] 是元件名稱。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** name the style file `[component-name].component.css`, where [component-name] is the component name.
+**Do** 把樣式檔案命名為 `[component-name].component.css`，其中 [component-name] 是元件名稱。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** specify *component-relative* URLs, prefixed with `./`.
+**Do** 指定*以元件為相對基準*的 URL，並以 `./` 作為前綴。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Large, inline templates and styles obscure the component's purpose and implementation, reducing readability and maintainability.
+**Why**? <br /> 龐大的行內範本與樣式會遮蔽元件的目的與實作，降低可讀性與可維護性。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-In most editors, syntax hints and code snippets aren't available when developing inline templates and styles.
-The Angular TypeScript Language Service \(forthcoming\) promises to overcome this deficiency for HTML templates in those editors that support it; it won't help with CSS styles.
+**Why**? <br /> 在大多數編輯器中，開發行內範本與樣式時，沒有語法提示與程式碼片段可用。 Angular TypeScript 語言服務（即將推出）承諾能為支援它的編輯器克服 HTML 範本的這個缺點，但對 CSS 樣式沒有幫助。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-A *component relative* URL requires no change when you move the component files, as long as the files stay together.
+**Why**? <br /> *以元件為相對基準*的 URL，在你移動元件檔案時不需要變更，只要這些檔案保持在一起。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-The `./` prefix is standard syntax for relative URLs; don't depend on Angular's current ability to do without that prefix.
+**Why**? <br /> `./` 前綴是相對 URL 的標準語法；不要依賴 Angular 目前可以省略該前綴的能力。
 
 </div>
 
@@ -1679,52 +1582,47 @@ The `./` prefix is standard syntax for relative URLs; don't depend on Angular's 
     <code-pane header="app/heroes/heroes.component.css" path="styleguide/src/05-04/app/heroes/heroes.component.css"></code-pane>
 </code-tabs>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="05-12"></a>
 
-### Decorate `input` and `output` properties
+### 以裝飾器標記 `input` 與 `output` 屬性
 
 #### Style 05-12
 
 <div class="s-rule do">
 
-**Do** use the `@Input()` and `@Output()` class decorators instead of the `inputs` and `outputs` properties of the `@Directive` and `@Component` metadata:
+**Do** 使用 `@Input()` 與 `@Output()` 類別裝飾器，而不是 `@Directive` 與 `@Component` 中繼資料的 `inputs` 與 `outputs` 屬性：
 
 </div>
 
 <div class="s-rule consider">
 
-**Consider** placing `@Input()` or `@Output()` on the same line as the property it decorates.
+**Consider** 把 `@Input()` 或 `@Output()` 放在與它所修飾的屬性同一行。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-It is easier and more readable to identify which properties in a class are inputs or outputs.
+**Why**? <br /> 更容易且更清楚地辨識類別中哪些屬性是輸入或輸出。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-If you ever need to rename the property or event name associated with `@Input()` or `@Output()`, you can modify it in a single place.
+**Why**? <br /> 如果你需要重新命名與 `@Input()` 或 `@Output()` 相關聯的屬性或事件名稱，你可以在單一位置修改它。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-The metadata declaration attached to the directive is shorter and thus more readable.
+**Why**? <br /> 附加在指令上的中繼資料宣告更短，因此更容易閱讀。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Placing the decorator on the same line *usually* makes for shorter code and still easily identifies the property as an input or output.
-Put it on the line above when doing so is clearly more readable.
+**Why**? <br /> 把裝飾器放在同一行，*通常*能讓程式碼更短，而且仍然很容易識別該屬性是輸入還是輸出。 當放在前一行明顯更容易閱讀時，就放在前一行。
 
 </div>
 
@@ -1732,32 +1630,29 @@ Put it on the line above when doing so is clearly more readable.
 
 <code-example header="app/heroes/shared/hero-button/hero-button.component.ts" path="styleguide/src/05-12/app/heroes/shared/hero-button/hero-button.component.ts" region="example"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="05-13"></a>
 
-### Avoid aliasing `inputs` and `outputs`
+### 避免為 `inputs` 與 `outputs` 取別名
 
 #### Style 05-13
 
 <div class="s-rule avoid">
 
-**Avoid** `input` and `output` aliases except when it serves an important purpose.
+**Avoid** 使用 `input` 與 `output` 別名，除非它有重要的目的。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Two names for the same property \(one private, one public\) is inherently confusing.
+**Why**? <br /> 同一個屬性有兩個名字（一個私用、一個公用）本質上就令人混淆。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-You should use an alias when the directive name is also an `input` property,
-and the directive name doesn't describe the property.
+**Why**? <br /> 當指令名稱同時也是一個 `input` 屬性，而且指令名稱無法描述該屬性時，你應該使用別名。
 
 </div>
 
@@ -1771,31 +1666,31 @@ and the directive name doesn't describe the property.
     <code-pane header="app/app.component.html" path="styleguide/src/05-13/app/app.component.html"></code-pane>
 </code-tabs>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="05-14"></a>
 
-### Member sequence
+### 成員順序
 
 #### Style 05-14
 
 <div class="s-rule do">
 
-**Do** place properties up top followed by methods.
+**Do** 把屬性放在上方，方法放在下方。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** place private members after public members, alphabetized.
+**Do** 把私有成員放在公開成員之後，並按字母順序排列。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-Placing members in a consistent sequence makes it easy to read and
-helps instantly identify which members of the component serve which purpose.
+以一致的順序放置成員，讓程式碼容易閱讀，
+並有助於立即辨識元件的哪些成員服務於哪個目的。
 
 </div>
 
@@ -1803,52 +1698,47 @@ helps instantly identify which members of the component serve which purpose.
 
 <code-example header="app/shared/toast/toast.component.ts" path="styleguide/src/05-14/app/shared/toast/toast.component.ts" region="example"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="05-15"></a>
 
-### Delegate complex component logic to services
+### 把複雜的元件邏輯委派給服務
 
 #### Style 05-15
 
 <div class="s-rule do">
 
-**Do** limit logic in a component to only that required for the view.
-All other logic should be delegated to services.
+**Do** 把元件中的邏輯限制在檢視所需的範圍內。 所有其他邏輯都應該委派給服務。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** move reusable logic to services and keep components simple and focused on their intended purpose.
+**Do** 把可重複使用的邏輯移到服務中，讓元件保持簡單並專注於其預定目的。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Logic may be reused by multiple components when placed within a service and exposed as a function.
+**Why**? <br /> 邏輯放在服務中並以函式公開時，可以被多個元件重複使用。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Logic in a service can more easily be isolated in a unit test, while the calling logic in the component can be easily mocked.
+**Why**? <br /> 服務中的邏輯可以更容易地在單元測試中隔離，而元件中的呼叫邏輯則可以輕鬆被模擬（mock）。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Removes dependencies and hides implementation details from the component.
+**Why**? <br /> 移除依賴，並對元件隱藏實作細節。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Keeps the component slim, trim, and focused.
+**Why**? <br /> 讓元件保持精簡、俐落且專注。
 
 </div>
 
@@ -1856,38 +1746,37 @@ Keeps the component slim, trim, and focused.
 
 <code-example header="app/heroes/hero-list/hero-list.component.ts" path="styleguide/src/05-15/app/heroes/hero-list/hero-list.component.ts" region="example"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="05-16"></a>
 
-### Don't prefix `output` properties
+### 不要為 `output` 屬性加前綴
 
 #### Style 05-16
 
 <div class="s-rule do">
 
-**Do** name events without the prefix `on`.
+**Do** 為事件命名時不要加上 `on` 前綴。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** name event handler methods with the prefix `on` followed by the event name.
+**Do** 為事件處理常式方法命名時，加上 `on` 前綴，後面接著事件名稱。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-This is consistent with built-in events such as button clicks.
+**Why**? <br /> 這與按鈕點擊之類的內建事件一致。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-Angular allows for an [alternative syntax](guide/binding-syntax) `on-*`.
-If the event itself was prefixed with `on` this would result in an `on-onEvent` binding expression.
+Angular 允許使用[替代語法](guide/binding-syntax) `on-*`。
+如果事件本身以 `on` 為前綴，就會產生 `on-onEvent` 繫結運算式。
 
 </div>
 
@@ -1900,31 +1789,29 @@ If the event itself was prefixed with `on` this would result in an `on-onEvent` 
     <code-pane header="app/app.component.html" path="styleguide/src/05-16/app/app.component.html"></code-pane>
 </code-tabs>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="05-17"></a>
 
-### Put presentation logic in the component class
+### 把呈現邏輯放在元件類別中
 
 #### Style 05-17
 
 <div class="s-rule do">
 
-**Do** put presentation logic in the component class, and not in the template.
+**Do** 把呈現邏輯放在元件類別中，而不是範本中。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Logic will be contained in one place \(the component class\) instead of being spread in two places.
+**Why**? <br /> 邏輯會集中在一個地方（元件類別），而不是分散在兩個地方。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Keeping the component's presentation logic in the class instead of the template improves testability, maintainability, and reusability.
+**Why**? <br /> 把元件的呈現邏輯放在類別而不是範本中，能改善可測試性、可維護性與可重複使用性。
 
 </div>
 
@@ -1932,55 +1819,49 @@ Keeping the component's presentation logic in the class instead of the template 
 
 <code-example header="app/heroes/hero-list/hero-list.component.ts" path="styleguide/src/05-17/app/heroes/hero-list/hero-list.component.ts" region="example"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
-### Initialize inputs
+### 初始化輸入
 
 #### Style 05-18
 
-TypeScript's `--strictPropertyInitialization` compiler option ensures that a class initializes its properties during construction.
-When enabled, this option causes the TypeScript compiler to report an error if the class does not set a value to any property that is not explicitly marked as optional.
+TypeScript 的 `--strictPropertyInitialization` 編譯器選項，確保類別在建構期間初始化它的屬性。 啟用時，如果類別沒有為任何未明確標記為選用的屬性設定值，這個選項會讓 TypeScript 編譯器回報錯誤。
 
-By design, Angular treats all `@Input` properties as optional.
-When possible, you should satisfy `--strictPropertyInitialization` by providing a default value.
+依設計，Angular 把所有 `@Input` 屬性都視為選用。 只要做得到，你應該提供預設值，來滿足 `--strictPropertyInitialization`。
 
 <code-example header="app/heroes/hero/hero.component.ts" path="styleguide/src/05-18/app/heroes/hero/hero.component.ts" region="example"></code-example>
 
-If the property is hard to construct a default value for, use `?` to explicitly mark the property as optional.
+如果某個屬性很難建構預設值，使用 `?` 明確把該屬性標記為選用。
 
 <code-example header="app/heroes/hero/hero.component.ts" path="styleguide/src/05-18/app/heroes/hero/hero.component.optional.ts" region="example"></code-example>
 
-You may want to have a required `@Input` field, meaning all your component users are required to pass that attribute.
-In such cases, use a default value.
-Just suppressing the TypeScript error with `!` is insufficient and should be avoided because it will prevent the type checker ensure the input value is provided.
+你可能想要有一個必填的 `@Input` 欄位，意思是元件的所有使用者都必須傳入該屬性。 在這種情況下，使用預設值。 只用 `!` 壓制 TypeScript 錯誤是不夠的，應該避免，因為那會讓型別檢查器無法確保輸入值有被提供。
 
 <code-example header="app/heroes/hero/hero.component.ts" path="styleguide/src/05-18/app/heroes/hero/hero.component.avoid.ts" region="example"></code-example>
 
-## Directives
+## 指令
 
 <a id="06-01"></a>
 
-### Use directives to enhance an element
+### 使用指令強化元素
 
 #### Style 06-01
 
 <div class="s-rule do">
 
-**Do** use attribute directives when you have presentation logic without a template.
+**Do** 當你有沒有範本的呈現邏輯時，使用屬性指令。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Attribute directives don't have an associated template.
+**Why**? <br /> 屬性指令沒有相關聯的範本。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-An element may have more than one attribute directive applied.
+**Why**? <br /> 一個元素可以套用多個屬性指令。
 
 </div>
 
@@ -1988,186 +1869,173 @@ An element may have more than one attribute directive applied.
 
 <code-example header="app/app.component.html" path="styleguide/src/06-01/app/app.component.html"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="06-03"></a>
 
-### `HostListener`/`HostBinding` decorators versus `host` metadata
+### `HostListener`/`HostBinding` 裝飾器與 `host` 中繼資料
 
 #### Style 06-03
 
 <div class="s-rule consider">
 
-**Consider** preferring the `@HostListener` and `@HostBinding` to the `host` property of the `@Directive` and `@Component` decorators.
+**Consider** 偏好使用 `@HostListener` 與 `@HostBinding`，而不是 `@Directive` 與 `@Component` 裝飾器的 `host` 屬性。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** be consistent in your choice.
+**Do** 在你的選擇上保持一致。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-The property associated with `@HostBinding` or the method associated with `@HostListener` can be modified only in a single place &mdash;in the directive's class.
-If you use the `host` metadata property, you must modify both the property/method declaration in the directive's class and the metadata in the decorator associated with the directive.
+與 `@HostBinding` 相關的屬性，或與 `@HostListener` 相關的方法，只能在單一位置修改——也就是指令類別內。
+如果使用 `host` 中繼資料屬性，就必須同時修改指令類別中的屬性／方法宣告，以及與指令相關的裝飾器中的中繼資料。
 
 </div>
 
 <code-example header="app/shared/validator.directive.ts" path="styleguide/src/06-03/app/shared/validator.directive.ts"></code-example>
 
-Compare with the less preferred `host` metadata alternative.
+與較不偏好的 `host` 中繼資料替代方案比較。
 
 <div class="s-why-last">
 
-**Why**? <br />
-The `host` metadata is only one term to remember and doesn't require extra ES imports.
+**Why**? <br /> `host` 中繼資料只需要記住一個詞彙，而且不需要額外的 ES 匯入。
 
 </div>
 
 <code-example header="app/shared/validator2.directive.ts" path="styleguide/src/06-03/app/shared/validator2.directive.ts"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
-## Services
+## 服務
 
 <a id="07-01"></a>
 
-### Services are singletons
+### 服務是單例
 
 #### Style 07-01
 
 <div class="s-rule do">
 
-**Do** use services as singletons within the same injector.
-Use them for sharing data and functionality.
+**Do** 在同一個注入器內，把服務當作單例使用。 使用它們來共享資料與功能。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-Services are ideal for sharing methods across a feature area or an app.
+**Why**? <br /> 服務非常適合在功能領域或應用程式之間共享方法。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Services are ideal for sharing stateful in-memory data.
+**Why**? <br /> 服務非常適合共享有狀態的記憶體內資料。
 
 </div>
 
 <code-example header="app/heroes/shared/hero.service.ts" path="styleguide/src/07-01/app/heroes/shared/hero.service.ts" region="example"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="07-02"></a>
 
-### Single responsibility
+### 單一職責
 
 #### Style 07-02
 
 <div class="s-rule do">
 
-**Do** create services with a single responsibility that is encapsulated by its context.
+**Do** 建立具有單一職責的服務，並以其情境加以封裝。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** create a new service once the service begins to exceed that singular purpose.
+**Do** 一旦服務開始超出該單一目的，就建立新的服務。
 
 </div>
 
 <div class="s-why">
 
 **Why**? <br />
-When a service has multiple responsibilities, it becomes difficult to test.
+當服務有多重職責時，就變得難以測試。
 
 </div>
 
 <div class="s-why-last">
 
 **Why**? <br />
-When a service has multiple responsibilities, every component or service that injects it now carries the weight of them all.
+當服務有多重職責時，每個注入它的元件或服務，現在都承擔了所有職責的重量。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="07-03"></a>
 
-### Providing a service
+### 提供服務
 
 #### Style 07-03
 
 <div class="s-rule do">
 
-**Do** provide a service with the application root injector in the `@Injectable` decorator of the service.
+**Do** 在服務的 `@Injectable` 裝飾器中，以應用程式根注入器提供服務。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-The Angular injector is hierarchical.
+**Why**? <br /> Angular 注入器是階層式的。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-When you provide the service to a root injector, that instance of the service is shared and available in every class that needs the service.
-This is ideal when a service is sharing methods or state.
+**Why**? <br /> 當你把服務提供給根注入器時，該服務的實例會被共享，並可在每個需要該服務的類別中使用。 當服務在共享方法或狀態時，這是最理想的做法。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-When you register a service in the `@Injectable` decorator of the service, optimization tools such as those used by the [Angular CLI's](cli) production builds can perform tree shaking and remove services that aren't used by your app.
+**Why**? <br /> 當你在服務的 `@Injectable` 裝飾器中註冊服務時，[Angular CLI](cli) 生產建置所使用的最佳化工具，可以執行 tree shaking，移除應用程式未使用的服務。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-This is not ideal when two different components need different instances of a service.
-In this scenario it would be better to provide the service at the component level that needs the new and separate instance.
+**Why**? <br /> 當兩個不同元件需要不同的服務實例時，這就不是理想的做法。 在這種情境下，比較好的做法是在需要新的獨立實例的元件層級提供服務。
 
 </div>
 
 <code-example header="src/app/treeshaking/service.ts" path="dependency-injection/src/app/tree-shaking/service.ts"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="07-04"></a>
 
-### Use the &commat;Injectable() class decorator
+### 使用 &commat;Injectable() 類別裝飾器
 
 #### Style 07-04
 
 <div class="s-rule do">
 
-**Do** use the `@Injectable()` class decorator instead of the `@Inject` parameter decorator when using types as tokens for the dependencies of a service.
+**Do** 當使用型別作為服務依賴的權杖（token）時，使用 `@Injectable()` 類別裝飾器，而不是 `@Inject` 參數裝飾器。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-The Angular Dependency Injection \(DI\) mechanism resolves a service's own
-dependencies based on the declared types of that service's constructor parameters.
+**Why**? <br /> Angular 依賴注入（DI）機制，會根據服務的建構函式參數所宣告的型別，解析服務自身的 依賴。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-When a service accepts only dependencies associated with type tokens, the `@Injectable()` syntax is much less verbose compared to using `@Inject()` on each individual constructor parameter.
+**Why**? <br /> 當服務只接受與型別權杖相關聯的依賴時，`@Injectable()` 語法比在每個建構函式參數上使用 `@Inject()` 簡潔得多。
 
 </div>
 
@@ -2175,80 +2043,71 @@ When a service accepts only dependencies associated with type tokens, the `@Inje
 
 <code-example header="app/heroes/shared/hero-arena.service.ts" path="styleguide/src/07-04/app/heroes/shared/hero-arena.service.ts" region="example"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
-## Data Services
+## 資料服務
 
 <a id="08-01"></a>
 
-### Talk to the server through a service
+### 透過服務與伺服器溝通
 
 #### Style 08-01
 
 <div class="s-rule do">
 
-**Do** refactor logic for making data operations and interacting with data to a service.
+**Do** 把進行資料操作與和資料互動的邏輯重構到服務中。
 
 </div>
 
 <div class="s-rule do">
 
-**Do** make data services responsible for XHR calls, local storage, stashing in memory, or any other data operations.
+**Do** 讓資料服務負責 XHR 呼叫、本機儲存、暫存在記憶體中，或任何其他資料操作。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-The component's responsibility is for the presentation and gathering of information for the view.
-It should not care how it gets the data, just that it knows who to ask for it.
-Separating the data services moves the logic on how to get it to the data service, and lets the component be simpler and more focused on the view.
+**Why**? <br /> 元件的職責是為檢視呈現與收集資訊。 它不應該在意資料如何取得，只需要知道要向誰索取。 把資料服務分離出來，能把「如何取得資料」的邏輯移到資料服務中，讓元件更簡單、更專注於檢視。
 
 </div>
 
 <div class="s-why">
 
-**Why**? <br />
-This makes it easier to test \(mock or real\) the data calls when testing a component that uses a data service.
+**Why**? <br /> 這讓你在測試使用資料服務的元件時，更容易測試（模擬或真實）資料呼叫。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-The details of data management, such as headers, HTTP methods, caching, error handling, and retry logic, are irrelevant to components and other data consumers.
+**Why**? <br /> 資料管理的細節，例如標頭、HTTP 方法、快取、錯誤處理與重試邏輯，與元件和其他資料消費者無關。
 
-A data service encapsulates these details.
-It's easier to evolve these details inside the service without affecting its consumers.
-And it's easier to test the consumers with mock service implementations.
+資料服務封裝了這些細節。 在服務內部演進這些細節比較容易，不會影響它的消費者。 而且用模擬的服務實作來測試消費者也更容易。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
-## Lifecycle hooks
+## 生命週期鉤子
 
-Use Lifecycle hooks to tap into important events exposed by Angular.
+使用生命週期鉤子，銜接 Angular 公開的重要事件。
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="09-01"></a>
 
-### Implement lifecycle hook interfaces
+### 實作生命週期鉤子介面
 
 #### Style 09-01
 
 <div class="s-rule do">
 
-**Do** implement the lifecycle hook interfaces.
+**Do** 實作生命週期鉤子介面。
 
 </div>
 
 <div class="s-why-last">
 
-**Why**? <br />
-Lifecycle interfaces prescribe typed method signatures.
-Use those signatures to flag spelling and syntax mistakes.
+**Why**? <br /> 生命週期介面規定了有型別的方法簽章。 使用這些簽章來標記出拼字與語法錯誤。
 
 </div>
 
@@ -2256,46 +2115,45 @@ Use those signatures to flag spelling and syntax mistakes.
 
 <code-example header="app/heroes/shared/hero-button/hero-button.component.ts" path="styleguide/src/09-01/app/heroes/shared/hero-button/hero-button.component.ts" region="example"></code-example>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
-## Appendix
+## 附錄
 
-Useful tools and tips for Angular.
+Angular 的實用工具與提示。
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <a id="A-02"></a>
 
-### File templates and snippets
+### 檔案範本與程式碼片段
 
 #### Style A-02
 
 <div class="s-rule do">
 
-**Do** use file templates or snippets to help follow consistent styles and patterns.
-Here are templates and/or snippets for some of the web development editors and IDEs.
+**Do** 使用檔案範本或程式碼片段，協助遵循一致的樣式與模式。 以下是一些 Web 開發編輯器與 IDE 的範本與／或程式碼片段。
 
 </div>
 
 <div class="s-rule consider">
 
-**Consider** using [snippets](https://marketplace.visualstudio.com/items?itemName=johnpapa.Angular2) for [Visual Studio Code](https://code.visualstudio.com) that follow these styles and guidelines.
+**Consider** 為 [Visual Studio Code](https://code.visualstudio.com) 使用遵循這些樣式與準則的[程式碼片段](https://marketplace.visualstudio.com/items?itemName=johnpapa.Angular2)。
 
 <a href="https://marketplace.visualstudio.com/items?itemName=johnpapa.Angular2">
 
-<img alt="Use Extension" src="generated/images/guide/styleguide/use-extension.gif">
+<img alt="使用擴充功能" src="generated/images/guide/styleguide/use-extension.gif">
 
 </a>
 
-**Consider** using [snippets](https://atom.io/packages/angular-2-typescript-snippets) for [Atom](https://atom.io) that follow these styles and guidelines.
+**Consider** 使用 [程式碼片段](https://atom.io/packages/angular-2-typescript-snippets) 來搭配 [Atom](https://atom.io)，這些程式碼片段遵循這些風格與準則。
 
-**Consider** using [snippets](https://github.com/orizens/sublime-angular2-snippets) for [Sublime Text](https://www.sublimetext.com) that follow these styles and guidelines.
+**Consider** 為 [Sublime Text](https://www.sublimetext.com) 使用遵循這些樣式與準則的[程式碼片段](https://github.com/orizens/sublime-angular2-snippets)。
 
-**Consider** using [snippets](https://github.com/mhartington/vim-angular2-snippets) for [Vim](https://www.vim.org) that follow these styles and guidelines.
+**Consider** 為 [Vim](https://www.vim.org) 使用遵循這些樣式與準則的[程式碼片段](https://github.com/mhartington/vim-angular2-snippets)。
 
 </div>
 
-[Back to top](#toc)
+[回到頁首](#toc)
 
 <!-- links -->
 

@@ -1,125 +1,111 @@
-# Open a documentation pull request
+# 開啟文件 pull request
 
-This topic describes how to open the pull request that requests your documentation update to be added to the `angular/angular` repo.
+本主題說明如何開啟 pull request，以要求將你的文件更新加入 `angular/angular` 儲存庫。
 
-These steps are performed in your web browser.
+這些步驟是在你的網頁瀏覽器中執行的。
 
-1.  Locate the `working` branch that you want to use for your pull request.
-    In this example, `test-1` is the name of the `working` branch.
-    Choose one of these options to open a pull request.
+1.  找到你想用於 pull request 的 `working` 分支。在這個範例中，`test-1` 是 `working` 分支的名稱。選擇下列其中一個選項來開啟 pull request。
 
-    1.  If you recently pushed the branch that you want to use to the `origin` repo, you might see it listed on the code page of the `angular` repo in your GitHub account.
-        This image shows an example of a repo that has had several recent updates.
+    1.  如果你最近將想使用的分支推送到 `origin` 儲存庫，你可能會在 GitHub 帳號中 `angular` 儲存庫的程式碼頁面上看到它列在其中。這張圖片顯示一個最近有數次更新的儲存庫範例。
 
         <div class="lightbox">
 
         <!-- Image source is found in angular/aio/src/assets/images/doc-contribute-images.sketch, in the sketch page that matches this topic's filename -->
-        <img alt="Screenshot of github.com page showing a recent push to the repo" src="generated/images/guide/doc-pr-open/github-recent-push.png">
+        <img alt="github.com 頁面的螢幕截圖，顯示最近推送到儲存庫的內容" src="generated/images/guide/doc-pr-open/github-recent-push.png">
 
         </div>
 
-        In the alert message with your `working` branch, click **Compare &amp; pull request** to open a pull request and continue to the next step.
+在包含你的 `working` 分支的提醒訊息中，點選 **Compare &amp; pull request** 以開啟 pull request 並繼續下一個步驟。
 
-    1.  You can also select your `working` branch in the code page of the origin repo.
+    1.  你也可以在 origin 儲存庫的程式碼頁面中選取你的 `working` 分支。
 
         <div class="lightbox">
 
         <!-- Image source is found in angular/aio/src/assets/images/doc-contribute-images.sketch, in the sketch page that matches this topic's filename -->
-        <img alt="Screenshot of code page of the origin repo from github.com page showing a branch listing from a repo" src="generated/images/guide/doc-pr-open/github-branch-view.png">
+        <img alt="github.com 頁面中來源儲存庫程式碼頁面的螢幕截圖，顯示儲存庫的分支清單" src="generated/images/guide/doc-pr-open/github-branch-view.png">
 
         </div>
 
-        Click the link text in the `"This branch is"` message to open the **Comparing changes** page.
+點選 `"This branch is"` 訊息中的連結文字，以開啟 **Comparing changes** 頁面。
 
         <div class="lightbox>
 
         <!-- Image source is found in angular/aio/src/assets/images/doc-contribute-images.sketch, in the sketch page that matches this topic's filename -->
-        <img alt="Screenshot of Comparing Changes page in github.com page showing a difference between branches of a repo" src="generated/images/guide/doc-pr-open/github-branch-diff.png">
+        <img alt="github.com 頁面中比較變更頁面的螢幕截圖，顯示儲存庫分支之間的差異" src="generated/images/guide/doc-pr-open/github-branch-diff.png">
 
         </div>
 
-        In the **Comparing changes** page, click **Create pull request** to open the new pull request page.
+在 **Comparing changes** 頁面中，點選 **Create pull request** 以開啟新的 pull request 頁面。
 
-    1.  Review and complete the form in the comment field.
-        Most documentation updates require responses to the entries noted by an arrow and described below.
+    1.  檢閱並填寫註解欄位中的表單。大多數文件更新都需要回答以下以箭頭標示並說明的項目。
 
         <div class="lightbox">
 
         <!-- Image source is found in angular/aio/src/assets/images/doc-contribute-images.sketch, in the sketch page that matches this topic's filename -->
-        <img alt="Screenshot of pull request form" src="generated/images/guide/doc-pr-open/pr-checklist.png">
+        <img alt="提取要求表單的螢幕截圖" src="generated/images/guide/doc-pr-open/pr-checklist.png">
 
         </div>
 
 <!-- vale Angular.Google_We = NO -->
 
-        1.  **The commit message follows our guidelines**
+        1.  **提交訊息遵循我們的指南**
 
-            Mark this comment when you're sure your commit messages are in the correct format.
-            Remember that the commit messages and the pull request title are different.
-            For more information about commit message formatting, see [Preparing a documentation update for a pull request](guide/doc-pr-prep) and [Commit message format](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit).
+當你確定提交訊息的格式正確時，請勾選這個註解。請記得，提交訊息與 pull request 標題是不同的。有關提交訊息格式的更多資訊，請參閱[為 pull request 準備文件更新](guide/doc-pr-prep)與[提交訊息格式](https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit)。
 
-        1.  **Docs have been added / updated \(for bug fixes / features\)**
+        1.  **已新增／更新文件（針對錯誤修正／功能）**
 
-            Mark this comment to show that documentation has been updated.
+勾選這個註解以表示文件已更新。
 
-        1.  **Documentation content changes**
+        1.  **文件內容變更**
 
-        Mark this comment to identify this is a documentation pull request.
-        If you also updated other types of content, you can mark those as well.
+勾選這個註解以表明這是一個文件 pull request。如果你也更新了其他類型的內容，也可以一併勾選。
 
-        1.  **What is the current behavior?**
+        1.  **目前的行為為何？**
 
-            Briefly describe what wasn't working or what was incorrect in the documentation before you made the changes in this pull request.
-            Add the issue number here, if the problem is described in an issue.
+簡要說明在你於此 pull request 中進行變更之前，文件中有什麼無法運作或不正確之處。如果問題已在議題中描述，請在此加入議題編號。
 
-        1.  **What is the new behavior?**
+        1.  **新的行為為何？**
 
-            Briefly describe what was added to fix the problem.
+簡要說明新增了什麼來修正問題。
 
-        1.  **Does this PR introduce a breaking change?**
+        1.  **這個 PR 是否引入了重大變更？**
 
-            For most documentation updates, the answer to this should be `No`.
+對於大多數文件更新，這個問題的答案應為 `No`。
 
-        1.  **Other information**
+        1.  **其他資訊**
 
-            Add any other information that can help reviewers understand your pull request here.
+在此加入任何其他有助於檢閱者理解你的 pull request 的資訊。
 
 <!-- vale Angular.Google_We = YES -->
 
-1.  Click the arrow next to **Draft pull request** and select whether you want to create a draft pull request or a pull request.
-    1.  A draft pull request runs the continuous integration \(CI\) testing, but does not send the pull request to reviewers.
-        You can ask people to review it by sending them the pull request link.
-        You might use this option to see how your pull request passes the CI testing before you send it for review to be merged.
-        Draft pull requests cannot be merged.
+1.  點選 **Draft pull request** 旁的箭頭，選擇要建立草稿 pull request 或 pull request。
+    1.  草稿 pull request 會執行持續整合（CI）測試，但不會將 pull request 傳送給檢閱者。你可以傳送 pull request 連結請他人檢閱。在將 pull request 送交檢閱以合併之前，你可以使用這個選項來查看你的 pull request 通過 CI 測試的情況。草稿 pull request 無法合併。
 
-    1.  A pull request runs the continuous integration \(CI\) testing and sends your pull request to reviewers to review and merge.
+    1.  pull request 會執行持續整合（CI）測試，並將你的 pull request 傳送給檢閱者進行檢閱與合併。
 
         <div class="alert is-helpful">
 
-        **NOTE**: <br />
-        You can change draft pull requests to pull requests.
+        **注意**：<br />
+        你可以將草稿 pull request 變更為 pull request。
 
         </div>
 
-1.  Click **Create the pull request** or **Draft pull request** to open the pull request.
-    After GitHub creates the pull request, the browser opens the new pull request page.
+1.  點選 **Create the pull request** 或 **Draft pull request** 以開啟 pull request。GitHub 建立 pull request 後，瀏覽器會開啟新的 pull request 頁面。
 
-1.  After you open the pull request, the automated tests start running.
+1.  開啟 pull request 後，自動化測試會開始執行。
 
-## What happens after you open a pull request
+## 開啟 pull request 後會發生什麼事
 
-In most cases, documentation pull requests that pass the automated tests are approved within a few days.
+在大多數情況下，通過自動化測試的文件 pull request 會在幾天內獲得核准。
 
-Sometimes, reviewers suggest changes for you to make to improve your pull request.
-In those case, review the suggestions and [update the pull request](guide/doc-pr-update) with a comment or an updated file.
+有時候，檢閱者會建議你進行變更以改善 pull request。在這種情況下，請檢閱建議，並[更新 pull request](guide/doc-pr-update)，附上註解或更新後的檔案。
 
-### What happens to abandoned pull requests
+### 被棄置的 pull request 會如何處理
 
-While it can take a few days to respond to comments, try to respond as quickly as you can.
-Pull requests that appear to abandoned or ignored are closed according to this schedule:
+回覆註解可能需要幾天時間，但請盡快回覆。看起來被棄置或忽略的 pull request 會依下列時程關閉：
 
-*   After 14 days of inactivity after the last comment, the author is reminded that the pull request has pending comments
-*   After 28 days of inactivity after the last comment, the pull request is closed and not merged
+*   上次註解後 14 天無活動，作者會收到提醒，指出 pull request 有待處理的註解
+*   上次註解後 28 天無活動，pull request 會關閉且不合併
 
 <!-- links -->
 

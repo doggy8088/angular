@@ -1,339 +1,337 @@
-# Angular Roadmap
+# Angular 路線圖
 
-<p class="roadmap-last-updated">Last updated: 2022-11-05</p>
+<p class="roadmap-last-updated">上次更新：2022-11-05</p>
 
-Angular receives a large number of feature requests, both from inside Google and from the broader open-source community.
-At the same time, our list of projects contains plenty of maintenance tasks, code refactorings, and potential performance improvements.
-We bring together representatives from developer relations, product management, and engineering to prioritize this list.
-As new projects come into the queue, we regularly position them based on relative priority to other projects.
-As work gets done, projects move up in the queue.
+Angular 收到了大量的功能需求，來自 Google 內部與更廣大的開放原始碼社群。
+同時，我們的專案清單中也有大量的維護工作、程式碼重構與潛在的效能改善。
+我們召集了開發者關係、產品管理與工程的代表，共同為這份清單排定優先順序。
+當新的專案進入佇列時，我們會定期依其相對於其他專案的優先順序來定位。
+隨著工作完成，專案會在佇列中往前移動。
 
-The following projects are not associated with a particular Angular version.
-We will release them on completion, and they will be part of a specific version based on our release schedule, following semantic versioning.
-For example, features are released in the next minor after they are complete, or the next major if they include breaking changes.
+下列專案並未與特定的 Angular 版本綁定。我們會在完成時發布它們，並依我們的版本發布時程、遵循語意化版本管理，將它們納入特定版本。例如，功能會在完成後的下一個次要版本中發布，如果包含破壞性變更，則會在下一個主要版本中發布。
 
-## In progress
+## 進行中
 
-### Explore hydration and server-side rendering usability improvements
+### 探索水合與伺服器端渲染的易用性改進
 
-As the first step of this project we will implement non-destructive hydration. This technique will allow us to reuse the server-side rendered DOM and rather than rerendering it only attach event listeners and create data structures required by the Angular runtime. As the next step, we are going to further explore the dynamically evolving space of partial hydration and resumability. Each of the approaches has their trade-offs and we'd like to make an informed decision what's the most optimal long-term solution for Angular.
+作為這個專案的第一步，我們將實作非破壞性水合。這項技術讓我們能重用伺服器端渲染的 DOM，而不是重新渲染它，只需附加事件監聽器並建立 Angular 執行階段所需的資料結構。下一步，我們將進一步探索部分水合與可恢復性這個動態發展的領域。每種方法各有取捨，我們希望做出明智的決定，找出對 Angular 最理想的長期解決方案。
 
-### Improve runtime performance and make Zone.js optional
+### 改善執行階段效能並讓 Zone.js 成為可選項
 
-As part of this effort we are revisiting Angular's reactivity model to make Zone.js optional and improve runtime performance. By default Angular runs change detection globally, traversing the entire component tree. We're exploring options to run change detection only in affected components. This way, we simplify the framework, improve debugging, and reduce application bundle size. Additionally, this lets us take advantage of built-in async/await syntax, which currently Zone.js does not support.
+作為這項工作的一部分，我們正在重新檢視 Angular 的反應式模型，以讓 Zone.js 成為可選項並改善執行階段效能。Angular 預設會全域執行變更偵測，遍歷整個元件樹。我們正在探索只在受影響的元件中執行變更偵測的方案。如此一來，我們能簡化框架、改善除錯，並縮小應用程式套件大小。此外，這也讓我們能善用內建的 async/await 語法，這是目前 Zone.js 不支援的。
 
-### Improve documentation and schematics for standalone components
+### 改善獨立元件的文件與原理圖
 
-We are working on developing an `ng new` collection for applications bootstrapped with a standalone component. Additionally, we are filling the documentation gaps of the simplified standalone component APIs.
+我們正在開發一個 `ng new` 集合，用於以獨立元件啟動的應用程式。此外，我們正在填補簡化版獨立元件 API 的文件缺口。
 
-### Introduce dependency injection debugging APIs
+### 引入依賴注入除錯 API
 
-To improve the debugging utilities of Angular and Angular DevTools, we'll work on APIs that provide access the dependency injection runtime. As part of the project we'll expose debugging methods that allow us to explore the injector hierarchy and the dependencies across their associated providers.
+為了改善 Angular 與 Angular DevTools 的除錯工具，我們將開發能存取依賴注入執行階段的 API。在這個專案中，我們將公開除錯方法，讓我們能探索注入器階層，以及各個關聯 provider 之間的相依性。
 
-### Streamline standalone imports with Language Service
+### 以 Language Service 簡化獨立匯入
 
-As part of this initiative we are going to implement automatic import of template dependencies for standalone components. Additionally, to enable smaller application bundles the language service will propose automatic removal of unused imports.
+在這個計畫中，我們將為獨立元件實作範本相依性的自動匯入。此外，為了讓應用程式套件更小，語言服務將建議自動移除未使用的匯入。
 
-### Investigate modern bundles
+### 研究現代化套件組合
 
-To improve development experience by speeding up build times, we plan to explore options to improve JavaScript bundles created by Angular CLI.
-As part of the project experiment with [esbuild](https://esbuild.github.io) and other open source solutions, compare them with the state-of-the-art tooling in Angular CLI, and report the findings. In Angular v15 we have experimental esbuild support in `ng build` and `ng build --watch`. We'll continue iterating on the solution until we're confident to release it as stable.
+為了透過加快建置時間改善開發體驗，我們計劃探索改善 Angular CLI 所建立的 JavaScript 套件的方案。
+作為這個專案的一部分，我們將實驗 [esbuild](https://esbuild.github.io) 與其他開放原始碼解決方案，將它們與 Angular CLI 中最先進的工具比較，並報告研究結果。在 Angular v15 中，`ng build` 與 `ng build --watch` 已有實驗性的 esbuild 支援。我們將持續反覆改進這個解決方案，直到有信心將它發布為穩定版。
 
-### New CDK primitives
+### 新的 CDK 基礎元件
 
-We are working on new CDK primitives to facilitate creating custom components based on the WAI-ARIA design patterns for [Combobox](https://www.w3.org/TR/wai-aria-practices-1.1/#combobox). Angular v14 introduced stable [menu and dialog primitives](https://material.angular.io/cdk/categories) as part of this project and in v15 [Listbox](https://www.w3.org/TR/wai-aria-practices-1.1/#Listbox).
+我們正在開發新的 CDK 基礎元件，以利根據 [Combobox](https://www.w3.org/TR/wai-aria-practices-1.1/#combobox) 的 WAI-ARIA 設計模式建立自訂元件。Angular v14 已將穩定的[選單與對話框基礎元件](https://material.angular.io/cdk/categories)納入這個專案，v15 則是 [Listbox](https://www.w3.org/TR/wai-aria-practices-1.1/#Listbox)。
 
-### Angular component accessibility
+### Angular 元件無障礙
 
-We are evaluating components in Angular Material against accessibility standards such as WCAG and working to fix any issues that arise from this process.
+我們正在根據 WCAG 等無障礙標準評估 Angular Material 中的元件，並致力於修正這個過程中發現的任何問題。
 
-### Documentation refactoring
+### 文件重構
 
-Ensure all existing documentation fits into a consistent set of content types. Update excessive use of tutorial-style documentation into independent topics. We want to ensure the content outside the main tutorials is self-sufficient without being tightly coupled to a series of guides. In Q2 2022, we refactored the [template content](https://github.com/angular/angular/pull/45897). The next steps are to introduce better structure for components and dependency injection.
+確保所有現有文件都符合一致的內容類型集合。將過度使用教學風格的文件更新為獨立主題。我們希望確保主要教學之外的內容能夠自給自足，而不必緊密耦合於一系列指南。在 2022 年第二季，我們重構了[範本內容](https://github.com/angular/angular/pull/45897)。接下來的步驟是為元件與依賴注入引入更好的結構。
 
-### Investigate micro frontend architecture for scalable development processes
+### 研究微前端架構以實現可擴充的開發流程
 
-For the past couple of quarters we understood and defined the problem space. We are going to follow up with a series of blog posts on best practices when developing applications at scale.
+在過去幾個季度，我們已經理解並定義了問題的範圍。我們將跟進發表一系列關於大規模開發應用程式最佳實務的部落格文章。
 
-### Update getting started tutorial
+### 更新入門教學
 
-We're working on updating the Angular getting started experience with standalone components. As part of this initiative, we'd like to create a new textual and video tutorials.
+我們正在致力於以獨立元件更新 Angular 的入門體驗。作為這個計畫的一部分，我們想建立新的文字與影片教學。
 
-### Improvements in the image directive
+### 圖片指令的改進
 
-We released the Angular [image directive](https://developer.chrome.com/blog/angular-image-directive/) as stable in v15. We introduced a new fill mode feature that enables images to fit within their parent container rather than having explicit dimensions. Currently, this feature is in [developer preview](https://angular.io/guide/releases#developer-preview). Next we'll be working on collecting feedback from developers before we promote fill mode as stable.
+我們在 v15 中將 Angular [圖片指令](https://developer.chrome.com/blog/angular-image-directive/)發布為穩定版。我們引入了新的 fill 模式功能，讓圖片能配合父層容器的大小，而不是使用明確的尺寸。目前，這項功能處於[開發者預覽](https://angular.io/guide/releases#developer-preview)。接下來，我們將致力於收集開發者的回饋，然後再將 fill 模式提升為穩定版。
 
-## Future
+## 未來
 
-### Token-based theming APIs
+### 以權杖為基礎的主題 API
 
-To provide better customization of our Angular material components and enable Material 3 capabilities, we'll be collaborating with Google's Material Design team on defining token-based theming APIs.
+為了提供更好的 Angular Material 元件自訂能力，並啟用 Material 3 功能，我們將與 Google 的 Material Design 團隊合作，定義以權杖為基礎的主題 API。
 
-### Modernize Angular's unit testing experience
+### 讓 Angular 的單元測試體驗現代化
 
-In v12 we revisited the Angular end-to-end testing experience by replacing Protractor with modern alternatives such as Cypress, Nightwatch, and Webdriver.io. Next we'd like to tackle `ng test` to modernize Angular's unit testing experience.
+在 v12 中，我們以 Cypress、Nightwatch 與 Webdriver.io 等現代替代方案取代 Protractor，重新檢視了 Angular 的端對端測試體驗。接下來，我們想著手處理 `ng test`，讓 Angular 的單元測試體驗現代化。
 
-### Revamp performance dashboards to detect regressions
+### 改造效能儀表板以偵測迴歸問題
 
-We have a set of benchmarks that we run against every code change to ensure Angular aligns with our performance standards.
-To ensure the runtime of the framework does not regress after a code change, we need to refine some of the existing infrastructure the dashboards step on.
+我們有一組基準測試，會針對每次程式碼變更執行，以確保 Angular 符合我們的效能標準。
+為了確保框架的執行階段在程式碼變更後不致退步，我們需要改進儀表板所依賴的部分現有基礎設施。
 
-### Improved build performance with ngc as a tsc plugin distribution
+### 透過將 ngc 作為 tsc 外掛程式發行來改善建置效能
 
-Distributing the Angular compiler as a plugin of the TypeScript compiler will substantially improve build performance for developers and reduce maintenance costs.
+將 Angular 編譯器作為 TypeScript 編譯器的外掛程式發行，將大幅改善開發者的建置效能，並降低維護成本。
 
-### Ergonomic component level code-splitting APIs
+### 符合人體工學的元件層級程式碼拆分 API
 
-A common problem with web applications is their slow initial load time.
-A way to improve it is to apply more granular code-splitting on a component level.
-To encourage this practice, we will be working on more ergonomic code-splitting APIs.
+Web 應用程式常見的問題是初始載入速度緩慢。
+改善的方法之一，是在元件層級套用更細粒度的程式碼拆分。
+我們將致力於提供更符合人體工學的程式碼拆分 API，以鼓勵這種做法。
 
-### Ensure smooth adoption for future RxJS changes (version 8 and beyond)
+### 確保未來 RxJS 變更（第 8 版及以後）能順利採用
 
-We want to ensure Angular developers are taking advantage of the latest capabilities of RxJS and have a smooth transition to the next major releases of the framework.
-For this purpose, we will explore and document the scope of the changes in v7 and beyond RxJS, and plan an update strategy.
+我們希望確保 Angular 開發者能善用 RxJS 的最新功能，並順利過渡到框架後續的主要版本。
+為此，我們將探索並記錄 v7 及之後 RxJS 變更的範圍，並規劃更新策略。
 
-### Support two-dimensional drag-and-drop
+### 支援二維拖放
 
-As part of this project we'd like to implement mixed orientation support for the Angular CDK drag and drop. This is one of the most highly [requested features](https://github.com/angular/components/issues/13372) in the repository.
+在這個專案中，我們想為 Angular CDK 拖放功能實作混合方向支援。這是儲存庫中呼聲最高的[功能需求](https://github.com/angular/components/issues/13372)之一。
 
 <details class="completed-details" open="true">
   <summary>
-    <h2>Completed</h2>
+    <h2>已完成</h2>
     <span class="actions">
-      <span class="action-expand">Show all</span>
-      <span class="action-collapse">Hide all</span>
+      <span class="action-expand">全部展開</span>
+      <span class="action-collapse">全部收合</span>
       <i class="material-icons expand">expand_more</i>
     </span>
   </summary>
   <div class="details-content">
 
-### Improve image performance
+### 改善圖片效能
 
-*Completed Q4 2022*
+*已於 2022 年第四季完成*
 
-The [Aurora](https://web.dev/introducing-aurora/) and the Angular teams are working on the implementation of an image directive that aims to improve [Core Web Vitals](https://web.dev/vitals). We shipped a stable version of the image directive in v15.
+[Aurora](https://web.dev/introducing-aurora/) 與 Angular 團隊正在實作一個旨在改善 [Core Web Vitals](https://web.dev/vitals) 的圖片指令。我們在 v15 中發布了穩定版的圖片指令。
 
-### Modern CSS
+### 現代 CSS
 
-*Completed Q4 2022*
+*已於 2022 年第四季完成*
 
-The Web ecosystem evolves constantly and we want to reflect the latest modern standards in Angular. In this project we aim to provide guidelines on using modern CSS features in Angular to ensure developers follow best practices for layout, styling, etc. We shared official guidelines for layout and as part of the initiative stopped publishing flex layout. Learn [more on our blog](https://blog.angular.io/modern-css-in-angular-layouts-4a259dca9127).
+Web 生態系不斷演進，我們希望在 Angular 中反映最新的現代標準。在這個專案中，我們的目標是提供在 Angular 中使用現代 CSS 功能的指南，確保開發者遵循版面配置、樣式等方面的最佳實務。我們分享了版面配置的官方指南，並在這個計畫中停止發布 flex 版面配置。請參閱我們的[部落格文章](https://blog.angular.io/modern-css-in-angular-layouts-4a259dca9127)瞭解更多。
 
-### Support adding directives to host elements
+### 支援在宿主元素上加入指令
 
-*Completed Q4 2022*
+*已於 2022 年第四季完成*
 
-A [long-standing feature request](https://github.com/angular/angular/issues/8785) is to add the ability to add directives to host elements. The feature lets developers augment their own components with additional behaviors without using inheritance. In v15 we shipped our directive composition API, which enables enhancing host elements with directives.
+一個[由來已久的功能需求](https://github.com/angular/angular/issues/8785)是加入在宿主元素上加入指令的能力。這項功能讓開發者不用繼承就能以額外的行為擴充自己的元件。在 v15 中，我們發布了指令組合 API，能以指令增強宿主元素。
 
-### Better stack traces
+### 更好的堆疊追蹤
 
-*Completed Q4 2022*
+*已於 2022 年第四季完成*
 
-The Angular and the Chrome DevTools are working together to enable more readable stack traces for error messages. In v15 we [released improved](https://twitter.com/angular/status/1578807563017392128) relevant and linked stack traces. As a lower priority initiative, we'll be exploring how to make the stack traces friendlier by providing more accurate call frame names for templates.
+Angular 與 Chrome DevTools 團隊正在合作，讓錯誤訊息的堆疊追蹤更易讀。在 v15 中，我們[發布了改進後](https://twitter.com/angular/status/1578807563017392128)的相關且具連結的堆疊追蹤。作為較低優先順序的計畫，我們將探索如何透過為範本提供更準確的呼叫框架名稱，讓堆疊追蹤更友善。
 
-### Enhanced Angular Material components by integrating MDC Web
+### 整合 MDC Web 強化 Angular Material 元件
 
-*Completed Q4 2022*
+*已於 2022 年第四季完成*
 
-[MDC Web](https://material.io/develop/web) is a library created by the Google Material Design team that provides reusable primitives for building Material Design components.
-The Angular team is incorporating these primitives into Angular Material.
-Using MDC Web aligns Angular Material more closely with the Material Design specification, expand accessibility, improve component quality, and improve the velocity of our team.
+[MDC Web](https://material.io/develop/web) 是 Google Material Design 團隊建立的函式庫，提供可重用的基礎元件，用於建立 Material Design 元件。
+Angular 團隊正在將這些基礎元件納入 Angular Material。
+使用 MDC Web 能讓 Angular Material 更貼近 Material Design 規範、擴充無障礙、改善元件品質，並提升我們團隊的速度。
 
-### Implement APIs for optional NgModules
+### 為可選的 NgModule 實作 API
 
-*Completed Q4 2022*
+*已於 2022 年第四季完成*
 
-In the process of making Angular simpler, we are working on [introducing APIs](https://angular.io/guide/standalone-components) that allow developers to initialize applications, instantiate components, and use the router without NgModules. Angular v14 introduces developer preview of the APIs for standalone components, directives, and pipes. In the next few quarters we'll collect feedback from developers and finalize the project making the APIs stable. As the next step we will work on improving use cases such as `TestBed`, Angular elements, etc.
+在讓 Angular 更簡單的過程中，我們正在開發[引入 API](https://angular.io/guide/standalone-components)，讓開發者不用 NgModule 也能初始化應用程式、建立元件實例並使用路由器。Angular v14 引入了獨立元件、指令與管道 API 的開發者預覽。在接下來的幾個季度，我們將收集開發者的回饋並敲定這個專案，讓 API 穩定下來。下一步，我們將致力於改善 `TestBed`、Angular elements 等使用情境。
 
-### Allow binding to protected fields in templates
+### 允許在範本中繫結到受保護的欄位
 
-*Completed Q2 2022*
+*已於 2022 年第二季完成*
 
-To improve the encapsulation of Angular components we enabled binding to protected members of the component instance. This way you'll no longer have to expose a field or a method as public to use it inside your templates.
+為了改善 Angular 元件的封裝，我們啟用了繫結到元件實例受保護成員的功能。這樣一來，你就不必再把欄位或方法公開，才能在範本中使用它們。
 
-### Publish guides on advanced concepts
+### 發布進階概念指南
 
-*Completed Q2 2022*
+*已於 2022 年第二季完成*
 
-Develop and publish an in-depth guide on change detection.
-Develop content for performance profiling of Angular applications.
-Cover how change detection interacts with Zone.js and explain when it gets triggered, how to profile its duration, as well as common practices for performance optimization.
+開發並發布關於變更偵測的深入指南。
+開發 Angular 應用程式效能分析的內容。
+說明變更偵測如何與 Zone.js 互動、說明它何時被觸發、如何分析其持續時間，以及效能優化的常見實務。
 
-### Rollout strict typings for `@angular/forms`
+### 為 `@angular/forms` 推出嚴格型別
 
-*Completed Q2 2022*
+*已於 2022 年第二季完成*
 
-In Q4 2021 we designed a solution for introducing strict typings for forms and in Q1 2022 we concluded the corresponding [request for comments](https://github.com/angular/angular/discussions/44513).
-Currently, we are implementing a rollout strategy with an automated migration step that will enable the improvements for existing projects.
-We are first testing the solution with more than 2,500 projects at Google to ensure a smooth migration path for the external community.
+在 2021 年第四季，我們設計了為表單引入嚴格型別的解決方案，並在 2022 年第一季完成了相應的[徵求意見](https://github.com/angular/angular/discussions/44513)。
+目前，我們正在實作推廣策略，以自動化遷移步驟，讓現有專案也能獲得這些改進。
+我們先在 Google 內部超過 2,500 個專案中測試這個解決方案，以確保外部社群能順利遷移。
 
-### Remove legacy [View Engine](guide/glossary#ve)
+### 移除舊版 [View Engine](guide/glossary#ve)
 
-*Completed Q1 2022*
+*已於 2022 年第一季完成*
 
-After the transition of all our internal tooling to Ivy is completed, we will remove the legacy View Engine for reduced Angular conceptual overhead, smaller package size, lower maintenance cost, and lower codebase complexity.
+在我們所有的內部工具都轉換到 Ivy 之後，我們將移除舊版 View Engine，以降低 Angular 的概念負擔、縮小套件大小、降低維護成本與程式碼庫複雜度。
 
-### Simplified Angular mental model with optional NgModules
+### 以可選的 NgModule 簡化 Angular 心智模型
 
-*Completed Q1 2022*
+*已於 2022 年第一季完成*
 
-To simplify the Angular mental model and learning journey, we will be working on making NgModules optional.
-This work lets developers develop standalone components and implement an alternative API for declaring the compilation scope of the component.
-We kicked this project off with high-level design discussions that we captured in an [RFC](https://github.com/angular/angular/discussions/43784).
+為了簡化 Angular 的心智模型與學習歷程，我們將致力於讓 NgModule 成為可選項。
+這項工作讓開發者能開發獨立元件，並實作另一種 API 來宣告元件的編譯範圍。
+我們以高階設計討論啟動了這個專案，並將其記錄在 [RFC](https://github.com/angular/angular/discussions/43784) 中。
 
-### Design strict typing for `@angular/forms`
+### 為 `@angular/forms` 設計嚴格型別
 
-*Completed Q1 2022*
+*已於 2022 年第一季完成*
 
-We will work on finding a way to implement stricter type checking for reactive forms with minimal backward incompatible implications.
-This way, we let developers catch more issues during development time, enable better text editor and IDE support, and improve the type checking for reactive forms.
+我們將致力於找到一種方法，以最小的向下不相容影響，為反應式表單實作更嚴格的型別檢查。
+這樣一來，我們讓開發者在開發期間能發現更多問題、獲得更好的文字編輯器與 IDE 支援，並改善反應式表單的型別檢查。
 
-### Improve integration of Angular DevTools with framework
+### 改善 Angular DevTools 與框架的整合
 
-*Completed Q1 2022*
+*已於 2022 年第一季完成*
 
-To improve the integration of Angular DevTools with the framework, we are working on moving the codebase to the [angular/angular](https://github.com/angular/angular) monorepository.
-This includes transitioning Angular DevTools to Bazel and integrating it into the existing processes and CI pipeline.
+為了改善 Angular DevTools 與框架的整合，我們正在將程式碼庫移至 [angular/angular](https://github.com/angular/angular) 單一儲存庫。
+這包括將 Angular DevTools 轉換到 Bazel，並整合到現有的流程與 CI 管線中。
 
-### Launch advanced compiler diagnostics
+### 推出進階編譯器診斷
 
-*Completed Q1 2022*
+*已於 2022 年第一季完成*
 
-Extend the diagnostics of the Angular compiler outside type checking.
-Introduce other correctness and conformance checks to further guarantee correctness and best practices.
+將 Angular 編譯器的診斷擴充到型別檢查之外。
+引入其他正確性與一致性檢查，以進一步保證正確性與最佳實務。
 
-### Update our e2e testing strategy
+### 更新我們的 e2e 測試策略
 
-*Completed Q3 2021*
+*已於 2021 年第三季完成*
 
-To ensure we provide a future-proof e2e testing strategy, we want to evaluate the state of Protractor, community innovations, e2e best practices, and explore novel opportunities.
-As first steps of the effort, we shared an [RFC](https://github.com/angular/protractor/issues/5502) and worked with partners to ensure smooth integration between the Angular CLI and state-of-the-art tooling for e2e testing.
-As the next step, we need to finalize the recommendations and compile a list of resources for the transition.
+為了確保我們提供面向未來的 e2e 測試策略，我們想評估 Protractor 的現況、社群創新、e2e 最佳實務，並探索新的機會。
+作為這項工作的第一步，我們分享了一份 [RFC](https://github.com/angular/protractor/issues/5502)，並與合作夥伴合作，確保 Angular CLI 與最先進的 e2e 測試工具順利整合。
+下一步，我們需要敲定建議事項，並彙編一份轉換資源清單。
 
-### Angular libraries use Ivy
+### Angular 函式庫使用 Ivy
 
-*Completed Q3 2021*
+*已於 2021 年第三季完成*
 
-Earlier in 2020, we shared an [RFC](https://github.com/angular/angular/issues/38366) for Ivy library distribution.
-After invaluable feedback from the community, we developed a design of the project.
-We are now investing in the development of Ivy library distribution, including an update of the library package format to use Ivy compilation, unblock the deprecation of the View Engine library format, and [ngcc](guide/glossary#ngcc).
+在 2020 年初，我們分享了一份關於 Ivy 函式庫發行的 [RFC](https://github.com/angular/angular/issues/38366)。
+在獲得社群寶貴的回饋後，我們開發了這個專案的設計。
+我們現在正投入開發 Ivy 函式庫發行，包括將函式庫套件格式更新為使用 Ivy 編譯、解除 View Engine 函式庫格式的淘汰阻礙，以及 [ngcc](guide/glossary#ngcc)。
 
-### Improve test times and debugging with automatic test environment tear down
+### 以自動測試環境拆卸改善測試時間與除錯
 
-*Completed Q3 2021*
+*已於 2021 年第三季完成*
 
-To improve test time and create better isolation across tests, we want to change [`TestBed`](api/core/testing/TestBed) to automatically clean up and tear down the test environment after each test run.
+為了改善測試時間並在測試之間建立更好的隔離，我們想將 [`TestBed`](api/core/testing/TestBed) 改為在每次測試執行後自動清理並拆卸測試環境。
 
-### Deprecate and remove IE11 support
+### 淘汰並移除 IE11 支援
 
-*Completed Q3 2021*
+*已於 2021 年第三季完成*
 
-Internet Explorer 11 \(IE11\) has been preventing Angular from taking advantage of some of the modern features of the Web platform.
-As part of this project we are going to deprecate and remove IE11 support to open the path for modern features that evergreen browsers provide.
-We ran an [RFC](https://github.com/angular/angular/issues/41840) to collect feedback from the community and decide on next steps to move forward.
+Internet Explorer 11 \(IE11\) 一直阻礙 Angular 善用 Web 平台的一些現代功能。
+在這個專案中，我們將淘汰並移除 IE11 支援，為長青瀏覽器提供的現代功能開闢道路。
+我們執行了一份 [RFC](https://github.com/angular/angular/issues/41840) 來收集社群回饋，並決定下一步的行動。
 
-### Leverage ES2017+ as the default output language
+### 以 ES2017+ 作為預設輸出語言
 
-*Completed Q3 2021*
+*已於 2021 年第三季完成*
 
-Supporting modern browsers lets us take advantage of the more compact, expressive, and performant new syntax of JavaScript.
-As part of this project we will investigate what the blockers are to moving forward with this effort, and take the steps to enable it.
+支援現代瀏覽器讓我們能善用 JavaScript 更精簡、更具表現力且效能更好的新語法。
+在這個專案中，我們將調查阻礙我們推進這項工作的因素，並採取步驟來啟用它。
 
-### Accelerated debugging and performance profiling with Angular DevTools
+### 以 Angular DevTools 加速除錯與效能分析
 
-*Completed Q2 2021*
+*已於 2021 年第二季完成*
 
-We are working on development tooling for Angular that provides utilities for debugging and performance profiling.
-This project aims to help developers understand the component structure and the change detection in an Angular application.
+我們正在開發 Angular 的開發工具，提供除錯與效能分析的公用程式。
+這個專案旨在幫助開發者理解 Angular 應用程式中的元件結構與變更偵測。
 
-### Streamline releases with consolidated Angular versioning & branching
+### 以整合的 Angular 版本管理與分支簡化版本發布
 
-*Completed Q2 2021*
+*已於 2021 年第二季完成*
 
-We want to consolidate release management tooling between the multiple GitHub repositories for Angular \([angular/angular](https://github.com/angular/angular), [angular/angular-cli](https://github.com/angular/angular-cli), and [angular/components](https://github.com/angular/components)\).
-This effort lets us reuse infrastructure, unify and simplify processes, and improve the reliability of our release process.
+我們希望整合多個 Angular GitHub 儲存庫（[angular/angular](https://github.com/angular/angular)、[angular/angular-cli](https://github.com/angular/angular-cli) 與 [angular/components](https://github.com/angular/components)）之間的版本發布管理工具。
+這項工作讓我們能重用基礎設施、統一並簡化流程，並改善版本發布流程的可靠性。
 
-### Higher developer consistency with commit message standardization
+### 以提交訊息標準化提高開發者一致性
 
-*Completed Q2 2021*
+*已於 2021 年第二季完成*
 
-We want to unify commit message requirements and conformance across Angular repositories \([angular/angular](https://github.com/angular/angular), [angular/components](https://github.com/angular/components), and [angular/angular-cli](https://github.com/angular/angular-cli)\) to bring consistency to our development process and reuse infrastructure tooling.
+我們希望統一 Angular 各儲存庫（[angular/angular](https://github.com/angular/angular)、[angular/components](https://github.com/angular/components) 與 [angular/angular-cli](https://github.com/angular/angular-cli)）的提交訊息需求與一致性，讓開發流程保持一致並重用基礎設施工具。
 
-### Transition the Angular language service to Ivy
+### 將 Angular 語言服務轉換到 Ivy
 
-*Completed Q2 2021*
+*已於 2021 年第二季完成*
 
-The goal of this project is to improve the experience and remove legacy dependency by transitioning the language service to Ivy.
-Today the language service still uses the View Engine compiler and type checking, even for Ivy applications.
-We want to use the Ivy template parser and improved type checking for the Angular Language service to match application behavior.
-This migration is also a step towards unblocking the removal of View Engine, which will simplify Angular, reduce the npm package size, and improve the maintainability of the framework.
+這個專案的目標是改善體驗並移除舊版相依性，方法是將語言服務轉換到 Ivy。
+如今，即使是 Ivy 應用程式，語言服務仍使用 View Engine 編譯器與型別檢查。
+我們希望使用 Ivy 範本解析器與改進的型別檢查，讓 Angular 語言服務符合應用程式的行為。
+這次遷移也是解除移除 View Engine 阻礙的一步，這將簡化 Angular、縮小 npm 套件大小，並改善框架的可維護性。
 
-### Increased security with native Trusted Types in Angular
+### 以原生 Trusted Types 提高 Angular 的安全性
 
-*Completed Q2 2021*
+*已於 2021 年第二季完成*
 
-In collaboration with the Google security team, we are adding support for the new [Trusted Types](https://web.dev/trusted-types) API.
-This web platform API helps developers build more secure web applications.
+我們與 Google 安全團隊合作，正在加入對新的 [Trusted Types](https://web.dev/trusted-types) API 的支援。
+這個 Web 平台 API 能幫助開發者建立更安全的 Web 應用程式。
 
-### Optimized build speed and bundle sizes with Angular CLI webpack 5
+### 以 Angular CLI webpack 5 優化建置速度與套件大小
 
-*Completed Q2 2021*
+*已於 2021 年第二季完成*
 
-As part of the v11 release, we introduced an opt-in preview of webpack 5 in the Angular CLI.
-To ensure stability, we will continue iterating on the implementation to enable build speed and bundle size improvements.
+在 v11 版本中，我們在 Angular CLI 中引入了 webpack 5 的選擇性預覽。
+為了確保穩定性，我們將繼續反覆改進實作，以提升建置速度與縮小套件大小。
 
-### Faster apps by inlining critical styles in Universal applications
+### 在 Universal 應用程式中內嵌關鍵樣式以加快應用程式速度
 
-*Completed Q1 2021*
+*已於 2021 年第一季完成*
 
-Loading external stylesheets is a blocking operation, which means that the browser cannot start rendering your application until it loads all the referenced CSS.
-Having render-blocking resources in the header of a page can significantly impact its load performance, for example, its [first contentful paint](https://web.dev/first-contentful-paint).
-To make apps faster, we have been collaborating with the Google Chrome team on inlining critical CSS and loading the rest of the styles asynchronously.
+載入外部樣式表是一項阻擋操作，這表示瀏覽器必須載入所有參照的 CSS 後才能開始渲染你的應用程式。
+在頁面標頭中有會阻擋渲染的資源，會大幅影響其載入效能，例如其[首次內容繪製](https://web.dev/first-contentful-paint)。
+為了讓應用程式更快，我們一直在與 Google Chrome 團隊合作，內嵌關鍵 CSS 並以非同步方式載入其餘樣式。
 
-### Improve debugging with better Angular error messages
+### 以更好的 Angular 錯誤訊息改善除錯
 
-*Completed Q1 2021*
+*已於 2021 年第一季完成*
 
-Error messages often bring limited actionable information to help developers resolve them.
-We have been working on making error messages more discoverable by adding associated codes, developing guides, and other materials to ensure a smoother debugging experience.
+錯誤訊息往往只能提供有限的可行動資訊，幫助開發者解決問題。
+我們一直致力於讓錯誤訊息更容易被發現，方法是加入相關代碼、開發指南與其他資料，以確保除錯體驗更順暢。
 
-### Improved developer onboarding with refreshed introductory documentation
+### 以更新的入門文件改善開發者上手體驗
 
-*Completed Q1 2021*
+*已於 2021 年第一季完成*
 
-We will redefine the user learning journeys and refresh the introductory documentation.
-We will clearly state the benefits of Angular, how to explore its capabilities and provide guidance so developers can become proficient with the framework in as little time as possible.
+我們將重新定義使用者的學習歷程，並更新入門文件。
+我們將清楚說明 Angular 的優點、如何探索其功能，並提供指導，讓開發者能在最短時間內熟練使用框架。
 
-### Expand component harnesses best practices
+### 擴充元件測試工具最佳實務
 
-*Completed Q1 2021*
+*已於 2021 年第一季完成*
 
-Angular CDK introduced the concept of [component test harnesses](https://material.angular.io/cdk/test-harnesses) to Angular in version 9.
-Test harnesses let component authors create supported APIs for testing component interactions.
-We are continuing to improve this harness infrastructure and clarifying the best practices around using harnesses.
-We are also working to drive more harness adoption inside of Google.
+Angular CDK 在第 9 版中向 Angular 引入了[元件測試工具](https://material.angular.io/cdk/test-harnesses)的概念。
+測試工具讓元件作者能為測試元件互動建立受支援的 API。
+我們正在持續改善這個測試工具基礎設施，並釐清使用測試工具的最佳實務。
+我們也在努力推動 Google 內部更廣泛地採用測試工具。
 
-### Author a guide for content projection
+### 撰寫內容投影指南
 
-*Completed Q2 2021*
+*已於 2021 年第二季完成*
 
-Content projection is a core Angular concept that does not have the presence it deserves in the documentation.
-As part of this project we want to identify the core use cases and concepts for content projection and document them.
+內容投影是 Angular 的核心概念，但在文件中卻沒有應有的篇幅。
+在這個專案中，我們想找出內容投影的核心使用情境與概念，並將其記錄下來。
 
-### Migrate to ESLint
+### 遷移到 ESLint
 
-*Completed Q4 2020*
+*已於 2020 年第四季完成*
 
-With the deprecation of TSLint we will be moving to ESLint.
-As part of the process, we will work on ensuring backward compatibility with our current recommended TSLint configuration, implement a migration strategy for existing Angular applications and introduce new tooling to the Angular CLI toolchain.
+隨著 TSLint 被淘汰，我們將遷移到 ESLint。
+在這個過程中，我們將確保與目前建議的 TSLint 設定向下相容、為現有 Angular 應用程式實作遷移策略，並向 Angular CLI 工具鏈引入新的工具。
 
-### Operation Bye Bye Backlog (also known as Operation Byelog)
+### Operation Bye Bye Backlog（又稱 Operation Byelog）
 
-*Completed Q4 2020*
+*已於 2020 年第四季完成*
 
-We are actively investing up to 50% of our engineering capacity on triaging issues and PRs until we have a clear understanding of broader community needs.
-After that, we will commit up to 20% of our engineering capacity to keep up with new submissions promptly.
+我們正積極投入高達 50% 的工程產能來分類問題與 PR，直到我們清楚理解更廣泛的社群需求。
+之後，我們將投入高達 20% 的工程產能，及時處理新的提交。
 
   </div>
 </details>

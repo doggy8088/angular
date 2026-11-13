@@ -1,13 +1,13 @@
-# Migration for missing `@Injectable()` decorators and incomplete provider definitions
+# 缺少 `@Injectable()` 裝飾器與不完整提供者定義的遷移
 
-### What does this schematic do?
+### 這個原理圖做什麼？
 
-1.  This schematic adds an `@Injectable()` decorator to classes which are provided in the application but are not decorated.
-1.  The schematic updates providers which follow the `{provide: SomeToken}` pattern to explicitly specify `useValue: undefined`.
+1.  這個原理圖會為應用程式中已提供但未加上裝飾器的類別加上 `@Injectable()` 裝飾器。
+1.  原理圖會更新遵循 `{provide: SomeToken}` 模式的提供者，明確指定 `useValue: undefined`。
 
-**Example for missing `@Injectable()`**
+**缺少 `@Injectable()` 的範例**
 
-**Before migration**:
+**遷移之前**：
 
 <code-example format="typescript" language="typescript">
 
@@ -31,7 +31,7 @@ export class MyFifthClass {&hellip;}
 
 </code-example>
 
-**After migration**:
+**遷移之後**：
 
 <code-example format="typescript" language="typescript">
 
@@ -50,16 +50,16 @@ export class MySixthClass {&hellip;}
 <div class="alert is-helpful">
 
 **NOTE**: <br />
-`MyThirdClass`, `MyFourthClass`, and `MyFifthClass` do not need to be decorated with `@Injectable()` because they are never instantiated, but just used as a [DI token][AioGuideGlossaryDiToken].
+`MyThirdClass`、`MyFourthClass` 和 `MyFifthClass` 不需要用 `@Injectable()` 裝飾，因為它們從未被實例化，只是用作 [DI 權杖][AioGuideGlossaryDiToken]。
 
 </div>
 
-**Example for provider needing `useValue: undefined`**
+**需要 `useValue: undefined` 的提供者範例**
 
-This example shows a provider following the `{provide: X}` pattern.
-The provider needs to be migrated to a more explicit definition where `useValue: undefined` is specified.
+這個範例展示了一個遵循 `{provide: X}` 模式的提供者。
+這個提供者需要遷移到更明確的定義，指定 `useValue: undefined`。
 
-**Before migration**:
+**遷移之前**：
 
 <code-example format="typescript" language="typescript">
 
@@ -67,7 +67,7 @@ The provider needs to be migrated to a more explicit definition where `useValue:
 
 </code-example>
 
-**After migration**:
+**遷移之後**：
 
 <code-example format="typescript" language="typescript">
 
@@ -75,18 +75,18 @@ The provider needs to be migrated to a more explicit definition where `useValue:
 
 </code-example>
 
-### Why is adding `@Injectable()` necessary?
+### 為什麼必須加上 `@Injectable()`？
 
-In our docs, we've always recommended adding `@Injectable()` decorators to any class that is provided or injected in your application.
-However, older versions of Angular did allow injection of a class without the decorator in certain cases, such as AOT mode.
-This means if you accidentally omitted the decorator, your application may have continued to work despite missing `@Injectable()` decorators in some places.
-This is problematic for future versions of Angular.
-Eventually, we plan to strictly require the decorator because doing so enables further optimization of both the compiler and the runtime.
-This schematic adds any `@Injectable()` decorators that may be missing to future-proof your app.
+在我們的說明文件中，我們一直建議為應用程式中任何被提供或被注入的類別加上 `@Injectable()` 裝飾器。
+然而，較舊版本的 Angular 在某些情況下（例如 AOT 模式）確實允許注入沒有裝飾器的類別。
+這意味著如果你不小心漏掉了裝飾器，你的應用程式可能在某些地方缺少 `@Injectable()` 裝飾器的情況下仍能繼續運作。
+這對未來的 Angular 版本來說是個問題。
+最終，我們計畫嚴格要求使用這個裝飾器，因為這樣做能讓編譯器和執行期都進一步最佳化。
+這個原理圖會補上任何可能缺少的 `@Injectable()` 裝飾器，讓你的應用程式為未來做好準備。
 
-### Why is adding `useValue: undefined` necessary?
+### 為什麼必須加上 `useValue: undefined`？
 
-Consider the following pattern:
+請看以下模式：
 
 <code-example format="typescript" language="typescript">
 
@@ -96,28 +96,26 @@ Consider the following pattern:
 
 </code-example>
 
-Providers using this pattern will behave as if they provide `MyService` as [DI token][AioGuideGlossaryDiToken]
-with the value of `undefined`.
-This is not the case in Ivy where such providers will be interpreted as if `useClass: MyService` is specified.
-This means that these providers will behave differently when updating to version 9 and above.
-To ensure that the provider behaves the same as before, the DI value should be explicitly set to `undefined`.
+使用此模式的提供者會表現得如同它們以 `undefined` 為值提供 `MyService` 作為 [DI 權杖][AioGuideGlossaryDiToken]。
+但在 Ivy 中並非如此，這類提供者會被解讀為指定了 `useClass: MyService`。
+這意味著這些提供者在更新到第 9 版以上時，行為會有所不同。
+為了確保提供者的行為與之前相同，DI 的值應該明確設為 `undefined`。
 
-### When should I be adding `@Injectable()` decorators to classes?
+### 我應該在什麼時候為類別加上 `@Injectable()` 裝飾器？
 
-Any class that is provided must have an `@Injectable()` decorator.
-The decorator is necessary for the framework to properly create an instance of that class through DI.
+任何被提供的類別都必須有 `@Injectable()` 裝飾器。
+框架需要這個裝飾器，才能透過 DI 正確建立該類別的實例。
 
-However, classes which are already decorated with `@Pipe`, `@Component` or `@Directive` do not need both decorators.
-The existing class decorator already instructs the compiler to generate the
-needed information.
+然而，已經以 `@Pipe`、`@Component` 或 `@Directive` 裝飾的類別不需要兩個裝飾器同時存在。
+既有的類別裝飾器已經指示編譯器產生所需的資訊。
 
-### Should I update my library?
+### 我應該更新我的函式庫嗎？
 
-Yes, if your library has any classes that are meant to be injected, they should be updated with the `@Injectable()` decorator.
-In a future version of Angular, a missing `@Injectable()` decorator will always throw an error.
+是的，如果你的函式庫中有任何預期被注入的類別，都應該以 `@Injectable()` 裝飾器更新。
+在未來的 Angular 版本中，缺少 `@Injectable()` 裝飾器將永遠拋出錯誤。
 
-Additionally, providers in your library that follow the described `{provide: X}` pattern should be updated to specify an explicit value.
-Without explicit value, these providers can behave differently based on the Angular version in applications consuming your library.
+此外，你的函式庫中遵循所述 `{provide: X}` 模式的提供者應該更新為指定明確的值。
+若沒有明確的值，這些提供者在使用你的函式庫的應用程式中，可能會因 Angular 版本不同而有不同的行為。
 
 <!-- links -->
 

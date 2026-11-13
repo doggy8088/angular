@@ -1,25 +1,24 @@
-<h1 class="no-toc">Your first Angular app</h1>
+<h1 class="no-toc">你的第一個 Angular 應用程式</h1>
 
-A few lines of TypeScript are all it takes to create your first Angular app. As your app grows, you can separate the markup and code into different files.
+只需要幾行 TypeScript，就能建立你的第一個 Angular 應用程式。隨著應用程式成長，你可以把標記與程式碼分到不同的檔案。
 
-## Try your first Angular app
+## 試試你的第一個 Angular 應用程式
 
-The code editor contains a complete Angular app.
+程式碼編輯器中包含一個完整的 Angular 應用程式。
 
 <iframe src="https://stackblitz.com/github/angular/angular/tree/main/aio/content/demos/first-app?embed=1&file=src/main.ts&hideExplorer=1&hideNavigation=1" height="550" width="100%" style="border: solid 1px 777"></iframe>
 
-The Angular app in the code editor shows the TypeScript that makes a simple, but complete, Angular component.
-It imports resources from existing libraries and defines the properties of the new component.
+程式碼編輯器中的 Angular 應用程式展示了構成一個簡單但完整的 Angular 元件的 TypeScript 程式碼。它從現有的程式庫匯入資源，並定義新元件的屬性。
 
-## Explore further
+## 進一步探索
 
-See more about [Angular features](/features) or try the following exercises for some hands-on experience with Angular.
+進一步了解 [Angular 功能](/features)，或試試以下練習，親手體驗 Angular。
 
-### Add features to your first Angular app
+### 為你的第一個 Angular 應用程式加入功能
 
-To give your component a reset button that sets the counter back to 0:
+要為你的元件加入一個重設按鈕，把計數器歸零：
 
-1.  In the code editor, in the `template` value, after the line that starts with `<button (click)=`, add this line.
+1.  在程式碼編輯器中，於 `template` 的值裡面，在以 `<button (click)=` 開頭的那一行後面，加入這一行。
 
     <code-example format="html" language="html">
 
@@ -27,7 +26,7 @@ To give your component a reset button that sets the counter back to 0:
 
     </code-example>
 
-    After you make this change, the `template` definition should look like this:
+    完成這項修改後，`template` 的定義應該會像這樣：
 
     <code-example format="javascript" language="javascript">
 
@@ -39,13 +38,13 @@ To give your component a reset button that sets the counter back to 0:
 
     </code-example>
 
-1.  Click **Add one** several times and then click **Reset**. The counter value should return to zero.
+1.  點選 **Add one** 幾次，再點選 **Reset**。計數器的值應該會回到零。
 
-The new line adds a new `<button>` element. When the `click` event occurs in the button, the TypeScript code in the double quotes sets the `count` property to `0`.
+新增的這一行加入了一個新的 `<button>` 元素。當按鈕上發生 `click` 事件時，雙引號內的 TypeScript 程式碼會把 `count` 屬性設為 `0`。
 
-You can also add styles to your new component.
+你也可以為新元件加入樣式。
 
-1.  In the code editor, after the `selector` value and before the line that starts with `standalone`, add this code to give your buttons bold text and rounded corners.
+1.  在程式碼編輯器中，於 `selector` 的值之後、以 `standalone` 開頭的那一行之前，加入以下程式碼，讓你的按鈕文字變粗、邊角變圓。
 
     <code-example format="javascript" language="javascript">
 
@@ -55,15 +54,15 @@ You can also add styles to your new component.
 
     </code-example>
 
-1.  The buttons in your new Angular app should now have bold text and rounded corners.
+1.  新 Angular 應用程式中的按鈕現在應該會有粗體文字與圓角。
 
-### Create a new Angular app from the command line
+### 從命令列建立新的 Angular 應用程式
 
-To create a new Angular app, perform these steps in a command-line tool on your local computer.
+要在本機電腦上建立新的 Angular 應用程式，請在命令列工具中執行以下步驟。
 
-1.  Make sure you have the correct version of `node.js` and `npm` installed on your system.
+1.  確認你的系統已安裝正確版本的 `node.js` 與 `npm`。
 
-    1.  Run this command to display the current version of npm.
+    1.  執行這個命令，顯示目前的 npm 版本。
 
         <code-example format="shell" language="shell">
 
@@ -71,15 +70,14 @@ To create a new Angular app, perform these steps in a command-line tool on your 
 
         </code-example>
 
-    1.  If you see a version number that's `8.5.0` or later, you're ready to create an Angular app.
-        For information about the supported versions of node and npm, see [Prerequisites](guide/setup-local#prerequisites).
+    1.  如果看到的版本號碼是 `8.5.0` 或更新版本，就可以開始建立 Angular 應用程式了。如需了解支援的 node 與 npm 版本，請參閱[先決條件](guide/setup-local#必要條件)。
 
-    1.  If you do not see such a version number, [update `node`][update-node] and try this step again before you continue.
+    1.  如果沒有看到這樣的版本號碼，請先[更新 `node`][update-node]，再重試這個步驟，然後繼續。
 
-1.  Create a new Angular app.
-    1. Create or navigate to the directory into which you want to create your Angular app.
+1.  建立新的 Angular 應用程式。
+    1. 建立或前往你想要建立 Angular 應用程式的目錄。
 
-    1.  Run this command to create your new Angular app.
+    1.  執行這個命令，建立新的 Angular 應用程式。
 
         <code-example format="shell" language="shell">
 
@@ -87,10 +85,9 @@ To create a new Angular app, perform these steps in a command-line tool on your 
 
         </code-example>
 
-        When prompted to make a choice, press **Enter** to accept the default option.
-        This creates a new Angular app in the `myApp` directory.
+        出現選擇提示時，按 **Enter** 接受預設選項。這會在 `myApp` 目錄中建立新的 Angular 應用程式。
 
-    1.  Run this command to navigate to the new directory.
+    1.  執行這個命令，前往新的目錄。
 
         <code-example format="shell" language="shell">
 
@@ -98,7 +95,7 @@ To create a new Angular app, perform these steps in a command-line tool on your 
 
         </code-example>
 
-    1.  Run this command to build your new app.
+    1.  執行這個命令，建置你的新應用程式。
 
         <code-example format="shell" language="shell">
 
@@ -106,26 +103,24 @@ To create a new Angular app, perform these steps in a command-line tool on your 
 
         </code-example>
 
-        When prompted to make a choice, press **Enter** to accept the default option.
-        Note the URL in the message displayed in the command-line tool for the next step.
+        出現選擇提示時，按 **Enter** 接受預設選項。記下命令列工具所顯示訊息中的 URL，下一個步驟會用到。
 
-    1.  Open a browser on the system with the new Angular app.
+    1.  在裝有新 Angular 應用程式的系統上開啟瀏覽器。
 
-    1.  In the browser's address bar, enter the URL in the message displayed in the command-line tool.
-        The default URL is `http://localhost:4200`.
+    1.  在瀏覽器的網址列中，輸入命令列工具所顯示訊息中的 URL。預設的 URL 是 `http://localhost:4200`。
 
-Your new Angular app displays its default landing page with the Angular logo. Review the tutorials in the following section for ideas about how to start changing your new app to make it your own.
+新的 Angular 應用程式會顯示附有 Angular 標誌的預設首頁。請參考下一節的教學，找找如何開始修改新應用程式、讓它成為你自己的靈感。
 
-### Try more tutorials
+### 試試更多教學
 
-For more demonstrations of Angular coding, visit:
+想看更多 Angular 程式撰寫示範，請造訪：
 
-* [Introduction to Angular][intro-to-angular-video]
-    A video tutorial about developing an Angular app. The Angular team produced this video for beginners to get *hands-on* with Angular. (42-min)
-* [A basic shopping cart demo][shopping-cart]
-    A basic app that demonstrates a few more Angular features. This demonstration takes you through the steps of building a simple app in a StackBlitz editor.
-* [A Tour of Heroes][toh-tutorial]
-    A tutorial in which you create an Angular app from scratch with Angular development tools. You can develop this tutorial in an IDE on your own system or in a StackBlitz editor.
+* [Angular 簡介][intro-to-angular-video]
+    一部關於開發 Angular 應用程式的影片教學。Angular 團隊為初學者製作了這部影片，讓大家*親手體驗* Angular。（42 分鐘）
+* [基本購物車示範][shopping-cart]
+    一個展示更多 Angular 功能的基本應用程式。這個示範會帶你一步步在 StackBlitz 編輯器中建立一個簡單的應用程式。
+* [英雄之旅][toh-tutorial]
+    一個從頭開始使用 Angular 開發工具建立 Angular 應用程式的教學。你可以在自己系統上的 IDE 中開發這個教學，也可以在 StackBlitz 編輯器中開發。
 
 <!-- links -->
 

@@ -1,13 +1,13 @@
-<h2>Where we'll be presenting:</h2>
+<h2>我們即將發表的場次：</h2>
 <ng-container [ngSwitch]="!!upcomingEvents.length">
   <div *ngSwitchCase="false">
-    <p>We don't have any upcoming speaking engagements at the moment.</p>
+    <p>目前沒有即將到來的演講活動。</p>
     <p>
-      Until something comes up, make sure you check our <a href="https://www.youtube.com/angular">YouTube channel</a>
-      and follow us on <a href="https://twitter.com/angular">social media</a>.
+      在有新活動之前，歡迎查看我們的 <a href="https://www.youtube.com/angular">YouTube 頻道</a>
+      ，並在<a href="https://twitter.com/angular">社群媒體</a>上追蹤我們。
     </p>
     <p>
-      If you want us to be part of your event reach out on <a href="mailto:devrel@angular.io">devrel@angular.io</a>!
+      如果你希望我們參與你的活動，請來信 <a href="mailto:devrel@angular.io">devrel@angular.io</a>！
     </p>
   </div>
   <ng-container *ngSwitchDefault>
@@ -17,15 +17,15 @@
 
 <br />
 
-<h2>Where we already presented:</h2>
+<h2>我們曾經發表的場次：</h2>
 <ng-container *ngTemplateOutlet="eventsTable; context: {$implicit: pastEvents}"></ng-container>
 
 <ng-template #eventsTable let-events>
   <table class="is-full-width">
     <thead>
       <tr>
-        <th>Event</th>
-        <th>Start date</th>
+        <th>活動</th>
+        <th>開始日期</th>
       </tr>
     </thead>
     <tbody>

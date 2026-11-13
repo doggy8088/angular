@@ -1,33 +1,32 @@
-# Add an animation
+# 加入動畫
 
-The main Angular modules for animations are `@angular/animations` and `@angular/platform-browser`.
-When you create a new project using the Angular framework, these dependencies are automatically added to your project.
+動畫相關的主要 Angular 模組是 `@angular/animations` 與 `@angular/platform-browser`。
+使用 Angular 框架建立新專案時，這些依賴會自動加入你的專案。
 
-To get started with adding Angular animations to your project, import the animation-specific modules along with standard Angular capability.
+要開始把 Angular 動畫加到專案中，請連同標準 Angular 功能一起匯入動畫專用模組。
 
-## Step 1: Enabling the animations module
+## 步驟 1：啟用動畫模組
 
-Import `BrowserAnimationsModule`, which introduces the animation capabilities into your Angular root application module.
+匯入 `BrowserAnimationsModule`，它會把動畫功能帶進你的 Angular 根應用程式模組。
 
 <code-example header="src/app/app.module.ts" path="animations/src/app/app.module.1.ts"></code-example>
 
 <div class="alert is-helpful">
 
 **NOTE**: <br />
-When you use the Angular framework to create your application, the root application module `app.module.ts` is placed in the `src/app` directory.  If you are using standalone components, look at main.ts or look at your root application component.
+使用 Angular 框架建立應用程式時，根應用程式模組 `app.module.ts` 會放在 `src/app` 資料夾中。如果你使用的是獨立元件，請查看 main.ts 或你的根應用程式元件。
 
 </div>
 
-## Step 2: Importing animation functions into component files
+## 步驟 2：將動畫函式匯入元件檔案
 
-If you plan to use specific animation functions in component files, import those functions from `@angular/animations`.
+如果你打算在元件檔案中使用特定的動畫函式，請從 `@angular/animations` 匯入這些函式。
 
 <code-example header="src/app/app.component.ts" path="animations/src/app/app.component.ts" region="imports"></code-example>
 
-## Step 3: Adding the animation metadata property
+## 步驟 3：加入動畫詮釋資料屬性
 
-In the component file, add a metadata property called `animations:` within the `@Component()` decorator.
-You put the trigger that defines an animation within the `animations` metadata property.
+在元件檔案中，於 `@Component()` 裝飾器內加入一個名為 `animations:` 的詮釋資料屬性。你把定義動畫的觸發器放在 `animations` 詮釋資料屬性中。
 
 <code-example header="src/app/app.component.ts" path="animations/src/app/app.component.ts" region="decorator"></code-example>
 

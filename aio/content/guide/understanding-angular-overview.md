@@ -1,43 +1,43 @@
-# Understanding Angular
+# 了解 Angular
 
-To understand the capabilities of the Angular framework, you need to learn about the following:
+要了解 Angular 框架的功能，你需要學習以下內容：
 
-*   Components
-*   Templates
-*   Directives
-*   Dependency injection
+*   元件
+*   範本
+*   指令
+*   依賴注入
 
-The topics in this section explain these features and concepts, and how you can use them.
+本節的主題會說明這些功能與概念，以及如何運用它們。
 
-## Prerequisites
+## 先備知識
 
-To get the most out of these developer guides, you should review the following topics:
+要充分利用這些開發者指南，你應該先複習下列主題：
 
-*   [What is Angular][AioGuideWhatIsAngular]
-*   [Getting started tutorial][AioStart]
+*   [什麼是 Angular][AioGuideWhatIsAngular]
+*   [開始使用教學][AioStart]
 
-## Learn about Angular basics
+## 了解 Angular 基礎
 
 <div class="card-container">
-  <a href="guide/component-overview" class="docs-card" title="Components">
-    <section>Components</section>
-    <p>Learn about Angular components. A component is a key building block of Angular development.</p>
-    <p class="card-footer">Components</p>
+  <a href="guide/component-overview" class="docs-card" title="元件">
+    <section>元件</section>
+    <p>了解 Angular 元件。元件是 Angular 開發的關鍵建構單元。</p>
+    <p class="card-footer">元件</p>
   </a>
-  <a href="guide/template-syntax" class="docs-card" title="Templates">
-    <section>Templates</section>
-    <p>Learn about how to build an Angular template.</p>
-    <p class="card-footer">Templates</p>
+  <a href="guide/template-syntax" class="docs-card" title="範本">
+    <section>範本</section>
+    <p>了解如何建立 Angular 範本。</p>
+    <p class="card-footer">範本</p>
   </a>
-  <a href="guide/built-in-directives" class="docs-card" title="Directives">
-    <section>Directives</section>
-    <p>Learn about Angular directives. A directive is a class that adds additional behavior to elements in your Angular applications.</p>
-    <p class="card-footer">Directives</p>
+  <a href="guide/built-in-directives" class="docs-card" title="指令">
+    <section>指令</section>
+    <p>了解 Angular 指令。指令是一種類別，可為 Angular 應用程式中的元素加入額外行為。</p>
+    <p class="card-footer">指令</p>
   </a>
-  <a href="guide/dependency-injection" class="docs-card" title="Dependency injection">
-    <section>Dependency injection</section>
-    <p>Learn about dependency injection. Dependency injection refers to services or objects that a class needs to perform a specific function.</p>
-    <p class="card-footer">Dependency injection</p>
+  <a href="guide/dependency-injection" class="docs-card" title="依賴注入">
+    <section>依賴注入</section>
+    <p>了解依賴注入。依賴注入指的是某個類別執行特定功能時所需的服務或物件。</p>
+    <p class="card-footer">依賴注入</p>
   </a>
   <!-- <a href="guide/rendering-overview" class="docs-card" title="Angular service worker developer guide">
     <section>Rendering</section>

@@ -1,28 +1,28 @@
-# View encapsulation
+# 檢視封裝
 
-In Angular, a component's styles can be encapsulated within the component's host element so that they don't affect the rest of the application.
+在 Angular 中，元件的樣式可以封裝在元件的宿主元素內，讓它們不影響應用程式的其他部分。
 
-The `Component` decorator provides the [`encapsulation`](api/core/Component#encapsulation) option which can be used to control how the encapsulation is applied on a *per component* basis.
+`Component` 裝飾器提供 [`encapsulation`](api/core/Component#encapsulation) 選項，可用來控制封裝如何以*逐一元件*的方式套用。
 
-Choose from the following modes:
+請從下列模式中選擇：
 
 <!-- vale off -->
 
-| Modes                         | Details |
+| 模式                          | 詳細說明 |
 |:---                           |:---     |
-| `ViewEncapsulation.ShadowDom` | Angular uses the browser's built-in [Shadow DOM API](https://developer.mozilla.org/docs/Web/Web_Components/Shadow_DOM) to enclose the component's view inside a ShadowRoot, used as the component's host element, and apply the provided styles in an isolated manner. |
-| `ViewEncapsulation.Emulated`  | Angular modifies the component's CSS selectors so that they are only applied to the component's view and do not affect other elements in the application, *emulating* Shadow DOM behavior. For more details, see [Inspecting generated CSS](guide/view-encapsulation#inspect-generated-css). |
-| `ViewEncapsulation.None`      | Angular does not apply any sort of view encapsulation meaning that any styles specified for the component are actually globally applied and can affect any HTML element present within the application. This mode is essentially the same as including the styles into the HTML itself. |
+| `ViewEncapsulation.ShadowDom` | Angular 使用瀏覽器內建的 [Shadow DOM API](https://developer.mozilla.org/docs/Web/Web_Components/Shadow_DOM)，將元件的檢視包在 ShadowRoot 內（作為元件的宿主元素），並以隔離的方式套用提供的樣式。 |
+| `ViewEncapsulation.Emulated`  | Angular 會修改元件的 CSS 選擇器，讓它們只套用到元件的檢視，不影響應用程式中的其他元素，以此*模擬* Shadow DOM 的行為。更多詳細資訊請參閱[檢視產生的 CSS](guide/view-encapsulation#inspect-generated-css)。 |
+| `ViewEncapsulation.None`      | Angular 不套用任何檢視封裝，這表示為元件指定的任何樣式實際上都會全域套用，並可能影響應用程式內存在的任何 HTML 元素。此模式基本上等同於把樣式直接寫入 HTML 本身。 |
 
 <a id="inspect-generated-css"></a>
 
-## Inspecting generated CSS
+## 檢視產生的 CSS
 
 <!-- vale on -->
 
-When using the emulated view encapsulation, Angular pre-processes all the component's styles so that they are only applied to the component's view.
+使用模擬檢視封裝時，Angular 會預先處理元件的所有樣式，讓它們只套用到元件的檢視。
 
-In the DOM of a running Angular application, elements belonging to components using emulated view encapsulation have some extra attributes attached to them:
+在執行中的 Angular 應用程式的 DOM 中，屬於使用模擬檢視封裝之元件的元素會附加一些額外屬性：
 
 <code-example language="html">
 
@@ -35,17 +35,17 @@ In the DOM of a running Angular application, elements belonging to components us
 
 </code-example>
 
-Two kinds of these attributes exist:
+這類屬性有兩種：
 
-| Attributes   | Details |
+| 屬性         | 詳細說明 |
 |:---          |:---     |
-| `_nghost`    | Are added to elements that enclose a component's view and that would be ShadowRoots in a native Shadow DOM encapsulation. This is typically the case for components' host elements.          |
-| `_ngcontent` | Are added to child element within a component's view, those are used to match the elements with their respective emulated ShadowRoots \(host elements with a matching `_nghost` attribute\). |
+| `_nghost`    | 加到包住元件檢視的元素上，在原生 Shadow DOM 封裝中，這些元素會是 ShadowRoot。這通常是元件宿主元素的情況。          |
+| `_ngcontent` | 加到元件檢視內的子元素上，用來將元素與其各自的模擬 ShadowRoot（具有相符 `_nghost` 屬性的宿主元素）配對。 |
 
-The exact values of these attributes are a private implementation detail of Angular.
-They are automatically created and you should never refer to them in application code.
+這些屬性的確切值是 Angular 的私有實作細節。
+它們會自動建立，你絕不應該在應用程式程式碼中參照它們。
 
-They are targeted by the created component styles, which are injected in the `<head>` section of the DOM:
+建立的元件樣式會以這些屬性為目標，並注入 DOM 的 `<head>` 區段中：
 
 <code-example format="css" language="css">
 
@@ -60,103 +60,103 @@ h3[_ngcontent-pmm-6] {
 
 </code-example>
 
-These styles are post-processed so that each CSS selector is augmented with the appropriate `_nghost` or `_ngcontent` attribute.
-These modified selectors make sure the styles to be applied to components' views in an isolated and targeted fashion.
+這些樣式會經過後處理，讓每個 CSS 選擇器都加上適當的 `_nghost` 或 `_ngcontent` 屬性。
+這些修改過的選擇器可確保樣式以隔離且有針對性的方式套用到元件的檢視。
 
-## Mixing encapsulation modes
+## 混合封裝模式
 
-As mentioned earlier, you specify the encapsulation mode in the Component's decorator on a *per component* basis. This means that within your application you can have different components using different encapsulation strategies.
+如前所述，你可以在 Component 的裝飾器中以*逐一元件*的方式指定封裝模式。這表示在你的應用程式中，不同元件可以使用不同的封裝策略。
 
-Although possible, this is not recommended.
-If it is really needed, you should be aware of how the styles of components using different encapsulation modes interact with each other:
+雖然可行，但不建議這麼做。
+如果確實有需要，你應該了解使用不同封裝模式之元件的樣式如何彼此互動：
 
-| Modes                         | Details |
+| 模式                          | 詳細說明 |
 |:---                           |:---     |
-| `ViewEncapsulation.Emulated`  | The styles of components are added to the `<head>` of the document, making them available throughout the application, but their selectors only affect elements within their respective components' templates. |
-| `ViewEncapsulation.None`      | The styles of components are added to the `<head>` of the document, making them available throughout the application, so are completely global and affect any matching elements within the document.          |
-| `ViewEncapsulation.ShadowDom` | The styles of components are only added to the shadow DOM host, ensuring that they only affect elements within their respective components' views.                                                            |
+| `ViewEncapsulation.Emulated`  | 元件的樣式會加入文件的 `<head>` 中，使其在整個應用程式中都可用，但其選擇器只會影響各自元件範本內的元素。 |
+| `ViewEncapsulation.None`      | 元件的樣式會加入文件的 `<head>` 中，使其在整個應用程式中都可用，因此完全是全域的，會影響文件內任何相符的元素。          |
+| `ViewEncapsulation.ShadowDom` | 元件的樣式只會加入 shadow DOM 宿主，確保它們只影響各自元件檢視內的元素。                                                            |
 
 <div class="alert is-helpful">
 
-Styles of `ViewEncapsulation.Emulated` and `ViewEncapsulation.None` components are also added to the shadow DOM host of each `ViewEncapsulation.ShadowDom` component.
+`ViewEncapsulation.Emulated` 與 `ViewEncapsulation.None` 元件的樣式，也會加入每個 `ViewEncapsulation.ShadowDom` 元件的 shadow DOM 宿主。
 
-This means that styles for components with `ViewEncapsulation.None` affect matching elements within the shadow DOM.
+這表示 `ViewEncapsulation.None` 元件的樣式會影響 shadow DOM 內的相符元素。
 
-This approach may seem counter-intuitive at first. But without it a component with `ViewEncapsulation.None` would be rendered differently within a component using `ViewEncapsulation.ShadowDom`, since its styles would not be available.
+這種做法乍看之下可能有違直覺。但如果沒有它，`ViewEncapsulation.None` 元件在 `ViewEncapsulation.ShadowDom` 元件內的算繪結果會有所不同，因為它的樣式將無法使用。
 
 </div>
 
-### Examples
+### 範例
 
-This section shows examples of how the styling of components with different `ViewEncapsulation` interact.
+本節展示使用不同 `ViewEncapsulation` 之元件的樣式如何互動的範例。
 
-See the <live-example noDownload></live-example> to try out these components yourself.
+請參閱 <live-example noDownload></live-example>，親自試用這些元件。
 
-#### No encapsulation
+#### 無封裝
 
-The first example shows a component that has `ViewEncapsulation.None`.
-This component colors its template elements red.
+第一個範例展示一個具有 `ViewEncapsulation.None` 的元件。
+此元件會將其範本元素著色為紅色。
 
 <code-example header="src/app/no-encapsulation.component.ts" path="view-encapsulation/src/app/no-encapsulation.component.ts"></code-example>
 
-Angular adds the styles for this component as global styles to the `<head>` of the document.
+Angular 會把此元件的樣式以全域樣式的形式加入文件的 `<head>` 中。
 
-As already mentioned, Angular also adds the styles to all shadow DOM hosts, making the styles available throughout the whole application.
+如前所述，Angular 也會把這些樣式加入所有 shadow DOM 宿主，讓樣式在整個應用程式中都可用。
 
 <div class="lightbox">
 
-<img alt="component with no encapsulation" src="generated/images/guide/view-encapsulation/no-encapsulation.png">
+<img alt="無封裝的元件" src="generated/images/guide/view-encapsulation/no-encapsulation.png">
 
 </div>
 
-#### Emulated encapsulation
+#### 模擬封裝
 
-The second example shows a component that has `ViewEncapsulation.Emulated`.
-This component colors its template elements green.
+第二個範例展示一個具有 `ViewEncapsulation.Emulated` 的元件。
+此元件會將其範本元素著色為綠色。
 
 <code-example header="src/app/emulated-encapsulation.component.ts" path="view-encapsulation/src/app/emulated-encapsulation.component.ts"></code-example>
 
-Comparable to `ViewEncapsulation.None`, Angular adds the styles for this component to the `<head>` of the document, but with "scoped" styles.
+與 `ViewEncapsulation.None` 類似，Angular 會把此元件的樣式加入文件的 `<head>` 中，但使用「限定範圍」的樣式。
 
-Only the elements directly within this component's template are going to match its styles.
-Since the "scoped" styles from the `EmulatedEncapsulationComponent` are specific, they override the global styles from the `NoEncapsulationComponent`.
+只有直接位於此元件範本內的元素才會符合其樣式。
+由於 `EmulatedEncapsulationComponent` 的「限定範圍」樣式較為具體，它們會覆寫來自 `NoEncapsulationComponent` 的全域樣式。
 
-In this example, the `EmulatedEncapsulationComponent` contains a `NoEncapsulationComponent`, but `NoEncapsulationComponent` is still styled as expected since the `EmulatedEncapsulationComponent` 's "scoped" styles do not match elements in its template.
+在此範例中，`EmulatedEncapsulationComponent` 包含一個 `NoEncapsulationComponent`，但 `NoEncapsulationComponent` 仍如預期般套用樣式，因為 `EmulatedEncapsulationComponent` 的「限定範圍」樣式不會符合其範本中的元素。
 
 <div class="lightbox">
 
-<img alt="component with no encapsulation" src="generated/images/guide/view-encapsulation/emulated-encapsulation.png">
+<img alt="無封裝的元件" src="generated/images/guide/view-encapsulation/emulated-encapsulation.png">
 
 </div>
 
-#### Shadow DOM encapsulation
+#### Shadow DOM 封裝
 
-The third example shows a component that has `ViewEncapsulation.ShadowDom`.
-This component colors its template elements blue.
+第三個範例展示一個具有 `ViewEncapsulation.ShadowDom` 的元件。
+此元件會將其範本元素著色為藍色。
 
 <code-example header="src/app/shadow-dom-encapsulation.component.ts" path="view-encapsulation/src/app/shadow-dom-encapsulation.component.ts"></code-example>
 
-Angular adds styles for this component only to the shadow DOM host, so they are not visible outside the shadow DOM.
+Angular 只把此元件的樣式加入 shadow DOM 宿主，因此在 shadow DOM 之外看不到它們。
 
 <div class="alert is-helpful">
 
 **NOTE**: <br />
-Angular also adds the global styles from the `NoEncapsulationComponent` and `EmulatedEncapsulationComponent` to the shadow DOM host. Those styles are still available to the elements in the template of this component.
+Angular 也會把 `NoEncapsulationComponent` 與 `EmulatedEncapsulationComponent` 的全域樣式加入 shadow DOM 宿主。這些樣式對此元件範本中的元素仍然可用。
 
 </div>
 
-In this example, the `ShadowDomEncapsulationComponent` contains both a `NoEncapsulationComponent` and `EmulatedEncapsulationComponent`.
+在此範例中，`ShadowDomEncapsulationComponent` 同時包含 `NoEncapsulationComponent` 與 `EmulatedEncapsulationComponent`。
 
-The styles added by the `ShadowDomEncapsulationComponent` component are available throughout the shadow DOM of this component, and so to both the `NoEncapsulationComponent` and `EmulatedEncapsulationComponent`.
+`ShadowDomEncapsulationComponent` 元件加入的樣式，在此元件的整個 shadow DOM 中都可用，因此 `NoEncapsulationComponent` 與 `EmulatedEncapsulationComponent` 也都能使用。
 
-The `EmulatedEncapsulationComponent` has specific "scoped" styles, so the styling of this component's template is unaffected.
+`EmulatedEncapsulationComponent` 具有具體的「限定範圍」樣式，因此此元件範本的樣式不受影響。
 
-Since styles from `ShadowDomEncapsulationComponent` are added to the shadow host after the global styles, the `h2` style overrides the style from the `NoEncapsulationComponent`.
-The result is that the `<h2>` element in the `NoEncapsulationComponent` is colored blue rather than red, which may not be what the component's author intended.
+由於 `ShadowDomEncapsulationComponent` 的樣式是在全域樣式之後加入 shadow 宿主，因此 `h2` 樣式會覆寫來自 `NoEncapsulationComponent` 的樣式。
+結果是 `NoEncapsulationComponent` 中的 `<h2>` 元素會著色為藍色而非紅色，這可能不是該元件作者的本意。
 
 <div class="lightbox">
 
-<img alt="component with no encapsulation" src="generated/images/guide/view-encapsulation/shadow-dom-encapsulation.png">
+<img alt="無封裝的元件" src="generated/images/guide/view-encapsulation/shadow-dom-encapsulation.png">
 
 </div>
 

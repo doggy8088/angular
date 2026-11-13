@@ -1,29 +1,27 @@
-# Animation transition and timing
+# 動畫轉場與計時
 
-An animation *transition* specifies changes that occur between one state and another. Set the transition to make the change less abrupt. An animation *transition* specifies the changes that occur between one state and another.
+動畫*轉場*會指定在一個狀態與另一個狀態之間發生的變化。設定轉場可讓變化不那麼突兀。動畫*轉場*會指定在一個狀態與另一個狀態之間發生的變化。
 
-## Animation `transition()` function defined
+## 已定義的動畫 `transition()` 函式
 
-The `transition()` function accepts two arguments:
+`transition()` 函式接受兩個引數：
 
-An expression that defines the direction between two transition states
-An expression that accepts one or a series of `animate()` steps
+定義兩個轉場狀態之間方向的運算式；接受一個或一連串 `animate()` 步驟的運算式
 
-Use the `animate()` function of a transition to define:
+使用轉場的 `animate()` 函式來定義：
 
-* Length
-* Delay
-* Easing
-* Style function for defining styles while transitions are taking place
+* 長度
+* 延遲
+* 緩動
+* 用於在轉場進行期間定義樣式的樣式函式
 
-Use the `animate()` function to define the `keyframes()` function for multi-step animations.
-These definitions are placed in the second argument of the `animate()` function.
+使用 `animate()` 函式來定義多步驟動畫的 `keyframes()` 函式。這些定義放在 `animate()` 函式的第二個引數中。
 
-## Animation metadata: duration, delay, and easing
+## 動畫詮釋資料：持續時間、延遲與緩動
 
-The `animate()` function accepts the `timings` and `styles` input parameters.
+`animate()` 函式接受 `timings` 與 `styles` 兩個輸入參數。
 
-The `timings` parameter takes either a number or a string defined in three parts.
+`timings` 參數接受一個數字，或一個以三個部分定義的字串。
 
 <code-example format="typescript" language="typescript">
 
@@ -31,7 +29,7 @@ animate (duration)
 
 </code-example>
 
-or
+或
 
 <code-example format="typescript" language="typescript">
 
@@ -39,29 +37,21 @@ animate ('duration delay easing')
 
 </code-example>
 
-The first part, `duration`, is required.
-The duration can be expressed in milliseconds as a number without quotes, or in seconds with quotes and a time specifier.
-For example, a duration of a tenth of a second can be expressed as follows:
+第一個部分 `duration` 是必填的。 持續時間可以用不加引號的數字以毫秒表示，或用加引號並帶時間單位的字串以秒表示。 例如，十分之一秒的持續時間可以這樣表示：
 
-*   As a plain number, in milliseconds:
-    `100`
+*   用純數字，以毫秒計： `100`
 
-*   In a string, as milliseconds:
-    `'100ms'`
+*   用字串，以毫秒計： `'100ms'`
 
-*   In a string, as seconds:
-    `'0.1s'`
+*   用字串，以秒計： `'0.1s'`
 
-The second argument, `delay`, has the same syntax as `duration`.
-For example:
+第二個參數 `delay` 的語法與 `duration` 相同。 例如：
 
-*   Wait for 100 ms and then run for 200 ms: `'0.2s 100ms'`
+*   等待 100ms，然後執行 200ms：`'0.2s 100ms'`
 
-The third argument, `easing`, controls how the animation [accelerates and decelerates](https://easings.net) during its runtime.
-For example, `ease-in` causes the animation to begin slowly, and to pick up speed as it progresses.
+第三個參數 `easing` 控制動畫在執行期間如何[加速與減速](https://easings.net)。 例如，`ease-in` 會讓動畫一開始緩慢，隨著進行逐漸加快。
 
-*   Wait for 100 ms, run for 200 ms.
-    Use a deceleration curve to start out fast and slowly decelerate to a resting point:
+*   等待 100 毫秒、執行 200 毫秒。使用減速曲線，先快後慢、逐漸減速至靜止點：
 
     <code-example format="output" language="shell">
 
@@ -69,8 +59,7 @@ For example, `ease-in` causes the animation to begin slowly, and to pick up spee
 
     </code-example>
 
-*   Run for 200 ms, with no delay.
-    Use a standard curve to start slow, speed up in the middle, and then decelerate slowly at the end:
+*   執行 200 毫秒、無延遲。使用標準曲線，開始慢、中間加速、最後慢慢減速：
 
     <code-example format="output" language="shell">
 
@@ -78,8 +67,7 @@ For example, `ease-in` causes the animation to begin slowly, and to pick up spee
 
     </code-example>
 
-*   Start immediately, run for 200 ms.
-    Use an acceleration curve to start slow and end at full velocity:
+*   立即開始、執行 200 毫秒。使用加速曲線，開始慢、最後以全速結束：
     <code-example format="output" language="shell">
 
     0.2s ease-in
@@ -88,32 +76,30 @@ For example, `ease-in` causes the animation to begin slowly, and to pick up spee
 
 <div class="alert is-helpful">
 
-**NOTE**: <br />
-See the Material Design website's topic on [Natural easing curves](https://material.io/design/motion/speed.html#easing) for general information on easing curves.
+注意：<br />
+關於緩動曲線的一般資訊，請參閱 Material Design 網站上 [Natural easing curves](https://material.io/design/motion/speed.html#easing) 的主題。
 
 </div>
 
-This example provides a state transition from `open` to `closed` with a 1-second transition between states.
+這個範例提供了一個從 `open` 到 `closed` 的狀態轉場，兩個狀態之間的轉場時間為 1 秒。
 
 <code-example header="src/app/open-close.component.ts" path="animations/src/app/open-close.component.ts" region="transition1"></code-example>
 
-In the preceding code snippet, the `=>` operator indicates unidirectional transitions, and `<=>` is bidirectional.
-Within the transition, `animate()` specifies how long the transition takes.
-In this case, the state change from `open` to `closed` takes 1 second, expressed here as `1s`.
+在前面的程式碼片段中，`=>` 運算子表示單向轉場，而 `<=>` 則是雙向。在轉場中，`animate()` 會指定轉場所需的時間。在這個例子中，從 `open` 狀態變為 `closed` 狀態需要 1 秒，在此表示為 `1s`。
 
-This example adds a state transition from the `closed` state to the `open` state with a 0.5-second transition animation arc.
+這個範例加入了一個從 `closed` 狀態到 `open` 狀態的狀態轉場，轉場動畫弧線為 0.5 秒。
 
 <code-example header="src/app/open-close.component.ts" path="animations/src/app/open-close.component.ts" region="transition2"></code-example>
 
 <div class="alert is-helpful">
 
-**NOTE**: <br />
-Using styles within [`state`](api/animations/state) and `transition` functions:
+注意：<br />
+在 [`state`](api/animations/state) 與 `transition` 函式中使用樣式：
 
-*   Use [`state()`](api/animations/state) to define styles that are applied at the end of each transition, they persist after the animation completes
-*   Use `transition()` to define intermediate styles, which create the illusion of motion during the animation
-*   When animations are turned off, `transition()` styles can be skipped, but [`state()`](api/animations/state) styles can't
-*   Include multiple state pairs within the same `transition()` argument:
+*   使用 [`state()`](api/animations/state) 來定義在每個轉場結束時套用的樣式，動畫完成後這些樣式會繼續保留
+*   使用 `transition()` 來定義中間樣式，藉此營造動畫進行中的錯覺
+*   關閉動畫時，可以略過 `transition()` 樣式，但 [`state()`](api/animations/state) 樣式不行
+*   在同一個 `transition()` 引數中包含多組狀態配對：
 
     <code-example format="typescript" language="typescript">
 

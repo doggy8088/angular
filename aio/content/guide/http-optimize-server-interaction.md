@@ -1,64 +1,60 @@
-# HTTP - Optimize server interaction with debouncing
+# HTTP - 使用防抖動最佳化伺服器互動
 
-If you need to make an HTTP request in response to user input, it's not efficient to send a request for every keystroke. It's better to wait until the user stops typing and then send a request. This technique is known as debouncing.
+如果你需要根據使用者輸入發出 HTTP 請求，每次按鍵都送出一個請求並沒有效率。比較好的做法是等使用者停止輸入後再送出請求。這種技巧稱為防抖動（debouncing）。
 
-## Implement debouncing
+## 實作防抖動
 
-Consider the following template, which lets a user enter a search term to find a package by name. When the user enters a name in a search-box, the `PackageSearchComponent` sends a search request for a package with that name to the package search API.
+請看下列範本，它讓使用者輸入搜尋字詞，依名稱尋找套件。當使用者在搜尋框中輸入名稱時，`PackageSearchComponent` 會向套件搜尋 API 送出一個搜尋該名稱套件的請求。
 
 <code-example header="app/package-search/package-search.component.html (search)" path="http/src/app/package-search/package-search.component.html" region="search"></code-example>
 
-Here, the `keyup` event binding sends every keystroke to the component's `search()` method.
+在這裡，`keyup` 事件綁定會把每次按鍵都送到元件的 `search()` 方法。
 
 <div class="alert is-helpful">
 
-The type of `$event.target` is only `EventTarget` in the template.
-In the `getValue()` method, the target is cast to an `HTMLInputElement` to let type-safe have access to its `value` property.
+在範本中，`$event.target` 的型別只有 `EventTarget`。
+在 `getValue()` 方法中，目標會被轉型為 `HTMLInputElement`，以便以型別安全的方式存取其 `value` 屬性。
 
 <code-example path="http/src/app/package-search/package-search.component.ts" region="getValue"></code-example>
 
 </div>
 
-The following snippet implements debouncing for this input using RxJS operators.
+下列程式碼片段使用 RxJS 運算子為這個輸入實作防抖動。
 
 <code-example header="app/package-search/package-search.component.ts (excerpt)" path="http/src/app/package-search/package-search.component.ts" region="debounce"></code-example>
 
-The `searchText$` is the sequence of search-box values coming from the user.
-It's defined as an RxJS `Subject`, which means it is a multicasting `Observable` that can also emit values for itself by calling `next(value)`, as happens in the `search()` method.
+`searchText$` 是來自使用者的搜尋框值序列。它被定義為一個 RxJS `Subject`，也就是一個多播的 `Observable`，也可以像 `search()` 方法中所做的那樣，透過呼叫 `next(value)` 自行發出值。
 
-Rather than forward every `searchText` value directly to the injected `PackageSearchService`, the code in `ngOnInit()` pipes search values through three operators, so that a search value reaches the service only if it's a new value and the user stopped typing.
+程式碼不會把每個 `searchText` 值直接轉送給注入的 `PackageSearchService`，而是讓 `ngOnInit()` 中的程式碼把搜尋值透過三個運算子傳遞，只有在該值是新值、且使用者已停止輸入時，搜尋值才會到達服務。
 
-| RxJS operators           | Details |
+| RxJS 運算子 | 詳細說明 |
 |:---                      |:---     |
-| `debounceTime(500)`⁠      | Wait for the user to stop typing, which is 1/2 second in this case. |
-| `distinctUntilChanged()` | Wait until the search text changes.                           |
-| `switchMap()`⁠            | Send the search request to the service.                       |
+| `debounceTime(500)`⁠ | 等使用者停止輸入，在此例中是 1/2 秒。 |
+| `distinctUntilChanged()` | 等到搜尋文字改變為止。 |
+| `switchMap()`⁠ | 將搜尋請求送到服務。 |
 
-The code sets `packages$` to this re-composed `Observable` of search results.
-The template subscribes to `packages$` with the [AsyncPipe](api/common/AsyncPipe) and displays search results as they arrive.
+程式碼將 `packages$` 設定為這個重新組合而成的搜尋結果 `Observable`。範本使用 [AsyncPipe](api/common/AsyncPipe) 訂閱 `packages$`，並在搜尋結果到達時顯示它們。
 
 <div class="alert is-helpful">
 
-See [Using interceptors to request multiple values](guide/http-interceptor-use-cases#cache-refresh) for more about the `withRefresh` option.
+如需進一步了解 `withRefresh` 選項，請見[使用攔截器請求多個值](guide/http-interceptor-use-cases#cache-refresh)。
 
 </div>
 
-## Using the `switchMap()` operator
+## 使用 `switchMap()` 運算子
 
-The `switchMap()` operator takes a function argument that returns an `Observable`.
-In the example, `PackageSearchService.search` returns an `Observable`, as other data service methods do.
-If a previous search request is still in-flight, such as when the network connection is poor, the operator cancels that request and sends a new one.
+`switchMap()` 運算子接受一個回傳 `Observable` 的函式引數。在這個範例中，`PackageSearchService.search` 會回傳一個 `Observable`，如同其他資料服務方法一樣。如果先前的搜尋請求仍在進行中，例如網路連線不佳時，該運算子會取消該請求並送出一個新的請求。
 
 <div class="alert is-helpful">
 
-**NOTE**: <br />
-`switchMap()` returns service responses in their original request order, even if the server returns them out of order.
+**注意**：<br />
+即使伺服器回傳的順序不同，`switchMap()` 仍會以原始請求順序回傳服務回應。
 
 </div>
 
 <div class="alert is-helpful">
 
-If you think you'll reuse this debouncing logic, consider moving it to a utility function or into the `PackageSearchService` itself.
+如果你認為會重複使用這個防抖動邏輯，請考慮將它移到一個工具函式中，或移到 `PackageSearchService` 本身。
 
 </div>
 

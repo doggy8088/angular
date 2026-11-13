@@ -1,25 +1,24 @@
-# Angular workspace configuration
+# Angular 工作區設定
 
-The `angular.json` file at the root level of an Angular [workspace](guide/glossary#workspace) provides workspace-wide and project-specific configuration defaults. These are used for build and development tools provided by the Angular CLI.
-Path values given in the configuration are relative to the root workspace directory.
+位於 Angular [工作區](guide/glossary#工作區workspace)根層級的 `angular.json` 檔案，提供工作區範圍與專案專屬的設定預設值。這些預設值用於 Angular CLI 提供的建置與開發工具。設定中給定的路徑值是相對於根工作區目錄。
 
-## General JSON structure
+## 一般 JSON 結構
 
-At the top-level of `angular.json`, a few properties configure the workspace and a `projects` section contains the remaining per-project configuration options.
-You can override Angular CLI defaults set at the workspace level through defaults set at the project level.
-You can also override defaults set at the project level using the command line.
+在 `angular.json` 的最上層，少數屬性設定工作區，而 `projects` 區段包含其餘各專案的設定選項。
+你可以透過專案層級設定的預設值，覆寫工作區層級設定的 Angular CLI 預設值。
+你也可以使用命令列，覆寫專案層級設定的預設值。
 
-The following properties, at the top-level of the file, configure the workspace.
+下列屬性位於檔案的最上層，用來設定工作區。
 
-| Properties       | Details |
+| 屬性             | 詳細資訊 |
 |:---              |:---     |
-| `version`        | The configuration-file version.                                                                                                                                                                                                       |
-| `newProjectRoot` | Path where new projects are created. Absolute or relative to the workspace directory.                                                                                                                                                    |
-| `cli`            | A set of options that customize the [Angular CLI](cli). See the [Angular CLI configuration options](#cli-configuration-options) section.                                                                                                      |
-| `schematics`     | A set of [schematics](guide/glossary#schematic) that customize the `ng generate` sub-command option defaults for this workspace. See the [Generation schematics](#schematics) section.                                                |
-| `projects`       | Contains a subsection for each library or application in the workspace, with the per-project configuration options.                                                                                                       |
+| `version`        | 設定檔版本。                                                                                                                                                                                                       |
+| `newProjectRoot` | 建立新專案的路徑。絕對路徑，或相對於工作區目錄的路徑。                                                                                                                                                             |
+| `cli`            | 一組自訂 [Angular CLI](cli) 的選項。請參閱[Angular CLI 設定選項](#cli-configuration-options)一節。                                                                                                                      |
+| `schematics`     | 一組自訂此工作區 `ng generate` 子指令選項預設值的[原理圖](guide/glossary#原理圖schematic)。請參閱[產生原理圖](#schematics)一節。                                                                                             |
+| `projects`       | 包含工作區中每個程式庫或應用程式的子區段，以及各專案的設定選項。                                                                                                                                                     |
 
-The initial application that you create with `ng new app_name` is listed under "projects":
+你以 `ng new app_name` 建立的初始應用程式會列在「projects」之下：
 
 <code-example language="json">
 
@@ -32,52 +31,52 @@ The initial application that you create with `ng new app_name` is listed under "
 
 </code-example>
 
-When you create a library project with `ng generate library`, the library project is also added to the `projects` section.
+以 `ng generate library` 建立程式庫專案時，該程式庫專案也會加入 `projects` 區段。
 
 <div class="alert is-helpful">
 
-**NOTE**: <br />
-The `projects` section of the configuration file does not correspond exactly to the workspace file structure.
+**NOTE**：<br />
+設定檔的 `projects` 區段與工作區檔案結構並非完全對應。
 
-*   The initial application created by `ng new` is at the top level of the workspace file structure
-*   Other applications and libraries go into a `projects` directory in the workspace
+*   以 `ng new` 建立的初始應用程式位於工作區檔案結構的最上層
+*   其他應用程式與程式庫則放在工作區中的 `projects` 目錄
 
-For more information, see [Workspace and project file structure](guide/file-structure).
+更多資訊請參閱[工作區與專案檔案結構](guide/file-structure)。
 
 </div>
 
 <a id="cli-configuration-options"></a>
 
-## Angular CLI configuration options
+## Angular CLI 設定選項
 
-The following configuration properties are a set of options that customize the Angular CLI.
+下列設定屬性是一組自訂 Angular CLI 的選項。
 
-| Property              | Details                                                                                       | Value type                                              |
-|:---                   |:---                                                                                           |:---                                                     |
-| `analytics`           | Share anonymous [usage data](cli/analytics) with the Angular Team.                            | `boolean` &verbar; `ci`                                 |
-| `cache`               | Control [persistent disk cache](cli/cache) used by [Angular CLI Builders](guide/cli-builder). | [Cache options](#cache-options)                         |
-| `schematicCollections`| A list of default schematics collections to use.                                              | `string[]`                                              |
-| `packageManager`      | The preferred package manager tool to use.                                                    | `npm` &verbar; `cnpm` &verbar; `pnpm` &verbar;`yarn`    |
-| `warnings`            | Control Angular CLI specific console warnings.                                                        | [Warnings options](#warnings-options)                   |
+| 屬性                  | 詳細資訊                                                                                  | 值類型                                              |
+|:---                   |:---                                                                                       |:---                                                 |
+| `analytics`           | 與 Angular 團隊分享匿名的[使用資料](cli/analytics)。                                        | `boolean` &verbar; `ci`                             |
+| `cache`               | 控制 [Angular CLI 建置器](guide/cli-builder)使用的[持續性磁碟快取](cli/cache)。              | [快取選項](#快取選項)                          |
+| `schematicCollections`| 要使用的預設原理圖集合清單。                                                                | `string[]`                                          |
+| `packageManager`      | 要使用的偏好套件管理工具。                                                                  | `npm` &verbar; `cnpm` &verbar; `pnpm` &verbar;`yarn`|
+| `warnings`            | 控制 Angular CLI 特有的主控台警告。                                                          | [警告選項](#警告選項)                        |
 
 
-### Cache options
+### 快取選項
 
-| Property      | Details                                               | Value type                           | Default value    |
-|:---           | :---                                                  |:---                                  |:---              |
-| `enabled`     | Configure whether disk caching is enabled.            | `boolean`                            | `true`           |
-| `environment` | Configure in which environment disk cache is enabled. | `local` &verbar; `ci` &verbar; `all` | `local`          |
-| `path`        | The directory used to stored cache results.           | `string`                             | `.angular/cache` |
+| 屬性          | 詳細資訊                               | 值類型                           | 預設值           |
+|:---           | :---                                   |:---                              |:---              |
+| `enabled`     | 設定是否啟用磁碟快取。                 | `boolean`                        | `true`           |
+| `environment` | 設定在哪些環境中啟用磁碟快取。         | `local` &verbar; `ci` &verbar; `all` | `local`      |
+| `path`        | 用來儲存快取結果的目錄。               | `string`                         | `.angular/cache` |
 
-### Warnings options
+### 警告選項
 
-| Property          | Details                                                                         | Value type | Default value |
-|:---               |:---                                                                             |:---        |:---           |
-| `versionMismatch` | Show a warning when the global Angular CLI version is newer than the local one. | `boolean`  | `true`        |
+| 屬性              | 詳細資訊                                                                         | 值類型    | 預設值    |
+|:---               |:---                                                                             |:---       |:---       |
+| `versionMismatch` | 當全域 Angular CLI 版本比本機版本新時顯示警告。                                   | `boolean` | `true`    |
 
-## Project configuration options
+## 專案設定選項
 
-The following top-level configuration properties are available for each project, under `projects:<project_name>`.
+在 `projects:<project_name>` 之下，每個專案都可使用下列頂層設定屬性。
 
 <code-example language="json">
 
@@ -92,46 +91,46 @@ The following top-level configuration properties are available for each project,
 
 </code-example>
 
-| Property      | Details |
+| 屬性          | 詳細資訊 |
 |:---           |:---     |
-| `root`        | The root directory for this project's files, relative to the workspace directory. Empty for the initial application, which resides at the top level of the workspace. |
-| `sourceRoot`  | The root directory for this project's source files.                                                                                                        |
-| `projectType` | One of "application" or "library" An application can run independently in a browser, while a library cannot.                                           |
-| `prefix`      | A string that Angular prepends to created selectors. Can be customized to identify an application or feature area.                                    |
-| `schematics`  | A set of schematics that customize the `ng generate` sub-command option defaults for this project. See the [Generation schematics](#schematics) section.|
-| `architect`   | Configuration defaults for Architect builder targets for this project.                                                                                  |
+| `root`        | 此專案檔案的根目錄，相對於工作區目錄。初始應用程式為空，因為它位於工作區的最上層。 |
+| `sourceRoot`  | 此專案原始碼檔案的根目錄。                                                                                                        |
+| `projectType` | 「application」或「library」其中之一。應用程式可以獨立在瀏覽器中執行，程式庫則不行。                                           |
+| `prefix`      | Angular 會在建立的選取器前面加上的字串。可以自訂以識別應用程式或功能區域。                                    |
+| `schematics`  | 一組自訂此專案 `ng generate` 子指令選項預設值的原理圖。請參閱[產生原理圖](#schematics)一節。|
+| `architect`   | 此專案的 Architect 建置器目標的設定預設值。                                                                                  |
 
 <a id="schematics"></a>
 
-## Generation schematics
+## 產生原理圖
 
-Angular generation [schematics](guide/glossary#schematic) are instructions for modifying a project by adding files or modifying existing files.
-Individual schematics for the default Angular CLI `ng generate` sub-commands are collected in the package `@schematics/angular`.
-Specify the schematic name for a subcommand in the format `schematic-package:schematic-name`;
-for example, the schematic for generating a component is `@schematics/angular:component`.
+Angular 產生[原理圖](guide/glossary#原理圖schematic)是透過新增檔案或修改既有檔案來修改專案的指示。
+Angular CLI 預設 `ng generate` 子指令的個別原理圖彙集在 `@schematics/angular` 套件中。
+以 `schematic-package:schematic-name` 的格式指定子指令的原理圖名稱；
+例如，產生元件的原理圖是 `@schematics/angular:component`。
 
-The JSON schemas for the default schematics used by the Angular CLI to create projects and parts of projects are collected in the package [`@schematics/angular`](https://github.com/angular/angular-cli/blob/main/packages/schematics/angular/application/schema.json).
-The schema describes the options available to the Angular CLI for each of the `ng generate` sub-commands, as shown in the `--help` output.
+Angular CLI 用來建立專案與專案各部分的預設原理圖，其 JSON 結構定義彙集在 [`@schematics/angular`](https://github.com/angular/angular-cli/blob/main/packages/schematics/angular/application/schema.json) 套件中。
+結構定義說明了 Angular CLI 在每個 `ng generate` 子指令下可用的選項，如 `--help` 輸出所示。
 
-The fields given in the schema correspond to the allowed argument values and defaults for the Angular CLI sub-command options.
-You can update your workspace schema file to set a different default for a sub-command option.
+結構定義中給定的欄位，對應於 Angular CLI 子指令選項允許的引數值與預設值。
+你可以更新工作區結構定義檔案，為子指令選項設定不同的預設值。
 
 <a id="architect"></a>
 
-## Project tool configuration options
+## 專案工具設定選項
 
-Architect is the tool that the Angular CLI uses to perform complex tasks, such as compilation and test running.
-Architect is a shell that runs a specified [builder](guide/glossary#builder) to perform a given task, according to a [target](guide/glossary#target) configuration.
-You can define and configure new builders and targets to extend the Angular CLI.
-See [Angular CLI Builders](guide/cli-builder).
+Architect 是 Angular CLI 用來執行複雜工作（例如編譯與執行測試）的工具。
+Architect 是一個殼層，會根據[目標](guide/glossary#目標target)設定，執行指定的[建置器](guide/glossary#建置器builder)來執行特定工作。
+你可以定義與設定新的建置器與目標，以擴充 Angular CLI。
+請參閱 [Angular CLI 建置器](guide/cli-builder)。
 
 <a id="default-build-targets"></a>
 
-### Default Architect builders and targets
+### 預設 Architect 建置器與目標
 
-Angular defines default builders for use with specific commands, or with the general `ng run` command.
-The JSON schemas that define the options and defaults for each of these default builders are collected in the [`@angular-devkit/build-angular`](https://github.com/angular/angular-cli/blob/main/packages/angular_devkit/build_angular/builders.json) package.
-The schemas configure options for the following builders.
+Angular 為特定指令或一般 `ng run` 指令定義了預設建置器。
+定義這些預設建置器各自選項與預設值的 JSON 結構定義，彙集在 [`@angular-devkit/build-angular`](https://github.com/angular/angular-cli/blob/main/packages/angular_devkit/build_angular/builders.json) 套件中。
+這些結構定義為下列建置器設定選項。
 
 <!-- vale Angular.Google_WordListWarnings = NO -->
 
@@ -144,15 +143,15 @@ The schemas configure options for the following builders.
 
 <!-- vale Angular.Google_WordListWarnings = YES -->
 
-### Configuring builder targets
+### 設定建置器目標
 
-The `architect` section of `angular.json` contains a set of Architect targets.
-Many of the targets correspond to the Angular CLI commands that run them.
-Some extra predefined targets can be run using the `ng run` command, and you can define your own targets.
+`angular.json` 的 `architect` 區段包含一組 Architect 目標。
+許多目標對應於執行它們的 Angular CLI 指令。
+一些額外預先定義的目標可以使用 `ng run` 指令執行，你也可以定義自己的目標。
 
-Each target object specifies the `builder` for that target, which is the npm package for the tool that Architect runs.
-Each target also has an `options` section that configures default options for the target, and a `configurations` section that names and specifies alternative configurations for the target.
-See the example in [Build target](#build-target) below.
+每個目標物件會指定該目標的 `builder`，也就是 Architect 執行的工具所屬的 npm 套件。
+每個目標還有一個 `options` 區段，用來設定該目標的預設選項，以及一個 `configurations` 區段，用來命名並指定該目標的替代設定。
+請參閱下方[建置目標](#建置目標)中的範例。
 
 <code-example language="json">
 
@@ -169,98 +168,98 @@ See the example in [Build target](#build-target) below.
 
 </code-example>
 
-| Sections                 | Details |
+| 區段                     | 詳細資訊 |
 |:---                      |:---     |
-| `architect/build`        | Configures defaults for options of the `ng build` command. See the [Build target](#build-target) section for more information.                                                                                   |
-| `architect/serve`        | Overrides build defaults and supplies extra serve defaults for the `ng serve` command. Besides the options available for the `ng build` command, it adds options related to serving the application. |
-| `architect/e2e`          | Overrides build-option defaults for building end-to-end testing applications using the `ng e2e` command.                                                                                                         |
-| `architect/test`         | Overrides build-option defaults for test builds and supplies extra test-running defaults for the `ng test` command.                                                                                         |
-| `architect/lint`         | Configures defaults for options of the `ng lint` command, which performs code analysis on project source files.                                                                                                  |
-| `architect/extract-i18n` | Configures defaults for options of the `ng extract-i18n` command, which extracts marked message strings from source code and outputs translation files.                                                          |
-| `architect/server`       | Configures defaults for creating a Universal application with server-side rendering, using the `ng run <project>:server` command.                                                                                |
-| `architect/app-shell`    | Configures defaults for creating an application shell for a progressive web application \(PWA\), using the `ng run <project>:app-shell` command.                                                                 |
+| `architect/build`        | 設定 `ng build` 指令選項的預設值。更多資訊請參閱[建置目標](#建置目標)一節。                                                                                   |
+| `architect/serve`        | 覆寫建置預設值，並為 `ng serve` 指令提供額外的服務預設值。除了 `ng build` 指令可用的選項外，還會新增與提供應用程式相關的選項。 |
+| `architect/e2e`          | 使用 `ng e2e` 指令建置端對端測試應用程式時，覆寫建置選項預設值。                                                                                                         |
+| `architect/test`         | 覆寫測試建置的建置選項預設值，並為 `ng test` 指令提供額外的測試執行預設值。                                                                                         |
+| `architect/lint`         | 設定 `ng lint` 指令選項的預設值，該指令會對專案原始碼檔案執行程式碼分析。                                                                                                  |
+| `architect/extract-i18n` | 設定 `ng extract-i18n` 指令選項的預設值，該指令會從原始碼中擷取標記的訊息字串並輸出翻譯檔案。                                                          |
+| `architect/server`       | 使用 `ng run <project>:server` 指令，以伺服器端渲染建立 Universal 應用程式時，設定預設值。                                                                                |
+| `architect/app-shell`    | 使用 `ng run <project>:app-shell` 指令，為漸進式網頁應用程式（PWA）建立應用程式殼層時，設定預設值。                                                                 |
 
-In general, the options for which you can configure defaults correspond to the command options listed in the [Angular CLI reference page](cli) for each command.
+一般而言，可以設定預設值的選項，對應於每個指令在 [Angular CLI 參考頁面](cli)中所列的指令選項。
 
 <div class="alert is-helpful">
 
-**NOTE**: <br />
-All options in the configuration file must use [camelCase](guide/glossary#case-conventions), rather than dash-case.
+**NOTE**：<br />
+設定檔中的所有選項都必須使用 [camelCase](guide/glossary#case-conventions)，而非 dash-case。
 
 </div>
 
 <a id="build-target"></a>
 
-## Build target
+## 建置目標
 
-The `architect/build` section configures defaults for options of the `ng build` command.
-It has the following top-level properties.
+`architect/build` 區段會設定 `ng build` 指令選項的預設值。
+它具有下列頂層屬性。
 
-| PROPERTY        | Details                                                                                                                                                                                                                                                                                                              |
+| 屬性             | 詳細資訊                                                                                                                                                                                                                                                                                                              |
 |:---             |:---                                                                                                                                                                                                                                                                                                                      |
-| `builder`       | The npm package for the build tool used to create this target. The default builder for an application \(`ng build myApp`\) is `@angular-devkit/build-angular:browser`, which uses the [webpack](https://webpack.js.org) package bundler. <div class="alert is-helpful"> **NOTE**: A different builder is used for building a library \(`ng build myLib`\). </div> |
-| `options`       | This section contains default build target options, used when no named alternative configuration is specified. See the [Default build targets](#default-build-targets) section.                                                                                                                                                |
-| `configurations`| This section defines and names alternative configurations for different intended destinations. It contains a section for each named configuration, which sets the default options for that intended environment. See the [Alternate build configurations](#build-configs) section.                                             |
+| `builder`       | 用來建立此目標的建置工具所屬的 npm 套件。應用程式的預設建置器（`ng build myApp`）是 `@angular-devkit/build-angular:browser`，使用 [webpack](https://webpack.js.org) 套件打包工具。<div class="alert is-helpful"> **NOTE**：<br />建置程式庫（`ng build myLib`）時會使用不同的建置器。</div> |
+| `options`       | 此區段包含預設的建置目標選項，在未指定具名替代設定時使用。請參閱[預設建置目標](#default-build-targets)一節。                                                                                                                                                |
+| `configurations`| 此區段定義並命名不同預期目的地的替代設定。它包含每個具名設定的區段，為該預期環境設定預設選項。請參閱[替代建置設定](#build-configs)一節。                                             |
 
 <a id="build-configs"></a>
 
-### Alternate build configurations
+### 替代建置設定
 
-Angular CLI comes with two build configurations: `production` and `development`.
-By default, the `ng build` command uses the `production` configuration, which applies several build optimizations, including:
+Angular CLI 隨附兩種建置設定：`production` 與 `development`。
+預設情況下，`ng build` 指令使用 `production` 設定，會套用數種建置最佳化，包括：
 
-*   Bundling files
-*   Minimizing excess whitespace
-*   Removing comments and dead code
-*   Rewriting code to use short, mangled names, also known as minification
+*   打包檔案
+*   盡量減少多餘的空白
+*   移除註解與無用程式碼
+*   將程式碼改寫為使用簡短、混淆過的名稱，也就是所謂的最小化
 
-You can define and name extra alternate configurations \(such as `stage`, for instance\) appropriate to your development process.
-Some examples of different build configurations are `stable`, `archive`, and `next` used by Angular.io itself, and the individual locale-specific configurations required for building localized versions of an application.
-For details, see [Internationalization (i18n)][AioGuideI18nCommonMerge].
+你可以定義並命名適合開發流程的額外替代設定（例如 `stage`）。
+不同建置設定的一些範例包括 Angular.io 本身使用的 `stable`、`archive` 與 `next`，以及建置應用程式在地化版本所需的個別地區設定專屬設定。
+詳情請參閱[國際化（i18n）][AioGuideI18nCommonMerge]。
 
-You can select an alternate configuration by passing its name to the `--configuration` command line flag.
+你可以將替代設定的名稱傳遞給 `--configuration` 命令列旗標來選取它。
 
-You can also pass in more than one configuration name as a comma-separated list.
-For example, to apply both `stage` and `fr` build configurations, use the command `ng build --configuration stage,fr`.
-In this case, the command parses the named configurations from left to right.
-If multiple configurations change the same setting, the last-set value is the final one.
-In this example, if both `stage` and `fr` configurations set the output path the value in `fr` would get used.
+你也可以傳入多個設定名稱，以逗號分隔的清單表示。
+例如，若要同時套用 `stage` 與 `fr` 建置設定，請使用指令 `ng build --configuration stage,fr`。
+在此情況下，指令會由左至右解析具名的設定。
+如果多個設定變更了相同的設定，最後設定的值就是最終值。
+在此範例中，如果 `stage` 與 `fr` 設定都設定了輸出路徑，就會使用 `fr` 中的值。
 
 <a id="build-props"></a>
 
-### Extra build and test options
+### 額外的建置與測試選項
 
-The configurable options for a default or targeted build generally correspond to the options available for the [`ng build`](cli/build), [`ng serve`](cli/serve), and [`ng test`](cli/test) commands.
-For details of those options and their possible values, see the [Angular CLI Reference](cli).
+預設或目標建置的可設定選項，一般對應於 [`ng build`](cli/build)、[`ng serve`](cli/serve) 與 [`ng test`](cli/test) 指令可用的選項。
+這些選項及其可能值的詳情，請參閱 [Angular CLI 參考資料](cli)。
 
-Some extra options can only be set through the configuration file, either by direct editing or with the [`ng config`](cli/config) command.
+有些額外選項只能透過設定檔設定，無論是直接編輯，或使用 [`ng config`](cli/config) 指令。
 
-| Options properties         | Details |
-|:---                        |:---     |
-| `assets`                   | An object containing paths to static assets to add to the global context of the project. The default paths point to the project's icon file and its `assets` directory. See more in the [Assets configuration](#asset-config) section.                                                                     |
-| `styles`                   | An array of style files to add to the global context of the project. Angular CLI supports CSS imports and all major CSS preprocessors: [sass/scss](https://sass-lang.com) and [less](http://lesscss.org). See more in the [Styles and scripts configuration](#style-script-config) section.             |
-| `stylePreprocessorOptions` | An object containing option-value pairs to pass to style preprocessors. See more in the [Styles and scripts configuration](#style-script-config) section.                                                                                                                                               |
-| `scripts`                  | An object containing JavaScript script files to add to the global context of the project. The scripts are loaded exactly as if you had added them in a `<script>` tag inside `index.html`. See more in the [Styles and scripts configuration](#style-script-config) section.                            |
-| `budgets`                  | Default size-budget type and thresholds for all or parts of your application. You can configure the builder to report a warning or an error when the output reaches or exceeds a threshold size. See [Configure size budgets](guide/build#configure-size-budgets). \(Not available in `test` section.\) |
-| `fileReplacements`         | An object containing files and their compile-time replacements. See more in [Configure target-specific file replacements](guide/build#configure-target-specific-file-replacements).                                                                                                                     |
-`index`                    | Configures the generation of the application's HTML index. See more in [Index configuration](#index-config). \(Only available in `browser` section.\)                                                                                                         |                                                                                                        |                                                                                                      
+| 選項屬性                   | 詳細資訊                                                                                                                                                                                                                                                                                                 |
+|:---                        |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `assets`                   | 一個物件，包含要加入專案全域情境的靜態資產路徑。預設路徑指向專案的圖示檔案及其 `assets` 目錄。更多資訊請參閱[資產設定](#asset-config)一節。                                                                  |
+| `styles`                   | 一個樣式檔案陣列，要加入專案的全域情境。Angular CLI 支援 CSS 匯入與所有主要的 CSS 預處理器：[sass/scss](https://sass-lang.com) 與 [less](http://lesscss.org)。更多資訊請參閱[樣式與指令碼設定](#style-script-config)一節。            |
+| `stylePreprocessorOptions` | 一個物件，包含要傳遞給樣式預處理器的選項值配對。更多資訊請參閱[樣式與指令碼設定](#style-script-config)一節。                                                                                                                                               |
+| `scripts`                  | 一個物件，包含要加入專案全域情境的 JavaScript 指令碼檔案。這些指令碼的載入方式，就如同你在 `index.html` 中的 `<script>` 標籤內加入它們一樣。更多資訊請參閱[樣式與指令碼設定](#style-script-config)一節。                            |
+| `budgets`                  | 應用程式全部或部分的預設大小預算類型與閾值。你可以設定建置器，在輸出達到或超過閾值大小時回報警告或錯誤。請參閱[設定大小預算](guide/build#configure-size-budgets)。（`test` 區段中不提供。） |
+| `fileReplacements`         | 一個物件，包含檔案及其編譯時期取代檔案。更多資訊請參閱[設定目標專屬的檔案取代](guide/build#設定目標專屬的檔案置換)。                                                                                                                     |
+`index`                    | 設定應用程式 HTML 索引的產生方式。更多資訊請參閱[索引設定](#index-config)。（僅在 `browser` 區段中提供。）                                                                                                                                                   |                                                                                                        |
 
 
 <a id="complex-config"></a>
 
-## Complex configuration values
+## 複雜的設定值
 
-The `assets`, `index`, `styles`, and `scripts` options can have either simple path string values, or object values with specific fields.
-The `sourceMap` and `optimization` options can be set to a simple Boolean value with a command flag. They can also be given a complex value using the configuration file.
+`assets`、`index`、`styles` 與 `scripts` 選項可以是簡單的路徑字串值，也可以是具有特定欄位的物件值。
+`sourceMap` 與 `optimization` 選項可以透過指令旗標設定為簡單的布林值，也可以透過設定檔給定複雜的值。
 
-The following sections provide more details of how these complex values are used in each case.
+下列各節提供這些複雜值在各種情況下如何使用的更多詳細資訊。
 
 <a id="asset-config"></a>
 
-### Assets configuration
+### 資產設定
 
-Each `build` target configuration can include an `assets` array that lists files or folders you want to copy as-is when building your project.
-By default, the `src/assets/` directory and `src/favicon.ico` are copied over.
+每個 `build` 目標設定都可以包含一個 `assets` 陣列，列出在建置專案時想要原樣複製的檔案或資料夾。
+預設會複製 `src/assets/` 目錄與 `src/favicon.ico`。
 
 <code-example language="json">
 
@@ -273,20 +272,20 @@ By default, the `src/assets/` directory and `src/favicon.ico` are copied over.
 
 <!-- vale off -->
 
-To exclude an asset, you can remove it from the assets configuration.
+若要排除資產，可以將它從資產設定中移除。
 
-You can further configure assets to be copied by specifying assets as objects, rather than as simple paths relative to the workspace root.
-An asset specification object can have the following fields.
+你可以將資產指定為物件（而非相對於工作區根目錄的簡單路徑），進一步設定要複製的資產。
+資產規格物件可以具有下列欄位。
 
-| Fields           | Details |
+| 欄位             | 詳細資訊 |
 |:---              |:---     |
-| `glob`           | A [node-glob](https://github.com/isaacs/node-glob/blob/master/README.md) using `input` as base directory.                                                              |
-| `input`          | A path relative to the workspace root.                                                                                                                                 |
-| `output`         | A path relative to `outDir` \(default is `dist/project-name`\). Because of the security implications, the Angular CLI never writes files outside of the project output path. |
-| `ignore`         | A list of globs to exclude.                                                                                                                                            |
-| `followSymlinks` | Allow glob patterns to follow symlink directories. This allows subdirectories of the symlink to be searched. Defaults to `false`.                                      |
+| `glob`           | 一個 [node-glob](https://github.com/isaacs/node-glob/blob/master/README.md)，以 `input` 作為基底目錄。                                                              |
+| `input`          | 相對於工作區根目錄的路徑。                                                                                                                                 |
+| `output`         | 相對於 `outDir` 的路徑（預設為 `dist/project-name`）。基於安全性考量，Angular CLI 絕不會將檔案寫入專案輸出路徑之外。 |
+| `ignore`         | 要排除的 glob 清單。                                                                                                                                            |
+| `followSymlinks` | 允許 glob 模式跟隨符號連結目錄。這可讓系統搜尋符號連結的子目錄。預設為 `false`。                                      |
 
-For example, the default asset paths can be represented in more detail using the following objects.
+例如，可以使用下列物件，更詳細地表示預設的資產路徑。
 
 <!-- vale on -->
 
@@ -307,8 +306,8 @@ For example, the default asset paths can be represented in more detail using the
 
 </code-example>
 
-You can use this extended configuration to copy assets from outside your project.
-For example, the following configuration copies assets from a node package:
+你可以使用這種擴充設定，從專案外部複製資產。
+例如，下列設定會從 node 套件複製資產：
 
 <code-example language="json">
 
@@ -324,11 +323,11 @@ For example, the following configuration copies assets from a node package:
 
 <!-- vale Angular.Google_Will = NO -->
 
-The contents of `node_modules/some-package/images/` will be available in `dist/some-package/`.
+`node_modules/some-package/images/` 的內容將可在 `dist/some-package/` 中取用。
 
 <!-- vale Angular.Google_Will = YES -->
 
-The following example uses the `ignore` field to exclude certain files in the assets directory from being copied into the build:
+下列範例使用 `ignore` 欄位，排除資產目錄中的某些檔案，使其不會複製到建置中：
 
 <code-example language="json">
 
@@ -345,14 +344,14 @@ The following example uses the `ignore` field to exclude certain files in the as
 
 <a id="style-script-config"></a>
 
-### Styles and scripts configuration
+### 樣式與指令碼設定
 
-An array entry for the `styles` and `scripts` options can be a simple path string, or an object that points to an extra entry-point file.
-The associated builder loads that file and its dependencies as a separate bundle during the build.
-With a configuration object, you have the option of naming the bundle for the entry point, using a `bundleName` field.
+`styles` 與 `scripts` 選項的陣列項目可以是簡單的路徑字串，也可以是指向額外進入點檔案的物件。
+相關的建置器會在建置期間，將該檔案及其依賴載入為獨立的套件。
+使用設定物件時，你可以使用 `bundleName` 欄位，為進入點的套件命名。
 
-The bundle is injected by default, but you can set `inject` to `false` to exclude the bundle from injection.
-For example, the following object values create and name a bundle that contains styles and scripts, and excludes it from injection:
+套件預設會被注入，但你可以將 `inject` 設定為 `false`，以排除該套件的注入。
+例如，下列物件值會建立並命名一個包含樣式與指令碼的套件，並排除其注入：
 
 <code-example language="json">
 
@@ -373,7 +372,7 @@ For example, the following object values create and name a bundle that contains 
 
 </code-example>
 
-You can mix simple and complex file references for styles and scripts.
+你可以混合使用簡單與複雜的樣式與指令碼檔案參照。
 
 <code-example language="json">
 
@@ -388,11 +387,11 @@ You can mix simple and complex file references for styles and scripts.
 
 <a id="style-preprocessor"></a>
 
-#### Style preprocessor options
+#### 樣式預處理器選項
 
-In Sass you can make use of the `includePaths` feature for both component and global styles. This allows you to add extra base paths that are checked for imports.
+在 Sass 中，你可以對元件樣式與全域樣式使用 `includePaths` 功能。這可讓你新增會在匯入時檢查的額外基底路徑。
 
-To add paths, use the `stylePreprocessorOptions` option:
+若要新增路徑，請使用 `stylePreprocessorOptions` 選項：
 
 <code-example language="json">
 
@@ -404,7 +403,7 @@ To add paths, use the `stylePreprocessorOptions` option:
 
 </code-example>
 
-Files in that directory, such as `src/style-paths/_variables.scss`, can be imported from anywhere in your project without the need for a relative path:
+該目錄中的檔案（例如 `src/style-paths/_variables.scss`）可以從專案中的任何位置匯入，無需使用相對路徑：
 
 <code-example language="typescript">
 
@@ -418,53 +417,53 @@ Files in that directory, such as `src/style-paths/_variables.scss`, can be impor
 
 <div class="alert is-helpful">
 
-**NOTE**: <br />
-You also need to add any styles or scripts to the `test` builder if you need them for unit tests.
-See also [Using runtime-global libraries inside your application](guide/using-libraries#using-runtime-global-libraries-inside-your-app).
+**NOTE**：<br />
+如果你需要將樣式或指令碼用於單元測試，也需要將其加入 `test` 建置器。
+另請參閱[在應用程式中使用執行時期全域程式庫](guide/using-libraries#在應用程式中使用執行階段全域程式庫)。
 
 </div>
 
-### Optimization configuration
+### 最佳化設定
 
-The `optimization` browser builder option can be either a Boolean or an Object for more fine-tune configuration.
-This option enables various optimizations of the build output, including:
+`optimization` 瀏覽器建置器選項可以是布林值或物件，以進行更精細的設定。
+此選項會啟用建置輸出的各種最佳化，包括：
 
 <!-- vale Angular.Angular_Spelling = NO-->
 
-*   Minification of scripts and styles
-*   Tree-shaking
-*   Dead-code elimination
-*   Inlining of critical CSS
-*   Fonts inlining
+*   指令碼與樣式的最小化
+*   搖樹優化
+*   無用程式碼消除
+*   關鍵 CSS 的內嵌
+*   字型的內嵌
 
 <!-- vale Angular.Angular_Spelling = YES-->
 
-Several options can be used to fine-tune the optimization of an application.
+可以使用數個選項來微調應用程式的最佳化。
 
-| Options   | Details                                                                                                               | Value type                                                                     | Default value |
+| 選項      | 詳細資訊                                                                                                               | 值類型                                                                     | 預設值    |
 |:---       |:---                                                                                                                   |:---                                                                            |:---           |
-| `scripts` | Enables optimization of the scripts output.                                                                           | `boolean`                                                                      | `true`        |
-| `styles`  | Enables optimization of the styles output.                                                                            | `boolean` &verbar; [Styles optimization options](#styles-optimization-options) | `true`        |
-| `fonts`   | Enables optimization for fonts. <div class="alert is-helpful"> **NOTE**: <br /> This requires internet access. </div> | `boolean` &verbar; [Fonts optimization options](#fonts-optimization-options)   | `true`        |
+| `scripts` | 啟用指令碼輸出的最佳化。                                                                                           | `boolean`                                                                      | `true`        |
+| `styles`  | 啟用樣式輸出的最佳化。                                                                                            | `boolean` &verbar; [樣式最佳化選項](#樣式最佳化選項) | `true`        |
+| `fonts`   | 啟用字型的最佳化。<div class="alert is-helpful"> **NOTE**：<br />需要網際網路存取。</div> | `boolean` &verbar; [字型最佳化選項](#字型最佳化選項)   | `true`        |
 
-#### Styles optimization options
+#### 樣式最佳化選項
 
 <!-- vale Angular.Angular_Spelling = NO -->
 
-| Options          | Details                                                                                                                  | Value type | Default value |
-|:---              |:---                                                                                                                      |:---        |:---           |
-| `minify`         | Minify CSS definitions by removing extraneous whitespace and comments, merging identifiers, and minimizing values.        | `boolean`  | `true`        |
-| `inlineCritical` | Extract and inline critical CSS definitions to improve [First Contentful Paint](https://web.dev/first-contentful-paint). | `boolean`  | `true`        |
+| 選項             | 詳細資訊                                                                                                                  | 值類型    | 預設值    |
+|:---              |:---                                                                                                                      |:---       |:---       |
+| `minify`         | 透過移除多餘的空白與註解、合併識別碼並最小化值，來最小化 CSS 定義。        | `boolean` | `true`    |
+| `inlineCritical` | 擷取並內嵌關鍵 CSS 定義，以改善[首次內容繪製](https://web.dev/first-contentful-paint)。 | `boolean` | `true`    |
 
-#### Fonts optimization options
+#### 字型最佳化選項
 
-| Options  | Details                                                                                                                                                                                                                                                                    | Value type | Default value |
-|:---      |:---                                                                                                                                                                                                                                                                        |:---        |:---           |
-| `inline` | Reduce [render blocking requests](https://web.dev/render-blocking-resources) by inlining external Google Fonts and Adobe Fonts CSS definitions in the application's HTML index file. <div class="alert is-helpful"> **NOTE**: <br /> This requires internet access. </div> | `boolean`  | `true`        |
+| 選項     | 詳細資訊                                                                                                                                                                                                                                                                    | 值類型    | 預設值    |
+|:---      |:---                                                                                                                                                                                                                                                                        |:---       |:---       |
+| `inline` | 透過在應用程式的 HTML 索引檔案中內嵌外部 Google Fonts 與 Adobe Fonts CSS 定義，減少[轉譯阻擋請求](https://web.dev/render-blocking-resources)。<div class="alert is-helpful"> **NOTE**：<br />需要網際網路存取。</div> | `boolean` | `true`    |
 
 <!-- vale Angular.Angular_Spelling = YES -->
 
-You can supply a value such as the following to apply optimization to one or the other:
+你可以提供如下的值，對其中一者套用最佳化：
 
 <code-example language="json">
 
@@ -481,22 +480,22 @@ You can supply a value such as the following to apply optimization to one or the
 
 <div class="alert is-helpful">
 
-For [Universal](guide/glossary#universal), you can reduce the code rendered in the HTML page by setting styles optimization to `true`.
+對於 [Universal](guide/glossary#universal)，你可以將樣式最佳化設定為 `true`，以減少 HTML 頁面中渲染的程式碼。
 
 </div>
 
-### Source map configuration
+### 來源對應設定
 
-The `sourceMap` browser builder option can be either a Boolean or an Object for more fine-tune configuration to control the source maps of an application.
+`sourceMap` 瀏覽器建置器選項可以是布林值或物件，以進行更精細的設定，控制應用程式的來源對應。
 
-| Options   | Details                                            | Value type | Default value |
-|:---       |:---                                                |:---        |:---           |
-| `scripts` | Output source maps for all scripts.                | `boolean`  | `true`        |
-| `styles`  | Output source maps for all styles.                 | `boolean`  | `true`        |
-| `vendor`  | Resolve vendor packages source maps.               | `boolean`  | `false`       |
-| `hidden`  | Output source maps used for error reporting tools. | `boolean`  | `false`       |
+| 選項      | 詳細資訊                                            | 值類型    | 預設值    |
+|:---       |:---                                                |:---       |:---       |
+| `scripts` | 輸出所有指令碼的來源對應。                          | `boolean` | `true`    |
+| `styles`  | 輸出所有樣式的來源對應。                            | `boolean` | `true`    |
+| `vendor`  | 解析廠商套件的來源對應。                            | `boolean` | `false`   |
+| `hidden`  | 輸出供錯誤回報工具使用的來源對應。                  | `boolean` | `false`   |
 
-The example below shows how to toggle one or more values to configure the source map outputs:
+下列範例顯示如何切換一或多個值來設定來源對應輸出：
 
 <code-example language="json">
 
@@ -511,26 +510,26 @@ The example below shows how to toggle one or more values to configure the source
 
 <div class="alert is-helpful">
 
-When using hidden source maps, source maps are not referenced in the bundle.
-These are useful if you only want source maps to map error stack traces in error reporting tools. Hidden source maps don't expose your source maps in the browser developer tools.
+使用隱藏來源對應時，來源對應不會在套件中被參照。
+如果你只想讓來源對應在錯誤回報工具中對應錯誤堆疊追蹤，這很有用。隱藏來源對應不會在瀏覽器開發人員工具中公開你的來源對應。
 
 </div>
 
 <a id="index-config"></a>
 
-### Index configuration
+### 索引設定
 
-Configures the generation of the application's HTML index.
+設定應用程式 HTML 索引的產生方式。
 
-The `index` option can be either a String or an Object for more fine-tune configuration.
+`index` 選項可以是字串或物件，以進行更精細的設定。
 
-When supplying the value as a String the filename of the specified path will be used for the generated file and will be created in the root of the application's configured output path.
+以字串形式提供值時，指定路徑的檔案名稱將用於產生的檔案，並在應用程式已設定的輸出路徑根目錄中建立該檔案。
 
-#### Index options
-| Options  | Details                                                                                                                                                                          | Value type | Default value |
+#### 索引選項
+| 選項     | 詳細資訊                                                                                                                                                                          | 值類型     | 預設值       |
 |:---      |:---                                                                                                                                                                              |:---        |:---           |
-| `input`  | The path of a file to use for the application's generated HTML index.                                                                                                            | `string`   |               |
-| `output` | The output path of the application's generated HTML index file. The full provided path will be used and will be considered relative to the application's configured output path. | `string`   | `index.html`  |
+| `input`  | 要用於應用程式產生的 HTML 索引的檔案路徑。                                                                                                            | `string`   |               |
+| `output` | 應用程式產生的 HTML 索引檔案的輸出路徑。將使用提供的完整路徑，並視為相對於應用程式已設定的輸出路徑。 | `string`   | `index.html`  |
 
 
 <!-- links -->

@@ -1,8 +1,8 @@
-# `$localize` Global Import Migration
+# `$localize` 全域匯入遷移
 
-## What does this schematic do?
+## 這個原理圖做什麼？
 
-If you're using i18n, this schematic adds an import statement for `@angular/localize` to `polyfills.ts` that will look something like this:
+如果你正在使用 i18n，這個原理圖會在 `polyfills.ts` 中為 `@angular/localize` 加上一行匯入宣告，大致如下：
 
 <code-example format="typescript" language="typescript">
 
@@ -13,7 +13,7 @@ import '&commat;angular/localize/init';
 
 </code-example>
 
-It also lists `@angular/localize` as a dependency in your app's `package.json` to ensure the import is found.
+它也會在你應用程式的 `package.json` 中將 `@angular/localize` 列為相依性，確保能找到該匯入。
 
 <code-example format="json" language="json">
 
@@ -25,25 +25,25 @@ It also lists `@angular/localize` as a dependency in your app's `package.json` t
 
 </code-example>
 
-`@angular/localize` is a new package that supports i18n of messages in Ivy applications.
-This package requires a global `$localize` symbol to exist.
-The symbol is loaded by importing the `@angular/localize/init` module, which has the side effect of attaching it to the global scope.
+`@angular/localize` 是一個新套件，支援 Ivy 應用程式中訊息的 i18n。
+這個套件需要全域的 `$localize` 符號存在。
+這個符號是透過匯入 `@angular/localize/init` 模組載入的，其副作用是將它附加到全域範圍。
 
-## Why is this migration necessary?
+## 為什麼需要這個遷移？
 
-Prior to Angular version 9, Angular's internationalization \(i18n\) system inlined translated messages into the compiled output as part of this template compilation.
-This approach required running the template compiler once per target locale, often leading to slow production build times.
+在 Angular 第 9 版之前，Angular 的國際化（i18n）系統會在範本編譯過程中，將已翻譯的訊息內嵌到編譯輸出中。
+這種方式需要針對每個目標地區設定各執行一次範本編譯器，經常導致生產建置時間緩慢。
 
-In the new i18n system, the Angular compiler tags i18n messages in the compiled code with a global `$localize` handler.
-The inlining of translations then occurs as a post-compilation step for each locale.
-Because the application does not need to be built again for each locale, this makes the process much faster.
+在新的 i18n 系統中，Angular 編譯器會以全域的 `$localize` 處理器標記編譯後程式碼中的 i18n 訊息。
+然後，翻譯的內嵌會在編譯後的步驟中針對每個地區設定進行。
+因為應用程式不需要為每個地區設定重新建置，這讓整個過程快得多。
 
-The post-compilation inlining step is optional &mdash;for example during development or if the translations will be inlined at runtime.
-Therefore this global `$localize` must be available on the global scope at runtime.
-To make `$localize` available on the global scope, each application must now import the `@angular/localize/init` module.
-This has the side effect of attaching a minimal implementation of `&dollar;localize` to the global scope.
+編譯後內嵌步驟是可選的 &mdash;例如在開發期間，或是翻譯將在執行期內嵌時。
+因此，這個全域 `$localize` 必須在執行期於全域範圍中可用。
+為了讓 `$localize` 在全域範圍中可用，每個應用程式現在都必須匯入 `@angular/localize/init` 模組。
+它的副作用是將 `&dollar;localize` 的最小實作附加到全域範圍。
 
-If this import is missing, you will see an error message like this:
+如果缺少這個匯入，你會看到像這樣的錯誤訊息：
 
 <code-example format="output" hideCopy language="shell">
 
@@ -54,12 +54,12 @@ Please run &grave;ng add &commat;angular/localize&grave; from the Angular CLI.
 
 </code-example>
 
-This schematic automatically adds the `@angular/localize/init` import for you if your app uses Angular's i18n APIs.
+如果你的應用程式使用了 Angular 的 i18n API，這個原理圖會自動為你加上 `@angular/localize/init` 匯入。
 
-## Why is my tslint failing?
+## 為什麼我的 tslint 會失敗？
 
-The import of `@angular/localize/init` may cause a tslint error for `no-import-side-effect` because it adds to the global context \(that is, a side effect\).
-To fix this error, add the following to your `tslint.config`:
+匯入 `@angular/localize/init` 可能會因為 `no-import-side-effect` 而造成 tslint 錯誤，因為它會加入全域內容（也就是副作用）。
+若要修正這個錯誤，請將下列內容加入你的 `tslint.config`：
 
 <code-example format="json" language="json">
 
@@ -72,9 +72,9 @@ To fix this error, add the following to your `tslint.config`:
 
 </code-example>
 
-## Do I need to change how I write i18n in my Angular templates?
+## 我需要改變在 Angular 範本中撰寫 i18n 的方式嗎？
 
-The template syntax for i18n has not changed, so you will still want to use the `i18n` attribute as you did before.
+i18n 的範本語法沒有改變，所以你仍然會像以前一樣使用 `i18n` 屬性。
 
 <!-- links -->
 
