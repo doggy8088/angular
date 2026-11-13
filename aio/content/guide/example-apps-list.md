@@ -1,356 +1,356 @@
-# Example applications
+# 範例應用程式
 
-The following is a list of the example applications in the [Angular documentation](docs).
+以下清單列出 [Angular 文件](docs)中的範例應用程式。
 
-## Fundamentals
+## 基礎概念
 
-These examples demonstrate minimal, fundamental concepts.
+這些範例展示最基本、最基礎的概念。
 
-### Getting started application
+### 入門應用程式
 
 <live-example name="getting-started"></live-example>
 
-Introductory application demonstrating Angular features.
-For more information, see [Getting started](start).
+展示 Angular 功能的入門應用程式。
+如需更多資訊，請參閱 [開始使用](start)。
 
-### Launching your app
+### 啟動你的應用程式
 
 <live-example name="bootstrapping"></live-example>
 
-Demonstrates the Angular bootstrapping process.
-For more information, see [Launching your app with a root module](guide/bootstrapping).
+展示 Angular 的啟動程序。
+如需更多資訊，請參閱 [使用根模組啟動你的應用程式](guide/bootstrapping)。
 
-### Structure of Angular applications
+### Angular 應用程式的結構
 
 <live-example name="architecture"></live-example>
 
-Demonstrates the fundamental architecture of Angular applications.
-For more information, see [Introduction to Angular concepts](guide/architecture).
+展示 Angular 應用程式的基礎架構。
+如需更多資訊，請參閱 [Angular 概念介紹](guide/architecture)。
 
-## Tour of Heroes tutorial application
+## 英雄之旅教學應用程式
 
-The Tour of Heroes is a comprehensive tutorial that guides you through the process of building an application with many of Angular's most popular features.
+英雄之旅是一份完整的教學，引導你完成建立應用程式的過程，運用許多 Angular 最受歡迎的功能。
 
-### Tour of Heroes: completed application
+### 英雄之旅：已完成的應用程式
 
 <live-example name="toh-pt6"></live-example>
 
-Completed Tour of Heroes example application.
-For more information, see [Tour of Heroes app and tutorial](tutorial).
+已完成的英雄之旅範例應用程式。
+如需更多資訊，請參閱 [英雄之旅應用程式與教學](tutorial)。
 
-### Tour of Heroes: Creating an application
+### 英雄之旅：建立應用程式
 
 <live-example name="toh-pt0"></live-example>
 
-Initial Tour of Heroes example application for beginning the tutorial.
-For more information, see [Create a new project](tutorial/toh-pt0).
+開始本教學的初始英雄之旅範例應用程式。
+如需更多資訊，請參閱 [建立新專案](tutorial/toh-pt0)。
 
-### Tour of Heroes: The hero editor
+### 英雄之旅：英雄編輯器
 
 <live-example name="toh-pt1"></live-example>
 
-First step of the Tour of Heroes example application.
-For more information, see [The hero editor](tutorial/toh-pt1).
+英雄之旅範例應用程式的第一步。
+如需更多資訊，請參閱 [英雄編輯器](tutorial/toh-pt1)。
 
-### Tour of Heroes: Display a selection list
+### 英雄之旅：顯示選取清單
 
 <live-example name="toh-pt2"></live-example>
 
-Second step of the Tour of Heroes example application.
-For more information, see [Display a selection list](tutorial/toh-pt2).
+英雄之旅範例應用程式的第二步。
+如需更多資訊，請參閱 [顯示選取清單](tutorial/toh-pt2)。
 
-### Tour of Heroes: Create a feature component
+### 英雄之旅：建立功能元件
 
 <live-example name="toh-pt3"></live-example>
 
-Third step of the Tour of Heroes example application.
-For more information, see [Create a feature component](tutorial/toh-pt3).
+英雄之旅範例應用程式的第三步。
+如需更多資訊，請參閱 [建立功能元件](tutorial/toh-pt3)。
 
-### Tour of Heroes: Add services
+### 英雄之旅：加入服務
 
 <live-example name="toh-pt4"></live-example>
 
-Fourth step of the Tour of Heroes example application.
-For more information, see [Add services](tutorial/toh-pt4).
+英雄之旅範例應用程式的第四步。
+如需更多資訊，請參閱 [加入服務](tutorial/toh-pt4)。
 
-### Tour of Heroes: Add in-app navigation with routing
+### 英雄之旅：使用路由加入應用程式內導覽
 
 <live-example name="toh-pt5"></live-example>
 
-Fifth step of the Tour of Heroes example application.
-For more information, see [Add in-app navigation with routing](tutorial/toh-pt5).
+英雄之旅範例應用程式的第五步。
+如需更多資訊，請參閱 [使用路由加入應用程式內導覽](tutorial/toh-pt5)。
 
-### Tour of Heroes: Get data from a server
+### 英雄之旅：從伺服器取得資料
 
 <live-example name="toh-pt6"></live-example>
 
-Sixth and final step of the Tour of Heroes example application.
-For more information, see [Get data from a server](tutorial/toh-pt6).
+英雄之旅範例應用程式的第六步，也是最後一步。
+如需更多資訊，請參閱 [從伺服器取得資料](tutorial/toh-pt6)。
 
 
-## Working with templates
+## 使用範本
 
-These examples demonstrate features of Angular templates.
+這些範例展示 Angular 範本的功能。
 
-### Accessibility
+### 無障礙
 
 <live-example name="accessibility"></live-example>
 
-Demonstrates building Angular applications in a more accessible way.
-For more information, see [Accessibility](guide/accessibility).
+展示以更無障礙的方式建立 Angular 應用程式。
+如需更多資訊，請參閱 [無障礙](guide/accessibility)。
 
-### Animations
+### 動畫
 
 <live-example name="animations"></live-example>
 
-Demonstrates Angular's animation features.
-For more information, see [Introduction to Angular animations](guide/animations).
+展示 Angular 的動畫功能。
+如需更多資訊，請參閱 [Angular 動畫介紹](guide/animations)。
 
-### Attribute, class, and style bindings
+### 屬性、類別與樣式繫結
 
 <live-example name="attribute-binding"></live-example>
 
-Demonstrates Angular attribute, class, and style bindings.
-For more information, see [Attribute, class, and style bindings](guide/attribute-binding).
+展示 Angular 的屬性、類別與樣式繫結。
+如需更多資訊，請參閱 [屬性、類別與樣式繫結](guide/attribute-binding)。
 
-### Attribute directives
+### 屬性指令
 
 <live-example name="attribute-directives"></live-example>
 
-Demonstrates Angular attribute directives.
-For more information, see [Attribute directives](guide/attribute-directives).
+展示 Angular 的屬性指令。
+如需更多資訊，請參閱 [屬性指令](guide/attribute-directives)。
 
-### Binding syntax
+### 繫結語法
 
 <live-example name="binding-syntax"></live-example>
 
-Demonstrates Angular's binding syntax.
-For more information, see [Binding syntax: an overview](guide/binding-syntax).
+展示 Angular 的繫結語法。
+如需更多資訊，請參閱 [繫結語法：總覽](guide/binding-syntax)。
 
-### Built-in directives
+### 內建指令
 
 <live-example name="built-in-directives"></live-example>
 
-Demonstrates Angular built-in directives.
-For more information, see [Built-in directives](guide/built-in-directives).
+展示 Angular 的內建指令。
+如需更多資訊，請參閱 [內建指令](guide/built-in-directives)。
 
-### Built-in template functions
+### 內建範本函式
 
 <live-example name="built-in-template-functions"></live-example>
 
-Demonstrates Angular built-in template functions.
-For more information, see the [`$any()` type cast function section](guide/template-expression-operators#the-any-type-cast-function) of [Template expression operators](guide/template-expression-operators).
+展示 Angular 的內建範本函式。
+如需更多資訊，請參閱 [範本運算式運算子](guide/template-expression-operators)中的 [`$any()` 型別轉換函式](guide/template-expression-operators#any-型別轉換函式)一節。
 
-### Content projection
+### 內容投影
 
 <live-example name="content-projection"></live-example>
 
-Demonstrates how to use Angular's content projection feature when creating reusable components.
+展示在建立可重複使用元件時，如何使用 Angular 的內容投影功能。
 
-### Interpolation
+### 插值
 
 <live-example name="interpolation"></live-example>
 
-Demonstrates Angular interpolation.
-For more information, see [Interpolation and template expressions](guide/interpolation).
+展示 Angular 的插值。
+如需更多資訊，請參閱 [插值與範本運算式](guide/interpolation)。
 
-### Template expression operators
+### 範本運算式運算子
 
 <live-example name="template-expression-operators"></live-example>
 
-Demonstrates expression operators in Angular templates.
-For more information, see [Template expression operators](guide/template-expression-operators).
+展示 Angular 範本中的運算式運算子。
+如需更多資訊，請參閱 [範本運算式運算子](guide/template-expression-operators)。
 
-### Template reference variables
+### 範本參照變數
 
 <live-example name="template-reference-variables"></live-example>
 
-Demonstrates Angular's template reference variables.
-For more information, see [Template reference variables](guide/template-reference-variables).
+展示 Angular 的範本參照變數。
+如需更多資訊，請參閱 [範本參照變數](guide/template-reference-variables)。
 
 ### `<ngcontainer>`
 
 <live-example name="ngcontainer"></live-example>
 
-Demonstrates `<ngcontainer>`.
-For more information, see the [ng-container section](guide/built-in-directives#ngcontainer) of [Built-in directives](guide/structural-directives) .
+展示 `<ngcontainer>`。
+如需更多資訊，請參閱 [內建指令](guide/structural-directives)中的 [ng-container](guide/built-in-directives#ngcontainer)一節。
 
-### Pipes
+### 管道
 
 <live-example name="pipes"></live-example>
 
-Demonstrates Angular pipes.
-For more information, see [Transforming Data Using Pipes](guide/pipes).
+展示 Angular 的管道。
+如需更多資訊，請參閱 [使用管道轉換資料](guide/pipes)。
 
-### Property binding
+### 屬性繫結
 
 <live-example name="property-binding"></live-example>
 
-Demonstrates property binding in Angular.
-For more information, see [Property binding](guide/property-binding).
+展示 Angular 中的屬性繫結。
+如需更多資訊，請參閱 [屬性繫結](guide/property-binding)。
 
-### Structural directives
+### 結構指令
 
 <live-example name="structural-directives"></live-example>
 
-Demonstrates Angular structural directives.
-For more information, see [Structural directives](guide/structural-directives).
+展示 Angular 的結構指令。
+如需更多資訊，請參閱 [結構指令](guide/structural-directives)。
 
-### Two-way binding
+### 雙向繫結
 
 <live-example name="two-way-binding"></live-example>
 
-Demonstrates two-way data binding in Angular applications.
-For more information, see [Two-way binding](guide/two-way-binding).
+展示 Angular 應用程式中的雙向資料繫結。
+如需更多資訊，請參閱 [雙向繫結](guide/two-way-binding)。
 
-### Template syntax
+### 範本語法
 
 <live-example name="template-syntax"></live-example>
 
-Comprehensive demonstration of Angular's template syntax.
-For more information, see [Template reference variables](guide/template-syntax).
+全面展示 Angular 的範本語法。
+如需更多資訊，請參閱 [範本參照變數](guide/template-syntax)。
 
-### User input
+### 使用者輸入
 
 <live-example name="user-input"></live-example>
 
-Demonstrates responding to user actions.
-For more information, see [User input](guide/user-input).
+展示如何回應使用者動作。
+如需更多資訊，請參閱 [使用者輸入](guide/user-input)。
 
 
-## Working with components
+## 使用元件
 
-These examples demonstrate features of Angular components.
+這些範例展示 Angular 元件的功能。
 
-### Component interaction
+### 元件互動
 
 <live-example name="component-interaction"></live-example>
 
-Demonstrates how Angular shares data between components.
-For more information, see [Component interaction](guide/component-interaction).
+展示 Angular 如何在元件之間共用資料。
+如需更多資訊，請參閱 [元件互動](guide/component-interaction)。
 
-### Component styles
+### 元件樣式
 
 <live-example name="component-styles"></live-example>
 
-Demonstrates styling in Angular applications.
-For more information, see [Component styles](guide/component-styles).
+展示 Angular 應用程式中的樣式設定。
+如需更多資訊，請參閱 [元件樣式](guide/component-styles)。
 
-### Dynamic component loader
+### 動態元件載入器
 
 <live-example name="dynamic-component-loader"></live-example>
 
-Demonstrates how to dynamically load components.
-For more information, see [Dynamic component loader](guide/dynamic-component-loader).
+展示如何動態載入元件。
+如需更多資訊，請參閱 [動態元件載入器](guide/dynamic-component-loader)。
 
-### Elements
+### 元素
 
 <live-example name="elements"></live-example>
 
-Demonstrates using Angular custom elements.
-For more information, see [Angular elements overview](guide/elements).
+展示如何使用 Angular 自訂元素。
+如需更多資訊，請參閱 [Angular 元素總覽](guide/elements)。
 
-### Event binding
+### 事件繫結
 
 <live-example name="event-binding"></live-example>
 
-Demonstrates binding to events in Angular.
-For more information, see [Event binding](guide/event-binding).
+展示在 Angular 中繫結到事件。
+如需更多資訊，請參閱 [事件繫結](guide/event-binding)。
 
-### `@Input()` and `@Output()`
+### `@Input()` 與 `@Output()`
 
 <live-example name="inputs-outputs"></live-example>
 
-Demonstrates `@Input()` and `@Output()` in components and directives.
-For more information, see [`@Input()` and `@Output()` properties](guide/inputs-outputs).
+展示元件與指令中的 `@Input()` 與 `@Output()`。
+如需更多資訊，請參閱 [`@Input()` 與 `@Output()` 屬性](guide/inputs-outputs)。
 
-### Lifecycle hooks
+### 生命週期鉤子
 
 <live-example name="lifecycle-hooks"></live-example>
 
-Demonstrates Angular lifecycle hooks such as `ngOnInit()` and `ngOnChanges()`.
-For more information, see [Hooking into the component lifecycle](guide/lifecycle-hooks).
+展示 Angular 的生命週期鉤子，例如 `ngOnInit()` 與 `ngOnChanges()`。
+如需更多資訊，請參閱 [掛接到元件生命週期](guide/lifecycle-hooks)。
 
-## Dependency injection
+## 依賴注入
 
-### Dependency injection fundamentals
+### 依賴注入基礎概念
 
 <live-example name="dependency-injection"></live-example>
 
-Demonstrates fundamentals of Angular dependency injection.
-For more information, see [Dependency injection](guide/dependency-injection).
+展示 Angular 依賴注入的基礎概念。
+如需更多資訊，請參閱 [依賴注入](guide/dependency-injection)。
 
-### Dependency injection features
+### 依賴注入功能
 
 <live-example name="dependency-injection-in-action"></live-example>
 
-Demonstrates many of the features of Angular dependency injection.
-For more information, see [Dependency injection in action](guide/dependency-injection).
+展示 Angular 依賴注入的許多功能。
+如需更多資訊，請參閱 [實際運用依賴注入](guide/dependency-injection)。
 
-### Providing dependencies in NgModules
+### 在 NgModules 中提供依賴
 
 <live-example name="providers"></live-example>
 
-Demonstrates providing services in NgModules.
-For more information, see [Providing dependencies in modules](guide/providers).
+展示在 NgModules 中提供服務。
+如需更多資訊，請參閱 [在模組中提供依賴](guide/providers)。
 
-### Hierarchical dependency injection
+### 階層式依賴注入
 
 <live-example name="hierarchical-dependency-injection"></live-example>
 
-Demonstrates Angular injector trees and resolution modifiers.
-For more information, see [Hierarchical injectors](guide/hierarchical-dependency-injection).
+展示 Angular 的注入器樹狀結構與解析修飾詞。
+如需更多資訊，請參閱 [階層式注入器](guide/hierarchical-dependency-injection)。
 
-### Dependency injection with `providers` and `viewProviders`
+### 使用 `providers` 與 `viewProviders` 的依賴注入
 
 <live-example name="providers-viewproviders"></live-example>
 
-Demonstrates how `providers` and `viewproviders` affect dependency injection.
-For more information, see the [Providing services in `@Component()`](guide/hierarchical-dependency-injection#providing-services-in-component) section of [Hierarchical injectors](guide/hierarchical-dependency-injection).
+展示 `providers` 與 `viewproviders` 如何影響依賴注入。
+如需更多資訊，請參閱 [階層式注入器](guide/hierarchical-dependency-injection)中的 [在 `@Component()` 中提供服務](guide/hierarchical-dependency-injection#在-component-中提供服務)一節。
 
-### Resolution modifiers and dependency injection
+### 解析修飾詞與依賴注入
 
 <live-example name="resolution-modifiers"></live-example>
 
-Demonstrates Angular's resolution modifiers, such as `@Self()`.
-For more information, see the [Modifying service visibility](guide/hierarchical-dependency-injection#modifying-service-visibility) section of [Hierarchical injectors](guide/hierarchical-dependency-injection).
+展示 Angular 的解析修飾詞，例如 `@Self()`。
+如需更多資訊，請參閱 [階層式注入器](guide/hierarchical-dependency-injection)中的 [修改服務可見度](guide/hierarchical-dependency-injection#修改服務可見度)一節。
 
-## Forms
+## 表單
 
-### Forms overview
+### 表單總覽
 
 <live-example name="forms-overview"></live-example>
 
-Demonstrates foundational concepts of Angular forms.
-For more information, see [Introduction to forms in Angular](guide/forms-overview).
+展示 Angular 表單的基礎概念。
+如需更多資訊，請參閱 [Angular 表單介紹](guide/forms-overview)。
 
-### Reactive forms
+### 反應式表單
 
 <live-example name="reactive-forms"></live-example>
 
-Demonstrates Angular's reactive forms.
-For more information, see [Reactive forms](guide/reactive-forms).
+展示 Angular 的反應式表單。
+如需更多資訊，請參閱 [反應式表單](guide/reactive-forms)。
 
-### Template-driven forms
+### 範本驅動表單
 
 <live-example name="forms"></live-example>
 
-Demonstrates Angular template-driven forms.
-For more information, see [Building a template-driven form](guide/forms).
+展示 Angular 的範本驅動表單。
+如需更多資訊，請參閱 [建立範本驅動表單](guide/forms)。
 
-### Form validation
+### 表單驗證
 
 <live-example name="form-validation"></live-example>
 
-Demonstrates validating forms in Angular.
-For more information, see [Validating form input](guide/form-validation).
+展示在 Angular 中驗證表單。
+如需更多資訊，請參閱 [驗證表單輸入](guide/form-validation)。
 
-### Dynamic forms
+### 動態表單
 
 <live-example name="dynamic-form"></live-example>
 
-Demonstrates creating dynamic forms.
-For more information, see [Building dynamic forms](guide/dynamic-form).
+展示如何建立動態表單。
+如需更多資訊，請參閱 [建立動態表單](guide/dynamic-form)。
 
 
 ## NgModules
@@ -359,81 +359,81 @@ For more information, see [Building dynamic forms](guide/dynamic-form).
 
 <live-example name="ngmodules"></live-example>
 
-Demonstrates fundamentals of NgModules.
-For more information, see [NgModules](guide/ngmodules).
+展示 NgModules 的基礎概念。
+如需更多資訊，請參閱 [NgModules](guide/ngmodules)。
 
-### Feature modules
+### 功能模組
 
 <live-example name="feature-modules"></live-example>
 
-Demonstrates using feature modules in Angular.
-For more information, see [Feature modules](guide/feature-modules).
+展示在 Angular 中使用功能模組。
+如需更多資訊，請參閱 [功能模組](guide/feature-modules)。
 
-### Lazy loading NgModules
+### 延遲載入 NgModules
 
 <live-example name="lazy-loading-ngmodules"></live-example>
 
-Demonstrates lazy loading NgModules.
-For more information, see [Lazy-loading feature modules](guide/lazy-loading-ngmodules).
+展示延遲載入 NgModules。
+如需更多資訊，請參閱 [延遲載入功能模組](guide/lazy-loading-ngmodules)。
 
-## Routing
+## 路由
 
-### Router
+### 路由器
 
 <live-example name="router"></live-example>
 
-Demonstrates Angular's routing features.
-For more information, see [Router](guide/router).
+展示 Angular 的路由功能。
+如需更多資訊，請參閱 [路由器](guide/router)。
 
-### Router tutorial
+### 路由器教學
 
 <live-example name="router-tutorial"></live-example>
 
-Demonstrates Angular's fundamental routing techniques.
-For more information, see [Using Angular routes in a single-page application](guide/router-tutorial).
+展示 Angular 的基礎路由技巧。
+如需更多資訊，請參閱 [在單頁應用程式中使用 Angular 路由](guide/router-tutorial)。
 
-## Documentation
+## 文件
 
-### Style guide for Documentation contributions
+### 文件貢獻的風格指南
 
 <live-example name="docs-style-guide"></live-example>
 
-Demonstrates Angular documentation style guidelines.
-For more information, see [Angular documentation style guide](guide/docs-style-guide).
+展示 Angular 文件的風格指南。
+如需更多資訊，請參閱 [Angular 文件風格指南](guide/docs-style-guide)。
 
-## Server communication
+## 伺服器通訊
 
 ### `HttpClient`
 
 <live-example name="http"></live-example>
 
-Demonstrates server interaction using HTTP.
-For more information, see [Communicating with backend services using HTTP](guide/http).
+展示使用 HTTP 與伺服器互動。
+如需更多資訊，請參閱 [使用 HTTP 與後端服務通訊](guide/http)。
 
-## Workflow
+## 工作流程
 
-### Security
+### 安全性
 
 <live-example name="security"></live-example>
 
-Demonstrates security concepts in Angular applications.
-For more information, see [Security](guide/security).
+展示 Angular 應用程式中的安全性概念。
+如需更多資訊，請參閱 [安全性](guide/security)。
 
-### Testing
+### 測試
 
-For the sample application that the testing guides describe, see the <live-example noDownload name="testing">sample app</live-example>.
+關於測試指南所描述的範例應用程式，請參閱 <live-example noDownload name="testing">sample app</live-example>。
 
-Demonstrates techniques for testing Angular.
-For more information, see [Testing](guide/testing).
+展示測試 Angular 的技巧。
+如需更多資訊，請參閱 [測試](guide/testing)。
 
-## Hybrid Angular applications
+## 混合式 Angular 應用程式
 
-### AngularJS to Angular concepts: Quick reference
+### AngularJS 到 Angular 概念：快速參考
 
 <live-example name="ajs-quick-reference"></live-example>
 
-Demonstrates Angular for those with an AngularJS background.
-For more information, see [AngularJS to Angular concepts: Quick reference](guide/ajs-quick-reference).
+展示給有 AngularJS 背景的人看的 Angular。
+如需更多資訊，請參閱 [AngularJS 到 Angular 概念：快速參考](guide/ajs-quick-reference)。
 
 <!-- links -->
 

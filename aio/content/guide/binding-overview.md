@@ -1,109 +1,109 @@
-# Understanding binding
+# 了解繫結
 
-In an Angular template, a binding creates a live connection between a part of the UI created from a template (a DOM element, directive, or component) and the model (the component instance to which the template belongs). This connection can be used to synchronize the view with the model, to notify the model when an event or user action takes place in the view, or both. Angular's [Change Detection](guide/change-detection) algorithm is responsible for keeping the view and the model in sync.
+在 Angular 範本中，繫結會在範本建立的 UI 某個部分（DOM 元素、指令或元件）與模型（範本所屬的元件實例）之間建立即時連結。這個連結可用來同步檢視與模型、在檢視中發生事件或使用者操作時通知模型，或兩者兼具。Angular 的[變更偵測](guide/change-detection)演算法負責讓檢視與模型保持同步。
 
-Examples of binding include:
+繫結的例子包括：
 
-* text interpolations
-* property binding
-* event binding
-* two-way binding
+* 文字插值
+* 屬性繫結
+* 事件繫結
+* 雙向繫結
 
-Bindings always have two parts: a _target_ which will receive the bound value, and a _template expression_ which produces a value from the model.
+繫結永遠由兩個部分組成：一個是接收繫結值的_目標_，另一個是從模型產生值的_範本運算式_。
 
 
-## Syntax
+## 語法
 
-Template expressions are similar to JavaScript expressions.
-Many JavaScript expressions are legal template expressions, with the following exceptions.
+範本運算式與 JavaScript 運算式相似。
+許多 JavaScript 運算式都是合法的範本運算式，但有下列例外。
 
-You can't use JavaScript expressions that have or promote side effects, including:
+你不能使用具有副作用或會助長副作用的 JavaScript 運算式，包括：
 
-* Assignments (`=`, `+=`, `-=`, `...`)
-* Operators such as `new`, `typeof`, or `instanceof`
-* Chaining expressions with <code>;</code> or <code>,</code>
-* The increment and decrement operators `++` and `--`
-* Some of the ES2015+ operators
+* 指派（`=`, `+=`, `-=`, `...`）
+* `new`、`typeof` 或 `instanceof` 等運算子
+* 以 <code>;</code> 或 <code>,</code> 串連運算式
+* 遞增與遞減運算子 `++` 和 `--`
+* 部分 ES2015+ 運算子
 
-Other notable differences from JavaScript syntax include:
+與 JavaScript 語法其他值得注意的差異包括：
 
-* No support for the bitwise operators such as `|` and `&`
-* New [template expression operators](guide/template-expression-operators), such as `|`
+* 不支援位元運算子，例如 `|` 和 `&`
+* 新的[範本運算式運算子](guide/template-expression-operators)，例如 `|`
 
-## Expression context
+## 運算式上下文
 
-Interpolated expressions have a context&mdash;a particular part of the application to which the expression belongs.  Typically, this context is the component instance.
+插值運算式有一個上下文，也就是運算式所屬的應用程式特定部分。一般而言，這個上下文就是元件實例。
 
-In the following snippet, the expression `recommended` and the expression `itemImageUrl2` refer to properties of the `AppComponent`.
+在下列程式碼片段中，運算式 `recommended` 與運算式 `itemImageUrl2` 參照的是 `AppComponent` 的屬性。
 
 <code-example path="interpolation/src/app/app.component.html" region="component-context" header="src/app/app.component.html"></code-example>
 
-An expression can also refer to properties of the _template's_ context such as a [template input variable](guide/structural-directives#shorthand) or a [template reference variable](guide/template-reference-variables).
+運算式也可以參照_範本_上下文的屬性，例如[範本輸入變數](guide/structural-directives#shorthand)或[範本參照變數](guide/template-reference-variables)。
 
-The following example uses a template input variable of `customer`.
+下列範例使用了一個範本輸入變數 `customer`。
 
 <code-example path="interpolation/src/app/app.component.html" region="template-input-variable" header="src/app/app.component.html (template input variable)"></code-example>
 
-This next example features a template reference variable, `#customerInput`.
+下一個範例則使用範本參照變數 `#customerInput`。
 
 <code-example path="interpolation/src/app/app.component.html" region="template-reference-variable" header="src/app/app.component.html (template reference variable)"></code-example>
 
 <div class="alert is-helpful">
 
-Template expressions cannot refer to anything in the global namespace, except `undefined`.  They can't refer to `window` or `document`.  Additionally, they can't call `console.log()` or `Math.max()` and are restricted to referencing members of the expression context.
+範本運算式不能參照全域命名空間中的任何東西，`undefined` 除外。它們不能參照 `window` 或 `document`。此外，它們不能呼叫 `console.log()` 或 `Math.max()`，且只能參照運算式上下文的成員。
 
 </div>
 
-### Preventing name collisions
+### 避免名稱衝突
 
-The context against which an expression evaluates is the union of the template variables, the directive's context object&mdash;if it has one&mdash;and the component's members.
-If you reference a name that belongs to more than one of these namespaces, Angular applies the following precedence logic to determine the context:
+運算式求值所依據的上下文，是範本變數、指令的上下文物件（如果有的話）與元件成員的聯集。
+如果你參照的名稱同時屬於其中多個命名空間，Angular 會套用下列優先順序邏輯來決定上下文：
 
-1. The template variable name.
-1. A name in the directive's context.
-1. The component's member names.
+1. 範本變數名稱。
+1. 指令上下文中的名稱。
+1. 元件的成員名稱。
 
-To avoid variables shadowing variables in another context, keep variable names unique.
-In the following example, the `AppComponent` template greets the `customer`, Padma.
+為了避免某個上下文中的變數遮蔽另一個上下文中的變數，請讓變數名稱保持唯一。
+在下列範例中，`AppComponent` 範本問候了 `customer`，也就是 Padma。
 
-An `ngFor` then lists each `customer` in the `customers` array.
+接著，`ngFor` 會列出 `customers` 陣列中的每個 `customer`。
 
 <code-example path="interpolation/src/app/app.component.1.ts" region="var-collision" header="src/app/app.component.ts"></code-example>
 
-The `customer` within the `ngFor` is in the context of an `<ng-template>` and so refers to the `customer` in the `customers` array, in this case Ebony and Chiho.
-This list does not feature Padma because `customer` outside of the `ngFor` is in a different context.
-Conversely, `customer` in the `<h1>` doesn't include Ebony or Chiho because the context for this `customer` is the class and the class value for `customer` is Padma.
+`ngFor` 內的 `customer` 位於 `<ng-template>` 的上下文中，因此參照的是 `customers` 陣列中的 `customer`，在此例中是 Ebony 和 Chiho。
+這個清單沒有包含 Padma，因為 `ngFor` 外的 `customer` 位於不同的上下文中。
+反之，`<h1>` 中的 `customer` 不包含 Ebony 或 Chiho，因為這個 `customer` 的上下文是類別，而類別中 `customer` 的值是 Padma。
 
-## Expression best practices
+## 運算式最佳實務
 
-When using a template expression, follow these best practices:
+使用範本運算式時，請遵循下列最佳實務：
 
-* **Use short expressions**
+* **使用簡短的運算式**
 
-Use property names or method calls whenever possible.  Keep application and business logic in the component, where it is accessible to develop and test.
+盡可能使用屬性名稱或方法呼叫。將應用程式與業務邏輯保留在元件中，讓它易於開發和測試。
 
-* **Quick execution**
+* **快速執行**
 
-Angular executes a template expression after every [change detection](guide/glossary#change-detection) cycle.  Many asynchronous activities trigger change detection cycles, such as promise resolutions, HTTP results, timer events, key presses, and mouse moves.
+Angular 會在每次[變更偵測](guide/glossary#變更偵測change-detection)循環後執行範本運算式。許多非同步活動都會觸發變更偵測循環，例如 promise 解析、HTTP 結果、計時器事件、按鍵與滑鼠移動。
 
-An expression should finish quickly to keep the user experience as efficient as possible, especially on slower devices.  Consider caching values when their computation requires greater resources.
+運算式應該要能快速完成，讓使用者體驗盡可能有效率，在較慢的裝置上尤其如此。當運算需要較多資源時，可以考慮快取其值。
 
-## No visible side effects
+## 不要造成可見的副作用
 
-According to Angular's [unidirectional data flow model](guide/glossary#unidirectional-data-flow), a template expression should not change any application state other than the value of the target property.  Reading a component value should not change some other displayed value.  The view should be stable throughout a single rendering pass.
+根據 Angular 的[單向資料流模型](guide/glossary#單向資料流unidirectional-data-flow)，範本運算式不應變更目標屬性值以外的任何應用程式狀態。讀取一個元件值，不應改變其他顯示中的值。檢視在單次算繪過程中應該保持穩定。
 
   <div class="callout is-important">
-    <header>Idempotent expressions reduce side effects</header>
+    <header>冪等運算式可減少副作用</header>
 
-An [idempotent](https://en.wikipedia.org/wiki/Idempotence) expression is free of side effects and improves Angular's change detection performance.  In Angular terms, an idempotent expression always returns *exactly the same thing* until one of its dependent values changes.
+[冪等](https://en.wikipedia.org/wiki/Idempotence)運算式沒有副作用，能提升 Angular 的變更偵測效能。以 Angular 的用語來說，冪等運算式在它的相依值改變之前，永遠回傳_完全相同的東西_。
 
-Dependent values should not change during a single turn of the event loop.  If an idempotent expression returns a string or a number, it returns the same string or number if you call it twice consecutively.  If the expression returns an object, including an `array`, it returns the same object *reference* if you call it twice consecutively.
+相依值在事件迴圈的單次輪轉期間不應改變。如果冪等運算式回傳字串或數字，連續呼叫兩次會回傳相同的字串或數字。如果運算式回傳物件（包括 `array`），連續呼叫兩次會回傳相同的物件_參照_。
 
   </div>
 
- ## What's next
+## 後續步驟
 
-* [Property binding](guide/property-binding)
-* [Event binding](guide/event-binding)
+* [屬性繫結](guide/property-binding)
+* [事件繫結](guide/event-binding)
 
 @reviewed 2022-05-12

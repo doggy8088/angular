@@ -1,72 +1,72 @@
-# Property binding best practices
+# 屬性繫結最佳實務
 
-By following a few guidelines, you can use property binding in a way that helps you reduce bugs and keep your code readable.
+遵循幾個準則，你就能以有助於減少錯誤、保持程式碼可讀性的方式使用屬性繫結。
 
 <div class="alert is-helpful">
 
-See the <live-example name="property-binding"></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example name="property-binding"></live-example>，查看包含本指南程式碼片段的實際範例。
 
 </div>
 
-## Avoid side effects
+## 避免副作用
 
-Evaluation of a template expression should have no visible side effects.
-Use the syntax for template expressions to help avoid side effects.
-In general, the correct syntax prevents you from assigning a value to anything in a property binding expression.
-The syntax also prevents you from using increment and decrement operators.
+範本運算式的評估不應該有可見的副作用。
+使用範本運算式的語法來協助避免副作用。
+一般而言，正確的語法會阻止你在屬性繫結運算式中將值指派給任何東西。
+該語法也會阻止你使用遞增與遞減運算子。
 
-### An example of producing side effects
+### 產生副作用的範例
 
-If you had an expression that changed the value of something else that you were binding to, that change of value would be a side effect.
-Angular might or might not display the changed value.
-If Angular does detect the change, it throws an error.
+如果你有一個運算式，變更了你所繫結的其他東西的值，那個值的變更就是副作用。
+Angular 可能會、也可能不會顯示變更後的值。
+如果 Angular 確實偵測到變更，它會擲出錯誤。
 
-As a best practice, use only properties and methods that return values.
+作為最佳實務，只使用會傳回值的屬性與方法。
 
-## Return the proper type
+## 傳回適當的型別
 
-A template expression should result in the type of value that the target property expects.
-For example, return:
+範本運算式應該產生目標屬性所期望的型別值。
+例如，傳回：
 
-*   a `string`, if the target property expects a string
-*   a `number`, if it expects a number
-*   an `object`, if it expects an object.
+* `string`，如果目標屬性期望字串
+* `number`，如果它期望數字
+* `object`，如果它期望物件。
 
-### Passing in a string
+### 傳入字串
 
-In the following example, the `childItem` property of the `ItemDetailComponent` expects a string.
+在以下範例中，`ItemDetailComponent` 的 `childItem` 屬性期望一個字串。
 
 <code-example header="src/app/app.component.html" path="property-binding/src/app/app.component.html" region="model-property-binding"></code-example>
 
-Confirm this expectation by looking in the `ItemDetailComponent` where the `@Input()` type is `string`:
+查看 `ItemDetailComponent` 中 `@Input()` 型別為 `string` 之處，確認這個期望：
 
 <code-example header="src/app/item-detail/item-detail.component.ts (setting the @Input() type)" path="property-binding/src/app/item-detail/item-detail.component.ts" region="input-type"></code-example>
 
-The `parentItem` in `AppComponent` is a string, which means that the expression, `parentItem` within `[childItem]="parentItem"`, evaluates to a string.
+`AppComponent` 中的 `parentItem` 是字串，這表示 `[childItem]="parentItem"` 中的運算式 `parentItem` 會評估為字串。
 
 <code-example header="src/app/app.component.ts" path="property-binding/src/app/app.component.ts" region="parent-data-type"></code-example>
 
-If `parentItem` were some other type, you would need to specify `childItem`  `@Input()` as that type as well.
+如果 `parentItem` 是其他型別，你也需要把 `childItem` 的 `@Input()` 指定為該型別。
 
-### Passing in an object
+### 傳入物件
 
-In this example, `ItemListComponent` is a child component of `AppComponent` and the `items` property expects an array of objects.
+在這個範例中，`ItemListComponent` 是 `AppComponent` 的子元件，而 `items` 屬性期望一個物件陣列。
 
 <code-example header="src/app/app.component.html" path="property-binding/src/app/app.component.html" region="pass-object"></code-example>
 
-In the `ItemListComponent` the `@Input()`, `items`, has a type of `Item[]`.
+在 `ItemListComponent` 中，`@Input()` `items` 的型別是 `Item[]`。
 
 <code-example header="src/app/item-list.component.ts" path="property-binding/src/app/item-list/item-list.component.ts" region="item-input"></code-example>
 
-Notice that `Item` is an object that it has two properties, an `id` and a `name`.
+請注意，`Item` 是一個物件，它有兩個屬性：`id` 與 `name`。
 
 <code-example header="src/app/item.ts" path="property-binding/src/app/item.ts" region="item-class"></code-example>
 
-In `app.component.ts`, `currentItems` is an array of objects in the same shape as the `Item` object in `items.ts`, with an `id` and a `name`.
+在 `app.component.ts` 中，`currentItems` 是一個物件陣列，形狀與 `items.ts` 中的 `Item` 物件相同，帶有 `id` 與 `name`。
 
 <code-example header="src/app.component.ts" path="property-binding/src/app/app.component.ts" region="pass-object"></code-example>
 
-By supplying an object in the same shape, you meet the expectations of `items` when Angular evaluates the expression `currentItems`.
+藉由提供相同形狀的物件，當 Angular 評估運算式 `currentItems` 時，你滿足了 `items` 的期望。
 
 <!-- links -->
 

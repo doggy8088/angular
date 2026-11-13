@@ -1,28 +1,26 @@
-# Extended Diagnostics
+# 擴充診斷
 
-There are many coding patterns that are technically valid to the compiler or runtime, but which may have complex nuances or caveats.
-These patterns may not have the intended effect expected by a developer, which often leads to bugs.
-The Angular compiler includes "extended diagnostics" which identify many of these patterns, in order to warn developers about the potential issues and enforce common best practices within a codebase.
+有許多程式碼模式在技術上對編譯器或執行階段而言是有效的，但可能有複雜的細微差異或注意事項。
+這些模式可能無法產生開發者預期的效果，經常導致錯誤。
+Angular 編譯器包含「擴充診斷」，可以識別許多這類模式，以便提醒開發者注意潛在問題，並在程式碼庫中強制執行常見的最佳實務。
 
-## Diagnostics
+## 診斷
 
-Currently, Angular supports the following extended diagnostics:
+目前 Angular 支援以下擴充診斷：
 
 *   [NG8101 - `invalidBananaInBox`](extended-diagnostics/NG8101)
 *   [NG8102 - `nullishCoalescingNotNullable`](extended-diagnostics/NG8102)
 
-## Configuration
+## 設定
 
-Extended diagnostics are warnings by default and do not block compilation.
-Each diagnostic can be configured as either:
+擴充診斷預設為警告，不會阻擋編譯。
+每項診斷都可以設定為下列其中一種：
 
-*   `warning` \(default\) - The compiler emits the diagnostic as a warning but does not block
-  compilation. The compiler will still exit with status code 0, even if warnings are emitted.
-*   `error` - The compiler emits the diagnostic as an error and fails the compilation.
-    The compiler will exit with a non-zero status code if one or more errors are emitted.
-*   `suppress` - The compiler does *not* emit the diagnostic at all.
+*   `warning` \(預設\) - 編譯器會將診斷以警告的形式發出，但不會阻擋編譯。編譯器仍會以狀態碼 0 結束，即使發出了警告。
+*   `error` - 編譯器會將診斷以錯誤的形式發出，並讓編譯失敗。如果發出一個以上的錯誤，編譯器會以非零的狀態碼結束。
+*   `suppress` - 編譯器完全不會發出該診斷。
 
-Check severity can be configured in the project's `tsconfig.json` file:
+檢查的嚴重程度可以在專案的 `tsconfig.json` 檔案中設定：
 
 <code-example format="jsonc" language="jsonc">
 
@@ -43,40 +41,39 @@ Check severity can be configured in the project's `tsconfig.json` file:
 
 </code-example>
 
-The `checks` field maps the name of individual diagnostics to their associated category.
-See [Diagnostics](#diagnostics) for a complete list of extended diagnostics and the name to use for configuring them.
+`checks` 欄位會將個別診斷的名稱對應到其所屬的類別。
+完整清單與設定時使用的名稱，請見[診斷](#診斷)。
 
-The `defaultCategory` field is used for any diagnostics that are not explicitly listed under `checks`.
-If not set, such diagnostics will be treated as `warning`.
+`defaultCategory` 欄位適用於未在 `checks` 下明確列出的任何診斷。
+如果未設定，這類診斷會被視為 `warning`。
 
-Extended diagnostics will emit when [`strictTemplates`](guide/template-typecheck#strict-mode) is enabled.
-This is required to allow the compiler to better understand Angular template types and provide accurate and meaningful diagnostics.
+啟用 [`strictTemplates`](guide/template-typecheck#嚴格模式) 時，才會發出擴充診斷。
+這是必要的，如此編譯器才能更了解 Angular 範本的型別，並提供準確且有意義的診斷。
 
-## Semantic Versioning
+## 語意化版本
 
-The Angular team intends to add or enable new extended diagnostics in **minor** versions of Angular (see [semver](https://docs.npmjs.com/about-semantic-versioning)).
-This means that upgrading Angular may show new warnings in your existing codebase.
-This enables the team to deliver features more quickly and to make extended diagnostics more accessible to developers.
+Angular 團隊打算在 Angular 的**次要**版本中新增或啟用新的擴充診斷（請見 [semver](https://docs.npmjs.com/about-semantic-versioning)）。
+這表示升級 Angular 可能會在你現有的程式碼庫中顯示新的警告。
+這讓團隊能夠更快交付功能，並讓開發者更容易使用擴充診斷。
 
-However, setting `"defaultCategory": "error"` will promote such warnings to hard errors.
-This can cause a minor version upgrade to introduce compilation errors, which may be seen as a semver non-compliant breaking change.
-Any new diagnostics can be suppressed or demoted to warnings via the above [configuration](#configuration), so the impact of a new diagnostic should be minimal to
-projects that treat extended diagnostics as errors by default.
-Defaulting to error is a very powerful tool; just be aware of this semver caveat when deciding if `error` is the right default for your project.
+然而，設定 `"defaultCategory": "error"` 會把這類警告提升為嚴重的錯誤。
+這可能導致次要版本升級引入編譯錯誤，可能被視為不符合 semver 的破壞性變更。
+任何新的診斷都可以透過上述[設定](#設定)加以停用或降級為警告，因此對於預設將擴充診斷視為錯誤的專案來說，新診斷的影響應該很小。
+預設為錯誤是一個非常強大的工具；在決定 `error` 是否適合作為你專案的預設值時，只需注意這項 semver 注意事項。
 
-## New Diagnostics
+## 新的診斷
 
-The Angular team is always open to suggestions about new diagnostics that could be added.
-Extended diagnostics should generally:
+Angular 團隊隨時歡迎大家建議可以新增的診斷。
+擴充診斷一般應該：
 
-*   Detect a common, non-obvious developer mistake with Angular templates
-*   Clearly articulate why this pattern can lead to bugs or unintended behavior
-*   Suggest one or more clear solutions
-*   Have a low, preferably zero, false-positive rate
-*   Apply to the vast majority of Angular applications \(not specific to an unofficial library\)
-*   Improve program correctness or performance \(not style, that responsibility falls to a linter\)
+*   偵測開發者在使用 Angular 範本時常見但不明顯的錯誤
+*   清楚說明這種模式為什麼可能導致錯誤或非預期的行為
+*   提出一個或多個明確的解決方案
+*   誤判率低，最好是零
+*   適用於絕大多數 Angular 應用程式 \(而非特定於非官方程式庫\)
+*   改善程式的正確性或效能 \(而非程式碼風格，風格是 linter 的責任\)
 
-If you have an idea for a compiler check which fits these criteria, consider filing a [feature request](https://github.com/angular/angular/issues/new?template=2-feature-request.yaml).
+如果你有符合這些條件的編譯器檢查點子，請考慮提交一份[功能請求](https://github.com/angular/angular/issues/new?template=2-feature-request.yaml)。
 
 <!-- links -->
 

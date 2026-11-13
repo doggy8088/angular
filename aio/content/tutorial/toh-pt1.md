@@ -1,17 +1,17 @@
-# The hero editor
+# 英雄編輯器
 
-The application now has a basic title.
-Next, create a new component to display hero information and place that component in the application shell.
+應用程式現在已經有一個基本標題。
+接下來，建立一個新的元件來顯示英雄資訊，並把這個元件放入應用程式殼層中。
 
 <div class="alert is-helpful">
 
-For the sample application that this page describes, see the <live-example></live-example>.
+本頁說明的範例應用程式，請參閱 <live-example></live-example>。
 
 </div>
 
-## Create the heroes component
+## 建立 heroes 元件
 
-Use `ng generate` to create a new component named `heroes`.
+使用 `ng generate` 建立一個名為 `heroes` 的新元件。
 
 <code-example format="shell" language="shell">
 
@@ -19,126 +19,126 @@ ng generate component heroes
 
 </code-example>
 
-`ng generate` creates a new directory , `src/app/heroes/`, and generates the three files of the  `HeroesComponent` along with a test file.
+`ng generate` 會建立一個新目錄 `src/app/heroes/`，並產生 `HeroesComponent` 的三個檔案以及一個測試檔案。
 
-The `HeroesComponent` class file is as follows:
+`HeroesComponent` 類別檔案如下：
 
 <code-example header="app/heroes/heroes.component.ts (initial version)" path="toh-pt1/src/app/heroes/heroes.component.ts" region="v1"></code-example>
 
-You always import the `Component` symbol from the Angular core library and annotate the component class with `@Component`.
+你一律要從 Angular 核心程式庫匯入 `Component` 符號，並以 `@Component` 標註元件類別。
 
-`@Component` is a decorator function that specifies the Angular metadata for the component.
+`@Component` 是一個裝飾器函式，用來指定這個元件的 Angular 中繼資料。
 
-`ng generate` created three metadata properties:
+`ng generate` 建立了三個中繼資料屬性：
 
-| Properties    | Details |
+| 屬性    | 說明 |
 |:---           |:---     |
-| `selector`    | The component's CSS element selector.               |
-| `templateUrl` | The location of the component's template file.      |
-| `styleUrls`   | The location of the component's private CSS styles. |
+| `selector`    | 這個元件的 CSS 元素選取器。               |
+| `templateUrl` | 這個元件的範本檔案位置。      |
+| `styleUrls`   | 這個元件專用 CSS 樣式的位置。 |
 
 <a id="selector"></a>
 
-The [CSS element selector](https://developer.mozilla.org/docs/Web/CSS/Type_selectors), `'app-heroes'`, matches the name of the HTML element that identifies this component within a parent component's template.
+[CSS 元素選取器](https://developer.mozilla.org/docs/Web/CSS/Type_selectors) `'app-heroes'` 會對應到 HTML 元素的名稱，這個元素會在父元件的範本中識別這個元件。
 
-The `ngOnInit()` is a [lifecycle hook](guide/lifecycle-hooks#oninit).
-Angular calls `ngOnInit()` shortly after creating a component.
-It's a good place to put initialization logic.
+`ngOnInit()` 是一個[生命週期鉤子](guide/lifecycle-hooks#oninit)。
+Angular 會在建立元件後不久呼叫 `ngOnInit()`。
+這是放置初始化邏輯的好地方。
 
-Always `export` the component class so you can `import` it elsewhere &hellip; like in the `AppModule`.
+一律要 `export` 元件類別，這樣你才能在其他地方 `import` 它，例如在 `AppModule` 中。
 
-### Add a `hero` property
+### 加入 `hero` 屬性
 
-Add a `hero` property to the `HeroesComponent` for a hero named, `Windstorm`.
+為名叫 `Windstorm` 的英雄，在 `HeroesComponent` 中加入一個 `hero` 屬性。
 
 <code-example header="heroes.component.ts (hero property)" path="toh-pt1/src/app/heroes/heroes.component.ts" region="add-hero"></code-example>
 
-### Show the hero
+### 顯示英雄
 
-Open the `heroes.component.html` template file.
-Delete the default text that `ng generate` created and replace it with a data binding to the new `hero` property.
+開啟 `heroes.component.html` 範本檔案。
+刪除 `ng generate` 建立的預設文字，改為對新的 `hero` 屬性進行資料繫結。
 
 <code-example header="heroes.component.html" path="toh-pt1/src/app/heroes/heroes.component.1.html" region="show-hero-1"></code-example>
 
-## Show the `HeroesComponent` view
+## 顯示 `HeroesComponent` 檢視
 
-To display the `HeroesComponent`, you must add it to the template of the shell `AppComponent`.
+要顯示 `HeroesComponent`，你必須把它加到殼層 `AppComponent` 的範本中。
 
-Remember that `app-heroes` is the [element selector](#selector) for the `HeroesComponent`.
-Add an `<app-heroes>` element to the `AppComponent` template file, just below the title.
+別忘了 `app-heroes` 是 `HeroesComponent` 的[元素選取器](#selector)。
+在 `AppComponent` 範本檔案中，於標題正下方加入一個 `<app-heroes>` 元素。
 
 <code-example header="src/app/app.component.html" path="toh-pt1/src/app/app.component.html"></code-example>
 
-If  `ng serve` is still running,
-the browser should refresh and display both the application title and the hero's name.
+如果 `ng serve` 還在執行，
+瀏覽器應該會重新整理，同時顯示應用程式標題與英雄的名稱。
 
-## Create a `Hero` interface
+## 建立 `Hero` 介面
 
-A real hero is more than a name.
+真正的英雄不只有名字。
 
-Create a `Hero` interface in its own file in the `src/app` directory .
-Give it `id` and `name` properties.
+在 `src/app` 目錄中建立一個獨立檔案，定義 `Hero` 介面。
+為它加上 `id` 與 `name` 屬性。
 
 <code-example path="toh-pt1/src/app/hero.ts"  header="src/app/hero.ts"></code-example>
 
-Return to the `HeroesComponent` class and import the `Hero` interface.
+回到 `HeroesComponent` 類別，匯入 `Hero` 介面。
 
-Refactor the component's `hero` property to be of type `Hero`.
-Initialize it with an `id` of `1` and the name `Windstorm`.
+把元件的 `hero` 屬性重構為 `Hero` 型別。
+以 `id` 為 `1`、名稱為 `Windstorm` 來初始化它。
 
-The revised `HeroesComponent` class file should look like this:
+修改後的 `HeroesComponent` 類別檔案應該會像這樣：
 
 <code-example header="src/app/heroes/heroes.component.ts" path="toh-pt1/src/app/heroes/heroes.component.ts"></code-example>
 
-The page no longer displays properly because you changed the hero from a string to an object.
+頁面現在無法正常顯示，因為你把英雄從字串改成了物件。
 
-## Show the hero object
+## 顯示英雄物件
 
-Update the binding in the template to announce the hero's name and show both `id` and `name` in a details display like this:
+更新範本中的繫結，來宣告英雄的名稱，並在詳細資料顯示區中同時顯示 `id` 與 `name`，如下所示：
 
 <code-example header="heroes.component.html (HeroesComponent template)" path="toh-pt1/src/app/heroes/heroes.component.1.html" region="show-hero-2"></code-example>
 
-The browser refreshes and displays the hero's information.
+瀏覽器會重新整理並顯示英雄的資訊。
 
-## Format with the `UppercasePipe`
+## 使用 `UppercasePipe` 格式化
 
-Edit the `hero.name` binding like this:
+像這樣編輯 `hero.name` 繫結：
 
 <code-example header="src/app/heroes/heroes.component.html" path="toh-pt1/src/app/heroes/heroes.component.html" region="pipe"></code-example>
 
-The browser refreshes and now the hero's name is displayed in capital letters.
+瀏覽器會重新整理，現在英雄的名稱會以大寫字母顯示。
 
-The word `uppercase` in the interpolation binding after the pipe <code>&verbar;</code> character, activates the built-in `UppercasePipe`.
+插值繫結中，管道 <code>&verbar;</code> 字元之後的 `uppercase` 一詞，會啟用內建的 `UppercasePipe`。
 
-[Pipes](guide/pipes) are a good way to format strings, currency amounts, dates, and other display data.
-Angular ships with several built-in pipes and you can create your own.
+[管道](guide/pipes)是格式化字串、貨幣金額、日期與其他顯示資料的好方法。
+Angular 內建了數個管道，你也可以建立自己的管道。
 
-## Edit the hero
+## 編輯英雄
 
-Users should be able to edit the hero's name in an `<input>` text box.
+使用者應該可以在 `<input>` 文字方塊中編輯英雄的名稱。
 
-The text box should both *display* the hero's `name` property and *update* that property as the user types.
-That means data flows from the component class *out to the screen* and from the screen *back to the class*.
+文字方塊應該同時*顯示*英雄的 `name` 屬性，並在使用者輸入時*更新*該屬性。
+這表示資料會從元件類別*流向畫面*，也會從畫面*流回類別*。
 
-To automate that data flow, set up a two-way data binding between the `<input>` form element and the `hero.name` property.
+要讓這個資料流自動化，請在 `<input>` 表單元素與 `hero.name` 屬性之間設定雙向資料繫結。
 
-### Two-way binding
+### 雙向繫結
 
-Refactor the details area in the `HeroesComponent` template so it looks like this:
+重構 `HeroesComponent` 範本中的詳細資料區域，讓它看起來像這樣：
 
 <code-example header="src/app/heroes/heroes.component.html (HeroesComponent's template)" path="toh-pt1/src/app/heroes/heroes.component.1.html" region="name-input"></code-example>
 
-`[(ngModel)]` is Angular's two-way data binding syntax.
+`[(ngModel)]` 是 Angular 的雙向資料繫結語法。
 
-Here it binds the `hero.name` property to the HTML text box so that data can flow *in both directions*.
-Data can flow from the `hero.name` property to the text box and from the text box back to the `hero.name`.
+在這裡，它把 `hero.name` 屬性繫結到 HTML 文字方塊，讓資料可以*雙向*流動。
+資料可以從 `hero.name` 屬性流向文字方塊，也可以從文字方塊流回 `hero.name`。
 
-### The missing `FormsModule`
+### 缺少的 `FormsModule`
 
-Notice that the application stopped working when you added `[(ngModel)]`.
+請注意，加入 `[(ngModel)]` 後，應用程式就停止運作了。
 
-To see the error, open the browser development tools and look in the console
-for a message like
+要查看錯誤，請開啟瀏覽器的開發人員工具，在主控台中
+尋找類似以下的訊息
 
 <code-example format="output" hideCopy language="shell">
 
@@ -147,64 +147,64 @@ Can't bind to 'ngModel' since it isn't a known property of 'input'.
 
 </code-example>
 
-Although `ngModel` is a valid Angular directive, it isn't available by default.
+雖然 `ngModel` 是有效的 Angular 指令，但預設並不提供。
 
-It belongs to the optional `FormsModule` and you must *opt in* to using it.
+它屬於選用的 `FormsModule`，你必須*選擇加入*才能使用它。
 
 ## `AppModule`
 
-Angular needs to know how the pieces of your application fit together and what other files and libraries the application requires.
-This information is called *metadata*.
+Angular 需要知道你的應用程式各部分如何組合在一起，以及應用程式還需要哪些其他檔案與程式庫。
+這些資訊稱為*中繼資料*。
 
-Some of the metadata is in the `@Component` decorators that you added to your component classes.
-Other critical metadata is in [`@NgModule`](guide/ngmodules) decorators.
+部分中繼資料位於你加到元件類別上的 `@Component` 裝飾器中。
+其他重要的中繼資料則位於 [`@NgModule`](guide/ngmodules) 裝飾器中。
 
-The most important `@NgModule` decorator annotates the top-level **AppModule** class.
+最重要的 `@NgModule` 裝飾器標註了最上層的 **AppModule** 類別。
 
-`ng new` created an `AppModule` class in `src/app/app.module.ts` when it created the project.
-This is where you *opt in* to the `FormsModule`.
+`ng new` 在建立專案時，於 `src/app/app.module.ts` 中建立了一個 `AppModule` 類別。
+這就是你*選擇加入* `FormsModule` 的地方。
 
-### Import `FormsModule`
+### 匯入 `FormsModule`
 
-Open `app.module.ts` and import the `FormsModule` symbol from the `@angular/forms` library.
+開啟 `app.module.ts`，從 `@angular/forms` 程式庫匯入 `FormsModule` 符號。
 
 <code-example path="toh-pt1/src/app/app.module.ts" header="app.module.ts (FormsModule symbol import)"
  region="formsmodule-js-import"></code-example>
 
-Add `FormsModule` to the  `imports` array in `@NgModule`.
-The `imports` array contains the list of external modules that the application needs.
+把 `FormsModule` 加到 `@NgModule` 的 `imports` 陣列中。
+`imports` 陣列包含應用程式所需的外部模組清單。
 
 <code-example header="app.module.ts (@NgModule imports)" path="toh-pt1/src/app/app.module.ts" region="ng-imports"></code-example>
 
-When the browser refreshes, the application should work again.
-You can edit the hero's name and see the changes reflected immediately in the `<h2>` above the text box.
+當瀏覽器重新整理時，應用程式應該會再度正常運作。
+你可以編輯英雄的名稱，並立即在文字方塊上方的 `<h2>` 中看到變更反映出來。
 
-### Declare `HeroesComponent`
+### 宣告 `HeroesComponent`
 
-Every component must be declared in *exactly one* [NgModule](guide/ngmodules).
+每個元件都必須在*恰好一個* [NgModule](guide/ngmodules) 中宣告。
 
-*You* didn't declare the `HeroesComponent`.
-Why did the application work?
+*你*並沒有宣告 `HeroesComponent`。
+為什麼應用程式還能運作？
 
-It worked because the `ng generate` declared `HeroesComponent` in `AppModule` when it created that component.
+它能運作是因為 `ng generate` 在建立該元件時，就在 `AppModule` 中宣告了 `HeroesComponent`。
 
-Open `src/app/app.module.ts` and find `HeroesComponent` imported near the top.
+開啟 `src/app/app.module.ts`，在靠近檔案上方處找到匯入的 `HeroesComponent`。
 
 <code-example path="toh-pt1/src/app/app.module.ts" header="src/app/app.module.ts" region="heroes-import" ></code-example>
 
-The `HeroesComponent` is declared in the `@NgModule.declarations` array.
+`HeroesComponent` 是在 `@NgModule.declarations` 陣列中宣告的。
 
 <code-example header="src/app/app.module.ts" path="toh-pt1/src/app/app.module.ts" region="declarations"></code-example>
 
 <div class="alert is-helpful">
 
-`AppModule`  declares both application components, `AppComponent` and `HeroesComponent`.
+`AppModule` 宣告了這兩個應用程式元件：`AppComponent` 與 `HeroesComponent`。
 
 </div>
 
-## Final code review
+## 最終程式碼檢閱
 
-Here are the code files discussed on this page.
+以下是本頁討論過的程式碼檔案。
 
 <code-tabs>
     <code-pane header="src/app/heroes/heroes.component.ts" path="toh-pt1/src/app/heroes/heroes.component.ts"></code-pane>
@@ -215,14 +215,14 @@ Here are the code files discussed on this page.
     <code-pane header="src/app/hero.ts" path="toh-pt1/src/app/hero.ts"></code-pane>
 </code-tabs>
 
-## Summary
+## 摘要
 
-*   You used `ng generate` to create a second `HeroesComponent`.
-*   You displayed the `HeroesComponent` by adding it to the `AppComponent` shell.
-*   You applied the `UppercasePipe` to format the name.
-*   You used two-way data binding with the `ngModel` directive.
-*   You learned about the `AppModule`.
-*   You imported the `FormsModule` in the `AppModule` so that Angular would recognize and apply the `ngModel` directive.
-*   You learned the importance of declaring components in the `AppModule`.
+*   你使用 `ng generate` 建立了第二個 `HeroesComponent`。
+*   你把 `HeroesComponent` 加到 `AppComponent` 殼層中來顯示它。
+*   你套用 `UppercasePipe` 來格式化名稱。
+*   你使用 `ngModel` 指令進行雙向資料繫結。
+*   你了解了 `AppModule`。
+*   你在 `AppModule` 中匯入了 `FormsModule`，讓 Angular 能夠辨識並套用 `ngModel` 指令。
+*   你了解了在 `AppModule` 中宣告元件的重要性。
 
 @reviewed 2022-02-28

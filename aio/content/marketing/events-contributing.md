@@ -1,19 +1,13 @@
-# Contributing to `events.json`
+# 為 `events.json` 做出貢獻
 
+## 關於這份清單
 
-## About this list
+我們維護一份活動（研討會、聚會等）清單，記錄團隊曾經或將要發表的活動。這些資料存放在 `events.json`。
 
-We maintain a list of events (conferences, meetups, etc.) where our team has or will be presenting.
-This data is stored in `events.json`.
+## 如何讓活動列入清單
 
+`events.json` 檔案會定期從存放在 Firebase 資料庫中的資料產生。更多詳細資訊請參閱[這裡](https://github.com/angular/angular/blob/main/aio/scripts/generate-events/README.md)。
 
-## How to get an event listed
+如果你想讓某個活動列入清單，請透過 [devrel@angular.io](mailto:devrel@angular.io) 與 Angular 開發者關係團隊聯繫。
 
-The `events.json` file is periodically generated from data stored in a Firebase database.
-See [here](https://github.com/angular/angular/blob/main/aio/scripts/generate-events/README.md) for more details.
-
-If you want to get an event listed, please get in touch with the Angular DevRel team at [devrel@angular.io](mailto:devrel@angular.io).
-
-> WARNING:
-> The `events.json` file is only intended to be updated via a [script](https://github.com/angular/angular/blob/main/aio/scripts/generate-events/index.mjs).
-> Do not manually edit the file, because your changes will be overwritten the next time the script runs.
+> 警告： > `events.json` 檔案僅供透過[指令碼](https://github.com/angular/angular/blob/main/aio/scripts/generate-events/index.mjs)更新。 > 請勿手動編輯此檔案，因為你的變更會在指令碼下次執行時被覆寫。

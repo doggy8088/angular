@@ -1,27 +1,26 @@
-# Resolving zone pollution
+# 解決 Zone 污染
 
-**Zone.js** is a signaling mechanism that Angular uses to detect when an application state might have changed. It captures asynchronous operations like `setTimeout`, network requests, and event listeners. Angular schedules change detection based on signals from Zone.js
+**Zone.js** 是 Angular 用來偵測應用程式狀態可能已變更的一種訊號機制。它會擷取非同步操作，例如 `setTimeout`、網路請求與事件監聽器。Angular 會根據來自 Zone.js 的訊號，排程變更偵測。
 
-In some cases scheduled [tasks](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide#tasks) or [microtasks](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide#microtasks) don’t make any changes in the data model, which makes running change detection unnecessary. Common examples are:
-* `requestAnimationFrame`, `setTimeout` or `setInterval`
-* Task or microtask scheduling by third-party libraries
+在某些情況下，排程的[任務](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide#tasks)或[微任務](https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide#microtasks)不會對資料模型造成任何變更，因此不需要執行變更偵測。常見的例子有：
+* `requestAnimationFrame`、`setTimeout` 或 `setInterval`
+* 由第三方程式庫排程的任務或微任務
 
-This section covers how to identify such conditions, and how to run code outside the Angular zone to avoid unnecessary change detection calls.
+本節涵蓋如何找出這種情況，以及如何讓程式碼在 Angular Zone 之外執行，以避免不必要的變更偵測呼叫。
 
-## Identifying unnecessary change detection calls
+## 找出不必要的變更偵測呼叫
 
-You can detect unnecessary change detection calls using Angular DevTools. Often they appear as consecutive bars in the profiler’s timeline with source `setTimeout`, `setInterval`, `requestAnimationFrame`, or an event handler. When you have limited calls within your application of these APIs, the change detection invocation is usually caused by a third-party library.
+你可以用 Angular DevTools 偵測不必要的變更偵測呼叫。它們在分析工具的時間軸中，經常以連續的長條出現，來源是 `setTimeout`、`setInterval`、`requestAnimationFrame` 或事件處理常式。當你的應用程式中呼叫這些 API 的地方有限時，變更偵測的叫用通常是由第三方程式庫造成的。
 
 <div class="lightbox">
-  <img alt="Angular DevTools profiler preview showing Zone pollution" src="generated/images/guide/change-detection/zone-pollution.png">
+  <img alt="顯示 Zone 污染的 Angular DevTools 效能分析器預覽" src="generated/images/guide/change-detection/zone-pollution.png">
 </div>
 
-In the image above, there is a series of change detection calls triggered by event handlers associated with an element. That’s a common challenge when using third-party, non-native Angular components, which do not alter the default behavior of `NgZone`.
+在上圖中，有一連串由與某個元素相關聯的事件處理常式觸發的變更偵測呼叫。在使用第三方的、非原生 Angular 元件時，這是常見的挑戰，因為它們不會改變 `NgZone` 的預設行為。
 
+## 在 `NgZone` 之外執行工作
 
-## Run tasks outside `NgZone`
-
-In such cases, you can instruct Angular to avoid calling change detection for tasks scheduled by a given piece of code using [NgZone](https://angular.io/guide/zone).
+在這種情況下，你可以用 [NgZone](https://angular.io/guide/zone)，指示 Angular 避免為某段程式碼所排程的工作呼叫變更偵測。
 
 ```ts
 import { Component, NgZone, OnInit } from '@angular/core';
@@ -34,9 +33,9 @@ class AppComponent implements OnInit {
 }
 ```
 
-The preceding snippet instructs Angular to call `setInterval` outside the Angular Zone and skip running change detection after `pollForUpdates` runs.
+前面的程式碼片段指示 Angular 在 Angular Zone 之外呼叫 `setInterval`，並在 `pollForUpdates` 執行後略過變更偵測。
 
-Third-party libraries commonly trigger unnecessary change detection cycles because they weren't authored with Zone.js in mind. Avoid these extra cycles by calling library APIs outside the Angular zone:
+第三方程式庫經常觸發不必要的變更偵測週期，因為它們在撰寫時並未考慮 Zone.js。若要避免這些額外的週期，請在 Angular Zone 之外呼叫程式庫的 API：
 
 ```ts
 import { Component, NgZone, OnInit } from '@angular/core';
@@ -53,8 +52,8 @@ class AppComponent implements OnInit {
 }
 ```
 
-Running `Plotly.newPlot('chart', data);` within `runOutsideAngular` instructs the framework that it shouldn’t run change detection after the execution of tasks scheduled by the initialization logic.
+在 `runOutsideAngular` 內執行 `Plotly.newPlot('chart', data);`，是告訴框架：在初始化邏輯所排程的工作執行之後，不應該執行變更偵測。
 
-For example, if `Plotly.newPlot('chart', data)` adds event listeners to a DOM element, Angular does not run change detection after the execution of their handlers.
+例如，若 `Plotly.newPlot('chart', data)` 為某個 DOM 元素加上事件監聽器，Angular 在它們的處理常式執行後不會執行變更偵測。
 
 @reviewed 2022-05-04

@@ -57,7 +57,7 @@ export class ThemeToggleComponent {
   }
 
   getToggleLabel(): string {
-    return `Switch to ${this.isDark ? 'light' : 'dark'} mode`;
+    return `切換為${this.isDark ? '淺色' : '深色'}模式`;
   }
 
   private updateRenderedTheme(): void {

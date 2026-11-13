@@ -15,13 +15,13 @@ import { CONTENT_URL_PREFIX } from 'app/documents/document.service';
       <p class="contributor-bio">{{person.bio}}</p>
       <div class="contributor-social-links">
         <a *ngIf="person.twitter" mat-icon-button class="info-item icon contributor-social"
-            attr.aria-label="twitter of {{person.name}}"
+            attr.aria-label="{{person.name}} 的 Twitter"
             href="https://twitter.com/{{person.twitter}}"
             target="_blank" (click)="$event.stopPropagation()">
             <mat-icon svgIcon="logos:twitter"></mat-icon>
         </a>
         <a *ngIf="person.website" mat-icon-button class="info-item icon"
-           attr.aria-label="website of {{person.name}}"
+           attr.aria-label="{{person.name}} 的網站"
            href="{{person.website}}" target="_blank" (click)="$event.stopPropagation()">
            <mat-icon class="link-icon">link</mat-icon>
         </a>

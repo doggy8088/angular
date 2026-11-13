@@ -1,27 +1,26 @@
-# Make and save changes to a documentation topic
+# 對文件主題進行變更並儲存
 
 <!-- markdownLint-disable MD001 -->
 <!-- markdownLint-disable MD033 -->
 
-This topic describes tasks that you perform while making changes to the documentation.
+本主題說明你在變更文件時所執行的各項工作。
 
 <div class="alert is-important">
 
-**IMPORTANT**: <br />
-Only perform these tasks after you have created a working branch in which to work as described in [Create a working branch for editing](guide/doc-update-start#create-a-working-branch-for-editing).
+**重要事項**：<br />
+請在完成[為編輯建立工作分支](guide/doc-update-start#為編輯建立工作分支)中所述的工作分支建立後，再執行這些工作。
 
 </div>
 
-## Work in the correct working branch
+## 在正確的工作分支中工作
 
-Before you change any files, make sure that you are working in the correct working branch.
+在變更任何檔案之前，請確認你正在正確的工作分支中工作。
 
-#### To set the correct working branch for editing
+#### 設定正確的編輯用工作分支
 
-Perform these steps from a command-line tool on your local computer.
+請在本地電腦的命令列工具中執行下列步驟。
 
-1.  From your [workspace](guide/doc-prepare-to-edit#create-a-git-workspace-on-your-local-computer) directory, run this command to navigate to your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
-    Remember to replace `personal` with your GitHub username.
+1.  從你的[工作區](guide/doc-prepare-to-edit#在本地電腦上建立-git-工作區)目錄，執行這個指令以前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)。請記得將 `personal` 替換為你的 GitHub 使用者名稱。
   
     <code-example language="shell">
 
@@ -29,8 +28,7 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-1.  Run this command to check out your working branch.
-    Replace `working-branch` with the name of the branch that you created for the documentation issue.
+1.  執行這個指令以簽出你的工作分支。將 `working-branch` 替換為你為文件議題所建立的分支名稱。
 
     <code-example language="shell">
 
@@ -38,24 +36,24 @@ Perform these steps from a command-line tool on your local computer.
 
     </code-example>
 
-## Edit the documentation
+## 編輯文件
 
-Review the [Angular documentation style guide](guide/styleguide) before you start editing to understand how to write and format the text in the documentation.
+開始編輯前，請先檢閱 [Angular 文件風格指南](guide/styleguide)，了解如何在文件中撰寫與排版文字。
 
-In your working branch, edit the files that need to be changed. Most documentation source files are found in the `aio/content/guide` directory of the `angular` repo.
+在你的工作分支中，編輯需要變更的檔案。大多數文件原始檔位於 `angular` 儲存庫的 `aio/content/guide` 目錄中。
 
-Angular development tools can render the documentation as you make your changes.
+Angular 開發工具可以在你進行變更時轉譯文件。
 
-#### To view the rendered documentation while you are editing
+#### 在編輯時檢視轉譯後的文件
 
 <!-- vale Angular.Google_WordListSuggestions = NO -->
 
-Perform these steps from a command-line tool on your local computer or in the **terminal** pane of your IDE.
+請在本地電腦的命令列工具或 IDE 的 **terminal** 窗格中執行下列步驟。
 
 <!-- vale Angular.Google_WordListSuggestions = YES -->
 
-1.  Navigate to your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
-1.  From your working directory, run this command to navigate to the `aio` directory. The `aio` directory contains Angular's documentation files and tools.
+1.  前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)。
+1.  在你的工作目錄中，執行這個指令以前往 `aio` 目錄。`aio` 目錄包含 Angular 的文件檔案與工具。
 
     <code-example language="shell">
 
@@ -63,7 +61,7 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-1.  Run this command to build the documentation locally.
+1.  執行這個指令以在本機建置文件。
 
     <code-example language="shell">
 
@@ -71,9 +69,9 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-    This builds the documentation from scratch, but does not serve it.
+這會從頭開始建置文件，但不會提供服務。
 
-1.  Run this command to serve and sync the documentation.
+1.  執行這個指令以提供文件服務並同步文件。
 
     <code-example language="shell">
 
@@ -81,71 +79,58 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-    This serves your draft of the angular.io website locally at `http://localhost:4200` and watches for changes to documentation files.
-    Each time you save an update to a documentation file, the angular.io website at `http://localhost:4200` is updated.
-    You might need to refresh your browser to see the changes after you save them.
+這會在 `http://localhost:4200` 於本機提供你的 angular.io 網站草稿，並監看文件檔案的變更。每次你儲存文件檔案的更新，位於 `http://localhost:4200` 的 angular.io 網站就會更新。儲存變更後，你可能需要重新整理瀏覽器才能看到變更。
 
-### Documentation linting
+### 文件程式碼檢查
 
-If you installed Vale on your local computer and your IDE, each time you save a markdown file, Vale reviews it for common errors.
-Vale, the documentation linter, reports the errors it finds in the **Problems** pane of Visual Studio Code.
-The errors are also reflected in the documentation source code, as close to the problem as possible.
+如果你在本地電腦與 IDE 上安裝了 Vale，每次儲存 Markdown 檔案時，Vale 都會檢閱檔案是否有常見錯誤。Vale 是文件程式碼檢查工具（linter），會在 Visual Studio Code 的 **Problems** 窗格中回報它發現的錯誤。這些錯誤也會反映在文件原始碼中，盡可能靠近問題所在的位置。
 
-For more information about documentation linting and resolving lint problems, see [Resolve documentation linter messages](guide/docs-lint-errors).
+有關文件程式碼檢查與解決檢查問題的更多資訊，請參閱[解決文件程式碼檢查工具訊息](guide/docs-lint-errors)。
 
-## Save your changes
+## 儲存你的變更
 
-As you make changes to the documentation source files on your local computer, your changes can be in one of these states.
+當你在本地電腦上變更文件原始檔時，你的變更可能處於下列其中一種狀態。
 
-*  **Made, but not saved**
+*  **已變更，但未儲存**
 
-    This is the state of your changes as you edit a file in your integrated development environment (IDE).
+這是你於整合式開發環境（IDE）中編輯檔案時，變更所處的狀態。
 
-*  **Saved, but not committed**
+*  **已儲存，但未提交**
 
-    After you save changes to a file from the IDE, they are saved to your local computer.
-    While the changes have been saved, they have not been recorded as a change by `git`, the version control software.
-    Your files are typically in this state as you review your work in progress.
+從 IDE 儲存檔案的變更後，變更會儲存到你的本地電腦。變更雖然已儲存，但尚未由 `git`（版本控制軟體）記錄為變更。在你檢閱進行中的工作時，檔案通常處於這個狀態。
 
-*  **Committed, but not pushed**
+*  **已提交，但未推送**
 
-    After you commit your changes to `git`, your changes are recorded as a *commit* on your local computer, but they are not saved in the cloud.
-    This is the state of your files when you've made some progress and you want to save that progress as a commit.
+將變更提交到 `git` 後，變更會記錄為本地電腦上的一筆 *commit*，但尚未儲存到雲端。這是你取得一些進展並想將該進展儲存為一筆提交時的檔案狀態。
 
-*  **Committed and pushed**
+*  **已提交並已推送**
 
-    After you push your commits to your personal repo in `github.com`, your changes are recorded by `git` and saved to the cloud.
-    They are not yet part of the `angular/angular` repo.
-    This is the state your files must be in before you can open a pull request for them to become part of the `angular/angular` repo.
+將提交推送到 `github.com` 上的個人儲存庫後，變更會由 `git` 記錄並儲存到雲端。它們尚未成為 `angular/angular` 儲存庫的一部分。這是檔案在開啟 pull request、讓它們成為 `angular/angular` 儲存庫的一部分之前所必須處於的狀態。
 
-*  **Merged into Angular**
+*  **已合併到 Angular**
 
-    After your pull request is approved and merged, the changes you made are now part of the `angular/angular` repo and appear in the [angular.io](https://angular.io) web site.
-    Your documentation update is complete.
+pull request 核准並合併後，你所做的變更現在已成為 `angular/angular` 儲存庫的一部分，並出現在 [angular.io](https://angular.io) 網站上。你的文件更新已完成。
 
-This section describes how to save the changes you make to files in your working directory.
-If you are new to using `git` and GitHub, review this section carefully to understand how to save your changes as you make them.
+本節說明如何儲存你在工作目錄中對檔案所做的變更。如果你剛開始使用 `git` 與 GitHub，請仔細閱讀本節，了解如何在進行變更時儲存變更。
 
-### Save your changes to your local computer
+### 將變更儲存到你的本地電腦
 
-How to save changes that you make to a file on your local computer is determined by your IDE.
-Refer to your IDE for the specific procedure of saving changes.
-This process makes your changes *saved, but not committed*.
+如何儲存你在本地電腦上對檔案所做的變更，取決於你的 IDE。請參閱你的 IDE，了解儲存變更的具體程序。這個程序會讓你的變更處於 *已儲存，但未提交* 的狀態。
 
-### Review your rendered topics
+### 檢閱你轉譯後的主題
 
-After you save changes to a documentation topic, and before you commit those changes on your local computer, review the rendered topic in a browser.
+儲存文件主題的變更後、於本地電腦提交這些變更之前，請在瀏覽器中檢閱轉譯後的主題。
 
-#### To render your changes in a browser on your local computer
+#### 在本地電腦的瀏覽器中轉譯你的變更
 
 <!-- vale Angular.Google_WordListSuggestions = NO -->
 
-Perform these steps from a command-line tool on your local computer or in the **terminal** pane of your IDE.
+請在本地電腦的命令列工具或 IDE 的 **terminal** 窗格中執行下列步驟。
 
 <!-- vale Angular.Google_WordListSuggestions = YES -->
 
-1.  From your [workspace](guide/doc-prepare-to-edit#create-a-git-workspace-on-your-local-computer) directory, run this command to navigate to the `aio` directory in your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
-Remember to replace `personal` with your GitHub username.
+1.  從你的[工作區](guide/doc-prepare-to-edit#在本地電腦上建立-git-工作區)目錄，執行這個指令以前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)中的 `aio` 目錄。
+請記得將 `personal` 替換為你的 GitHub 使用者名稱。
 
     <code-example language="shell">
 
@@ -153,7 +138,7 @@ Remember to replace `personal` with your GitHub username.
 
     </code-example>
 
-1.  Run this command to build the documentation using the files on your local computer.
+1.  執行這個指令，以使用本地電腦上的檔案建置文件。
 
     <code-example language="shell">
 
@@ -161,9 +146,9 @@ Remember to replace `personal` with your GitHub username.
 
     </code-example>
 
-    This command builds the documentation from scratch, but does not serve it for viewing.
+這個指令會從頭開始建置文件，但不會提供服務以供檢視。
 
-1.  Run this command to serve the documentation locally and rebuild it after it changes.
+1.  執行這個指令，以在本機提供文件服務，並在文件變更後重新建置。
 
     <code-example language="shell">
 
@@ -171,25 +156,23 @@ Remember to replace `personal` with your GitHub username.
 
     </code-example>
 
-    This command serves the Angular documentation at [`http://localhost:4200`](http://localhost:4200).
-    You might need to refresh the browser after the documentation is updated to see the changes in your browser.
+這個指令會在 [`http://localhost:4200`](http://localhost:4200) 提供 Angular 文件服務。文件更新後，你可能需要重新整理瀏覽器，才能在瀏覽器中看到變更。
 
-After you are satisfied with the changes, commit them on your local computer.
+對變更感到滿意後，請在本地電腦上提交它們。
 
-### Commit your changes on your local computer
+### 在本地電腦上提交你的變更
 
-Perform this procedure after you save the changes on your local computer and you are ready to commit changes on your local computer.
+在本地電腦上儲存變更、準備好在本地電腦上提交變更後，請執行這個程序。
 
-#### To commit your changes on your local computer
+#### 在本地電腦上提交你的變更
 
 <!-- vale Angular.Google_WordListSuggestions = NO -->
 
-Perform these steps from a command-line tool on your local computer or in the **terminal** pane of your IDE.
+請在本地電腦的命令列工具或 IDE 的 **terminal** 窗格中執行下列步驟。
 
 <!-- vale Angular.Google_WordListSuggestions = YES -->
 
-1.  From your [workspace](guide/doc-prepare-to-edit#create-a-git-workspace-on-your-local-computer) directory, run this command to navigate to the `aio` directory in your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
-    Remember to replace `personal` with your GitHub username.
+1.  從你的[工作區](guide/doc-prepare-to-edit#在本地電腦上建立-git-工作區)目錄，執行這個指令以前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)中的 `aio` 目錄。請記得將 `personal` 替換為你的 GitHub 使用者名稱。
   
     <code-example language="shell">
 
@@ -197,7 +180,7 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-1.  Run this command to confirm that you are ready to commit your changes.
+1.  執行這個指令以確認你已準備好提交變更。
 
     <code-example language="shell">
 
@@ -205,7 +188,7 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-    The `git status` command returns an output like this.
+`git status` 指令會傳回類似以下的輸出。
 
     <!-- Formatting this example as output hides the <file> text. -->
     <code-example language="none" hideCopy>
@@ -228,16 +211,13 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-    1.  Confirm that you in the correct working branch.
+    1.  確認你位於正確的工作分支。
 
-        If you are not in the correct branch, replace `working-branch` with the name of your working branch and then run `git checkout working-branch` to select the correct branch.
+如果你不在正確的分支中，請將 `working-branch` 替換為你的工作分支名稱，然後執行 `git checkout working-branch` 以選取正確的分支。
 
-    1.  Review the  modified files in the list.
-        Confirm that they are those that you have changed and saved, but not committed.
-        The list of modified files varies, depending on what you have edited.
+    1.  檢閱清單中的已修改檔案。確認它們是你已變更並儲存、但尚未提交的檔案。已修改檔案的清單會因你編輯的內容而有所不同。
 
-1.  Run this command to add a file that you want to commit.
-    Replace `filename` with a filename from the `git status` output.
+1.  執行這個指令以加入你想要提交的檔案。將 `filename` 替換為 `git status` 輸出中的檔案名稱。
 
     <code-example language="shell">
 
@@ -245,8 +225,7 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-    You can add multiple files in a single command by using wildcard characters in the filename parameter.
-    You can also run this command to add all changed files that are being tracked by `git` to the commit by using `*` filename as this example shows.
+你可以在單一指令中使用檔名參數中的萬用字元來加入多個檔案。你也可以執行這個指令，將所有由 `git` 追蹤的已變更檔案加入提交，如這個範例所示，使用 `*` 檔名。
 
     <code-example language="shell">
 
@@ -256,12 +235,12 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     <div class="alert is-important">
 
-    **IMPORTANT**: <br />
-    Files that are not tracked by `git` are not committed or pushed to your repo on `github.com` and they do not appear in your pull request.
+    **重要事項**：<br />
+    未受 `git` 追蹤的檔案不會提交或推送到你在 `github.com` 上的儲存庫，也不會出現在你的 pull request 中。
 
     </div>
 
-1.  Run `git status` again.
+1.  再次執行 `git status`。
 
     <code-example language="shell">
 
@@ -269,7 +248,7 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-1.  Review the output and confirm the files that are ready to be committed.
+1.  檢閱輸出並確認已準備好提交的檔案。
 
     <!-- Formatting this example as output hides the <file> text. -->
     <code-example language="none" hideCopy>
@@ -290,9 +269,7 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-1.  Run this command to commit the changed files to your local computer.
-    The commit message that follows the `-m` parameter must start with `docs:` followed by space, and your message.
-    Replace `detailed commit message` with a message that describes the changes you made.
+1.  執行這個指令以將變更的檔案提交到你的本地電腦。`-m` 參數後方的提交訊息必須以 `docs:` 加上一個空格開頭，再接上你的訊息。將 `detailed commit message` 替換為描述你所做變更的訊息。
 
     <code-example language="shell">
 
@@ -300,24 +277,23 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-    For more information about Angular commit messages, see [Formatting commit messages for a pull request](guide/doc-pr-prep#format-commit-messages-for-a-pull-request).
+有關 Angular 提交訊息的更多資訊，請參閱[為 pull request 設定提交訊息格式](guide/doc-pr-prep#為-pull-request-設定提交訊息格式)。
 
-Your changes to the documentation are now *committed, but not pushed*.
+你對文件的變更現在處於 *已提交，但未推送* 的狀態。
 
-### Push your commits to the cloud
+### 將提交推送到雲端
 
-After you commit the changes to your local computer, this procedure pushes those commits to your `origin` repo in the cloud.
+在本地電腦上提交變更後，這個程序會將這些提交推送到雲端中的 `origin` 儲存庫。
 
-#### To push your changes to your origin repo in the cloud
+#### 將變更推送到雲端中的 origin 儲存庫
 
 <!-- vale Angular.Google_WordListSuggestions = NO -->
 
-Perform these steps from a command-line tool on your local computer or in the **terminal** pane of your IDE.
+請在本地電腦的命令列工具或 IDE 的 **terminal** 窗格中執行下列步驟。
 
 <!-- vale Angular.Google_WordListSuggestions = YES -->
 
-1.  From your [workspace](guide/doc-prepare-to-edit#create-a-git-workspace-on-your-local-computer) directory, run this command to navigate to the `aio` directory in your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
-    Remember to replace `personal` with your GitHub username.
+1.  從你的[工作區](guide/doc-prepare-to-edit#在本地電腦上建立-git-工作區)目錄，執行這個指令以前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)中的 `aio` 目錄。請記得將 `personal` 替換為你的 GitHub 使用者名稱。
   
     <code-example language="shell">
 
@@ -325,7 +301,7 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-1.  Run this command to confirm that you are using the correct branch.
+1.  執行這個指令以確認你使用的是正確的分支。
 
     <code-example language="shell">
 
@@ -333,9 +309,9 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-    If you aren't in the correct branch, replace `working-branch` with the name of your working branch and run `git checkout working-branch` to select the correct branch.
+如果你不在正確的分支中，請將 `working-branch` 替換為你的工作分支名稱，並執行 `git checkout working-branch` 以選取正確的分支。
 
-    Git status also shows whether you have changes on your local computer that have not been pushed to the cloud.
+Git status 也會顯示你的本地電腦上是否有尚未推送到雲端的變更。
 
     <code-example language="none" hideCopy>
 
@@ -345,11 +321,9 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-    This example output says that there is one commit on the local computer that's not in the `working-branch` branch on the `origin` repo.
-    The `origin` is the `personal/angular` repo in GitHub.
-    The next command pushes that commit to the `origin` repo.
+這個範例輸出表示本地電腦上有一筆提交尚未進入 `origin` 儲存庫上的 `working-branch` 分支。`origin` 是 GitHub 中的 `personal/angular` 儲存庫。下一個指令會將該提交推送到 `origin` 儲存庫。
 
-1.  Run this command to push the commits on your local computer to your account on GitHub in the cloud.
+1.  執行這個指令，以將本地電腦上的提交推送到雲端中你在 GitHub 上的帳號。
 
     <code-example language="shell">
 
@@ -357,7 +331,7 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-    If this is the first time you've pushed commits from the branch, you can see a message such as this.
+如果你是第一次從這個分支推送提交，你可能會看到類似以下的訊息。
 
     <code-example language="none" hideCopy>
 
@@ -371,7 +345,7 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-    If you get this message, copy the command that the message provides and run it as shown here:
+如果你收到這個訊息，請複製訊息提供的指令，並如這裡所示執行它：
 
     <code-example language="shell">
 
@@ -379,29 +353,23 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-The changes that you made in the `working-branch` branch on your local computer have been saved on `github.com`.
-Your changes to the documentation are now *committed and pushed*.
+你在本地電腦上 `working-branch` 分支中所做的變更已儲存到 `github.com`。你對文件的變更現在處於 *已提交並已推送* 的狀態。
 
-## Test your documentation
+## 測試你的文件
 
-After you update the documentation to fix the issue that you picked, you are ready to test the documentation.
-Testing documentation consists of:
+更新文件以修正你選擇的議題後，你就可以測試文件了。測試文件包括：
 
-* **Documentation linting**
+* **文件程式碼檢查**
 
-    Each time you open and save a documentation topic, the documentation linter checks for common errors.
-    For more information about documentation linting, see [Resolving documentation linter messages](guide/docs-lint-errors).
+每次開啟並儲存文件主題時，文件程式碼檢查工具都會檢查常見錯誤。有關文件程式碼檢查的更多資訊，請參閱[解決文件程式碼檢查工具訊息](guide/docs-lint-errors)。
 
-* **Manual review**
+* **人工檢閱**
 
-    When your documentation update is complete, have another person review your changes.
-    If you have updated technical content, have a subject matter expert on the topic review your update, as well.
+文件更新完成後，請請他人檢閱你的變更。如果你更新了技術內容，也請請該主題的領域專家檢閱你的更新。
 
-* **Automated testing**
+* **自動化測試**
 
-    The Angular documentation is tested automatically after you open a pull request.
-    It must pass this testing before the pull request can be merged.
-    For more information about automated documentation testing, see [Testing a documentation update](/guide/doc-build-test).
+Angular 文件會在你開啟 pull request 後自動測試。pull request 通過測試後才能合併。有關自動化文件測試的更多資訊，請參閱[測試文件更新](/guide/doc-build-test)。
 
 <!-- links -->
 

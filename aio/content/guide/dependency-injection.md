@@ -1,27 +1,28 @@
-# Understanding dependency injection
+# 了解依賴注入
 
-Dependency injection, or DI, is one of the fundamental concepts in Angular. DI is wired into the Angular framework and allows classes with Angular decorators, such as Components, Directives, Pipes, and Injectables, to configure dependencies that they need. 
+依賴注入（DI）是 Angular 的基本概念之一。DI 已內建於 Angular 框架中，讓帶有 Angular 裝飾器的類別（例如元件、指令、管道與可注入物件）能設定它們所需的依賴。
 
-Two main roles exist in the DI system: dependency consumer and dependency provider. 
+DI 系統中有兩個主要角色：依賴消費者與依賴提供者。
 
-Angular facilitates the interaction between dependency consumers and dependency providers using an abstraction called [Injector](guide/glossary#injector). When a dependency is requested, the injector checks its registry to see if there is an instance already available there. If not, a new instance is created and stored in the registry. Angular creates an application-wide injector (also known as "root" injector) during the application bootstrap process, as well as any other injectors as needed. In most cases you don't need to manually create injectors, but you should know that there is a layer that connects providers and consumers.
+Angular 使用一種稱為 [Injector](guide/glossary#注入器injector) 的抽象，來促進依賴消費者與依賴提供者之間的互動。當某個依賴被請求時，注入器會檢查它的註冊表，看其中是否已有可用的實例。如果沒有，就會建立一個新實例並存入註冊表。Angular 會在應用程式啟動過程中，建立一個應用程式範圍的注入器（也稱為「根」注入器）。在大多數情況下，你不需要手動建立注入器，但你應該知道，有一個層次負責連接提供者與消費者。
 
-This topic covers basic scenarios of how a class can act as a dependency. Angular also allows you to use functions, objects, primitive types such as string or Boolean, or any other types as dependencies. For more information, see [Dependency providers](guide/dependency-injection-providers).
+本主題涵蓋類別如何作為依賴的基本情境。Angular 也允許你使用函式、物件、原始型別（例如字串或布林值），或任何其他型別作為依賴。更多資訊請參閱[依賴提供者](guide/dependency-injection-providers)。
 
-## Providing dependency
+## 提供依賴
 
-Imagine there is a class called HeroService that needs to act as a dependency in a component.
+假設有一個名為 `HeroService` 的類別，需要在元件中作為依賴。
 
-The first step is to add the @Injectable decorator to show that the class can be injected.
+第一步是加上 `@Injectable` 裝飾器，表明該類別可以被注入。
 
 <code-example language="typescript">
 @Injectable()
 class HeroService {}
 </code-example>
 
-The next step is to make it available in the DI by providing it.  A dependency can be provided in multiple places:
+下一步是透過提供它，讓它在 DI 中可供使用。
+依賴可以在多個地方提供：
 
-* At the Component level, using the `providers` field of the `@Component` decorator. In this case the `HeroService` becomes available to all instances of this component and other components and directives used in the template. For example:
+* 在元件層級，使用 `@Component` 裝飾器的 `providers` 欄位。在此情況下，`HeroService` 會提供給這個元件的所有實例，以及範本中使用的其他元件與指令。例如：
 
 <code-example language="typescript">
 @Component({
@@ -32,9 +33,9 @@ The next step is to make it available in the DI by providing it.  A dependency c
 class HeroListComponent {}
 </code-example>
 
-When you register a provider at the component level, you get a new instance of the service with each new instance of that component.
+當你在元件層級註冊提供者時，該元件的每個新實例都會取得一個新的服務實例。
 
-* At the NgModule level, using the `providers` field of the `@NgModule` decorator. In this scenario, the `HeroService` is available to all components, directives, and pipes declared in this NgModule. For example:
+* 在 NgModule 層級，使用 `@NgModule` 裝飾器的 `providers` 欄位。在此情境中，`HeroService` 會提供給這個 NgModule 中宣告的所有元件、指令與管道。例如：
 
 <code-example language="typescript">
 @NgModule({
@@ -44,9 +45,9 @@ When you register a provider at the component level, you get a new instance of t
 class HeroListModule {}
 </code-example>
 
-When you register a provider with a specific NgModule, the same instance of a service is available to all components in that NgModule.
+當你以特定 NgModule 註冊提供者時，服務的同一個實例會提供給該 NgModule 中的所有元件。
 
-* At the application root level, which allows injecting it into other classes in the application. This can be done by adding the `providedIn: 'root'` field to the `@Injectable` decorator:
+* 在應用程式根層級，可將它注入應用程式中的其他類別。做法是在 `@Injectable` 裝飾器中加上 `providedIn: 'root'` 欄位：
 
 <code-example language="typescript">
 @Injectable({
@@ -55,11 +56,11 @@ When you register a provider with a specific NgModule, the same instance of a se
 class HeroService {}
 </code-example>
 
-When you provide the service at the root level, Angular creates a single, shared instance of the `HeroService` and injects it into any class that asks for it. Registering the provider in the `@Injectable` metadata also allows Angular to optimize an app by removing the service from the compiled application if it isn't used, a process known as tree-shaking.
+當你在根層級提供服務時，Angular 會建立一個 `HeroService` 的單一共用實例，並將它注入任何需要它的類別。在 `@Injectable` 中繼資料中註冊提供者，也能讓 Angular 最佳化應用程式，在服務未被使用時將它從編譯後的應用程式中移除，這個過程稱為 tree-shaking。
 
-## Injecting a dependency
+## 注入依賴
 
-The most common way to inject a dependency is to declare it in a class constructor. When Angular creates a new instance of a component, directive, or pipe class, it determines which services or other dependencies that class needs by looking at the constructor parameter types. For example, if the `HeroListComponent` needs the `HeroService`, the constructor can look like this:
+最常見的注入依賴方式，是在類別建構子中宣告它。當 Angular 建立元件、指令或管道類別的新實例時，它會查看建構子參數的型別，來判斷該類別需要哪些服務或其他依賴。例如，若 `HeroListComponent` 需要 `HeroService`，建構子可以寫成這樣：
 
 <code-example language="typescript">
 @Component({ … })
@@ -68,17 +69,17 @@ class HeroListComponent {
 }
 </code-example>
 
-When Angular discovers that a component depends on a service, it first checks if the injector has any existing instances of that service. If a requested service instance doesn't yet exist, the injector creates one using the registered provider, and adds it to the injector before returning the service to Angular.
+當 Angular 發現某個元件依賴某個服務時，它會先檢查注入器中是否已有該服務的現有實例。如果請求的服務實例尚不存在，注入器會使用已註冊的提供者建立一個，並將它加入注入器，然後再把服務傳回給 Angular。
 
-When all requested services have been resolved and returned, Angular can call the component's constructor with those services as arguments.
+當所有請求的服務都已解析並傳回後，Angular 就能以這些服務作為引數，呼叫元件的建構子。
 
 <div class="lightbox">
-  <img src="generated/images/guide/architecture/injector-injects.png" alt="Service" class="left">
+  <img src="generated/images/guide/architecture/injector-injects.png" alt="服務" class="left">
 </div>
 
-## What's next
+## 後續步驟
 
-* [Creating and injecting services](guide/creating-injectable-service)
-* [Dependency Injection in Action](guide/dependency-injection-in-action)
+* [建立與注入服務](guide/creating-injectable-service)
+* [實際運用依賴注入](guide/dependency-injection-in-action)
 
 @reviewed 2022-08-02

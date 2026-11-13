@@ -1,187 +1,163 @@
-# Component styles
+# 元件樣式
 
-Angular applications are styled with standard CSS.
-That means you can apply everything you know about CSS stylesheets, selectors, rules, and media queries directly to Angular applications.
+Angular 應用程式使用標準 CSS 設定樣式。也就是說，你可以直接把你所知道關於 CSS 樣式表、選擇器、規則與媒體查詢的一切，套用到 Angular 應用程式上。
 
-Additionally, Angular can bundle *component styles* with components, enabling a more modular design than regular stylesheets.
+此外，Angular 可以把*元件樣式*與元件打包在一起，實現比一般樣式表更模組化的設計。
 
-This page describes how to load and apply these component styles.
+本頁說明如何載入與套用這些元件樣式。
 
-Run the <live-example></live-example> in Stackblitz and download the code from there.
+在 Stackblitz 中執行 <live-example></live-example>，並從那裡下載程式碼。
 
-## Using component styles
+## 使用元件樣式
 
-For every Angular component you write, you can define not only an HTML template, but also the CSS styles that go with that template, specifying any selectors, rules, and media queries that you need.
+對於你撰寫的每個 Angular 元件，你不僅可以定義 HTML 範本，還可以定義搭配該範本的 CSS 樣式，指定你需要的任何選擇器、規則與媒體查詢。
 
-One way to do this is to set the `styles` property in the component metadata.
-The `styles` property takes an array of strings that contain CSS code.
-Usually you give it one string, as in the following example:
+其中一種做法是在元件詮釋資料中設定 `styles` 屬性。`styles` 屬性接受一個由包含 CSS 程式碼的字串組成的陣列。通常你會給它一個字串，如下列範例所示：
 
 <code-example header="src/app/hero-app.component.ts" path="component-styles/src/app/hero-app.component.ts"></code-example>
 
-## Component styling best practices
+## 元件樣式最佳實務
 
 <div class="alert is-helpful">
 
-See [View Encapsulation](guide/view-encapsulation) for information on how Angular scopes styles to specific components.
+關於 Angular 如何將樣式限定於特定元件，請參閱 [View Encapsulation](guide/view-encapsulation)。
 
 </div>
 
-You should consider the styles of a component to be private implementation details for that component.
-When consuming a common component, you should not override the component's styles any more than you should access the private members of a TypeScript class.
-While Angular's default style encapsulation prevents component styles from affecting other components, global styles affect all components on the page.
-This includes `::ng-deep`, which promotes a component style to a global style.
+你應該把元件的樣式視為該元件的私有實作細節。當你使用一個共用元件時，不應覆寫該元件的樣式，就像你不應存取 TypeScript 類別的私有成員一樣。雖然 Angular 預設的樣式封裝可以防止元件樣式影響其他元件，但全域樣式會影響頁面上的所有元件。這包括 `::ng-deep`，它會把元件樣式提升為全域樣式。
 
-### Authoring a component to support customization
+### 撰寫支援客製化的元件
 
-As component author, you can explicitly design a component to accept customization in one of four different ways.
+身為元件作者，你可以明確地設計元件，讓它以四種不同方式之一接受客製化。
 
-#### 1. Use CSS Custom Properties (recommended)
+#### 1. 使用 CSS 自訂屬性（建議）
 
-You can define a supported customization API for your component by defining its styles with CSS Custom Properties, alternatively known as CSS Variables.
-Anyone using your component can consume this API by defining values for these properties, customizing the final appearance of the component on the rendered page.
+你可以透過以 CSS 自訂屬性（也稱為 CSS 變數）定義元件的樣式，為元件定義一個受支援的客製化 API。任何使用你元件的人都可以透過為這些屬性定義值來使用這個 API，客製化元件在渲染頁面上的最終外觀。
 
-While this requires defining a custom property for each customization point, it creates a clear API contract that works in all style encapsulation modes.
+雖然這需要在每個客製化點定義一個自訂屬性，但它建立了一個清晰的 API 契約，適用於所有樣式封裝模式。
 
-#### 2. Declare global CSS with `@mixin`
+#### 2. 用 `@mixin` 宣告全域 CSS
 
-While Angular's emulated style encapsulation prevents styles from escaping a component, it does not prevent global CSS from affecting the entire page.
-While component consumers should avoid directly overwriting the CSS internals of a component, you can offer a supported customization API via a CSS preprocessor like Sass.
+雖然 Angular 的模擬樣式封裝可以防止樣式從元件中逸出，但它無法防止全域 CSS 影響整個頁面。雖然元件使用者應避免直接覆寫元件的 CSS 內部結構，但你可以透過 Sass 這類 CSS 前處理器，提供受支援的客製化 API。
 
-For example, a component may offer one or more supported mixins to customize various aspects of the component's appearance.
-While this approach uses global styles in its implementation, it allows the component author to keep the mixins up to date with changes to the component's private DOM structure and CSS classes.
+例如，元件可以提供一或多個受支援的 mixin，來客製化元件外觀的各個面向。雖然這種做法在實作上使用全域樣式，但它讓元件作者能夠隨著元件私有 DOM 結構與 CSS 類別的變更，保持 mixin 的最新狀態。
 
-#### 3. Customize with CSS `::part`
+#### 3. 用 CSS `::part` 客製化
 
-If your component uses [Shadow DOM](https://developer.mozilla.org/docs/Web/Web_Components/Using_shadow_DOM), you can apply the `part` attribute to specify elements in your component's template.
-This allows consumers of the component to author arbitrary styles targeting those specific elements with [the `::part` pseudo-element](https://developer.mozilla.org/docs/Web/CSS/::part).
+如果你的元件使用 [Shadow DOM](https://developer.mozilla.org/docs/Web/Web_Components/Using_shadow_DOM)，你可以套用 `part` attribute 來指定元件範本中的元素。這讓元件的使用者可以撰寫任意樣式，透過[ `::part` 偽元素](https://developer.mozilla.org/docs/Web/CSS/::part)針對那些特定元素設定樣式。
 
-While this lets you limit the elements within your template that consumers can customize, it does not limit which CSS properties are customizable.
+雖然這能限制使用者可以客製化的範本內元素，但它並不限制哪些 CSS 屬性可以客製化。
 
-#### 4. Provide a TypeScript API
+#### 4. 提供 TypeScript API
 
-You can define a TypeScript API for customizing styles, using template bindings to update CSS classes and styles.
-This is not recommended because the additional JavaScript cost of this style API incurs far more performance cost than CSS.
+你可以使用範本繫結來更新 CSS 類別與樣式，定義一個用於客製化樣式的 TypeScript API。不建議這麼做，因為這種樣式 API 額外的 JavaScript 成本，會比 CSS 帶來大得多的效能成本。
 
-## Special selectors
+## 特殊選擇器
 
-Component styles have a few special *selectors* from the world of shadow DOM style scoping \(described in the [CSS Scoping Module Level 1](https://www.w3.org/TR/css-scoping-1) page on the [W3C](https://www.w3.org) site\).
-The following sections describe these selectors.
+元件樣式有一些來自 Shadow DOM 樣式範圍世界的特殊*選擇器*（相關說明請參閱 [W3C](https://www.w3.org) 網站上的 [CSS Scoping Module Level 1](https://www.w3.org/TR/css-scoping-1) 頁面）。以下各節會介紹這些選擇器。
 
 ### :host
 
-Every component is associated within an element that matches the component's selector.
-This element, into which the template is rendered, is called the *host element*.
-The `:host` pseudo-class selector may be used to create styles that target the host element itself, as opposed to targeting elements inside the host.
+每個元件都會與一個符合該元件選擇器的元素建立關聯。範本會渲染到這個元素中，它被稱為*宿主元素*。`:host` 偽類別選擇器可用來建立針對宿主元素本身的樣式，而不是針對宿主內部的元素。
 
 <code-example header="src/app/host-selector-example.component.ts" path="component-styles/src/app/host-selector-example.component.ts"></code-example>
 
-Creating the following style will target the component's host element.
-Any rule applied to this selector will affect the host element and all its descendants \(in this case, italicizing all contained text\).
+建立下列樣式會針對元件的宿主元素。套用到這個選擇器的任何規則，都會影響宿主元素及其所有後代元素（在這個情況下，就是把所有包含的文字變成斜體）。
 
 <code-example header="src/app/hero-details.component.css" path="component-styles/src/app/hero-details.component.css" region="host"></code-example>
 
-The `:host` selector only targets the host element of a component.
-Any styles within the `:host` block of a child component will *not* affect parent components.
+`:host` 選擇器只會針對元件的宿主元素。子元件 `:host` 區塊內的任何樣式都*不會*影響父元件。
 
-Use the *function form* to apply host styles conditionally by including another selector inside parentheses after `:host`.
+使用*函式形式*，在 `:host` 後面的小括號內加入另一個選擇器，即可有條件地套用宿主樣式。
 
-In this example the host's content also becomes bold when the `active` CSS class is applied to the host element.
+在這個範例中，當 `active` CSS 類別套用到宿主元素時，宿主的內容也會變成粗體。
 
 <code-example header="src/app/hero-details.component.css" path="component-styles/src/app/hero-details.component.css" region="hostfunction"></code-example>
 
-The `:host` selector can also be combined with other selectors.
-Add selectors behind the `:host` to select child elements, for example using `:host h2` to target all `<h2>` elements inside a component's view.
+`:host` 選擇器也可以與其他選擇器結合。在 `:host` 後面加入選擇器來選取子元素，例如使用 `:host h2` 來針對元件檢視內的所有 `<h2>` 元素。
 
 <div class="alert is-helpful">
 
-You should not add selectors \(other than `:host-context`\) in front of the `:host` selector to style a component based on the outer context of the component's view.
-Such selectors are not scoped to a component's view and will select the outer context, but it's not built-in behavior.
-Use `:host-context` selector for that purpose instead.
+你不應該在 `:host` 選取器前面加上選取器 \(`:host-context` 除外\)，來根據元件檢視的外部脈絡為元件設定樣式。
+這類選取器並不限定於元件檢視的範圍，會選取外部脈絡，但這不是內建行為。
+請改用 `:host-context` 選取器來達成這個目的。
 
 </div>
 
 ### :host-context
 
-Sometimes it's useful to apply styles to elements within a component's template based on some condition in an element that is an ancestor of the host element.
-For example, a CSS theme class could be applied to the document `<body>` element, and you want to change how your component looks based on that.
+有時候，根據宿主元素的祖先元素中的某些條件，對元件範本內的元素套用樣式是很有用的。例如，文件 `<body>` 元素上可能套用了某個 CSS 主題類別，而你想據此改變元件的外觀。
 
-Use the `:host-context()` pseudo-class selector, which works just like the function form of `:host()`.
-The `:host-context()` selector looks for a CSS class in any ancestor of the component host element, up to the document root.
-The `:host-context()` selector is only useful when combined with another selector.
+使用 `:host-context()` 偽類別選擇器，它的運作方式與 `:host()` 的函式形式相同。`:host-context()` 選擇器會在元件宿主元素的任何祖先元素中（直到文件根元素）尋找 CSS 類別。`:host-context()` 選擇器只有在與另一個選擇器結合時才有用。
 
-The following example italicizes all text inside a component, but only
-if some *ancestor* element of the host element has the CSS class `active`.
+下列範例會把元件內的所有文字變成斜體，但只有在宿主元素的某個*祖先*元素具有 CSS 類別 `active` 時才會如此。
 
 <code-example header="src/app/hero-details.component.css" path="component-styles/src/app/hero-details.component.css" region="hostcontext"></code-example>
 
 <div class="alert is-helpful">
 
-**NOTE**: <br />
-Only the host element and its descendants will be affected, not the ancestor with the assigned `active` class.
+注意：<br />
+只有宿主元素及其子孫元素會受到影響，不包括被指派 `active` 類別的祖先元素。
 
 </div>
 
-### (deprecated) `/deep/`, `>>>`, and `::ng-deep`
+### （已棄用）`/deep/`、`>>>` 與 `::ng-deep`
 
-Component styles normally apply only to the HTML in the component's own template.
+元件樣式通常只會套用到元件自己範本中的 HTML。
 
-Applying the `::ng-deep` pseudo-class to any CSS rule completely disables view-encapsulation for that rule.
-Any style with `::ng-deep` applied becomes a global style.
-In order to scope the specified style to the current component and all its descendants, be sure to include the `:host` selector before `::ng-deep`.
-If the `::ng-deep` combinator is used without the `:host` pseudo-class selector, the style can bleed into other components.
+把 `::ng-deep` 偽類別套用到任何 CSS 規則上，會完全停用該規則的檢視封裝。任何套用了 `::ng-deep` 的樣式都會變成全域樣式。要把指定的樣式限定在目前元件及其所有後代元素，請務必在 `::ng-deep` 之前加入 `:host` 選擇器。如果 `::ng-deep` 組合器未搭配 `:host` 偽類別選擇器使用，樣式可能會滲入其他元件。
 
-The following example targets all `<h3>` elements, from the host element down through this component to all of its child elements in the DOM.
+下列範例會針對從宿主元素開始、經過這個元件、到 DOM 中所有子元素的全部 `<h3>` 元素。
 
 <code-example header="src/app/hero-details.component.css" path="component-styles/src/app/hero-details.component.css" region="deep"></code-example>
 
-The `/deep/` combinator also has the aliases `>>>`, and `::ng-deep`.
+`/deep/` 組合器也有 `>>>` 與 `::ng-deep` 這兩個別名。
 
 <div class="alert is-important">
 
-Use `/deep/`, `>>>`, and `::ng-deep` only with *emulated* view encapsulation.
-Emulated is the default and most commonly used view encapsulation.
-For more information, see the [View Encapsulation](guide/view-encapsulation) section.
+請只在 *emulated* 檢視封裝下使用 `/deep/`、`>>>` 與 `::ng-deep`。
+Emulated 是預設且最常用的檢視封裝。
+更多資訊請參閱 [View Encapsulation](guide/view-encapsulation) 一節。
 
 </div>
 
 <div class="alert is-important">
 
-The shadow-piercing descendant combinator is deprecated and [support is being removed from major browsers](https://www.chromestatus.com/feature/6750456638341120) and tools.
-As such we plan to drop support in Angular \(for all 3 of `/deep/`, `>>>`, and `::ng-deep`\).
-Until then `::ng-deep` should be preferred for a broader compatibility with the tools.
+穿透陰影的子孫組合器已被棄用，[主要瀏覽器](https://www.chromestatus.com/feature/6750456638341120)與工具正在移除對它的支援。
+因此我們計畫在 Angular 中停止支援 \(涵蓋 `/deep/`、`>>>` 與 `::ng-deep` 三者\)。
+在那之前，為了與工具保持更廣泛的相容性，應優先使用 `::ng-deep`。
 
 </div>
 
 <a id="loading-styles"></a>
 
-## Loading component styles
+## 載入元件樣式
 
-There are several ways to add styles to a component:
+為元件加入樣式有幾種方式：
 
-*   By setting `styles` or `styleUrls` metadata
-*   Inline in the template HTML
-*   With CSS imports
+*   設定 `styles` 或 `styleUrls` 詮釋資料
+*   直接寫在範本 HTML 中
+*   使用 CSS 匯入
 
-The scoping rules outlined earlier apply to each of these loading patterns.
+前面概述的範圍規則適用於上述每一種載入模式。
 
-### Styles in component metadata
+### 元件詮釋資料中的樣式
 
-Add a `styles` array property to the `@Component` decorator.
+在 `@Component` 裝飾器中加入 `styles` 陣列屬性。
 
-Each string in the array defines some CSS for this component.
+陣列中的每個字串都會為這個元件定義一些 CSS。
 
 <code-example header="src/app/hero-app.component.ts (CSS inline)" path="component-styles/src/app/hero-app.component.ts"></code-example>
 
 <div class="alert is-critical">
 
-Reminder:
-These styles apply *only to this component*.
-They are *not inherited* by any components nested within the template nor by any content projected into the component.
+提醒：
+這些樣式*只適用於這個元件*。
+它們*不會被*範本中巢狀的任何元件繼承，也不會被投影進元件的任何內容繼承。
 
 </div>
 
-The Angular CLI command [`ng generate component`](cli/generate) defines an empty `styles` array when you create the component with the `--inline-style` flag.
+使用 `--inline-style` 旗標建立元件時，Angular CLI 指令 [`ng generate component`](cli/generate) 會定義一個空的 `styles` 陣列。
 
 <code-example format="shell" language="shell">
 
@@ -189,9 +165,9 @@ ng generate component hero-app --inline-style
 
 </code-example>
 
-### Style files in component metadata
+### 元件詮釋資料中的樣式檔案
 
-Load styles from external CSS files by adding a `styleUrls` property to a component's `@Component` decorator:
+透過在元件的 `@Component` 裝飾器中加入 `styleUrls` 屬性，從外部 CSS 檔案載入樣式：
 
 <code-tabs>
     <code-pane header="src/app/hero-app.component.ts (CSS in file)" path="component-styles/src/app/hero-app.component.1.ts"></code-pane>
@@ -200,18 +176,18 @@ Load styles from external CSS files by adding a `styleUrls` property to a compon
 
 <div class="alert is-critical">
 
-Reminder: the styles in the style file apply *only to this component*.
-They are *not inherited* by any components nested within the template nor by any content projected into the component.
+提醒：樣式檔中的樣式*只適用於這個元件*。
+它們*不會被*範本中巢狀的任何元件繼承，也不會被投影進元件的任何內容繼承。
 
 </div>
 
 <div class="alert is-helpful">
 
-You can specify more than one styles file or even a combination of `styles` and `styleUrls`.
+你可以指定多個樣式檔，甚至可以結合使用 `styles` 與 `styleUrls`。
 
 </div>
 
-When you use the Angular CLI command [`ng generate component`](cli/generate) without the `--inline-style` flag, it creates an empty styles file for you and references that file in the component's generated `styleUrls`.
+使用 Angular CLI 指令 [`ng generate component`](cli/generate) 且不加 `--inline-style` 旗標時，它會為你建立一個空的樣式檔案，並在元件產生的 `styleUrls` 中參照該檔案。
 
 <code-example format="shell" language="shell">
 
@@ -219,46 +195,45 @@ ng generate component hero-app
 
 </code-example>
 
-### Template inline styles
+### 範本內嵌樣式
 
-Embed CSS styles directly into the HTML template by putting them inside `<style>` tags.
+把 CSS 樣式放在 `<style>` 標籤內，直接嵌入 HTML 範本中。
 
 <code-example header="src/app/hero-controls.component.ts" path="component-styles/src/app/hero-controls.component.ts" region="inlinestyles"></code-example>
 
-### Template link tags
+### 範本連結標籤
 
-You can also write `<link>` tags into the component's HTML template.
+你也可以在元件的 HTML 範本中寫入 `<link>` 標籤。
 
 <code-example header="src/app/hero-team.component.ts" path="component-styles/src/app/hero-team.component.ts" region="stylelink"></code-example>
 
 <div class="alert is-critical">
 
-When building with the CLI, be sure to include the linked style file among the assets to be copied to the server as described in the [Assets configuration guide](guide/workspace-config#assets-configuration).
+使用 CLI 建置時，請務必把連結的樣式檔納入要複製到伺服器的資產中，詳見 [Assets configuration guide](guide/workspace-config#資產設定)。
 
-Once included, the CLI includes the stylesheet, whether the link tag's href URL is relative to the application root or the component file.
+納入之後，CLI 就會包含該樣式表，不論 link 標籤的 href URL 是相對於應用程式根目錄還是元件檔案。
 
 </div>
 
-### CSS @imports
+### CSS @import
 
-Import CSS files into the CSS files using the standard CSS `@import` rule.
-For details, see [`@import`](https://developer.mozilla.org/en/docs/Web/CSS/@import) on the [MDN](https://developer.mozilla.org) site.
+使用標準 CSS `@import` 規則，把 CSS 檔案匯入 CSS 檔案中。詳細資訊請參閱 [MDN](https://developer.mozilla.org) 網站上的 [`@import`](https://developer.mozilla.org/en/docs/Web/CSS/@import) 說明。
 
-In this case, the URL is relative to the CSS file into which you're importing.
+在這種情況下，URL 是相對於你要匯入的 CSS 檔案。
 
 <code-example header="src/app/hero-details.component.css (excerpt)" path="component-styles/src/app/hero-details.component.css" region="import"></code-example>
 
-### External and global style files
+### 外部與全域樣式檔案
 
-When building with the CLI, you must configure the `angular.json` to include *all external assets*, including external style files.
+使用 CLI 建置時，你必須設定 `angular.json`，納入*所有外部資產*，包括外部樣式檔案。
 
-Register **global** style files in the `styles` section which, by default, is pre-configured with the global `styles.css` file.
+在 `styles` 區段中註冊**全域**樣式檔案，該區段預設已預先設定好全域的 `styles.css` 檔案。
 
-See the [Styles configuration guide](guide/workspace-config#styles-and-scripts-configuration) to learn more.
+更多資訊請參閱[樣式設定指南](guide/workspace-config#樣式與指令碼設定)。
 
-### Non-CSS style files
+### 非 CSS 樣式檔案
 
-If you're building with the CLI, you can write style files in [sass](https://sass-lang.com), or [less](https://lesscss.org), and specify those files in the `@Component.styleUrls` metadata with the appropriate extensions \(`.scss`, `.less`\) as in the following example:
+如果你使用 CLI 建置，可以用 [sass](https://sass-lang.com) 或 [less](https://lesscss.org) 撰寫樣式檔案，並在 `@Component.styleUrls` 詮釋資料中以適當的副檔名（`.scss`、`.less`）指定這些檔案，如下列範例所示：
 
 <code-example format="typescript" language="typescript">
 
@@ -271,10 +246,9 @@ If you're building with the CLI, you can write style files in [sass](https://sas
 
 </code-example>
 
-The CLI build process runs the pertinent CSS preprocessor.
+CLI 建置流程會執行相關的 CSS 前處理器。
 
-When generating a component file with `ng generate component`, the CLI emits an empty CSS styles file \(`.css`\) by default.
-Configure the CLI to default to your preferred CSS preprocessor as explained in the [Workspace configuration guide](guide/workspace-config#generation-schematics).
+使用 `ng generate component` 產生元件檔案時，CLI 預設會發出一個空的 CSS 樣式檔案（`.css`）。請依[工作區設定指南](guide/workspace-config#產生原理圖)中的說明，設定 CLI 預設使用你偏好的 CSS 前處理器。
 
 <!-- links -->
 

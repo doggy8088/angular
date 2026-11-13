@@ -1,23 +1,22 @@
-# Update search keywords
+# 更新搜尋關鍵字
 
-You can help readers find the topics in the Angular documentation by adding keywords to a topic.
-Keywords help readers find topics by relating alternate terms and related concepts to a topic.
+你可以透過為主題加入關鍵字，協助讀者找到 Angular 文件中的主題。關鍵字能透過將替代詞彙與相關概念關聯到主題，協助讀者找到主題。
 
-In [angular.io](https://angular.io), readers search for content by using:
+在 [angular.io](https://angular.io) 中，讀者會透過以下方式搜尋內容：
 
-*   External search, such as by using [google.com](https://google.com)
-*   The search box at the top of each page
+*   外部搜尋，例如使用 [google.com](https://google.com)
+*   每個頁面頂端的搜尋框
 
-Each of these methods can be made more effective by adding relevant keywords to the topics.
+為主題加入相關的關鍵字，可以讓上述每種方法都更有效。
 
-## To update search keywords in a topic
+## 更新主題中的搜尋關鍵字
 
-Perform these steps in a browser.
+請在瀏覽器中執行以下步驟。
 
-1.  Navigate to the topic to which you want to add or update search keywords.
-1.  Decide what search keywords you'd like to add to the topic.<br />Keywords should be words that relate to the topic and are not found in the topic headings.
-1.  Open the topic's **Edit file** page to [make a minor change](guide/contributors-guide-overview#to-make-a-minor-change-to-a-documentation-topic).
-1.  Add or update the `@searchKeywords` tag at the end of the topic with your keywords. The `@searchKeywords` tag takes a set of single-word keywords that are separated by spaces. The tag and the keywords must be enclosed in curly brackets. A sample tag is shown here to add these keywords to a page: *route*, *router*, *routing*, and *navigation*.
+1.  前往你要加入或更新搜尋關鍵字的主題。
+1.  決定你要加入主題的搜尋關鍵字。<br />關鍵字應該是與主題相關，而且不會出現在主題標題中的詞彙。
+1.  開啟主題的 **Edit file** 頁面，以[進行小幅變更](guide/contributors-guide-overview#對文件主題進行小幅變更)。
+1.  在主題結尾加入或更新 `@searchKeywords` 標籤，填入你的關鍵字。`@searchKeywords` 標籤接受一組以空格分隔的單字關鍵字。標籤與關鍵字必須用大括號包起來。這裡顯示一個範例標籤，可為頁面加入以下關鍵字：*route*、*router*、*routing* 與 *navigation*。
 
     <code-example>
 
@@ -25,8 +24,8 @@ Perform these steps in a browser.
 
     </code-example>
 
-1.  [Update or add the `@reviewed` entry](guide/reviewing-content#update-the-last-reviewed-date) at the end of the topic's source code.
-1.  Propose your changes from as described in [make a minor change](guide/contributors-guide-overview#to-make-a-minor-change-to-a-documentation-topic).
+1.  [更新或加入 `@reviewed` 項目](guide/reviewing-content#更新上次檢閱日期)，放在主題原始碼的結尾。
+1.  如[進行小幅變更](guide/contributors-guide-overview#對文件主題進行小幅變更)所述，提出你的變更。
 
 <!-- links -->
 

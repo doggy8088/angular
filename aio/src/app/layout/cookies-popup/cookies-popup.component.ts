@@ -7,16 +7,16 @@ export const storageKey = 'aio-accepts-cookies';
   selector: 'aio-cookies-popup',
   template: `
     <div class="cookies-popup no-print" *ngIf="!hasAcceptedCookies">
-      <h2 class="visually-hidden">Cookies concent notice</h2>
+      <h2 class="visually-hidden">Cookie 同意通知</h2>
 
-      This site uses cookies from Google to deliver its services and to analyze traffic.
+      這個網站使用 Google 的 Cookie 來提供服務並分析流量。
 
       <div class="actions">
         <a mat-button href="https://policies.google.com/technologies/cookies" target="_blank" rel="noopener">
-          Learn more
+          瞭解詳情
         </a>
         <button mat-button (click)="acceptCookies()">
-          OK, got it
+          好，我知道了
         </button>
       </div>
     </div>

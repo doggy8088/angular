@@ -1,43 +1,43 @@
-# Dependency injection in Angular
+# Angular 中的依賴注入
 
-When you develop a smaller part of your system, like a module or a class, you may need to use features from other classes. For example, you may need an HTTP service to make backend calls. Dependency Injection, or DI, is a design pattern and mechanism for creating and delivering some parts of an application to other parts of an application that require them. Angular supports this design pattern and you can use it in your applications to increase flexibility and modularity. 
+當你開發系統中較小的部分（例如模組或類別）時，你可能需要使用其他類別的功能。例如，你可能需要一個 HTTP 服務來發出後端呼叫。依賴注入（Dependency Injection，簡稱 DI）是一種設計模式與機制，用於建立應用程式的某些部分，並把它們交付給需要它們的其他部分。Angular 支援這種設計模式，你可以在應用程式中使用它，以提升彈性與模組化程度。
 
-In Angular, dependencies are typically services, but they also can be values, such as strings or functions. An injector for an application (created automatically during bootstrap) instantiates dependencies when needed, using a configured provider of the service or value. 
+在 Angular 中，依賴通常是服務，但也可以是值，例如字串或函式。應用程式的注入器（在啟動期間自動建立）會在需要時，透過設定好的服務或值的提供者來實例化依賴。
 
 <div class="alert is-helpful">
 
-See the <live-example name="dependency-injection"></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example name="dependency-injection"></live-example>，查看包含本指南程式碼片段的完整範例。
 
 </div>
 
-## Prerequisites
+## 先備知識
 
-You should be familiar with the Angular apps in general, and have the fundamental knowledge of Components, Directives, and NgModules. It's highly recommended that you complete the following tutorial:
+你應該大致熟悉 Angular 應用程式，並具備元件、指令與 NgModule 的基礎知識。強烈建議你先完成下列教學：
 
-[Tour of Heroes application and tutorial](tutorial)
+[Tour of Heroes 應用程式與教學](tutorial)
 
-## Learn about Angular dependency injection
+## 了解 Angular 依賴注入
 
 <div class="card-container">
-  <a href="guide/dependency-injection" class="docs-card" title="Understanding dependency injection">
-    <section>Understanding dependency injection</section>
-    <p>Learn basic principles of dependency injection in Angular.</p>
-    <p class="card-footer">Understanding dependency injection</p>
+  <a href="guide/dependency-injection" class="docs-card" title="了解依賴注入">
+    <section>了解依賴注入</section>
+    <p>了解 Angular 中依賴注入的基本原則。</p>
+    <p class="card-footer">了解依賴注入</p>
   </a>
-  <a href="guide/creating-injectable-service" class="docs-card" title="Creating and injecting service">
-    <section>Creating and injecting service</section>
-    <p>Describes how to create a service and inject it in other services and components.</p>
-    <p class="card-footer">Creating an injectable service</p>
+  <a href="guide/creating-injectable-service" class="docs-card" title="建立可注入的服務">
+    <section>建立可注入的服務</section>
+    <p>說明如何建立服務並將其注入其他服務與元件。</p>
+    <p class="card-footer">建立可注入的服務</p>
   </a>
-  <a href="guide/dependency-injection-providers" class="docs-card" title="Configuring dependency providers">
-    <section>Configuring dependency providers</section>
-    <p>Describes how to configure dependencies using the providers field on the @Component and @NgModule decorators. Also describes how to use InjectionToken to provide and inject values in DI, which can be helpful when you want to use a value other than classes as dependencies.</p>
-    <p class="card-footer">Configuring dependency providers</p>
+  <a href="guide/dependency-injection-providers" class="docs-card" title="設定依賴提供者">
+    <section>設定依賴提供者</section>
+    <p>說明如何使用 @Component 與 @NgModule 裝飾器上的 providers 欄位來設定依賴。也說明如何使用 InjectionToken 在 DI 中提供與注入值，當你想使用類別以外的數值作為依賴時，這會很有幫助。</p>
+    <p class="card-footer">設定依賴提供者</p>
   </a>
-  <a href="guide/hierarchical-dependency-injection" class="docs-card" title="Hierarchical injectors">
-    <section>Hierarchical injectors</section>
-    <p>Hierarchical DI enables you to share dependencies between different parts of the application only when and if you need to. This is an advanced topic.</p>
-    <p class="card-footer">Hierarchical injectors</p>
+  <a href="guide/hierarchical-dependency-injection" class="docs-card" title="階層式注入器">
+    <section>階層式注入器</section>
+    <p>階層式 DI 讓你只在需要時，才在應用程式的不同部分之間共用依賴。這是進階主題。</p>
+    <p class="card-footer">階層式注入器</p>
   </a>
 </div>
 

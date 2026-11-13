@@ -1,74 +1,73 @@
-# Understanding templates
+# 了解範本
 
-In Angular, a template is a blueprint for a fragment of a user interface (UI).  Templates are written in HTML, and special syntax can be used within a template to build on many of Angular's features.
+在 Angular 中，範本是使用者介面（UI）片段的藍圖。範本以 HTML 撰寫，範本內可以使用特殊語法，來運用 Angular 的許多功能。
 
-## Prerequisites
+## 先備知識
 
-Before learning template syntax, you should be familiar with the following:
+在學習範本語法之前，你應該先熟悉以下內容：
 
-* [Angular concepts](guide/architecture)
+* [Angular 概念](guide/architecture)
 * JavaScript
 * HTML
 * CSS
 
-## Enhancing HTML
+## 強化 HTML
 
-Angular extends the HTML syntax in your templates with additional functionality.  
-For example, Angular’s data binding syntax helps to set Document Object Model (DOM) properties dynamically.
+Angular 以額外的功能擴充了你範本中的 HTML 語法。例如，Angular 的資料繫結語法有助於動態設定文件物件模型（DOM）屬性。
 
-Almost all HTML syntax is valid template syntax.  However, because an Angular template is only a fragment of the UI, it does not include elements such as `<html>`, `<body>`, or `<base>`.
+幾乎所有的 HTML 語法都是有效的範本語法。不過，由於 Angular 範本只是 UI 的片段，因此不包含 `<html>`、`<body>` 或 `<base>` 這類元素。
 
 <div class="alert is-important">
 
-To eliminate the risk of script injection attacks, Angular does not support the `<script>` element in templates.  Angular ignores the `<script>` tag and outputs a warning to the browser console.
-For more information, see the [Security](guide/security) page.
+為了消除指令碼注入攻擊的風險，Angular 不支援在範本中使用 `<script>` 元素。Angular 會忽略 `<script>` 標籤，並在瀏覽器主控台輸出警告。
+如需更多資訊，請參閱[安全性](guide/security)頁面。
 
 </div>
 
-## More on template syntax
+## 範本語法更多資訊
 
-You might also be interested in the following:
+你可能也會對以下內容有興趣：
 
 <div class="card-container">
-    <a href="guide/interpolation" class="docs-card" title="Interpolation">
-        <section>Interpolation</section>
-        <p>Learn how to use interpolation and expressions in HTML.</p>
-        <p class="card-footer">Interpolation</p>
+    <a href="guide/interpolation" class="docs-card" title="插值">
+        <section>插值</section>
+        <p>了解如何在 HTML 中使用插值與運算式。</p>
+        <p class="card-footer">插值</p>
     </a>
-    <a href="guide/property-binding" class="docs-card" title="Property binding">
-        <section>Property binding</section>
-        <p>Set properties of target elements or directive @Input() decorators.</p>
-        <p class="card-footer">Property binding</p>
+    <a href="guide/property-binding" class="docs-card" title="屬性繫結">
+        <section>屬性繫結</section>
+        <p>設定目標元素或指令 @Input() 裝飾器的屬性。</p>
+        <p class="card-footer">屬性繫結</p>
     </a>
-    <a href="guide/attribute-binding" class="docs-card" title="Attribute binding">
-        <section>Attribute binding</section>
-        <p>Set the value of attributes.</p>
-        <p class="card-footer">Attribute binding</p>
+    <a href="guide/attribute-binding" class="docs-card" title="attribute 繫結">
+        <section>attribute 繫結</section>
+        <p>設定 attribute 的值。</p>
+        <p class="card-footer">attribute 繫結</p>
     </a>
-    <a href="guide/class-binding" class="docs-card" title="Class and style binding">
-        <section>Class and style binding</section>
-        <p>Set the value of class and style.</p>
-        <p class="card-footer">Class and style binding</p>
+    <a href="guide/class-binding" class="docs-card" title="類別與樣式繫結">
+        <section>類別與樣式繫結</section>
+        <p>設定類別與樣式的值。</p>
+        <p class="card-footer">類別與樣式繫結</p>
     </a>
-    <a href="guide/event-binding" class="docs-card" title="Event binding">
-        <section>Event binding</section>
-        <p>Listen for events and your HTML.</p>
-        <p class="card-footer">Event binding</p>
+    <a href="guide/event-binding" class="docs-card" title="事件繫結">
+        <section>事件繫結</section>
+        <p>監聽 HTML 中的事件。</p>
+        <p class="card-footer">事件繫結</p>
     </a>
-    <a href="guide/template-reference-variables" class="docs-card" title="Template reference variables">
-        <section>Template reference variables</section>
-        <p>Use special variables to reference a DOM element within a template.</p>
-        <p class="card-footer">Template reference variables</p>
+    <a href="guide/template-reference-variables" class="docs-card" title="範本參考變數">
+        <section>範本參考變數</section>
+        <p>使用特殊變數，在範本內參照 DOM 元素。</p>
+        <p class="card-footer">範本參考變數</p>
     </a>
-    <a href="guide/built-in-directives" class="docs-card" title="Built-in directives">
-        <section>Built-in directives</section>
-        <p>Listen to and modify the behavior and layout of HTML.</p>
-        <p class="card-footer">Built-in directives</p>
+    <a href="guide/built-in-directives" class="docs-card" title="內建指令">
+        <section>內建指令</section>
+        <p>監聽並修改 HTML 的行為與版面配置。</p>
+        <p class="card-footer">內建指令</p>
     </a>
-    <a href="guide/inputs-outputs" class="docs-card" title="Inputs and Outputs">
-        <section>Inputs and Outputs</section>
-        <p>Share data between the parent context and child directives or components.</p>
-        <p class="card-footer">Inputs and Outputs</p>
+    <a href="guide/inputs-outputs" class="docs-card" title="輸入與輸出">
+        <section>輸入與輸出</section>
+        <p>在父層上下文與子指令或元件之間共享資料。</p>
+        <p class="card-footer">輸入與輸出</p>
     </a>
 </div>
 

@@ -1,36 +1,36 @@
-# Usage Metrics Gathering
+# 收集使用指標
 
-You can help the Angular Team to prioritize features and improvements by permitting the Angular team to send command-line command usage statistics to Google.
-The Angular Team does not collect usage statistics unless you explicitly opt in during the Angular CLI installation or upgrade.
+你可以允許 Angular 團隊將命令列命令的使用統計資料傳送給 Google，協助 Angular 團隊排定功能與改進的優先順序。
+除非你在安裝或升級 Angular CLI 時明確選擇加入，否則 Angular 團隊不會收集使用統計資料。
 
-## What is collected?
+## 收集哪些內容？
 
-Usage analytics include the commands and selected flags for each execution.
-Usage analytics may include the following information:
+使用分析包括每次執行所用的命令與選定的旗標。
+使用分析可能包括下列資訊：
 
-*   Your operating system \(macOS, Linux distribution, Windows\) and its version.
-*   Number of CPUs, amount of RAM.
-*   Node and Angular CLI version \(local version only\).
-*   How long each command took to initialize and execute.
-*   Command name that was run.
-*   For Schematics commands \(add, generate and new\), the schematic collection and name and a list of selected flags.
-*   For build commands \(build, serve\), the builder name, the number and size of bundles \(initial and lazy\), compilation units, the time it took to build and rebuild, and basic Angular-specific API usage.
-*   Error code of exceptions and crash data. No stack trace is collected.
+*   你的作業系統 \(macOS、Linux 發行版、Windows\) 及其版本。
+*   CPU 數量、RAM 總量。
+*   Node 與 Angular CLI 版本 \(僅本機版本\)。
+*   每個命令初始化與執行所花的時間。
+*   所執行的命令名稱。
+*   對於 Schematics 命令 \(add、generate 與 new\)，包括 schematic 集合與名稱，以及選定的旗標清單。
+*   對於建置命令 \(build、serve\)，包括建置器名稱、bundle 的數量與大小 \(初始與延遲載入\)、編譯單元、建置與重新建置所花的時間，以及基本的 Angular 專屬 API 使用情況。
+*   例外狀況的錯誤碼與當機資料。不會收集堆疊追蹤。
 
-Only Angular owned and developed schematics and builders are reported.
-Third-party schematics and builders do not send data to the Angular Team.
+只有 Angular 擁有與開發的 schematics 與建置器會回報。
+第三方 schematics 與建置器不會將資料傳送給 Angular 團隊。
 
-## Opting in
+## 選擇加入
 
-When installing the Angular CLI or upgrading an existing version, you are prompted to allow global collection of usage statistics.
-If you say no or skip the prompt, no data is collected.
+安裝 Angular CLI 或升級現有版本時，系統會提示你是否允許全域收集使用統計資料。
+如果你說不或略過提示，就不會收集任何資料。
 
-Starting with version 8, we added the `analytics` command to the CLI.
-You can change your opt-in decision at any time using this command.
+從第 8 版開始，我們在 CLI 中加入了 `analytics` 命令。
+你可以隨時使用這個命令變更你的選擇加入決定。
 
-### Disabling usage analytics
+### 停用使用分析
 
-To disable analytics gathering, run the following command:
+若要停用分析收集，請執行下列命令：
 
 <code-example format="shell" language="shell">
 
@@ -39,9 +39,9 @@ ng analytics disable
 
 </code-example>
 
-### Enabling usage analytics
+### 啟用使用分析
 
-To enable usage analytics, run the following command:
+若要啟用使用分析，請執行下列命令：
 
 <code-example format="shell" language="shell">
 
@@ -50,9 +50,9 @@ ng analytics enable
 
 </code-example>
 
-### Prompting
+### 再次提示
 
-To prompt the user again about usage analytics, run the following command:
+若要再次向使用者提示使用分析，請執行下列命令：
 
 <code-example format="shell" language="shell">
 

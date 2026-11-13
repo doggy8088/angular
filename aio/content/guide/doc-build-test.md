@@ -1,24 +1,24 @@
-# Build and test a documentation update
+# 建置並測試文件更新
 
 <!-- markdownLint-disable MD001 -->
 <!-- markdownLint-disable MD033 -->
 
-After you have completed your documentation update, you want to run the documentation's end-to-end tests on your local computer. These tests are some of the tests that are run after you open a pull request. You can find end-to-end test failures faster when you run them on your local computer than after you open a pull request.
+完成文件更新後，你會想要在本地電腦上執行文件的端對端測試。這些測試是開啟 pull request 後所執行的部分測試。在本地電腦上執行這些測試，比開啟 pull request 後才執行，能更快發現端對端測試的失敗。
 
-## Build the documentation on your local computer
+## 在本地電腦上建置文件
 
-Before you test your updated documentation, you want to build it to make sure you test your latest changes.
+在測試更新後的文件之前，你會想要先建置它，以確保測試的是最新的變更。
 
-#### To build the documentation on your local computer
+#### 在本地電腦上建置文件
 
 <!-- vale Angular.Google_WordListSuggestions = NO -->
 
-Perform these steps from a command-line tool on your local computer or in the **terminal** pane of your IDE.
+請在本地電腦的命令列工具或 IDE 的 **terminal** 窗格中執行下列步驟。
 
 <!-- vale Angular.Google_WordListSuggestions = YES -->
 
-1. Navigate to your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
-2. From your working directory, run this command to navigate to the `aio` directory. The `aio` directory contains Angular's documentation files and tools.
+1. 前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)。
+2. 在你的工作目錄中，執行這個指令以前往 `aio` 目錄。`aio` 目錄包含 Angular 的文件檔案與工具。
 
     <code-example language="shell">
 
@@ -26,7 +26,7 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-3. Run this command to build the documentation locally.
+3. 執行這個指令以在本機建置文件。
 
     <code-example language="shell">
 
@@ -34,19 +34,19 @@ Perform these steps from a command-line tool on your local computer or in the **
 
     </code-example>
 
-    This builds the documentation from scratch.
+這會從頭開始建置文件。
 
-After you build the documentation on your local computer, you can run the angular.io end-to-end test.
+在本地電腦上建置文件後，你可以執行 angular.io 端對端測試。
 
-## Run the angular.io end-to-end test on your local computer
+## 在本地電腦上執行 angular.io 端對端測試
 
-This procedure runs most, but not all, of the tests that are run after you open a pull request.
+這個程序會執行開啟 pull request 後所執行的大部分測試，但並非全部。
 
-#### To run the angular.io end-to-end test on your local computer
+#### 在本地電腦上執行 angular.io 端對端測試
 
-On your local computer, in a command line tool or the **Terminal** pane of your IDE:
+在你的本地電腦上，於命令列工具或 IDE 的 **Terminal** 窗格中執行下列操作：
 
-1.  Run this command from your [workspace](guide/doc-prepare-to-edit#create-a-git-workspace-on-your-local-computer) directory to navigate to your [working directory](guide/doc-prepare-to-edit#doc-working-directory).
+1.  從你的[工作區](guide/doc-prepare-to-edit#在本地電腦上建立-git-工作區)目錄執行這個指令，以前往你的[工作目錄](guide/doc-prepare-to-edit#doc-working-directory)。
 
     <code-example format="shell" language="shell">
 
@@ -54,7 +54,7 @@ On your local computer, in a command line tool or the **Terminal** pane of your 
 
     </code-example>
 
-1.  Replace `working-branch` with the name of your `working` branch and run this command to check out your `working` branch.
+1.  將 `working-branch` 替換為你的 `working` 分支名稱，並執行這個指令以簽出你的 `working` 分支。
 
     <code-example format="shell" language="shell">
 
@@ -62,7 +62,7 @@ On your local computer, in a command line tool or the **Terminal** pane of your 
 
     </code-example>
 
-1.  Run this command to navigate to the documentation.
+1.  執行這個指令以前往文件。
 
     <code-example format="shell" language="shell">
 
@@ -70,7 +70,7 @@ On your local computer, in a command line tool or the **Terminal** pane of your 
 
     </code-example>
 
-1.  Run this command to start the end-to-end tests.
+1.  執行這個指令以啟動端對端測試。
 
     <code-example format="shell" language="shell">
 
@@ -78,21 +78,17 @@ On your local computer, in a command line tool or the **Terminal** pane of your 
 
     </code-example>
 
-1.  Watch for errors that the test might report.
+1.  留意測試可能回報的錯誤。
 
-## No errors reported
+## 未回報錯誤
 
-If the end-to-end tests report no errors and your update has passed [all other reviews](guide/doc-editing#test-your-documentation) required,
-your documentation update is ready for a pull request.
+如果端對端測試未回報錯誤，且你的更新已通過[所有其他檢閱](guide/doc-editing#測試你的文件)，你的文件更新就可以提交 pull request 了。
 
-After you open your pull request, GitHub tests the code in your pull request.
-The tests that GitHub runs include the end-to-end tests that you just ran and other tests that only run in the GitHub repo.
-Because of that, even though your update passed the end-to-end tests locally, your update could still report an error after you open a pull request.
+開啟 pull request 後，GitHub 會測試 pull request 中的程式碼。GitHub 執行的測試包括你剛才執行的端對端測試，以及只在 GitHub 儲存庫中執行的其他測試。因此，即使你的更新在本地端通過了端對端測試，開啟 pull request 後仍可能回報錯誤。
 
-## Errors reported
+## 回報錯誤
 
-If the end-to-end tests report an error on your local computer, be sure to correct it before you open a pull request.
-If the update fails the end-to-end test locally, it is likely to also fail the tests that run after you open a pull request.
+如果端對端測試在你的本地電腦上回報錯誤，請務必在開啟 pull request 之前修正它。如果更新在本地端未通過端對端測試，開啟 pull request 後所執行的測試也很可能失敗。
 
 <!-- links -->
 
