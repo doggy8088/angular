@@ -60,6 +60,7 @@
 | `warnings`            | 控制 Angular CLI 特有的主控台警告。                                                          | [警告選項](#警告選項)                        |
 
 
+<a id="cache-options"></a>
 ### 快取選項
 
 | 屬性          | 詳細資訊                               | 值類型                           | 預設值           |
