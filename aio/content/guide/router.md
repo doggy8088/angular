@@ -1393,6 +1393,7 @@ ng generate module my-module --routing
 
 {@a snapshot}
 
+<a id="snapshot無-observable-的替代方案"></a>
 #### `snapshot`：無 observable 的替代方案
 
 這個應用程式不會重複使用 `HeroDetailComponent`。
@@ -2996,6 +2997,7 @@ Angular 提供了一個內建的模組載入器，支援 SystemJS 以非同步�
 
 {@a preloading}
 
+<a id="預先載入在背景載入功能區"></a>
 ### 預先載入：在背景載入功能區
 
 除了隨選載入模組之外，你也可以使用預先載入來非同步載入模組。

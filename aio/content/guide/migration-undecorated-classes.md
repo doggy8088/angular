@@ -158,6 +158,7 @@ class Dir extends Base {
    一律要求類別裝飾器，能讓框架對所有使用者都更小、更簡單。
 
 
+<a id="directive-裝飾器裡面沒有任何中繼資料是什麼意思"></a>
 ## `@Directive()` 裝飾器裡面沒有任何中繼資料是什麼意思？
 
 `@Directive` 裝飾器的存在會促使 Angular 為受影響的類別產生額外的程式碼。

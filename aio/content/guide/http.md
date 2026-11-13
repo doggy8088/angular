@@ -966,6 +966,7 @@ RxJS 的 `finalize` 運算子會在回應 observable 拋出錯誤或完成（它
 
 </div>
 
+<a id="安全性xsrf-防護"></a>
 ## 安全性：XSRF 防護
 
 [跨站請求偽造（XSRF 或 CSRF）](https://en.wikipedia.org/wiki/Cross-site_request_forgery)是一種攻擊技術，攻擊者可以藉此誘騙已驗證的使用者在不知情的情況下在你的網站上執行操作。

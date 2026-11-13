@@ -806,6 +806,7 @@ HTML 會原樣顯示，Javascript 不會執行。Angular **不**
 
 若要在運作中的應用程式中查看屬性、類別與樣式繫結，請參閱 <live-example name="attribute-binding"></live-example>，尤其是本節。
 
+<a id="屬性繫結attribute-binding"></a>
 ### 屬性繫結（attribute binding）
 
 使用**屬性繫結（attribute binding）**直接設定屬性的值。這是「繫結設定的是目標屬性」這條規則的唯一例外，也是唯一會建立並設定屬性的繫結。
