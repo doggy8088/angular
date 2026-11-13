@@ -210,7 +210,7 @@ Angular 內建支援，協助防止兩種常見的 HTTP 弱點：跨站請求偽
 
 這項技術之所以有效，是因為所有瀏覽器都實作了 _同源政策_。只有設定 cookie 的網站的程式碼，才能讀取該網站的 cookie，並對發往該網站的請求設定自訂標頭。這表示只有你的應用程式能讀取這個 cookie 權杖並設定自訂標頭。`evil.com` 上的惡意程式碼做不到。
 
-Angular 的 `HttpClient` 內建支援這種技術的用戶端部分。如需了解更多資訊，請參閱 [HttpClient 指南](/guide/http#安全性xsrf-防護)。
+Angular 的 `HttpClient` 內建支援這種技術的用戶端部分。如需了解更多資訊，請參閱 [HttpClient 指南](/guide/http#安全性：xsrf-防護)。
 
 關於 Open Web Application Security Project (OWASP) 的 CSRF 資訊，請參閱 [Cross-Site Request Forgery (CSRF)](https://owasp.org/www-community/attacks/csrf) 與 [Cross-Site Request Forgery (CSRF) Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)。史丹佛大學的論文 [Robust Defenses for Cross-Site Request Forgery](https://seclab.stanford.edu/websec/csrf/csrf.pdf) 提供了豐富的細節。
 

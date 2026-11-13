@@ -1,6 +1,6 @@
 # 工作區與專案檔案結構
 
-你要在 Angular [工作區](guide/glossary#工作區workspace)的脈絡下開發應用程式。一個工作區包含一或多個[專案](guide/glossary#專案project)的檔案。一個專案就是組成一個獨立應用程式或一個可共用函式庫的檔案集合。
+你要在 Angular [工作區](guide/glossary#工作區（workspace）)的脈絡下開發應用程式。一個工作區包含一或多個[專案](guide/glossary#專案（project）)的檔案。一個專案就是組成一個獨立應用程式或一個可共用函式庫的檔案集合。
 
 Angular CLI 的 `ng new` 指令會建立一個工作區。
 
@@ -14,7 +14,7 @@ ng new &lt;my-project&gt;
 
 這種預設行為適合典型的「多儲存庫」開發風格，也就是每個應用程式都位於各自的工作區中。建議初學者與中階使用者使用 `ng new`，為每個應用程式建立個別的工作區。
 
-Angular 也支援包含[多個專案](#multiple-projects)的工作區。這種開發環境適合正在開發[可共用函式庫](guide/glossary#程式庫library)的進階使用者，也適合採用「monorepo」開發風格的企業：以單一儲存庫與全域組態管理所有的 Angular 專案。
+Angular 也支援包含[多個專案](#multiple-projects)的工作區。這種開發環境適合正在開發[可共用函式庫](guide/glossary#程式庫（library）)的進階使用者，也適合採用「monorepo」開發風格的企業：以單一儲存庫與全域組態管理所有的 Angular 專案。
 
 若要設定單一儲存庫工作區，你應該略過建立根應用程式。請參閱下方的[為多專案工作區進行設定](#multiple-projects)。
 
@@ -78,7 +78,7 @@ Angular 也支援包含[多個專案](#multiple-projects)的工作區。這種�
 
 | `src/app/` 檔案 | 用途 |
 | :-------------------------- | :------------------------------------------|
-| `app/app.component.ts`      | 為應用程式的根元件（名為 `AppComponent`）定義邏輯。隨著你為應用程式加入元件與服務，與這個根元件關聯的 view 會成為[view 階層](guide/glossary#檢視階層view-hierarchy)的根。 |
+| `app/app.component.ts`      | 為應用程式的根元件（名為 `AppComponent`）定義邏輯。隨著你為應用程式加入元件與服務，與這個根元件關聯的 view 會成為[view 階層](guide/glossary#檢視階層（view-hierarchy）)的根。 |
 | `app/app.component.html`    | 定義與根 `AppComponent` 關聯的 HTML 範本。 |
 | `app/app.component.css`     | 為根 `AppComponent` 定義基礎 CSS 樣式表。 |
 | `app/app.component.spec.ts` | 為根 `AppComponent` 定義單元測試。 |

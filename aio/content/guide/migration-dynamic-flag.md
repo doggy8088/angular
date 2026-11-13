@@ -35,7 +35,7 @@
 就功能而言，這項程式碼變更應該是無操作（noop）。
 
 在第 9 版之前，Angular 會根據範本的寫法，自動判斷查詢是靜態還是動態。
-然而，這種檢視範本的方式會造成有缺陷且出人意料的行為（更多資訊請見[靜態查詢遷移指南](guide/static-query-migration#這個旗標是什麼意思為什麼需要它)）。
+然而，這種檢視範本的方式會造成有缺陷且出人意料的行為（更多資訊請見[靜態查詢遷移指南](guide/static-query-migration#這個旗標是什麼意思？為什麼需要它？)）。
 到了第 9 版，Angular 預設使用動態查詢（`static: false`），讓查詢更簡單。
 必要時，開發者仍可明確將查詢設為 `static: true`。
 
@@ -55,9 +55,9 @@
 
 更多資訊請見[靜態查詢遷移指南](guide/static-query-migration)的下列條目：
 
-* [我該如何選擇 `static` 旗標的值：`true` 或 `false`？](guide/static-query-migration#我該如何選擇-static-旗標的值true-或-false)
+* [我該如何選擇 `static` 旗標的值：`true` 或 `false`？](guide/static-query-migration#我該如何選擇-static-旗標的值：true-或-false？)
 
-* [有沒有什麼情況下我應該使用 `{static: true}`？](guide/static-query-migration#有沒有什麼情況下我應該使用-static-true)
+* [有沒有什麼情況下我應該使用 `{static: true}`？](guide/static-query-migration#有沒有什麼情況下我應該使用-static-true？)
 
 </div>
 

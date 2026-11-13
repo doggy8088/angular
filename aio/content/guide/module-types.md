@@ -5,8 +5,8 @@
 你可能想為其他目的建立 NgModule，或結合其中某些類別的特性。
 
 NgModule 是組織應用程式的絕佳方式，可以讓與特定功能或特性相關的程式碼與其他程式碼分開。
-使用 NgModule 將[元件](guide/glossary#元件component "Definition of component")、[指令](guide/glossary#指令directive "Definition of directive")與[管道](guide/glossary#管道pipe "Definition of pipe")整合成具有凝聚力的功能區塊。
-每個區塊專注於一項功能或業務領域、工作流程或導覽流程、一組常用工具程式，或一或多個[服務](guide/glossary#服務service "Definition of service")的[提供者](guide/glossary#提供者provider "Definition of provider")。
+使用 NgModule 將[元件](guide/glossary#元件（component） "Definition of component")、[指令](guide/glossary#指令（directive） "Definition of directive")與[管道](guide/glossary#管道（pipe） "Definition of pipe")整合成具有凝聚力的功能區塊。
+每個區塊專注於一項功能或業務領域、工作流程或導覽流程、一組常用工具程式，或一或多個[服務](guide/glossary#服務（service） "Definition of service")的[提供者](guide/glossary#提供者（provider） "Definition of provider")。
 
 更多關於 NgModule 的資訊，請參閱[使用 NgModule 組織你的應用程式](guide/ngmodules "Organizing your app with NgModules")。
 
@@ -24,7 +24,7 @@ NgModule 是組織應用程式的絕佳方式，可以讓與特定功能或特�
 本主題針對下列 NgModule 的一般類別提供一些指導原則：
 
 * [Domain](#domain)：領域 NgModule 圍繞一項功能、業務領域或使用者體驗來組織。
-* [Routed](#routed)：NgModule 的頂層元件作為[路由器](guide/glossary#路由器router "Definition of router")導覽路由的目的地。
+* [Routed](#routed)：NgModule 的頂層元件作為[路由器](guide/glossary#路由器（router） "Definition of router")導覽路由的目的地。
 * [Routing](#routing)：路由 NgModule 為另一個 NgModule 提供路由設定。
 * [Service](#service)：服務 NgModule 提供資料存取與訊息傳遞等公用服務。
 * [Widget](#widget)：小工具 NgModule 讓元件、指令或管道可供其他 NgModule 使用。

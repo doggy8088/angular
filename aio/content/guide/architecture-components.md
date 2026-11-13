@@ -1,6 +1,6 @@
 # 元件與範本簡介
 
-*元件* 控制螢幕上稱為 [*檢視*](guide/glossary#檢視view "檢視的定義") 的一塊區域。
+*元件* 控制螢幕上稱為 [*檢視*](guide/glossary#檢視（view） "檢視的定義") 的一塊區域。
 例如，個別元件定義並控制 [英雄之旅教學](tutorial) 中的以下各個檢視：
 
 * 具有導覽連結的應用程式根目錄。
@@ -39,7 +39,7 @@
 
 * `templateUrl`：此元件 HTML 範本的模組相對位址。或者，你也可以以行內方式提供 HTML 範本，作為 `template` 屬性的值。此範本定義元件的 *宿主檢視*。
 
-* `providers`：元件所需服務的 [提供者](guide/glossary#提供者provider) 陣列。在此範例中，這告訴 Angular 如何提供元件建構函式用來取得要顯示的英雄清單的 `HeroService` 執行個體。
+* `providers`：元件所需服務的 [提供者](guide/glossary#提供者（provider）) 陣列。在此範例中，這告訴 Angular 如何提供元件建構函式用來取得要顯示的英雄清單的 `HeroService` 執行個體。
 
 
 ## 範本與檢視

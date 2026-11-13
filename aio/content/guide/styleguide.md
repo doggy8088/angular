@@ -830,7 +830,7 @@
 <div class="s-rule do">
 
 **Do** 為所有管道使用一致的名稱，以其功能命名。
-管道類別名稱應使用 [UpperCamelCase](guide/glossary#大小寫慣例case-types)（類別名稱的一般慣例），對應的 `name` 字串則應使用 *lowerCamelCase*。
+管道類別名稱應使用 [UpperCamelCase](guide/glossary#大小寫慣例（case-types）)（類別名稱的一般慣例），對應的 `name` 字串則應使用 *lowerCamelCase*。
 `name` 字串不能使用連字號（「dash-case」或「kebab-case」）。
 
 </div>

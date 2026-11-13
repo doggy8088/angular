@@ -1,6 +1,6 @@
 # Angular 工作區設定
 
-位於 Angular [工作區](guide/glossary#工作區workspace)根層級、名為 `angular.json` 的檔案，為 Angular CLI 提供的建置與開發工具提供整個工作區與專案專屬的設定預設值。設定中給定的路徑值是相對於根工作區資料夾。
+位於 Angular [工作區](guide/glossary#工作區（workspace）)根層級、名為 `angular.json` 的檔案，為 Angular CLI 提供的建置與開發工具提供整個工作區與專案專屬的設定預設值。設定中給定的路徑值是相對於根工作區資料夾。
 
 ## 整體 JSON 結構
 
@@ -11,7 +11,7 @@
 * `version`：設定檔版本。
 * `newProjectRoot`：建立新專案的路徑。絕對路徑，或相對於工作區資料夾的路徑。
 * `defaultProject`：在未以引數提供時，指令要使用的預設專案名稱。當你使用 `ng new` 在新工作區中建立新應用程式時，該應用程式就是該工作區的預設專案，直到你在此變更它為止。
-* `schematics`：一組自訂此工作區 `ng generate` 子指令選項預設值的[原理圖](guide/glossary#原理圖schematic)。請參閱下方的[產生原理圖](#schematics)。
+* `schematics`：一組自訂此工作區 `ng generate` 子指令選項預設值的[原理圖](guide/glossary#原理圖（schematic）)。請參閱下方的[產生原理圖](#schematics)。
 * `projects`：包含工作區中每個專案（程式庫或應用程式）的子區段，以及各專案的設定選項。
 
 你以 `ng new app_name` 建立的初始應用程式會列在「projects」之下：
@@ -76,7 +76,7 @@
 
 ## 產生原理圖
 
-Angular 產生[原理圖](guide/glossary#原理圖schematic)是透過新增檔案或修改既有檔案來修改專案的指示。
+Angular 產生[原理圖](guide/glossary#原理圖（schematic）)是透過新增檔案或修改既有檔案來修改專案的指示。
 Angular CLI 預設 `ng generate` 子指令的個別原理圖彙集在 `@schematics/angular` 套件中。
 以 `schematic-package:schematic-name` 的格式指定子指令的原理圖名稱；
 例如，產生元件的原理圖是 `@schematics/angular:component`。
@@ -92,7 +92,7 @@ CLI 用來產生專案與專案各部分的預設原理圖，其 JSON 結構定�
 ## 專案工具設定選項
 
 Architect 是 CLI 用來執行複雜工作（例如編譯與執行測試）的工具。
-Architect 是一個殼層，會根據[目標](guide/glossary#目標target)設定，執行指定的[建置器](guide/glossary#建置器builder)來執行特定工作。
+Architect 是一個殼層，會根據[目標](guide/glossary#目標（target）)設定，執行指定的[建置器](guide/glossary#建置器（builder）)來執行特定工作。
 你可以定義與設定新的建置器與目標，以擴充 CLI。
 請參閱 [Angular CLI 建置器](guide/cli-builder)。
 
@@ -406,6 +406,7 @@ Angular 為特定的 CLI 指令或一般 `ng run` 指令定義了預設建置器
 </tbody>
 </table>
 
+<a id="styles-optimization-options"></a>
 #### 樣式最佳化選項
 <table class="is-full-width is-fixed-layout">
 <thead>

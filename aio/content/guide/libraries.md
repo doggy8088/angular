@@ -4,7 +4,7 @@
 開發者可以針對特定領域建立一般性的解決方案，調整後在不同的應用程式中重複使用。
 這樣的解決方案可以建置成 Angular *程式庫*，這些程式庫也能發行並以 *npm 套件*的形式分享。
 
-Angular 程式庫是一種 Angular [專案](guide/glossary#專案project)，它與應用程式的差別在於無法自行執行。
+Angular 程式庫是一種 Angular [專案](guide/glossary#專案（project）)，它與應用程式的差別在於無法自行執行。
 程式庫必須被匯入應用程式中才能使用。
 
 程式庫能擴充 Angular 的基礎功能。例如，若要為應用程式加入[反應式表單](guide/reactive-forms)，可以使用 `ng add @angular/forms` 加入程式庫套件，再在應用程式程式碼中從 `@angular/forms` 程式庫匯入 `ReactiveFormsModule`。

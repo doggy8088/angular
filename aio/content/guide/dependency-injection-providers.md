@@ -2,7 +2,7 @@
 
 透過設定提供者，你可以讓服務提供給應用程式中需要它們的部分使用。
 
-依賴[提供者](guide/glossary#提供者provider)會以 [DI token](guide/glossary#di-token) 設定注入器，注入器再用它來提供依賴值的執行階段版本。
+依賴[提供者](guide/glossary#提供者（provider）)會以 [DI token](guide/glossary#di-token) 設定注入器，注入器再用它來提供依賴值的執行階段版本。
 
 ## 指定提供者 token
 
@@ -24,7 +24,7 @@
 
 ## 依賴注入 token
 
-當你以[提供者](guide/glossary#提供者provider)設定[注入器](guide/glossary#注入器injector)時，你就是將該提供者與[依賴注入 token](guide/glossary#di-token)（即 DI token）建立關聯。
+當你以[提供者](guide/glossary#提供者（provider）)設定[注入器](guide/glossary#注入器（injector）)時，你就是將該提供者與[依賴注入 token](guide/glossary#di-token)（即 DI token）建立關聯。
 注入器讓 Angular 建立所有內部依賴的對應表。
 DI token 充當該對應表的鍵。
 

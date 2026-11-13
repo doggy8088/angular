@@ -8,7 +8,7 @@
 
 你可以為專案定義不同的具名建置設定，例如 *stage* 與 *production*，各自帶有不同的預設值。
 
-每個具名設定都可以為適用於各種[建置器目標](guide/glossary#目標target)的任一選項提供預設值，例如 `build`、`serve` 與 `test`。[Angular CLI](cli) 的 `build`、`serve` 與 `test` 指令就能針對你預定的目標環境，將檔案換成適當的版本。
+每個具名設定都可以為適用於各種[建置器目標](guide/glossary#目標（target）)的任一選項提供預設值，例如 `build`、`serve` 與 `test`。[Angular CLI](cli) 的 `build`、`serve` 與 `test` 指令就能針對你預定的目標環境，將檔案換成適當的版本。
 
 ### 設定環境專屬的預設值
 

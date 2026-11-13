@@ -424,6 +424,7 @@ AngularJS 將擁有應用程式的根範本。
 一如往常地運作，*而且*你已經準備好開始加入 Angular 程式碼。
 
 
+<a id="using-angular-components-from-angularjs-code"></a>
 ### 從 AngularJS 程式碼使用 Angular 元件
 
 <img src="generated/images/guide/upgrade/ajs-to-a.png" alt="在 AngularJS 程式碼中使用 Angular 元件" class="left">
@@ -815,7 +816,7 @@ AngularJS 依賴的名稱由你決定：
 可以讓你的應用程式保持有效率地執行。當在同一個應用程式中執行不同的框架時，
 這一點尤其重要。
 
-[延遲載入](guide/glossary#延遲載入lazy-loading) 是一種技術，它會把所需資產與程式碼資源的載入
+[延遲載入](guide/glossary#延遲載入（lazy-loading）) 是一種技術，它會把所需資產與程式碼資源的載入
 延後到實際使用時才進行。這會縮短啟動時間並提高效率，
 特別是在同一個應用程式中執行不同框架時。
 
@@ -831,7 +832,7 @@ AngularJS 依賴的名稱由你決定：
 因為即使 AngularJS 框架與應用程式從未被存取，它們仍然已載入並正在執行。
 
 你可以採取步驟來減輕套件大小與效能問題。透過把 AngularJS
-應用程式隔離至獨立的套件，你可以利用[延遲載入](guide/glossary#延遲載入lazy-loading)，
+應用程式隔離至獨立的套件，你可以利用[延遲載入](guide/glossary#延遲載入（lazy-loading）)，
 只在需要時才載入、啟動並渲染 AngularJS 應用程式。這項策略
 可以縮小初始套件大小、把載入兩個框架的任何潛在影響延後到
 絕對必要時才發生，並讓你的應用程式盡可能有效率地執行。
@@ -921,6 +922,7 @@ Router 會先嘗試比對較具體的路由，例如靜態路由與變數路由�
 應用程式會被載入並啟動，AngularJS 路由會比對必要的 URL
 來渲染其內容，而你的應用程式會繼續同時使用 AngularJS 與 Angular 框架執行。
 
+<a id="using-the-unified-angular-location-service"></a>
 ## 使用統一的 Angular 位置服務
 
 在 AngularJS 中，[$location 服務](https://docs.angularjs.org/api/ng/service/$location) 處理所有路由

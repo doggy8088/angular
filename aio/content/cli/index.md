@@ -65,7 +65,7 @@ ng serve
 你可以在這裡設定每個專案的 CLI 指令選項預設值，並指定 CLI 為不同目標建置專案時要使用的設定。
 
 [ng config](cli/config) 指令可讓你從命令列設定與取得設定值，你也可以直接編輯 `angular.json` 檔案。
-請注意，設定檔中的選項名稱必須使用 [camelCase](guide/glossary#大小寫慣例case-types)，而提供給指令的選項名稱則 camelCase 與 dash-case 兩者皆可。
+請注意，設定檔中的選項名稱必須使用 [camelCase](guide/glossary#大小寫慣例（case-types）)，而提供給指令的選項名稱則 camelCase 與 dash-case 兩者皆可。
 
 * 進一步了解[工作區設定](guide/workspace-config)。
 * 參閱 `angular.json` 的[完整結構定義](https://github.com/angular/angular-cli/wiki/angular-workspace)。
@@ -88,7 +88,7 @@ ng serve
 
 * 一般來說，產生的人工產物名稱可以作為指令的引數提供，或用 --name 選項指定。
 
-* 引數與選項名稱可以使用 [camelCase 或 dash-case](guide/glossary#大小寫慣例case-types)。
+* 引數與選項名稱可以使用 [camelCase 或 dash-case](guide/glossary#大小寫慣例（case-types）)。
 `--myOptionName` 與 `--my-option-name` 等效。
 
 ### 布林選項

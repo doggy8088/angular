@@ -15,14 +15,14 @@
 
 ## CLI 建置器
 
-內部的 Architect 工具會把工作委派給稱為[*建置器*](guide/glossary#建置器builder)的處理函式。
+內部的 Architect 工具會把工作委派給稱為[*建置器*](guide/glossary#建置器（builder）)的處理函式。
 建置器處理函式接收兩個引數：一組輸入 `options`（一個 JSON 物件），以及一個 `context`（一個 `BuilderContext` 物件）。
 
-這裡的關注點分離與[原理圖](guide/glossary#原理圖schematic)相同；原理圖用於其他會碰觸你的程式碼的 CLI 指令（例如 `ng generate`）。
+這裡的關注點分離與[原理圖](guide/glossary#原理圖（schematic）)相同；原理圖用於其他會碰觸你的程式碼的 CLI 指令（例如 `ng generate`）。
 
 * `options` 物件由 CLI 使用者提供，而 `context` 物件由 CLI Builder API 提供。
 
-* 除了情境資訊之外，身為 `BuilderContext` 實例的 `context` 物件還提供一個排程方法 `BuilderContext.scheduleTarget()`。排程器會以指定的[目標設定](guide/glossary#目標target)執行建置器處理函式。
+* 除了情境資訊之外，身為 `BuilderContext` 實例的 `context` 物件還提供一個排程方法 `BuilderContext.scheduleTarget()`。排程器會以指定的[目標設定](guide/glossary#目標（target）)執行建置器處理函式。
 
 建置器處理函式可以是同步的（回傳一個值）、非同步的（回傳 Promise），或以監看模式回傳多個值（回傳 Observable）。
 回傳值必須永遠是 `BuilderOutput` 類型。
@@ -113,7 +113,7 @@ CLI Builder API 內含進度與狀態回報工具，可為特定函式與介面�
 ## 建置器輸入
 
 你可以透過 CLI 指令間接呼叫建置器，或直接使用 Angular CLI 的 `ng run` 指令。
-在任何一種情況下，你都必須提供必要的輸入，但可以讓其他輸入使用為特定[*目標*](guide/glossary#目標target)預先設定的預設值、提供預先定義的具名覆寫設定，並在命令列上提供進一步的覆寫選項值。
+在任何一種情況下，你都必須提供必要的輸入，但可以讓其他輸入使用為特定[*目標*](guide/glossary#目標（target）)預先設定的預設值、提供預先定義的具名覆寫設定，並在命令列上提供進一步的覆寫選項值。
 
 ### 輸入驗證
 
@@ -198,7 +198,7 @@ Architect 工具會把解析後的輸入值收集到 `options` 物件中，並�
 
 ### 目標設定
 
-建置器必須有一個已定義的目標，將它與特定的輸入設定及[專案](guide/glossary#專案project)關聯起來。
+建置器必須有一個已定義的目標，將它與特定的輸入設定及[專案](guide/glossary#專案（project）)關聯起來。
 
 目標是在 `angular.json` [CLI 設定檔](guide/workspace-config)中定義的。
 目標會指定要使用的建置器、它的預設選項設定，以及具名的替代設定。

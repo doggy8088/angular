@@ -218,7 +218,7 @@ export class DataService {
 export class AppService extends DataService {...}
 ```
 
-- 在任何繼承指令的類別，或任何指令所繼承的類別上，加入[無選取器的 `@Directive` 裝飾器](guide/migration-undecorated-classes#directive-裝飾器裡面沒有任何中繼資料是什麼意思)。
+- 在任何繼承指令的類別，或任何指令所繼承的類別上，加入[無選取器的 `@Directive` 裝飾器](guide/migration-undecorated-classes#directive-裝飾器裡面沒有任何中繼資料是什麼意思？)。
 
 ```
 @Directive()            // selectorless, so it's not usable directly

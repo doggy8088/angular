@@ -1577,7 +1577,7 @@ Here are the relevant files for this version of the sample application.
 
 `Crisis Detail` 路由是 `Crisis List` 的子路由。
 路由器預設會[重複使用元件](#reuse)，因此當你選取不同的危機時，`Crisis Detail` 元件會被重複使用。
-相較之下，先前在 `Hero Detail` 路由中，每次從英雄清單選取不同的英雄時，[元件都會重新建立](#snapshot無-observable-的替代方案)。
+相較之下，先前在 `Hero Detail` 路由中，每次從英雄清單選取不同的英雄時，[元件都會重新建立](#snapshot：無-observable-的替代方案)。
 
 在最上層，以 `/` 開頭的路徑指的是應用程式的根。
 但子路由會延伸父路由的路徑。

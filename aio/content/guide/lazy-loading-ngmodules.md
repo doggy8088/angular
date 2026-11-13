@@ -317,7 +317,7 @@ ngOnInit() {
 }
 </code-example>
 
-關於更多資訊與可運作的範例，請見[路由教學中關於預先載入的一節](guide/router-tutorial-toh#預先載入在背景載入功能區)。
+關於更多資訊與可運作的範例，請見[路由教學中關於預先載入的一節](guide/router-tutorial-toh#預先載入：在背景載入功能區)。
 
 ## 延遲載入模組疑難排解
 

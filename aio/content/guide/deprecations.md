@@ -152,7 +152,7 @@ Angular 過去支援與 [Web Tracing Framework (WTF)](https://google.github.io/t
 
 穿透 shadow DOM 的子代組合器已被棄用，各大瀏覽器與工具正在[移除對它的支援](https://developers.google.com/web/updates/2017/10/remove-shadow-piercing)。因此，在 v4 中，我們棄用了 Angular 對 `/deep/`、`>>>` 與 `::ng-deep` 三者的支援。在移除之前，為了與工具保持更廣泛的相容性，建議優先使用 `::ng-deep`。
 
-更多資訊，請參閱 Component Styles 指南中的 [/deep/、>>> 與 ::ng-deep](guide/component-styles#已棄用deep-與-ng-deep "Component Styles guide, Deprecated deep and ngdeep")。
+更多資訊，請參閱 Component Styles 指南中的 [/deep/、>>> 與 ::ng-deep](guide/component-styles#（已棄用）deep、-與-ng-deep "Component Styles guide, Deprecated deep and ngdeep")。
 
 {@a template-tag}
 
@@ -162,6 +162,7 @@ Angular 過去支援與 [Web Tracing Framework (WTF)](https://google.github.io/t
 
 {@a ngmodel-reactive}
 
+<a id="ngmodel-with-reactive-forms"></a>
 ### 搭配 reactive forms 的 ngModel
 
 將 `ngModel` 輸入屬性與 `ngModelChange` 事件搭配 reactive form 指令使用的支援，已在 Angular v6 中棄用，將在未來版本的 Angular 中移除。
@@ -355,6 +356,7 @@ Angular 應用程式，特別是依賴 JIT 編譯器的應用程式，過去需�
 
 {@a moduleWithProviders}
 
+<a id="modulewithproviders-type-without-a-generic"></a>
 ### 沒有泛型的 `ModuleWithProviders` 型別
 
 某些 Angular 程式庫（例如 `@angular/router` 與 `@ngrx/store`）實作的 API 會回傳一種稱為 `ModuleWithProviders` 的型別（通常使用名為 `forRoot()` 的方法）。這種型別代表一個 `NgModule` 以及額外的 provider。Angular 第 9 版棄用了未明確指定泛型型別的 `ModuleWithProviders` 用法，其中泛型型別指的是 `NgModule` 的型別。在未來的 Angular 版本中，泛型將不再是選填的。

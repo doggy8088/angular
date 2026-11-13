@@ -40,7 +40,7 @@ HTTP 用戶端服務提供下列主要功能。
   header="app/config/config.service.ts (excerpt)">
 </code-example>
 
-`HttpClient` 服務在所有交易中都使用 [observables](guide/glossary#可觀察物件observable "Observable definition")。
+`HttpClient` 服務在所有交易中都使用 [observables](guide/glossary#可觀察物件（observable） "Observable definition")。
 你必須匯入範例程式碼片段中出現的 RxJS observable 與運算子符號。
 這些 `ConfigService` 匯入是典型的寫法。
 
@@ -109,7 +109,7 @@ options: {
 
 {@a config-service}
 
-此範例遵循建立可擴展解決方案的最佳實務，定義了一個可重複使用的[可注入服務](guide/glossary#服務service "service definition")來執行資料處理功能。
+此範例遵循建立可擴展解決方案的最佳實務，定義了一個可重複使用的[可注入服務](guide/glossary#服務（service） "service definition")來執行資料處理功能。
 除了取得資料外，該服務還可以對資料進行後處理、加入錯誤處理，以及加入重試邏輯。
 
 `ConfigService` 使用 `HttpClient.get()` 方法取得這個檔案。

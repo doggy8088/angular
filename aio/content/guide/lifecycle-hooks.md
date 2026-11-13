@@ -257,7 +257,7 @@ Angular 會依下列順序執行鉤子方法。請用它們來執行下列各類
     </td>
     <td>
 
-      說明 Angular 所說的[檢視](guide/glossary#檢視view "Definition of view.")是什麼意思。
+      說明 Angular 所說的[檢視](guide/glossary#檢視（view） "Definition of view.")是什麼意思。
       展示 `ngAfterViewInit()` 與 `ngAfterViewChecked()` 鉤子。
 
     </td>
@@ -409,6 +409,7 @@ Angular 會同時從 DOM 移除所有英雄 `<div>` 元素，並銷毀它們的�
 
 {@a onchanges}
 
+<a id="using-change-detection-hooks"></a>
 ## 使用變更偵測鉤子
 
 每當 Angular 偵測到***輸入屬性***的變更時，就會呼叫元件或指令的 `ngOnChanges()` 方法。
@@ -444,7 +445,7 @@ Angular 會同時從 DOM 移除所有英雄 `<div>` 元素，並銷毀它們的�
 
 ### 回應檢視變更
 
-當 Angular 在變更偵測期間走訪[檢視階層](guide/glossary#檢視階層view-hierarchy "Definition of view hierarchy definition")時，它必須確保子元件的變更不會試圖造成其父元件的變更。這樣的變更無法正確渲染，因為[單向資料流](guide/glossary#單向資料流unidirectional-data-flow "Definition")的運作方式就是如此。
+當 Angular 在變更偵測期間走訪[檢視階層](guide/glossary#檢視階層（view-hierarchy） "Definition of view hierarchy definition")時，它必須確保子元件的變更不會試圖造成其父元件的變更。這樣的變更無法正確渲染，因為[單向資料流](guide/glossary#單向資料流（unidirectional-data-flow） "Definition")的運作方式就是如此。
 
 如果你需要進行一項會顛覆預期資料流的變更，你必須觸發新的變更偵測週期，才能讓該變更被渲染。
 這些範例說明如何安全地進行這類變更。
@@ -567,6 +568,7 @@ Angular 會在完成這個元件檢視的組成*之前*，先完成投影內容�
 
 {@a docheck}
 
+<a id="defining-custom-change-detection"></a>
 ## 定義自訂變更偵測
 
 若要監控 `ngOnChanges()` 無法捕捉的變更，請如 *DoCheck* 範例所示，實作你自己的變更檢查。

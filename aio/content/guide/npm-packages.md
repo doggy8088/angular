@@ -75,7 +75,7 @@ Package name                               | Description
 
 Package name                               | Description
 ----------------------------------------   | --------------------------------------------------
-[**rxjs**](https://github.com/ReactiveX/rxjs) | 許多 Angular API 會傳回[*可觀察物件*](guide/glossary#可觀察物件observable)。RxJS 是目前提交給決定 JavaScript 語言標準的 [TC39](https://www.ecma-international.org/memento/tc39.htm) 委員會的 [Observable 規格提案](https://github.com/tc39/proposal-observable)的一種實作。
+[**rxjs**](https://github.com/ReactiveX/rxjs) | 許多 Angular API 會傳回[*可觀察物件*](guide/glossary#可觀察物件（observable）)。RxJS 是目前提交給決定 JavaScript 語言標準的 [TC39](https://www.ecma-international.org/memento/tc39.htm) 委員會的 [Observable 規格提案](https://github.com/tc39/proposal-observable)的一種實作。
 [**zone.js**](https://github.com/angular/zone.js) | 當原生 JavaScript 操作引發事件時，Angular 依靠 zone.js 來執行 Angular 的變更偵測程序。Zone.js 是目前提交給決定 JavaScript 語言標準的 [TC39](https://www.ecma-international.org/memento/tc39.htm) 委員會的[規格](https://gist.github.com/mhevery/63fdcdf7c65886051d55)的一種實作。
 
 {@a polyfills}

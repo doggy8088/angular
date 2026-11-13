@@ -135,7 +135,7 @@ Angular 會解析該運算式，並將它指派給繫結目標的一個屬性。
 
 * **快速執行**
 
-  Angular 會在每次[變更偵測](guide/glossary#變更偵測change-detection)週期後執行範本運算式。
+  Angular 會在每次[變更偵測](guide/glossary#變更偵測（change-detection）)週期後執行範本運算式。
   許多非同步活動都會觸發變更偵測週期，例如 promise 的解析、HTTP 結果、計時器事件、按鍵與滑鼠移動。
 
   運算式應該要能快速完成，讓使用者體驗盡可能有效率，在較慢的裝置上尤其如此。
@@ -143,7 +143,7 @@ Angular 會解析該運算式，並將它指派給繫結目標的一個屬性。
 
 * **不要造成可見的副作用**
 
-  根據 Angular 的[單向資料流模型](guide/glossary#單向資料流unidirectional-data-flow)，範本運算式不應變更目標屬性值以外的任何應用程式狀態。
+  根據 Angular 的[單向資料流模型](guide/glossary#單向資料流（unidirectional-data-flow）)，範本運算式不應變更目標屬性值以外的任何應用程式狀態。
   讀取一個元件值，不應改變其他顯示中的值。
   檢視在單次算繪過程中應該保持穩定。
 

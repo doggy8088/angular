@@ -14,7 +14,7 @@
 
 ## 建立購物車服務
 
-在 Angular 中，服務是某個類別的執行個體，你可以使用 Angular 的[依賴注入系統](guide/glossary#依賴注入dependency-injectiondi "依賴注入定義")，讓應用程式的任何部分都能使用它。
+在 Angular 中，服務是某個類別的執行個體，你可以使用 Angular 的[依賴注入系統](guide/glossary#依賴注入（dependency-injection，di） "依賴注入定義")，讓應用程式的任何部分都能使用它。
 
 目前，使用者可以檢視產品資訊，應用程式也可以模擬分享功能，以及產品變更的通知。
 

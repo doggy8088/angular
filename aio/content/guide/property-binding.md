@@ -14,7 +14,7 @@ Angular 中的屬性繫結協助你設定 HTML 元素或指令的屬性值。
 若要充分發揮屬性繫結的效益，你應該先熟悉下列內容：
 
 * [元件基礎](guide/architecture-components)
-* [範本基礎](guide/glossary#範本template)
+* [範本基礎](guide/glossary#範本（template）)
 * [繫結語法](guide/binding-syntax)
 
 ## 了解資料流

@@ -66,7 +66,7 @@
 
 ## 建立工作區與初始應用程式
 
-你是在 Angular [**工作區**](guide/glossary#工作區workspace)的脈絡下開發應用程式。
+你是在 Angular [**工作區**](guide/glossary#工作區（workspace）)的脈絡下開發應用程式。
 
 要建立新的工作區與初始的入門應用程式：
 

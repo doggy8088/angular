@@ -8,7 +8,7 @@
 
 <div class="alert is-helpful">
 
-Angular 支援互動式表單的兩種設計方法。你可以使用 Angular 的[範本語法與指令](guide/glossary#範本template "Definition of template terms")撰寫範本，搭配本教學說明的表單專用指令與技巧來建立表單，也可以使用反應式（或模型驅動）方法來建立表單。
+Angular 支援互動式表單的兩種設計方法。你可以使用 Angular 的[範本語法與指令](guide/glossary#範本（template） "Definition of template terms")撰寫範本，搭配本教學說明的表單專用指令與技巧來建立表單，也可以使用反應式（或模型驅動）方法來建立表單。
 
 範本驅動表單適合小型或簡單的表單，而反應式表單更具擴充性，適合複雜的表單。若要比較這兩種方法，請見[表單簡介](guide/forms-overview "Overview of Angular forms.")。
 

@@ -597,6 +597,7 @@ Angular 路由器是一個選用服務，會針對給定的 URL 呈現特定的�
 
 {@a basics-config}
 
+<a id="configuration"></a>
 ### 設定
 
 具有路由的 Angular 應用程式只有一個 `Router` 服務的單例執行個體。
@@ -831,6 +832,7 @@ Angular 路由器是一個選用服務，會針對給定的 URL 呈現特定的�
 
 </div>
 
+<a id="router-events"></a>
 ### 路由器事件
 
 在每次導覽期間，`Router` 會透過 `Router.events` 屬性發出導覽事件。
