@@ -50,7 +50,7 @@ TypeScript 設定可以透過 `extends` 屬性，從另一個檔案繼承設定�
 
 ### `disableExpressionLowering`
 
-預設值為 `true`，此時會轉換屬於註解、或可能用於註解的程式碼，使其能從範本工廠模組匯入。更多資訊，請參閱[中繼資料改寫](guide/aot-compiler#中繼資料改寫)。
+預設值為 `true`，此時會轉換屬於註解、或可能用於註解的程式碼，使其能從範本工廠模組匯入。更多資訊，請參閱[中繼資料改寫](guide/aot-compiler#metadata-rewriting)。
 
 設為 `false` 時，停用此改寫，改寫必須手動完成。
 
