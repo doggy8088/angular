@@ -1,32 +1,31 @@
-# Add in-app navigation with routing
+# 加入應用程式內導覽與路由
 
-There are new requirements for the Tour of Heroes app:
+Tour of Heroes 應用程式有了新的需求：
 
-* Add a *Dashboard* view.
-* Add the ability to navigate between the *Heroes* and *Dashboard* views.
-* When users click a hero name in either view, navigate to a detail view of the selected hero.
-* When users click a *deep link* in an email, open the detail view for a particular hero.
+* 加入一個 *Dashboard* 檢視。
+* 加入在 *Heroes* 與 *Dashboard* 檢視之間導覽的功能。
+* 當使用者在任一檢視中點選英雄名稱時，導覽到所選英雄的詳細檢視。
+* 當使用者點選電子郵件中的*深層連結*時，開啟特定英雄的詳細檢視。
 
 <div class="alert is-helpful">
 
-  For the sample app that this page describes, see the <live-example></live-example>.
+  關於本頁所述的範例應用程式，請參閱 <live-example></live-example>。
 
 </div>
 
-When you’re done, users will be able to navigate the app like this:
+完成後，使用者將能像這樣導覽應用程式：
 
 <div class="lightbox">
-  <img src='generated/images/guide/toh/nav-diagram.png' alt="View navigations">
+  <img src='generated/images/guide/toh/nav-diagram.png' alt="檢視導覽">
 </div>
 
-## Add the `AppRoutingModule`
+## 加入 `AppRoutingModule`
 
-In Angular, the best practice is to load and configure the router in a separate, top-level module
-that is dedicated to routing and imported by the root `AppModule`.
+在 Angular 中，最佳做法是在一個獨立的頂層模組中載入並設定路由器，該模組專門負責路由，並由根模組 `AppModule` 匯入。
 
-By convention, the module class name is `AppRoutingModule` and it belongs in the `app-routing.module.ts` in the `src/app` folder.
+按照慣例，模組類別名稱是 `AppRoutingModule`，位於 `src/app` 資料夾中的 `app-routing.module.ts`。
 
-Use the CLI to generate it.
+使用 CLI 來產生它。
 
 <code-example language="sh" class="code-shell">
   ng generate module app-routing --flat --module=app
@@ -34,153 +33,149 @@ Use the CLI to generate it.
 
 <div class="alert is-helpful">
 
-`--flat` puts the file in `src/app` instead of its own folder.<br>
-`--module=app` tells the CLI to register it in the `imports` array of the `AppModule`.
+`--flat` 把檔案放在 `src/app`，而不是放在自己的資料夾中。<br>
+`--module=app` 告訴 CLI 把它註冊到 `AppModule` 的 `imports` 陣列中。
 </div>
 
-The generated file looks like this:
+產生的檔案如下所示：
 
 <code-example path="toh-pt5/src/app/app-routing.module.0.ts" header="src/app/app-routing.module.ts (generated)">
 </code-example>
 
-Replace it with the following:
+請把它取代為以下內容：
 
 <code-example path="toh-pt5/src/app/app-routing.module.1.ts" header="src/app/app-routing.module.ts (updated)">
 </code-example>
 
-First, `AppRoutingModule` imports `RouterModule` and `Routes` so the app can have routing functionality. The next import, `HeroesComponent`, will give the Router somewhere to go once you configure the routes.
+首先，`AppRoutingModule` 會匯入 `RouterModule` 與 `Routes`，讓應用程式具備路由功能。下一個匯入 `HeroesComponent`，會讓路由器在你設定路由後有地方可去。
 
-Notice that the `CommonModule` references and `declarations` array are unnecessary, so are no
-longer part of `AppRoutingModule`. The following sections explain the rest of the `AppRoutingModule` in more detail.
+請注意，`CommonModule` 參照與 `declarations` 陣列是不必要的，因此不再
+是 `AppRoutingModule` 的一部分。以下各節會更詳細地說明 `AppRoutingModule` 的其餘部分。
 
 
-### Routes
+### 路由
 
-The next part of the file is where you configure your routes.
-*Routes* tell the Router which view to display when a user clicks a link or
-pastes a URL into the browser address bar.
+檔案的下一部分是你設定路由的地方。
+*路由*會告訴路由器，當使用者點選連結或把 URL 貼到瀏覽器網址列時，應顯示哪個檢視。
 
-Since `AppRoutingModule` already imports `HeroesComponent`, you can use it in the `routes` array:
+由於 `AppRoutingModule` 已經匯入了 `HeroesComponent`，你可以在 `routes` 陣列中使用它：
 
 <code-example path="toh-pt5/src/app/app-routing.module.ts" header="src/app/app-routing.module.ts"
   region="heroes-route">
 </code-example>
 
-A typical Angular `Route` has two properties:
+典型的 Angular `Route` 有兩個屬性：
 
-* `path`: a string that matches the URL in the browser address bar.
-* `component`: the component that the router should create when navigating to this route.
+* `path`：與瀏覽器網址列中 URL 相符的字串。
+* `component`：路由器在導覽到此路由時應建立的元件。
 
-This tells the router to match that URL to `path: 'heroes'`
-and display the `HeroesComponent` when the URL is something like `localhost:4200/heroes`.
+這會告訴路由器把該 URL 對應到 `path: 'heroes'`，
+並在 URL 類似 `localhost:4200/heroes` 時顯示 `HeroesComponent`。
 
 ### `RouterModule.forRoot()`
 
-The `@NgModule` metadata initializes the router and starts it listening for browser location changes.
+`@NgModule` 中繼資料會初始化路由器，並開始監聽瀏覽器位置的變更。
 
-The following line adds the `RouterModule` to the `AppRoutingModule` `imports` array and
-configures it with the `routes` in one step by calling
-`RouterModule.forRoot()`:
+以下這行會把 `RouterModule` 加入 `AppRoutingModule` 的 `imports` 陣列，並
+透過呼叫 `RouterModule.forRoot()`，在一個步驟中以 `routes` 設定它：
 
 <code-example path="toh-pt5/src/app/app-routing.module.ts" header="src/app/app-routing.module.ts" region="ngmodule-imports">
 </code-example>
 
 <div class="alert is-helpful">
 
-  The method is called `forRoot()` because you configure the router at the application's root level.
-  The `forRoot()` method supplies the service providers and directives needed for routing,
-  and performs the initial navigation based on the current browser URL.
+  這個方法之所以稱為 `forRoot()`，是因為你是在應用程式的根層級設定路由器。
+  `forRoot()` 方法會提供路由所需的服務提供者與指令，並根據目前的瀏覽器 URL 執行初始導覽。
 
 </div>
 
-Next, `AppRoutingModule` exports `RouterModule` so it will be available throughout the app.
+接著，`AppRoutingModule` 會匯出 `RouterModule`，讓整個應用程式都能使用它。
 
 <code-example path="toh-pt5/src/app/app-routing.module.ts" header="src/app/app-routing.module.ts (exports array)" region="export-routermodule">
 </code-example>
 
-## Add `RouterOutlet`
+## 加入 `RouterOutlet`
 
-Open the `AppComponent` template and replace the `<app-heroes>` element with a `<router-outlet>` element.
+開啟 `AppComponent` 範本，把 `<app-heroes>` 元素取代為 `<router-outlet>` 元素。
 
 <code-example path="toh-pt5/src/app/app.component.html" region="outlet" header="src/app/app.component.html (router-outlet)">
 </code-example>
 
-The `AppComponent` template no longer needs `<app-heroes>` because the app will only display the `HeroesComponent` when the user navigates to it.
+`AppComponent` 範本不再需要 `<app-heroes>`，因為應用程式只有在使用者導覽到它時才會顯示 `HeroesComponent`。
 
-The `<router-outlet>` tells the router where to display routed views.
+`<router-outlet>` 會告訴路由器要在何處顯示路由檢視。
 
 <div class="alert is-helpful">
 
-The `RouterOutlet` is one of the router directives that became available to the `AppComponent`
-because `AppModule` imports `AppRoutingModule` which exported `RouterModule`. The `ng generate` command you ran at the start of this tutorial added this import because of the `--module=app` flag. If you manually created `app-routing.module.ts` or used a tool other than the CLI to do so, you'll need to import `AppRoutingModule` into `app.module.ts` and add it to the `imports` array of the `NgModule`.
+`RouterOutlet` 是路由器指令之一，`AppComponent` 之所以能使用它，是因為 `AppModule` 匯入了匯出 `RouterModule` 的 `AppRoutingModule`。你在本教學一開始執行的 `ng generate` 命令，因為 `--module=app` 旗標而加入了這個匯入。如果你是手動建立 `app-routing.module.ts`，或使用 CLI 以外的工具建立，你就必須把 `AppRoutingModule` 匯入 `app.module.ts`，並把它加入 `NgModule` 的 `imports` 陣列。
 
 </div>
 
-#### Try it
+#### 試試看
 
-You should still be running with this CLI command.
+你應該仍在執行這個 CLI 命令。
 
 <code-example language="sh" class="code-shell">
   ng serve
 </code-example>
 
-The browser should refresh and display the app title but not the list of heroes.
+瀏覽器應會重新整理並顯示應用程式標題，但不會顯示英雄清單。
 
-Look at the browser's address bar.
-The URL ends in `/`.
-The route path to `HeroesComponent` is `/heroes`.
+查看瀏覽器的網址列。
+URL 的結尾是 `/`。
+通往 `HeroesComponent` 的路由路徑是 `/heroes`。
 
-Append `/heroes` to the URL in the browser address bar.
-You should see the familiar heroes master/detail view.
+在瀏覽器網址列的 URL 後面加上 `/heroes`。
+你應該會看到熟悉的英雄主／詳細檢視。
 
 {@a routerlink}
 
-## Add a navigation link (`routerLink`)
+## 使用 `routerLink` 加入導覽連結
 
-Ideally, users should be able to click a link to navigate rather
-than pasting a route URL into the address bar.
+理想情況下，使用者應該能夠點選連結來導覽，
+而不是把路由 URL 貼到網址列。
 
-Add a `<nav>` element and, within that, an anchor element that, when clicked,
-triggers navigation to the `HeroesComponent`.
-The revised `AppComponent` template looks like this:
+加入一個 `<nav>` 元素，並在其中加入一個錨點元素，點選時
+會觸發導覽到 `HeroesComponent`。
+修改後的 `AppComponent` 範本如下所示：
 
 <code-example path="toh-pt5/src/app/app.component.html" region="heroes" header="src/app/app.component.html (heroes RouterLink)">
 </code-example>
 
-A [`routerLink` attribute](#routerlink) is set to `"/heroes"`,
-the string that the router matches to the route to `HeroesComponent`.
-The `routerLink` is the selector for the [`RouterLink` directive](/api/router/RouterLink)
-that turns user clicks into router navigations.
-It's another of the public directives in the `RouterModule`.
+[`routerLink` 屬性](#routerlink)設為 `"/heroes"`，
+也就是路由器用來對應到 `HeroesComponent` 路由的字串。
+`routerLink` 是 [`RouterLink` 指令](/api/router/RouterLink)的選取器，
+它會把使用者的點選轉換為路由器導覽。
+它是 `RouterModule` 中另一個公開指令。
 
-The browser refreshes and displays the app title and heroes link,
-but not the heroes list.
+瀏覽器會重新整理並顯示應用程式標題與英雄連結，
+但不會顯示英雄清單。
 
-Click the link.
-The address bar updates to `/heroes` and the list of heroes appears.
+點選該連結。
+網址列會更新為 `/heroes`，並出現英雄清單。
 
 <div class="alert is-helpful">
 
-Make this and future navigation links look better by adding private CSS styles to `app.component.css`
-as listed in the [final code review](#appcomponent) below.
+請把私有 CSS 樣式加入 `app.component.css`，讓這個與未來的導覽連結看起來更好看，
+樣式列在下方的[最終程式碼檢閱](#appcomponent)中。
 
 </div>
 
 
-## Add a dashboard view
+## 加入儀表板檢視
 
-Routing makes more sense when there are multiple views.
-So far there's only the heroes view.
+當有多個檢視時，路由才更有意義。
+目前為止只有英雄檢視。
 
-Add a `DashboardComponent` using the CLI:
+使用 CLI 加入 `DashboardComponent`：
 
 <code-example language="sh" class="code-shell">
   ng generate component dashboard
 </code-example>
 
-The CLI generates the files for the `DashboardComponent` and declares it in `AppModule`.
+CLI 會產生 `DashboardComponent` 的檔案，並在 `AppModule` 中宣告它。
 
-Replace the default file content in these three files as follows:
+請如下取代這三個檔案的預設內容：
 
 <code-tabs>
   <code-pane
@@ -196,121 +191,119 @@ Replace the default file content in these three files as follows:
   </code-pane>
 </code-tabs>
 
-The  _template_ presents a grid of hero name links.
+_範本_會呈現一個英雄名稱連結的網格。
 
-* The `*ngFor` repeater creates as many links as are in the component's `heroes` array.
-* The links are styled as colored blocks by the `dashboard.component.css`.
-* The links don't go anywhere yet but [they will shortly](#hero-details).
+* `*ngFor` 重複器會建立與元件 `heroes` 陣列中一樣多的連結。
+* 這些連結會由 `dashboard.component.css` 設定樣式，呈現為彩色區塊。
+* 這些連結目前還不會連到任何地方，但[很快就會了](#hero-details)。
 
-The _class_ is similar to the `HeroesComponent` class.
-* It defines a `heroes` array property.
-* The constructor expects Angular to inject the `HeroService` into a private `heroService` property.
-* The `ngOnInit()` lifecycle hook calls `getHeroes()`.
+_類別_與 `HeroesComponent` 類別類似。
+* 它定義了一個 `heroes` 陣列屬性。
+* 建構子預期 Angular 把 `HeroService` 注入私有的 `heroService` 屬性。
+* `ngOnInit()` 生命週期鉤子會呼叫 `getHeroes()`。
 
-This `getHeroes()` returns the sliced list of heroes at positions 1 and 5, returning only four of the Top Heroes (2nd, 3rd, 4th, and 5th).
+這個 `getHeroes()` 會回傳位於位置 1 和 5 的英雄切片清單，只回傳 Top Heroes 中的四位（第 2、3、4 和 5 位）。
 
 <code-example path="toh-pt5/src/app/dashboard/dashboard.component.ts" header="src/app/dashboard/dashboard.component.ts" region="getHeroes">
 </code-example>
 
-### Add the dashboard route
+### 加入儀表板路由
 
-To navigate to the dashboard, the router needs an appropriate route.
+若要導覽到儀表板，路由器需要一個適當的路由。
 
-Import the `DashboardComponent` in the `AppRoutingModule`.
+在 `AppRoutingModule` 中匯入 `DashboardComponent`。
 
 <code-example path="toh-pt5/src/app/app-routing.module.ts" region="import-dashboard" header="src/app/app-routing.module.ts (import DashboardComponent)">
 </code-example>
 
-Add a route to the `AppRoutingModule.routes` array that matches a path to the `DashboardComponent`.
+在 `AppRoutingModule.routes` 陣列中加入一個路由，讓路徑對應到 `DashboardComponent`。
 
 <code-example path="toh-pt5/src/app/app-routing.module.ts" header="src/app/app-routing.module.ts" region="dashboard-route">
 </code-example>
 
-### Add a default route
+### 加入預設路由
 
-When the app starts, the browser's address bar points to the web site's root.
-That doesn't match any existing route so the router doesn't navigate anywhere.
-The space below the `<router-outlet>` is blank.
+當應用程式啟動時，瀏覽器的網址列會指向網站的根目錄。
+那與任何現有路由都不相符，因此路由器不會導覽到任何地方。
+`<router-outlet>` 下方的空間是空白的。
 
-To make the app navigate to the dashboard automatically, add the following
-route to the `AppRoutingModule.Routes` array.
+若要讓應用程式自動導覽到儀表板，請在 `AppRoutingModule.Routes` 陣列中加入以下
+路由。
 
 <code-example path="toh-pt5/src/app/app-routing.module.ts" header="src/app/app-routing.module.ts" region="redirect-route">
 </code-example>
 
-This route redirects a URL that fully matches the empty path to the route whose path is `'/dashboard'`.
+此路由會把完全符合空路徑的 URL 重新導向到路徑為 `'/dashboard'` 的路由。
 
-After the browser refreshes, the router loads the `DashboardComponent`
-and the browser address bar shows the `/dashboard` URL.
+瀏覽器重新整理後，路由器會載入 `DashboardComponent`，
+瀏覽器網址列會顯示 `/dashboard` URL。
 
-### Add dashboard link to the shell
+### 在外殼中加入儀表板連結
 
-The user should be able to navigate back and forth between the
-`DashboardComponent` and the `HeroesComponent` by clicking links in the
-navigation area near the top of the page.
+使用者應該能夠透過點選頁面頂部附近導覽區域中的連結，在
+`DashboardComponent` 與 `HeroesComponent` 之間來回導覽。
 
-Add a dashboard navigation link to the `AppComponent` shell template, just above the *Heroes* link.
+請在 `AppComponent` 外殼範本中、*Heroes* 連結的上方加入一個儀表板導覽連結。
 
 <code-example path="toh-pt5/src/app/app.component.html" header="src/app/app.component.html">
 </code-example>
 
-After the browser refreshes you can navigate freely between the two views by clicking the links.
+瀏覽器重新整理後，你可以透過點選連結，在這兩個檢視之間自由導覽。
 
 {@a hero-details}
-## Navigating to hero details
+## 導覽到英雄詳細資料
 
-The `HeroDetailsComponent` displays details of a selected hero.
-At the moment the `HeroDetailsComponent` is only visible at the bottom of the `HeroesComponent`
+`HeroDetailsComponent` 會顯示所選英雄的詳細資料。
+目前 `HeroDetailsComponent` 只會顯示在 `HeroesComponent` 的底部。
 
-The user should be able to get to these details in three ways.
+使用者應該能夠透過以下三種方式取得這些詳細資料。
 
-1. By clicking a hero in the dashboard.
-1. By clicking a hero in the heroes list.
-1. By pasting a "deep link" URL into the browser address bar that identifies the hero to display.
+1. 點選儀表板中的英雄。
+1. 點選英雄清單中的英雄。
+1. 把識別要顯示英雄的「深層連結」URL 貼到瀏覽器網址列。
 
-In this section, you'll enable navigation to the `HeroDetailsComponent`
-and liberate it from the `HeroesComponent`.
+在本節中，你將啟用導覽到 `HeroDetailsComponent` 的功能，
+並讓它脫離 `HeroesComponent`。
 
-### Delete _hero details_ from `HeroesComponent`
+### 從 `HeroesComponent` 刪除_英雄詳細資料_
 
-When the user clicks a hero item in the `HeroesComponent`,
-the app should navigate to the `HeroDetailComponent`,
-replacing the heroes list view with the hero detail view.
-The heroes list view should no longer show hero details as it does now.
+當使用者在 `HeroesComponent` 中點選英雄項目時，應用程式應導覽到 `HeroDetailComponent`，
+以英雄詳細檢視取代英雄清單檢視。
+英雄清單檢視不應再像現在這樣顯示英雄詳細資料。
 
-Open the `HeroesComponent` template (`heroes/heroes.component.html`) and
-delete the `<app-hero-detail>` element from the bottom.
+開啟 `HeroesComponent` 範本（`heroes/heroes.component.html`），
+並從底部刪除 `<app-hero-detail>` 元素。
 
-Clicking a hero item now does nothing.
-You'll [fix that shortly](#heroes-component-links) after you enable routing to the `HeroDetailComponent`.
+點選英雄項目現在不會有任何作用。
+你可以在啟用路由到 `HeroDetailComponent` 後，[立刻修正這個問題](#heroes-component-links)。
 
-### Add a _hero detail_ route
+### 加入_英雄詳細資料_路由
 
-A URL like `~/detail/11` would be a good URL for navigating to the *Hero Detail* view of the hero whose `id` is `11`.
+像 `~/detail/11` 這樣的 URL，很適合作為導覽到 *Hero Detail* 檢視（`id` 為 `11` 的英雄）的 URL。
 
-Open `AppRoutingModule` and import `HeroDetailComponent`.
+開啟 `AppRoutingModule` 並匯入 `HeroDetailComponent`。
 
 <code-example path="toh-pt5/src/app/app-routing.module.ts" region="import-herodetail" header="src/app/app-routing.module.ts (import HeroDetailComponent)">
 </code-example>
 
-Then add a _parameterized_ route to the `AppRoutingModule.routes` array that matches the path pattern to the _hero detail_ view.
+接著在 `AppRoutingModule.routes` 陣列中加入一個_參數化_路由，讓路徑模式對應到_英雄詳細資料_檢視。
 
 <code-example path="toh-pt5/src/app/app-routing.module.ts" header="src/app/app-routing.module.ts" region="detail-route">
 </code-example>
 
-The colon (:) in the `path` indicates that `:id` is a placeholder for a specific hero `id`.
+`path` 中的冒號（:）表示 `:id` 是特定英雄 `id` 的預留位置。
 
-At this point, all application routes are in place.
+此時，所有應用程式路由都已就緒。
 
 <code-example path="toh-pt5/src/app/app-routing.module.ts" region="routes" header="src/app/app-routing.module.ts (all routes)">
 </code-example>
 
-### `DashboardComponent` hero links
+### `DashboardComponent` 英雄連結
 
-The `DashboardComponent` hero links do nothing at the moment.
+`DashboardComponent` 的英雄連結目前沒有任何作用。
 
-Now that the router has a route to `HeroDetailComponent`,
-fix the dashboard hero links to navigate via the _parameterized_ dashboard route.
+既然路由器已有通往 `HeroDetailComponent` 的路由，
+請修正儀表板英雄連結，讓它使用_參數化_的儀表板路由進行導覽。
 
 <code-example
   path="toh-pt5/src/app/dashboard/dashboard.component.html"
@@ -318,165 +311,162 @@ fix the dashboard hero links to navigate via the _parameterized_ dashboard route
   header="src/app/dashboard/dashboard.component.html (hero links)">
 </code-example>
 
-You're using Angular [interpolation binding](guide/interpolation) within the `*ngFor` repeater
-to insert the current iteration's `hero.id` into each
-[`routerLink`](#routerlink).
+你正在 `*ngFor` 重複器中使用 Angular 的[插值繫結](guide/interpolation)，把目前迭代的 `hero.id` 插入每個
+[`routerLink`](#routerlink)。
 
 {@a heroes-component-links}
-### `HeroesComponent` hero links
+### `HeroesComponent` 英雄連結
 
-The hero items in the `HeroesComponent` are `<li>` elements whose click events
-are bound to the component's `onSelect()` method.
+`HeroesComponent` 中的英雄項目是 `<li>` 元素，其 click 事件
+會繫結到元件的 `onSelect()` 方法。
 
 <code-example path="toh-pt4/src/app/heroes/heroes.component.html" region="list" header="src/app/heroes/heroes.component.html (list with onSelect)">
 </code-example>
 
-Strip the `<li>` back to just its `*ngFor`,
-wrap the badge and name in an anchor element (`<a>`),
-and add a `routerLink` attribute to the anchor that
-is the same as in the dashboard template
+把 `<li>` 改回只保留 `*ngFor` 的形式，
+用錨點元素（`<a>`）包住徽章與名稱，
+並在錨點上加入一個 `routerLink` 屬性，
+與儀表板範本中的相同。
 
 <code-example path="toh-pt5/src/app/heroes/heroes.component.html" region="list" header="src/app/heroes/heroes.component.html (list with links)">
 </code-example>
 
-You'll have to fix the private stylesheet (`heroes.component.css`) to make
-the list look as it did before.
-Revised styles are in the [final code review](#heroescomponent) at the bottom of this guide.
+你必須修正私有樣式表（`heroes.component.css`），讓
+清單看起來和之前一樣。
+修改後的樣式列在本指南底部的[最終程式碼檢閱](#heroescomponent)中。
 
-#### Remove dead code (optional)
+#### 移除無用程式碼（選用）
 
-While the `HeroesComponent` class still works,
-the `onSelect()` method and `selectedHero` property are no longer used.
+雖然 `HeroesComponent` 類別仍然可以運作，
+但 `onSelect()` 方法與 `selectedHero` 屬性已不再使用。
 
-It's nice to tidy up and you'll be grateful to yourself later.
-Here's the class after pruning away the dead code.
+整理乾淨是很好的做法，你將來會感謝自己的。
+以下是刪除無用程式碼後的類別。
 
 <code-example path="toh-pt5/src/app/heroes/heroes.component.ts" region="class" header="src/app/heroes/heroes.component.ts (cleaned up)">
 </code-example>
 
-## Routable `HeroDetailComponent`
+## 可路由的 `HeroDetailComponent`
 
-Previously, the parent `HeroesComponent` set the `HeroDetailComponent.hero`
-property and the `HeroDetailComponent` displayed the hero.
+先前，父元件 `HeroesComponent` 會設定 `HeroDetailComponent.hero`
+屬性，再由 `HeroDetailComponent` 顯示英雄。
 
-`HeroesComponent` doesn't do that anymore.
-Now the router creates the `HeroDetailComponent` in response to a URL such as `~/detail/11`.
+`HeroesComponent` 現在不再這樣做了。
+現在路由器會回應像 `~/detail/11` 這樣的 URL，來建立 `HeroDetailComponent`。
 
-The `HeroDetailComponent` needs a new way to obtain the hero-to-display.
-This section explains the following:
+`HeroDetailComponent` 需要新的方式來取得要顯示的英雄。
+本節會說明以下內容：
 
-* Get the route that created it
-* Extract the `id` from the route
-* Acquire the hero with that `id` from the server via the `HeroService`
+* 取得建立它的路由
+* 從路由中擷取 `id`
+* 使用 `HeroService` 從伺服器取得具有該 `id` 的英雄
 
-Add the following imports:
+加入以下匯入：
 
 <code-example path="toh-pt5/src/app/hero-detail/hero-detail.component.ts" region="added-imports" header="src/app/hero-detail/hero-detail.component.ts">
 </code-example>
 
 {@a hero-detail-ctor}
 
-Inject the `ActivatedRoute`, `HeroService`, and `Location` services
-into the constructor, saving their values in private fields:
+把 `ActivatedRoute`、`HeroService` 與 `Location` 服務注入
+建構子，並把它們的值儲存在私有欄位中：
 
 <code-example path="toh-pt5/src/app/hero-detail/hero-detail.component.ts" header="src/app/hero-detail/hero-detail.component.ts" region="ctor">
 </code-example>
 
-The [`ActivatedRoute`](api/router/ActivatedRoute) holds information about the route to this instance of the `HeroDetailComponent`.
-This component is interested in the route's parameters extracted from the URL.
-The "id" parameter is the `id` of the hero to display.
+[`ActivatedRoute`](api/router/ActivatedRoute) 持有關於通往此 `HeroDetailComponent` 執行個體的路由資訊。
+此元件感興趣的是從 URL 中擷取的路由參數。
+「id」參數就是要顯示的英雄的 `id`。
 
-The [`HeroService`](tutorial/toh-pt4) gets hero data from the remote server
-and this component will use it to get the hero-to-display.
+[`HeroService`](tutorial/toh-pt4) 會從遠端伺服器取得英雄資料，
+此元件將用它來取得要顯示的英雄。
 
-The [`location`](api/common/Location) is an Angular service for interacting with the browser.
-You'll use it [later](#goback) to navigate back to the view that navigated here.
+[`location`](api/common/Location) 是 Angular 用來與瀏覽器互動的服務。
+你將在[稍後](#goback)使用它，導覽回把你帶到這裡的檢視。
 
-### Extract the `id` route parameter
+### 擷取 `id` 路由參數
 
-In the `ngOnInit()` [lifecycle hook](guide/lifecycle-hooks#oninit)
-call `getHero()` and define it as follows.
+在 `ngOnInit()` [生命週期鉤子](guide/lifecycle-hooks#oninit)
+中呼叫 `getHero()`，並如下定義它。
 
 <code-example path="toh-pt5/src/app/hero-detail/hero-detail.component.ts" header="src/app/hero-detail/hero-detail.component.ts" region="ngOnInit">
 </code-example>
 
-The `route.snapshot` is a static image of the route information shortly after the component was created.
+`route.snapshot` 是元件建立後不久的路由資訊靜態快照。
 
-The `paramMap` is a dictionary of route parameter values extracted from the URL.
-The `"id"` key returns the `id` of the hero to fetch.
+`paramMap` 是從 URL 中擷取的路由參數值字典。
+`"id"` 鍵會回傳要擷取的英雄的 `id`。
 
-Route parameters are always strings.
-The JavaScript (+) operator converts the string to a number,
-which is what a hero `id` should be.
+路由參數永遠是字串。
+JavaScript 的 (+) 運算子會把字串轉換為數字，
+而這正是英雄 `id` 應有的型別。
 
-The browser refreshes and the app crashes with a compiler error.
-`HeroService` doesn't have a `getHero()` method.
-Add it now.
+瀏覽器會重新整理，應用程式會因編譯器錯誤而當掉。
+`HeroService` 沒有 `getHero()` 方法。
+現在就加入它。
 
-### Add `HeroService.getHero()`
+### 加入 `HeroService.getHero()`
 
-Open `HeroService` and add the following `getHero()` method with the `id` after the `getHeroes()` method:
+開啟 `HeroService`，在 `getHeroes()` 方法之後加入以下 `getHero()` 方法，並帶入 `id`：
 
 <code-example path="toh-pt5/src/app/hero.service.ts" region="getHero" header="src/app/hero.service.ts (getHero)">
 </code-example>
 
 <div class="alert is-important">
 
-Note the backticks ( &#96; ) that define a JavaScript
-[_template literal_](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) for embedding the `id`.
+請注意定義 JavaScript
+[_範本字面值_](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals)（用來嵌入 `id`）的反引號（ &#96; ）。
 </div>
 
-Like [`getHeroes()`](tutorial/toh-pt4#observable-heroservice),
-`getHero()` has an asynchronous signature.
-It returns a _mock hero_ as an `Observable`, using the RxJS `of()` function.
+如同 [`getHeroes()`](tutorial/toh-pt4#可觀察的-heroservice)，
+`getHero()` 具有非同步簽名。
+它會使用 RxJS 的 `of()` 函式，以 `Observable` 的形式回傳一個_模擬英雄_。
 
-You'll be able to re-implement `getHero()` as a real `Http` request
-without having to change the `HeroDetailComponent` that calls it.
+你將能把 `getHero()` 重新實作為真正的 `Http` 請求，
+而不需變更呼叫它的 `HeroDetailComponent`。
 
-#### Try it
+#### 試試看
 
-The browser refreshes and the app is working again.
-You can click a hero in the dashboard or in the heroes list and navigate to that hero's detail view.
+瀏覽器會重新整理，應用程式會再次正常運作。
+你可以在儀表板或英雄清單中點選英雄，導覽到該英雄的詳細檢視。
 
-If you paste `localhost:4200/detail/11` in the browser address bar,
-the router navigates to the detail view for the hero with `id: 11`,  "Dr Nice".
+如果你在瀏覽器網址列中貼上 `localhost:4200/detail/11`，
+路由器會導覽到 `id: 11` 的英雄的詳細檢視，也就是「Dr Nice」。
 
 {@a goback}
 
-### Find the way back
+### 找到回去的路
 
-By clicking the browser's back button,
-you can go back to the hero list or dashboard view,
-depending upon which sent you to the detail view.
+點選瀏覽器的上一頁按鈕，
+你可以回到英雄清單或儀表板檢視，
+取決於是哪一個把你帶到詳細檢視。
 
-It would be nice to have a button on the `HeroDetail` view that can do that.
+在 `HeroDetail` 檢視上有一個可以做到這件事的按鈕會很好。
 
-Add a *go back* button to the bottom of the component template and bind it
-to the component's `goBack()` method.
+在元件範本底部加入一個*返回*按鈕，並把它
+繫結到元件的 `goBack()` 方法。
 
 <code-example path="toh-pt5/src/app/hero-detail/hero-detail.component.html" region="back-button" header="src/app/hero-detail/hero-detail.component.html (back button)">
 </code-example>
 
-Add a `goBack()` _method_ to the component class that navigates backward one step
-in the browser's history stack
-using the `Location` service that you [injected previously](#hero-detail-ctor).
+在元件類別中加入一個 `goBack()` _方法_，使用你[先前注入](#hero-detail-ctor)的 `Location` 服務，在瀏覽器的歷史紀錄堆疊中向後導覽一步。
 
 <code-example path="toh-pt5/src/app/hero-detail/hero-detail.component.ts" region="goBack" header="src/app/hero-detail/hero-detail.component.ts (goBack)">
 
 </code-example>
 
 
-Refresh the browser and start clicking.
-Users can navigate around the app, from the dashboard to hero details and back,
-from heroes list to the mini detail to the hero details and back to the heroes again.
+重新整理瀏覽器並開始點選。
+使用者可以在應用程式中四處導覽，從儀表板到英雄詳細資料再回來，
+從英雄清單到迷你詳細資料再到英雄詳細資料，然後再回到英雄清單。
 
-## Final code review
+## 最終程式碼檢閱
 
-Here are the code files discussed on this page.
+以下是本頁討論過的程式碼檔案。
 
 {@a approutingmodule}
 {@a appmodule}
-#### `AppRoutingModule`, `AppModule`, and `HeroService`
+#### `AppRoutingModule`、`AppModule` 與 `HeroService`
 
 <code-tabs>
   <code-pane
@@ -561,13 +551,13 @@ Here are the code files discussed on this page.
   </code-pane>
 </code-tabs>
 
-## Summary
+## 摘要
 
-* You added the Angular router to navigate among different components.
-* You turned the `AppComponent` into a navigation shell with `<a>` links and a `<router-outlet>`.
-* You configured the router in an `AppRoutingModule`
-* You defined simple routes, a redirect route, and a parameterized route.
-* You used the `routerLink` directive in anchor elements.
-* You refactored a tightly-coupled master/detail view into a routed detail view.
-* You used router link parameters to navigate to the detail view of a user-selected hero.
-* You shared the `HeroService` among multiple components.
+* 你加入了 Angular 路由器，可在不同元件之間導覽。
+* 你把 `AppComponent` 變成一個導覽外殼，內含 `<a>` 連結與 `<router-outlet>`。
+* 你在 `AppRoutingModule` 中設定了路由器。
+* 你定義了簡單的路由、重新導向路由與參數化路由。
+* 你在錨點元素中使用了 `routerLink` 指令。
+* 你把緊密耦合的主／詳細檢視重構成路由詳細檢視。
+* 你使用路由器連結參數，導覽到使用者所選英雄的詳細檢視。
+* 你與多個元件共享了 `HeroService`。

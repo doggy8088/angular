@@ -1,55 +1,50 @@
-# Service worker configuration
+# Service Worker 設定檔
 
-#### Prerequisites
+#### 必要條件
 
-A basic understanding of the following:
-* [Service Worker in Production](guide/service-worker-devops).
+對下列內容有基本的了解：
+* [Service Worker 運維](guide/service-worker-devops)。
 
 <hr />
 
-The `ngsw-config.json` configuration file specifies which files and data URLs the Angular service
-worker should cache and how it should update the cached files and data. The [Angular CLI](cli)
-processes the configuration file during `ng build --prod`. Manually, you can process it with the
-`ngsw-config` tool (where `<project-name>` is the name of the project being built):
+`ngsw-config.json` 設定檔會指定 Angular service worker 應該快取哪些檔案與資料 URL，以及它應該如何更新已快取的檔案與資料。[Angular CLI](cli) 會在 `ng build --prod` 期間處理設定檔。手動處理時，你可以使用 `ngsw-config` 工具（其中 `<project-name>` 是正在建置的專案名稱）：
 
 <code-example language="sh">
 ./node_modules/.bin/ngsw-config ./dist/&lt;project-name&gt; ./ngsw-config.json [/base/href]
 </code-example>
 
-The configuration file uses the JSON format. All file paths must begin with `/`, which corresponds
-to the deployment directory&mdash;usually `dist/<project-name>` in CLI projects.
+設定檔使用 JSON 格式。所有檔案路徑都必須以 `/` 開頭，對應部署目錄&mdash;在 CLI 專案中通常是 `dist/<project-name>`。
 
 {@a glob-patterns}
-Unless otherwise noted, patterns use a limited glob format:
+除非另有註明，否則模式使用一種有限的 glob 格式：
 
-* `**` matches 0 or more path segments.
-* `*` matches 0 or more characters excluding `/`.
-* `?` matches exactly one character excluding `/`.
-* The `!` prefix marks the pattern as being negative, meaning that only files that don't match the pattern will be included.
+* `**` 符合 0 個或多個路徑區段。
+* `*` 符合 0 個或多個字元（不含 `/`）。
+* `?` 恰好符合一個字元（不含 `/`）。
+* `!` 前綴把模式標示為否定，意思是只包含不符合該模式的檔案。
 
-Example patterns:
+模式範例：
 
-* `/**/*.html` specifies all HTML files.
-* `/*.html` specifies only HTML files in the root.
-* `!/**/*.map` exclude all sourcemaps.
+* `/**/*.html` 指定所有 HTML 檔案。
+* `/*.html` 只指定根目錄中的 HTML 檔案。
+* `!/**/*.map` 排除所有 sourcemap。
 
-Each section of the configuration file is described below.
+設定檔的每一節說明如下。
 
 ## `appData`
 
-This section enables you to pass any data you want that describes this particular version of the app.
-The `SwUpdate` service includes that data in the update notifications. Many apps use this section to provide additional information for the display of UI popups, notifying users of the available update.
+這一節讓你可以傳入任何想傳的資料，用來描述應用程式的這個特定版本。`SwUpdate` 服務會把該資料包含在更新通知中。許多應用程式使用這一節提供額外資訊，用來顯示 UI 彈出視窗，通知使用者有可用更新。
 
 {@a index-file}
 ## `index`
 
-Specifies the file that serves as the index page to satisfy navigation requests. Usually this is `/index.html`.
+指定作為索引頁面來滿足導覽請求的檔案。通常是 `/index.html`。
 
 ## `assetGroups`
 
-*Assets* are resources that are part of the app version that update along with the app. They can include resources loaded from the page's origin as well as third-party resources loaded from CDNs and other external URLs. As not all such external URLs may be known at build time, URL patterns can be matched.
+*資產*是應用程式版本的一部分、會隨應用程式一起更新的資源。它們可以包括從頁面來源載入的資源，以及從 CDN 與其他外部 URL 載入的第三方資源。由於並非所有這類外部 URL 在建置時都已知，因此可以使用 URL 模式來進行符合比對。
 
-This field contains an array of asset groups, each of which defines a set of asset resources and the policy by which they are cached.
+這個欄位包含一個資產群組陣列，每個群組都定義一組資產資源，以及快取它們所依據的政策。
 
 ```json
 {
@@ -66,17 +61,15 @@ This field contains an array of asset groups, each of which defines a set of ass
 
 <div class="alert is-helpful">
 
-When the ServiceWorker handles a request, it checks asset groups in the order in which they appear in `ngsw-config.json`.
-The first asset group that matches the requested resource handles the request.
+當 ServiceWorker 處理一個請求時，它會依資產群組在 `ngsw-config.json` 中出現的順序來檢查。第一個符合所請求資源的資產群組會處理該請求。
 
-It is recommended that you put the more specific asset groups higher in the list.
-For example, an asset group that matches `/foo.js` should appear before one that matches `*.js`.
+建議把較具體的資產群組放在清單較前面的位置。例如，符合 `/foo.js` 的資產群組，應該出現在符合 `*.js` 的群組之前。
 
 </div>
 
-Each asset group specifies both a group of resources and a policy that governs them. This policy determines when the resources are fetched and what happens when changes are detected.
+每個資產群組都同時指定一組資源，以及管理這些資源的政策。這個政策決定資源何時被擷取，以及偵測到變更時會發生什麼事。
 
-Asset groups follow the Typescript interface shown here:
+資產群組遵循這裡所示的 Typescript 介面：
 
 ```typescript
 interface AssetGroup {
@@ -95,48 +88,48 @@ interface AssetGroup {
 
 ### `name`
 
-A `name` is mandatory. It identifies this particular group of assets between versions of the configuration.
+`name` 是必填的。它在設定的各版本之間識別這個特定的資產群組。
 
 ### `installMode`
 
-The `installMode` determines how these resources are initially cached. The `installMode` can be either of two values:
+`installMode` 決定這些資源最初如何被快取。`installMode` 可以是兩個值之一：
 
-* `prefetch` tells the Angular service worker to fetch every single listed resource while it's caching the current version of the app. This is bandwidth-intensive but ensures resources are available whenever they're requested, even if the browser is currently offline.
+* `prefetch` 告訴 Angular service worker，在它快取應用程式目前版本的同時，擷取每一個列出的資源。這會大量消耗頻寬，但能確保資源在被請求時隨時可用，即使瀏覽器目前離線也一樣。
 
-* `lazy` does not cache any of the resources up front. Instead, the Angular service worker only caches resources for which it receives requests. This is an on-demand caching mode. Resources that are never requested will not be cached. This is useful for things like images at different resolutions, so the service worker only caches the correct assets for the particular screen and orientation.
+* `lazy` 不預先快取任何資源。Angular service worker 只會快取它收到請求的資源。這是一種隨選快取模式。從未被請求的資源不會被快取。這適用於不同解析度的圖片這類情境，讓 service worker 只快取符合特定螢幕與方向的正確資產。
 
-Defaults to `prefetch`.
+預設值為 `prefetch`。
 
 ### `updateMode`
 
-For resources already in the cache, the `updateMode` determines the caching behavior when a new version of the app is discovered. Any resources in the group that have changed since the previous version are updated in accordance with `updateMode`.
+對於已經在快取中的資源，`updateMode` 決定在發現應用程式新版本時的快取行為。群組中自前一版本以來已變更的任何資源，都會依 `updateMode` 來更新。
 
-* `prefetch` tells the service worker to download and cache the changed resources immediately.
+* `prefetch` 告訴 service worker 立即下載並快取已變更的資源。
 
-* `lazy` tells the service worker to not cache those resources. Instead, it treats them as unrequested and waits until they're requested again before updating them. An `updateMode` of `lazy` is only valid if the `installMode` is also `lazy`.
+* `lazy` 告訴 service worker 不要快取這些資源。它會把它們視為未被請求，並等到它們再次被請求時才更新。`updateMode` 為 `lazy` 只有在 `installMode` 也是 `lazy` 時才有效。
 
-Defaults to the value `installMode` is set to.
+預設值為 `installMode` 所設定的值。
 
 ### `resources`
 
-This section describes the resources to cache, broken up into the following groups:
+這一節說明要快取的資源，細分如下列群組：
 
-* `files` lists patterns that match files in the distribution directory. These can be single files or glob-like patterns that match a number of files.
+* `files` 列出符合發行目錄中檔案的模式。這些可以是單一檔案，或是符合多個檔案的類 glob 模式。
 
-* `urls` includes both URLs and URL patterns that will be matched at runtime. These resources are not fetched directly and do not have content hashes, but they will be cached according to their HTTP headers. This is most useful for CDNs such as the Google Fonts service.<br>
-  _(Negative glob patterns are not supported and `?` will be matched literally; i.e. it will not match any character other than `?`.)_
+* `urls` 包括在執行階段進行比對的 URL 與 URL 模式。這些資源不會被直接擷取，也沒有內容雜湊，而是依其 HTTP 標頭來快取。這對 Google Fonts 服務這類 CDN 最有用。<br>
+  _（不支援否定 glob 模式，且 `?` 會逐字比對；也就是說，它不會符合 `?` 以外的任何字元。）_
 
 ### `cacheQueryOptions`
 
-These options are used to modify the matching behavior of requests. They are passed to the browsers `Cache#match` function. See [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Cache/match) for details. Currently, only the following options are supported:
+這些選項用來修改請求的比對行為。它們會傳給瀏覽器的 `Cache#match` 函式。詳情請參閱 [MDN](https://developer.mozilla.org/en-US/docs/Web/API/Cache/match)。目前只支援以下選項：
 
-* `ignoreSearch`: Ignore query parameters. Defaults to `false`.
+* `ignoreSearch`：忽略查詢參數。預設值為 `false`。
 
 ## `dataGroups`
 
-Unlike asset resources, data requests are not versioned along with the app. They're cached according to manually-configured policies that are more useful for situations such as API requests and other data dependencies.
+與資產資源不同，資料請求不會隨應用程式一起版控。它們會依手動設定的政策來快取，這類政策對 API 請求與其他資料相依性等情境更有用。
 
-This field contains an array of data groups, each of which defines a set of data resources and the policy by which they are cached.
+這個欄位包含一個資料群組陣列，每個群組都定義一組資料資源，以及快取它們所依據的政策。
 
 ```json
 {
@@ -153,15 +146,13 @@ This field contains an array of data groups, each of which defines a set of data
 
 <div class="alert is-helpful">
 
-When the ServiceWorker handles a request, it checks data groups in the order in which they appear in `ngsw-config.json`.
-The first data group that matches the requested resource handles the request.
+當 ServiceWorker 處理一個請求時，它會依資料群組在 `ngsw-config.json` 中出現的順序來檢查。第一個符合所請求資源的資料群組會處理該請求。
 
-It is recommended that you put the more specific data groups higher in the list.
-For example, a data group that matches `/api/foo.json` should appear before one that matches `/api/*.json`.
+建議把較具體的資料群組放在清單較前面的位置。例如，符合 `/api/foo.json` 的資料群組，應該出現在符合 `/api/*.json` 的群組之前。
 
 </div>
 
-Data groups follow this Typescript interface:
+資料群組遵循這個 Typescript 介面：
 
 ```typescript
 export interface DataGroup {
@@ -181,101 +172,100 @@ export interface DataGroup {
 ```
 
 ### `name`
-Similar to `assetGroups`, every data group has a `name` which uniquely identifies it.
+與 `assetGroups` 類似，每個資料群組都有一個 `name`，用來唯一識別它。
 
 ### `urls`
-A list of URL patterns. URLs that match these patterns are cached according to this data group's policy. Only non-mutating requests (GET and HEAD) are cached.
- * Negative glob patterns are not supported.
- * `?` is matched literally; that is, it matches *only* the character `?`.
+URL 模式的清單。符合這些模式的 URL 會依這個資料群組的政策來快取。只有非變更型的請求（GET 與 HEAD）會被快取。
+ * 不支援否定 glob 模式。
+ * `?` 會逐字比對；也就是說，它*只*符合 `?` 字元。
 
 ### `version`
-Occasionally APIs change formats in a way that is not backward-compatible. A new version of the app may not be compatible with the old API format and thus may not be compatible with existing cached resources from that API.
+API 有時會以不向後相容的方式變更格式。應用程式的新版本可能與舊的 API 格式不相容，因此也可能與來自該 API 的既有快取資源不相容。
 
-`version` provides a mechanism to indicate that the resources being cached have been updated in a backwards-incompatible way, and that the old cache entries&mdash;those from previous versions&mdash;should be discarded.
+`version` 提供一種機制，指出正在快取的資源已以不向後相容的方式更新，而舊的快取項目&mdash;也就是來自先前版本的項目&mdash;應該被捨棄。
 
-`version` is an integer field and defaults to `1`.
+`version` 是一個整數欄位，預設值為 `1`。
 
 ### `cacheConfig`
-This section defines the policy by which matching requests will be cached.
+本節定義符合的請求被快取所依據的政策。
 
 #### `maxSize`
-(required) The maximum number of entries, or responses, in the cache. Open-ended caches can grow in unbounded ways and eventually exceed storage quotas, calling for eviction.
+（必填）快取中項目的最大數量，也就是回應的數量。開放式快取可能會以無限制的方式增長，最終超出儲存配額，需要加以清除。
 
 #### `maxAge`
-(required) The `maxAge` parameter indicates how long responses are allowed to remain in the cache before being considered invalid and evicted. `maxAge` is a duration string, using the following unit suffixes:
+（必填）`maxAge` 參數指出回應在被視為無效並清除之前，可以在快取中保留多久。`maxAge` 是一個持續時間字串，使用以下單位後綴：
 
-* `d`: days
-* `h`: hours
-* `m`: minutes
-* `s`: seconds
-* `u`: milliseconds
+* `d`：天
+* `h`：小時
+* `m`：分鐘
+* `s`：秒
+* `u`：毫秒
 
-For example, the string `3d12h` will cache content for up to three and a half days.
+例如，字串 `3d12h` 表示把內容快取最多三天半。
 
 #### `timeout`
-This duration string specifies the network timeout. The network timeout is how long the Angular service worker will wait for the network to respond before using a cached response, if configured to do so. `timeout` is a duration string, using the following unit suffixes:
+這個持續時間字串指定網路逾時。網路逾時是指在設定如此做的情況下，Angular service worker 在改用已快取回應之前，等待網路回應的時間。`timeout` 是一個持續時間字串，使用以下單位後綴：
 
-* `d`: days
-* `h`: hours
-* `m`: minutes
-* `s`: seconds
-* `u`: milliseconds
+* `d`：天
+* `h`：小時
+* `m`：分鐘
+* `s`：秒
+* `u`：毫秒
 
-For example, the string `5s30u` will translate to five seconds and 30 milliseconds of network timeout.
+例如，字串 `5s30u` 相當於五秒又 30 毫秒的網路逾時。
 
 #### `strategy`
 
-The Angular service worker can use either of two caching strategies for data resources.
+Angular service worker 對資料資源可以使用兩種快取策略之一。
 
-* `performance`, the default, optimizes for responses that are as fast as possible. If a resource exists in the cache, the cached version is used, and no network request is made. This allows for some staleness, depending on the `maxAge`, in exchange for better performance. This is suitable for resources that don't change often; for example, user avatar images.
+* `performance` 是預設策略，針對儘可能快的回應進行最佳化。如果資源存在於快取中，就使用已快取的版本，不發出網路請求。這會以更好的效能換取一定程度的過時（視 `maxAge` 而定）。這適用於不常變更的資源；例如，使用者頭像圖片。
 
-* `freshness` optimizes for currency of data, preferentially fetching requested data from the network. Only if the network times out, according to `timeout`, does the request fall back to the cache. This is useful for resources that change frequently; for example, account balances.
+* `freshness` 針對資料的即時性進行最佳化，優先從網路擷取所請求的資料。只有在網路逾時（依 `timeout` 而定）時，請求才會退回使用快取。這適用於經常變更的資源；例如，帳戶餘額。
 
 
 <div class="alert is-helpful">
 
-You can also emulate a third strategy, [staleWhileRevalidate](https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate), which returns cached data (if available), but also fetches fresh data from the network in the background for next time.
-To use this strategy set `strategy` to `freshness` and `timeout` to `0u` in `cacheConfig`.
+你也可以模擬第三種策略，[staleWhileRevalidate](https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/#stale-while-revalidate)，它會回傳快取資料（若有），但同時在背景從網路擷取新資料，供下次使用。若要使用這個策略，請在 `cacheConfig` 中把 `strategy` 設為 `freshness`，把 `timeout` 設為 `0u`。
 
-This will essentially do the following:
+這基本上會執行以下動作：
 
-1. Try to fetch from the network first.
-2. If the network request does not complete after 0ms (i.e. immediately), fall back to the cache (ignoring cache age).
-3. Once the network request completes, update the cache for future requests.
-4. If the resource does not exist in the cache, wait for the network request anyway.
+1. 先嘗試從網路擷取。
+2. 如果網路請求在 0ms 後仍未完成（也就是沒有立即完成），退回使用快取（忽略快取年齡）。
+3. 網路請求完成後，更新快取供未來請求使用。
+4. 如果資源不存在於快取中，無論如何都等待網路請求。
 
 </div>
 
 ### `cacheQueryOptions`
 
-See [assetGroups](#assetgroups) for details.
+詳情請參閱 [assetGroups](#assetgroups)。
 
 ## `navigationUrls`
 
-This optional section enables you to specify a custom list of URLs that will be redirected to the index file.
+這個可選的區段讓你可以指定一份自訂的 URL 清單，這些 URL 會重新導向到索引檔案。
 
-### Handling navigation requests
+### 處理導覽請求
 
-The ServiceWorker will redirect navigation requests that don't match any `asset` or `data` group to the specified [index file](#index-file). A request is considered to be a navigation request if:
+ServiceWorker 會把不符合任何 `asset` 或 `data` 群組的導覽請求，重新導向到指定的[索引檔案](#index-file)。符合以下條件的請求會被視為導覽請求：
 
-1. Its [mode](https://developer.mozilla.org/en-US/docs/Web/API/Request/mode) is `navigation`.
-2. It accepts a `text/html` response (as determined by the value of the `Accept` header).
-3. Its URL matches certain criteria (see below).
+1. 它的[模式](https://developer.mozilla.org/en-US/docs/Web/API/Request/mode)是 `navigation`。
+2. 它接受 `text/html` 回應（依 `Accept` 標頭的值判斷）。
+3. 它的 URL 符合某些條件（見下）。
 
-By default, these criteria are:
+依預設，這些條件是：
 
-1. The URL must not contain a file extension (i.e. a `.`) in the last path segment.
-2. The URL must not contain `__`.
+1. URL 的最後一個路徑區段不能包含副檔名（也就是 `.`）。
+2. URL 不能包含 `__`。
 
-### Matching navigation request URLs
+### 比對導覽請求 URL
 
-While these default criteria are fine in most cases, it is sometimes desirable to configure different rules. For example, you may want to ignore specific routes (that are not part of the Angular app) and pass them through to the server.
+雖然這些預設條件在大多數情況下都適用，但有時你會想設定不同的規則。例如，你可能會想忽略特定的路由（不屬於 Angular 應用程式的那些路由），並把它們傳給伺服器。
 
-This field contains an array of URLs and [glob-like](#glob-patterns) URL patterns that will be matched at runtime. It can contain both negative patterns (i.e. patterns starting with `!`) and non-negative patterns and URLs.
+這個欄位包含一個 URL 陣列，以及在執行階段比對的[類 glob](#glob-patterns) URL 模式。它可以同時包含否定模式（也就是以 `!` 開頭的模式）與非否定模式和 URL。
 
-Only requests whose URLs match _any_ of the non-negative URLs/patterns and _none_ of the negative ones will be considered navigation requests. The URL query will be ignored when matching.
+只有 URL 符合_任何_非否定 URL／模式、且_不_符合任何否定模式的請求，才會被視為導覽請求。比對時會忽略 URL 查詢。
 
-If the field is omitted, it defaults to:
+如果省略這個欄位，它的預設值為：
 
 ```ts
 [
@@ -285,3 +275,4 @@ If the field is omitted, it defaults to:
   '!/**/*__*/**',  // Exclude URLs containing `__` in any other segment.
 ]
 ```
+

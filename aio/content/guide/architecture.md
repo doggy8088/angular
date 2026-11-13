@@ -1,157 +1,156 @@
-# Introduction to Angular concepts
+# Angular 概念簡介
 
-Angular is a platform and framework for building single-page client applications using HTML and TypeScript.
-Angular is written in TypeScript.
-It implements core and optional functionality as a set of TypeScript libraries that you import into your apps.
+Angular 是一個使用 HTML 與 TypeScript 建立單頁用戶端應用程式的平台與框架。
+Angular 是以 TypeScript 撰寫的。
+它將核心功能與選用功能實作為一組 TypeScript 函式庫，供你匯入應用程式中使用。
 
-The architecture of an Angular application relies on certain fundamental concepts.
-The basic building blocks of the Angular framework are Angular components that are organized into *NgModules*. NgModules collect related code into functional sets; an Angular app is defined by a set of NgModules. An app always has at least a *root module* that enables bootstrapping, and typically has many more *feature modules*.
+Angular 應用程式的架構建立在一些基本概念之上。Angular 框架的基本建構區塊，是組織成 *NgModules* 的 Angular 元件。NgModules 將相關程式碼收集成功能集合；一個 Angular 應用程式由一組 NgModules 定義。應用程式一定至少有一個*根模組*來啟用啟動程序，而且通常還有許多*功能模組*。
 
-* Components define *views*, which are sets of screen elements that Angular can choose among and modify according to your program logic and data.
+* 元件定義*檢視*，檢視是一組畫面元素，Angular 可以根據你的程式邏輯與資料，在其中選擇並修改。
 
-* Components use *services*, which provide specific functionality not directly related to views. Service providers can be *injected* into components as *dependencies*, making your code modular, reusable, and efficient.
+* 元件使用*服務*，服務提供與檢視沒有直接關係的特定功能。服務提供者可以作為*依賴*被*注入*元件，讓你的程式碼模組化、可重用且有效率。
 
-Modules, components and services are classes that use *decorators*. These decorators mark their type and provide metadata that tells Angular how to use them.
+模組、元件與服務都是使用*裝飾器*的類別。這些裝飾器標示它們的型別，並提供中繼資料，告訴 Angular 如何使用它們。
 
-* The metadata for a component class associates it with a *template* that defines a view. A template combines ordinary HTML with Angular *directives* and *binding markup* that allow Angular to modify the HTML before rendering it for display.
+* 元件類別的中繼資料將其與定義檢視的*範本*關聯起來。範本結合了一般 HTML 與 Angular *指令*和*繫結標記*，讓 Angular 能在渲染 HTML 以供顯示之前先修改它。
 
-* The metadata for a service class provides the information Angular needs to make it available to components through *dependency injection (DI)*.
+* 服務類別的中繼資料提供 Angular 所需的資訊，讓它能透過*依賴注入 (DI)* 將服務提供給元件使用。
 
-An app's components typically define many views, arranged hierarchically. Angular provides the `Router` service to help you define navigation paths among views. The router provides sophisticated in-browser navigational capabilities.
+應用程式的元件通常定義許多檢視，並以階層方式排列。Angular 提供 `Router` 服務，協助你定義檢視之間的導覽路徑。路由器提供精密的瀏覽器內導覽功能。
 
 <div class="alert is-helpful">
 
-  See the [Angular Glossary](guide/glossary) for basic definitions of important Angular terms and usage.
+  關於重要 Angular 術語與用法的基本定義，請見 [Angular 詞彙表](guide/glossary)。
 
 </div>
 
 <div class="alert is-helpful">
 
-  For the sample app that this page describes, see the <live-example></live-example>.
+  關於本頁描述的範例應用程式，請見 <live-example></live-example>。
 </div>
 
-## Modules
+## 模組
 
-Angular *NgModules* differ from and complement JavaScript (ES2015) modules. An NgModule declares a compilation context for a set of components that is dedicated to an application domain, a workflow, or a closely related set of capabilities. An NgModule can associate its components with related code, such as services, to form functional units.
+Angular *NgModules* 與 JavaScript (ES2015) 模組不同，但兩者相輔相成。NgModule 為一組元件宣告編譯情境，該組元件專屬於某個應用程式領域、工作流程或一組密切相關的功能。NgModule 可以將其元件與相關程式碼（例如服務）關聯起來，形成功能單元。
 
-Every Angular app has a *root module*, conventionally named `AppModule`, which provides the bootstrap mechanism that launches the application. An app typically contains many functional modules.
+每個 Angular 應用程式都有一個*根模組*，依慣例命名為 `AppModule`，它提供啟動應用程式的啟動機制。應用程式通常包含許多功能模組。
 
-Like JavaScript modules, NgModules can import functionality from other NgModules, and allow their own functionality to be exported and used by other NgModules. For example, to use the router service in your app, you import the `Router` NgModule.
+與 JavaScript 模組一樣，NgModules 可以從其他 NgModules 匯入功能，也可以讓自己的功能被匯出並供其他 NgModules 使用。例如，若要在應用程式中使用路由器服務，你可以匯入 `Router` NgModule。
 
-Organizing your code into distinct functional modules helps in managing development of complex applications, and in designing for reusability. In addition, this technique lets you take advantage of *lazy-loading*&mdash;that is, loading modules on demand&mdash;to minimize the amount of code that needs to be loaded at startup.
+將程式碼組織成不同的功能模組，有助於管理複雜應用程式的開發，以及設計可重用性。此外，這種技巧讓你能利用*延遲載入*&mdash;也就是按需載入模組&mdash;來盡量減少啟動時需要載入的程式碼量。
 
 <div class="alert is-helpful">
 
-  For a more detailed discussion, see [Introduction to modules](guide/architecture-modules).
+  更詳細的討論，請見[模組簡介](guide/architecture-modules)。
 
 </div>
 
-## Components
+## 元件
 
-Every Angular application has at least one component, the *root component* that connects a component hierarchy with the page document object model (DOM). Each component defines a class that contains application data and logic, and is associated with an HTML *template* that defines a view to be displayed in a target environment.
+每個 Angular 應用程式至少有一個元件，即*根元件*，它將元件階層與頁面的文件物件模型 (DOM) 連接起來。每個元件定義一個包含應用程式資料與邏輯的類別，並與定義要在目標環境中顯示之檢視的 HTML *範本*相關聯。
 
-The `@Component()` decorator identifies the class immediately below it as a component, and provides the template and related component-specific metadata.
+`@Component()` 裝飾器將緊接在其下方的類別標示為元件，並提供範本與相關的元件專屬中繼資料。
 
 <div class="alert is-helpful">
 
-   Decorators are functions that modify JavaScript classes. Angular defines a number of decorators that attach specific kinds of metadata to classes, so that the system knows what those classes mean and how they should work.
+   裝飾器是修改 JavaScript 類別的函式。Angular 定義了許多裝飾器，將特定種類的中繼資料附加到類別上，讓系統知道這些類別的意義以及它們應如何運作。
 
-   <a href="https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.x5c2ndtx0">Learn more about decorators on the web.</a>
+   <a href="https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841#.x5c2ndtx0">在網路上進一步了解裝飾器。</a>
 
 </div>
 
-### Templates, directives, and data binding
+### 範本、指令與資料繫結
 
-A template combines HTML with Angular markup that can modify HTML elements before they are displayed.
-Template *directives* provide program logic, and *binding markup* connects your application data and the DOM.
-There are two types of data binding:
+範本結合 HTML 與 Angular 標記，可以在 HTML 元素顯示之前先修改它們。
+範本*指令*提供程式邏輯，而*繫結標記*連接你的應用程式資料與 DOM。
+資料繫結有兩種類型：
 
-* *Event binding* lets your app respond to user input in the target environment by updating your application data.
-* *Property binding* lets you interpolate values that are computed from your application data into the HTML.
+* *事件繫結*讓應用程式透過更新應用程式資料，來回應目標環境中的使用者輸入。
+* *屬性繫結*讓你將根據應用程式資料計算出的值，內插到 HTML 中。
 
-Before a view is displayed, Angular evaluates the directives and resolves the binding syntax in the template to modify the HTML elements and the DOM, according to your program data and logic. Angular supports *two-way data binding*, meaning that changes in the DOM, such as user choices, are also reflected in your program data.
+在顯示檢視之前，Angular 會評估指令並解析範本中的繫結語法，根據你的程式資料與邏輯來修改 HTML 元素與 DOM。Angular 支援*雙向資料繫結*，意思是 DOM 中的變更（例如使用者的選擇）也會反映在你的程式資料中。
 
-Your templates can use *pipes* to improve the user experience by transforming values for display.
-For example, use pipes to display dates and currency values that are appropriate for a user's locale.
-Angular provides predefined pipes for common transformations, and you can also define your own pipes.
+你的範本可以使用*管道*，透過轉換要顯示的值來改善使用者體驗。
+例如，使用管道來顯示適合使用者地區設定的日期與貨幣值。
+Angular 為常見的轉換提供預先定義的管道，你也可以定義自己的管道。
 
 <div class="alert is-helpful">
 
-  For a more detailed discussion of these concepts, see [Introduction to components](guide/architecture-components).
+  關於這些概念的更詳細討論，請見[元件簡介](guide/architecture-components)。
 
 </div>
 
 {@a dependency-injection}
 
 
-## Services and dependency injection
+## 服務與依賴注入
 
-For data or logic that isn't associated with a specific view, and that you want to share across components, you create a *service* class. A service class definition is immediately preceded by the `@Injectable()` decorator. The decorator provides the metadata that allows other providers to be **injected** as dependencies into your class.
+對於與特定檢視無關、且你想在元件之間共用的資料或邏輯，你可以建立一個*服務*類別。服務類別定義的前面緊接著 `@Injectable()` 裝飾器。該裝飾器提供的中繼資料，讓其他提供者能以依賴的形式被**注入**你的類別。
 
- *Dependency injection* (DI) lets you keep your component classes lean and efficient. They don't fetch data from the server, validate user input, or log directly to the console; they delegate such tasks to services.
+ *依賴注入* (DI) 讓你保持元件類別精簡且有效率。它們不會從伺服器擷取資料、驗證使用者輸入，或直接記錄到主控台；它們會將這類任務委派給服務。
 
 <div class="alert is-helpful">
 
-  For a more detailed discussion, see [Introduction to services and DI](guide/architecture-services).
+  更詳細的討論，請見[服務與 DI 簡介](guide/architecture-services)。
 
 </div>
 
-### Routing
+### 路由
 
-The Angular `Router` NgModule provides a service that lets you define a navigation path among the different application states and view hierarchies in your app. It is modeled on the familiar browser navigation conventions:
+Angular `Router` NgModule 提供一項服務，讓你定義應用程式中不同應用程式狀態與檢視階層之間的導覽路徑。它的模型來自熟悉的瀏覽器導覽慣例：
 
-* Enter a URL in the address bar and the browser navigates to a corresponding page.
+* 在網址列中輸入 URL，瀏覽器就會導覽到對應的頁面。
 
-* Click links on the page and the browser navigates to a new page.
+* 點選頁面上的連結，瀏覽器就會導覽到新頁面。
 
-* Click the browser's back and forward buttons and the browser navigates backward and forward through the history of pages you've seen.
+* 點選瀏覽器的上一頁與下一頁按鈕，瀏覽器就會在你看過的頁面歷史記錄中前後導覽。
 
-The router maps URL-like paths to views instead of pages. When a user performs an action, such as clicking a link, that would load a new page in the browser, the router intercepts the browser's behavior, and shows or hides view hierarchies.
+路由器將類似 URL 的路徑對應到檢視，而非頁面。當使用者執行動作（例如點選連結），原本會在瀏覽器中載入新頁面時，路由器會攔截瀏覽器的行為，並顯示或隱藏檢視階層。
 
-If the router determines that the current application state requires particular functionality, and the module that defines it hasn't been loaded, the router can *lazy-load* the module on demand.
+如果路由器判斷目前的應用程式狀態需要特定功能，而定義該功能的模組尚未載入，路由器可以按需*延遲載入*該模組。
 
-The router interprets a link URL according to your app's view navigation rules and data state. You can navigate to new views when the user clicks a button or selects from a drop box, or in response to some other stimulus from any source. The router logs activity in the browser's history, so the back and forward buttons work as well.
+路由器會根據應用程式的檢視導覽規則與資料狀態來解譯連結 URL。當使用者點選按鈕或從下拉式方塊中選取，或回應來自任何來源的其他刺激時，你可以導覽到新的檢視。路由器會在瀏覽器歷史記錄中記錄活動，因此上一頁與下一頁按鈕也能正常運作。
 
-To define navigation rules, you associate *navigation paths* with your components. A path uses a URL-like syntax that integrates your program data, in much the same way that template syntax integrates your views with your program data. You can then apply program logic to choose which views to show or to hide, in response to user input and your own access rules.
+若要定義導覽規則，你可以將*導覽路徑*與元件關聯起來。路徑使用類似 URL 的語法，將你的程式資料整合進來，就像範本語法將你的檢視與程式資料整合一樣。然後你可以套用程式邏輯，根據使用者輸入與你自己的存取規則，選擇要顯示或隱藏哪些檢視。
 
  <div class="alert is-helpful">
 
-   For a more detailed discussion, see [Routing and navigation](guide/router).
+   更詳細的討論，請見[路由與導覽](guide/router)。
 
  </div>
-
 <hr/>
 
-## What's next
 
-You've learned the basics about the main building blocks of an Angular application. The following diagram shows how these basic pieces are related.
+## 後續步驟
+
+你已經了解 Angular 應用程式主要建構區塊的基礎知識。下圖顯示這些基本部分之間的關係。
 
 <div class="lightbox">
-  <img src="generated/images/guide/architecture/overview2.png" alt="overview">
+  <img src="generated/images/guide/architecture/overview2.png" alt="總覽">
 </div>
 
-* Together, a component and template define an Angular view.
-  * A decorator on a component class adds the metadata, including a pointer to the associated template.
-  * Directives and binding markup in a component's template modify views based on program data and logic.
-* The dependency injector provides services to a component, such as the router service that lets you define navigation among views.
+* 元件與範本共同定義一個 Angular 檢視。
+  * 元件類別上的裝飾器會加入中繼資料，包括指向相關範本的指標。
+  * 元件範本中的指令與繫結標記會根據程式資料與邏輯來修改檢視。
+* 依賴注入器向元件提供服務，例如讓你定義檢視之間導覽的路由器服務。
 
-Each of these subjects is introduced in more detail in the following pages.
+以下頁面將更詳細地介紹這些主題。
 
-* [Introduction to Modules](guide/architecture-modules)
+* [模組簡介](guide/architecture-modules)
 
-* [Introduction to Components](guide/architecture-components)
+* [元件簡介](guide/architecture-components)
 
-  * [Templates and views](guide/architecture-components#templates-and-views)
+  * [範本與檢視](guide/architecture-components#範本與檢視)
 
-  * [Component metadata](guide/architecture-components#component-metadata)
+  * [元件中繼資料](guide/architecture-components#元件中繼資料)
 
-  * [Data binding](guide/architecture-components#data-binding)
+  * [資料繫結](guide/architecture-components#資料繫結)
 
-  * [Directives](guide/architecture-components#directives)
+  * [指令](guide/architecture-components#指令)
 
-  * [Pipes](guide/architecture-components#pipes)
+  * [管道](guide/architecture-components#管道)
 
-* [Introduction to services and dependency injection](guide/architecture-services)
+* [服務與依賴注入簡介](guide/architecture-services)
 
-When you're familiar with these fundamental building blocks, you can explore them in more detail in the documentation. To learn about more tools and techniques that are available to help you build and deploy Angular applications, see [Next steps: tools and techniques](guide/architecture-next-steps).
+當你熟悉這些基本建構區塊後，可以在文件中進一步探索它們。若要了解更多可協助你建置與部署 Angular 應用程式的工具與技巧，請見[後續步驟：工具與技巧](guide/architecture-next-steps)。
 </div>

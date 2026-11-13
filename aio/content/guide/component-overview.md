@@ -1,145 +1,142 @@
-# Angular Components Overview
+# Angular 元件總覽
 
-Components are the main building block for Angular applications. Each component consists of:
+元件是 Angular 應用程式的主要建構區塊。每個元件包含：
 
-* An HTML template that declares what renders on the page
-* A Typescript class that defines behavior
-* A CSS selector that defines how the component is used in a template
-* Optionally, CSS styles applied to the template
+* 用來宣告頁面上呈現內容的 HTML 範本
+* 定義行為的 TypeScript 類別
+* 定義元件在範本中使用方式的 CSS 選擇器
+* 選擇性地，套用到範本的 CSS 樣式
 
-This topic describes how to create and configure an Angular component.
-
-<div class="alert is-helpful">
-
-To view or download the example code used in this topic, see the <live-example></live-example>.
-
-</div>
-
-## Prerequisites
-
-To create a component, verify that you have met the following prerequisites:
-
-1. Install the Angular CLI.
-1. Create an Angular project.
-   If you don't have a project, you can create one using `ng new <project-name>`, where `<project-name>` is the name of your Angular application.
-
-## Creating a component
-
-The easiest way to create a component is with the Angular CLI. You can also create a component manually.
-
-### Creating a component using the Angular CLI
-
-To create a component using the Angular CLI:
-
-1. From a terminal window, navigate to the directory containing your application.
-1. Run the `ng generate component <component-name>` command, where `<component-name>` is the name of your new component.
-
-By default, this command creates the following:
-
-* A folder named after the component
-* A component file, `<component-name>.component.ts`
-* A template file, `<component-name>.component.html`
-* A CSS file, `<component-name>.component.css`
-* A testing specification file, `<component-name>.component.spec.ts`
-
-Where `<component-name>` is the name of your component.
+本主題說明如何建立與設定 Angular 元件。
 
 <div class="alert is-helpful">
 
-You can change how `ng generate component` creates new components.
-For more information, see [ng generate component](cli/generate#component-command) in the Angular CLI documentation.
+若要檢視或下載本主題使用的範例程式碼，請參閱 <live-example></live-example>。
 
 </div>
 
-### Creating a component manually
+## 必要條件
 
-Although the Angular CLI is the easiest way to create an Angular component, you can also create a component manually.
-This section describes how to create the core component file within an existing Angular project.
+若要建立元件，請確認你已符合下列必要條件：
 
-To create a new component manually:
+1. 安裝 Angular CLI。
+1. 建立 Angular 專案。
+   如果你還沒有專案，可以使用 `ng new <project-name>` 建立一個，其中 `<project-name>` 是你的 Angular 應用程式的名稱。
 
-1. Navigate to your Angular project directory.
-1. Create a new file, `<component-name>.component.ts`.
-1. At the top of the file, add the following import statement.
+## 建立元件
+
+建立元件最簡單的方式是使用 Angular CLI。你也可以手動建立元件。
+
+### 使用 Angular CLI 建立元件
+
+若要使用 Angular CLI 建立元件：
+
+1. 在終端機視窗中，前往包含你的應用程式的目錄。
+1. 執行 `ng generate component <component-name>` 命令，其中 `<component-name>` 是你的新元件名稱。
+
+根據預設，此命令會建立下列項目：
+
+* 以元件命名的資料夾
+* 元件檔案 `<component-name>.component.ts`
+* 範本檔案 `<component-name>.component.html`
+* CSS 檔案 `<component-name>.component.css`
+* 測試規格檔案 `<component-name>.component.spec.ts`
+
+其中 `<component-name>` 是你的元件名稱。
+
+<div class="alert is-helpful">
+
+你可以變更 `ng generate component` 建立新元件的方式。更多資訊請參閱 Angular CLI 文件中的 [ng generate component](cli/generate#component-command)。
+
+</div>
+
+### 手動建立元件
+
+雖然 Angular CLI 是建立 Angular 元件最簡單的方式，你也可以手動建立元件。本節說明如何在現有的 Angular 專案中建立核心元件檔案。
+
+若要手動建立新元件：
+
+1. 前往你的 Angular 專案目錄。
+1. 建立新檔案 `<component-name>.component.ts`。
+1. 在檔案頂端加入下列 import 陳述式。
 
    <code-example
         path="component-overview/src/app/component-overview/component-overview.component.ts"
         region="import">
    </code-example>
 
-1. After the `import` statement, add a `@Component` decorator.
+1. 在 `import` 陳述式之後，加入 `@Component` 裝飾器。
 
    <code-example
         path="component-overview/src/app/component-overview/component-overview.component.ts"
         region="decorator-skeleton">
    </code-example>
 
-1. Choose a CSS selector for the component.
+1. 為元件選擇一個 CSS 選擇器。
 
    <code-example
         path="component-overview/src/app/component-overview/component-overview.component.ts"
         region="selector">
    </code-example>
 
-   For more information on choosing a selector, see [Specifying a component's selector](#specifying-a-components-css-selector).
+   關於選擇器的選擇方式，更多資訊請參閱[指定元件的 CSS 選擇器](#指定元件的-css-選擇器)。
 
-1. Define the HTML template that the component uses to display information.
-   In most cases, this template is a separate HTML file.
+1. 定義元件用來顯示資訊的 HTML 範本。
+   在大多數情況下，這個範本是獨立的 HTML 檔案。
 
    <code-example
         path="component-overview/src/app/component-overview/component-overview.component.ts"
         region="templateUrl">
    </code-example>
 
-   For more information on defining a component's template, see [Defining a component's template](#defining-a-components-template).
+   關於定義元件範本的方式，更多資訊請參閱[定義元件的範本](#定義元件的範本)。
 
-1. Select the styles for the component's template.
-   In most cases, you define the styles for your component's template in a separate file.
+1. 選擇元件範本的樣式。
+   在大多數情況下，你會在獨立的檔案中定義元件範本的樣式。
 
    <code-example
         path="component-overview/src/app/component-overview/component-overview.component.ts"
         region="decorator">
    </code-example>
 
-1. Add a `class` statement that includes the code for the component.
+1. 加入包含元件程式碼的 `class` 陳述式。
 
    <code-example
         path="component-overview/src/app/component-overview/component-overview.component.ts"
         region="class">
    </code-example>
 
-## Specifying a component's CSS selector
+## 指定元件的 CSS 選擇器
 
-Every component requires a CSS _selector_. A selector instructs Angular to instantiate this component wherever it finds the corresponding tag in template HTML. For example, consider a component, `hello-world.component.ts` that defines its selector as `app-hello-world`. This selector instructs angular to instantiate this component any time the tag, `<app-hello-world>` in a template.
+每個元件都需要一個 CSS *選擇器*。選擇器會指示 Angular，在範本 HTML 中找到對應標籤的任何位置實例化這個元件。例如，考慮一個元件 `hello-world.component.ts`，它將其選擇器定義為 `app-hello-world`。這個選擇器指示 angular，每當範本中出現 `<app-hello-world>` 標籤時，就實例化這個元件。
 
-To specify a component's selector, add a `selector` statement to the `@Component` decorator.
+若要指定元件的選擇器，請在 `@Component` 裝飾器中加入 `selector` 敘述。
 
 <code-example
     path="component-overview/src/app/component-overview/component-overview.component.ts"
     region="selector">
 </code-example>
 
-## Defining a component's template
+## 定義元件的範本
 
-A template is a block of HTML that tells Angular how to render the component in your application.
-You can define a template for your component in one of two ways: by referencing an external file, or directly within the component.
+範本是一段 HTML，會告訴 Angular 如何在你的應用程式中呈現元件。你可以透過兩種方式為元件定義範本：參照外部檔案，或直接寫在元件內。
 
-To define a template as an external file, add a `templateUrl` property to the `@Component` decorator.
+若要將範本定義為外部檔案，請在 `@Component` 裝飾器中加入 `templateUrl` 屬性。
 
 <code-example
     path="component-overview/src/app/component-overview/component-overview.component.ts"
     region="templateUrl">
 </code-example>
 
-To define a template within the component, add a `template` property to the `@Component` decorator that contains the HTML you want to use.
+若要在元件內定義範本，請在 `@Component` 裝飾器中加入 `template` 屬性，其中包含你想使用的 HTML。
 
 <code-example
     path="component-overview/src/app/component-overview/component-overview.component.1.ts"
     region="template">
 </code-example>
 
-If you want your template to span multiple lines, you can use backticks (<code> ` </code>).
-For example:
+如果你想讓範本橫跨多行，請使用反引號 (<code> ` </code>)。
+例如：
 
 <code-example
     path="component-overview/src/app/component-overview/component-overview.component.2.ts"
@@ -148,35 +145,35 @@ For example:
 
 <div class="alert is-helpful">
 
-An Angular component requires a template defined using `template` or `templateUrl`. You cannot have both statements in a component.
+Angular 元件需要使用 `template` 或 `templateUrl` 定義範本。一個元件不能同時擁有這兩個敘述。
 
 </div>
 
-## Declaring a component's styles
+## 宣告元件的樣式
 
-You can declare component styles uses for its template in one of two ways: by referencing an external file, or directly within the component.
+透過下列兩種方式之一，宣告用於元件範本的元件樣式：參照外部檔案，或直接寫在元件內。
 
-To declare the styles for a component in a separate file, add a `stylesUrls` property to the `@Component` decorator.
+若要在獨立的檔案中宣告元件的樣式，請在 `@Component` 裝飾器中加入 `stylesUrls` 屬性。
 
 <code-example
     path="component-overview/src/app/component-overview/component-overview.component.ts"
     region="decorator">
 </code-example>
 
-To select the styles within the component, add a `styles` property to the `@Component` decorator that contains the styles you want to use.
+若要選取元件內的樣式，請在 `@Component` 裝飾器中加入 `styles` 屬性，其中包含你想使用的樣式。
 
 <code-example
     path="component-overview/src/app/component-overview/component-overview.component.3.ts"
     region="styles">
 </code-example>
 
-The `styles` property takes an array of strings that contain the CSS rule declarations.
+`styles` 屬性接受一個字串陣列，其中包含 CSS 規則宣告。
 
 
-## Next steps
+## 後續步驟
 
-* For an architectural overview of components, see [Introduction to components and templates](guide/architecture-components).
-* For additional options you can use when creating a component, see [Component](api/core/Component) in the API Reference.
-* For more information on styling components, see [Component styles](guide/component-styles).
-* For more information on templates, see [Template syntax](guide/template-syntax).
+* 關於元件的架構總覽，請參閱[元件與範本簡介](guide/architecture-components)。
+* 關於建立元件時可用的其他選項，請參閱 API 參考中的 [Component](api/core/Component)。
+* 關於元件樣式的更多資訊，請參閱[元件樣式](guide/component-styles)。
+* 關於範本的更多資訊，請參閱[範本語法](guide/template-syntax)。
 

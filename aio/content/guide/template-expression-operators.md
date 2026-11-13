@@ -1,47 +1,46 @@
 <!-- {@a expression-operators} -->
 
-# Template expression operators
+# 範本運算式運算子
 
-The Angular template expression language employs a subset of JavaScript syntax supplemented with a few special operators
-for specific scenarios. The next sections cover three of these operators:
+Angular 範本運算式語言採用 JavaScript 語法的子集，並輔以少數針對特定情境的特殊運算子。接下來的章節將介紹其中三個運算子：
 
-* [pipe](guide/template-expression-operators#pipe)
-* [safe navigation operator](guide/template-expression-operators#safe-navigation-operator)
-* [non-null assertion operator](guide/template-expression-operators#non-null-assertion-operator)
+* [管道](guide/template-expression-operators#pipe)
+* [安全導航運算子](guide/template-expression-operators#safe-navigation-operator)
+* [非空值斷言運算子](guide/template-expression-operators#non-null-assertion-operator)
 
 <div class="alert is-helpful">
 
-See the <live-example></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example></live-example>，查看包含本指南程式碼片段的實際範例。
 
 </div>
 
 {@a pipe}
 
-## The pipe operator (`|`)
+## 管道運算子（`|`）
 
-The result of an expression might require some transformation before you're ready to use it in a binding.
-For example, you might display a number as a currency, change text to uppercase, or filter a list and sort it.
+運算式的結果在準備用於繫結之前，可能需要先經過一些轉換。
+例如，你可以將數字顯示為貨幣、將文字改為大寫，或篩選清單並加以排序。
 
-Pipes are simple functions that accept an input value and return a transformed value.
-They're easy to apply within template expressions, using the pipe operator (`|`):
+管道是簡單的函式，接受一個輸入值並回傳轉換後的值。
+使用管道運算子（`|`），就能輕鬆地在範本運算式中套用它們：
 
 <code-example path="template-expression-operators/src/app/app.component.html" region="uppercase-pipe" header="src/app/app.component.html"></code-example>
 
-The pipe operator passes the result of an expression on the left to a pipe function on the right.
+管道運算子會將左側運算式的結果，傳給右側的管道函式。
 
-You can chain expressions through multiple pipes:
+你可以透過多個管道串連運算式：
 
 <code-example path="template-expression-operators/src/app/app.component.html" region="pipe-chain" header="src/app/app.component.html"></code-example>
 
-And you can also [apply parameters](guide/pipes#parameterizing-a-pipe) to a pipe:
+你也可以為管道[套用參數](guide/pipes#parameterizing-a-pipe)：
 
 <code-example path="template-expression-operators/src/app/app.component.html" region="date-pipe" header="src/app/app.component.html"></code-example>
 
-The `json` pipe is particularly helpful for debugging bindings:
+`json` 管道對於繫結的除錯特別有幫助：
 
 <code-example path="template-expression-operators/src/app/app.component.html" region="json-pipe" header="src/app/app.component.html"></code-example>
 
-The generated output would look something like this:
+產生的輸出大致如下：
 
 <code-example language="json">
   { "name": "Telephone",
@@ -51,11 +50,11 @@ The generated output would look something like this:
 
 <div class="alert is-helpful">
 
-The pipe operator has a higher precedence than the ternary operator (`?:`),
-which means `a ? b : c | x` is parsed as `a ? b : (c | x)`.
-Nevertheless, for a number of reasons,
-the pipe operator cannot be used without parentheses in the first and second operands of `?:`.
-A good practice is to use parentheses in the third operand too.
+管道運算子的優先順序高於三元運算子（`?:`），
+這表示 `a ? b : c | x` 會被解析為 `a ? b : (c | x)`。
+不過，由於種種原因，
+管道運算子在 `?:` 的第一個與第二個運算元中，無法在不加括號的情況下使用。
+在第三個運算元中也使用括號，是良好的做法。
 
 </div>
 
@@ -64,81 +63,78 @@ A good practice is to use parentheses in the third operand too.
 
 {@a safe-navigation-operator}
 
-## The safe navigation operator ( `?` ) and null property paths
+## 安全導航運算子（ `?` ）與 null 屬性路徑
 
-The Angular safe navigation operator, `?`, guards against `null` and `undefined`
-values in property paths. Here, it protects against a view render failure if `item` is `null`.
+Angular 的安全導航運算子 `?`，可以防範屬性路徑中的 `null` 與 `undefined`
+值。在這裡，當 `item` 為 `null` 時，它能避免檢視渲染失敗。
 
 <code-example path="template-expression-operators/src/app/app.component.html" region="safe" header="src/app/app.component.html"></code-example>
 
-If `item` is `null`, the view still renders but the displayed value is blank; you see only "The item name is:" with nothing after it.
+如果 `item` 為 `null`，檢視仍會渲染，但顯示的值是空白的；你只會看到「The item name is:」，其後什麼都沒有。
 
-Consider the next example, with a `nullItem`.
+請看下一個使用 `nullItem` 的範例。
 
 <code-example language="html">
   The null item name is {{nullItem.name}}
 </code-example>
 
-Since there is no safe navigation operator and `nullItem` is `null`, JavaScript and Angular would throw a `null` reference error and break the rendering process of Angular:
+由於沒有安全導航運算子，且 `nullItem` 為 `null`，JavaScript 與 Angular 會擲出 `null` 參照錯誤，並中斷 Angular 的渲染過程：
 
 <code-example language="bash">
   TypeError: Cannot read property 'name' of null.
 </code-example>
 
-Sometimes however, `null` values in the property
-path may be OK under certain circumstances,
-especially when the value starts out null but the data arrives eventually.
+不過，屬性路徑中的 `null` 值在某些情況下是可以接受的，
+特別是當值一開始為 null、但資料最終會送達的時候。
 
-With the safe navigation operator, `?`, Angular stops evaluating the expression when it hits the first `null` value and renders the view without errors.
+使用安全導航運算子 `?`，Angular 會在遇到第一個 `null` 值時停止求值該運算式，並在不發生錯誤的情況下渲染檢視。
 
-It works perfectly with long property paths such as `a?.b?.c?.d`.
+它對於 `a?.b?.c?.d` 這樣的長屬性路徑也能完美運作。
 
 
 <hr/>
 
 {@a non-null-assertion-operator}
 
-## The non-null assertion operator ( `!` )
+## 非空值斷言運算子（ `!` ）
 
-As of Typescript 2.0, you can enforce [strict null checking](http://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html "Strict null checking in TypeScript") with the `--strictNullChecks` flag. TypeScript then ensures that no variable is unintentionally `null` or `undefined`.
+自 TypeScript 2.0 起，你可以使用 `--strictNullChecks` 旗標，強制啟用[嚴格空值檢查](http://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html "Strict null checking in TypeScript")。TypeScript 會確保沒有任何變數在非預期的情況下為 `null` 或 `undefined`。
 
-In this mode, typed variables disallow `null` and `undefined` by default. The type checker throws an error if you leave a variable unassigned or try to assign `null` or `undefined` to a variable whose type disallows `null` and `undefined`.
+在此模式下，具型別的變數預設不允許 `null` 與 `undefined`。如果你讓某個變數未指派值，或嘗試將 `null` 或 `undefined` 指派給型別不允許 `null` 與 `undefined` 的變數，型別檢查器會擲出錯誤。
 
-The type checker also throws an error if it can't determine whether a variable will be `null` or `undefined` at runtime. You tell the type checker not to throw an error by applying the postfix
-[non-null assertion operator, !](http://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator "Non-null assertion operator").
+如果型別檢查器無法判斷某個變數在執行時會是 `null` 或 `undefined`，也會擲出錯誤。你可以套用後綴的
+[非空值斷言運算子 !](http://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html#non-null-assertion-operator "Non-null assertion operator")，告訴型別檢查器不要擲出錯誤。
 
-The Angular non-null assertion operator, `!`, serves the same purpose in
-an Angular template. For example, you can assert that `item` properties are also defined.
+Angular 的非空值斷言運算子 `!`，在 Angular 範本中也有相同的用途。例如，你可以斷言 `item` 的屬性也已定義。
 
 <code-example path="template-expression-operators/src/app/app.component.html" region="non-null" header="src/app/app.component.html"></code-example>
 
-When the Angular compiler turns your template into TypeScript code,
-it prevents TypeScript from reporting that `item.color` might be `null` or `undefined`.
+當 Angular 編譯器將你的範本轉換為 TypeScript 程式碼時，
+它會防止 TypeScript 回報 `item.color` 可能為 `null` 或 `undefined`。
 
-Unlike the [_safe navigation operator_](guide/template-expression-operators#safe-navigation-operator "Safe navigation operator (?)"),
-the non-null assertion operator does not guard against `null` or `undefined`.
-Rather, it tells the TypeScript type checker to suspend strict `null` checks for a specific property expression.
+與[安全導航運算子](guide/template-expression-operators#safe-navigation-operator "Safe navigation operator (?)")不同，
+非空值斷言運算子不會防範 `null` 或 `undefined`。
+相反地，它會告訴 TypeScript 型別檢查器，針對特定的屬性運算式，暫停嚴格的 `null` 檢查。
 
-The non-null assertion operator, `!`, is optional with the exception that you must use it when you turn on strict null checks.
+非空值斷言運算子 `!` 是選用的，唯一的例外是當你開啟嚴格空值檢查時，就必須使用它。
 
 {@a any-type-cast-function}
 
-## The `$any()` type cast function
+## `$any()` 型別轉換函式
 
-Sometimes a binding expression triggers a type error during [AOT compilation](guide/aot-compiler) and it is not possible or difficult to fully specify the type.
-To silence the error, you can use the `$any()` cast function to cast
-the expression to the [`any` type](http://www.typescriptlang.org/docs/handbook/basic-types.html#any) as in the following example:
+有時繫結運算式會在 [AOT 編譯](guide/aot-compiler)期間觸發型別錯誤，而且無法或難以完整指定型別。
+若要消除這個錯誤，你可以使用 `$any()` 轉換函式，將
+運算式轉換為 [`any` 型別](http://www.typescriptlang.org/docs/handbook/basic-types.html#any)，如下列範例所示：
 
 <code-example path="built-in-template-functions/src/app/app.component.html" region="any-type-cast-function-1" header="src/app/app.component.html"></code-example>
 
-When the Angular compiler turns this template into TypeScript code,
-it prevents TypeScript from reporting that `bestByDate` is not a member of the `item`
-object when it runs type checking on the template.
+當 Angular 編譯器將此範本轉換為 TypeScript 程式碼時，
+它會在對範本執行型別檢查時，防止 TypeScript 回報 `bestByDate` 不是 `item`
+物件的成員。
 
-The `$any()` cast function also works with `this` to allow access to undeclared members of
-the component.
+`$any()` 轉換函式也可以搭配 `this` 使用，以便存取元件
+未宣告的成員。
 
 <code-example path="built-in-template-functions/src/app/app.component.html" region="any-type-cast-function-2" header="src/app/app.component.html"></code-example>
 
-The `$any()` cast function works anywhere in a binding expression where a method call is valid.
-
+`$any()` 轉換函式可在繫結運算式中任何方法呼叫有效的位置使用。

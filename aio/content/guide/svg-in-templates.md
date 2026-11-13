@@ -1,27 +1,27 @@
-# SVG in templates
+# 範本中的 SVG
 
-It is possible to use SVG as valid templates in Angular. All of the template syntax below is
-applicable to both SVG and HTML. Learn more in the SVG [1.1](https://www.w3.org/TR/SVG11/) and
-[2.0](https://www.w3.org/TR/SVG2/) specifications.
+可以在 Angular 中將 SVG 用作有效的範本。以下所有範本語法
+都同時適用於 SVG 與 HTML。更多資訊請參閱 SVG [1.1](https://www.w3.org/TR/SVG11/) 與
+[2.0](https://www.w3.org/TR/SVG2/) 規格。
 
 <div class="alert is-helpful">
 
-See the <live-example name="template-syntax"></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example name="template-syntax"></live-example>，查看包含本指南程式碼片段的實際範例。
 
 </div>
 
-Why would you use SVG as template, instead of simply adding it as image to your application?
+為什麼要將 SVG 用作範本，而不是直接將它作為圖片加入你的應用程式呢？
 
-When you use an SVG as the template, you are able to use directives and bindings just like with HTML
-templates. This means that you will be able to dynamically generate interactive graphics.
+當你將 SVG 用作範本時，你可以像使用 HTML
+範本一樣使用指令與繫結。這表示你將能夠動態產生互動式圖形。
 
-Refer to the sample code snippet below for a syntax example:
+請參閱下方的範例程式碼片段，以了解語法範例：
 
 <code-example path="template-syntax/src/app/svg.component.ts" header="src/app/svg.component.ts"></code-example>
 
-Add the following code to your `svg.component.svg` file:
+將以下程式碼加入你的 `svg.component.svg` 檔案：
 
 <code-example path="template-syntax/src/app/svg.component.svg" header="src/app/svg.component.svg"></code-example>
 
-Here you can see the use of a `click()` event binding and the property binding syntax
-(`[attr.fill]="fillColor"`).
+在這裡你可以看到 `click()` 事件繫結與屬性繫結語法的使用
+（`[attr.fill]="fillColor"`）。

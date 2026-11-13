@@ -1,13 +1,13 @@
-﻿# Creating libraries
+# 建立程式庫
 
-This page provides a conceptual overview of how you can create and publish new libraries to extend Angular functionality.
+本頁提供如何建立並發行新程式庫以擴充 Angular 功能的概念性總覽。
 
-If you find that you need to solve the same problem in more than one app (or want to share your solution with other developers), you have a candidate for a library.
-A simple example might be a button that sends users to your company website, that would be included in all apps that your company builds.
+如果你發現自己需要在多個應用程式中解決同一個問題（或想與其他開發者分享你的解決方案），那你就有了一個程式庫的候選題目。
+一個簡單的例子可能是一個按鈕，它會將使用者帶到你公司的網站，並且會包含在你公司建置的所有應用程式中。
 
-## Getting started
+## 開始使用
 
-Use the Angular CLI to generate a new library skeleton in a new workspace with the following commands.
+使用 Angular CLI，透過下列指令在新工作區中產生新的程式庫骨架。
 
 <code-example language="bash">
  ng new my-workspace --create-application=false
@@ -15,18 +15,18 @@ Use the Angular CLI to generate a new library skeleton in a new workspace with t
  ng generate library my-lib
 </code-example>
 
-The `ng generate` command creates the `projects/my-lib` folder in your workspace, which contains a component and a service inside an NgModule.
+`ng generate` 指令會在你的工作區中建立 `projects/my-lib` 資料夾，裡面包含一個 NgModule，其中有一個元件和一個服務。
 
 <div class="alert is-helpful">
 
-     For more details on how a library project is structured, refer to the [Library project files](guide/file-structure#library-project-files) section of the [Project File Structure guide](guide/file-structure).
+     如需進一步了解程式庫專案的結構，請參閱[專案檔案結構指南](guide/file-structure)中的[程式庫專案檔案](guide/file-structure#函式庫專案檔案)一節。
 
-     You can use the monorepo model to use the same workspace for multiple projects.
-     See [Setting up for a multi-project workspace](guide/file-structure#multiple-projects).
+     使用單一儲存庫（monorepo）模式，以同一個工作區容納多個專案。
+     請參閱[為多專案工作區進行設定](guide/file-structure#多個專案)。
 
 </div>
 
-When you generate a new library, the workspace configuration file, `angular.json`, is updated with a project of type `library`.
+當你產生新的程式庫時，工作區設定檔 `angular.json` 會被更新，加入一個類型為 `library` 的專案。
 
 <code-example format="json">
 "projects": {
@@ -42,7 +42,7 @@ When you generate a new library, the workspace configuration file, `angular.json
         ...
 </code-example>
 
-You can build, test, and lint the project with CLI commands:
+使用 CLI 指令建置、測試並檢查（lint）專案：
 
 <code-example language="bash">
  ng build my-lib
@@ -50,75 +50,76 @@ You can build, test, and lint the project with CLI commands:
  ng lint my-lib
 </code-example>
 
-Notice that the configured builder for the project is different from the default builder for app projects.
-This builder, among other things, ensures that the library is always built with the [AOT compiler](guide/aot-compiler), without the need to specify the `--prod` flag.
+請注意，為專案設定的建置器與應用程式專案的預設建置器不同。
+這個建置器除了其他作用之外，還能確保程式庫一律使用 [AOT 編譯器](guide/aot-compiler)進行建置，無需指定 `--prod` 旗標。
 
-To make library code reusable you must define a public API for it. This "user layer" defines what is available to consumers of your library. A user of your library should be able to access public functionality (such as NgModules, service providers and general utility functions) through a single import path.
+若要讓程式庫程式碼能重複使用，你必須為它定義公開 API。這個「使用者層」定義了你的程式庫的使用者可以取用什麼。你的程式庫的使用者應該能透過單一匯入路徑，存取公開功能（例如 NgModule、服務提供者與一般工具函式）。
 
-The public API for your library is maintained in the `public-api.ts` file in your library folder.
-Anything exported from this file is made public when your library is imported into an application.
-Use an NgModule to expose services and components.
+你的程式庫的公開 API 維護在程式庫資料夾中的 `public-api.ts` 檔案裡。
+任何從這個檔案匯出的東西，在你的程式庫被匯入應用程式時都會公開。
+使用 NgModule 來公開服務與元件。
 
-Your library should supply documentation (typically a README file) for installation and maintenance.
+你的程式庫應提供文件（通常是 README 檔案），說明安裝與維護方式。
 
-## Refactoring parts of an app into a library
+## 將應用程式的部分功能重構為程式庫
 
-To make your solution reusable, you need to adjust it so that it does not depend on app-specific code.
-Here are some things to consider in migrating application functionality to a library.
+若要讓你的解決方案能重複使用，你需要調整它，讓它不依賴應用程式專屬的程式碼。
+將應用程式功能遷移到程式庫時，以下是一些需要考慮的事項。
 
-* Declarations such as components and pipes should be designed as stateless, meaning they don’t rely on or alter external variables. If you do rely on state, you need to evaluate every case and decide whether it is application state or state that the library would manage.
+* 元件、管道等宣告應設計為無狀態，也就是說，它們不依賴也不更改外部變數。如果你確實依賴狀態，你需要逐一評估每個情況，決定那是應用程式狀態，還是程式庫應管理的狀態。
 
-* Any observables that the components subscribe to internally should be cleaned up and disposed of during the lifecycle of those components.
+* 元件內部訂閱的任何可觀察物件，都應在這些元件的生命週期內清理並處置。
 
-* Components should expose their interactions through inputs for providing context, and outputs for communicating events to other components.
+* 元件應透過輸入來提供脈絡以展現其互動，並透過輸出將事件傳達給其他元件。
 
-* Check all internal dependencies.
-   * For custom classes or interfaces used in components or service, check whether they depend on additional classes or interfaces that also need to be migrated.
-   * Similarly, if your library code depends on a service, that service needs to be migrated.
-   * If your library code or its templates depend on other libraries (such as Angular Material, for instance), you must configure your library with those dependencies.
+* 檢查所有內部依賴。
+   * 對於元件或服務中使用的自訂類別或介面，請檢查它們是否依賴其他也需要遷移的類別或介面。
+   * 同樣地，如果你的程式庫程式碼依賴某個服務，該服務也需要遷移。
+   * 如果你的程式庫程式碼或其範本依賴其他程式庫（例如 Angular Material），你必須為程式庫設定這些依賴。
 
-* Consider how you provide services to client applications.
+* 思考如何向用戶端應用程式提供服務。
 
-   * Services should declare their own providers (rather than declaring providers in the NgModule or a component), so that they are *tree-shakable*. This allows the compiler to leave the service out of the bundle if it never gets injected into the application that imports the library. For more about this, see [Tree-shakable providers](guide/dependency-injection-providers#tree-shakable-providers).
+   * 服務應自行宣告其提供者（而不是在 NgModule 或元件中宣告提供者），讓它們可進行*搖樹優化*。這麼做可讓編譯器在服務從未被注入到匯入程式庫的應用程式時，將其排除在套件之外。更多資訊請參閱[可搖樹優化的提供者](guide/dependency-injection-providers#tree-shakable-providers)。
 
-   * If you register global service providers or share providers across multiple NgModules, use the [`forRoot()` and `forChild()` design patterns](guide/singleton-services) provided by the [RouterModule](api/router/RouterModule).
+   * 如果你註冊全域服務提供者，或在多個 NgModule 之間共用提供者，請使用 [RouterModule](api/router/RouterModule) 提供的 [`forRoot()` 與 `forChild()` 設計模式](guide/singleton-services)。
 
-   * If your library provides optional services that might not be used by all client applications, support proper tree-shaking for that case by using the [lightweight token design pattern](guide/lightweight-injection-tokens).
+   * 如果你的程式庫提供可能不會被所有用戶端應用程式使用的選用服務，請使用[輕量權杖設計模式](guide/lightweight-injection-tokens)，為該情況支援適當的搖樹優化。
 
 {@a integrating-with-the-cli}
 
-## Integrating with the CLI using code-generation schematics
+## 透過程式碼產生原理圖與 CLI 整合
 
-A library typically includes *reusable code* that defines components, services, and other Angular artifacts (pipes, directives, and so on) that you simply import into a project.
-A library is packaged into an npm package for publishing and sharing.
-This package can also include [schematics](guide/glossary#schematic) that provide instructions for generating or transforming code directly in your project, in the same way that the CLI creates a generic new component with `ng generate component`.
-A schematic that is packaged with a library can, for example, provide the Angular CLI with the information it needs to generate a component that configures and uses a particular feature, or set of features, defined in that library.
-One example of this is Angular Material's navigation schematic which configures the CDK's `BreakpointObserver` and uses it with Material's `MatSideNav` and `MatToolbar` components.
+程式庫通常包含*可重複使用的程式碼*，用來定義元件、服務與其他 Angular 產物（管道、指令等），供你直接匯入專案中。
+程式庫會被包裝成 npm 套件，以便發行與分享。
+這個套件也可以包含[原理圖](guide/glossary#原理圖schematic)，為直接在你的專案中產生或轉換程式碼提供指示，就像 CLI 以 `ng generate component` 建立一個通用的新元件一樣。
+與程式庫一起包裝的原理圖，例如可以向 Angular CLI 提供所需的資訊，產生一個能設定並使用該程式庫所定義的特定功能（或一組功能）的元件。
+其中一個例子是 Angular Material 的導航原理圖，它設定 CDK 的 `BreakpointObserver`，並將它與 Material 的 `MatSideNav` 及 `MatToolbar` 元件一起使用。
 
-You can create and include the following kinds of schematics.
+建立並包含下列種類的原理圖。
 
-* Include an installation schematic so that `ng add` can add your library to a project.
+* 包含一個安裝原理圖，讓 `ng add` 能將你的程式庫加入專案。
 
-* Include generation schematics in your library so that `ng generate` can scaffold your defined artifacts (components, services, tests, and so on) in a project.
+* 在你的程式庫中包含產生原理圖，讓 `ng generate` 能在專案中為你定義的產物（元件、服務、測試等）搭建鷹架。
 
-* Include an update schematic so that `ng update` can update your library’s dependencies and provide migrations for breaking changes in new releases.
+* 包含一個更新原理圖，讓 `ng update` 能更新你的程式庫的依賴，並為新版本中的破壞性變更提供遷移。
 
-What you include in your library depends on your task.
-For example, you could define a schematic to create a dropdown that is pre-populated with canned data to show how to add it to an app.
-If you want a dropdown that would contain different passed-in values each time, your library could define a schematic to create it with a given configuration. Developers could then use `ng generate` to configure an instance for their own app.
+你在程式庫中包含什麼，取決於你的任務。
+例如，你可以定義一個原理圖，建立一個預先填入罐頭資料的下拉選單，展示如何將它加入應用程式。
+如果你想要一個每次包含不同傳入值的下拉選單，你的程式庫可以定義一個原理圖，以給定的設定來建立它。開發者接著就能用 `ng generate` 為自己的應用程式設定一個實例。
 
-Suppose you want to read a configuration file and then generate a form based on that configuration.
-If that form will need additional customization by the developer who is using your library, it might work best as a schematic.
-However, if the form will always be the same and not need much customization by developers, then you could create a dynamic component that takes the configuration and generates the form.
-In general, the more complex the customization, the more useful the schematic approach.
+假設你想讀取一個設定檔，然後根據該設定產生一個表單。
+如果該表單需要由使用你的程式庫的開發者做額外客製化，做成原理圖可能最合適。
+然而，如果表單永遠都是同一個樣子，不太需要開發者客製化，那麼你可以建立一個動態元件，接收設定並產生表單。
+一般來說，客製化越複雜，原理圖的做法就越有用。
 
-To learn more, see [Schematics Overview](guide/schematics) and [Schematics for Libraries](guide/schematics-for-libraries).
+更多資訊請參閱[原理圖總覽](guide/schematics)與[程式庫的原理圖](guide/schematics-for-libraries)。
 
-## Publishing your library
+## 發行你的程式庫
 
-Use the Angular CLI and the npm package manager to build and publish your library as an npm package.
+使用 Angular CLI 與 npm 套件管理工具，將你的程式庫建置並發行為 npm 套件。
 
-Before publishing a library to NPM, build it using the `--prod` flag which will use the older compiler and runtime known as View Engine instead of Ivy.
+
+在將程式庫發行到 NPM 之前，使用 `--prod` 旗標來建置它，這會使用較舊的編譯器與執行環境，也就是 View Engine，而不是 Ivy。
 
 <code-example language="bash">
 ng build my-lib --prod
@@ -126,48 +127,48 @@ cd dist/my-lib
 npm publish
 </code-example>
 
-If you've never published a package in npm before, you must create a user account. Read more in [Publishing npm Packages](https://docs.npmjs.com/getting-started/publishing-npm-packages).
+如果你從未在 npm 發行過套件，你必須建立一個使用者帳戶。更多資訊請參閱 [Publishing npm Packages](https://docs.npmjs.com/getting-started/publishing-npm-packages)。
 
 <div class="alert is-important">
 
-For now, it is not recommended to publish Ivy libraries to NPM because Ivy generated code is not backward compatible with View Engine, so apps using View Engine will not be able to consume them. Furthermore, the internal Ivy instructions are not yet stable, which can potentially break consumers using a different Angular version from the one used to build the library.
+目前不建議將 Ivy 程式庫發行到 NPM，因為 Ivy 產生的程式碼無法向後相容於 View Engine，因此使用 View Engine 的應用程式將無法取用它們。此外，Ivy 的內部指令尚未穩定，可能會讓使用與建置該程式庫不同 Angular 版本的取用者發生問題。
 
-When a published library is used in an Ivy app, the Angular CLI will automatically convert it to Ivy using a tool known as the Angular compatibility compiler (`ngcc`). Thus, publishing your libraries using the View Engine compiler ensures that they can be transparently consumed by both View Engine and Ivy apps.
+當已發行的程式庫被 Ivy 應用程式使用時，Angular CLI 會自動使用一個稱為 Angular 相容性編譯器（`ngcc`）的工具將它轉換為 Ivy。因此，使用 View Engine 編譯器來發行你的程式庫，能確保 View Engine 與 Ivy 應用程式都能透明地取用它們。
 
 </div>
 
+
 {@a lib-assets}
 
-## Managing assets in a library
+## 在程式庫中管理素材
 
-Starting with version 9.x of the [ng-packagr](https://github.com/ng-packagr/ng-packagr/blob/master/README.md) tool, you can configure the tool to automatically copy assets into your library package as part of the build process.
-You can use this feature when your library needs to publish optional theming files, Sass mixins, or documentation (like a changelog).
+從 [ng-packagr](https://github.com/ng-packagr/ng-packagr/blob/master/README.md) 工具的 9.x 版開始，你可以設定該工具在建置過程中自動將素材複製到你的程式庫套件中。
+當你的程式庫需要發行選用的主題檔案、Sass mixin 或文件（例如更新記錄）時，請使用這項功能。
 
-* Learn how to [copy assets into your library as part of the build](https://github.com/ng-packagr/ng-packagr/blob/master/docs/copy-assets.md).
+* 了解如何[在建置過程中將素材複製到你的程式庫](https://github.com/ng-packagr/ng-packagr/blob/master/docs/copy-assets.md)。
 
-* Learn more about how to use the tool to [embed assets in CSS](https://github.com/ng-packagr/ng-packagr/blob/master/docs/embed-assets-css.md).
+* 進一步了解如何使用這個工具[將素材嵌入 CSS](https://github.com/ng-packagr/ng-packagr/blob/master/docs/embed-assets-css.md)。
 
+## 連結的程式庫
 
-## Linked libraries
+在開發已發行的程式庫時，使用 [npm link](https://docs.npmjs.com/cli/link)，避免每次建置都重新安裝程式庫。
 
-While working on a published library, you can use [npm link](https://docs.npmjs.com/cli/link) to avoid reinstalling the library on every build.
+程式庫在每次變更時都必須重新建置。
+連結程式庫時，請確保建置步驟以監看模式執行，且程式庫的 `package.json` 設定指向正確的進入點。
+例如，`main` 應指向 JavaScript 檔案，而不是 TypeScript 檔案。
 
-The library must be rebuilt on every change.
-When linking a library, make sure that the build step runs in watch mode, and that the library's `package.json` configuration points at the correct entry points.
-For example, `main` should point at a JavaScript file, not a TypeScript file.
+### 對對等依賴使用 TypeScript 路徑對應
 
-### Use TypeScript path mapping for peer dependencies
+Angular 程式庫應將所有 `@angular/*` 依賴列為對等依賴。
+這能確保當各模組要求 Angular 時，它們全都取得完全相同的模組。
+如果某個程式庫將 `@angular/core` 列在 `dependencies` 而非 `peerDependencies` 中，它可能改取得另一個不同的 Angular 模組，進而導致你的應用程式壞掉。
 
-Angular libraries should list all `@angular/*` dependencies as peer dependencies.
-This ensures that when modules ask for Angular, they all get the exact same module.
-If a library lists `@angular/core` in `dependencies` instead of `peerDependencies`, it might get a different Angular module instead, which would cause your application to break.
+在開發程式庫時，你必須透過 `devDependencies` 安裝所有對等依賴，確保程式庫能正確編譯。
+連結的程式庫接著會有一組自己用於建置的 Angular 程式庫，位於它的 `node_modules` 資料夾中。
+不過，這在建置或執行你的應用程式時可能造成問題。
 
-While developing a library, you must install all peer dependencies through `devDependencies` to ensure that the library compiles properly.
-A linked library will then have its own set of Angular libraries that it uses for building, located in its `node_modules` folder.
-However, this can cause problems while building or running your application.
-
-To get around this problem you can use TypeScript path mapping to tell TypeScript that it should load some modules from a specific location.
-List all the peer dependencies that your library uses in the workspace TypeScript configuration file `./tsconfig.json`, and point them at the local copy in the app's `node_modules` folder.
+要繞過這個問題，請使用 TypeScript 路徑對應，告訴 TypeScript 應從特定位置載入某些模組。
+把你的程式庫使用的所有對等依賴列在工作區的 TypeScript 設定檔 `./tsconfig.json` 中，並將它們指向應用程式 `node_modules` 資料夾中的本機副本。
 
 ```
 {
@@ -183,47 +184,47 @@ List all the peer dependencies that your library uses in the workspace TypeScrip
 }
 ```
 
-This mapping ensures that your library always loads the local copies of the modules it needs.
+這個對應能確保你的程式庫永遠載入它所需模組的本機副本。
 
 
-## Using your own library in apps
+## 在應用程式中使用你自己的程式庫
 
-You don't have to publish your library to the npm package manager in order to use it in your own apps, but you do have to build it first.
+你不需要將程式庫發行到 npm 套件管理工具，就能在你自己的應用程式中使用它，但你必須先建置它。
 
-To use your own library in an app:
+若要在應用程式中使用你自己的程式庫：
 
-* Build the library. You cannot use a library before it is built.
+* 建置程式庫。程式庫在建置完成前無法使用。
  <code-example language="bash">
  ng build my-lib
  </code-example>
 
-* In your apps, import from the library by name:
+* 在你的應用程式中，以名稱從程式庫匯入：
  ```
  import { myExport } from 'my-lib';
  ```
 
-### Building and rebuilding your library
+### 建置與重新建置你的程式庫
 
-The build step is important if you haven't published your library as an npm package and then installed the package back into your app from npm.
-For instance, if you clone your git repository and run `npm install`, your editor will show the `my-lib` imports as missing if you haven't yet built your library.
+如果你尚未將程式庫發行為 npm 套件，再從 npm 將套件安裝回你的應用程式，建置步驟就很重要。
+例如，如果你複製（clone）你的 git 儲存庫並執行 `npm install`，若你尚未建置程式庫，你的編輯器會將 `my-lib` 的匯入顯示為遺失。
 
 <div class="alert is-helpful">
 
-When you import something from a library in an Angular app, Angular looks for a mapping between the library name and a location on disk.
-When you install a library package, the mapping is in the `node_modules` folder. When you build your own library, it has to find the mapping in your `tsconfig` paths.
+當你在 Angular 應用程式中從程式庫匯入某個東西時，Angular 會尋找程式庫名稱與磁碟位置之間的對應。
+安裝程式庫套件時，對應關係位於 `node_modules` 資料夾中。自行建置程式庫時，則必須在 `tsconfig` 的 paths 中找到對應關係。
 
-Generating a library with the Angular CLI automatically adds its path to the `tsconfig` file.
-The Angular CLI uses the `tsconfig` paths to tell the build system where to find the library.
+使用 Angular CLI 產生程式庫時，會自動將它的路徑加入 `tsconfig` 檔案。
+Angular CLI 使用 `tsconfig` 路徑，告訴建置系統去哪裡找程式庫。
 
 </div>
 
-If you find that changes to your library are not reflected in your app, your app is probably using an old build of the library.
+如果你發現程式庫的變更沒有反映在你的應用程式中，你的應用程式很可能使用的是舊的程式庫建置結果。
 
-You can rebuild your library whenever you make changes to it, but this extra step takes time.
-*Incremental builds* functionality improves the library-development experience.
-Every time a file is changed a partial build is performed that emits the amended files.
+每當你變更程式庫時，你都可以重新建置它，但這個額外的步驟很花時間。
+*增量建置*功能改善了程式庫的開發體驗。
+每次有檔案變更時，系統會執行部分建置，只產出被修改的檔案。
 
-Incremental builds can be run as a background process in your dev environment. To take advantage of this feature add the `--watch` flag to the build command:
+增量建置可以作為背景程序在你的開發環境中執行。若要利用這項功能，請在建置指令中加入 `--watch` 旗標：
 
 <code-example language="bash">
 ng build my-lib --watch
@@ -231,15 +232,15 @@ ng build my-lib --watch
 
 <div class="alert is-important">
 
-The CLI `build` command uses a different builder and invokes a different build tool for libraries than it does for applications.
+CLI 的 `build` 指令對程式庫使用不同的建置器，並呼叫與應用程式不同的建置工具。
 
-* The build system for apps, `@angular-devkit/build-angular`, is based on `webpack`, and is included in all new Angular CLI projects.
-* The build system for libraries is based on `ng-packagr`. It is only added to your dependencies when you add a library using `ng generate library my-lib`.
+* 應用程式的建置系統 `@angular-devkit/build-angular` 以 `webpack` 為基礎，包含在所有新的 Angular CLI 專案中。
+* 程式庫的建置系統以 `ng-packagr` 為基礎。只有在你使用 `ng generate library my-lib` 加入程式庫時，才會將其加入你的依賴。
 
-The two build systems support different things, and even where they support the same things, they do those things differently.
-This means that the TypeScript source can result in different JavaScript code in a built library than it would in a built application.
+這兩個建置系統支援的東西不同，即使支援相同的東西，做法也不一樣。
+這表示同一份 TypeScript 原始碼，在建置後的程式庫中產生的 JavaScript 程式碼，可能與在建置後的應用程式中產生的不同。
 
-For this reason, an app that depends on a library should only use TypeScript path mappings that point to the *built library*.
-TypeScript path mappings should *not* point to the library source `.ts` files.
+正因如此，依賴某個程式庫的應用程式，應只使用指向*已建置程式庫*的 TypeScript 路徑對應。
+TypeScript 路徑對應*不應*指向程式庫的原始 `.ts` 檔案。
 
 </div>

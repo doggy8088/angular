@@ -1,175 +1,163 @@
-# Interpolation and template expressions
+# 插值與範本運算式
 
-Interpolation allows you to incorporate calculated strings into the text
-between HTML element tags and within attribute assignments. Template
-expressions are what you use to calculate those strings.
+插值讓你可以將計算得到的字串納入 HTML 元素標籤之間的文字，以及屬性指派之中。範本運算式就是你用來計算這些字串的工具。
 
 <div class="alert is-helpful">
 
-See the <live-example></live-example> for all of
-the syntax and code snippets in this guide.
+本指南中的所有語法與程式碼片段，請見 <live-example></live-example>。
 
 </div>
 
-## Interpolation `{{...}}`
+## 插值 `{{...}}`
 
-Interpolation refers to embedding expressions into marked up text.
-By default, interpolation uses as its delimiter the double curly braces, `{{` and `}}`.
+插值是指將運算式嵌入標記文字中。
+依預設，插值以雙大括號 `{{` 與 `}}` 作為其分隔符號。
 
-In the following snippet, `{{ currentCustomer }}` is an example of interpolation.
+在以下範例中，`{{ currentCustomer }}` 就是插值的一個範例。
 
 <code-example path="interpolation/src/app/app.component.html" region="interpolation-example1" header="src/app/app.component.html"></code-example>
 
-The text between the braces is often the name of a component
-property. Angular replaces that name with the
-string value of the corresponding component property.
+大括號之間的文字通常是元件屬性的名稱。Angular 會以對應元件屬性的字串值取代該名稱。
 
 <code-example path="interpolation/src/app/app.component.html" region="component-property" header="src/app/app.component.html"></code-example>
 
-In the example above, Angular evaluates the `title` and `itemImageUrl` properties
-and fills in the blanks, first displaying some title text and then an image.
+在上例中，Angular 會評估 `title` 與 `itemImageUrl` 屬性並填入空白，先顯示一些標題文字，接著顯示一張圖片。
 
-More generally, the text between the braces is a **template expression**
-that Angular first **evaluates** and then **converts to a string**.
-The following interpolation illustrates the point by adding two numbers:
+更一般來說，大括號之間的文字是一個範本運算式，Angular 會先評估它，再將它轉換為字串。
+下列插值以兩個數字相加來說明這一點：
 
 <code-example path="interpolation/src/app/app.component.html" region="convert-string" header="src/app/app.component.html"></code-example>
 
-The expression can invoke methods of the host component such as `getVal()` in
-the following example:
+運算式可以叫用宿主元件的方法，例如以下範例中的 `getVal()`：
 
 <code-example path="interpolation/src/app/app.component.html" region="invoke-method" header="src/app/app.component.html"></code-example>
 
-Angular evaluates all expressions in double curly braces,
-converts the expression results to strings, and links them with neighboring literal strings. Finally,
-it assigns this composite interpolated result to an **element or directive property**.
+Angular 會評估雙大括號中的所有運算式，將運算式結果轉換為字串，並將它們與相鄰的文字字串連結。最後，它會將這個組合而成的插值結果指派給**元素或指令屬性。**
 
-You appear to be inserting the result between element tags and assigning it to attributes.
-However, interpolation is a special syntax that Angular converts into a *property binding*.
+你看起來像是把結果插入元素標籤之間，並指派給屬性。
+然而，插值是一種特殊語法，Angular 會把它轉換成*屬性繫結*。
 
 <div class="alert is-helpful">
 
-If you'd like to use something other than `{{` and `}}`, you can
-configure the interpolation delimiter via the
+如果你想使用 `{{` 與 `}}` 以外的符號，可以透過 `Component` 中繼資料中的
 [interpolation](api/core/Component#interpolation)
-option in the `Component` metadata.
+選項，設定插值分隔符號。
 
 </div>
 
-## Template expressions
+## 範本運算式
 
-A template **expression** produces a value and appears within the double
-curly braces, `{{ }}`.
-Angular executes the expression and assigns it to a property of a binding target;
-the target could be an HTML element, a component, or a directive.
+範本**運算式**會產生一個值，並出現在雙大括號 `{{ }}` 之內。
+Angular 會執行該運算式，並將它指派給繫結目標的一個屬性；
+目標可以是 HTML 元素、元件或指令。
 
-The interpolation braces in `{{1 + 1}}` surround the template expression `1 + 1`.
-In the property binding,
-a template expression appears in quotes to the right of the&nbsp;`=` symbol as in `[property]="expression"`.
+`{{1 + 1}}` 的插值大括號包圍著範本運算式 `1 + 1`。
+在屬性繫結中，
+範本運算式會出現在引號內、位於&nbsp;`=` 符號的右側，如 `[property]="expression"`。
 
-In terms of syntax, template expressions are similar to JavaScript.
-Many JavaScript expressions are legal template expressions, with a few exceptions.
+就語法而言，範本運算式與 JavaScript 相似。
+許多 JavaScript 運算式都是合法的範本運算式，但有少數例外。
 
-You can't use JavaScript expressions that have or promote side effects,
-including:
+你不能使用具有副作用或會助長副作用的 JavaScript 運算式，
+包括：
 
-* Assignments (`=`, `+=`, `-=`, `...`)
-* Operators such as `new`, `typeof`, `instanceof`, etc.
-* Chaining expressions with <code>;</code> or <code>,</code>
-* The increment and decrement operators `++` and `--`
-* Some of the ES2015+ operators
+* 指派（`=`, `+=`, `-=`, `...`）
+* `new`、`typeof`、`instanceof` 等運算子
+* 以 <code>;</code> 或 <code>,</code> 串連運算式
+* 遞增（`++`）與遞減（`--`）運算子
+* 部分 ES2015+ 運算子
 
-Other notable differences from JavaScript syntax include:
+與 JavaScript 語法其他值得注意的差異包括：
 
-* No support for the bitwise operators such as `|` and `&`
-* New [template expression operators](guide/template-expression-operators), such as `|`, `?.` and `!`
+* 不支援 `|` 和 `&` 等位元運算子
+* 新的[範本運算式運算子](guide/template-expression-operators)，例如 `|`、`?.` 與 `!`
 
 
-## Expression context
+## 運算式上下文
 
-The *expression context* is typically the _component_ instance.
-In the following snippets, the `recommended` within double curly braces and the
-`itemImageUrl2` in quotes refer to properties of the `AppComponent`.
+*運算式上下文*通常就是 _元件_ 實例。
+在以下程式碼片段中，雙大括號內的 `recommended` 與引號內的
+`itemImageUrl2` 參照的是 `AppComponent` 的屬性。
 
 <code-example path="interpolation/src/app/app.component.html" region="component-context" header="src/app/app.component.html"></code-example>
 
-An expression may also refer to properties of the _template's_ context
-such as a template input variable,
+運算式也可以參照*範本*上下文的屬性
+例如範本輸入變數、
 <!-- link to built-in-directives#template-input-variables -->
-`let customer`, or a template reference variable, `#customerInput`.
+`let customer`，或範本參照變數 `#customerInput`。
 <!-- link to guide/template-ref-variables -->
 
 <code-example path="interpolation/src/app/app.component.html" region="template-input-variable" header="src/app/app.component.html (template input variable)"></code-example>
 
 <code-example path="interpolation/src/app/app.component.html" region="template-reference-variable" header="src/app/app.component.html (template reference variable)"></code-example>
 
-The context for terms in an expression is a blend of the _template variables_,
-the directive's _context_ object (if it has one), and the component's _members_.
-If you reference a name that belongs to more than one of these namespaces,
-the template variable name takes precedence, followed by a name in the directive's _context_,
-and, lastly, the component's member names.
+運算式中詞彙的上下文，是*範本變數*、
+指令的 _context_ 物件（如果有的話）與元件*成員*的混合。
+如果你參照的名稱同時屬於其中多個命名空間，
+範本變數名稱的優先順序最高，其次是指令 _context_ 中的名稱，
+最後才是元件的成員名稱。
 
-The previous example presents such a name collision. The component has a `customer`
-property and the `*ngFor` defines a `customer` template variable.
+前一個範例就呈現了這樣的名稱衝突。元件有一個 `customer`
+屬性，而 `*ngFor` 定義了一個 `customer` 範本變數。
 
 <div class="alert is-helpful">
 
-The `customer` in `{{customer.name}}`
-refers to the template input variable, not the component's property.
+`{{customer.name}}` 中的 `customer`
+參照的是範本輸入變數，而不是元件的屬性。
 
-Template expressions cannot refer to anything in
-the global namespace, except `undefined`. They can't refer to
-`window` or `document`. Additionally, they
-can't call `console.log()` or `Math.max()` and they are restricted to referencing
-members of the expression context.
+範本運算式不能參照全域命名空間中的任何東西，
+`undefined` 除外。它們不能參照
+`window` 或 `document`。此外，它們
+不能呼叫 `console.log()` 或 `Math.max()`，且只能參照
+運算式上下文的成員。
 
 </div>
 
-## Expression guidelines
+## 運算式準則
 
-When using template expressions follow these guidelines:
+使用範本運算式時，請遵循下列準則：
 
-* [Simplicity](guide/interpolation#simplicity)
-* [Quick execution](guide/interpolation#quick-execution)
-* [No visible side effects](guide/interpolation#no-visible-side-effects)
+* [簡單](guide/interpolation#簡單)
+* [快速執行](guide/interpolation#快速執行)
+* [無可見副作用](guide/interpolation#無可見副作用)
 
-### Simplicity
+### 簡單
 
-Although it's possible to write complex template expressions, it's a better
-practice to avoid them.
+雖然可以撰寫複雜的範本運算式，但比較好的
+做法是避免這麼做。
 
-A property name or method call should be the norm, but an occasional Boolean negation, `!`, is OK.
-Otherwise, confine application and business logic to the component,
-where it is easier to develop and test.
+屬性名稱或方法呼叫應該是常態，但偶爾使用布林否定 `!` 是可以的。
+除此之外，請將應用程式與業務邏輯侷限在元件中，
+讓它易於開發和測試。
 
-### Quick execution
+### 快速執行
 
-Angular executes template expressions after every change detection cycle.
-Change detection cycles are triggered by many asynchronous activities such as
-promise resolutions, HTTP results, timer events, key presses and mouse moves.
+Angular 會在每次變更偵測週期後執行範本運算式。
+許多非同步活動都會觸發變更偵測週期，例如
+promise 的解析、HTTP 結果、計時器事件、按鍵與滑鼠移動。
 
-Expressions should finish quickly or the user experience may drag, especially on slower devices.
-Consider caching values when their computation is expensive.
+運算式應該要能快速完成，否則使用者體驗可能會拖慢，在較慢的裝置上尤其如此。
+當運算需要較多資源時，可以考慮快取其值。
 
-### No visible side effects
+### 無可見副作用
 
-A template expression should not change any application state other than the value of the
-target property.
+範本運算式不應變更目標屬性值以外的
+任何應用程式狀態。
 
-This rule is essential to Angular's "unidirectional data flow" policy.
-You should never worry that reading a component value might change some other displayed value.
-The view should be stable throughout a single rendering pass.
+這條規則是 Angular「單向資料流」政策的關鍵。
+你永遠不必擔心讀取一個元件值可能會改變其他顯示中的值。
+檢視在單次算繪過程中應該保持穩定。
 
-An [idempotent](https://en.wikipedia.org/wiki/Idempotence) expression is ideal because
-it is free of side effects and improves Angular's change detection performance.
-In Angular terms, an idempotent expression always returns
-*exactly the same thing* until one of its dependent values changes.
+[冪等](https://en.wikipedia.org/wiki/Idempotence)運算式是理想的選擇，因為
+它沒有副作用，還能提升 Angular 的變更偵測效能。
+以 Angular 的用語來說，冪等運算式
+在它的相依值改變之前，永遠回傳*完全相同的東西*。
 
-Dependent values should not change during a single turn of the event loop.
-If an idempotent expression returns a string or a number, it returns the same string or number when called twice in a row. If the expression returns an object, including an `array`, it returns the same object *reference* when called twice in a row.
+相依值在事件迴圈的單次輪轉期間不應改變。
+如果冪等運算式回傳字串或數字，連續呼叫兩次會回傳相同的字串或數字。如果運算式回傳物件（包括 `array`），連續呼叫兩次會回傳相同的物件*參照*。
 
 <div class="alert is-helpful">
 
-There is one exception to this behavior that applies to `*ngFor`. `*ngFor` has `trackBy` functionality that can deal with referential inequality of objects when iterating over them. See [*ngFor with `trackBy`](guide/built-in-directives#ngfor-with-trackby) for details.
+這項行為有一個例外，適用於 `*ngFor`。`*ngFor` 具有 `trackBy` 功能，可以在走訪物件時處理物件的參照不等式。詳情請參閱 [*ngFor with `trackBy`](guide/built-in-directives#搭配-trackby-使用-ngfor)。
 
 </div>

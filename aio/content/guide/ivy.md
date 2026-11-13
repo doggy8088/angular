@@ -1,21 +1,21 @@
 # Angular Ivy
 
-Ivy is the code name for Angular's [next-generation compilation and rendering pipeline](https://blog.angular.io/a-plan-for-version-8-0-and-ivy-b3318dfc19f7).
-With the version 9 release of Angular, the new compiler and runtime instructions are used by default instead of the older compiler and runtime, known as View Engine.
+Ivy 是 Angular [次世代編譯與渲染管線](https://blog.angular.io/a-plan-for-version-8-0-and-ivy-b3318dfc19f7)的代號。
+隨著 Angular 第 9 版的發佈，新的編譯器與執行時期指令預設會被使用，取代稱為 View Engine 的舊編譯器與執行時期。
 
 <div class="alert is-helpful">
 
-Learn more about the [Compiler](https://www.youtube.com/watch?v=anphffaCZrQ) and [Runtime](https://www.youtube.com/watch?v=S0o-4yc2n-8) in these videos from our team.
-
+在我們團隊的這些影片中，進一步了解 [Compiler](https://www.youtube.com/watch?v=anphffaCZrQ) 與 [Runtime](https://www.youtube.com/watch?v=S0o-4yc2n-8)。
 
 </div>
 
 {@a aot-and-ivy}
-## AOT and Ivy
 
-AOT compilation with Ivy is faster and should be used by default.
-In the `angular.json` workspace configuration file, set the default build options for your project to always use AOT compilation.
-When using application internationalization (i18n) with Ivy, [translation merging](guide/i18n#merge) also requires the use of AOT compilation.
+## AOT 與 Ivy
+
+使用 Ivy 的 AOT 編譯速度更快，應預設使用。
+在 `angular.json` 工作區設定檔中，把專案的預設建置選項設為永遠使用 AOT 編譯。
+在 Ivy 中使用應用程式國際化（i18n）時，[翻譯合併](guide/i18n#merge)也需要使用 AOT 編譯。
 
 <code-example language="json" header="angular.json">
 
@@ -35,29 +35,32 @@ When using application internationalization (i18n) with Ivy, [translation mergin
 }
 </code-example>
 
-## Ivy and libraries
+## Ivy 與程式庫
 
-Ivy applications can be built with libraries that were created with the View Engine compiler.
-This compatibility is provided by a tool known as the Angular compatibility compiler (`ngcc`).
-CLI commands run `ngcc` as needed when performing an Angular build.
+Ivy 應用程式可以使用以 View Engine 編譯器建立的程式庫來建置。
+這種相容性是由一個稱為 Angular 相容性編譯器（`ngcc`）的工具提供的。
+CLI 命令在執行 Angular 建置時，會視需要執行 `ngcc`。
 
-For more information on how to publish libraries see [Publishing your Library](guide/creating-libraries#publishing-your-library).
+如需了解如何發行程式庫的更多資訊，請參閱[發行你的程式庫](guide/creating-libraries#發行你的程式庫)。
 
 {@a maintaining-library-compatibility}
-### Maintaining library compatibility
 
-If you are a library author, you should keep using the View Engine compiler as of version 9.
-By having all libraries continue to use View Engine, you will maintain compatibility with default v9 applications that use Ivy, as well as with applications that have opted to continue using View Engine.
+### 維持程式庫相容性
 
-See the [Creating Libraries](guide/creating-libraries) guide for more on how to compile or bundle your Angular library.
-When you use the tools integrated into the Angular CLI or `ng-packagr`, your library will always be built the right way automatically.
+如果你是程式庫作者，自第 9 版起，你應該繼續使用 View Engine 編譯器。
+讓所有程式庫繼續使用 View Engine，你就能維持與使用 Ivy 的預設 v9 應用程式的相容性，也能與選擇繼續使用 View Engine 的應用程式相容。
+
+如需了解如何編譯或打包 Angular 程式庫的更多資訊，請參閱[建立程式庫](guide/creating-libraries)指南。
+當你使用整合在 Angular CLI 或 `ng-packagr` 中的工具時，你的程式庫永遠會自動以正確的方式建置。
 
 {@a ivy-and-universal-app-shell}
-## Ivy and Universal/App shell
-In version 9, the server builder which is used for [App shell](guide/app-shell) and [Angular Universal](guide/universal) has the `bundleDependencies` option enabled by default.
-If you opt-out of bundling dependencies you will need to run the standalone Angular compatibility compiler (`ngcc`). This is needed because otherwise Node will be unable to resolve the Ivy version of the packages.
 
-You can run `ngcc` after each installation of node_modules by adding a `postinstall` [npm script](https://docs.npmjs.com/misc/scripts):
+## Ivy 與 Universal/App shell
+
+在第 9 版中，用於 [App shell](guide/app-shell) 與 [Angular Universal](guide/universal) 的伺服器建置器，預設啟用 `bundleDependencies` 選項。
+如果你選擇不打包相依性，你將需要執行獨立的 Angular 相容性編譯器（`ngcc`）。這是必要的，因為否則 Node 將無法正確解析套件的 Ivy 版本。
+
+你可以透過加入 `postinstall` [npm script](https://docs.npmjs.com/misc/scripts)，在每次安裝 node_modules 後執行 `ngcc`：
 
 <code-example language="json" header="package.json">
 {
@@ -69,28 +72,29 @@ You can run `ngcc` after each installation of node_modules by adding a `postinst
 
 <div class="alert is-important">
 
- * The `postinstall` script will run on every installation of `node_modules`, including those performed by `ng update` and `ng add`.
- * Don't use `--create-ivy-entry-points` as this will cause Node not to resolve the Ivy version of the packages correctly.
- 
+*   `postinstall` script 會在每次安裝 `node_modules` 時執行，包括由 `ng update` 與 `ng add` 所執行的安裝。
+*   不要使用 `--create-ivy-entry-points`，因為這會導致 Node 無法正確解析套件的 Ivy 版本。
+
 </div>
 
 {@a opting-out-of-angular-ivy}
-## Opting out of Ivy in version 9
 
-In version 9, Ivy is the default.
-For compatibility with current workflows during the update process, you can choose to opt out of Ivy and continue using the previous compiler, View Engine.
+## 在第 9 版中退出 Ivy
+
+在第 9 版中，Ivy 是預設的編譯方式。
+為了在更新過程中與目前的工作流程相容，你可以選擇退出 Ivy，繼續使用先前的編譯器 View Engine。
 
 <div class="alert is-helpful">
 
-Before disabling Ivy, check out the debugging recommendations in the [Ivy Compatibility Guide](guide/ivy-compatibility#debugging).
+停用 Ivy 之前，請先查看 [Ivy 相容性指南](guide/ivy-compatibility#debugging)中的除錯建議。
 
 </div>
 
-To opt out of Ivy, change the `angularCompilerOptions` in your project's TypeScript configuration, most commonly located at `tsconfig.app.json` at the root of the workspace.
+若要退出 Ivy，請變更專案 TypeScript 設定中的 `angularCompilerOptions`，該設定最常位於工作區根目錄的 `tsconfig.app.json`。
 
-The value of the `enableIvy` flag is set to `true` by default, as of version 9.
+自第 9 版起，`enableIvy` 旗標的值預設為 `true`。
 
-The following example shows how to set the `enableIvy` option to `false` in order to opt out of Ivy.
+以下範例說明如何把 `enableIvy` 選項設為 `false`，以退出 Ivy。
 
 <code-example language="json" header="tsconfig.app.json">
 {
@@ -114,15 +118,15 @@ The following example shows how to set the `enableIvy` option to `false` in orde
 
 <div class="alert is-important">
 
-If you disable Ivy, you might also want to reconsider whether to make AOT compilation the default for your application development, as described [above](#aot-and-ivy).
+如果你停用 Ivy，你可能也想重新考慮是否要把 AOT 編譯設為應用程式開發的預設，如[前文](#aot-and-ivy)所述。
 
-To revert the compiler default, set the build option `aot: false` in the `angular.json` configuration file.
+若要還原編譯器預設值，請在 `angular.json` 設定檔中把建置選項 `aot: false` 設好。
 
 </div>
 
-If you disable Ivy and the project uses internationalization, you can also remove the `@angular/localize` runtime component from the project's polyfills file located be default at `src/polyfills.ts`.
+如果你停用 Ivy，而專案有使用國際化，你也可以把 `@angular/localize` 執行時期元件從專案的 polyfills 檔案中移除，該檔案預設位於 `src/polyfills.ts`。
 
-To remove, delete the `import '@angular/localize/init';` line from the polyfills file.
+若要移除，請從 polyfills 檔案中刪除 `import '@angular/localize/init';` 這一行。
 
 <code-example language="typescript" header="polyfills.ts">
 /***************************************************************************************************
@@ -132,14 +136,15 @@ import '@angular/localize/init';
 </code-example>
 
 {@a using-ssr-without-angular-ivy}
-### Using SSR without Ivy
 
-If you opt out of Ivy and your application uses  [Angular Universal](guide/universal) to render Angular applications on the server, you must also change the way the server performs bootstrapping.
+### 不使用 Ivy 的 SSR
 
-The following example shows how you modify the `server.ts` file to provide the `AppServerModuleNgFactory` as the bootstrap module.
+如果你退出 Ivy，而應用程式使用 [Angular Universal](guide/universal) 在伺服器上渲染 Angular 應用程式，你還必須變更伺服器執行引導的方式。
 
-* Import `AppServerModuleNgFactory` from the `app.server.module.ngfactory` virtual file.
-* Set `bootstrap: AppServerModuleNgFactory` in the `ngExpressEngine` call.
+以下範例說明如何修改 `server.ts` 檔案，提供 `AppServerModuleNgFactory` 作為引導模組。
+
+*   從 `app.server.module.ngfactory` 虛擬檔案匯入 `AppServerModuleNgFactory`。
+*   在 `ngExpressEngine` 呼叫中設定 `bootstrap: AppServerModuleNgFactory`。
 
 <code-example language="typescript" header="server.ts">
 import 'zone.js/dist/zone-node';

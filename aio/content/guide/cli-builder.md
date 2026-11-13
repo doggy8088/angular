@@ -1,52 +1,52 @@
-# Angular CLI builders
+# Angular CLI 建置器
 
-A number of Angular CLI commands run a complex process on your code, such as linting, building, or testing.
-The commands use an internal tool called Architect to run *CLI builders*, which apply another tool to accomplish the desired task.
+許多 Angular CLI 指令會對你的程式碼執行複雜的流程，例如 lint、建置或測試。
+這些指令使用一個名為 Architect 的內部工具來執行 *CLI 建置器*，建置器會套用另一個工具來完成所需的任務。
 
-With Angular version 8, the CLI Builder API is stable and available to developers who want to customize the Angular CLI by adding or modifying commands. For example, you could supply a builder to perform an entirely new task, or to change which third-party tool is used by an existing command.
+從 Angular 8 版開始，CLI Builder API 已穩定，可供想透過新增或修改指令來客製化 Angular CLI 的開發者使用。例如，你可以提供一個建置器來執行全新的任務，或變更既有指令所使用的第三方工具。
 
-This document explains how CLI builders integrate with the workspace configuration file, and shows how you can create your own builder.
+本文件說明 CLI 建置器如何與工作區設定檔整合，並示範如何建立你自己的建置器。
 
 <div class="alert is-helpful">
 
-   You can find the code from the examples used here in [this GitHub repository](https://github.com/mgechev/cli-builders-demo).
+   這裡所用範例的程式碼可以在 [這個 GitHub 儲存庫](https://github.com/mgechev/cli-builders-demo) 中找到。
 
 </div>
 
-## CLI builders
+## CLI 建置器
 
-The internal Architect tool delegates work to handler functions called [*builders*](guide/glossary#builder).
-A builder handler function receives two arguments; a set of input `options` (a JSON object), and a `context` (a `BuilderContext` object).
+內部的 Architect 工具會把工作委派給稱為[*建置器*](guide/glossary#建置器builder)的處理函式。
+建置器處理函式接收兩個引數：一組輸入 `options`（一個 JSON 物件），以及一個 `context`（一個 `BuilderContext` 物件）。
 
-The separation of concerns here is the same as with [schematics](guide/glossary#schematic), which are used for other CLI commands that touch your code (such as `ng generate`).
+這裡的關注點分離與[原理圖](guide/glossary#原理圖schematic)相同；原理圖用於其他會碰觸你的程式碼的 CLI 指令（例如 `ng generate`）。
 
-* Options are given by the CLI user, context is provided by and provides access to the CLI Builder API, and the developer provides the behavior.
+* 選項由 CLI 使用者給定，context 由 CLI Builder API 提供，同時也提供對 CLI Builder API 的存取，行為則由開發者提供。
 
-* The `BuilderContext` object provides access to the scheduling method, `BuilderContext.scheduleTarget()`. The scheduler executes the builder handler function with a given [target configuration](guide/glossary#target).
+* `BuilderContext` 物件提供排程方法 `BuilderContext.scheduleTarget()` 的存取途徑。排程器會以給定的[目標設定](guide/glossary#目標target)執行建置器處理函式。
 
-The builder handler function can be synchronous (return a value) or asynchronous (return a Promise), or it can watch and return multiple values (return an Observable).
-The return value or values must always be of type `BuilderOutput`.
-This object contains a Boolean `success` field and an optional `error` field that can contain an error message.
+建置器處理函式可以是同步的（回傳一個值）、非同步的（回傳 Promise），或以監看模式回傳多個值（回傳 Observable）。
+回傳值必須永遠是 `BuilderOutput` 類型。
+這個物件包含一個布林值 `success` 欄位，以及一個可選的 `error` 欄位，可放入錯誤訊息。
 
-Angular provides some builders that are used by the CLI for commands such as `ng build`, `ng test`, and `ng lint`.
-Default target configurations for these and other built-in CLI builders can be found (and customized) in the "architect" section of the [workspace configuration file](guide/workspace-config), `angular.json`.
-You can also extend and customize Angular by creating your own builders, which you can run using the [`ng run` CLI command](cli/run).
+Angular 提供了一些建置器，供 CLI 用於 `ng build`、`ng test` 與 `ng lint` 等指令。
+這些與其他內建 CLI 建置器的預設目標設定，可以在[工作區設定檔](guide/workspace-config) `angular.json` 的 "architect" 區段中找到（並客製化）。
+此外，你也可以建立自己的建置器來擴充與客製化 Angular，並使用 [`ng run` CLI 指令](cli/run)來執行它們。
 
-### Builder project structure
+### 建置器專案結構
 
-A builder resides in a "project" folder that is similar in structure to an Angular workspace, with global configuration files at the top level, and more specific configuration in a source folder with the code files that define the behavior.
-For example, your `myBuilder` folder could contain the following files.
+建置器位於一個「專案」資料夾中，其結構與 Angular 工作區相似：最上層放全域設定檔，原始碼資料夾中則放更具體的設定與定義行為的程式碼檔案。
+例如，你的 `myBuilder` 資料夾可能包含下列檔案。
 
 | FILES    | PURPOSE |
 | :----------------------- | :------------------------------------------|
-| `src/my-builder.ts`      | Main source file for the builder definition. |
-| `src/my-builder.spec.ts` | Source file for tests. |
-| `src/schema.json`        | Definition of builder input options. |
-| `builders.json`          | Builders definition. |
-| `package.json`           | Dependencies. See https://docs.npmjs.com/files/package.json. |
-| `tsconfig.json`          | [TypeScript configuration](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html). |
+| `src/my-builder.ts`      | 建置器定義的主要原始碼檔案。 |
+| `src/my-builder.spec.ts` | 測試用的原始碼檔案。 |
+| `src/schema.json`        | 建置器輸入選項的定義。 |
+| `builders.json`          | 建置器定義。 |
+| `package.json`           | 依賴。請參閱 https://docs.npmjs.com/files/package.json。 |
+| `tsconfig.json`          | [TypeScript configuration](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html)。 |
 
-You can publish the builder to `npm` (see [Publishing your Library](guide/creating-libraries#publishing-your-library)). If you publish it as `@example/my-builder`, you can install it using the following command.
+把建置器發佈到 `npm`（請參閱[發佈你的程式庫](guide/creating-libraries#發行你的程式庫)）。如果你把它發佈為 `@example/my-builder`，請使用下列指令安裝它。
 
 <code-example language="sh">
 
@@ -54,10 +54,10 @@ npm install @example/my-builder
 
 </code-example>
 
-## Creating a builder
+## 建立建置器
 
-As an example, let's create a builder that executes a shell command.
-To create a builder, use the `createBuilder()` CLI Builder function, and return a `Promise<BuilderOutput>` object.
+舉例來說，我們來建立一個執行 shell 命令的建置器。
+要建立建置器，請使用 `createBuilder()` CLI Builder 函式，並回傳一個 `Promise<BuilderOutput>` 物件。
 
 <code-example 
   path="cli-builder/src/my-builder.ts" 
@@ -65,9 +65,9 @@ To create a builder, use the `createBuilder()` CLI Builder function, and return 
   region="builder-skeleton">
 </code-example>
 
-Now let’s add some logic to it.
-The following code retrieves the command and arguments from the user options, spawns the new process, and waits for the process to finish.
-If the process is successful (returns a code of 0), it resolves the return value.
+現在為它加入一些邏輯。
+下列程式碼從使用者選項中取得命令與引數，啟動新的處理程序，並等待處理程序完成。
+若處理程序成功（回傳碼為 0），便會解析回傳值。
 
 <code-example 
   path="cli-builder/src/my-builder.ts" 
@@ -75,13 +75,13 @@ If the process is successful (returns a code of 0), it resolves the return value
   region="builder">
 </code-example>
 
-### Handling output
+### 處理輸出
 
-By default, the `spawn()` method outputs everything to the process standard output and error.
-To make it easier to test and debug, we can forward the output to the CLI Builder logger instead.
-This also allows the builder itself to be executed in a separate process, even if the standard output and error are deactivated (as in an [Electron app](https://electronjs.org/)).
+預設情況下，`spawn()` 方法會把所有內容輸出到處理程序的標準輸出與錯誤輸出。
+為了讓測試與除錯更容易，我們可以改把輸出轉送到 CLI Builder 的記錄器。
+這也讓建置器本身可以在獨立的處理程序中執行，即使標準輸出與錯誤輸出已被停用（例如在 [Electron 應用程式](https://electronjs.org/)中）。
 
-We can retrieve a Logger instance from the context.
+我們可以從 context 取得一個 Logger 實例。
 
 <code-example 
   path="cli-builder/src/my-builder.ts" 
@@ -89,20 +89,20 @@ We can retrieve a Logger instance from the context.
   region="handling-output">
 </code-example>
 
-### Progress and status reporting
+### 進度與狀態回報
 
-The CLI Builder API includes progress and status reporting tools, which can provide hints for certain functions and interfaces.
+CLI Builder API 內含進度與狀態回報工具，可為特定函式與介面提供提示。
 
-To report progress, use the `BuilderContext.reportProgress()` method, which takes a current value, (optional) total, and status string as arguments.
-The total can be any number; for example, if you know how many files you have to process, the total could be the number of files, and current should be the number processed so far.
-The status string is unmodified unless you pass in a new string value.
+若要回報進度，使用 `BuilderContext.reportProgress()` 方法，它接收目前值、可選的總數與狀態字串作為引數。
+總數可以是任何數字。例如，若你知道需要處理多少檔案，總數可以是檔案數量，目前值則是已處理的數量。
+狀態字串在你傳入新字串值之前不會被修改。
 
-You can see an [example](https://github.com/angular/angular-cli/blob/ba21c855c0c8b778005df01d4851b5a2176edc6f/packages/angular_devkit/build_angular/src/tslint/index.ts#L107) of how the `tslint` builder reports progress.
+你可以看到 `tslint` 建置器如何回報進度的[範例](https://github.com/angular/angular-cli/blob/ba21c855c0c8b778005df01d4851b5a2176edc6f/packages/angular_devkit/build_angular/src/tslint/index.ts#L107)。
 
-In our example, the shell command either finishes or is still executing, so there’s no need for a progress report, but we can report status so that a parent builder that called our builder would know what’s going on.
-Use the `BuilderContext.reportStatus()` method to generate a status string of any length.
-(Note that there’s no guarantee that a long string will be shown entirely; it could be cut to fit the UI that displays it.)
-Pass an empty string to remove the status.
+在我們的範例中，shell 命令不是完成就是仍在執行，因此不需要進度回報，但我們可以回報狀態，讓呼叫我們建置器的父建置器知道目前狀況。
+使用 `BuilderContext.reportStatus()` 方法來產生任意長度的狀態字串。
+（請注意，無法保證長字串會完整顯示；它可能會被截斷以配合顯示它的 UI。）
+傳入空字串即可移除狀態。
 
 <code-example 
   path="cli-builder/src/my-builder.ts" 
@@ -110,20 +110,20 @@ Pass an empty string to remove the status.
   region="progress-reporting">
 </code-example>
 
-## Builder input
+## 建置器輸入
 
-You can invoke a builder indirectly through a CLI command, or directly with the Angular CLI `ng run` command.
-In either case, you must provide required inputs, but can allow other inputs to default to values that are pre-configured for a specific [*target*](guide/glossary#target), provide a pre-defined, named override configuration, and provide further override option values on the command line.
+你可以透過 CLI 指令間接呼叫建置器，或直接使用 Angular CLI 的 `ng run` 指令。
+在任何一種情況下，你都必須提供必要的輸入，但可以讓其他輸入使用為特定[*目標*](guide/glossary#目標target)預先設定的預設值、提供預先定義的具名覆寫設定，並在命令列上提供進一步的覆寫選項值。
 
-### Input validation
+### 輸入驗證
 
-You define builder inputs in a JSON schema associated with that builder.
-The Architect tool collects the resolved input values into an `options` object, and validates their types against the schema before passing them to the builder function.
-(The Schematics library does the same kind of validation of user input).
+你在與該建置器關聯的 JSON 結構定義中定義建置器輸入。
+Architect 工具會把解析後的輸入值收集到 `options` 物件中，並在傳給建置器函式之前，依據結構定義驗證它們的型別。
+（Schematics 程式庫也會對使用者輸入做同樣的驗證。）
 
-For our example builder, we expect the `options` value to be a `JsonObject` with two keys: a `command` that is a string, and an `args` array of string values.
+對於我們的範例建置器，我們預期 `options` 值是一個 `JsonObject`，有兩個鍵：`command` 是字串，`args` 是字串值的陣列。
 
-We can provide the following schema for type validation of these values.
+我們可以提供下列 schema 來驗證這些值的類型。
 
 <code-example language="json" header="command/schema.json">
 {
@@ -146,14 +146,14 @@ We can provide the following schema for type validation of these values.
 
 <div class="alert is-helpful">
 
-This is a very simple example, but the use of a schema for validation can be very powerful.
-For more information, see the [JSON schemas website](http://json-schema.org/).
+這是一個非常簡單的範例，但使用結構定義進行驗證可以非常強大。
+更多資訊請參閱 [JSON schemas website](http://json-schema.org/)。
 
 </div>
 
-To link our builder implementation with its schema and name, we need to create a *builder definition* file, which we can point to in `package.json`.
+若要將建置器實作與其 schema 及名稱連結起來，我們需要建立一個*建置器定義*檔案，我們可以在 `package.json` 中指向它。
 
-Create a file named `builders.json` file that looks like this.
+建立一個名為 `builders.json` 的檔案，外觀如下：
 
 <code-example language="json" header="builders.json">
 
@@ -169,7 +169,7 @@ Create a file named `builders.json` file that looks like this.
 
 </code-example>
 
-In the `package.json` file, add a `builders` key that tells the Architect tool where to find our builder definition file.
+在 `package.json` 檔案中，加入一個 `builders` 鍵，告訴 Architect 工具去哪裡找我們的建置器定義檔。
 
 <code-example language="json" header="package.json">
 
@@ -185,10 +185,10 @@ In the `package.json` file, add a `builders` key that tells the Architect tool w
 
 </code-example>
 
-The official name of our builder is now ` @example/command-runner:command`.
-The first part of this is the package name (resolved using node resolution), and the second part is the builder name (resolved using the `builders.json` file).
+我們建置器的正式名稱現在是 ` @example/command-runner:command`。
+前半部是套件名稱（以 Node 解析方式解析），後半部是建置器名稱（以 `builders.json` 檔案解析）。
 
-Using one of our `options` is very straightforward, we did this in the previous section when we accessed `options.command`.
+使用我們的某個 `options` 非常直觀，我們在上一節存取 `options.command` 時就是這麼做的。
 
 <code-example 
   path="cli-builder/src/my-builder.ts" 
@@ -196,16 +196,16 @@ Using one of our `options` is very straightforward, we did this in the previous 
   region="report-status">
 </code-example>
 
-### Target configuration
+### 目標設定
 
-A builder must have a defined target that associates it with a specific input configuration and [project](guide/glossary#project).
+建置器必須有一個已定義的目標，將它與特定的輸入設定及[專案](guide/glossary#專案project)關聯起來。
 
-Targets are defined in the `angular.json` [CLI configuration file](guide/workspace-config).
-A target specifies the builder to use, its default options configuration, and named alternative configurations.
-The Architect tool uses the target definition to resolve input options for a given run.
+目標是在 `angular.json` [CLI 設定檔](guide/workspace-config)中定義的。
+目標會指定要使用的建置器、它的預設選項設定，以及具名的替代設定。
+Architect 工具會使用目標定義，為指定的執行解析輸入選項。
 
-The  `angular.json` file has a section for each project, and the "architect" section of each project configures targets for builders used by CLI commands such as 'build', 'test', and 'lint'.
-By default, for example, the `build` command runs the builder  `@angular-devkit/build-angular:browser` to perform the build task, and passes in default option values as specified for the `build` target in   `angular.json`.
+`angular.json` 檔案為每個專案設有一區段，每個專案設定的 "architect" 區段則設定了供 CLI 指令（如 'build'、'test' 與 'lint'）使用的建置器目標。
+例如，預設情況下，`build` 指令會執行建置器 `@angular-devkit/build-angular:browser` 來執行建置工作，並傳入 `angular.json` 中為 `build` 目標指定的預設選項值。
 
 <code-example language="json" header="angular.json">
 {
@@ -237,54 +237,54 @@ By default, for example, the `build` command runs the builder  `@angular-devkit/
 
 </code-example>
 
-The command passes the builder the set of default options specified in the "options" section.
-If you pass the `--configuration=production` flag, it uses the override values specified in the `production` alternative configuration.
-You can specify further option overrides individually on the command line.
-You might also add more alternative configurations to the `build` target, to define other environments such as `stage` or `qa`.
+指令會把 "options" 區段中指定的預設選項集傳給建置器。
+如果你傳入 `--configuration=production` 旗標，它會使用 `production` 替代設定中指定的覆寫值。
+你也可以在命令列上個別指定進一步的選項覆寫。
+你也可以在 `build` 目標中加入更多替代設定，以定義 `stage` 或 `qa` 等其他環境。
 
-#### Target strings
+#### 目標字串
 
-The generic `ng run` CLI command takes as its first argument a target string of the form *project:target[:configuration]*.
+通用的 `ng run` CLI 指令將目標字串作為第一個引數，其形式為 *project:target[:configuration]*。
 
-* *project*: The name of the Angular CLI project that the target is associated with.
+* *project*：與該目標相關聯的 Angular CLI 專案名稱。
 
-* *target*: A named builder configuration from the `architect` section of the `angular.json` file.
+* *target*：`angular.json` 檔案 `architect` 區段中具名的建置器設定。
 
-* *configuration*: (optional) The name of a specific configuration override for the given target, as defined in the `angular.json` file.
+* *configuration*：（可選）該目標的特定設定覆寫名稱，定義於 `angular.json` 檔案中。
 
-If your builder calls another builder, it may need to read a passed target string.
-You can parse this string into an object by using the `targetFromTargetString()` utility function from `@angular-devkit/architect`.
+若你的建置器呼叫另一個建置器，它可能需要讀取傳入的目標字串。
+使用 `@angular-devkit/architect` 的 `targetFromTargetString()` 工具函式，將這個字串解析成物件。
 
-## Schedule and run
+## 排程與執行
 
-Architect runs builders asynchronously.
-To invoke a builder, you schedule a task to be run when all configuration resolution is complete.
+Architect 以非同步方式執行建置器。
+若要呼叫建置器，你排程一個工作，待所有設定解析完成後執行。
 
-The builder function is not executed until the scheduler returns a `BuilderRun` control object.
-The CLI typically schedules tasks by calling the `BuilderContext.scheduleTarget()` function, and then resolves input options using the target definition in the `angular.json` file.
+在排程器回傳 `BuilderRun` 控制物件之前，建置器函式不會被執行。
+CLI 通常會呼叫 `BuilderContext.scheduleTarget()` 函式來排程工作，然後使用 `angular.json` 檔案中的目標定義來解析輸入選項。
 
-Architect resolves input options for a given target by taking the default options object, then overwriting values from the configuration used (if any), then further overwriting values from the overrides object passed to `BuilderContext.scheduleTarget()`.
-For the Angular CLI, the overrides object is built from command line arguments.
+Architect 解析指定目標的輸入選項時，會先取預設選項物件，接著以所用設定的值覆寫（如果有），再以傳給 `BuilderContext.scheduleTarget()` 的覆寫物件的值進一步覆寫。
+對 Angular CLI 而言，覆寫物件是由命令列引數建立的。
 
-Architect validates the resulting options values against the schema of the builder.
-If inputs are valid, Architect creates the context and executes the builder.
+Architect 會依建置器的 schema 驗證解析後的選項值。
+若輸入有效，Architect 會建立 context 並執行建置器。
 
-For more information see [Workspace Configuration](guide/workspace-config).
+更多資訊請參閱[工作區設定](guide/workspace-config)。
 
 <div class="alert is-helpful">
 
-   You can also invoke a builder directly from another builder or test by calling `BuilderContext.scheduleBuilder()`.
-   You pass an `options` object directly to the method, and those option values are validated against the schema of the builder without further adjustment.
+   你也可以呼叫 `BuilderContext.scheduleBuilder()`，直接從另一個建置器或測試中叫用建置器。
+   你可以直接把 `options` 物件傳給該方法，這些選項值會直接依照建置器的結構定義進行驗證，不再進一步調整。
 
-   Only the  `BuilderContext.scheduleTarget()` method resolves the configuration and overrides through the `angular.json` file.
+   只有 `BuilderContext.scheduleTarget()` 方法會透過 `angular.json` 檔案解析設定與覆寫。
 
 </div>
 
-### Default architect configuration
+### 預設 Architect 設定
 
-Let’s create a simple `angular.json` file that puts target configurations into context.
+我們來建立一個簡單的 `angular.json` 檔案，將目標設定放入情境中。
 
-We can publish the builder to npm (see [Publishing your Library](guide/creating-libraries#publishing-your-library)), and install it using the following command:
+你可以將建置器發佈到 npm（請參閱[發佈你的程式庫](guide/creating-libraries#發行你的程式庫)），並使用下列指令安裝它：
 
 <code-example language="sh">
 
@@ -292,7 +292,7 @@ npm install @example/command-runner
 
 </code-example>
 
-If we create a new project with `ng new builder-test`, the generated `angular.json` file looks something like this, with only default builder configurations.
+若你用 `ng new builder-test` 建立新專案，產生的 `angular.json` 檔案大致如下，只有預設的建置器設定。
 
 <code-example language="json" header="angular.json">
 
@@ -331,20 +331,20 @@ If we create a new project with `ng new builder-test`, the generated `angular.js
 
 </code-example>
 
-### Adding a target
+### 新增目標
 
-Let's add a new target that will run our builder to execute a particular command.
-This target will tell the builder to run `touch` on a file, in order to update its modified date.
+新增一個會執行我們建置器來執行特定命令的目標。
+這個目標會告訴建置器對一個檔案執行 `touch`，以更新它的修改日期。
 
-We need to update the `angular.json` file to add a target for this builder to the "architect" section of our new project.
+我們需要更新 `angular.json` 檔案，在我們新專案的 "architect" 區段中為這個建置器加入一個目標。
 
-* We'll add a new target section to the "architect" object for our project.
+* 我們會在專案的 "architect" 物件中新增一段目標區段。
 
-* The target named "touch" uses our builder, which we published to `@example/command-runner`. (See [Publishing your Library](guide/creating-libraries#publishing-your-library))
+* 名為 "touch" 的目標使用我們的建置器，也就是我們發佈到 `@example/command-runner` 的那個。（請參閱[發佈你的程式庫](guide/creating-libraries#發行你的程式庫)）
 
-* The options object provides default values for the two inputs that we defined; `command`, which is the Unix command to execute, and `args`, an array that contains the file to operate on.
+* options 物件為我們定義的兩個輸入提供預設值：`command` 是要執行的 Unix 命令，`args` 是包含要操作之檔案的陣列。
 
-* The configurations key is optional, we'll leave it out for now.
+* configurations 鍵是選用的，我們現在先省略它。
 
 <code-example language="json" header="angular.json">
 
@@ -391,9 +391,9 @@ We need to update the `angular.json` file to add a target for this builder to th
 
 </code-example>
 
-### Running the builder
+### 執行建置器
 
-To run our builder with the new target's default configuration, use the following CLI command in a Linux shell.
+若要以新目標的預設設定執行我們的建置器，在 Linux shell 中使用下列 CLI 指令。
 
 <code-example language="sh">
 
@@ -401,10 +401,10 @@ To run our builder with the new target's default configuration, use the followin
 
 </code-example>
 
-This will run the `touch` command on the `src/main.ts` file.
+這會對 `src/main.ts` 檔案執行 `touch` 命令。
 
-You can use command-line arguments to override the configured defaults.
-For example, to run with a different `command` value, use the following CLI command.
+你可以使用命令列引數來覆寫已設定的預設值。
+例如，若要以不同的 `command` 值執行，使用下列 CLI 指令。
 
 <code-example language="sh">
 
@@ -412,19 +412,19 @@ ng run builder-test:touch --command=ls
 
 </code-example>
 
-This will call the `ls` command instead of the `touch` command.
-Because we did not override the *args* option, it will list information about the `src/main.ts` file (the default value provided for the target).
+這會呼叫 `ls` 命令，而不是 `touch` 命令。
+因為我們沒有覆寫 *args* 選項，它會列出 `src/main.ts` 檔案的資訊（為該目標提供的預設值）。
 
-## Testing a builder
+## 測試建置器
 
-Use integration testing for your builder, so that you can use the Architect scheduler to create a context, as in this [example](https://github.com/mgechev/cli-builders-demo).
+請為你的建置器使用整合測試，這樣你就能使用 Architect 排程器來建立情境，如這個[範例](https://github.com/mgechev/cli-builders-demo)所示。
 
-* In the builder source directory, we have created a new test file `my-builder.spec.ts`. The code creates new instances of `JsonSchemaRegistry` (for schema validation), `TestingArchitectHost` (an in-memory implementation of `ArchitectHost`), and `Architect`.
+* 在建置器來源目錄中，你建立了一個新的測試檔 `my-builder.spec.ts`。程式碼會建立 `JsonSchemaRegistry`（用於結構定義驗證）、`TestingArchitectHost`（`ArchitectHost` 的記憶體內實作）與 `Architect` 的新實例。
 
-* We've added a `builders.json` file next to the builder's [`package.json` file](https://github.com/mgechev/cli-builders-demo/blob/master/command-builder/builders.json), and modified the package file to point to it.
+* 我們在建置器的 [`package.json` 檔案](https://github.com/mgechev/cli-builders-demo/blob/master/command-builder/builders.json) 旁邊加入了一個 `builders.json` 檔案，並修改套件檔案以指向它。
 
-Here’s an example of a test that runs the command builder.
-The test uses the builder to run the `node --print 'foo'` command, then validates that the `logger` contains an entry for `foo`.
+以下是一個執行命令建置器的測試範例。
+這個測試使用建置器執行 `node --print 'foo'` 命令，然後驗證 `logger` 中包含一個 `foo` 的條目。
 
 <code-example 
   path="cli-builder/src/my-builder.spec.ts" 
@@ -433,42 +433,42 @@ The test uses the builder to run the `node --print 'foo'` command, then validate
 
 <div class="alert is-helpful">
 
-   When running this test in your repo, you need the [`ts-node`](https://github.com/TypeStrong/ts-node) package. You can avoid this by renaming `my-builder.spec.ts` to `my-builder.spec.js`.
+   在你的 repo 中執行這個測試時，你需要 [`ts-node`](https://github.com/TypeStrong/ts-node) 套件。你可以把 `my-builder.spec.ts` 改名為 `my-builder.spec.js` 來避免這個需求。
 
 </div>
 
-### Watch mode
+### 監看模式
 
-Architect expects builders to run once (by default) and return.
-This behavior is not entirely compatible with a builder that watches for changes (like Webpack, for example).
-Architect can support watch mode, but there are some things to look out for.
+Architect 預期建置器執行一次（預設）後就回傳。
+這種行為與會監看變更的建置器（例如 Webpack）不完全相容。
+Architect 可以支援監看模式，但有一些事情需要注意。
 
-* To be used with watch mode, a builder handler function should return an Observable. Architect subscribes to the Observable until it completes and might reuse it if the builder is scheduled again with the same arguments.
+* 若要在監看模式下使用，建置器處理函式應回傳一個 Observable。Architect 會訂閱這個 Observable 直到它完成，若建置器以相同引數再次被排程，可能會重用它。
 
-* The builder should always emit a `BuilderOutput` object after each execution. Once it’s been executed, it can enter a watch mode, to be triggered by an external event. If an event triggers it to restart, the builder should execute the `BuilderContext.reportRunning()` function to tell Architect that it is running again. This prevents Architect from stopping the builder if another run is scheduled.
+* 建置器應在每次執行後永遠發出一個 `BuilderOutput` 物件。一旦執行過，它就可以進入監看模式，等待外部事件觸發。若某個事件觸發它重新啟動，建置器應執行 `BuilderContext.reportRunning()` 函式，告訴 Architect 它正在再次執行。這可避免在另一次執行被排程時，Architect 停止這個建置器。
 
-When your builder calls `BuilderRun.stop()` to exit watch mode, Architect unsubscribes from the builder’s Observable and calls the builder’s teardown logic to clean up.
-(This behavior also allows for long running builds to be stopped and cleaned up.)
+當你的建置器呼叫 `BuilderRun.stop()` 退出監看模式時，Architect 會取消訂閱建置器的 Observable，並呼叫建置器的 teardown 邏輯進行清理。
+（這種行為也讓長時間執行的建置可以被停止與清理。）
 
-In general, if your builder is watching an external event, you should separate your run into three phases.
+一般而言，若你的建置器正在監看外部事件，你應將執行分成三個階段。
 
-1. **Running**
-   For example, webpack compiles. This ends when webpack finishes and your builder emits a `BuilderOutput` object.
+1. **執行中**
+   例如，webpack 正在編譯。當 webpack 完成且你的建置器發出 `BuilderOutput` 物件時結束。
 
-1. **Watching**
-   Between two runs, watch an external event stream. For example, webpack watches the file system for any changes. This ends when webpack restarts building, and `BuilderContext.reportRunning()` is called. This goes back to step 1.
+1. **監看中**
+   在兩次執行之間，監看外部事件串流。例如，webpack 會監看檔案系統是否有任何變更。當 webpack 重新開始建置，且 `BuilderContext.reportRunning()` 被呼叫時結束。接著回到步驟 1。
 
-1. **Completion**
-   Either the task is fully completed (for example, webpack was supposed to run a number of times), or the builder run was stopped (using `BuilderRun.stop()`). Your teardown logic is executed, and Architect unsubscribes from your builder’s Observable.
+1. **完成**
+   任務已完全完成（例如，webpack 原本要執行多次），或建置器執行已停止（使用 `BuilderRun.stop()`）。接著會執行你的 teardown 邏輯，Architect 會取消訂閱你的建置器 Observable。
 
-## Summary
+## 小結
 
-The CLI Builder API provides a new way of changing the behavior of the Angular CLI by using builders to execute custom logic.
+CLI Builder API 提供了一種方式，透過建置器執行自訂邏輯，來改變 Angular CLI 的行為。
 
-* Builders can be synchronous or asynchronous, execute once or watch for external events, and can schedule other builders or targets.
+* 建置器可以是同步或非同步的，執行一次或監看外部事件，並能排程其他建置器或目標。
 
-* Builders have option defaults specified in the `angular.json` configuration file, which can be overwritten by an alternate configuration for the target, and further overwritten by command line flags.
+* 建置器的選項預設值在 `angular.json` 設定檔中指定，可被目標的替代設定覆寫，再被命令列旗標進一步覆寫。
 
-* We recommend that you use integration tests to test Architect builders. You can use unit tests to validate the logic that the builder executes.
+* 我們建議你使用整合測試來測試 Architect 建置器，並使用單元測試來驗證建置器執行的邏輯。
 
-* If your builder returns an Observable, it should clean up in the teardown logic of that Observable.
+* 若你的建置器回傳 Observable，它應在該 Observable 的 teardown 邏輯中清理。

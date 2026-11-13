@@ -1,203 +1,196 @@
+# 屬性繫結
 
-# Property binding
-
-Property binding in Angular helps you set values for properties of HTML elements or directives.
-With property binding, you can do things such as toggle button functionality, set paths programmatically, and share values between components.
+Angular 中的屬性繫結協助你設定 HTML 元素或指令的屬性值。
+透過屬性繫結，你可以切換按鈕功能、以程式方式設定路徑，以及在元件之間共用值。
 
 <div class="alert is-helpful">
 
-See the <live-example></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example></live-example>，查看包含本指南程式碼片段的實際範例。
 
 </div>
 
-## Prerequisites
+## 先決條件
 
-To get the most out of property binding, you should be familiar with the following:
+若要充分發揮屬性繫結的效益，你應該先熟悉下列內容：
 
-* [Basics of components](guide/architecture-components)
-* [Basics of templates](guide/glossary#template)
-* [Binding syntax](guide/binding-syntax)
+* [元件基礎](guide/architecture-components)
+* [範本基礎](guide/glossary#範本template)
+* [繫結語法](guide/binding-syntax)
 
 <hr />
 
-## Understanding the flow of data
+## 了解資料流
 
-Property binding moves a value in one direction, from a component's property into a target element property.
+屬性繫結以單一方向移動值，從元件的屬性進入目標元素屬性。
 
 <div class="alert is-helpful">
 
-For more information on listening for events, see [Event binding](guide/event-binding).
+如需進一步了解監聽事件，請參閱[事件繫結](guide/event-binding)。
 
 </div>
 
-To read a target element property or call one of its methods, see the API reference for [ViewChild](api/core/ViewChild) and [ContentChild](api/core/ContentChild).
+若要讀取目標元素屬性或呼叫它的方法，請參閱 [ViewChild](api/core/ViewChild) 與 [ContentChild](api/core/ContentChild) 的 API 參考。
 
-## Binding to a property
+## 繫結到屬性
 
-To bind to an element's property, enclose it in square brackets, `[]`, which identifies the property as a target property.
-A target property is the DOM property to which you want to assign a value.
-For example, the target property in the following code is the image element's `src` property.
+若要繫結到元素的屬性，請將它包在方括號 `[]` 中，這會將該屬性標示為目標屬性。
+目標屬性是你想要指派值的 DOM 屬性。
+例如，下列程式碼中的目標屬性是圖片元素的 `src` 屬性。
 
 <code-example path="property-binding/src/app/app.component.html" region="property-binding" header="src/app/app.component.html"></code-example>
 
+在大多數情況下，目標名稱是屬性的名稱，即使它看起來像是 attribute 的名稱。
+在這個範例中，`src` 是 `<img>` 元素屬性的名稱。
 
-In most cases, the target name is the name of a property, even when it appears to be the name of an attribute.
-In this example, `src` is the name of the `<img>` element property.
-
-The brackets, `[]`, cause Angular to evaluate the right-hand side of the assignment as a dynamic expression.
-Without the brackets, Angular treats the the right-hand side as a string literal and sets the property to that static value.
+這些括號 `[]` 會讓 Angular 將指派的右側評估為動態運算式。
+沒有括號時，Angular 會將右側視為字串字面值，並把屬性設為該靜態值。
 
 <code-example path="property-binding/src/app/app.component.html" region="no-evaluation" header="src/app.component.html"></code-example>
 
-Omitting the brackets renders the string `parentItem`, not the value of `parentItem`.
+省略括號會算繪出字串 `parentItem`，而不是 `parentItem` 的值。
 
-## Setting an element property to a component property value
+## 將元素屬性設為元件屬性值
 
-To bind the `src` property of an `<img>` element to a component's property, place the target, `src`, in square brackets followed by an equal sign and then the property.
-The property here is `itemImageUrl`.
+若要將 `<img>` 元素的 `src` 屬性繫結到元件的屬性，請將目標 `src` 放在方括號中，後面接等號，再接屬性。
+這裡的屬性是 `itemImageUrl`。
 
 <code-example path="property-binding/src/app/app.component.html" region="property-binding" header="src/app/app.component.html"></code-example>
 
-Declare the `itemImageUrl` property in the class, in this case `AppComponent`.
+在類別中宣告 `itemImageUrl` 屬性，在這個案例中是 `AppComponent`。
 
 <code-example path="property-binding/src/app/app.component.ts" region="item-image" header="src/app/app.component.ts"></code-example>
 
 {@a colspan}
 
-#### `colspan` and `colSpan`
+#### `colspan` 與 `colSpan`
 
-A common point of confusion is between the attribute, `colspan`, and the property, `colSpan`.
-Notice that these two names differ by only a single letter.
+常見的混淆點是 attribute `colspan` 與屬性 `colSpan` 之間。
+請注意，這兩個名稱只差一個字母。
 
-If you wrote something like this:
+如果你這樣寫：
 
 <code-example language="html">
   &lt;tr&gt;&lt;td colspan="{{1 + 1}}"&gt;Three-Four&lt;/td&gt;&lt;/tr&gt;
 </code-example>
 
-You'd get this error:
+你會得到這個錯誤：
 
 <code-example language="bash">
   Template parse errors:
   Can't bind to 'colspan' since it isn't a known native property
 </code-example>
 
-As the message says, the `<td>` element does not have a `colspan` property. This is true
-because `colspan` is an attribute&mdash;`colSpan`, with a capital `S`, is the
-corresponding property. Interpolation and property binding can set only *properties*, not attributes.
+正如訊息所說，`<td>` 元素沒有 `colspan` 屬性。這是因為
+`colspan` 是 attribute&mdash;`colSpan`（`S` 為大寫）才是
+對應的屬性。文字插值與屬性繫結只能設定*屬性*，不能設定 attribute。
 
-Instead, you'd use property binding and write it like this:
+相反地，你會使用屬性繫結，像這樣寫：
 
 <code-example path="attribute-binding/src/app/app.component.html" region="colSpan" header="src/app/app.component.html"></code-example>
 
-
-Another example is disabling a button when the component says that it `isUnchanged`:
+另一個範例是在元件表示 `isUnchanged` 時停用按鈕：
 
 <code-example path="property-binding/src/app/app.component.html" region="disabled-button" header="src/app/app.component.html"></code-example>
 
-Another is setting a property of a directive:
+另一個是設定指令的屬性：
 
 <code-example path="property-binding/src/app/app.component.html" region="class-binding" header="src/app/app.component.html"></code-example>
 
-Yet another is setting the model property of a custom component&mdash;a great way
-for parent and child components to communicate:
+再一個是設定自訂元件的 model 屬性&mdash;這是父元件與子元件溝通的好方法：
 
 <code-example path="property-binding/src/app/app.component.html" region="model-property-binding" header="src/app/app.component.html"></code-example>
 
+## 切換按鈕功能
 
-## Toggling button functionality
-
-To disable a button's functionality depending on a Boolean value, bind the DOM `disabled` property to a property in the class that is `true` or `false`.
+若要依布林值停用按鈕的功能，請將 DOM `disabled` 屬性繫結到類別中值為 `true` 或 `false` 的屬性。
 
 <code-example path="property-binding/src/app/app.component.html" region="disabled-button" header="src/app/app.component.html"></code-example>
 
-Because the value of the property `isUnchanged` is `true` in the `AppComponent`, Angular disables the button.
+因為 `AppComponent` 中 `isUnchanged` 屬性的值是 `true`，Angular 會停用該按鈕。
 
 <code-example path="property-binding/src/app/app.component.ts" region="boolean" header="src/app/app.component.ts"></code-example>
 
+## 設定指令屬性
 
-## Setting a directive property
-
-To set a property of a directive, place the directive within square brackets , such as `[ngClass]`, followed by an equal sign and the property.
-Here, the property is `classes`.
+若要設定指令的屬性，請將指令放在方括號中，例如 `[ngClass]`，後面接等號，再接屬性。
+這裡的屬性是 `classes`。
 
 <code-example path="property-binding/src/app/app.component.html" region="class-binding" header="src/app/app.component.html"></code-example>
 
-To use the property, you must declare it in the class, which in this example is `AppComponent`.
-The value of `classes` is `special`.
+若要使用這個屬性，你必須在類別中宣告它，在這個範例中是 `AppComponent`。
+`classes` 的值是 `special`。
 
 <code-example path="property-binding/src/app/app.component.ts" region="directive-property" header="src/app/app.component.ts"></code-example>
 
-Angular applies the class `special` to the `<p>` element so that you can use `special` to apply CSS styles.
+Angular 會將 `special` 類別套用到 `<p>` 元素，讓你可以使用 `special` 套用 CSS 樣式。
 
-## Bind values between components
+## 在元件之間繫結值
 
-To set the model property of a custom component, place the target, here `childItem`, between square brackets `[]` followed by an equal sign and the property.
-Here, the property is `parentItem`.
+若要設定自訂元件的 model 屬性，請將目標（這裡是 `childItem`）放在方括號 `[]` 之間，後面接等號，再接屬性。
+這裡的屬性是 `parentItem`。
 
 <code-example path="property-binding/src/app/app.component.html" region="model-property-binding" header="src/app/app.component.html"></code-example>
 
-To use the target and the property, you must declare them in their respective classes.
+若要使用目標與屬性，你必須在各自的類別中宣告它們。
 
-Declare the target of `childItem` in its component class, in this case `ItemDetailComponent`.
+在它的元件類別中宣告 `childItem` 目標，在這個案例中是 `ItemDetailComponent`。
 
-For example, the following code declares the target of `childItem` in its component class, in this case `ItemDetailComponent`.
+例如，下列程式碼在它的元件類別中宣告 `childItem` 目標，在這個案例中是 `ItemDetailComponent`。
 
-Then, the code contains an `@Input()` decorator with the `childItem` property so data can flow into it.
+接著，程式碼包含帶有 `childItem` 屬性的 `@Input()` 裝飾器，讓資料可以流入。
 
 <code-example path="property-binding/src/app/item-detail/item-detail.component.ts" region="input-type" header="src/app/item-detail/item-detail.component.ts"></code-example>
 
-Next, the code declares the property of `parentItem` in its component class, in this case `AppComponent`.
-In this example the type of `childItem` is `string`, so `parentItem` needs to be a string.
-Here, `parentItem` has the string value of `lamp`.
+接著，程式碼在它的元件類別中宣告 `parentItem` 屬性，在這個案例中是 `AppComponent`。
+在這個範例中，`childItem` 的型別是 `string`，所以 `parentItem` 必須是字串。
+這裡，`parentItem` 的字串值是 `lamp`。
 
 <code-example path="property-binding/src/app/app.component.ts" region="parent-data-type" header="src/app/app.component.ts"></code-example>
 
-With this configuration, the view of `<app-item-detail>` uses the value of `lamp` for `childItem`.
+透過這個設定，`<app-item-detail>` 的檢視會將 `lamp` 的值用於 `childItem`。
 
-## Property binding and security
+## 屬性繫結與安全性
 
-Property binding can help keep content secure.
-For example, consider the following malicious content.
+屬性繫結有助於保持內容安全。
+例如，請看下列惡意內容。
 
 <code-example path="property-binding/src/app/app.component.ts" region="malicious-content" header="src/app/app.component.ts"></code-example>
 
-The component template interpolates the content as follows:
+元件範本以下列方式對內容進行文字插值：
 
 <code-example path="property-binding/src/app/app.component.html" region="malicious-interpolated" header="src/app/app.component.html"></code-example>
 
-The browser doesn't process the HTML and instead displays it raw, as follows.
+瀏覽器不會處理這段 HTML，而是如下直接顯示原始內容。
 
 <code-example language="bash">
 "Template &lt;script&gt;alert("evil never sleeps")&lt;/script&gt; Syntax" is the interpolated evil title.
 </code-example>
 
+Angular 不允許含有 `<script>` 標籤的 HTML，無論是透過[文字插值](guide/interpolation)還是屬性繫結，藉此防止 JavaScript 執行。
 
-Angular does not allow HTML with `<script>` tags, neither with [interpolation](guide/interpolation) nor property binding, which prevents the JavaScript from running.
-
-In the following example, however, Angular [sanitizes](guide/security#sanitization-and-security-contexts) the values before displaying them.
+然而，在下列範例中，Angular 會在顯示值之前先加以[清理](guide/security#清理與安全性上下文)。
 
 <code-example path="property-binding/src/app/app.component.html" region="malicious-content" header="src/app/app.component.html"></code-example>
 
-Interpolation handles the `<script>` tags differently than property binding, but both approaches render the content harmlessly.
-The following is the browser output of the sanitized `evilTitle` example.
+文字插值處理 `<script>` 標籤的方式與屬性繫結不同，但兩種方式算繪出的內容都是無害的。
+以下是清理後 `evilTitle` 範例的瀏覽器輸出。
 
 <code-example language="bash">
 "Template Syntax" is the property bound evil title.
 </code-example>
 
-## Property binding and interpolation
+## 屬性繫結與文字插值
 
-Often [interpolation](guide/interpolation) and property binding can achieve the same results.
-The following binding pairs do the same thing.
+[文字插值](guide/interpolation)與屬性繫結通常可以達到相同的結果。
+下列繫結配對做的事相同。
 
 <code-example path="property-binding/src/app/app.component.html" region="property-binding-interpolation" header="src/app/app.component.html"></code-example>
 
-You can use either form when rendering data values as strings, though interpolation is preferable for readability.
-However, when setting an element property to a non-string data value, you must use property binding.
+將資料值算繪為字串時，你可以使用任一種形式，不過文字插值的可讀性較佳。
+不過，當要將元素屬性設定為非字串的資料值時，你必須使用屬性繫結。
 
 <hr />
 
-## What's next
+## 後續步驟
 
-* [Property binding best practices](guide/property-binding-best-practices)
+* [屬性繫結最佳實務](guide/property-binding-best-practices)

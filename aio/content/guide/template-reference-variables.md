@@ -1,91 +1,91 @@
-# Template variables
+# 範本變數
 
-Template variables help you use data from one part of a template in another part of the template.
-With template variables, you can perform tasks such as respond to user input or finely tune your application's forms.
+範本變數協助你在範本的一個部分，使用來自範本另一個部分的資料。
+有了範本變數，你可以執行諸如回應使用者輸入或微調應用程式表單等工作。
 
-A template variable can refer to the following:
+範本變數可以參照以下項目：
 
-* a DOM element within a template
-* a directive
-* an element
+* 範本內的 DOM 元素
+* 指令
+* 元素
 * [TemplateRef](api/core/TemplateRef)
-* a <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" title="MDN: Web Components">web component</a>
+* <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components" title="MDN: Web Components">web 元件</a>
 
 <div class="alert is-helpful">
 
-See the <live-example></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example></live-example>，查看包含本指南程式碼片段的運作範例。
 
 </div>
 
-## Syntax
+## 語法
 
-In the template, you use the hash symbol, `#`, to declare a template variable.
-The following template variable, `#phone`, declares a `phone` variable on an `<input>` element.
+在範本中，你使用井字號（`#`）來宣告範本變數。
+以下範本變數 `#phone` 在 `<input>` 元素上宣告了一個 `phone` 變數。
 
 <code-example path="template-reference-variables/src/app/app.component.html" region="ref-var" header="src/app/app.component.html"></code-example>
 
-You can refer to a template variable anywhere in the component's template.
-Here, a `<button>` further down the template refers to the `phone` variable.
+你可以在元件範本中的任何地方參照範本變數。
+在這裡，範本下方的一個 `<button>` 參照了 `phone` 變數。
 
 <code-example path="template-reference-variables/src/app/app.component.html" region="ref-phone" header="src/app/app.component.html"></code-example>
 
-## How Angular assigns values to template variables
+## Angular 如何將值指派給範本變數
 
-Angular assigns a template variable a value based on where you declare the variable:
+Angular 會依據你宣告變數的位置，將值指派給範本變數：
 
-* If you declare the variable on a component, the variable refers to the component instance.
-* If you declare the variable on a standard HTML tag, the variable refers to the element.
-* If you declare the variable on an `<ng-template>` element, the variable refers to a `TemplateRef` instance, which represents the template.
-  For more information on `<ng-template>`, see the [ng-template](guide/structural-directives#the-ng-template) section of [Structural directives](guide/structural-directives).
-* If the variable specifies a name on the right-hand side, such as `#var="ngModel"`, the variable refers to the directive or component on the element with a matching `exportAs` name.
+* 如果你在元件上宣告變數，該變數會參照元件實例。
+* 如果你在標準 HTML 標籤上宣告變數，該變數會參照該元素。
+* 如果你在 `<ng-template>` 元素上宣告變數，該變數會參照代表該範本的 `TemplateRef` 實例。
+  更多關於 `<ng-template>` 的資訊，請參閱[結構指令](guide/structural-directives)中的 [ng-template](guide/structural-directives#ng-template) 一節。
+* 如果變數在右側指定了名稱，例如 `#var="ngModel"`，該變數會參照元素上具有相符 `exportAs` 名稱的指令或元件。
 <!-- What does the second half of this mean?^^ Can we explain this more fully? Could I see a working example? -kw -->
 
-### Using `NgForm` with template variables
+### 搭配範本變數使用 `NgForm`
 
-In most cases, Angular sets the template variable's value to the element on which it occurs.
-In the previous example, `phone` refers to the phone number `<input>`.
-The button's click handler passes the `<input>` value to the component's `callPhone()` method.
+在大多數情況下，Angular 會將範本變數的值設為它所在的元素。
+在前面的範例中，`phone` 參照的是電話號碼 `<input>`。
+按鈕的 click 處理常式會把 `<input>` 值傳給元件的 `callPhone()` 方法。
 
-The `NgForm` directive demonstrates getting a reference to a different value by reference a directive's `exportAs` name.
-In the following example, the template variable, `itemForm`, appears three times separated by HTML.
+`NgForm` 指令示範如何透過參照指令的 `exportAs` 名稱，取得對不同值的參照。
+在以下範例中，範本變數 `itemForm` 出現三次，中間以 HTML 隔開。
 
 <code-example path="template-reference-variables/src/app/app.component.html" region="ngForm" header="src/app/hero-form.component.html"></code-example>
 
-Without the `ngForm` attribute value, the reference value of `itemForm` would be
-the [HTMLFormElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement), `<form>`.
-There is, however, a difference between a `Component` and a `Directive` in that Angular references a `Component` without specifying the attribute value, and a `Directive` does not change the implicit reference, or the element.
+如果沒有 `ngForm` attribute 值，`itemForm` 的參照值會是
+[HTMLFormElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLFormElement)，也就是 `<form>`。
+不過，`Component` 與 `Directive` 之間存在一項差異：Angular 參照 `Component` 時不需指定 attribute 值，而 `Directive` 不會改變隱含的參照，也就是該元素。
 <!-- What is the train of thought from talking about a form element to the difference between a component and a directive? Why is the component directive conversation relevant here?  -kw -->
 
-With `NgForm`, `itemForm` is a reference to the [NgForm](api/forms/NgForm "API: NgForm") directive with the ability to track the value and validity of every control in the form.
+有了 `NgForm`，`itemForm` 就是對 [NgForm](api/forms/NgForm "API: NgForm") 指令的參照，能夠追蹤表單中每個控制項的值與有效性。
 
-Unlike the native `<form>` element, the `NgForm` directive has a `form` property.
-The `NgForm` `form` property allows you to disable the submit button if the `itemForm.form.valid` is invalid.
+與原生 `<form>` 元素不同，`NgForm` 指令有一個 `form` 屬性。
+`NgForm` 的 `form` 屬性讓你能在 `itemForm.form.valid` 無效時停用提交按鈕。
 
 
-## Template variable scope
+## 範本變數範圍
 
-You can refer to a template variable anywhere within its surrounding template.
-[Structural directives](guide/built-in-directives), such as `*ngIf` and `*ngFor`, or `<ng-template>` act as a template boundary.
-You cannot access template variables outside of these boundaries.
+在範本變數周圍的範本內，任何地方都可以參照它。
+`*ngIf` 與 `*ngFor` 等[結構指令](guide/built-in-directives)，或 `<ng-template>`，會充當範本的邊界。
+你無法在這些邊界之外存取範本變數。
 
 <div class="alert is-helpful">
 
-Define a variable only once in the template so the runtime value remains predictable.
+在範本中只定義變數一次，讓執行時期值保持可預測。
 
 </div>
 
-### Accessing in a nested template
+### 在巢狀範本中存取
 
-An inner template can access template variables that the outer template defines.
+內層範本可以存取外層範本定義的範本變數。
 
-In the following example, changing the text in the `<input>` changes the value in the `<span>` because Angular immediately updates changes through the template variable, `ref1`.
+在以下範例中，變更 `<input>` 中的文字會變更 `<span>` 中的值，因為 Angular 會透過範本變數 `ref1` 立即更新變更。
 
 <code-example path="template-reference-variables/src/app/app.component.html" region="template-ref-vars-scope1" header="src/app/app.component.html"></code-example>
 
-In this case, there is an implied `<ng-template>` around the `<span>` and the definition of the variable is outside of it.
-Accessing a template variable from the parent template works because the child template inherits the context from the parent template.
+在這個案例中，`<span>` 周圍有一個隱含的 `<ng-template>`，而變數的定義在它之外。
+從父範本存取範本變數之所以行得通，是因為子範本會繼承父範本的脈絡。
 
-Rewriting the above code in a more verbose form explicitly shows the `<ng-template>`.
+把前面的程式碼改寫成較冗長的形式，可以明確顯示出 `<ng-template>`。
 
 ```html
 
@@ -99,14 +99,14 @@ Rewriting the above code in a more verbose form explicitly shows the `<ng-templa
 
 ```
 
-However, accessing a template variable from outside the parent template doesn't work.
+不過，從父範本之外存取範本變數是行不通的。
 
 ```html
   <input *ngIf="true" #ref2 type="text" [(ngModel)]="secondExample" />
   <span>Value: {{ ref2?.value }}</span> <!-- doesn't work -->
 ```
 
-The verbose form shows that `ref2` is outside the parent template.
+冗長形式顯示 `ref2` 在父範本之外。
 
 ```
 <ng-template [ngIf]="true">
@@ -117,7 +117,7 @@ The verbose form shows that `ref2` is outside the parent template.
 <span>Value: {{ ref2?.value }}</span>
 ```
 
-Consider the following example that uses `*ngFor`.
+請看以下使用 `*ngFor` 的範例。
 
 ```
 <ng-container *ngFor="let i of [1,2]">
@@ -126,24 +126,24 @@ Consider the following example that uses `*ngFor`.
 {{ ref.value }}
 ```
 
-Here, `ref.value` doesn't work.
-The structural directive, `*ngFor` instantiates the template twice because `*ngFor` iterates over the two items in the array.
-It is impossible to define what the `ref.value` reference signifies.
+在這裡，`ref.value` 無法運作。
+結構指令 `*ngFor` 會把範本實例化兩次，因為 `*ngFor` 會迭代陣列中的兩個項目。
+無法定義 `ref.value` 參照所代表的意義。
 
-With structural directives, such as `*ngFor` or `*ngIf`, there is no way for Angular to know if a template is ever instantiated.
+對於 `*ngFor` 或 `*ngIf` 這類結構指令，Angular 無從得知範本是否曾被實例化。
 
-As a result, Angular isn't able to access the value and returns an error.
+因此，Angular 無法存取該值，並會回傳錯誤。
 
-### Accessing a template variable within `<ng-template>`
+### 在 `<ng-template>` 內存取範本變數
 
-When you declare the variable on an `<ng-template>`, the variable refers to a `TemplateRef` instance, which represents the template.
+當你在 `<ng-template>` 上宣告變數時，該變數會參照代表該範本的 `TemplateRef` 實例。
 
 <code-example path="template-reference-variables/src/app/app.component.html" region="template-ref" header="src/app/app.component.html"></code-example>
 
-In this example, clicking the button calls the `log()` function, which outputs the value of `#ref3` to the console.
-Because the `#ref` variable is on an `<ng-template>`, the value is `TemplateRef`.
+在這個範例中，點選按鈕會呼叫 `log()` 函式，把 `#ref3` 的值輸出到主控台。
+因為 `#ref` 變數位於 `<ng-template>` 上，它的值是 `TemplateRef`。
 
-The following is the expanded browser console output of the `TemplateRef()` function with the name of `TemplateRef`.
+以下是 `TemplateRef()` 函式在瀏覽器主控台展開後的輸出，其中包含 `TemplateRef` 的名稱。
 
 <code-example language="sh">
 

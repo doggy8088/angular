@@ -1,23 +1,22 @@
 
-# Binding syntax: an overview
+# 繫結語法：總覽
 
-Data-binding is a mechanism for coordinating what users see, specifically
-with application data values.
-While you could push values to and pull values from HTML,
-the application is easier to write, read, and maintain if you turn these tasks over to a binding framework.
-You simply declare bindings between binding sources, target HTML elements, and let the framework do the rest.
+資料繫結是一種協調機制，用來協調使用者所看到的內容，特別是與應用程式資料值之間的協調。
+雖然你可以自行把值推送到 HTML 或從 HTML 拉取值，
+但把這些工作交給繫結框架，應用程式會更容易撰寫、閱讀與維護。
+你只需要宣告繫結來源與目標 HTML 元素之間的繫結，其餘的就交給框架處理。
 
 <div class="alert is-helpful">
 
-See the <live-example></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example></live-example>，查看包含本指南程式碼片段的實際範例。
 
 </div>
 
-Angular provides many kinds of data-binding. Binding types can be grouped into three categories distinguished by the direction of data flow:
+Angular 提供多種資料繫結。繫結類型依資料流動的方向，可分為三個類別：
 
-* From the _source-to-view_
-* From _view-to-source_
-* Two-way sequence: _view-to-source-to-view_
+* 從 _來源到檢視_
+* 從 _檢視到來源_
+* 雙向序列：_檢視到來源再到檢視_
 
 <style>
   td, th {vertical-align: top}
@@ -32,23 +31,23 @@ Angular provides many kinds of data-binding. Binding types can be grouped into t
   </col>
   <tr>
     <th>
-      Type
+      類型
     </th>
     <th>
-      Syntax
+      語法
     </th>
     <th>
-      Category
+      類別
     </th>
 
   </tr>
   <tr>
      <td>
-      Interpolation<br>
-      Property<br>
+      插值<br>
+      屬性<br>
       Attribute<br>
-      Class<br>
-      Style
+      類別<br>
+      樣式
     </td>
     <td>
 
@@ -61,11 +60,11 @@ Angular provides many kinds of data-binding. Binding types can be grouped into t
     </td>
 
     <td>
-      One-way<br>from data source<br>to view target
+      單向<br>從資料來源<br>到檢視目標
     </td>
     <tr>
       <td>
-        Event
+        事件
       </td>
       <td>
         <code-example>
@@ -75,12 +74,12 @@ Angular provides many kinds of data-binding. Binding types can be grouped into t
       </td>
 
       <td>
-        One-way<br>from view target<br>to data source
+        單向<br>從檢視目標<br>到資料來源
       </td>
     </tr>
     <tr>
       <td>
-        Two-way
+        雙向
       </td>
       <td>
         <code-example>
@@ -89,25 +88,24 @@ Angular provides many kinds of data-binding. Binding types can be grouped into t
         </code-example>
       </td>
       <td>
-        Two-way
+        雙向
       </td>
     </tr>
   </tr>
 </table>
 
-Binding types other than interpolation have a **target name** to the left of the equal sign, either surrounded by punctuation, `[]` or `()`,
-or preceded by a prefix: `bind-`, `on-`, `bindon-`.
+插值以外的繫結類型，在等號左邊都有一個**目標名稱**，可以用標點符號 `[]` 或 `()` 包圍，
+或在前面加上前綴：`bind-`、`on-`、`bindon-`。
 
-The *target* of a binding is the property or event inside the binding punctuation: `[]`, `()` or `[()]`.
+繫結的*目標*是繫結標點符號之內的屬性或事件：`[]`、`()` 或 `[()]`。
 
-Every public member of a **source** directive is automatically available for binding.
-You don't have to do anything special to access a directive member in a template expression or statement.
+**來源**指令的每個公開成員都會自動可供繫結。
+你不需要做任何特殊處理，就能在範本運算式或陳述式中存取指令成員。
 
+### 資料繫結與 HTML
 
-### Data-binding and HTML
-
-In the normal course of HTML development, you create a visual structure with HTML elements, and
-you modify those elements by setting element attributes with string constants.
+在一般的 HTML 開發過程中，你會用 HTML 元素建立視覺結構，
+並以字串常數設定元素 attribute 的方式來修改這些元素。
 
 ```html
 <div class="special">Plain old HTML</div>
@@ -115,106 +113,101 @@ you modify those elements by setting element attributes with string constants.
 <button disabled>Save</button>
 ```
 
-With data-binding, you can control things like the state of a button:
+透過資料繫結，你可以控制像是按鈕狀態這類事情：
 
 <code-example path="binding-syntax/src/app/app.component.html" region="disabled-button" header="src/app/app.component.html"></code-example>
 
-Notice that the binding is to the `disabled` property of the button's DOM element,
-**not** the attribute. This applies to data-binding in general. Data-binding works with *properties* of DOM elements, components, and directives, not HTML *attributes*.
+請注意，這個繫結是對按鈕 DOM 元素的 `disabled` 屬性，
+**不是** attribute。這一點普遍適用於資料繫結。資料繫結處理的是 DOM 元素、元件與指令的*屬性*，而不是 HTML *attribute*。
 
 {@a html-attribute-vs-dom-property}
 
-### HTML attribute vs. DOM property
+### HTML attribute 與 DOM 屬性
 
-The distinction between an HTML attribute and a DOM property is key to understanding
-how Angular binding works. **Attributes are defined by HTML. Properties are accessed from DOM (Document Object Model) nodes.**
+區分 HTML attribute 與 DOM 屬性，是理解 Angular 繫結如何運作的關鍵。**Attribute 是由 HTML 定義的。屬性是從 DOM（Document Object Model）節點存取的。**
 
-* A few HTML attributes have 1:1 mapping to properties; for example, `id`.
+* 少數 HTML attribute 與屬性有 1:1 的對應關係；例如 `id`。
 
-* Some HTML attributes don't have corresponding properties; for example, `aria-*`.
+* 有些 HTML attribute 沒有對應的屬性；例如 `aria-*`。
 
-* Some DOM properties don't have corresponding attributes; for example, `textContent`.
+* 有些 DOM 屬性沒有對應的 attribute；例如 `textContent`。
 
-It is important to remember that *HTML attribute* and the *DOM property* are different things, even when they have the same name.
-In Angular, the only role of HTML attributes is to initialize element and directive state.
+請務必記住，*HTML attribute* 與 *DOM 屬性*是不同的東西，即使它們有相同的名稱。
+在 Angular 中，HTML attribute 的唯一作用是初始化元素與指令的狀態。
 
-**Template binding works with *properties* and *events*, not *attributes*.**
+**範本繫結處理的是*屬性*與*事件*，而不是 *attribute*。**
 
-When you write a data-binding, you're dealing exclusively with the *DOM properties* and *events* of the target object.
+當你撰寫資料繫結時，你處理的完全是目標物件的 DOM 屬性與事件。
 
 <div class="alert is-helpful">
 
-This general rule can help you build a mental model of attributes and DOM properties:
-**Attributes initialize DOM properties and then they are done.
-Property values can change; attribute values can't.**
+這個一般規則能幫助你建立 attribute 與 DOM 屬性的心智模型：
+**Attribute 初始化 DOM 屬性，之後就功成身退。
+屬性值可以改變；attribute 值不能。**
 
-There is one exception to this rule.
-Attributes can be changed by `setAttribute()`, which re-initializes corresponding DOM properties.
+這個規則有一個例外。
+Attribute 可以被 `setAttribute()` 改變，而這會重新初始化對應的 DOM 屬性。
 
 </div>
 
-For more information, see the [MDN Interfaces documentation](https://developer.mozilla.org/en-US/docs/Web/API#Interfaces) which has API docs for all the standard DOM elements and their properties.
-Comparing the [`<td>` attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td) to the [`<td>` properties](https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableCellElement) provides a helpful example for differentiation.
-In particular, you can navigate from the attributes page to the properties via "DOM interface" link, and navigate the inheritance hierarchy up to `HTMLTableCellElement`.
+如需更多資訊，請參閱 [MDN 介面文件](https://developer.mozilla.org/en-US/docs/Web/API#Interfaces)，其中包含所有標準 DOM 元素及其屬性的 API 文件。
+將 [`<td>` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/td) 與 [`<td>` 屬性](https://developer.mozilla.org/en-US/docs/Web/API/HTMLTableCellElement) 互相比較，是很有幫助的區分範例。
+特別是，你可以從 attribute 頁面透過 "DOM interface" 連結導覽到屬性，並沿著繼承階層向上導覽至 `HTMLTableCellElement`。
 
+#### 範例 1：`<input>`
 
-#### Example 1: an `<input>`
-
-When the browser renders `<input type="text" value="Sarah">`, it creates a
-corresponding DOM node with a `value` property initialized to "Sarah".
+當瀏覽器渲染 `<input type="text" value="Sarah">` 時，它會建立一個
+對應的 DOM 節點，帶有 `value` 屬性，並把該 `value` 初始化為 "Sarah"。
 
 ```html
 <input type="text" value="Sarah">
 ```
 
-When the user enters "Sally" into the `<input>`, the DOM element `value` *property* becomes "Sally".
-However, if you look at the HTML attribute `value` using `input.getAttribute('value')`, you can see that the *attribute* remains unchanged&mdash;it returns "Sarah".
+當使用者在 `<input>` 中輸入 "Sally" 時，DOM 元素的 `value` *屬性*會變成 "Sally"。
+不過，如果你用 `input.getAttribute('value')` 查看 HTML attribute `value`，會看到 *attribute* 維持不變&mdash;它回傳 "Sarah"。
 
-The HTML attribute `value` specifies the *initial* value; the DOM `value` property is the *current* value.
+HTML attribute `value` 指定的是*初始*值；DOM `value` 屬性是*目前*值。
 
-To see attributes versus DOM properties in a functioning app, see the <live-example name="binding-syntax"></live-example> especially for binding syntax.
+要在實際運作的應用程式中查看 attribute 與 DOM 屬性的差異，請參閱 <live-example name="binding-syntax"></live-example>，特別是繫結語法的部分。
 
-#### Example 2: a disabled button
+#### 範例 2：停用的按鈕
 
-The `disabled` attribute is another example. A button's `disabled`
-*property* is `false` by default so the button is enabled.
+`disabled` attribute 是另一個例子。按鈕的 `disabled`
+*屬性*預設為 `false`，所以按鈕是啟用的。
 
-When you add the `disabled` *attribute*, its presence alone
-initializes the button's `disabled` *property* to `true`
-so the button is disabled.
+當你加入 `disabled` *attribute* 時，光是它的存在就會把按鈕的 `disabled` *屬性*初始化為 `true`，
+因此按鈕會被停用。
 
 ```html
 <button disabled>Test Button</button>
 ```
 
-Adding and removing the `disabled` *attribute* disables and enables the button.
-However, the value of the *attribute* is irrelevant,
-which is why you cannot enable a button by writing `<button disabled="false">Still Disabled</button>`.
+加入與移除 `disabled` attribute 會停用與啟用按鈕。
+不過，attribute 的值並不重要，這就是為什麼你無法透過寫 `<button disabled="false">Still Disabled</button>` 來啟用按鈕。
 
-To control the state of the button, set the `disabled` *property*,
+要控制按鈕的狀態，請設定 `disabled` *屬性*，
 
 <div class="alert is-helpful">
 
-Though you could technically set the `[attr.disabled]` attribute binding, the values are different in that the property binding requires to be a boolean value, while its corresponding attribute binding relies on whether the value is `null` or not. Consider the following:
+雖然技術上你可以設定 `[attr.disabled]` attribute 繫結，但兩者的值並不相同：屬性繫結要求值為布林值，而對應的 attribute 繫結則取決於值是否為 `null`。請看下列範例：
 
 ```html
 <input [disabled]="condition ? true : false">
 <input [attr.disabled]="condition ? 'disabled' : null">
 ```
 
-Generally, use property binding over attribute binding as it is more intuitive (being a boolean value), has a shorter syntax, and is more performant.
+一般來說，應優先使用屬性繫結而非 attribute 繫結，因為它更直覺（使用布林值）、語法較短，而且效能更好。
 
 </div>
 
+要在實際運作的應用程式中查看 `disabled` 按鈕範例，請參閱 <live-example name="binding-syntax"></live-example>，特別是繫結語法的部分。這個範例會教你如何從元件切換 disabled 屬性。
 
-To see the `disabled` button example in a functioning app, see the <live-example name="binding-syntax"></live-example> especially for binding syntax. This example shows you how to toggle the disabled property from the component.
+## 繫結類型與目標
 
-## Binding types and targets
-
-The **target of a data-binding** is something in the DOM.
-Depending on the binding type, the target can be a property (element, component, or directive),
-an event (element, component, or directive), or sometimes an attribute name.
-The following table summarizes the targets for the different binding types.
+**資料繫結的目標**是 DOM 中的某個東西。
+依繫結類型而定，目標可以是屬性（元素、元件或指令）、
+事件（元素、元件或指令），有時也可以是 attribute 名稱。
+下表總結了不同繫結類型的目標。
 
 <style>
   td, th {vertical-align: top}
@@ -229,41 +222,41 @@ The following table summarizes the targets for the different binding types.
   </col>
   <tr>
     <th>
-      Type
+      類型
     </th>
     <th>
-      Target
+      目標
     </th>
     <th>
-      Examples
+      範例
     </th>
   </tr>
   <tr>
     <td>
-      Property
+      屬性
     </td>
     <td>
-      Element&nbsp;property<br>
-      Component&nbsp;property<br>
-      Directive&nbsp;property
+      元素&nbsp;屬性<br>
+      元件&nbsp;屬性<br>
+      指令&nbsp;屬性
     </td>
     <td>
-      <code>src</code>, <code>hero</code>, and <code>ngClass</code> in the following:
+      下列程式碼中的 <code>src</code>、<code>hero</code> 與 <code>ngClass</code>：
       <code-example path="template-syntax/src/app/app.component.html" region="property-binding-syntax-1"></code-example>
-      <!-- For more information, see [Property Binding](guide/property-binding). -->
+      <!-- 更多資訊請參閱 [屬性繫結](guide/property-binding)。 -->
     </td>
   </tr>
   <tr>
     <td>
-      Event
+      事件
     </td>
     <td>
-      Element&nbsp;event<br>
-      Component&nbsp;event<br>
-      Directive&nbsp;event
+      元素&nbsp;事件<br>
+      元件&nbsp;事件<br>
+      指令&nbsp;事件
     </td>
     <td>
-      <code>click</code>, <code>deleteRequest</code>, and <code>myClick</code> in the following:
+      下列程式碼中的 <code>click</code>、<code>deleteRequest</code> 與 <code>myClick</code>：
       <code-example path="template-syntax/src/app/app.component.html" region="event-binding-syntax-1"></code-example>
       <!-- KW--Why don't these links work in the table? -->
       <!-- <div>For more information, see [Event Binding](guide/event-binding).</div> -->
@@ -271,10 +264,10 @@ The following table summarizes the targets for the different binding types.
   </tr>
   <tr>
     <td>
-      Two-way
+      雙向
     </td>
     <td>
-      Event and property
+      事件與屬性
     </td>
     <td>
       <code-example path="template-syntax/src/app/app.component.html" region="2-way-binding-syntax-1"></code-example>
@@ -286,7 +279,7 @@ The following table summarizes the targets for the different binding types.
     </td>
     <td>
       Attribute
-      (the&nbsp;exception)
+      （例外）
     </td>
     <td>
       <code-example path="template-syntax/src/app/app.component.html" region="attribute-binding-syntax-1"></code-example>
@@ -294,10 +287,10 @@ The following table summarizes the targets for the different binding types.
   </tr>
   <tr>
     <td>
-      Class
+      類別
     </td>
     <td>
-      <code>class</code> property
+      <code>class</code> 屬性
     </td>
     <td>
       <code-example path="template-syntax/src/app/app.component.html" region="class-binding-syntax-1"></code-example>
@@ -305,10 +298,10 @@ The following table summarizes the targets for the different binding types.
   </tr>
   <tr>
     <td>
-      Style
+      樣式
     </td>
     <td>
-      <code>style</code> property
+      <code>style</code> 屬性
     </td>
     <td>
       <code-example path="template-syntax/src/app/app.component.html" region="style-binding-syntax-1"></code-example>

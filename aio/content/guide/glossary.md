@@ -1,1109 +1,1019 @@
-# Glossary
+# 術語表
 
-Angular has its own vocabulary.
-Most Angular terms are common English words or computing terms
-that have a specific meaning within the Angular system.
+Angular 有自己的一套詞彙。
+多數 Angular 術語是常見的英文單字或電腦術語，但在 Angular 系統中有特定的含義。
 
-This glossary lists the most prominent terms
-and a few less familiar ones with unusual or
-unexpected definitions.
+本術語表列出最主要的術語，以及一些較不熟悉、定義特殊或出乎意料的術語。
 
 [A](#A) [B](#B) [C](#C) [D](#D) [E](#E) [F](#F) [G](#G) [H](#H) [I](#I)
 [J](#J) [K](#K) [L](#L) [M](#M) [N](#N) [O](#O) [P](#P) [Q](#Q) [R](#R)
 [S](#S) [T](#T) [U](#U) [V](#V) [W](#W) [X](#X) [Y](#Y) [Z](#Z)
 
-
 {@a A}
 {@a aot}
+## 預先編譯（ahead-of-time compilation，AOT）
 
+Angular 的預先編譯（AOT）編譯器會在建置階段將 Angular HTML 與 TypeScript 程式碼轉換為高效率的 JavaScript 程式碼，也就是在瀏覽器下載並執行該程式碼之前。
+與[即時（JIT）編譯](#即時編譯just-in-time-compilationjit)相比，這是生產環境的最佳編譯模式，載入時間更短、效能更高。
 
-## ahead-of-time (AOT) compilation
-
-The Angular ahead-of-time (AOT) compiler converts Angular HTML and TypeScript code
-into efficient JavaScript code during the build phase, before the browser downloads
-and runs that code.
-This is the best compilation mode for production environments, with decreased load time and increased performance compared to [just-in-time (JIT) compilation](#jit).
-
-By compiling your application using the `ngc` command-line tool, you can bootstrap directly to a module factory, so you don't need to include the Angular compiler in your JavaScript bundle.
+使用 `ngc` 命令列工具編譯應用程式時，可以直接啟動至模組工廠，因此不需要在 JavaScript 套件中包含 Angular 編譯器。
 
 {@a angular-element}
+## Angular 元素（Angular element）
 
-## Angular element
+包裝為[自訂元素](#自訂元素custom-element)的 Angular [元件](#元件component)。
 
-An Angular [component](#component) packaged as a [custom element](#custom-element).
-
-Learn more in [Angular Elements Overview](guide/elements).
+詳見[Angular Elements 概覽](guide/elements)。
 
 {@a annotation}
+## 註解（annotation）
 
-## annotation
-
-A structure that provides metadata for a class. See [decorator](#decorator).
+為類別提供中繼資料的結構。
+詳見[裝飾器](#裝飾器decoratordecoration)。
 
 {@a app-shell}
+## 應用程式殼層（app-shell）
 
-## app-shell
+應用程式殼層是一種在建置時期使用路由渲染應用程式一部分的方式。
+這能讓使用者快速看到有意義的首屏畫面，因為瀏覽器只需渲染靜態 HTML 與 CSS，不需要初始化 JavaScript。
+詳見[應用程式殼層模型](https://developers.google.com/web/fundamentals/architecture/app-shell)。
 
-App shell is a way to render a portion of your application via a route at build time.
-This gives users a meaningful first paint of your application that appears quickly because the browser can render static HTML and CSS without the need to initialize JavaScript.
+你可以使用 Angular CLI 來[產生](cli/generate#appshell)應用程式殼層。
+這可以在瀏覽器下載完整用戶端版本、並在程式碼載入後自動切換的同時，透過快速啟動靜態渲染頁面來改善使用者體驗。
+靜態渲染頁面是所有頁面共用的骨架。
+詳見 [Service Worker 與 PWA](guide/service-worker-intro)。
 
-Learn more in [The App Shell Model](https://developers.google.com/web/fundamentals/architecture/app-shell).
-
-You can use the Angular CLI to [generate](cli/generate#appshell) an app shell.
-This can improve the user experience by quickly launching a static rendered page (a skeleton common to all pages) while the browser downloads the full client version and switches to it automatically after the code loads.
-
-See also [Service Worker and PWA](guide/service-worker-intro).
 {@a architect}
-
 ## Architect
 
-The tool that the CLI uses to perform complex tasks such as compilation and test running, according to a provided configuration.
-Architect is a shell that runs a [builder](#builder) (defined in an [npm package](#npm-package)) with a given [target configuration](#target).
+Angular CLI 用來依提供的設定執行編譯、測試等複雜工作的工具。
+Architect 是一個殼層，會以給定的[目標設定](#目標target)執行[建置器](#建置器builder)。
+[建置器](#建置器builder)定義於某個 [npm 套件](#npm-套件)中。
 
-In the [workspace configuration file](guide/workspace-config#project-tool-configuration-options), an "architect" section provides configuration options for Architect builders.
+在[工作區設定檔](guide/workspace-config#專案工具設定選項)中，「architect」區段為 Architect 建置器提供設定選項。
 
-For example, a built-in builder for linting is defined in the package `@angular-devkit/build_angular:tslint`, which uses the [TSLint](https://palantir.github.io/tslint/) tool to perform linting, with a configuration specified in a `tslint.json` file.
+例如，內建的 lint 建置器定義於套件 `@angular-devkit/build_angular:tslint`，使用 [TSLint](https://palantir.github.io/tslint) 工具執行 lint，並以 `tslint.json` 檔案中的設定為準。
 
-Use the [CLI command `ng run`](cli/run) to invoke a builder by specifying a [target configuration](#target) associated with that builder.
-Integrators can add builders to enable tools and workflows to run through the Angular CLI. For example, a custom builder can replace the third-party tools used by the built-in implementations for CLI commands such as `ng build` or `ng test`.
+使用 Angular CLI 的 [`ng run`](cli/run) 命令，指定與建置器相關聯的[目標設定](#目標target)即可叫用建置器。
+整合者可以加入建置器，讓工具與工作流程能透過 Angular CLI 執行。
+例如，自訂建置器可以取代 Angular CLI 命令（如 `ng build` 或 `ng test`）內建實作所使用的第三方工具。
 
 {@a attribute-directive}
-
-
 {@a attribute-directives}
+## 屬性指令（attribute directive）
 
+一類[指令](#指令directive)，可以監聽並修改其他 HTML 元素、屬性、特性與元件的行為。
+它們通常以 HTML 屬性的形式呈現，因此得名。
 
-## attribute directives
-
-A category of [directive](#directive) that can listen to and modify the behavior of
-other HTML elements, attributes, properties, and components. They are usually represented
-as HTML attributes, hence the name.
-
-Learn more in [Attribute Directives](guide/attribute-directives).
-
+詳見[屬性指令](guide/attribute-directives)。
 
 {@a B}
-
 {@a binding}
+## 繫結（binding）
 
-## binding
+一般而言，是將變數或屬性設定為資料值的作法。
+在 Angular 中，通常指[資料繫結](#資料繫結data-binding)，也就是協調 DOM 物件屬性與資料物件屬性。
 
-Generally, the practice of setting a variable or property to a data value.
-Within Angular, typically refers to [data binding](#data-binding),
-which coordinates DOM object properties with data object properties.
-
-Sometimes refers to a [dependency-injection](#dependency-injection) binding
-between a [token](#token) and a dependency [provider](#provider).
+有時也指[依賴注入](#依賴注入dependency-injectiondi)中[權杖](#權杖token)與依賴[提供者](#提供者provider)之間的繫結。
 
 {@a bootstrap}
+## 啟動（bootstrap）
 
-## bootstrap
+初始化並啟動應用程式或系統的方式。
 
-A way to initialize and launch an app or system.
+在 Angular 中，應用程式的根 NgModule `AppModule` 具有 `bootstrap` 屬性，用來指定應用程式最上層的[元件](#元件component)。
+在啟動過程中，Angular 會建立這些元件並插入 `index.html` 宿主網頁。
+你可以在同一個 `index.html` 中啟動多個應用程式。
+每個應用程式都有自己的元件。
 
-In Angular, an app's root NgModule (`AppModule`) has a `bootstrap` property that identifies the app's top-level [components](#component).
-During the bootstrap process, Angular creates and inserts these components into the `index.html` host web page.
-You can bootstrap multiple apps in the same `index.html`. Each app contains its own components.
-
-Learn more in [Bootstrapping](guide/bootstrapping).
+詳見[啟動](guide/bootstrapping)。
 
 {@a builder}
+## 建置器（builder）
 
-## builder
+使用 [Architect](#architect) API 執行 `build` 或 `test` 等複雜流程的函式。
+建置器程式碼定義於某個 [npm 套件](#npm-套件)中。
 
-A function that uses the [Architect](#architect) API to perform a complex process such as "build" or "test".
-The builder code is defined in an [npm package](#npm-package).
+例如，[BrowserBuilder](https://github.com/angular/angular-cli/tree/main/packages/angular_devkit/build_angular/src/builders/browser) 會為瀏覽器目標執行 [webpack](https://webpack.js.org) 建置，而 [KarmaBuilder](https://github.com/angular/angular-cli/tree/main/packages/angular_devkit/build_angular/src/builders/karma) 會啟動 Karma 伺服器並為單元測試執行 webpack 建置。
 
-For example, [BrowserBuilder](https://github.com/angular/angular-cli/tree/master/packages/angular_devkit/build_angular/src/browser) runs a [webpack](https://webpack.js.org/) build for a browser target and [KarmaBuilder](https://github.com/angular/angular-cli/tree/master/packages/angular_devkit/build_angular/src/karma) starts the Karma server and runs a webpack build for unit tests.
-
-The [CLI command `ng run`](cli/run) invokes a builder with a specific [target configuration](#target).
-The [workspace configuration](guide/workspace-config) file, `angular.json`, contains default configurations for built-in builders.
+Angular CLI 的 [`ng run`](cli/run) 命令會以特定的[目標設定](#目標target)叫用建置器。
+[工作區設定](guide/workspace-config)檔 `angular.json` 包含內建建置器的預設設定。
 
 {@a C}
-
 {@a case-conventions}
 {@a dash-case}
 {@a camelcase}
 {@a kebab-case}
+<a id="case-types"></a>
+## 大小寫慣例（case types）
 
-## case types
+Angular 使用大小寫慣例來區分各種類型的名稱，如風格指南的[命名準則章節](guide/styleguide#02-01)所述。以下是大小寫慣例的摘要：
 
-Angular uses capitalization conventions to distinguish the names of various types, as described in the [naming guidelines section](guide/styleguide#02-01) of the Style Guide. Here's a summary of the case types:
+* camelCase：符號、屬性、方法、管道名稱、非元件指令選擇器、常數。
+標準或小寫駝峰式寫法，項目的第一個字母為小寫。例如 "selectedHero"。
 
-* camelCase : Symbols, properties, methods, pipe names, non-component directive selectors, constants.
-Standard or lower camel case uses lowercase on the first letter of the item. For example, "selectedHero".
+* UpperCamelCase（或 PascalCase）：類別名稱，包括定義元件、介面、NgModule、指令與管道的類別。
+大寫駝峰式寫法，項目的第一個字母為大寫。例如 "HeroListComponent"。
 
-* UpperCamelCase (or PascalCase): Class names, including classes that define components, interfaces, NgModules, directives, and pipes,
-Upper camel case uses uppercase on the first letter of the item. For example, "HeroListComponent".
+* dash-case（或 "kebab-case"）：檔案名稱的描述性部分、元件選擇器。例如 "app-hero-list"。
 
-* dash-case (or "kebab-case"): Descriptive part of file names, component selectors. For example, "app-hero-list".
+* underscore_case（或 "snake_case"）：Angular 中通常不使用。蛇形式寫法使用底線連接單字。
+例如 "convert_link_mode"。
 
-* underscore_case (or "snake_case"): Not typically used in Angular. Snake case uses words connected with underscores.
-For example, "convert_link_mode".
-
-* UPPER_UNDERSCORE_CASE (or UPPER_SNAKE_CASE, or SCREAMING_SNAKE_CASE): Traditional for constants (acceptable, but prefer camelCase).
-Upper snake case uses words in all capital letters connected with underscores. For example, "FIX_ME".
+* UPPER_UNDERSCORE_CASE（或 UPPER_SNAKE_CASE，或 SCREAMING_SNAKE_CASE）：常數的傳統寫法（可以接受，但建議使用 camelCase）。
+大寫蛇形式寫法使用全大寫單字並以底線連接。例如 "FIX_ME"。
 
 {@a change-detection}
+## 變更偵測（change detection）
 
-## change detection
+Angular 框架用來同步應用程式 UI 狀態與資料狀態的機制。
+變更偵測器在每次執行時檢查資料模型的目前狀態，並將其保存為前次狀態，以便在下一次迭代時比較。
 
-The mechanism by which the Angular framework synchronizes the state of an application's UI with the state of the data.
-The change detector checks the current state of the data model whenever it runs, and maintains it as the previous state to compare on the next iteration.
+當應用程式邏輯更新元件資料時，檢視中繫結至 DOM 屬性的值可能會改變。
+變更偵測器負責更新檢視以反映目前的資料模型。
+同樣地，使用者可以與 UI 互動，引發改變資料模型狀態的事件。
+這些事件可以觸發變更偵測。
 
-As the application logic updates component data, values that are bound to DOM properties in the view can change.
-The change detector is responsible for updating the view to reflect the current data model.
-Similarly, the user can interact with the UI, causing events that change the state of the data model.
-These events can trigger change detection.
+使用預設（"CheckAlways"）變更偵測策略時，變更偵測器會在每個 VM 週期遍歷[檢視階層](#檢視階層view-hierarchy)，檢查範本中每一個[資料繫結屬性](#資料繫結data-binding)。
+第一階段會比較相依資料的目前狀態與前次狀態，並收集變更。
+第二階段會更新頁面 DOM 以反映新的資料值。
 
-Using the default ("CheckAlways") change-detection strategy, the change detector goes through the [view hierarchy](#view-tree) on each VM turn to check every [data-bound property](#data-binding) in the template. In the first phase, it compares the current state of the dependent data with the previous state, and collects changes.
-In the second phase, it updates the page DOM to reflect any new data values.
-
-If you set the `OnPush` ("CheckOnce") change-detection strategy, the change detector runs only when [explicitly invoked] (api/core/ChangeDetectorRef), or when it is triggered by an `Input` reference change or event handler. This typically improves performance. For more information, see [Optimize Angular's change detection](https://web.dev/faster-angular-change-detection/).
+如果將變更偵測策略設為 `OnPush`（"CheckOnce"），變更偵測器只會在[明確叫用] (api/core/ChangeDetectorRef)時，或由 `Input` 參照變更或事件處理常式觸發時才執行。
+這通常可以改善效能。
+詳見[最佳化 Angular 的變更偵測](https://web.dev/faster-angular-change-detection)。
 
 {@a class-decorator}
+## 類別裝飾器（class decorator）
 
-## class decorator
+緊接在類別定義之前出現的[裝飾器](#裝飾器decoratordecoration)，用來宣告該類別屬於指定類型，並提供適合該類型的中繼資料。
 
-A [decorator](#decorator) that appears immediately before a class definition, which declares the class to be of the given type, and provides metadata suitable to the type.
+以下裝飾器可以宣告 Angular 類別類型。
 
-The following decorators can declare Angular class types:
-* `@Component()`
-* `@Directive()`
-* `@Pipe()`
-* `@Injectable()`
-* `@NgModule()`
-
+*   `@Component()`
+*   `@Directive()`
+*   `@Pipe()`
+*   `@Injectable()`
+*   `@NgModule()`
 
 {@a class-field-decorator}
+## 類別欄位裝飾器（class field decorator）
 
-## class field decorator
-
-A [decorator](#decorator) statement immediately before a field in a class definition that declares the type of that field. Some examples are `@Input` and `@Output`.
+緊接在類別定義中某個欄位之前的[裝飾器](#裝飾器decoratordecoration)陳述式，用來宣告該欄位的類型。
+例如 `@Input` 與 `@Output`。
 
 {@a collection}
+## 集合（collection）
 
-## collection
-
-In Angular, a set of related [schematics](#schematic) collected in an [npm package](#npm-package).
+在 Angular 中，指收集於某個 [npm 套件](#npm-套件)中的一組相關[原理圖](#原理圖schematic)。
 
 {@a cli}
+## 命令列介面（command-line interface，CLI）
 
-## command-line interface (CLI)
+[Angular CLI](cli) 是管理 Angular 開發週期的命令列工具。
+用它為[工作區](#工作區workspace)或[專案](#專案project)建立初始檔案系統骨架，並執行[原理圖](#原理圖schematic)，為各種元素的初始通用版本加入與修改程式碼。
+Angular CLI 支援開發週期的所有階段，包括建置、測試、打包與部署。
 
-The [Angular CLI](cli) is a command-line tool for managing the Angular development cycle. Use it to create the initial filesystem scaffolding for a [workspace](#workspace) or [project](#project), and to run [schematics](#schematic) that add and modify code for initial generic versions of various elements. The CLI supports all stages of the development cycle, including building, testing, bundling, and deployment.
+*   若要開始在新專案中使用 Angular CLI，請參閱[本機環境設定](guide/setup-local)。
+*   若要進一步了解 Angular CLI 的完整功能，請參閱 [Angular CLI 命令參考](cli)。
 
-* To begin using the CLI for a new project, see [Local Environment Setup](guide/setup-local "Setting up for Local Development").
-* To learn more about the full capabilities of the CLI, see the [CLI command reference](cli).
-
-See also [Schematics CLI](#schematics-cli).
+另見 [Schematics CLI](#schematics-cli)。
 
 {@a component}
+## 元件（component）
 
-## component
+具有 `@Component()` [裝飾器](#裝飾器decoratordecoration)的類別，裝飾器會將其與伴隨的[範本](#範本template)關聯。
+元件類別與範本共同定義一個[檢視](#檢視view)。
+元件是一種特殊的[指令](#指令directive)。
+`@Component()` 裝飾器以範本導向的功能擴充了 `@Directive()` 裝飾器。
 
-A class with the `@Component()` [decorator](#decorator) that associates it with a companion [template](#template). Together, the component class and template define a [view](#view).
-A component is a special type of [directive](#directive).
-The `@Component()` decorator extends the `@Directive()` decorator with template-oriented features.
+Angular 元件類別負責透過[資料繫結](#資料繫結data-binding)公開資料，並處理檢視的大多數顯示與使用者互動邏輯。
 
-An Angular component class is responsible for exposing data and handling most of the view's display and user-interaction logic through [data binding](#data-binding).
+在 [Angular 概念簡介](guide/architecture)中進一步了解元件類別、範本與檢視。
 
-Read more about component classes, templates, and views in [Introduction to Angular concepts](guide/architecture).
+## 設定（configuration）
 
-
-## configuration
-
-See  [workspace configuration](#cli-config)
+見[工作區設定](#工作區設定workspace-configuration)
 
 {@a content-projection}
+## 內容投影（content projection）
 
-## content projection
+將元件外部的 DOM 內容插入元件檢視中指定位置的方式。
 
-A way to insert DOM content from outside a component into the component's view in a designated spot.
-
-For more information, see [Responding to changes in content](guide/lifecycle-hooks#content-projection).
+詳見[回應內容的變更](guide/lifecycle-hooks#回應投影內容的變更)。
 
 {@a custom-element}
+## 自訂元素（custom element）
 
-## custom element
+Web 平台功能，目前大多數瀏覽器都支援，其他瀏覽器可透過 polyfill 使用。
+見[瀏覽器支援](guide/browser-support)。
 
-A web platform feature, currently supported by most browsers and available in other browsers through polyfills (see [Browser support](guide/browser-support)).
+自訂元素功能擴充了 HTML，讓你可以定義標籤，其內容由 JavaScript 程式碼建立與控制。
+當自訂元素加入 [CustomElementRegistry](https://developer.mozilla.org/docs/Web/API/CustomElementRegistry) 時，瀏覽器便能識別它。
+自訂元素也稱為 *Web 元件*。
 
-The custom element feature extends HTML by allowing you to define a tag whose content is created and controlled by JavaScript code. A custom element (also called a *web component*) is recognized by a browser when it's added to the [CustomElementRegistry](https://developer.mozilla.org/en-US/docs/Web/API/CustomElementRegistry).
-
-You can use the API to transform an Angular component so that it can be registered with the browser and used in any HTML that you add directly to the DOM within an Angular app. The custom element tag inserts the component's view, with change-detection and data-binding functionality, into content that would otherwise be displayed without Angular processing.
-
-See [Angular element](#angular-element).
-
-See also [dynamic component loading](#dynamic-components).
-
+你可以使用 API 轉換 Angular 元件，使其能向瀏覽器註冊，並在 Angular 應用程式中直接加入 DOM 的任何 HTML 中使用。
+自訂元素標籤會將元件的檢視，連同變更偵測與資料繫結功能，插入原本不經 Angular 處理就會顯示的內容中。
+見 [Angular 元素](#angular-元素angular-element)。
+另見[動態元件載入](#動態元件載入dynamic-component-loading)。
 
 {@a D}
-
 {@a data-binding}
+## 資料繫結（data binding）
 
-## data binding
+讓應用程式能向使用者顯示資料值並回應使用者操作的流程。
+使用者操作包括點選、觸控、按鍵等。
 
-A process that allows apps to display data values to a user and respond to user
-actions (such as clicks, touches, and keystrokes).
+在資料繫結中，你宣告 HTML 元件與資料來源之間的關係，讓框架處理細節。
+資料繫結可取代手動將應用程式資料值推入 HTML、附加事件監聽器、從畫面擷取變更後的值、再更新應用程式資料值的做法。
 
-In data binding, you declare the relationship between an HTML widget and a data source
-and let the framework handle the details.
-Data binding is an alternative to manually pushing application data values into HTML, attaching
-event listeners, pulling changed values from the screen, and
-updating application data values.
+請閱讀 Angular [範本語法](guide/template-syntax)中以下幾種繫結形式：
 
-Read about the following forms of binding in Angular's [Template Syntax](guide/template-syntax):
-
- * [Interpolation](guide/interpolation)
- * [Property binding](guide/property-binding)
- * [Event binding](guide/event-binding)
- * [Attribute binding](guide/attribute-binding)
- * [Class binding](guide/attribute-binding#class-binding)
- * [Style binding](guide/attribute-binding#style-binding)
- * [Two-way data binding with ngModel](guide/built-in-directives#ngModel)
+*   [插值](guide/interpolation)
+*   [屬性繫結](guide/property-binding)
+*   [事件繫結](guide/event-binding)
+*   [屬性繫結](guide/attribute-binding)
+*   [類別繫結](guide/attribute-binding#繫結到-class-attribute)
+*   [樣式繫結](guide/attribute-binding#繫結到-style-attribute)
+*   [使用 ngModel 的雙向資料繫結](guide/built-in-directives#ngModel)
 
 {@a declarable}
+## 可宣告類別（declarable）
 
-## declarable
+可以加入 [NgModule](#ngmodule) 的 `declarations` 清單中的類別類型。
+你可以宣告[元件](#元件component)、[指令](#指令directive) 與[管道](#管道pipe)。
 
-A class type that you can add to the `declarations` list of an [NgModule](#ngmodule).
-You can declare [components](#component), [directives](#directive), and [pipes](#pipe).
+請勿宣告以下項目：
 
-Don't declare the following:
-* A class that's already declared in another NgModule
-* An array of directives imported from another package. For example, don't declare `FORMS_DIRECTIVES` from `@angular/forms`
-* NgModule classes
-* Service classes
-* Non-Angular classes and objects, such as strings, numbers, functions, entity models, configurations, business logic, and helper classes
+*   已在另一個 NgModule 中宣告的類別
+*   從其他套件匯入的指令陣列。
+    例如，請勿宣告來自 `@angular/forms` 的 `FORMS_DIRECTIVES`
 
+*   NgModule 類別
+*   服務類別
+*   非 Angular 的類別與物件，例如字串、數字、函式、實體模型、設定、商業邏輯與輔助類別
 
 {@a decorator}
-
 {@a decoration}
+## 裝飾器（decorator、decoration）
 
-## decorator | decoration
+修改類別或屬性定義的函式。
+裝飾器是實驗性（第 3 階段）的 [JavaScript 語言功能](https://github.com/tc39/proposal-decorators)。
+裝飾器也稱為*註解*。
+TypeScript 加入了對裝飾器的支援。
 
-A function that modifies a class or property definition. Decorators (also called *annotations*) are an experimental (stage 2) [JavaScript language feature](https://github.com/wycats/javascript-decorators).
-TypeScript adds support for decorators.
+Angular 定義了裝飾器，將中繼資料附加到類別或屬性上，讓框架知道這些類別或屬性的含義與運作方式。
 
-Angular defines decorators that attach metadata to classes or properties
-so that it knows what those classes or properties mean and how they should work.
-
-See [class decorator](#class-decorator), [class field decorator](#class-field-decorator).
+詳見[類別裝飾器](#類別裝飾器class-decorator)。
+另見[類別欄位裝飾器](#類別欄位裝飾器class-field-decorator)。
 
 {@a di}
-
 {@a dependency-injection}
+## 依賴注入（dependency injection，DI）
 
-## dependency injection (DI)
+一種設計模式與機制，用來建立應用程式的某些部分（依賴）並交付給需要它們的其他部分。
 
-A design pattern and mechanism for creating and delivering some parts of an application (dependencies) to other parts of an application that require them.
-
-In Angular, dependencies are typically services, but they also can be values, such as strings or functions.
-An [injector](#injector) for an app (created automatically during bootstrap) instantiates dependencies when needed, using a configured [provider](#provider) of the service or value.
-
-Learn more in [Dependency Injection in Angular](guide/dependency-injection).
+在 Angular 中，依賴通常是服務，但也可以是值，例如字串或函式。
+應用程式的[注入器](#注入器injector)（在啟動期間自動建立）會在需要時，使用已設定的服務或值的[提供者](#提供者provider)來具現化依賴。
+詳見 [Angular 的依賴注入](guide/dependency-injection)。
 
 {@a di-token}
+## DI 權杖（DI token）
 
-## DI token
-
-A lookup token associated with a dependency [provider](#provider), for use with the [dependency injection](#di) system.
+與依賴[提供者](#提供者provider)相關聯的查詢權杖，供[依賴注入](#依賴注入dependency-injectiondi)系統使用。
 
 {@a differential-loading}
+## 差異式載入（differential loading）
 
-## differential loading
+一種建置技術，為應用程式建立兩個套件。一個較小的套件供現代瀏覽器使用。第二個較大的套件讓應用程式能在不支援所有現代瀏覽器 API 的舊瀏覽器（例如 IE11）中正確執行。
 
-A build technique that creates two bundles for an application. One smaller bundle is for modern browsers. A second, larger bundle allows the application to run correctly in older browsers (such as IE11) that do not support all modern browser APIs.
-
-For more information, see the [Deployment](guide/deployment#differential-loading) guide.
-
+如需更多資訊，請見[部署](guide/deployment#differential-loading)指南。
 
 {@a directive}
 {@a directives}
+## 指令（directive）
 
-## directive
+可以修改 DOM 結構，或修改 DOM 中的屬性與元件資料模型的類別。
+指令類別定義之前緊接著 `@Directive()` [裝飾器](#裝飾器decoratordecoration)，用來提供中繼資料。
 
-A class that can modify the structure of the DOM or modify attributes in the DOM and component data model. A directive class definition is immediately preceded by a `@Directive()` [decorator](#decorator) that supplies metadata.
+指令類別通常與 HTML 元素或屬性相關聯，而該元素或屬性常被直接稱為指令本身。
+當 Angular 在 HTML [範本](#範本template)中找到指令時，會建立對應的指令類別執行個體，並將瀏覽器 DOM 該部分的控制權交給它。
 
-A directive class is usually associated with an HTML element or attribute, and that element or attribute is often referred to as the directive itself. When Angular finds a directive in an HTML [template](#template), it creates the matching directive class instance and gives the instance control over that portion of the browser DOM.
+Angular 有三種指令：
 
-There are three categories of directive:
-* [Components](#component) use `@Component()` (an extension of `@Directive()`) to associate a template with a class.
+*   [元件](#元件component)使用 `@Component()` 將範本與類別關聯。
+    `@Component()` 是 `@Directive()` 的擴充。
 
-* [Attribute directives](#attribute-directive) modify behavior and appearance of page elements.
+*   [屬性指令](#屬性指令attribute-directive)會修改頁面元素的行為與外觀。
+*   [結構指令](#結構指令structural-directive)會修改 DOM 的結構。
 
-* [Structural directives](#structural-directive) modify the structure of the DOM.
-
-Angular supplies a number of built-in directives that begin with the `ng` prefix.
-You can also create new directives to implement your own functionality.
-You associate a *selector* (an HTML tag such as `<my-directive>`) with a custom directive, thereby extending the [template syntax](guide/template-syntax) that you can use in your apps.
+Angular 提供了許多以 `ng` 前綴開頭的內建指令。
+你也可以建立新的指令來實作自己的功能。
+你可以為自訂指令關聯一個*選擇器*；這會擴充你在應用程式中可以使用的[範本語法](guide/template-syntax)。
+*選擇器*是一個 HTML 標籤，例如 `<my-directive>`。
 
 {@a dom}
+## 領域特定語言（domain-specific language，DSL）
 
-## domain-specific language (DSL)
-
-A special-purpose library or API; see [Domain-specific language](https://en.wikipedia.org/wiki/Domain-specific_language).
-Angular extends TypeScript with domain-specific languages for a number of domains relevant to Angular apps, defined in NgModules such as [animations](guide/animations), [forms](guide/forms), and [routing and navigation](guide/router).
+專用程式庫或 API。
+詳見[領域特定語言](https://en.wikipedia.org/wiki/Domain-specific_language)。
+Angular 以領域特定語言擴充 TypeScript，涵蓋與 Angular 應用程式相關的多個領域，定義於 [animations](guide/animations)、[forms](guide/forms) 與[路由與導覽](guide/router) 等 NgModule 中。
 
 {@a dynamic-components}
+## 動態元件載入（dynamic component loading）
 
-## dynamic component loading
+在執行時期將元件加入 DOM 的技術。
+這需要將元件排除在編譯之外，然後在加入 DOM 時，將其連接至 Angular 的變更偵測與事件處理框架。
 
-A technique for adding a component to the DOM at run time. Requires that you exclude the component from compilation and then connect it to Angular's change-detection and event-handling framework when you add it to the DOM.
-
-See also [custom element](#custom-element), which provides an easier path with the same result.
-
+另見[自訂元素](#自訂元素custom-element)，它以更簡單的方式達到相同的結果。
 
 {@a E}
-
 {@a eager-loading}
+## 積極載入（eager loading）
 
-## eager loading
-
-NgModules or components that are loaded on launch are called eager-loaded, to distinguish them from those
-that are loaded at run time (lazy-loaded).
-See [lazy loading](#lazy-load).
-
+在啟動時載入的 NgModule 或元件稱為積極載入，以區別於在執行時期載入、稱為延遲載入的項目。
+另見[延遲載入](#延遲載入lazy-loading)。
 
 {@a ecma}
-
 ## ECMAScript
 
-The [official JavaScript language specification](https://en.wikipedia.org/wiki/ECMAScript).
+[官方 JavaScript 語言規範](https://en.wikipedia.org/wiki/ECMAScript)。
 
-Not all browsers support the latest ECMAScript standard, but you can use a [transpiler](#transpile) (like [TypeScript](#typescript)) to write code using the latest features, which will then be transpiled to code that runs on versions that are supported by browsers.
-
-To learn more, see [Browser Support](guide/browser-support).
-
+並非所有瀏覽器都支援最新的 ECMAScript 標準，但你可以使用[轉譯器](#轉譯transpile)，以最新功能撰寫程式碼，再轉譯為可在瀏覽器支援版本上執行的程式碼。
+[轉譯器](#轉譯transpile)的一個例子是 [TypeScript](#typescript)。
+詳見[瀏覽器支援](guide/browser-support)。
 
 {@a element}
+## 元素（element）
 
-## element
+Angular 定義了 `ElementRef` 類別，用來包裝與渲染相關的原生 UI 元素。
+在大多數情況下，這讓你可以使用 Angular 範本與資料繫結來存取 DOM 元素，而不需要參照原生元素。
 
-Angular defines an `ElementRef` class to wrap render-specific native UI elements.
-In most cases, this allows you to use Angular templates and data binding to access DOM elements
-without reference to the native element.
+文件一般將*元素*與 *DOM 元素*區分開來。
+*元素*是 `ElementRef` 類別的執行個體。
+*DOM 元素*在必要時可以直接存取。
 
-The documentation generally refers to *elements* (`ElementRef` instances), as distinct from  *DOM elements*
-(which can be accessed directly if necessary).
-
-Compare to [custom element](#custom-element).
+詳見[自訂元素](#自訂元素custom-element)。
 
 {@a entry-point}
+## 進入點（entry point）
 
-## entry point
-
-A [JavaScript module](#module) that is intended to be imported by a user of [an
-npm package](guide/npm-packages). An entry-point module typically re-exports
-symbols from other internal modules. A package can contain multiple
-entry points. For example, the `@angular/core` package has two entry-point
-modules, which can be imported using the module names `@angular/core` and
-`@angular/core/testing`.
+供 [npm 套件](guide/npm-packages) 使用者匯入的 [JavaScript 模組](#模組module)。
+進入點模組通常會重新匯出其他內部模組的符號。
+一個套件可以包含多個進入點。
+例如，`@angular/core` 套件有兩個進入點模組，可以使用模組名稱 `@angular/core` 與 `@angular/core/testing` 匯入。
 
 {@a F}
-
 {@a form-control}
+## 表單控制項（form control）
 
-## form control
+`FormControl` 的執行個體，是 Angular 表單的基本組成單位。
+它與 `FormGroup` 與 `FormArray` 一起追蹤表單輸入元素的值、驗證與狀態。
 
-A instance of `FormControl`, which is a fundamental building block for Angular forms. Together with `FormGroup` and `FormArray`, tracks the value, validation, and status of a form input element.
-
-Read more forms in the [Introduction to forms in Angular](guide/forms-overview).
+在 [Angular 表單簡介](guide/forms-overview)中進一步了解表單。
 
 {@a form-model}
+## 表單模型（form model）
 
-## form model
+在特定時間點，表單輸入元素的值與驗證狀態的「唯一真相來源」。
+使用[反應式表單](#反應式表單reactive-forms)時，表單模型會在元件類別中明確建立。
+使用[範本驅動表單](#範本驅動表單template-driven-forms)時，表單模型會由指令隱含建立。
 
-The "source of truth" for the value and validation status of a form input element at a given point in time. When using [reactive forms](#reactive-forms), the form model is created explicitly in the component class. When using [template-driven forms](#template-driven-forms), the form model is implicitly created by directives.
-
-Learn more about reactive and template-driven forms in the [Introduction to forms in Angular](guide/forms-overview).
+在 [Angular 表單簡介](guide/forms-overview)中進一步了解反應式與範本驅動表單。
 
 {@a form-validation}
+## 表單驗證（form validation）
 
-## form validation
+在表單值變更時執行的檢查，會依定義的約束回報給定的值是否正確且完整。
+反應式表單會套用[驗證器函式](guide/form-validation#將自訂驗證器加入反應式表單)。
+範本驅動表單使用[驗證器指令](guide/form-validation#將自訂驗證器加入範本驅動表單)。
 
-A check that runs when form values change and reports whether the given values are correct and complete, according to the defined constraints. Reactive forms apply [validator functions](guide/form-validation#adding-to-reactive-forms). Template-driven forms use [validator directives](guide/form-validation#adding-to-template-driven-forms).
-
-
-To learn more, see [Form Validation](guide/form-validation).
+詳見[表單驗證](guide/form-validation)。
 
 {@a G}
-
-
 {@a H}
-
 {@a I}
-
-
 {@a immutability}
+## 不可變性（immutability）
 
-## immutability
-
-The ability to alter the state of a value after its creation. [Reactive forms](#reactive-forms) perform immutable changes in that
-each change to the data model produces a new data model rather than modifying the existing one. [Template-driven forms](#template-driven-forms) perform mutable changes with `NgModel` and [two-way data binding](#data-binding) to modify the existing data model in place.
+值在建立後無法變更其狀態的特性。
+[反應式表單](#反應式表單reactive-forms)會執行不可變變更，也就是每次資料模型的變更都會產生新的資料模型，而不是修改現有的模型。
+[範本驅動表單](#範本驅動表單template-driven-forms)則使用 `NgModel` 與[雙向資料繫結](#資料繫結data-binding)執行可變變更，直接修改現有的資料模型。
 
 {@a injectable}
+## 可注入（injectable）
 
-## injectable
+使用[依賴注入](#依賴注入dependency-injectiondi)機制提供依賴的 Angular 類別或其他定義。
+可注入的[服務](#服務service)類別必須以 `@Injectable()` [裝飾器](#裝飾器decoratordecoration)標記。
 
-An Angular class or other definition that provides a dependency using the [dependency injection](#di) mechanism. An injectable [service](#service) class must be marked by the `@Injectable()` [decorator](#decorator). Other items, such as constant values, can also be injectable.
+其他項目（例如常數值）也可以是可注入的。
 
 {@a injector}
+## 注入器（injector）
 
-## injector
+Angular [依賴注入](#依賴注入dependency-injectiondi)系統中的物件，可以在其快取中找到具名的依賴，或使用已設定的[提供者](#提供者provider)建立依賴。
+注入器會在啟動過程中自動為 NgModule 建立，並透過元件階層繼承。
 
-An object in the Angular [dependency-injection](#dependency-injection) system
-that can find a named dependency in its cache or create a dependency
-using a configured [provider](#provider).
-Injectors are created for NgModules automatically as part of the bootstrap process
-and are inherited through the component hierarchy.
+*   注入器會提供依賴的單一執行個體，並可將同一個執行個體注入多個元件。
+*   NgModule 與元件層級的注入器階層，可以為各自的元件與子元件提供依賴的不同執行個體。
+*   你可以使用不同的提供者設定注入器，為相同的依賴提供不同的實作。
 
-* An injector provides a singleton instance of a dependency, and can inject this same instance in multiple components.
-
-* A hierarchy of injectors at the NgModule and component level can provide different instances of a dependency to their own components and child components.
-
-* You can configure injectors with different providers that can provide different implementations of the same dependency.
-
-Learn more about the injector hierarchy in [Hierarchical Dependency Injectors](guide/hierarchical-dependency-injection).
+在[階層式依賴注入器](guide/hierarchical-dependency-injection)中進一步了解注入器階層。
 
 {@a input}
+## 輸入（input）
 
-## input
+定義[指令](#指令directive)時，指令屬性上的 `@Input()` 裝飾器會讓該屬性成為[屬性繫結](guide/property-binding)的*目標*。
+資料值會從等號右側[範本運算式](#範本運算式template-expression)所識別的資料來源，流入輸入屬性。
 
-When defining a [directive](#directive), the `@Input()` decorator on a directive property
-makes that property available as a *target* of a [property binding](guide/property-binding).
-Data values flow into an input property from the data source identified
-in the [template expression](#template-expression) to the right of the equal sign.
-
-To learn more, see [input and output properties](guide/inputs-outputs).
+詳見[輸入與輸出屬性](guide/inputs-outputs)。
 
 {@a interpolation}
+## 插值（interpolation）
 
-## interpolation
-
-A form of property [data binding](#data-binding) in which a [template expression](#template-expression) between double-curly braces renders as text.
-That text can be concatenated with neighboring text before it is assigned to an element property
-or displayed between element tags, as in this example.
+一種屬性[資料繫結](#資料繫結data-binding)形式，其中雙大括號之間的[範本運算式](#範本運算式template-expression)會渲染為文字。
+該文字可以在指派給元素屬性或顯示於元素標籤之間之前，與相鄰文字串接，如以下範例所示。
 
 ```html
 <label>My current hero is {{hero.name}}</label>
 ```
 
-
-Read more in the [Interpolation](guide/interpolation) guide.
+詳見[插值](guide/interpolation)指南。
 
 {@a ivy}
-
 ## Ivy
 
-Ivy is the code name for Angular's [next-generation compilation and rendering pipeline](https://blog.angular.io/a-plan-for-version-8-0-and-ivy-b3318dfc19f7).
-With the version 9 release of Angular, the new compiler and runtime instructions are used by default instead of the older compiler and runtime, known as [View Engine](#ve).
+Ivy 是 Angular [次世代編譯與渲染管線](https://blog.angular.io/a-plan-for-version-8-0-and-ivy-b3318dfc19f7)的代號。
+隨著 Angular 第 9 版發布，預設使用新的編譯器與執行時期指令，而非稱為 [View Engine](#ve) 的舊編譯器與執行時期。
 
-See [Angular Ivy](guide/ivy).
-
+請見 [Angular Ivy](guide/ivy)。
 
 {@a J}
-
 {@a javascript}
-
 ## JavaScript
 
-See [ECMAScript](#ecma), [TypeScript](#typescript).
-
+詳見 [ECMAScript](#ecmascript)。
+另見 [TypeScript](#typescript)。
 
 {@a jit}
+## 即時編譯（just-in-time compilation，JIT）
 
+Angular 的即時（JIT）編譯器會在執行時期、作為啟動的一部分，將你的 Angular HTML 與 TypeScript 程式碼轉換為高效率的 JavaScript 程式碼。
 
-## just-in-time (JIT) compilation
+執行 `ng build` 與 `ng serve` Angular CLI 命令時，JIT 編譯是預設值（相對於 AOT 編譯），很適合開發期間使用。
+強烈不建議在生產環境使用 JIT 模式，因為它會產生龐大的應用程式承載，拖慢啟動效能。
 
-The Angular just-in-time (JIT) compiler converts your Angular HTML and TypeScript code into
-efficient JavaScript code at run time, as part of bootstrapping.
-
-JIT compilation is the default (as opposed to AOT compilation) when you run Angular's `ng build` and `ng serve` CLI commands, and is a good choice during development.
-JIT mode is strongly discouraged for production use
-because it results in large application payloads that hinder the bootstrap performance.
-
-Compare to [ahead-of-time (AOT) compilation](#aot).
-
+與[預先編譯（AOT）](#預先編譯ahead-of-time-compilationaot)比較。
 
 {@a K}
-
-
 {@a L}
-
 {@a lazy-load}
+## 延遲載入（lazy loading）
 
-## lazy loading
+一種透過將應用程式分割為多個套件並按需載入，來加快應用程式載入時間的流程。
+例如，依賴可以依需要延遲載入。
+此範例與[積極載入](#積極載入eager-loading)的模組不同，後者是根模組所需的模組，在啟動時載入。
 
-A process that speeds up application load time by splitting the application into multiple bundles and loading them on demand.
-For example, dependencies can be lazy loaded as needed&mdash;as opposed to [eager-loaded](#eager-loading) modules that are required by the root module and are thus loaded on launch.
-
-The [router](#router) makes use of lazy loading to load child views only when the parent view is activated.
-Similarly, you can build custom elements that can be loaded into an Angular app when needed.
+[路由器](#路由器router)利用延遲載入，只在父檢視啟用時才載入子檢視。
+同樣地，你可以建置自訂元素，在需要時載入 Angular 應用程式中。
 
 {@a library}
+## 程式庫（library）
 
-## library
+在 Angular 中，指提供功能、可納入其他 Angular 應用程式的[專案](#專案project)。
+程式庫不是完整的 Angular 應用程式，無法獨立執行。
 
-In Angular, a [project](#project) that provides functionality that can be included in other Angular apps.
-A library isn't a complete Angular app and can't run independently.
-(To add re-usable Angular functionality to non-Angular web apps, you can use Angular [custom elements](#angular-element).)
+若要將可重複使用的 Angular 功能加入非 Angular 的 Web 應用程式，請使用 Angular [自訂元素](#angular-元素angular-element)。
 
-* Library developers can use the [Angular CLI](#cli) to `generate` scaffolding for a new library in an existing [workspace](#workspace), and can publish a library as an `npm` package.
+*   程式庫開發者可以使用 [Angular CLI](#命令列介面command-line-interfacecli) 在現有[工作區](#工作區workspace)中 `generate` 新程式庫的骨架，並將程式庫發布為 `npm` 套件。
+*   應用程式開發者可以使用 [Angular CLI](#命令列介面command-line-interfacecli) `add` 已發布的程式庫，供同一[工作區](#工作區workspace)中的應用程式使用。
 
-* Application developers can use the [Angular CLI](#cli) to `add` a published library for use with an application in the same [workspace](#workspace).
-
-See also [schematic](#schematic).
+另見[原理圖](#原理圖schematic)。
 
 {@a lifecycle-hook}
+## 生命週期掛鉤（lifecycle hook）
 
-## lifecycle hook
+一種介面，讓你可以在[指令](#指令directive)與[元件](#元件component)建立、更新與銷毀的生命週期中介入。
 
-An interface that allows you to tap into the lifecycle of [directives](#directive) and [components](#component) as they are created, updated, and destroyed.
+每個介面都有一個掛鉤方法，名稱為介面名稱加上 `ng` 前綴。
+例如，`OnInit` 介面有一個名為 `ngOnInit` 的掛鉤方法。
 
-Each interface has a single hook method whose name is the interface name prefixed with `ng`.
-For example, the `OnInit` interface has a hook method named `ngOnInit`.
+Angular 依以下順序執行這些掛鉤方法：
 
-Angular calls these hook methods in the following order:
+* `ngOnChanges`：當[輸入](#input)/[輸出](#output)繫結值變更時。
+* `ngOnInit`：在第一次 `ngOnChanges` 之後。
+* `ngDoCheck`：開發者自訂的變更偵測。
+* `ngAfterContentInit`：在元件內容初始化之後。
+* `ngAfterContentChecked`：在每次檢查元件內容之後。
+* `ngAfterViewInit`：在元件的檢視初始化之後。
+* `ngAfterViewChecked`：在每次檢查元件的檢視之後。
+* `ngOnDestroy`：在指令銷毀之前。
 
-* `ngOnChanges`: When an [input](#input)/[output](#output) binding value changes.
-* `ngOnInit`: After the first `ngOnChanges`.
-* `ngDoCheck`: Developer's custom change detection.
-* `ngAfterContentInit`: After component content initialized.
-* `ngAfterContentChecked`: After every check of component content.
-* `ngAfterViewInit`: After a component's views are initialized.
-* `ngAfterViewChecked`: After every check of a component's views.
-* `ngOnDestroy`: Just before the directive is destroyed.
-
-To learn more, see [Lifecycle Hooks](guide/lifecycle-hooks).
+詳見[生命週期掛鉤](guide/lifecycle-hooks)。
 
 {@a M}
-
 {@a module}
+## 模組（module）
 
-## module
+一般而言，模組會收集專用於單一用途的一組程式碼。
+Angular 使用標準 JavaScript 模組，也定義了 Angular 模組 `NgModule`。
 
-In general, a module collects a block of code dedicated to a single purpose. Angular uses standard JavaScript modules and also defines an Angular module, `NgModule`.
+在 JavaScript（ECMAScript）中，每個檔案都是一個模組，檔案中定義的所有物件都屬於該模組。
+物件可以匯出成為公開物件，公開物件可以供其他模組匯入使用。
 
-In JavaScript (ECMAScript), each file is a module and all objects defined in the file belong to that module. Objects can exported, making them public, and public objects can be imported for use by other modules.
+Angular 以 JavaScript 模組集合的形式提供。
+JavaScript 模組的集合也稱為程式庫。
+每個 Angular 程式庫的名稱都以 `@angular` 前綴開頭。
+使用 [npm 套件管理員](https://docs.npmjs.com/about-npm)安裝 Angular 程式庫，並以 JavaScript `import` 宣告匯入其中的部分內容。
 
-Angular ships as a collection of JavaScript modules (also called libraries). Each Angular library name begins with the `@angular` prefix. Install Angular libraries with the [npm package manager](https://docs.npmjs.com/getting-started/what-is-npm) and import parts of them with JavaScript `import` declarations.
-
-Compare to [NgModule](#ngmodule).
-
+與 [NgModule](#ngmodule) 比較。
 
 {@a N}
-
 {@a ngcc}
-
 ## ngcc
 
-Angular compatibility compiler.
-If you build your app using [Ivy](#ivy), but it depends on libraries that have not been compiled with Ivy, the CLI uses `ngcc` to automatically update the dependent libraries to use Ivy.
-
+Angular 相容性編譯器。
+如果你使用 [Ivy](#ivy) 建置應用程式，但它依賴尚未以 Ivy 編譯的程式庫，Angular CLI 會使用 `ngcc` 自動將依賴的程式庫更新為使用 Ivy。
 
 {@a ngmodule}
-
 ## NgModule
 
-A class definition preceded by the `@NgModule()` [decorator](#decorator), which declares and serves as a manifest for a block of code dedicated to an application domain, a workflow, or a closely related set of capabilities.
+以 `@NgModule()` [裝飾器](#裝飾器decoratordecoration)為前綴的類別定義，用來宣告並作為專用於應用程式領域、工作流程或密切相關功能集合的程式碼區塊的清單。
 
-Like a [JavaScript module](#module), an NgModule can export functionality for use by other NgModules and import public functionality from other NgModules.
-The metadata for an NgModule class collects components, directives, and pipes that the application uses along with the list of imports and exports. See also [declarable](#declarable).
+與 [JavaScript 模組](#模組module)相同，NgModule 可以匯出功能供其他 NgModule 使用，也可以從其他 NgModule 匯入公開功能。
+NgModule 類別的中繼資料會收集應用程式使用的元件、指令與管道，以及匯入與匯出清單。
+另見[可宣告類別](#可宣告類別declarable)。
 
-NgModules are typically named after the file in which the exported thing is defined. For example, the Angular [DatePipe](api/common/DatePipe) class belongs to a feature module named `date_pipe` in the file `date_pipe.ts`. You import them from an Angular [scoped package](#scoped-package) such as `@angular/core`.
+NgModule 通常以定義匯出內容的檔案命名。
+例如，Angular 的 [DatePipe](api/common/DatePipe) 類別屬於 `date_pipe.ts` 檔案中名為 `date_pipe` 的功能模組。
+你可以從 `@angular/core` 這類 Angular [限定範圍套件](#限定範圍套件scoped-package)匯入它們。
 
-Every Angular application has a root module. By convention, the class is called `AppModule` and resides in a file named `app.module.ts`.
+每個 Angular 應用程式都有一個根模組。
+依慣例，類別命名為 `AppModule`，位於名為 `app.module.ts` 的檔案中。
 
-To learn more, see [NgModules](guide/ngmodules).
+詳見 [NgModules](guide/ngmodules)。
 
 {@a npm-package}
+## npm 套件
 
-## npm package
+[npm 套件管理員](https://docs.npmjs.com/about-npm)用於發布與載入 Angular 模組與程式庫。
 
-The [npm package manager](https://docs.npmjs.com/getting-started/what-is-npm) is used to distribute and load Angular modules and libraries.
-
-Learn more about how Angular uses [Npm Packages](guide/npm-packages).
+進一步了解 Angular 如何使用 [npm 套件](guide/npm-packages)。
 
 {@a ngc}
-
 ## ngc
-`ngc` is a Typescript-to-Javascript transpiler that processes Angular decorators, metadata, and templates, and emits JavaScript code.
-The most recent implementation is internally referred to as `ngtsc` because it's a minimalistic wrapper around the TypeScript compiler `tsc` that adds a transform for processing Angular code.
+
+`ngc` 是 TypeScript 轉 JavaScript 的轉譯器，可處理 Angular 裝飾器、中繼資料與範本，並產生 JavaScript 程式碼。
+最新的實作內部稱為 `ngtsc`，因為它是以 TypeScript 編譯器 `tsc` 為基礎的精簡包裝，並加入轉換以處理 Angular 程式碼。
 
 {@a O}
-
 {@a observable}
+## 可觀察物件（observable）
 
-## observable
+多個值的生產者，會將值推送給[訂閱者](#訂閱者subscriber)。
+用於 Angular 各處的非同步事件處理。
+你可以使用 `subscribe()` 方法並傳入新值、錯誤或完成通知的回呼函式來訂閱，以執行可觀察物件。
 
-A producer of multiple values, which it pushes to [subscribers](#subscriber). Used for asynchronous event handling throughout Angular. You execute an observable by subscribing to it with its `subscribe()` method, passing callbacks for notifications of new values, errors, or completion.
+可觀察物件可以透過以下其中一種方式，將單一值或多個任意類型的值傳遞給訂閱者。
 
-Observables can deliver single or multiple values of any type to subscribers, either synchronously (as a function delivers a value to its caller) or on a schedule. A subscriber receives notification of new values as they are produced and notification of either normal completion or error completion.
+*   同步傳遞，如同函式將值傳遞給請求者
+*   排程傳遞
 
-Angular uses a third-party library called [Reactive Extensions (RxJS)](http://reactivex.io/rxjs/).
+訂閱者會在新值產生時收到通知，也會收到正常完成或錯誤完成的通知。
 
-To learn more, see [Observables](guide/observables).
-
+Angular 使用名為 [Reactive Extensions（RxJS）](http://reactivex.io/rxjs/) 的第三方程式庫。
+詳見[可觀察物件](guide/observables)。
 
 {@a observer}
+## 觀察者（observer）
 
-## observer
-
-An object passed to the `subscribe()` method for an [observable](#observable). The object defines the callbacks for the [subscriber](#subscriber).
+傳遞給[可觀察物件](#可觀察物件observable)的 `subscribe()` 方法的物件。
+該物件為[訂閱者](#訂閱者subscriber)定義回呼函式。
 
 {@a output}
+## 輸出（output）
 
-## output
+定義[指令](#指令directive)時，指令屬性上的 `@Output{}` 裝飾器會讓該屬性成為[事件繫結](guide/event-binding)的*目標*。
+事件會從這個屬性*流出*至等號右側[範本運算式](#範本運算式template-expression)所識別的接收者。
 
-When defining a [directive](#directive), the `@Output{}` decorator on a directive property
-makes that property available as a *target* of [event binding](guide/event-binding).
-Events stream *out* of this property to the receiver identified
-in the [template expression](#template-expression) to the right of the equal sign.
-
-To learn more, see [Input and Output Properties](guide/inputs-outputs).
-
+詳見[輸入與輸出屬性](guide/inputs-outputs)。
 
 {@a P}
-
 {@a pipe}
+## 管道（pipe）
 
-## pipe
+以 `@Pipe{}` 裝飾器為前綴的類別，定義一個函式，可將輸入值轉換為輸出值以顯示於[檢視](#檢視view)中。
+Angular 定義了各種管道，你也可以定義新的管道。
 
-A class which is preceded by the `@Pipe{}` decorator and which defines a function that transforms input values to output values for display in a [view](#view). Angular defines various pipes, and you can define new pipes.
-
-To learn more, see [Pipes](guide/pipes).
+詳見[管道](guide/pipes)。
 
 {@a platform}
+## 平台（platform）
 
-## platform
+在 Angular 術語中，平台是 Angular 應用程式執行的環境。
+Angular 應用程式最常見的平台是 Web 瀏覽器，但也可以是行動裝置的作業系統或 Web 伺服器。
 
-In Angular terminology, a platform is the context in which an Angular application runs.
-The most common platform for Angular applications is a web browser, but it can also be an operating system for a mobile device, or a web server.
+各種 Angular 執行時期平台的支援由 `@angular/platform-*` 套件提供。
+這些套件讓使用 `@angular/core` 與 `@angular/common` 的應用程式，能在不同環境中執行，方法是為收集使用者輸入與為指定平台渲染 UI 提供實作。
+將平台專屬功能隔離開來，可讓開發者以平台無關的方式使用框架的其他部分。
 
-Support for the various Angular run-time platforms is provided by the `@angular/platform-*` packages. These packages allow applications that make use of `@angular/core` and `@angular/common` to execute in different environments by providing implementation for gathering user input and rendering UIs for the given platform. Isolating platform-specific functionality allows the developer to make platform-independent use of the rest of the framework.
+*   在 Web 瀏覽器中執行時，會從 `platform-browser` 套件匯入 [`BrowserModule`](api/platform-browser/BrowserModule)，它支援簡化安全性與事件處理的服務，並讓應用程式存取瀏覽器專屬功能，例如解讀鍵盤輸入與控制顯示中文件的標題。
+    所有在瀏覽器中執行的應用程式都使用相同的平台服務。
 
-* When running in a web browser, [`BrowserModule`](api/platform-browser/BrowserModule) is imported from the `platform-browser` package, and supports services that simplify security and event processing, and allows applications to access browser-specific features, such as interpreting keyboard input and controlling the title of the document being displayed. All applications running in the browser use the same platform service.
-
-* When [server-side rendering](#server-side-rendering) (SSR) is used, the [`platform-server`](api/platform-server) package provides web server implementations of the `DOM`, `XMLHttpRequest`, and other low-level features that don't rely on a browser.
+*   使用[伺服器端渲染（SSR）](#伺服器端渲染server-side-rendering)時，[`platform-server`](api/platform-server) 套件提供 `DOM`、`XMLHttpRequest` 及其他不依賴瀏覽器的低階功能的 Web 伺服器實作。
 
 {@a polyfill}
+## Polyfill
 
-## polyfill
-
-An [npm package](guide/npm-packages) that plugs gaps in a browser's JavaScript implementation.
-See [Browser Support](guide/browser-support) for polyfills that support particular functionality for particular platforms.
+用來填補瀏覽器 JavaScript 實作缺口的 [npm 套件](guide/npm-packages)。
+見[瀏覽器支援](guide/browser-support)，了解為特定平台上的特定功能提供支援的 polyfill。
 
 {@a project}
+## 專案（project）
 
-## project
+在 Angular CLI 中，指可以由 Angular CLI 命令建立或修改的獨立應用程式或[程式庫](#程式庫library)。
 
-In the Angular CLI, a standalone application or [library](#library) that can be created or modified by a CLI command.
+由 [`ng new`](cli/new) 產生的專案，包含使用 Angular CLI 開發與測試應用程式所需的來源檔案、資源與設定檔集合。
+專案也可以使用 `ng generate application` 與 `ng generate library` 命令建立。
 
-A project, as generated by the [`ng new`](cli/new), contains the set of source files, resources, and configuration files that you need to develop and test the application using the CLI. Projects can also be created with the `ng generate application` and `ng generate library` commands.
+詳見[專案檔案結構](guide/file-structure)。
 
-For more information, see [Project File Structure](guide/file-structure).
-
-The [`angular.json`](guide/workspace-config) file configures all projects in a [workspace](#workspace).
+[`angular.json`](guide/workspace-config) 檔案會設定[工作區](#工作區workspace)中的所有專案。
 
 {@a provider}
+## 提供者（provider）
 
-## provider
+實作 [`Provider`](api/core/Provider) 介面之一的物件。
+提供者物件定義如何取得與 [DI 權杖](#di-權杖di-token)相關聯的可注入依賴。
+[注入器](#注入器injector)使用提供者為需要依賴的類別建立依賴的新執行個體。
 
-An object that implements one of the [`Provider`](api/core/Provider) interfaces. A provider object defines how to obtain an injectable dependency associated with a [DI token](#token).
-An [injector](#injector) uses the provider to create a new instance of a dependency
-for a class that requires it.
+Angular 會為其定義的服務向每個注入器註冊自己的提供者。
+你可以為應用程式需要的服務註冊自己的提供者。
 
-Angular registers its own providers with every injector, for services that Angular defines.
-You can register your own providers for services that your app needs.
+另見[服務](#服務service)。
+另見[依賴注入](#依賴注入dependency-injectiondi)。
 
-See also [service](#service), [dependency injection](#di).
-
-Learn more in [Dependency Injection](guide/dependency-injection).
-
+詳見[依賴注入](guide/dependency-injection)。
 
 {@a Q}
-
 {@a R}
-
 {@a reactive-forms}
+## 反應式表單（reactive forms）
 
-## reactive forms
+透過元件中的程式碼建置 Angular 表單的框架。
+另一種選擇是[範本驅動表單](#範本驅動表單template-driven-forms)。
 
-A framework for building Angular forms through code in a component.
-The alternative is a [template-driven form](#template-driven-forms).
+使用反應式表單時：
 
-When using reactive forms:
+*   「唯一真相來源」，也就是表單模型，是在元件類別中定義的。
+*   驗證是透過驗證函式而非驗證指令來設定的。
+*   每個控制項都是在元件類別中明確建立的，方法是手動建立 `FormControl` 執行個體或使用 `FormBuilder`。
+*   範本輸入元素*不*使用 `ngModel`。
+*   相關的 Angular 指令以 `form` 為前綴，例如 `formControl`、`formGroup` 與 `formControlName`。
 
-* The "source of truth", the form model, is defined in the component class.
-* Validation is set up through validation functions rather than validation directives.
-* Each control is explicitly created in the component class by creating a `FormControl` instance manually or with `FormBuilder`.
-* The template input elements do *not* use `ngModel`.
-* The associated Angular directives are prefixed with `form`, such as `formControl`, `formGroup`, and `formControlName`.
-
-The alternative is a template-driven form. For an introduction and comparison of both forms approaches, see [Introduction to Angular Forms](guide/forms-overview).
+另一種選擇是範本驅動表單。
+關於兩種表單方法的介紹與比較，請參閱 [Angular 表單簡介](guide/forms-overview)。
 
 {@a resolver}
+## 解析器（resolver）
 
-## resolver
+實作 [Resolve](api/router/Resolve) 介面（或與 [resolve()](api/router/Resolve#resolve) 方法簽名相同的函式）的類別，用來產生或擷取完成導覽至請求路由之前所需的資料。
+解析器會在路由樹的所有[路由守衛](#路由守衛route-guard)都已執行且成功之後執行。
 
-A class that implements the [Resolve](api/router/Resolve "API reference") interface (or a function with the same signature as the [resolve() method](api/router/Resolve#resolve "API reference")) that you use to produce or retrieve data that is needed before navigation to a requested route can be completed.
-
-Resolvers run after all [route guards](#route-guard "Definition") for a route tree have been executed and have succeeded.
-
-See an example of using a [resolve guard](guide/router-tutorial-toh#resolve-guard "Routing techniques tutorial") to retrieve dynamic data.
+請參閱使用[解析守衛](guide/router-tutorial-toh#resolve預先擷取元件資料)擷取動態資料的範例。
 
 {@a route-guard}
+## 路由守衛（route guard）
 
-## route guard
+在路由應用程式中控制導覽至請求路由的方法。
+守衛決定路由是否可以啟用或停用，以及延遲載入的模組是否可以載入。
 
-A method that controls navigation to a requested route in a routing application.
-Guards determine whether a route can be activated or deactivated, and whether a lazy-loaded module can be loaded.
-
-Learn more in the [Routing and Navigation](guide/router#preventing-unauthorized-access "Examples") guide.
-
+詳見[路由與導覽](guide/router#防止未經授權的存取)指南。
 
 {@a router}
 {@a router-module}
+## 路由器（router）
 
-## router
+在 Angular 應用程式中設定並實作狀態與[檢視](#檢視view)之間導覽的工具。
 
-A tool that configures and implements navigation among states and [views](#view) within an Angular app.
+`Router` 模組是一個 [NgModule](#ngmodule)，提供在應用程式檢視之間導覽所需的服務提供者與指令。
+[路由元件](#路由元件routing-component)是指匯入 `Router` 模組、且範本包含 `RouterOutlet` 元素以顯示路由器產生的檢視的元件。
 
-The `Router` module is an [NgModule](#ngmodule) that provides the necessary service providers and directives for navigating through application views. A [routing component](#routing-component) is one that imports the `Router` module and whose template contains a `RouterOutlet` element where it can display views produced by the router.
+路由器定義單一頁面內檢視之間的導覽，而非頁面之間的導覽。
+它會解讀類似 URL 的連結，以決定要建立或銷毀哪些檢視，以及要載入或卸載哪些元件。
+它讓你可以在 Angular 應用程式中利用[延遲載入](#延遲載入lazy-loading)。
 
-The router defines navigation among views on a single page, as opposed to navigation among pages. It interprets URL-like links to determine which views to create or destroy, and which components to load or unload. It allows you to take advantage of [lazy loading](#lazy-load) in your Angular apps.
-
-To learn more, see [Routing and Navigation](guide/router).
+詳見[路由與導覽](guide/router)。
 
 {@a router-outlet}
+## 路由出口（router outlet）
 
-## router outlet
-
-A [directive](#directive) that acts as a placeholder in a routing component's template. Angular dynamically renders the template based on the current router state.
+在路由元件範本中作為預留位置的[指令](#指令directive)。
+Angular 會依目前的路由器狀態動態渲染範本。
 
 {@a router-component}
+## 路由元件（routing component）
 
-## routing component
+範本中有 `RouterOutlet` 指令、會依路由器導覽顯示檢視的 Angular [元件](#元件component)。
 
-An Angular [component](#component) with a `RouterOutlet` directive in its template that displays views based on router navigations.
-
-For more information, see [Routing and Navigation](guide/router).
+詳見[路由與導覽](guide/router)。
 
 {@a rule}
+## 規則（rule）
 
-## rule
-
-In [schematics](#schematic), a function that operates on a [file tree](#file-tree) to create, delete, or modify files in a specific manner.
+在[原理圖](#原理圖schematic)中，指操作[檔案樹](#樹狀結構tree)、以特定方式建立、刪除或修改檔案的函式。
 
 {@a S}
-
 {@a schematic}
+## 原理圖（schematic）
 
-## schematic
+一種鷹架程式庫，定義如何透過建立、修改、重構或移動檔案與程式碼，來產生或轉換程式設計專案。
+原理圖定義了操作虛擬檔案系統（稱為[樹狀結構](#樹狀結構tree)）的[規則](#規則rule)。
 
-A scaffolding library that defines how to generate or transform a programming project by creating, modifying, refactoring, or moving files and code.
-A schematic defines [rules](#rule) that operate on a virtual file system called a [tree](#file-tree).
+[Angular CLI](#命令列介面command-line-interfacecli) 使用原理圖來產生與修改 [Angular 專案](#專案project)及專案的組成部分。
 
-The [Angular CLI](#cli) uses schematics to generate and modify [Angular projects](#project) and parts of projects.
+*   Angular 提供一組原理圖供 Angular CLI 使用。
+    請參閱 [Angular CLI 命令參考](cli)。
+    Angular [CLI](#命令列介面command-line-interfacecli) 的 [`ng add`](cli/add) 命令會在將程式庫加入專案的過程中執行原理圖。
+    Angular [CLI](#命令列介面command-line-interfacecli) 的 [`ng generate`](cli/generate) 命令會執行原理圖來建立應用程式、程式庫與 Angular 程式碼結構。
 
-* Angular provides a set of schematics for use with the CLI. See the [Angular CLI command reference](cli). The [`ng add`](cli/add) command runs schematics as part of adding a library to your project. The [`ng generate`](cli/generate) command runs schematics to create apps, libraries, and Angular code constructs.
+*   [程式庫](#程式庫library)開發者可以建立原理圖，讓 Angular CLI 能夠加入與更新他們發布的程式庫，並產生程式庫定義的成品。
+    將這些原理圖加入你用來發布與分享程式庫的 npm 套件。
 
-* [Library](#library) developers can create schematics that enable the Angular CLI to add and update their published libraries, and to generate artifacts the library defines.
-Add these schematics to the npm package that you use to publish and share your library.
-
-For more information, see [Schematics](guide/schematics) and [Integrating Libraries with the CLI](guide/creating-libraries#integrating-with-the-cli).
+詳見 [Schematics](guide/schematics)。
+另見[將程式庫與 CLI 整合](guide/creating-libraries#透過程式碼產生原理圖與-cli-整合)。
 
 {@a schematics-cli}
-
 ## Schematics CLI
 
-Schematics come with their own command-line tool.
-Using Node 6.9 or above, install the Schematics CLI globally:
+Schematics 有自己的命令列工具。
+使用 Node 6.9 以上版本全域安裝 Schematics CLI。
 
 <code-example language="bash">
 npm install -g @angular-devkit/schematics-cli
 </code-example>
 
-This installs the `schematics` executable, which you can use to create a new schematics [collection](#collection) with an initial named schematic. The collection folder is a workspace for schematics. You can also use the `schematics` command to add a new schematic to an existing collection, or extend an existing schematic.
+這會安裝 `schematics` 可執行檔，你可以用它建立一個新的原理圖[集合](#集合collection)，其中包含初始的具名原理圖。
+集合目錄是原理圖的工作區。
+你也可以使用 `schematics` 命令將新的原理圖加入現有集合，或擴充現有的原理圖。
 
 {@a scoped-package}
+## 限定範圍套件（scoped package）
 
-## scoped package
+一種將相關的 [npm 套件](guide/npm-packages)分組的方式。
+NgModule 會在限定範圍套件中提供，其名稱以 Angular 的*範圍名稱* `@angular` 開頭。
+例如 `@angular/core`、`@angular/common`、`@angular/forms` 與 `@angular/router`。
 
-A way to group related [npm packages](guide/npm-packages).
-NgModules are delivered within scoped packages whose names begin with the Angular *scope name* `@angular`. For example, `@angular/core`, `@angular/common`, `@angular/forms`, and `@angular/router`.
-
-Import a scoped package in the same way that you import a normal package.
+匯入限定範圍套件的方式與匯入一般套件相同。
 
 <code-example path="architecture/src/app/app.component.ts" header="architecture/src/app/app.component.ts (import)" region="import">
 
 </code-example>
 
 {@a server-side-rendering}
+## 伺服器端渲染（server-side rendering）
 
-## server-side rendering
+一種在伺服器上產生靜態應用程式頁面的技術，並可回應瀏覽器的請求產生與提供這些頁面。
+它也可以預先產生頁面為 HTML 檔案，稍後再提供。
 
-A technique that generates static application pages on the server, and can generate and serve those pages in response to requests from browsers.
-It can also pre-generate pages as HTML files that you serve later.
+這項技術可以改善行動裝置與低效能裝置的效能，並在用戶端應用程式載入期間快速顯示靜態首頁，改善使用者體驗。
+靜態版本也可以讓你的應用程式更容易被網路爬蟲看見。
 
-This technique can improve performance on mobile and low-powered devices and improve the user experience by showing a static first page quickly while the client-side app is loading.
-The static version can also make your app more visible to web crawlers.
-
-You can easily prepare an app for server-side rendering by using the [CLI](#cli) to run the [Angular Universal](#universal) tool, using the `@nguniversal/express-engine` [schematic](#schematic).
-
+你可以使用 [Angular CLI](#命令列介面command-line-interfacecli) 執行 [Angular Universal](#universal) 工具，搭配 `@nguniversal/express-engine` [原理圖](#原理圖schematic)，輕鬆為應用程式準備伺服器端渲染。
 
 {@a service}
+## 服務（service）
 
-## service
+在 Angular 中，指具有 [@Injectable()](#可注入injectable) 裝飾器、封裝可跨應用程式重複使用的非 UI 邏輯與程式碼的類別。
+Angular 區分元件與服務，以提高模組化與可重複使用性。
 
-In Angular, a class with the [@Injectable()](#injectable) decorator that encapsulates non-UI logic and code that can be reused across an application.
-Angular distinguishes components from services to increase modularity and reusability.
+`@Injectable()` 中繼資料讓服務類別可以搭配[依賴注入](#依賴注入dependency-injectiondi)機制使用。
+可注入類別由[提供者](#提供者provider)具現化。
+[注入器](#注入器injector)會維護提供者清單，並在元件或其他服務需要時使用它們提供服務執行個體。
 
-The `@Injectable()` metadata allows the service class to be used with the [dependency injection](#di) mechanism.
-The injectable class is instantiated by a [provider](#provider).
-[Injectors](#injector) maintain lists of providers and use them to provide service instances when they are required by components or other services.
-
-To learn more, see [Introduction to Services and Dependency Injection](guide/architecture-services).
+詳見[服務與依賴注入簡介](guide/architecture-services)。
 
 {@a structural-directive}
 {@a structural-directives}
+## 結構指令（structural directive）
 
-## structural directives
+一類[指令](#指令directive)，負責透過修改 DOM 來塑造 HTML 版面配置。
+修改 DOM 包括加入、移除或操作元素及其相關子元素。
 
-A category of [directive](#directive) that is responsible for shaping HTML layout by modifying the DOM&mdash;that is, adding, removing, or manipulating elements and their children.
-
-To learn more, see [Structural Directives](guide/structural-directives).
+詳見[結構指令](guide/structural-directives)。
 
 {@a subscriber}
+## 訂閱者（subscriber）
 
-## subscriber
+定義如何取得或產生要發布的值或訊息的函式。
+當消費者執行[可觀察物件](#可觀察物件observable)的 `subscribe()` 方法時，就會執行此函式。
 
-A function that defines how to obtain or generate values or messages to be published. This function is executed when a consumer calls the `subscribe()` method of an [observable](#observable).
+訂閱可觀察物件會觸發其執行、將回呼函式與其關聯，並建立一個 `Subscription` 物件，讓你可以取消訂閱。
 
-The act of subscribing to an observable triggers its execution, associates callbacks with it, and creates a `Subscription` object that lets you unsubscribe.
+`subscribe()` 方法接受一個 [觀察者](#觀察者observer) JavaScript 物件，其中最多有三個回呼函式，分別對應可觀察物件可以傳遞的每種通知類型。
 
-The `subscribe()` method takes a JavaScript object (called an [observer](#observer)) with up to three callbacks, one for each type of notification that an observable can deliver:
-
-* The `next` notification sends a value such as a number, a string, or an object.
-* The `error` notification sends a JavaScript Error or exception.
-* The `complete` notification doesn't send a value, but the handler is called when the call completes. Scheduled values can continue to be returned after the call completes.
+*   `next` 通知會傳送一個值，例如數字、字串或物件。
+*   `error` 通知會傳送 JavaScript 錯誤或例外。
+*   `complete` 通知不會傳送值，但方法完成時會執行處理常式。
+    方法完成後仍可繼續傳回排程的值。
 
 {@a T}
-
 {@a target}
+## 目標（target）
 
-## target
+[專案](#專案project)中可建置或可執行的子集，設定為[工作區設定檔](guide/workspace-config#專案工具設定選項)中的物件，並由 [Architect](#architect) [建置器](#建置器builder)執行。
 
-A buildable or runnable subset of a [project](#project), configured as an object in the [workspace configuration file](guide/workspace-config#project-tool-configuration-options), and executed by an [Architect](#architect) [builder](#builder).
+在 `angular.json` 檔案中，每個專案都有一個 "architect" 區段，其中包含設定建置器的目標。
+其中一些目標對應於 Angular [CLI](#命令列介面command-line-interfacecli) 命令，例如 `build`、`serve`、`test` 與 `lint`。
 
-In the `angular.json` file, each project has an "architect" section that contains targets which configure builders. Some of these targets correspond to [CLI commands](#cli), such as `build`, `serve`, `test`, and `lint`.
+例如，`ng build` 命令叫用的 Architect 建置器會使用特定的建置工具來編譯專案，並具有預設設定，其值可以在命令列上覆寫。
+`build` 目標也為「production」建置定義了替代設定，你可以在 `build` 命令上使用 `--prod` 旗標叫用。
 
-For example, the Architect builder invoked by the `ng build` command to compile a project uses a particular build tool, and has a default configuration whose values can be overridden on the command line. The `build` target also defines an alternate configuration for a "production" build, that can be invoked with the `--prod` flag on the `build` command.
+Architect 工具提供一組建置器。
+Angular [CLI](#命令列介面command-line-interfacecli) 的 [`ng new`](cli/new) 命令為初始應用程式專案提供一組目標。
+[`ng generate application`](cli/generate#application) 與 [`ng generate library`](cli/generate#library) Angular [CLI](#命令列介面command-line-interfacecli) 命令為每個新的[專案](#專案project)提供一組目標。
+這些目標、選項與設定可以自訂以滿足專案的需求。
+例如，你可能想為專案的 "build" 目標加入 "staging" 或 "testing" 設定。
 
-The Architect tool provides a set of builders. The [`ng new` command](cli/new) provides a set of targets for the initial application project. The [`ng generate application`](cli/generate#application) and [`ng generate library`](cli/generate#library) commands provide a set of targets for each new [project](#project). These targets, their options and configurations, can be customized to meet the needs of your project. For example, you may want to add a "staging" or "testing" configuration to a project's "build" target.
-
-You can also define a custom builder, and add a target to the project configuration that uses your custom builder. You can then run the target using the [`ng run`](cli/run) CLI command.
+你也可以定義自訂建置器，並將使用自訂建置器的目標加入專案設定。
+然後你可以使用 Angular [CLI](#命令列介面command-line-interfacecli) 的 [`ng run`](cli/run) 命令執行該目標。
 
 {@a template}
+## 範本（template）
 
-## template
+定義如何渲染元件[檢視](#檢視view)的程式碼。
 
-Code that defines how to render a component's [view](#view).
+範本結合純 HTML 與 Angular [資料繫結](#資料繫結data-binding)語法、[指令](#指令directive)與[範本運算式](#範本運算式template-expression)（邏輯結構）。
+Angular 元素會在頁面顯示之前插入或計算值，以修改 HTML 元素。
+在[範本語法](guide/template-syntax)指南中進一步了解 Angular 範本語言。
 
-A template combines straight HTML with Angular [data-binding](#data-binding) syntax, [directives](#directive),
-and [template expressions](#template-expression) (logical constructs).
-The Angular elements insert or calculate values that modify the HTML elements before the page is displayed. Learn more about Angular template language in the [Template Syntax](guide/template-syntax) guide.
+範本透過 `@Component()` [裝飾器](#裝飾器decoratordecoration)與[元件類別](#元件component)關聯。
+範本程式碼可以行內提供，作為 `template` 屬性的值，或放在透過 `templateUrl` 屬性連結的獨立 HTML 檔案中。
 
-A template is associated with a [component class](#component) through the `@Component()` [decorator](#decorator). The template code can be provided inline, as the value of the `template` property, or in a separate HTML file linked through the `templateUrl` property.
-
-Additional templates, represented by `TemplateRef` objects, can define alternative or *embedded* views, which can be referenced from multiple components.
+以 `TemplateRef` 物件表示的其他範本，可以定義替代或*內嵌*檢視，供多個元件參照。
 
 {@a template-driven-forms}
+## 範本驅動表單（template-driven forms）
 
-## template-driven forms
+一種使用檢視中的 HTML 表單與輸入元素建置 Angular 表單的格式。
+另一種格式使用[反應式表單](#反應式表單reactive-forms)框架。
 
-A format for building Angular forms using HTML forms and input elements in the view.
-The alternative format uses the [reactive forms](#reactive-forms) framework.
+使用範本驅動表單時：
 
-When using template-driven forms:
+*   「唯一真相來源」是範本。
+    驗證是使用個別輸入元素上的屬性來定義的。
 
-* The "source of truth" is the template. The validation is defined using attributes on the individual input elements.
-* [Two-way binding](#data-binding) with `ngModel` keeps the component model synchronized with the user's entry into the input elements.
-* Behind the scenes, Angular creates a new control for each input element, provided you have set up a `name` attribute and two-way binding for each input.
-* The associated Angular directives are prefixed with `ng` such as `ngForm`, `ngModel`, and `ngModelGroup`.
+*   使用 `ngModel` 的[雙向繫結](#資料繫結data-binding)可讓元件模型與使用者在輸入元素中的輸入保持同步。
+*   在幕後，Angular 會為每個輸入元素建立新的控制項，前提是你已為每個輸入設定 `name` 屬性與雙向繫結。
+*   相關的 Angular 指令以 `ng` 為前綴，例如 `ngForm`、`ngModel` 與 `ngModelGroup`。
 
-The alternative is a reactive form. For an introduction and comparison of both forms approaches, see [Introduction to Angular Forms](guide/forms-overview).
+另一種選擇是反應式表單。
+關於兩種表單方法的介紹與比較，請參閱 [Angular 表單簡介](guide/forms-overview)。
 
 {@a template-expression}
+## 範本運算式（template expression）
 
-## template expression
+一種類似 TypeScript 的語法，Angular 會在[資料繫結](#資料繫結data-binding)中對其求值。
 
-A TypeScript-like syntax that Angular evaluates within a [data binding](#data-binding).
-
-Read about how to write template expressions in the [template expressions](guide/interpolation#template-expressions) section of the [Interpolation](guide/interpolation) guide.
+閱讀[插值](guide/interpolation)指南中[範本運算式](guide/interpolation#範本運算式)一節，了解如何撰寫範本運算式。
 
 {@a template-reference-variable}
+## 範本參照變數（template reference variable）
 
-## template reference variable
-
-A variable defined in a template that references an instance associated with an element, such as a directive instance, component instance, template as in `TemplateRef`, or DOM element.
-After declaring a template reference variable on an element in a template,
-you can access values from that variable elsewhere within the same template.
-The following example defines a template reference variable named `#phone`.
+在範本中定義的變數，用來參照與元素相關聯的執行個體，例如指令執行個體、元件執行個體、如 `TemplateRef` 的範本，或 DOM 元素。
+在範本中的元素上宣告範本參照變數後，你可以在同一範本的其他位置存取該變數的值。
+以下範例定義了一個名為 `#phone` 的範本參照變數。
 
 <code-example path="template-reference-variables/src/app/app.component.html" region="ref-var" header="src/app/app.component.html"></code-example>
 
-For more information, see the [Template reference variable](guide/template-reference-variables) guide.
+詳見[範本參照變數](guide/template-reference-variables)。
 
 {@a token}
+## 權杖（token）
 
-## token
-
-An opaque identifier used for efficient table lookup. In Angular, a [DI token](#di-token) is used to find [providers](#provider) of dependencies in the [dependency injection](#di) system.
+用於高效率表格查詢的不透明識別碼。
+在 Angular 中，[DI 權杖](#di-權杖di-token)用於在[依賴注入](#依賴注入dependency-injectiondi)系統中尋找依賴的[提供者](#提供者provider)。
 
 {@a transpile}
+## 轉譯（transpile）
 
-## transpile
-
-The translation process that transforms one version of JavaScript to another version; for example, down-leveling ES2015 to the older ES5 version.
+將某個版本的 JavaScript 轉換為另一個版本的翻譯過程；例如，將 ES2015 降級為較舊的 ES5 版本。
 
 {@a file-tree}
+## 樹狀結構（tree）
 
-## tree
-
-In [schematics](#schematic), a virtual file system represented by the `Tree` class.
-Schematic [rules](#rule) take a tree object as input, operate on them, and return a new tree object.
+在[原理圖](#原理圖schematic)中，指以 `Tree` 類別表示的虛擬檔案系統。
+原理圖[規則](#規則rule)接受樹狀結構物件作為輸入，對其操作，並傳回新的樹狀結構物件。
 
 {@a typescript}
-
 ## TypeScript
 
-A programming language based on JavaScript that is notable for its optional typing system.
-TypeScript provides compile-time type checking and strong tooling support (such as
-code completion, refactoring, inline documentation, and intelligent search).
-Many code editors and IDEs support TypeScript either natively or with plug-ins.
+一種以 JavaScript 為基礎的程式語言，以其可選的型別系統著稱。
+TypeScript 提供編譯時期型別檢查與強大的工具支援。
+型別檢查與工具支援包括程式碼自動完成、重構、行內文件與智慧搜尋。
+許多程式碼編輯器與 IDE 原生支援 TypeScript，或透過外掛程式支援。
 
-TypeScript is the preferred language for Angular development.
-Read more about TypeScript at [typescriptlang.org](http://www.typescriptlang.org/).
+TypeScript 是 Angular 開發的首選語言。
+詳見 [typescriptlang.org](http://www.typescriptlang.org/)。
 
-## TypeScript configuration file
+## TypeScript 設定檔（TypeScript configuration file）
 
-A file specifies the root files and the compiler options required to compile a TypeScript project. For more information, see [TypeScript configuration](/guide/typescript-configuration).
-
+指定編譯 TypeScript 專案所需的根檔案與編譯器選項的檔案。
+詳見 [TypeScript 設定](/guide/typescript-configuration)。
 
 {@a U}
-
 {@a unidirectional-data-flow}
+## 單向資料流（unidirectional data flow）
 
-## unidirectional data flow
+一種資料流模型，其中元件樹總是沿著從父元件到子元件的單一方向檢查變更，可防止變更偵測圖中出現循環。
 
-A data flow model where the component tree is always checked for changes in one direction (parent to child), which prevents cycles in the change detection graph.
+實際上，這表示 Angular 中的資料在變更偵測期間會向下流動。
+父元件可以輕易變更其子元件中的值，因為父元件會先被檢查。
+然而，如果子元件在變更偵測期間試圖變更其父元件中的值（顛倒預期的資料流），就可能發生失敗，因為父元件已經渲染完成。
+在開發模式下，如果應用程式試圖這樣做，Angular 會擲出 `ExpressionChangedAfterItHasBeenCheckedError` 錯誤，而不是靜默地無法渲染新值。
 
-In practice, this means that data in Angular flows downward during change detection.
-A parent component can easily change values in its child components because the parent is checked first.
-A failure could occur, however, if a child component tries to change a value in its parent during change detection (inverting the expected data flow), because the parent component has already been rendered.
-In development mode, Angular throws the `ExpressionChangedAfterItHasBeenCheckedError` error if your app attempts to do this, rather than silently failing to render the new value.
-
-To avoid this error, a [lifecycle hook](guide/lifecycle-hooks) method that seeks to make such a change should trigger a new change detection run. The new run follows the same direction as before, but succeeds in picking up the new value.
+為避免此錯誤，試圖進行這類變更的[生命週期掛鉤](guide/lifecycle-hooks)方法應該觸發新一輪的變更偵測。
+新一輪會沿著與之前相同的方向進行，但能成功取得新值。
 
 {@a universal}
-
 ## Universal
 
-A tool for implementing [server-side rendering](#server-side-rendering) of an Angular application.
-When integrated with an app, Universal generates and serves static pages on the server in response to requests from browsers.
-The initial static page serves as a fast-loading placeholder while the full application is being prepared for normal execution in the browser.
-
-To learn more, see [Angular Universal: server-side rendering](guide/universal).
+一種為 Angular 應用程式實作[伺服器端渲染](#伺服器端渲染server-side-rendering)的工具。
+與應用程式整合後，Universal 會在伺服器上產生靜態頁面並回應瀏覽器的請求提供這些頁面。
+初始靜態頁面可作為快速載入的預留位置，同時完整應用程式正在準備於瀏覽器中正常執行。
+詳見 [Angular Universal：伺服器端渲染](guide/universal)。
 
 {@a V}
-
 {@a view}
+## 檢視（view）
 
-## view
+可以一起建立與銷毀的最小顯示元素群組。
+Angular 會在一個或多個[指令](#指令directive)的控制下渲染檢視。
 
-The smallest grouping of display elements that can be created and destroyed together.
-Angular renders a view under the control of one or more [directives](#directive).
+[元件](#元件component)類別及其相關聯的[範本](#範本template)定義一個檢視。
+檢視具體由與元件相關聯的 `ViewRef` 執行個體表示。
+直接屬於元件的檢視稱為*宿主檢視*。
+檢視通常會收集為[檢視階層](#檢視階層view-hierarchy)。
 
-A [component](#component) class and its associated [template](#template) define a view.
-A view is specifically represented by a `ViewRef` instance associated with a component.
-A view that belongs immediately to a component is called a *host view*.
-Views are typically collected into [view hierarchies](#view-tree).
+檢視中元素的屬性可以因應使用者操作而動態變更；檢視中元素的結構（數量與順序）則不能。
+你可以透過在其檢視容器中插入、移動或移除巢狀檢視來變更元素的結構。
 
-Properties of elements in a view can change dynamically, in response to user actions;
-the structure (number and order) of elements in a view can't.
-You can change the structure of elements by inserting, moving, or removing nested views within their view containers.
-
-View hierarchies can be loaded and unloaded dynamically as the user navigates through the application, typically under the control of a [router](#router).
+檢視階層可以在使用者於應用程式中導覽時動態載入與卸載，通常由[路由器](#路由器router)控制。
 
 {@a ve}
-
 ## View Engine
 
-The compilation and rendering pipeline used by Angular before version 9. Compare [Ivy](#ivy).
-
+Angular 在第 9 版之前使用的編譯與渲染管線。比較 [Ivy](#ivy)。
 
 {@a view-tree}
+## 檢視階層（view hierarchy）
 
-## view hierarchy
+一組相關檢視構成的樹狀結構，可以作為一個整體來操作。
+根檢視稱為元件的*宿主檢視*。
+宿主檢視是*內嵌檢視*樹的根，這些內嵌檢視收集於附加在宿主元件中錨點元素上的 `ViewContainerRef` 檢視容器中。
+檢視階層是 Angular [變更偵測](#變更偵測change-detection)的關鍵部分。
 
-A tree of related views that can be acted on as a unit. The root view is a component's *host view*. A host view can be the root of a tree of *embedded views*, collected in a *view container* (`ViewContainerRef`) attached to an anchor element in the hosting component. The view hierarchy is a key part of Angular [change detection](#change-detection).
-
-The view hierarchy doesn't imply a component hierarchy. Views that are embedded in the context of a particular hierarchy can be host views of other components. Those components can be in the same NgModule as the hosting component, or belong to other NgModules.
+檢視階層並不意味著元件階層。
+內嵌於特定階層脈絡中的檢視，可以是其他元件的宿主檢視。
+這些元件可以與宿主元件位於同一個 NgModule，或屬於其他 NgModule。
 
 {@a W}
 {@a web-component}
+## Web 元件（web component）
 
-## web component
-
-See [custom element](#custom-element).
+見[自訂元素](#自訂元素custom-element)。
 
 {@a workspace}
+## 工作區（workspace）
 
-## workspace
+由 Angular [CLI](#命令列介面command-line-interfacecli) 驅動的一組 Angular [專案](#專案project)（也就是應用程式與程式庫），通常共同位於單一原始碼控制儲存庫（例如 [git](https://git-scm.com)）中。
 
-A collection of Angular [projects](#project) (that is, applications and libraries) powered by the [Angular CLI] (#cli) that are typically co-located in a single source-control repository (such as [git](https://git-scm.com/)).
+Angular [CLI](#命令列介面command-line-interfacecli) 的 [`ng new`](cli/new) 命令會建立檔案系統目錄（「工作區根目錄」）。
+在工作區根目錄中，它還會建立工作區[設定檔](#設定configuration)（`angular.json`），預設也會建立一個同名的初始應用程式專案。
 
-The [CLI](#cli) [`ng new` command](cli/new) creates a file system directory (the "workspace root").
-In the workspace root, it also creates the workspace [configuration file](#configuration) (`angular.json`) and, by default, an initial application project with the same name.
-
-Commands that create or operate on apps and libraries (such as `add` and `generate`) must be executed from within a workspace folder.
-
-For more information, see [Workspace Configuration](guide/workspace-config).
+建立或操作應用程式與程式庫的命令（例如 `add` 與 `generate`）必須在工作區目錄內執行。
+詳見[工作區設定](guide/workspace-config)。
 
 {@a cli-config}
-
 {@a config}
+## 工作區設定（workspace configuration）
 
-## workspace configuration
+位於 Angular [工作區](#工作區workspace)根層級、名為 `angular.json` 的檔案，為由 Angular [CLI](#命令列介面command-line-interfacecli) 提供或與其整合的建置與開發工具，提供工作區範圍與專案專屬的設定預設值。
+詳見[工作區設定](guide/workspace-config)。
 
-A file named `angular.json` at the root level of an Angular [workspace](#workspace) provides workspace-wide and project-specific configuration defaults for build and development tools that are provided by or integrated with the [Angular CLI](#cli).
-
-For more information, see [Workspace Configuration](guide/workspace-config).
-
-Additional project-specific configuration files are used by tools, such as `package.json` for the [npm package manager](#npm-package), `tsconfig.json` for [TypeScript transpilation](#transpile), and `tslint.json` for [TSLint](https://palantir.github.io/tslint/).
-
-For more information, see [Workspace and Project File Structure](guide/file-structure).
+其他專案專屬設定檔由工具使用，例如 `package.json` 用於 [npm 套件管理員](#npm-套件)、`tsconfig.json` 用於 [TypeScript 轉譯](#轉譯transpile)，以及 `tslint.json` 用於 [TSLint](https://palantir.github.io/tslint)。
+詳見[工作區與專案檔案結構](guide/file-structure)。
 
 {@a X}
-
-
 {@a Y}
-
-
 {@a Z}
 {@a zone}
+## 區域（zone）
 
-## zone
+一組非同步工作的執行脈絡。
+對於除錯、效能分析與測試包含非同步操作（例如事件處理、Promise 與遠端伺服器呼叫）的應用程式很有用。
 
-An execution context for a set of asynchronous tasks. Useful for debugging, profiling, and testing apps that include asynchronous operations such as event processing, promises, and calls to remote servers.
+Angular 應用程式在一個區域中執行，可以透過檢查資料變更並解析[資料繫結](#資料繫結data-binding)來更新顯示的資訊，以回應非同步事件。
 
-An Angular app runs in a zone where it can respond to asynchronous events by checking for data changes and updating the information it displays by resolving [data bindings](#data-binding).
+區域用戶端可以在非同步操作完成之前與之後採取行動。
 
-A zone client can take action before and after an async operation completes.
-
-Learn more about zones in this
-[Brian Ford video](https://www.youtube.com/watch?v=3IqtmUscE_U).
+在這支 [Brian Ford 影片](https://www.youtube.com/watch?v=3IqtmUscE_U)中進一步了解區域。

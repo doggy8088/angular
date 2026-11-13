@@ -1,81 +1,81 @@
-# Updating to Angular version 10
+# 更新到 Angular 第 10 版
 
-This guide contains information related to updating to version 10 of Angular.
+本指南包含與更新到 Angular 第 10 版相關的資訊。
 
 <div class="alert is-helpful">
 
-For information on upgrading to Angular version 9, see [Updating to Angular version 9](https://v9.angular.io/guide/updating-to-version-9).
+如需升級到 Angular 第 9 版的資訊，請參閱[更新到 Angular 第 9 版](https://v9.angular.tw/guide/updating-to-version-9)。
 
 </div>
 
-## Updating CLI Apps
+## 更新 CLI 應用程式
 
-For step-by-step instructions on how to update to the latest Angular release (and leverage our automated migration tools to do so), use the interactive update guide at [update.angular.io](https://update.angular.io).
+如需了解如何更新至最新 Angular 版本、並運用我們的自動化遷移工具來做到這一點的逐步說明，請使用 [update.angular.io](https://update.angular.io) 上的互動式更新指南。
 
-If you're curious about the specific migrations being run by the CLI, see the [automated migrations section](#migrations) for details on what code is changing and why.
+如果你好奇 CLI 執行了哪些具體的遷移，請參閱[自動遷移一節](#migrations)，了解哪些程式碼正在變更以及原因。
 
-## Changes and Deprecations in Version 10
+## 第 10 版的變更與棄用
 
 <div class="alert is-helpful">
 
-   For information about Angular's deprecation and removal practices, see [Angular Release Practices](guide/releases#deprecation-practices "Angular Release Practices: Deprecation practices").
+   如需了解 Angular 的棄用與移除實務，請參閱 [Angular 發佈實務](guide/releases#deprecation-practices "Angular Release Practices: Deprecation practices")。
 
 </div>
 
 {@a breaking-changes}
-### New Breaking Changes
+### 新的破壞性變更
 
-* Typescript 3.6, 3.7, and 3.8 are no longer supported. Please update to Typescript 3.9.
-* Input fields of type `number` fire the `valueChanges` event only once per value change (as opposed to twice in some cases). See [PR 36087](https://github.com/angular/angular/pull/36087).
-* The `minLength` and `maxLength` validators only validate values that have a numeric `length` property. See [PR 36157](https://github.com/angular/angular/pull/36157).
-* Templates with unknown property bindings or unknown element names now log errors instead of warnings. See [PR 36399](https://github.com/angular/angular/pull/36399).
-* `UrlMatcher` can now return `null` values. See [PR 36402](https://github.com/angular/angular/pull/36402).
-* Transplanted views now refresh at insertion point only. See [PR 35968](https://github.com/angular/angular/pull/35968).
-* Formatting times with the `b` or `B` format codes now supports time periods that cross midnight. See [PR 36611](https://github.com/angular/angular/pull/36611).
-* Navigation is canceled for routes with at least one empty resolver. See [PR 24621](https://github.com/angular/angular/pull/24621).
+* 不再支援 TypeScript 3.6、3.7 與 3.8。請更新至 TypeScript 3.9。
+* 型別為 `number` 的輸入欄位，每次值變更時只會觸發一次 `valueChanges` 事件（不像某些情況下會觸發兩次）。請參閱 [PR 36087](https://github.com/angular/angular/pull/36087)。
+* `minLength` 與 `maxLength` 驗證器只驗證具有數值型 `length` 屬性的值。請參閱 [PR 36157](https://github.com/angular/angular/pull/36157)。
+* 帶有未知屬性繫結或未知元素名稱的範本，現在會記錄錯誤而非警告。請參閱 [PR 36399](https://github.com/angular/angular/pull/36399)。
+* `UrlMatcher` 現在可以傳回 `null` 值。請參閱 [PR 36402](https://github.com/angular/angular/pull/36402)。
+* 移植的檢視現在只在插入點重新整理。請參閱 [PR 35968](https://github.com/angular/angular/pull/35968)。
+* 使用 `b` 或 `B` 格式代碼格式化時間，現在支援跨越午夜的時段。請參閱 [PR 36611](https://github.com/angular/angular/pull/36611)。
+* 對於至少有一個空解析器的路由，導覽會被取消。請參閱 [PR 24621](https://github.com/angular/angular/pull/24621)。
 
 {@a deprecations}
-### New Deprecations
+### 新增的棄用
 
-| Area                          | API or Feature                                                                 | May be removed in |
+| 區域                          | API 或功能                                                                 | 可能移除的版本 |
 | ----------------------------- | ---------------------------------------------------------------------------    | ----------------- |
 | `@angular/core`               | [`WrappedValue`](guide/deprecations#wrapped-value)                                     | <!--v10--> v12 |
-| browser support               | [`IE 9, 10, and IE Mobile`](guide/deprecations#ie-9-10-and-ie-mobile-support) | <!--v10--> v11 |
+| 瀏覽器支援               | [`IE 9, 10, and IE Mobile`](guide/deprecations#ie-910-與-ie-mobile-支援) | <!--v10--> v11 |
 
 
 {@a removals}
-### New Removals of Deprecated APIs
+### 新移除的已棄用 API
 
-The following APIs have been removed starting with version 10.0.0*:
+下列 API 已自 10.0.0 版起移除*：
 
-| Package          | API            | Replacement | Notes |
+| 套件          | API            | 替代方案 | 備註 |
 | ---------------- | -------------- | ----------- | ----- |
-| `@angular/core`  | Undecorated base classes that use Angular features | Add Angular decorator | See [migration guide](guide/migration-undecorated-classes) for more info |
-| `@angular/core`  | `ModuleWithProviders` without a generic             | `ModuleWithProviders` with a generic | See [migration guide](guide/migration-module-with-providers) for more info |
-| `@angular/core`  | Style Sanitization | no action needed | See [style sanitization API removal](/guide/deprecations#style-sanitization) for more info
-| `@angular/bazel` | [`Bazel builder and schematics`](guide/deprecations#bazelbuilder) | `bazelbuild/rules_nodejs` | [More info](https://github.com/angular/angular/tree/10.0.x/packages/bazel/src/schematics) |
+| `@angular/core`  | 使用 Angular 功能的未加裝飾器基礎類別 | 加入 Angular 裝飾器 | 詳情請參閱[遷移指南](guide/migration-undecorated-classes) |
+| `@angular/core`  | 不帶泛型的 `ModuleWithProviders`             | 帶泛型的 `ModuleWithProviders` | 詳情請參閱[遷移指南](guide/migration-module-with-providers) |
+| `@angular/core`  | 樣式清理 | 無需任何動作 | 詳情請參閱[樣式清理 API 移除](/guide/deprecations#style-sanitization)
+| `@angular/bazel` | [`Bazel builder and schematics`](guide/deprecations#bazelbuilder) | `bazelbuild/rules_nodejs` | [更多資訊](https://github.com/angular/angular/tree/10.0.x/packages/bazel/src/schematics) |
 
 
-*To see APIs removed in version 9, check out this guide on the [version 9 docs site](https://v9.angular.io/guide/deprecations#removed).
+*若要查看第 9 版移除的 API，請參閱[第 9 版文件網站](https://v9.angular.tw/guide/deprecations#removed)上的本指南。
 
 {@a ivy}
 
-## Ivy features and compatibility
+## Ivy 功能與相容性
 
-Since version 9, Angular Ivy is the default rendering engine. If you haven't heard of Ivy, you can read more about it in the [Angular Ivy guide](guide/ivy).
+自第 9 版起，Angular Ivy 是預設的渲染引擎。如果你還沒聽過 Ivy，可以在 [Angular Ivy 指南](guide/ivy) 中了解更多。
 
-* Among other features, Ivy introduces more comprehensive type-checking within templates. For details, see [Template Type-checking](guide/template-typecheck).
+* Ivy 的功能之一，是在範本中引入更完整的型別檢查。詳情請參閱 [範本型別檢查](guide/template-typecheck)。
 
-* For general guidance on debugging and a list of minor changes associated with Ivy, see the [Ivy compatibility guide](guide/ivy-compatibility).
+* 如需除錯的一般指引，以及與 Ivy 相關的小幅變更清單，請參閱 [Ivy 相容性指南](guide/ivy-compatibility)。
 
-* For help with opting out of Ivy, see the instructions [here](guide/ivy#opting-out-of-angular-ivy).
+* 如需退出 Ivy 的說明，請參閱[這裡](guide/ivy#opting-out-of-angular-ivy) 的指示。
 
 {@a migrations}
-## Automated Migrations for Version 10
+## 第 10 版的自動遷移
 
-Read about the migrations the CLI handles for you automatically:
+了解 CLI 為你自動處理的遷移：
 
-* [Migrating missing `@Directive()`/`@Component()` decorators](guide/migration-undecorated-classes)
-* [Migrating `ModuleWithProviders`](guide/migration-module-with-providers)
-* [`tslib` direct dependency migration](guide/migration-update-libraries-tslib)
-* [Update `module` and `target` compiler options migration](guide/migration-update-module-and-target-compiler-options)
+* [遷移缺失的 `@Directive()`/`@Component()` 裝飾器](guide/migration-undecorated-classes)
+* [遷移 `ModuleWithProviders`](guide/migration-module-with-providers)
+* [`tslib` 直接相依性遷移](guide/migration-update-libraries-tslib)
+* [更新 `module` 與 `target` 編譯器選項遷移](guide/migration-update-module-and-target-compiler-options)

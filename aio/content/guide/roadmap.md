@@ -1,93 +1,93 @@
-# Angular Roadmap
+# Angular 路線圖
 
-Angular receives a large number of feature requests, both from inside Google and from the broader open-source community. At the same time, our list of projects contains plenty of maintenance tasks, code refactorings, potential performance improvements, and so on. We bring together representatives from developer relations, product management, and engineering to prioritize this list. As new projects come into the queue, we regularly position them based on relative priority to other projects. As work gets done, projects will move up in the queue.
+Angular 收到大量的功能請求，來自 Google 內部，也來自更廣大的開源社群。同時，我們的專案清單中也有許多維護工作、程式碼重構、潛在的效能改進等事項。我們召集開發者關係、產品管理與工程團隊的代表，一起為這份清單排定優先順序。當新專案進入佇列時，我們會定期依據它們與其他專案的相對優先級來安排位置。隨著工作完成，專案會在佇列中往前移動。
 
-The projects below are not associated with a particular Angular version. We'll release them on completion, and they will be part of a specific version based on our release schedule, following semantic versioning. For example, features are released in the next minor after they are complete, or the next major if they include breaking changes.
+下列專案不與特定的 Angular 版本綁定。我們會在它們完成時發布，並依據我們的發布時程、遵循語意化版本，納入特定的版本中。例如，功能會在完成後隨下一個次版本發布；若包含破壞性變更，則隨下一個主版本發布。
 
-## In Progress
+## 進行中
 
-### Operation Bye Bye Backlog (aka Operation Byelog)
+### Operation Bye Bye Backlog（又稱 Operation Byelog）
 
-We are actively investing up to 50% of our engineering capacity on triaging issues and PRs until we have a clear understanding of broader community needs. After that, we'll commit up to 20% of our engineering capacity to keep up with new submissions promptly.
+我們正積極投入高達 50% 的工程人力，來分類處理 issue 與 PR，直到我們清楚了解更廣大社群的需求。在那之後，我們會承諾投入高達 20% 的工程人力，以即時跟上新的提交。
 
-### Support TypeScript 4.0
+### 支援 TypeScript 4.0
 
-We're working on adding support for TypeScript 4.0 ahead of its stable release. We always want Angular to stay up-to-date with the latest version of TypeScript so that developers get the best the language has to offer.
+我們正在努力，在 TypeScript 4.0 穩定版發布之前就加入對它的支援。我們一直希望 Angular 能跟上 TypeScript 的最新版本，讓開發者能享受到這個語言所提供的最佳功能。
 
-### Update our e2e testing strategy
+### 更新我們的 e2e 測試策略
 
-To ensure we provide a future-proof e2e testing strategy, we want to evaluate the state of Protractor, community innovations, e2e best practices, and explore novel opportunities.
+為了確保我們提供的端對端測試策略能因應未來，我們想要評估 Protractor 的現況、社群的創新、端對端最佳實務，並探索新的機會。
 
-### Angular libraries use Ivy
+### Angular 函式庫使用 Ivy
 
-We are investing in the design and development of Ivy library distribution plan, which will include an update of the library package format to use Ivy compilation, unblock the deprecation of the View Engine library format, and [ngcc](guide/glossary#ngcc).
+我們正投入 Ivy 程式庫發布計畫的設計與開發，其中包括更新程式庫套件格式以使用 Ivy 編譯、解除 View Engine 程式庫格式淘汰的阻礙，以及 [ngcc](guide/glossary#ngcc)。
 
-### Evaluate future RxJS changes (v7 and beyond)
+### 評估未來的 RxJS 變更（v7 及以後）
 
-We want to ensure Angular developers are taking advantage of the latest capabilities of RxJS and have a smooth transition to the next major releases of the framework. For this purpose, we will explore and document the scope of the changes in v7 and beyond of RxJS and plan an update strategy.
+我們希望確保 Angular 開發者能充分運用 RxJS 的最新能力，並順利過渡到框架接下來的主版本。為此，我們將探索並記錄 RxJS v7 及之後版本的變更範圍，並規劃更新策略。
 
-### Angular language service uses Ivy
+### Angular 語言服務使用 Ivy
 
-Today the language service still uses the View Engine compiler and type checking, even for Ivy applications. We want to use the Ivy template parser and improved type checking for the Angular Language service to match application behavior. This migration will also be a step towards unblocking the removal of View Engine, which will simplify Angular, reduce the npm package size, and improve the framework's maintainability.
+目前語言服務即使對 Ivy 應用程式，仍使用 View Engine 編譯器與型別檢查。我們希望為 Angular 語言服務使用 Ivy 範本剖析器與改進的型別檢查，以符合應用程式的行為。這次遷移也將是解除移除 View Engine 阻礙的一步，進而簡化 Angular、減少 npm 套件大小，並改善框架的可維護性。
 
-### Expand component harnesses best practices
+### 擴展元件測試工具的最佳實務
 
-Angular CDK introduced the concept of [component test harnesses](https://material.angular.io/cdk/test-harnesses) to Angular in version 9. Test harnesses allow component authors to create supported APIs for testing component interactions. We're continuing to improve this harness infrastructure and clarifying the best practices around using harnesses. We're also working to drive more harness adoption inside of Google.
+Angular CDK 在第 9 版中，將[元件測試工具](https://material.angular.io/cdk/test-harnesses)的概念引入 Angular。測試工具讓元件作者能建立受支援的 API，來測試元件互動。我們會持續改善這個測試工具基礎設施，並釐清使用測試工具的最佳實務。我們也致力於在 Google 內部推動更多測試工具的採用。
 
-### Support native [Trusted Types](https://web.dev/trusted-types/) in Angular
+### 在 Angular 中支援原生 [Trusted Types](https://web.dev/trusted-types/)
 
-In collaboration with Google's security team, we're adding support for the new Trusted Types API. This web platform API will help developers build more secure web applications.
+我們正與 Google 的安全團隊合作，加入對新的 Trusted Types API 的支援。這個 Web 平台 API 將協助開發者建構更安全的 Web 應用程式。
 
-### Integrate [MDC Web](https://material.io/develop/web/) into Angular Material
+### 將 [MDC Web](https://material.io/develop/web/) 整合進 Angular Material
 
-MDC Web is a library created by Google's Material Design team that provides reusable primitives for building Material Design components. The Angular team is incorporating these primitives into Angular Material. Using MDC Web will align Angular Material more closely with the Material Design specification, expand accessibility, overall improve component quality, and improve our team's velocity.
+MDC Web 是由 Google 的 Material Design 團隊建立的程式庫，提供可重複使用的基本元件，用於建構 Material Design 元件。Angular 團隊正將這些基本元件整合進 Angular Material。使用 MDC Web 將讓 Angular Material 更貼近 Material Design 規範、擴大無障礙支援、整體提升元件品質，並提高我們團隊的開發速度。
 
-### Offer Google engineers better integration with Angular and Google's internal server stack
+### 為 Google 工程師提供 Angular 與 Google 內部伺服器堆疊的更好整合
 
-This is an internal project to add support for Angular front-ends to Google's internal integrated server stack.
+這是一個內部專案，為 Google 內部整合伺服器堆疊加入對 Angular 前端的支援。
 
-### Angular versioning & branching
+### Angular 版本管理與分支
 
-We want to consolidate release management tooling between Angular's multiple GitHub repositories ([angular/angular](https://github.com/angular/angular), [angular/angular-cli](https://github.com/angular/angular-cli), and [angular/components](https://github.com/angular/components)). This effort will allow us to reuse infrastructure, unify and simplify processes, and improve our release process's reliability.
+我們希望統一 Angular 多個 GitHub 儲存庫（[angular/angular](https://github.com/angular/angular)、[angular/angular-cli](https://github.com/angular/angular-cli) 與 [angular/components](https://github.com/angular/components)）之間的版本發布管理工具。這項工作將讓我們重複使用基礎設施、統一並簡化流程，並提升版本發布流程的可靠性。
 
-## Future
+## 未來
 
-### Refresh introductory documentation
+### 翻新入門文件
 
-We will redefine the user learning journeys and refresh the introductory documentation. We will clearly state the benefits of Angular, how to explore its capabilities, and provide guidance so developers can become proficient with the framework in as little time as possible.
+我們將重新定義使用者的學習歷程，並翻新入門文件。我們會清楚說明 Angular 的優勢、如何探索它的能力，並提供指引，讓開發者能在最短的時間內熟練使用這個框架。
 
-### Strict typing for `@angular/forms`
+### `@angular/forms` 的嚴格型別
 
-We will work on implementing stricter type checking for reactive forms. This way, we will allow developers to catch more issues during development time, enable better text editor and IDE support, and improve the type checking for reactive forms.
+我們將致力於為反應式表單實作更嚴格的型別檢查。如此一來，開發者能在開發階段發現更多問題、獲得更好的文字編輯器與 IDE 支援，並改善反應式表單的型別檢查。
 
-### webpack 5 in the Angular CLI
+### Angular CLI 中的 webpack 5
 
-Webpack 5 brings a lot of build speed and bundle size improvements. To make them available for Angular developers, we will invest in migrating Angular CLI from using deprecated and removed webpack APIs.
+webpack 5 帶來了許多建置速度與套件大小方面的改進。為了讓 Angular 開發者能享用這些改進，我們將投入心力，將 Angular CLI 從已淘汰與已移除的 webpack API 中遷移出來。
 
-### Commit message standardization
+### 提交訊息標準化
 
-We want to unify commit message requirements and conformance across Angular repositories ([angular/angular](https://github.com/angular/angular), [angular/components](https://github.com/angular/components), [angular/angular-cli](https://github.com/angular/angular-cli)) to bring consistency to our development process and reuse infrastructure tooling.
+我們希望統一各 Angular 儲存庫（[angular/angular](https://github.com/angular/angular)、[angular/components](https://github.com/angular/components)、[angular/angular-cli](https://github.com/angular/angular-cli)）的提交訊息要求與遵循規範，為我們的開發流程帶來一致性，並重複使用基礎設施工具。
 
-### Optional Zone.js
+### 可選的 Zone.js
 
-We are going to design and implement a plan to make Zone.js optional from Angular applications. This way, we will simplify the framework, improve debugging, and reduce application bundle size. Additionally, this will allow us to take advantage of native async/await syntax, which currently Zone.js does not support.
+我們將設計並實施一個計畫，讓 Angular 應用程式可以選擇不使用 Zone.js。如此一來，我們能簡化框架、改善除錯，並減少應用程式套件大小。此外，這將讓我們能運用原生的 async/await 語法，而這正是目前 Zone.js 不支援的。
 
-### Remove legacy [View Engine](guide/ivy)
+### 移除舊有的 [View Engine](guide/ivy)
 
-After the transition of all our internal tooling to Ivy has completed, we want to remove the legacy View Engine for smaller Angular conceptual overhead, smaller package size, lower maintenance cost, and lower complexity of the codebase.
+在我們所有內部工具都轉移到 Ivy 之後，我們希望移除舊有的 View Engine，讓 Angular 的概念負擔更小、套件更小、維護成本更低，程式碼庫的複雜度也更低。
 
 ### Angular DevTools
 
-We’ll be working on development tooling for Angular that will provide utilities for debugging and performance profiling. This project aims to help developers understand the component structure and the change detection in an Angular application.
+我們正在開發 Angular 的開發工具，將提供除錯與效能分析的公用程式。這個專案旨在協助開發者理解 Angular 應用程式中的元件結構與變更偵測。
 
-### Optional NgModules
+### 可選的 NgModules
 
-To simplify the Angular mental model and learning journey, we’ll be working on making NgModules optional. This work will allow developers to develop standalone components and implement an alternative API for declaring the component’s compilation scope.
+為了簡化 Angular 的心智模型與學習歷程，我們將致力於讓 NgModule 變成可選的。這項工作將讓開發者能開發獨立元件，並實作另一套用於宣告元件編譯範圍的 API。
 
-### Ergonomic component level code-splitting APIs
+### 符合人體工學的元件層級程式碼拆分 API
 
-A common problem of web applications is their slow initial load time. A way to improve it is to apply more granular code-splitting on a component level. To encourage this practice, we’ll be working on more ergonomic code-splitting APIs.
+Web 應用程式的一個常見問題是初始載入時間緩慢。改善的方法之一，是在元件層級套用更細粒度的程式碼分割。為了鼓勵這種做法，我們將致力於開發更符合人體工學的程式碼分割 API。
 
-### Migration to ESLint
+### 遷移至 ESLint
 
-With the deprecation of TSLint we will be moving to ESLint. As part of the process, we will work on ensuring backward compatibility with our current recommended TSLint configuration, implement a migration strategy for existing Angular applications and introduce new tooling to the Angular CLI toolchain.
+隨著 TSLint 被淘汰，我們將轉移到 ESLint。在這個過程中，我們將致力於確保與目前建議的 TSLint 設定向後相容、為現有的 Angular 應用程式實作遷移策略，並在 Angular CLI 工具鏈中引入新的工具。

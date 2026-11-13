@@ -1,161 +1,149 @@
-# Schematics for libraries
+# 程式庫的原理圖
 
-When you create an Angular library, you can provide and package it with schematics that integrate it with the Angular CLI.
-With your schematics, your users can use `ng add` to install an initial version of your library,
-`ng generate` to create artifacts defined in your library, and `ng update` to adjust their project for a new version of your library that introduces breaking changes.
+建立 Angular 程式庫時，你可以為它提供並打包原理圖，讓它與 Angular CLI 整合。有了你的原理圖，使用者可以使用 `ng add` 安裝程式庫的初始版本，使用 `ng generate` 建立程式庫中定義的成品，並使用 `ng update` 調整其專案，以配合引入重大變更的程式庫新版本。
 
-All three types of schematics can be part of a collection that you package with your library.
+這三種類型的原理圖都可以成為你與程式庫一起打包的集合的一部分。
 
-Download the <live-example downloadOnly>library schematics project</live-example> for a completed example of the steps below.
+下載 <live-example downloadOnly>程式庫原理圖專案</live-example>，查看下列步驟的完整範例。
 
-## Creating a schematics collection
+## 建立原理圖集合
 
-To start a collection, you need to create the schematic files.
-The following steps show you how to add initial support without modifying any project files.
+要開始建立集合，你需要先建立原理圖檔案。下列步驟示範如何在不修改任何專案檔案的情況下，加入初始支援。
 
-1. In your library's root folder, create a `schematics/`  folder.
+1. 在程式庫的根資料夾中，建立一個 `schematics/` 資料夾。
 
-1. In the `schematics/` folder, create an `ng-add/` folder for your first schematic.
+1. 在 `schematics/` 資料夾中，為你的第一個原理圖建立一個 `ng-add/` 資料夾。
 
-1. At the root level of the `schematics/` folder, create a `collection.json` file.
+1. 在 `schematics/` 資料夾的根層級，建立一個 `collection.json` 檔案。
 
-1. Edit the `collection.json` file to define the initial schema for your collection.
+1. 編輯 `collection.json` 檔案，為你的集合定義初始結構定義。
 
 <code-example header="projects/my-lib/schematics/collection.json (Schematics Collection)" path="schematics-for-libraries/projects/my-lib/schematics/collection.1.json">
 </code-example>
 
-  * The `$schema` path is relative to the Angular Devkit collection schema.
-  * The `schematics` object describes the named schematics that are part of this collection.
-  * The first entry is for a schematic named `ng-add`. It contains the description, and points to the factory function that is called when your schematic is executed.
+  * `$schema` 路徑是相對於 Angular Devkit 集合結構定義的。
+  * `schematics` 物件描述屬於此集合的具名原理圖。
+  * 第一個項目是名為 `ng-add` 的原理圖。它包含描述，並指向在執行原理圖時呼叫的工廠函式。
 
-1. In your library project's `package.json` file, add a "schematics" entry with the path to your schema file.
-   The Angular CLI uses this entry to find named schematics in your collection when it runs commands.
+1. 在程式庫專案的 `package.json` 檔案中，加入一個 "schematics" 項目，並附上你的結構定義檔案路徑。Angular CLI 在執行指令時，會使用此項目在你的集合中尋找具名原理圖。
 
 <code-example header="projects/my-lib/package.json (Schematics Collection Reference)" path="schematics-for-libraries/projects/my-lib/package.json" region="collection">
 </code-example>
 
-The initial schema that you have created tells the CLI where to find the schematic that supports the `ng add` command.
-Now you are ready to create that schematic.
+你建立的初始結構定義會告訴 CLI 在哪裡找到支援 `ng add` 指令的原理圖。現在，你可以開始建立該原理圖了。
 
-## Providing installation support
+## 提供安裝支援
 
-A schematic for the `ng add` command can enhance the initial installation process for your users.
-The following steps will define this type of schematic.
+給 `ng add` 指令用的原理圖，可以強化使用者的初始安裝流程。下列步驟定義這種類型的原理圖。
 
-1. Go to the <lib-root>/schematics/ng-add/ folder.
+1. 前往 <lib-root>/schematics/ng-add/ 資料夾。
 
-1. Create the main file, `index.ts`.
+1. 建立主要檔案 `index.ts`。
 
-1. Open `index.ts` and add the source code for your schematic factory function.
+1. 開啟 `index.ts`，並加入你的原理圖工廠函式的原始碼。
 
 <code-example header="projects/my-lib/schematics/ng-add/index.ts (ng-add Rule Factory)" path="schematics-for-libraries/projects/my-lib/schematics/ng-add/index.ts">
 </code-example>
 
-The only step needed to provide initial `ng add` support is to trigger an installation task using the `SchematicContext`.
-The task uses the user's preferred package manager to add the library to the project's `package.json` configuration file, and install it in the project’s `node_modules` directory.
+提供初步的 `ng add` 支援所需的唯一步驟，是使用 `SchematicContext` 觸發安裝任務。該任務會使用使用者偏好的套件管理器，將程式庫加入專案的 `package.json` 設定檔，並安裝到專案的 `node_modules` 目錄。
 
-In this example, the function receives the current `Tree` and returns it without any modifications.
-If you need to, you can do additional setup when your package is installed, such as generating files, updating configuration, or any other initial setup your library requires.
+在這個範例中，函式會接收目前的 `Tree`，並在不做任何修改的情況下將其傳回。如有需要，你可以在套件安裝時進行額外設定，例如產生檔案、更新設定，或是你的程式庫所需的任何其他初步設定。
 
-### Define dependency type
+### 定義相依套件的歸屬
 
-Use the `save` option of `ng-add` to configure if the library should be added to the `dependencies`, the `devDepedencies`, or not saved at all in the project's `package.json` configuration file.
+使用 `ng-add` 的 `save` 選項，設定程式庫應該加入專案 `package.json` 設定檔的 `dependencies`、`devDepedencies`，還是不儲存。
 
 <code-example header="projects/my-lib/package.json (ng-add Reference)" path="schematics-for-libraries/projects/my-lib/package.json" region="ng-add">
 </code-example>
 
-Possible values are:
+可能的值有：
 
-  * `false` - Don't add the package to package.json
-  * `true` - Add the package to the dependencies
-  * `"dependencies"` - Add the package to the dependencies
-  * `"devDependencies"` - Add the package to the devDependencies
+  * `false` - 不要將套件加入 package.json
+  * `true` - 將套件加入相依性
+  * `"dependencies"` - 將套件加入相依性
+  * `"devDependencies"` - 將套件加入 devDependencies
 
-## Building your schematics
+## 建置你的原理圖
 
-To bundle your schematics together with your library, you must configure the library to build the schematics separately, then add them to the bundle.
-You must build your schematics *after* you build your library, so they are placed in the correct directory.
+若要把原理圖與程式庫一起打包，你必須設定程式庫將原理圖分開建置，然後把它們加入 bundle 中。你必須在建置程式庫 *之後* 才建置原理圖，這樣它們才會放在正確的目錄中。
 
-* Your library needs a custom Typescript configuration file with instructions on how to compile your schematics into your distributed library.
+* 你的程式庫需要一個自訂 Typescript 設定檔，其中包含如何將原理圖編譯到你發佈的程式庫中的指示。
 
-* To add the schematics to the library bundle, add scripts to the library's `package.json` file.
+* 若要將原理圖加入程式庫套件，請在程式庫的 `package.json` 檔案中加入指令碼。
 
-Assume you have a library project `my-lib` in your Angular workspace.
-To tell the library how to build the schematics, add a `tsconfig.schematics.json` file next to the generated `tsconfig.lib.json` file that configures the library build.
+假設你的 Angular 工作區中有一個程式庫專案 `my-lib`。若要告訴程式庫如何建置原理圖，請在產生的 `tsconfig.lib.json` 檔案旁邊加入一個 `tsconfig.schematics.json` 檔案，該檔案用於設定程式庫建置。
 
-1. Edit the `tsconfig.schematics.json` file to add the following content.
+1. 編輯 `tsconfig.schematics.json` 檔案，加入下列內容。
 
 <code-example header="projects/my-lib/tsconfig.schematics.json (TypeScript Config)" path="schematics-for-libraries/projects/my-lib/tsconfig.schematics.json">
 </code-example>
 
-  * The `rootDir` specifies that your `schematics/` folder contains the input files to be compiled.
+  * `rootDir` 指定你的 `schematics/` 資料夾包含要編譯的輸入檔案。
 
-  * The `outDir` maps to the library's output folder. By default, this is the `dist/my-lib` folder at the root of your workspace.
+  * `outDir` 對應到程式庫的輸出資料夾。預設情況下，這是工作區根目錄下的 `dist/my-lib` 資料夾。
 
-1. To make sure your schematics source files get compiled into the library bundle, add the following scripts to the `package.json` file in your library project's root folder (`projects/my-lib`).
+1. 為了確保你的原理圖原始碼檔案會編譯到程式庫套件中，請在程式庫專案根資料夾（`projects/my-lib`）的 `package.json` 檔案中加入下列指令碼。
 
 <code-example header="projects/my-lib/package.json (Build Scripts)" path="schematics-for-libraries/projects/my-lib/package.json">
 </code-example>
 
-  * The `build` script compiles your schematic using the custom `tsconfig.schematics.json` file.
-  * The `copy:*` statements copy compiled schematic files into the proper locations in the library output folder in order to preserve the file structure.
-  * The `postbuild` script copies the schematic files after the `build` script completes.
+  * `build` 指令碼會使用自訂 `tsconfig.schematics.json` 檔案編譯你的原理圖。
+  * `copy:*` 陳述式會把編譯後的原理圖檔案複製到程式庫輸出資料夾中的適當位置，以保留檔案結構。
+  * `postbuild` 指令碼會在 `build` 指令碼完成後複製原理圖檔案。
 
-## Providing generation support
+## 提供產生支援
 
-You can add a named schematic to your collection that lets your users use the `ng generate` command to create an artifact that is defined in your library.
+你可以把具名原理圖加入你的集合，讓使用者能用 `ng generate` 指令建立你程式庫中定義的產物。
 
-We'll assume that your library defines a service, `my-service`, that requires some setup. You want your users to be able to generate it using the following CLI command.
+我們先假設你的程式庫定義了一個需要一些設定的服務 `my-service`。你希望使用者能用下列 CLI 指令來產生它。
 
 <code-example language="bash">
 ng generate my-lib:my-service
 </code-example>
 
-To begin, create a new subfolder, `my-service`, in the `schematics` folder.
+首先，在 `schematics` 資料夾中建立一個新的子資料夾 `my-service`。
 
-### Configure the new schematic
+### 設定新的原理圖
 
-When you add a schematic to the collection, you have to point to it in the collection's schema, and provide configuration files to define options that a user can pass to the command.
+當你把原理圖加入集合時，你必須在集合的 schema 中指向它，並提供設定檔來定義使用者可以傳給指令的選項。
 
-1. Edit the `schematics/collection.json` file to point to the new schematic subfolder, and include a pointer to a schema file that will specify inputs for the new schematic.
+1. 編輯 `schematics/collection.json` 檔案，指向新的原理圖子資料夾，並加入一個指向 schema 檔案的指標，該檔案指定新原理圖的輸入。
 
 <code-example header="projects/my-lib/schematics/collection.json (Schematics Collection)" path="schematics-for-libraries/projects/my-lib/schematics/collection.json">
 </code-example>
 
-1. Go to the `<lib-root>/schematics/my-service/` folder.
+1. 前往 `<lib-root>/schematics/my-service/` 資料夾。
 
-1. Create a `schema.json` file and define the available options for the schematic.
+1. 建立一個 `schema.json` 檔案，定義原理圖可用的選項。
 
 <code-example header="projects/my-lib/schematics/my-service/schema.json (Schematic JSON Schema)" path="schematics-for-libraries/projects/my-lib/schematics/my-service/schema.json">
 </code-example>
 
-  * *id*: A unique id for the schema in the collection.
-  * *title*: A human-readable description of the schema.
-  * *type*: A descriptor for the type provided by the properties.
-  * *properties*: An object that defines the available options for the schematic.
+  * *id*：集合中結構定義的唯一 ID。
+  * *title*：結構定義的人類可讀描述。
+  * *type*：由屬性提供的類型的描述。
+  * *properties*：定義原理圖可用選項的物件。
 
-  Each option associates key with a type, description, and optional alias.
-  The type defines the shape of the value you expect, and the description is displayed when the user requests usage help for your schematic.
+  每個選項都把鍵與型別、描述及選擇性的別名關聯起來。型別定義你預期值的形狀，而描述會在使用者要求你的原理圖的使用說明時顯示。
 
-  See the workspace schema for additional customizations for schematic options.
+  原理圖選項的其他自訂方式，請參閱工作區 schema。
 
-1. Create a `schema.ts` file and define an interface that stores the values of the options defined in the `schema.json` file.
+1. 建立一個 `schema.ts` 檔案，並定義一個介面來儲存 `schema.json` 檔案中定義的選項值。
 
 <code-example header="projects/my-lib/schematics/my-service/schema.ts (Schematic Interface)" path="schematics-for-libraries/projects/my-lib/schematics/my-service/schema.ts">
 </code-example>
 
-  * *name*: The name you want to provide for the created service.
-  * *path*: Overrides the path provided to the schematic. The default path value is based on the current working directory.
-  * *project*: Provides a specific project to run the schematic on. In the schematic, you can provide a default if the option is not provided by the user.
+  * *name*：你想為建立的服務提供的名稱。
+  * *path*：覆寫提供給原理圖的路徑。預設路徑值以目前的工作目錄為準。
+  * *project*：提供要執行原理圖的特定專案。在原理圖中，如果使用者未提供選項，你可以提供預設值。
 
-### Add template files
+### 加入範本檔案
 
-To add artifacts to a project, your schematic needs its own template files.
-Schematic templates support special syntax to execute code and variable substitution.
+若要將成品加入專案，你的原理圖需要自己的範本檔案。原理圖範本支援執行程式碼與變數替換的特殊語法。
 
-1. Create a `files/` folder inside the `schematics/my-service/` folder.
+1. 在 `schematics/my-service/` 資料夾內建立一個 `files/` 資料夾。
 
-1. Create a file named `__name@dasherize__.service.ts.template` that defines a template you can use for generating files. This template will generate a service that already has Angular's `HttpClient` injected into its constructor.
+1. 建立一個名為 `__name@dasherize__.service.ts.template` 的檔案，該檔案定義用於產生檔案的範本。此範本將產生一個服務，其建構子中已注入 Angular 的 `HttpClient`。
 
 <code-example lang="ts" header="projects/my-lib/schematics/my-service/files/__name@dasherize__.service.ts.template (Schematic Template)">
 
@@ -171,122 +159,112 @@ export class <%= classify(name) %>Service {
 
 </code-example>
 
-* The `classify` and `dasherize` methods are utility functions that your schematic will use to transform your source template and filename.
+* `classify` 與 `dasherize` 方法是你的原理圖用來轉換來源範本與檔案名稱的工具函式。
 
-* The `name` is provided as a property from your factory function. It is the same `name` you defined in the schema.
+* `name` 是由你的工廠函式提供的屬性。它與你在結構定義中定義的 `name` 相同。
 
-### Add the factory function
+### 加入工廠函式
 
-Now that you have the infrastructure in place, you can define the main function that performs the modifications you need in the user's project.
+基礎建設就緒之後，你就可以定義主要函式，在使用者的專案中執行你需要的修改。
 
-The Schematics framework provides a file templating system, which supports both path and content templates.
-The system operates on placeholders defined inside files or paths that loaded in the input `Tree`.
-It fills these in using values passed into the `Rule`.
+Schematics 框架提供了一套檔案範本系統，同時支援路徑範本與內容範本。這個系統處理定義在檔案或路徑中的預留位置，這些檔案與路徑載入於輸入的 `Tree` 中。它使用傳入 `Rule` 的值來填入這些預留位置。
 
-For details of these data structures and syntax, see the [Schematics README](https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/schematics/README.md).
+這些資料結構與語法的詳情，請參閱 [Schematics README](https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/schematics/README.md)。
 
-1. Create the main file `index.ts` and add the source code for your schematic factory function.
+1. 建立主要檔案 `index.ts`，並加入你的原理圖工廠函式的原始碼。
 
-1. First, import the schematics definitions you will need. The Schematics framework offers many utility functions to create and use rules when running a schematic.
+1. 首先，匯入你需要的 schematics 定義。Schematics 框架提供許多工具函式，讓你在執行原理圖時建立與使用規則。
 
 <code-example header="projects/my-lib/schematics/my-service/index.ts (Imports)" path="schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" region="schematics-imports">
 </code-example>
 
-1. Import the defined schema interface that provides the type information for your schematic's options.
+1. 匯入已定義的 schema 介面，它提供你的原理圖選項的型別資訊。
 
 <code-example header="projects/my-lib/schematics/my-service/index.ts (Schema Import)" path="schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" region="schema-imports">
 </code-example>
 
-1. To build up the generation schematic, start with an empty rule factory.
+1. 若要建立產生原理圖，請從一個空的規則工廠開始。
 
 <code-example header="projects/my-lib/schematics/my-service/index.ts (Initial Rule)" path="schematics-for-libraries/projects/my-lib/schematics/my-service/index.1.ts" region="factory">
 </code-example>
 
-This simple rule factory returns the tree without modification.
-The options are the option values passed through from the `ng generate` command.
+這個簡單的規則工廠傳回未經修改的樹。這些 options 是從 `ng generate` 指令傳入的選項值。
 
-## Define a generation rule
+## 定義產生規則
 
-We now have the framework in place for creating the code that actually modifies the user's application to set it up for the service defined in your library.
+現在框架已經就緒，你可以建立真正修改使用者應用程式的程式碼，把應用程式設定成使用你程式庫中定義的服務。
 
-The Angular workspace where the user has installed your library contains multiple projects (applications and libraries).
-The user can specify the project on the command line, or allow it to default.
-In either case, your code needs to identify the specific project to which this schematic is being applied, so that you can retrieve information from the project configuration.
+使用者安裝了你的程式庫的 Angular 工作區，包含多個專案（應用程式與程式庫）。使用者可以在指令列指定專案，或讓它使用預設值。無論哪種情況，你的程式碼都需要找出這個原理圖要套用的特定專案，這樣你才能從專案設定中取得資訊。
 
-You can do this using the `Tree` object that is passed in to the factory function.
-The `Tree` methods give you access to the complete file tree in your workspace, allowing you to read and write files during the execution of the schematic.
+使用傳入工廠函式的 `Tree` 物件來完成這件事。`Tree` 的方法讓你可以存取工作區中完整的檔案樹，在原理圖執行期間讀寫檔案。
 
-### Get the project configuration
+### 取得專案設定
 
-1. To determine the destination project, use the `Tree.read()` method to read the contents of the workspace configuration file, `angular.json`, at the root of the workspace.
-   Add the following code to your factory function.
+1. 若要判斷目標專案，請使用 `Tree.read()` 方法讀取位於工作區根目錄的工作區設定檔 `angular.json` 的內容。把下列程式碼加入你的工廠函式。
 
 <code-example header="projects/my-lib/schematics/my-service/index.ts (Schema Import)" path="schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" region="workspace">
 </code-example>
 
-  * Be sure to check that the context exists and throw the appropriate error.
+  * 務必檢查脈絡是否存在，並擲出適當的錯誤。
 
-  * After reading the contents into a string, parse the configuration into a JSON object, typed to the `WorkspaceSchema`.
+  * 將內容讀入字串後，把設定解析為 JSON 物件，並指定型別為 `WorkspaceSchema`。
 
-1. The `WorkspaceSchema` contains all the properties of the workspace configuration, including a `defaultProject` value for determining which project to use if not provided.
-   We will use that value as a fallback, if no project is explicitly specified in the `ng generate` command.
+1. `WorkspaceSchema` 包含工作區設定的所有屬性，包括一個 `defaultProject` 值，用來判斷未提供專案時要使用哪個專案。如果 `ng generate` 指令中沒有明確指定專案，你會把該值當作備援。
 
 <code-example header="projects/my-lib/schematics/my-service/index.ts (Default Project)" path="schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" region="project-fallback">
 </code-example>
 
-1. Now that you have the project name, use it to retrieve the project-specific configuration information.
+1. 有了專案名稱之後，用它來取得專案專屬的設定資訊。
 
 <code-example header="projects/my-lib/schematics/my-service/index.ts (Project)" path="schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" region="project-info">
 </code-example>
 
-   The `workspace projects` object contains all the project-specific configuration information.
+   `workspace projects` 物件包含所有專案專屬的設定資訊。
 
-1. The `options.path` determines where the schematic template files are moved to once the schematic is applied.
+1. `options.path` 決定原理圖套用之後，原理圖範本檔案要移動到哪裡。
 
-   The `path` option in the schematic's schema is substituted by default with the current working directory.
-   If the `path` is not defined, use the `sourceRoot` from the project configuration along with the `projectType`.
+   原理圖 schema 中的 `path` 選項，預設會以目前工作目錄替換。如果沒有定義 `path`，請使用專案設定中的 `sourceRoot` 以及 `projectType`。
 
 <code-example header="projects/my-lib/schematics/my-service/index.ts (Project Info)" path="schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" region="path">
 </code-example>
 
-### Define the rule
+### 定義規則
 
-A `Rule` can use external template files, transform them, and return another `Rule` object with the transformed template. You can use the templating to generate any custom files required for your schematic.
+`Rule` 可以使用外部範本檔案、轉換它們，並傳回另一個帶有轉換後範本的 `Rule` 物件。使用範本機制，產生你的原理圖所需的任何自訂檔案。
 
-1. Add the following code to your factory function.
+1. 把下列程式碼加入你的工廠函式。
 
 <code-example header="projects/my-lib/schematics/my-service/index.ts (Template transform)" path="schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" region="template">
 </code-example>
 
-  * The `apply()` method applies multiple rules to a source and returns the transformed source. It takes 2 arguments, a source and an array of rules.
-  * The `url()` method reads source files from your filesystem, relative to the schematic.
-  * The `applyTemplates()` method receives an argument of methods and properties you want make available to the schematic template and the schematic filenames. It returns a `Rule`. This is where you define the `classify()` and `dasherize()` methods, and the `name` property.
-  * The `classify()` method takes a value and returns the value in title case. For example, if the provided name is `my service`, it is returned as `MyService`
-  * The `dasherize()` method takes a value and returns the value in dashed and lowercase. For example, if the provided name is MyService, it is returned as `my-service`.
-  * The `move` method moves the provided source files to their destination when the schematic is applied.
+  * `apply()` 方法把多個規則套用到一個來源，並傳回轉換後的來源。它接受 2 個引數：一個來源與一個規則陣列。
+  * `url()` 方法從你的檔案系統讀取來源檔案，路徑相對於原理圖。
+  * `applyTemplates()` 方法接受一個引數，內容是你想提供給原理圖範本與原理圖檔案名稱的方法與屬性。它傳回一個 `Rule`。你就在這裡定義 `classify()` 與 `dasherize()` 方法，以及 `name` 屬性。
+  * `classify()` 方法接受一個值，並以每個單字首字母大寫的形式傳回該值。舉例來說，如果提供的名稱是 `my service`，傳回的是 `MyService`。
+  * `dasherize()` 方法接受一個值，並以連字號分隔的小寫形式傳回該值。舉例來說，如果提供的名稱是 MyService，傳回的是 `my-service`。
+  * `move` 方法在原理圖套用時，把提供的來源檔案移動到它們的目的地。
 
-1. Finally, the rule factory must return a rule.
+1. 最後，規則工廠必須傳回一個規則。
 
 <code-example header="projects/my-lib/schematics/my-service/index.ts (Chain Rule)" path="schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts" region="chain">
 </code-example>
 
-  The `chain()` method allows you to combine multiple rules into a single rule, so that you can perform multiple operations in a single schematic.
-  Here you are only merging the template rules with any code executed by the schematic.
+  `chain()` 方法讓你把多個規則結合成單一規則，讓你能在單一原理圖中執行多個操作。在這裡，你只是把範本規則與原理圖執行的任何程式碼合併在一起。
 
-See a complete exampled of the schematic rule function.
+請參閱完整的原理圖規則函式範例。
 
 <code-example header="projects/my-lib/schematics/my-service/index.ts" path="schematics-for-libraries/projects/my-lib/schematics/my-service/index.ts">
 </code-example>
 
-For more information about rules and utility methods, see [Provided Rules](https://github.com/angular/angular-cli/tree/master/packages/angular_devkit/schematics#provided-rules).
+關於規則與工具方法的更多資訊，請參閱 [Provided Rules](https://github.com/angular/angular-cli/tree/master/packages/angular_devkit/schematics#provided-rules)。
 
-## Running your library schematic
+## 執行你的程式庫原理圖
 
-After you build your library and schematics, you can install the schematics collection to run against your project. The steps below show you how to generate a service using the schematic you created above.
+建置好你的程式庫與原理圖之後，你可以安裝原理圖集合，在你的專案上執行。下列步驟示範如何使用你稍早建立的原理圖來產生服務。
 
-### Build your library and schematics
+### 建置你的程式庫與原理圖
 
-From the root of your workspace, run the `ng build` command for your library.
+在工作區的根目錄，為你的程式庫執行 `ng build` 指令。
 
 <code-example language="bash">
 
@@ -294,7 +272,7 @@ From the root of your workspace, run the `ng build` command for your library.
 
 </code-example>
 
-Then, you change into your library directory to build the schematic
+接著，切換到你的程式庫目錄來建置原理圖
 
 <code-example language="bash">
 
@@ -303,9 +281,9 @@ Then, you change into your library directory to build the schematic
 
 </code-example>
 
-### Link the library
+### 連結程式庫
 
-Your library and schematics are packaged and placed in the `dist/my-lib` folder at the root of your workspace. For running the schematic, you need to link the library into your `node_modules` folder. From the root of your workspace, run the `npm link` command with the path to your distributable library.
+你的程式庫與原理圖會被打包並放在工作區根目錄的 `dist/my-lib` 資料夾中。若要執行原理圖，你需要把程式庫連結到你的 `node_modules` 資料夾。在工作區的根目錄，以你可發佈程式庫的路徑執行 `npm link` 指令。
 
 <code-example language="bash">
 
@@ -313,9 +291,9 @@ npm link dist/my-lib
 
 </code-example>
 
-### Run the schematic
+### 執行原理圖
 
-Now that your library is installed, you can run the schematic using the `ng generate` command.
+程式庫安裝完成後，使用 `ng generate` 指令執行原理圖。
 
 <code-example language="bash">
 
@@ -323,7 +301,7 @@ ng generate my-lib:my-service --name my-data
 
 </code-example>
 
-In the console, you will see that the schematic was run and the `my-data.service.ts` file was created in your app folder.
+在主控台中，你會看到原理圖已執行，且 `my-data.service.ts` 檔案已在你的應用程式資料夾中建立。
 
 <code-example language="bash" hideCopy="true">
 

@@ -1,19 +1,19 @@
-# Testing Utility APIs
+# 測試工具 API
 
-This page describes the most useful Angular testing features.
+本頁說明最實用的 Angular 測試功能。
 
-The Angular testing utilities include the `TestBed`, the `ComponentFixture`, and a handful of functions that control the test environment.
-The [_TestBed_](#testbed-api-summary) and [_ComponentFixture_](#component-fixture-api-summary) classes are covered separately.
+Angular 測試工具包括 `TestBed`、`ComponentFixture`，以及一些控制測試環境的函式。
+[_TestBed_](#testbed-api-summary) 與 [_ComponentFixture_](#component-fixture-api-summary) 類別另有專節說明。
 
-Here's a summary of the stand-alone functions, in order of likely utility:
+以下是獨立函式的摘要，依可能的實用程度排序：
 
 <table>
   <tr>
     <th>
-      Function
+      函式
     </th>
     <th>
-      Description
+      說明
     </th>
   </tr>
 
@@ -24,8 +24,8 @@ Here's a summary of the stand-alone functions, in order of likely utility:
 
     <td>
 
-      Runs the body of a test (`it`) or setup (`beforeEach`) function within a special _async test zone_.
-      See [discussion above](guide/testing-components-scenarios#waitForAsync).
+      在特殊的 _async 測試區_ 內執行測試（`it`）或設定（`beforeEach`）函式的主體。
+      請參閱[上方的討論](guide/testing-components-scenarios#waitForAsync)。
 
     </td>
   </tr>
@@ -37,8 +37,8 @@ Here's a summary of the stand-alone functions, in order of likely utility:
 
     <td>
 
-      Runs the body of a test (`it`) within a special _fakeAsync test zone_, enabling
-      a linear control flow coding style. See [discussion above](guide/testing-components-scenarios#fake-async).
+      在特殊的 _fakeAsync 測試區_ 內執行測試（`it`）函式的主體，讓程式碼能以線性的控制流程撰寫。
+      請參閱[上方的討論](guide/testing-components-scenarios#fake-async)。
 
     </td>
   </tr>
@@ -50,20 +50,16 @@ Here's a summary of the stand-alone functions, in order of likely utility:
 
     <td>
 
-      Simulates the passage of time and the completion of pending asynchronous activities
-      by flushing both _timer_ and _micro-task_ queues within the _fakeAsync test zone_.
+      模擬時間的流逝與待處理非同步活動的完成，方式是在 _fakeAsync 測試區_ 內排清 _timer_ 與 _micro-task_ 佇列。
 
       <div class="alert is-helpful">
 
-      The curious, dedicated reader might enjoy this lengthy blog post,
-      ["_Tasks, microtasks, queues and schedules_"](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/).
+      熱心投入的讀者或許會喜歡這篇長篇部落格文章：["_Tasks, microtasks, queues and schedules_"](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)。
 
       </div>
 
-      Accepts an optional argument that moves the virtual clock forward
-      by the specified number of milliseconds,
-      clearing asynchronous activities scheduled within that timeframe.
-      See [discussion above](guide/testing-components-scenarios#tick).
+      它接受一個選用的參數，可將虛擬時鐘向前推進指定的毫秒數，並清除在該時間範圍內排程的非同步活動。
+      請參閱[上方的討論](guide/testing-components-scenarios#tick)。
 
     </td>
   </tr>
@@ -75,9 +71,9 @@ Here's a summary of the stand-alone functions, in order of likely utility:
 
     <td>
 
-      Injects one or more services from the current `TestBed` injector into a test function.
-      It cannot inject a service provided by the component itself.
-      See discussion of the [debugElement.injector](guide/testing-components-scenarios#get-injected-services).
+      將目前 `TestBed` 注入器中的一或多個服務注入測試函式。
+      它無法注入由元件本身提供的服務。
+      請參閱 [debugElement.injector](guide/testing-components-scenarios#取得注入的服務) 的討論。
 
     </td>
   </tr>
@@ -89,12 +85,10 @@ Here's a summary of the stand-alone functions, in order of likely utility:
 
     <td>
 
-      When a `fakeAsync()` test ends with pending timer event _tasks_ (queued `setTimeOut` and `setInterval` callbacks),
-      the test fails with a clear error message.
+      當 `fakeAsync()` 測試在結束時仍有待處理的計時器事件 _tasks_（排入佇列的 `setTimeOut` 與 `setInterval` 回呼），測試會以清楚的錯誤訊息失敗。
 
-      In general, a test should end with no queued tasks.
-      When pending timer tasks are expected, call `discardPeriodicTasks` to flush the _task_ queue
-      and avoid the error.
+      一般來說，測試結束時不應有任何排入佇列的工作。
+      當預期會有待處理的計時器工作時，呼叫 `discardPeriodicTasks` 排清 _task_ 佇列，以避免這個錯誤。
 
     </td>
   </tr>
@@ -106,12 +100,10 @@ Here's a summary of the stand-alone functions, in order of likely utility:
 
     <td>
 
-      When a `fakeAsync()` test ends with pending _micro-tasks_ such as unresolved promises,
-      the test fails with a clear error message.
+      當 `fakeAsync()` 測試在結束時仍有待處理的 _micro-tasks_（例如尚未解決的 promise），測試會以清楚的錯誤訊息失敗。
 
-      In general, a test should wait for micro-tasks to finish.
-      When pending microtasks are expected, call `flushMicrotasks` to flush the  _micro-task_ queue
-      and avoid the error.
+      一般來說，測試應等待 micro-task 完成。
+      當預期會有待處理的 microtask 時，呼叫 `flushMicrotasks` 排清 _micro-task_ 佇列，以避免這個錯誤。
 
     </td>
   </tr>
@@ -123,7 +115,7 @@ Here's a summary of the stand-alone functions, in order of likely utility:
 
     <td>
 
-      A provider token for a service that turns on [automatic change detection](guide/testing-components-scenarios#automatic-change-detection).
+      一個 provider token，對應的服務會開啟[自動變更偵測](guide/testing-components-scenarios#自動變更偵測)。
 
     </td>
   </tr>
@@ -135,10 +127,9 @@ Here's a summary of the stand-alone functions, in order of likely utility:
 
     <td>
 
-      Gets the current instance of the `TestBed`.
-      Usually unnecessary because the static class methods of the `TestBed` class are typically sufficient.
-      The `TestBed` instance exposes a few rarely used members that are not available as
-      static methods.
+      取得 `TestBed` 的目前實例。
+      通常不需要使用，因為 `TestBed` 類別的靜態類別方法一般就已足夠。
+      `TestBed` 實例公開了一些較少使用、且沒有靜態方法版本的成員。
 
     </td>
   </tr>
@@ -148,15 +139,13 @@ Here's a summary of the stand-alone functions, in order of likely utility:
 
 {@a testbed-class-summary}
 
-## _TestBed_ class summary
+## _TestBed_ 類別摘要
 
-The `TestBed` class is one of the principal Angular testing utilities.
-Its API is quite large and can be overwhelming until you've explored it,
-a little at a time. Read the early part of this guide first
-to get the basics before trying to absorb the full API.
+`TestBed` 類別是主要的 Angular 測試工具之一。
+它的 API 相當龐大，在你逐漸探索之前可能會覺得難以招架。
+請先閱讀本指南前面的部分掌握基礎，再試著理解完整的 API。
 
-The module definition passed to `configureTestingModule`
-is a subset of the `@NgModule` metadata properties.
+傳入 `configureTestingModule` 的模組定義，是 `@NgModule` 中繼資料屬性的子集。
 
 <code-example language="javascript">
   type TestModuleMetadata = {
@@ -169,9 +158,7 @@ is a subset of the `@NgModule` metadata properties.
 
 {@a metadata-override-object}
 
-Each override method takes a `MetadataOverride<T>` where `T` is the kind of metadata
-appropriate to the method, that is, the parameter of an `@NgModule`,
-`@Component`, `@Directive`, or `@Pipe`.
+每個覆寫方法都接受一個 `MetadataOverride<T>`，其中 `T` 是適合該方法的中繼資料種類，也就是 `@NgModule`、`@Component`、`@Directive` 或 `@Pipe` 的參數。
 
 <code-example language="javascript">
   type MetadataOverride&lt;T&gt; = {
@@ -184,22 +171,21 @@ appropriate to the method, that is, the parameter of an `@NgModule`,
 {@a testbed-methods}
 {@a testbed-api-summary}
 
-The `TestBed` API consists of static class methods that either update or reference a _global_ instance of the `TestBed`.
+`TestBed` API 由靜態類別方法組成，這些方法不是更新、就是引用 `TestBed` 的 _全域_ 實例。
 
-Internally, all static methods cover methods of the current runtime `TestBed` instance,
-which is also returned by the `getTestBed()` function.
+在內部，所有靜態方法都是目前執行期 `TestBed` 實例的方法的包裝，而該實例也會由 `getTestBed()` 函式傳回。
 
-Call `TestBed` methods _within_ a `beforeEach()` to ensure a fresh start before each individual test.
+請在 `beforeEach()` _內_ 呼叫 `TestBed` 方法，確保每個個別測試開始前都是全新狀態。
 
-Here are the most important static methods, in order of likely utility.
+以下是最重要的靜態方法，依可能的實用程度排序。
 
 <table>
   <tr>
     <th>
-      Methods
+      方法
     </th>
     <th>
-      Description
+      說明
     </th>
   </tr>
 
@@ -210,12 +196,10 @@ Here are the most important static methods, in order of likely utility.
 
     <td>
 
-      The testing shims (`karma-test-shim`, `browser-test-shim`)
-      establish the [initial test environment](guide/testing) and a default testing module.
-      The default testing module is configured with basic declaratives and some Angular service substitutes that every tester needs.
+      測試墊片（`karma-test-shim`、`browser-test-shim`）會建立[初始測試環境](guide/testing)與預設的測試模組。
+      預設測試模組設定了基本的宣告式成員，以及每位測試者都需要的一些 Angular 服務替代實作。
 
-      Call `configureTestingModule` to refine the testing module configuration for a particular set of tests
-      by adding and removing imports, declarations (of components, directives, and pipes), and providers.
+      呼叫 `configureTestingModule`，可以加入與移除匯入、宣告（元件、指令與管道）及 providers，為特定的測試組調整測試模組設定。
 
     </td>
   </tr>
@@ -227,12 +211,11 @@ Here are the most important static methods, in order of likely utility.
 
     <td>
 
-      Compile the testing module asynchronously after you've finished configuring it.
-      You **must** call this method if _any_ of the testing module components have a `templateUrl`
-      or `styleUrls` because fetching component template and style files is necessarily asynchronous.
-      See [above](guide/testing-components-scenarios#compile-components).
+      在你完成測試模組的設定後，以非同步方式編譯該模組。
+      如果測試模組的 _任何_ 元件具有 `templateUrl` 或 `styleUrls`，你**必須**呼叫這個方法，因為取得元件範本與樣式檔案必然是非同步的。
+      請參閱[上方內容](guide/testing-components-scenarios#compile-components)。
 
-      After calling `compileComponents`, the `TestBed` configuration is frozen for the duration of the current spec.
+      呼叫 `compileComponents` 之後，`TestBed` 設定會在目前規格執行的期間內凍結。
 
     </td>
   </tr>
@@ -244,8 +227,8 @@ Here are the most important static methods, in order of likely utility.
 
     <td>
 
-      Create an instance of a component of type `T` based on the current `TestBed` configuration.
-      After calling `compileComponent`, the `TestBed` configuration is frozen for the duration of the current spec.
+      根據目前的 `TestBed` 設定，建立型別為 `T` 的元件實例。
+      呼叫 `compileComponent` 之後，`TestBed` 設定會在目前規格執行的期間內凍結。
 
     </td>
   </tr>
@@ -256,9 +239,8 @@ Here are the most important static methods, in order of likely utility.
     </td>
     <td>
 
-      Replace metadata for the given `NgModule`. Recall that modules can import other modules.
-      The `overrideModule` method can reach deeply into the current testing module to
-      modify one of these inner modules.
+      取代指定的 `NgModule` 的中繼資料。請記住，模組可以匯入其他模組。
+      `overrideModule` 方法可以深入目前的測試模組，修改其中某個內層模組。
 
     </td>
   </tr>
@@ -270,8 +252,7 @@ Here are the most important static methods, in order of likely utility.
 
     <td>
 
-      Replace metadata for the given component class, which could be nested deeply
-      within an inner module.
+      取代指定元件類別的中繼資料，該元件可能深藏在內層模組之中。
 
     </td>
   </tr>
@@ -283,8 +264,7 @@ Here are the most important static methods, in order of likely utility.
 
     <td>
 
-      Replace metadata for the given directive class, which could be nested deeply
-      within an inner module.
+      取代指定指令類別的中繼資料，該指令可能深藏在內層模組之中。
 
     </td>
   </tr>
@@ -295,8 +275,7 @@ Here are the most important static methods, in order of likely utility.
     </td>
     <td>
 
-      Replace metadata for the given pipe class, which could be nested deeply
-      within an inner module.
+      取代指定管道類別的中繼資料，該管道可能深藏在內層模組之中。
 
     </td>
   </tr>
@@ -309,20 +288,18 @@ Here are the most important static methods, in order of likely utility.
 
     <td>
 
-      Retrieve a service from the current `TestBed` injector.
+      從目前的 `TestBed` 注入器取得服務。
 
-      The `inject` function is often adequate for this purpose.
-      But `inject` throws an error if it can't provide the service.
+      `inject` 函式通常就足以勝任此用途。
+      但若 `inject` 無法提供該服務，就會擲出錯誤。
 
-      What if the service is optional?
+      如果該服務是選用的，該怎麼辦？
 
-      The `TestBed.inject()` method takes an optional second parameter,
-      the object to return if Angular can't find the provider
-      (`null` in this example):
+      `TestBed.inject()` 方法接受一個選用的第二個參數，也就是 Angular 找不到 provider 時要傳回的物件（此例為 `null`）：
 
       <code-example path="testing/src/app/demo/demo.testbed.spec.ts" region="testbed-get-w-null" header="app/demo/demo.testbed.spec.ts"></code-example>
 
-      After calling `TestBed.inject`, the `TestBed` configuration is frozen for the duration of the current spec.
+      呼叫 `TestBed.inject` 之後，`TestBed` 設定會在目前規格執行的期間內凍結。
 
     </td>
   </tr>
@@ -334,17 +311,14 @@ Here are the most important static methods, in order of likely utility.
     </td>
     <td>
 
-      Initialize the testing environment for the entire test run.
+      為整個測試執行初始化測試環境。
 
-      The testing shims (`karma-test-shim`, `browser-test-shim`) call it for you
-      so there is rarely a reason for you to call it yourself.
+      測試墊片（`karma-test-shim`、`browser-test-shim`）會為你呼叫它，所以你幾乎不需要自己呼叫。
 
-      You may call this method _exactly once_. If you must change
-      this default in the middle of your test run, call `resetTestEnvironment` first.
+      這個方法只能呼叫 _恰好一次_。若要在測試執行中途變更這個預設值，請先呼叫 `resetTestEnvironment`。
 
-      Specify the Angular compiler factory, a `PlatformRef`, and a default Angular testing module.
-      Alternatives for non-browser platforms are available in the general form
-      `@angular/platform-<platform_name>/testing/<platform_name>`.
+      指定 Angular 編譯器工廠、一個 `PlatformRef`，以及一個預設的 Angular 測試模組。
+      非瀏覽器平台的替代方案可在 `@angular/platform-<platform_name>/testing/<platform_name>` 這個一般形式下取得。
 
     </td>
   </tr>
@@ -355,39 +329,36 @@ Here are the most important static methods, in order of likely utility.
     </td>
     <td>
 
-      Reset the initial test environment, including the default testing module.
+      重設初始測試環境，包括預設的測試模組。
 
     </td>
   </tr>
 </table>
 
-A few of the `TestBed` instance methods are not covered by static `TestBed` _class_ methods.
-These are rarely needed.
+少數 `TestBed` 實例方法沒有對應的靜態 `TestBed` _類別_ 方法。
+這些方法很少需要使用。
 
 {@a component-fixture-api-summary}
 
-## The _ComponentFixture_
+## _ComponentFixture_
 
-The `TestBed.createComponent<T>`
-creates an instance of the component `T`
-and returns a strongly typed `ComponentFixture` for that component.
+`TestBed.createComponent<T>` 會建立元件 `T` 的實例，並為該元件傳回強型別的 `ComponentFixture`。
 
-The `ComponentFixture` properties and methods provide access to the component,
-its DOM representation, and aspects of its Angular environment.
+`ComponentFixture` 的屬性與方法提供對元件、其 DOM 表示方式，以及其 Angular 環境各方面的存取。
 
 {@a component-fixture-properties}
 
-### _ComponentFixture_ properties
+### _ComponentFixture_ 屬性
 
-Here are the most important properties for testers, in order of likely utility.
+以下是對測試者最重要的屬性，依可能的實用程度排序。
 
 <table>
   <tr>
     <th>
-      Properties
+      屬性
     </th>
     <th>
-      Description
+      說明
     </th>
   </tr>
 
@@ -398,7 +369,7 @@ Here are the most important properties for testers, in order of likely utility.
 
     <td>
 
-      The instance of the component class created by `TestBed.createComponent`.
+      由 `TestBed.createComponent` 建立的元件類別實例。
 
     </td>
   </tr>
@@ -410,10 +381,10 @@ Here are the most important properties for testers, in order of likely utility.
 
     <td>
 
-      The `DebugElement` associated with the root element of the component.
+      與元件根元素相關聯的 `DebugElement`。
 
-      The `debugElement` provides insight into the component and its DOM element during test and debugging.
-      It's a critical property for testers. The most interesting members are covered [below](#debug-element-details).
+      `debugElement` 讓你在測試與除錯期間深入了解元件及其 DOM 元素。
+      這是測試者的關鍵屬性。最值得關注的成員在[下文](#debug-element-details)說明。
 
     </td>
   </tr>
@@ -425,7 +396,7 @@ Here are the most important properties for testers, in order of likely utility.
 
     <td>
 
-      The native DOM element at the root of the component.
+      位於元件根部的原生 DOM 元素。
 
     </td>
   </tr>
@@ -437,11 +408,9 @@ Here are the most important properties for testers, in order of likely utility.
 
     <td>
 
-      The `ChangeDetectorRef` for the component.
+      元件的 `ChangeDetectorRef`。
 
-      The `ChangeDetectorRef` is most valuable when testing a
-      component that has the `ChangeDetectionStrategy.OnPush` method
-      or the component's change detection is under your programmatic control.
+      當所測試的元件具有 `ChangeDetectionStrategy.OnPush`，或元件的變更偵測由你的程式控制時，`ChangeDetectorRef` 最有價值。
 
     </td>
   </tr>
@@ -449,20 +418,20 @@ Here are the most important properties for testers, in order of likely utility.
 
 {@a component-fixture-methods}
 
-### _ComponentFixture_ methods
+### _ComponentFixture_ 方法
 
-The _fixture_ methods cause Angular to perform certain tasks on the component tree.
-Call these method to trigger Angular behavior in response to simulated user action.
+_fixture_ 方法會讓 Angular 對元件樹執行某些工作。
+呼叫這些方法，可以觸發 Angular 行為以回應模擬的使用者動作。
 
-Here are the most useful methods for testers.
+以下是最實用的方法。
 
 <table>
   <tr>
     <th>
-      Methods
+      方法
     </th>
     <th>
-      Description
+      說明
     </th>
   </tr>
 
@@ -473,15 +442,12 @@ Here are the most useful methods for testers.
 
     <td>
 
-      Trigger a change detection cycle for the component.
+      為元件觸發一個變更偵測週期。
 
-      Call it to initialize the component (it calls `ngOnInit`) and after your
-      test code, change the component's data bound property values.
-      Angular can't see that you've changed `personComponent.name` and won't update the `name`
-      binding until you call `detectChanges`.
+      呼叫它來初始化元件（它會呼叫 `ngOnInit`），以及在測試程式碼變更元件的資料繫結屬性值之後呼叫。
+      Angular 無法得知你已變更 `personComponent.name`，在你呼叫 `detectChanges` 之前，不會更新 `name` 繫結。
 
-      Runs `checkNoChanges` afterwards to confirm that there are no circular updates unless
-      called as `detectChanges(false)`;
+      之後會執行 `checkNoChanges`，確認沒有循環更新，除非以 `detectChanges(false)` 的方式呼叫；
 
     </td>
   </tr>
@@ -493,16 +459,13 @@ Here are the most useful methods for testers.
 
     <td>
 
-      Set this to `true` when you want the fixture to detect changes automatically.
+      當你希望 fixture 自動偵測變更時，將它設為 `true`。
 
-      When autodetect is `true`, the test fixture calls `detectChanges` immediately
-      after creating the component. Then it listens for pertinent zone events
-      and calls `detectChanges` accordingly.
-      When your test code modifies component property values directly,
-      you probably still have to call `fixture.detectChanges` to trigger data binding updates.
+      當自動偵測為 `true` 時，測試 fixture 會在建立元件後立即呼叫 `detectChanges`。
+      接著它會監聽相關的 zone 事件，並相應地呼叫 `detectChanges`。
+      當你的測試程式碼直接修改元件屬性值時，你可能仍然必須呼叫 `fixture.detectChanges` 來觸發資料繫結更新。
 
-      The default is `false`. Testers who prefer fine control over test behavior
-      tend to keep it `false`.
+      預設值為 `false`。偏好精細控制測試行為的測試者，通常會將它保持為 `false`。
 
     </td>
   </tr>
@@ -514,8 +477,8 @@ Here are the most useful methods for testers.
 
     <td>
 
-      Do a change detection run to make sure there are no pending changes.
-      Throws an exceptions if there are.
+      執行一次變更偵測，確保沒有待處理的變更。
+      若有變更則擲出例外。
     </td>
   </tr>
 
@@ -526,8 +489,8 @@ Here are the most useful methods for testers.
 
     <td>
 
-      If the fixture is currently _stable_, returns `true`.
-      If there are async tasks that have not completed, returns `false`.
+      若 fixture 目前 _穩定_，傳回 `true`。
+      若有尚未完成的非同步工作，傳回 `false`。
 
     </td>
   </tr>
@@ -539,11 +502,10 @@ Here are the most useful methods for testers.
 
     <td>
 
-      Returns a promise that resolves when the fixture is stable.
+      傳回一個在 fixture 穩定時完成的 promise。
 
-      To resume testing after completion of asynchronous activity or
-      asynchronous change detection, hook that promise.
-      See [above](guide/testing-components-scenarios#when-stable).
+      若要在非同步活動或非同步變更偵測完成後繼續測試，請掛接該 promise。
+      請參閱[上方內容](guide/testing-components-scenarios#when-stable)。
 
     </td>
   </tr>
@@ -555,7 +517,7 @@ Here are the most useful methods for testers.
 
     <td>
 
-      Trigger component destruction.
+      觸發元件銷毀。
 
     </td>
   </tr>
@@ -565,20 +527,19 @@ Here are the most useful methods for testers.
 
 #### _DebugElement_
 
-The `DebugElement` provides crucial insights into the component's DOM representation.
+`DebugElement` 提供對元件 DOM 表示方式的關鍵洞察。
 
-From the test root component's `DebugElement` returned by `fixture.debugElement`,
-you can walk (and query) the fixture's entire element and component subtrees.
+從測試根元件由 `fixture.debugElement` 傳回的 `DebugElement`，你可以走訪（並查詢）fixture 的整個元素與元件子樹。
 
-Here are the most useful `DebugElement` members for testers, in approximate order of utility:
+以下是對測試者最實用的 `DebugElement` 成員，依大約的實用程度排序：
 
 <table>
   <tr>
     <th>
-      Member
+      成員
     </th>
     <th>
-      Description
+      說明
     </th>
   </tr>
 
@@ -589,7 +550,7 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      The corresponding DOM element in the browser (null for WebWorkers).
+      瀏覽器中對應的 DOM 元素（WebWorker 中為 null）。
 
     </td>
   </tr>
@@ -601,8 +562,7 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      Calling `query(predicate: Predicate<DebugElement>)` returns the first `DebugElement`
-      that matches the [predicate](#query-predicate) at any depth in the subtree.
+      呼叫 `query(predicate: Predicate<DebugElement>)`，傳回子樹中任意深度第一個符合[述詞](#query-predicate)的 `DebugElement`。
 
     </td>
   </tr>
@@ -614,8 +574,7 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      Calling `queryAll(predicate: Predicate<DebugElement>)` returns all `DebugElements`
-      that matches the [predicate](#query-predicate) at any depth in subtree.
+      呼叫 `queryAll(predicate: Predicate<DebugElement>)`，傳回子樹中任意深度所有符合[述詞](#query-predicate)的 `DebugElements`。
 
     </td>
   </tr>
@@ -627,8 +586,8 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      The host dependency injector.
-      For example, the root element's component instance injector.
+      宿主的相依性注入器。
+      例如，根元素的元件實例注入器。
 
     </td>
   </tr>
@@ -640,7 +599,7 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      The element's own component instance, if it has one.
+      元素自身的元件實例（如果有的話）。
 
     </td>
   </tr>
@@ -652,12 +611,11 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      An object that provides parent context for this element.
-      Often an ancestor component instance that governs this element.
+      提供此元素父層上下文的物件。
+      通常是掌管此元素的祖先元件實例。
 
-      When an element is repeated within `*ngFor`, the context is an `NgForRow` whose `$implicit`
-      property is the value of the row instance value.
-      For example, the `hero` in `*ngFor="let hero of heroes"`.
+      當元素在 `*ngFor` 內重複時，其 context 是一個 `NgForRow`，其 `$implicit` 屬性是該列實例的值。
+      例如，`*ngFor="let hero of heroes"` 中的 `hero`。
 
     </td>
   </tr>
@@ -669,13 +627,12 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      The immediate `DebugElement` children. Walk the tree by descending through `children`.
+      直接的 `DebugElement` 子元素。透過 `children` 逐層往下走訪整棵樹。
 
       <div class="alert is-helpful">
 
-      `DebugElement` also has `childNodes`, a list of `DebugNode` objects.
-      `DebugElement` derives from `DebugNode` objects and there are often
-      more nodes than elements. Testers can usually ignore plain nodes.
+      `DebugElement` 也有 `childNodes`，是 `DebugNode` 物件的清單。
+      `DebugElement` 源自 `DebugNode` 物件，而且節點的數量往往比元素多。測試者通常可以忽略純節點。
 
       </div>
     </td>
@@ -687,7 +644,7 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
     </td>
     <td>
 
-      The `DebugElement` parent. Null if this is the root element.
+      `DebugElement` 的父元素。若這是根元素，則為 Null。
 
     </td>
   </tr>
@@ -699,7 +656,7 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      The element tag name, if it is an element.
+      元素的標籤名稱（如果它是元素的話）。
 
     </td>
   </tr>
@@ -710,13 +667,11 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
     </td>
     <td>
 
-      Triggers the event by its name if there is a corresponding listener
-      in the element's `listeners` collection.
-      The second parameter is the _event object_ expected by the handler.
-      See [above](guide/testing-components-scenarios#trigger-event-handler).
+      若元素的 `listeners` 集合中有對應的監聽器，則依名稱觸發該事件。
+      第二個參數是處理常式預期的 _事件物件_。
+      請參閱[上方內容](guide/testing-components-scenarios#trigger-event-handler)。
 
-      If the event lacks a listener or there's some other problem,
-      consider calling `nativeElement.dispatchEvent(eventObject)`.
+      若事件缺少監聽器，或有其他問題，請考慮呼叫 `nativeElement.dispatchEvent(eventObject)`。
 
     </td>
   </tr>
@@ -728,7 +683,7 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      The callbacks attached to the component's `@Output` properties and/or the element's event properties.
+      附加在元件 `@Output` 屬性及／或元素事件屬性上的回呼。
 
     </td>
   </tr>
@@ -740,8 +695,8 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      This component's injector lookup tokens.
-      Includes the component itself plus the tokens that the component lists in its `providers` metadata.
+      此元件的注入器查找權杖。
+      包括元件本身，加上元件在其 `providers` 中繼資料中所列的權杖。
 
     </td>
   </tr>
@@ -753,7 +708,7 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      Where to find this element in the source component template.
+      在來源元件範本中找到這個元素的位置。
 
     </td>
   </tr>
@@ -765,8 +720,7 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
     <td>
 
-      Dictionary of objects associated with template local variables (e.g. `#foo`),
-      keyed by the local variable name.
+      與範本區域變數相關聯的物件字典（例如 `#foo`），以區域變數名稱為鍵。
 
     </td>
   </tr>
@@ -774,19 +728,18 @@ Here are the most useful `DebugElement` members for testers, in approximate orde
 
 {@a query-predicate}
 
-The `DebugElement.query(predicate)` and `DebugElement.queryAll(predicate)` methods take a
-predicate that filters the source element's subtree for matching `DebugElement`.
+`DebugElement.query(predicate)` 與 `DebugElement.queryAll(predicate)` 方法接受一個述詞，用來篩選來源元素的子樹，找出符合的 `DebugElement`。
 
-The predicate is any method that takes a `DebugElement` and returns a _truthy_ value.
-The following example finds all `DebugElements` with a reference to a template local variable named "content":
+述詞可以是任何接受 `DebugElement` 並傳回 _真值_ 的方法。
+下列範例找出所有具有名為 "content" 的範本區域變數參照的 `DebugElements`：
 
 <code-example path="testing/src/app/demo/demo.testbed.spec.ts" region="custom-predicate" header="app/demo/demo.testbed.spec.ts"></code-example>
 
-The Angular `By` class has three static methods for common predicates:
+Angular 的 `By` 類別有三個靜態方法，用於常見的述詞：
 
-- `By.all` - return all elements.
-- `By.css(selector)` - return elements with matching CSS selectors.
-- `By.directive(directive)` - return elements that Angular matched to an instance of the directive class.
+- `By.all` - 傳回所有元素。
+- `By.css(selector)` - 傳回符合 CSS 選擇器的元素。
+- `By.directive(directive)` - 傳回 Angular 對應到該指令類別實例的元素。
 
 <code-example path="testing/src/app/hero/hero-list.component.spec.ts" region="by" header="app/hero/hero-list.component.spec.ts"></code-example>
 
