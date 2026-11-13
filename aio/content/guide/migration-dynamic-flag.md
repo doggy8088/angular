@@ -1,16 +1,16 @@
 
-# Dynamic queries flag migration
+# 動態查詢旗標遷移
 
-## What does this migration do?
+## 這個遷移做什麼？
 
-In Angular version 8, a schematic added `static` flags to all `@ViewChild()` and `@ContentChild()` queries.
-This was the first step towards changing the default behavior.
-With version 9, the default value changes to `static: false` and the flag becomes optional.
+在 Angular 第 8 版中，有一個原理圖為所有 `@ViewChild()` 和 `@ContentChild()` 查詢加上了 `static` 旗標。
+這是改變預設行為的第一步。
+到了第 9 版，預設值改為 `static: false`，旗標也變成可選。
 
-This schematic scans classes in the compilation and for each class, checks if the members have a `@ViewChild()` or `@ContentChild()` query with the `static` flag set to `false`.
-If so, the schematic removes the flag, as it now matches the default.
+這個原理圖會掃描編譯中的類別，逐一檢查其成員是否有帶 `static` 旗標且值為 `false` 的 `@ViewChild()` 或 `@ContentChild()` 查詢。
+若有，原理圖會移除該旗標，因為它現在與預設值相同。
 
-**Before:**
+**之前：**
 ```ts
 @ViewChild('foo', {static: false}) foo: ElementRef;
 
@@ -18,7 +18,7 @@ If so, the schematic removes the flag, as it now matches the default.
 ```
 
 
-**After:**
+**之後：**
 ```ts
 @ViewChild('foo') foo: ElementRef;
 
@@ -26,57 +26,57 @@ If so, the schematic removes the flag, as it now matches the default.
 @ViewChild('bar', {static: true}) bar: ElementRef;
 ```
 
-Note that the flag is not supported in `@ViewChildren()` or `@ContentChildren()` queries, so the schematic will not check these properties.
+請注意，`@ViewChildren()` 和 `@ContentChildren()` 查詢不支援此旗標，因此原理圖不會檢查這些屬性。
 
 
-## Why is this migration necessary?
+## 為什麼需要這個遷移？
 
-This schematic performs a code cleanup to remove `static` flags that match the default, as they are no longer necessary.
-Functionally, the code change should be a noop.
+這個原理圖會清理程式碼，移除與預設值相同的 `static` 旗標，因為它們已不再必要。
+就功能而言，這項程式碼變更應該是無操作（noop）。
 
-Before version 9, Angular figured out the static or dynamic nature of a query automatically, based on how the template was written.
-Looking at templates in this way, however, caused buggy and surprising behavior (see more about that in the [Static Query Migration Guide](guide/static-query-migration#what-does-this-flag-mean)).
-As of version 9, Angular uses dynamic queries (`static: false`) by default, which simplifies queries.
-Developers can still explicitly set a query to `static: true` if necessary.
+在第 9 版之前，Angular 會根據範本的寫法，自動判斷查詢是靜態還是動態。
+然而，這種檢視範本的方式會造成有缺陷且出人意料的行為（更多資訊請見[靜態查詢遷移指南](guide/static-query-migration#這個旗標是什麼意思為什麼需要它)）。
+到了第 9 版，Angular 預設使用動態查詢（`static: false`），讓查詢更簡單。
+必要時，開發者仍可明確將查詢設為 `static: true`。
+
 
 
 <div class=" alert is-helpful">
 
-### What is the difference between static and dynamic queries?
+### 靜態查詢與動態查詢有什麼區別？
 
-The `static` option for `@ViewChild()` and `@ContentChild()` queries determines when the query results become available.
+`@ViewChild()` 和 `@ContentChild()` 查詢的 `static` 選項決定了查詢結果何時可用。
 
-With static queries (`static: true`), the query resolves once the view has been created, but before change detection runs.
-The result, though, will never be updated to reflect changes to your view, such as changes to `ngIf` and `ngFor` blocks.
+對於靜態查詢（`static: true`），查詢會在檢視建立後、但在變更偵測執行前解析。
+不過，結果永遠不會更新以反映檢視的變更，例如 `ngIf` 和 `ngFor` 區塊的變更。
 
-With dynamic queries (`static: false`), the query resolves after either `ngAfterViewInit()` or `ngAfterContentInit()` for `@ViewChild()` and `@ContentChild()` respectively.
-The result will be updated for changes to your view, such as changes to `ngIf` and `ngFor` blocks.
+對於動態查詢（`static: false`），查詢會在 `@ViewChild()` 的 `ngAfterViewInit()` 或 `@ContentChild()` 的 `ngAfterContentInit()` 之後解析。
+結果會隨著檢視的變更而更新，例如 `ngIf` 和 `ngFor` 區塊的變更。
 
-For more information, see the following entries in the
-[Static Query Migration Guide](guide/static-query-migration):
+更多資訊請見[靜態查詢遷移指南](guide/static-query-migration)的下列條目：
 
-* [How do I choose which `static` flag value to use: `true` or `false`?](guide/static-query-migration#how-do-i-choose-which-static-flag-value-to-use-true-or-false)
+* [我該如何選擇 `static` 旗標的值：`true` 或 `false`？](guide/static-query-migration#我該如何選擇-static-旗標的值true-或-false)
 
-* [Is there a case where I should use `{static: true}`?](guide/static-query-migration#is-there-a-case-where-i-should-use-static-true)
+* [有沒有什麼情況下我應該使用 `{static: true}`？](guide/static-query-migration#有沒有什麼情況下我應該使用-static-true)
 
 </div>
 
 
-## What does this mean for libraries?
+## 這對函式庫意味著什麼？
 
-In order to support applications that are still running with version 8, the safest option for libraries is to retain the `static` flag to keep the resolution timing consistent.
+為了支援仍在第 8 版執行的應用程式，函式庫最安全的選項是保留 `static` 旗標，讓解析時機保持一致。
 
-- *Libraries on version 9 with applications running version 8: *
+- *第 9 版的函式庫搭配第 8 版執行的應用程式：*
 
-  The schematic won't run on libraries.
-  As long as libraries retain their `static` flags from version 8, they should work with apps on 8.
+  原理圖不會對函式庫執行。
+  只要函式庫保留第 8 版的 `static` 旗標，就應該能在第 8 版的應用程式上運作。
 
-- *Libraries on version 8 with applications running version 9: *
+- *第 8 版的函式庫搭配第 9 版執行的應用程式：*
 
-  Libraries will have explicit flags defined.
-  The behavior with explicit flags has not changed.
+  函式庫會有明確定義的旗標。
+  帶明確旗標的行為並沒有改變。
 
 
-### What about applications using non-migrated libraries?
+### 使用未遷移函式庫的應用程式呢？
 
-Because this is a code cleanup that is a noop, non-migrated libraries will work the same either way.
+因為這是無操作的程式碼清理，未遷移的函式庫無論如何都會以相同方式運作。

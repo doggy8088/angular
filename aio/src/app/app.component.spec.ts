@@ -422,9 +422,9 @@ describe('AppComponent', () => {
         await setupSelectorForTesting();
         locationService.urlSubject.next('docs#section-1');
         const versionWithoutSlashIndex = component.docVersions.length;
-        const versionWithoutSlashUrl = component.docVersions[versionWithoutSlashIndex] = { url: 'https://next.angular.io', title: 'foo' };
+        const versionWithoutSlashUrl = component.docVersions[versionWithoutSlashIndex] = { url: 'https://dev.angular.tw', title: 'foo' };
         selectElement.triggerEventHandler('change', { option: versionWithoutSlashUrl, index: versionWithoutSlashIndex });
-        expect(locationService.go).toHaveBeenCalledWith('https://next.angular.io/docs#section-1');
+        expect(locationService.go).toHaveBeenCalledWith('https://dev.angular.tw/docs#section-1');
       });
     });
 
@@ -1299,7 +1299,7 @@ class TestHttpClient {
   };
 
   static docVersions: NavigationNode[] = [
-    { title: 'v2', url: 'https://v2.angular.io' }
+    { title: 'v2', url: 'https://v2.angular.tw' }
   ];
 
   // tslint:disable:quotemark

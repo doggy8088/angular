@@ -1,23 +1,23 @@
-# Lazy-loading feature modules
+# 延遲載入功能模組
 
-By default, NgModules are eagerly loaded, which means that as soon as the app loads, so do all the NgModules, whether or not they are immediately necessary. For large apps with lots of routes, consider lazy loading&mdash;a design pattern that loads NgModules as needed. Lazy loading helps keep initial
-bundle sizes smaller, which in turn helps decrease load times.
+預設情況下，NgModule 是及早載入的，這表示應用程式一載入，所有的 NgModule 也會載入，無論它們是否立即需要。對於具有大量路由的大型應用程式，請考慮延遲載入&mdash;這是一種依需要載入 NgModule 的設計模式。延遲載入有助於保持初始
+套件大小較小，進而有助於減少載入時間。
 
 <div class="alert is-helpful">
 
-For the final sample app with two lazy-loaded modules that this page describes, see the
-<live-example></live-example>.
+關於本頁所述、具有兩個延遲載入模組的最終範例應用程式，請見
+<live-example></live-example>。
 
 </div>
 
 {@a lazy-loading}
 
-## Lazy loading basics
+## 延遲載入基礎
 
-This section introduces the basic procedure for configuring a lazy-loaded route.
-For a step-by-step example, see the [step-by-step setup](#step-by-step) section on this page.
+本節介紹設定延遲載入路由的基本程序。
+逐步範例請見本頁的[逐步設定](#step-by-step)章節。
 
-To lazy load Angular modules, use `loadchildren` (instead of `component`) in your `AppRoutingModule` `routes` configuration as follows.
+若要延遲載入 Angular 模組，請在你的 `AppRoutingModule` `routes` 設定中使用 `loadchildren`（而不是 `component`），如下所示。
 
 <code-example header="AppRoutingModule (excerpt)">
 
@@ -30,7 +30,7 @@ const routes: Routes = [
 
 </code-example>
 
-In the lazy-loaded module's routing module, add a route for the component.
+在延遲載入模組的路由模組中，為該元件加入一條路由。
 
 <code-example header="Routing module for lazy loaded module (excerpt)">
 
@@ -43,54 +43,52 @@ const routes: Routes = [
 
 </code-example>
 
-Also be sure to remove the `ItemsModule` from the `AppModule`.
-For step-by-step instructions on lazy loading modules, continue with the following sections of this page.
+同時務必將 `ItemsModule` 從 `AppModule` 中移除。
+延遲載入模組的逐步指示，請繼續閱讀本頁的下列章節。
 
 {@a step-by-step}
 
-## Step-by-step setup
+## 逐步設定
 
-There are two main steps to setting up a lazy-loaded feature module:
+設定延遲載入功能模組有兩個主要步驟：
 
-1. Create the feature module with the CLI, using the `--route` flag.
-1. Configure the routes.
+1. 使用 CLI 搭配 `--route` 旗標，建立功能模組。
+1. 設定路由。
 
-### Set up an app
+### 設定應用程式
 
-If you don’t already have an app, you can follow the steps below to
-create one with the CLI. If you already have an app, skip to
-[Configure the routes](#config-routes). Enter the following command
-where `customer-app` is the name of your app:
+如果你還沒有應用程式，請依照下列步驟使用 CLI 建立一個。如果你已經有應用程式，請跳至
+[設定路由](#config-routes)。輸入下列指令，其中 `customer-app` 是你的應用程式名稱：
 
 <code-example language="bash">
 ng new customer-app --routing
 </code-example>
 
-This creates an app called `customer-app` and the `--routing` flag
-generates a file called `app-routing.module.ts`, which is one of
-the files you need for setting up lazy loading for your feature module.
-Navigate into the project by issuing the command `cd customer-app`.
+這會建立一個名為 `customer-app` 的應用程式，`--routing` 旗標
+產生一個名為 `app-routing.module.ts` 的檔案，這是
+為功能模組設定延遲載入所需的檔案之一。
+執行指令 `cd customer-app` 進入專案。
 
 <div class="alert is-helpful">
 
-The `--routing` option requires Angular/CLI version 8.1 or higher.
-See [Keeping Up to Date](guide/updating).
+`--routing` 選項需要 Angular/CLI 8.1 或更高版本。
+請見[讓你的 Angular 專案保持最新](guide/updating)。
 
 </div>
 
-### Create a feature module with routing
+### 建立帶有路由的功能模組
 
-Next, you’ll need a feature module with a component to route to.
-To make one, enter the following command in the terminal, where `customers` is the name of the feature module. The path for loading the `customers` feature modules is also `customers` because it is specified with the `--route` option:
+接著，你將需要一個帶有可路由元件的功能模組。
+若要建立它，請在終端機中輸入下列指令，其中 `customers` 是功能模組的名稱。載入 `customers` 功能模組的路徑也是 `customers`，因為它是用 `--route` 選項指定的：
 
 <code-example language="bash">
 ng generate module customers --route customers --module app.module
 </code-example>
 
-This creates a `customers` folder with the new lazy-loadable module `CustomersModule` defined in the `customers.module.ts` file. The command automatically declares the `CustomersComponent` inside the new feature module.
+這會建立一個 `customers` 資料夾，其中包含定義在 `customers.module.ts` 檔案中的新可延遲載入模組 `CustomersModule`。該指令會自動在新功能模組內宣告 `CustomersComponent`。
 
-Because the new module is meant to be lazy-loaded, the command does NOT add a reference to the new feature module in the application's root module file, `app.module.ts`.
-Instead, it adds the declared route, `customers` to the `routes` array declared in the module provided as the `--module` option.
+因為新模組旨在延遲載入，該指令不會在應用程式的根模組檔案 `app.module.ts` 中加入對新功能模組的參照。
+相反地，它會將宣告的路由 `customers` 加入 `--module` 選項指定的模組中所宣告的 `routes` 陣列。
 
 <code-example
   header="src/app/app-routing.module.ts"
@@ -98,19 +96,19 @@ Instead, it adds the declared route, `customers` to the `routes` array declared 
   region="routes-customers">
 </code-example>
 
-Notice that the lazy-loading syntax uses `loadChildren` followed by a function that uses the browser's built-in `import('...')` syntax for dynamic imports.
-The import path is the relative path to the module.
+注意，延遲載入的語法使用 `loadChildren`，後面跟著一個使用瀏覽器內建 `import('...')` 動態匯入語法的函式。
+匯入路徑是該模組的相對路徑。
 
-#### Add another feature module
+#### 再加入一個功能模組
 
-Use the same command to create a second lazy-loaded feature module with routing, along with its stub component.
+使用相同的指令，建立第二個帶有路由的延遲載入功能模組，以及其存根元件。
 
 <code-example language="bash">
 ng generate module orders --route orders --module app.module
 </code-example>
 
-This creates a new folder called `orders` containing the `OrdersModule` and `OrdersRoutingModule`, along with the new `OrdersComponent` source files.
-The `orders` route, specified with the `--route` option, is added to the `routes` array inside the `app-routing.module.ts` file, using the lazy-loading syntax.
+這會建立一個名為 `orders` 的新資料夾，其中包含 `OrdersModule` 與 `OrdersRoutingModule`，以及新的 `OrdersComponent` 原始檔。
+以 `--route` 選項指定的 `orders` 路由，會使用延遲載入語法，加入 `app-routing.module.ts` 檔案內的 `routes` 陣列。
 
 <code-example
   header="src/app/app-routing.module.ts"
@@ -118,115 +116,108 @@ The `orders` route, specified with the `--route` option, is added to the `routes
   region="routes-customers-orders">
 </code-example>
 
-### Set up the UI
+### 設定 UI
 
-Though you can type the URL into the address bar, a navigation UI is easier for the user and more common.
-Replace the default placeholder markup in `app.component.html` with a custom nav
-so you can easily navigate to your modules in the browser:
+雖然你可以在網址列輸入 URL，但導覽 UI 對使用者來說更直接，也更常見。
+將 `app.component.html` 中的預設佔位標記，替換為自訂導覽，讓你可以在瀏覽器中導覽至你的模組：
 
 <code-example path="lazy-loading-ngmodules/src/app/app.component.html" header="app.component.html" region="app-component-template" header="src/app/app.component.html"></code-example>
 
-To see your app in the browser so far, enter the following command in the terminal window:
+若要查看目前為止的應用程式在瀏覽器中的樣子，請在終端機視窗中輸入下列指令：
 
 <code-example language="bash">
 ng serve
 </code-example>
 
-Then go to `localhost:4200` where you should see “customer-app” and three buttons.
+接著前往 `localhost:4200`，你應該會看到 “customer-app” 與三個按鈕。
 
 <div class="lightbox">
-  <img src="generated/images/guide/lazy-loading-ngmodules/three-buttons.png" width="300" alt="three buttons in the browser">
+  <img src="generated/images/guide/lazy-loading-ngmodules/three-buttons.png" width="300" alt="瀏覽器中的三個按鈕">
 </div>
 
-These buttons work, because the CLI automatically added the routes to the feature modules to the `routes` array in `app.module.ts`.
+這些按鈕可以運作，因為 CLI 已自動將功能模組的路由加入 `app.module.ts` 的 `routes` 陣列。
 
 {@a config-routes}
 
-### Imports and route configuration
+### 匯入與路由設定
 
-The CLI automatically added each feature module to the routes map at the application level.
-Finish this off by adding the default route. In the `app-routing.module.ts` file, update the `routes` array with the following:
+CLI 已自動在應用程式層級將每個功能模組加入路由對應表。
+最後，加入預設路由來完成這一切。在 `app-routing.module.ts` 檔案中，以下列內容更新 `routes` 陣列：
 
 <code-example path="lazy-loading-ngmodules/src/app/app-routing.module.ts" id="app-routing.module.ts" region="const-routes" header="src/app/app-routing.module.ts"></code-example>
 
-The first two paths are the routes to the `CustomersModule` and the `OrdersModule`.
-The final entry defines a default route. The empty path matches everything that doesn't match an earlier path.
+前兩條路徑是前往 `CustomersModule` 與 `OrdersModule` 的路由。
+最後一個條目定義了預設路由。空路徑會比對所有與先前路徑不符的路徑。
 
+### 功能模組內部
 
-### Inside the feature module
-
-Next, take a look at the `customers.module.ts` file. If you’re using the CLI and following the steps outlined in this page, you don’t have to do anything here.
+接著，看看 `customers.module.ts` 檔案。如果你使用 CLI 並遵循本頁列出的步驟，你不需要在這裡做任何事。
 
 <code-example path="lazy-loading-ngmodules/src/app/customers/customers.module.ts" id="customers.module.ts" region="customers-module" header="src/app/customers/customers.module.ts"></code-example>
 
-The `customers.module.ts` file imports the `customers-routing.module.ts` and `customers.component.ts` files. `CustomersRoutingModule` is listed in the `@NgModule` `imports` array giving `CustomersModule` access to its own routing module. `CustomersComponent` is in the `declarations` array, which means `CustomersComponent` belongs to the `CustomersModule`.
+`customers.module.ts` 檔案匯入了 `customers-routing.module.ts` 與 `customers.component.ts` 檔案。`CustomersRoutingModule` 列在 `@NgModule` 的 `imports` 陣列中，讓 `CustomersModule` 能存取它自己的路由模組。`CustomersComponent` 在 `declarations` 陣列中，這表示 `CustomersComponent` 屬於 `CustomersModule`。
 
+接著，`app-routing.module.ts` 使用 JavaScript 的動態匯入，匯入功能模組 `customers.module.ts`。
 
-The `app-routing.module.ts` then imports the feature module, `customers.module.ts` using JavaScript's dynamic import.
-
-The feature-specific route definition file `customers-routing.module.ts` imports its own feature component defined in the `customers.component.ts` file, along with the other JavaScript import statements. It then maps the empty path to the `CustomersComponent`.
+功能專屬的路由定義檔案 `customers-routing.module.ts`，會匯入定義在 `customers.component.ts` 檔案中的它自己的功能元件，以及其他 JavaScript 匯入敘述。它將空路徑對應到 `CustomersComponent`。
 
 <code-example path="lazy-loading-ngmodules/src/app/customers/customers-routing.module.ts" id="customers-routing.module.ts" region="customers-routing-module" header="src/app/customers/customers-routing.module.ts"></code-example>
 
-The `path` here is set to an empty string because the path in `AppRoutingModule` is already set to `customers`, so this route in the `CustomersRoutingModule`, is already within the `customers` context. Every route in this routing module is a child route.
+這裡的 `path` 設為空字串，因為 `AppRoutingModule` 中的路徑已經設為 `customers`，所以 `CustomersRoutingModule` 中的這條路由已經在 `customers` 脈絡之內。此路由模組中的每條路由都是子路由。
 
-The other feature module's routing module is configured similarly.
+另一個功能模組的路由模組也以類似方式設定。
 
 <code-example path="lazy-loading-ngmodules/src/app/orders/orders-routing.module.ts" id="orders-routing.module.ts" region="orders-routing-module-detail" header="src/app/orders/orders-routing.module.ts (excerpt)"></code-example>
 
-### Verify lazy loading
+### 驗證延遲載入
 
-You can check to see that a module is indeed being lazy loaded with the Chrome developer tools. In Chrome, open the dev tools by pressing `Cmd+Option+i` on a Mac or `Ctrl+Shift+j` on a PC and go to the Network Tab.
-
-<div class="lightbox">
-  <img src="generated/images/guide/lazy-loading-ngmodules/network-tab.png" width="600" alt="lazy loaded modules diagram">
-</div>
-
-
-Click on the Orders or Customers button. If you see a chunk appear, everything is wired up properly and the feature module is being lazy loaded. A chunk should appear for Orders and for Customers but will only appear once for each.
-
+你可以使用 Chrome 開發人員工具，查看模組是否確實是延遲載入的。在 Chrome 中，按 Mac 的 `Cmd+Option+i` 或 PC 的 `Ctrl+Shift+j` 開啟開發人員工具，然後前往 Network 頁籤。
 
 <div class="lightbox">
-  <img src="generated/images/guide/lazy-loading-ngmodules/chunk-arrow.png" width="600" alt="lazy loaded modules diagram">
+  <img src="generated/images/guide/lazy-loading-ngmodules/network-tab.png" width="600" alt="延遲載入模組圖">
 </div>
 
-
-To see it again, or to test after working in the project, clear everything out by clicking the circle with a line through it in the upper left of the Network Tab:
+點選 Orders 或 Customers 按鈕。如果你看到一個區塊（chunk）出現，表示一切都已正確連接，功能模組正在延遲載入。Orders 與 Customers 各會出現一個區塊，而且每個只會出現一次。
 
 <div class="lightbox">
-  <img src="generated/images/guide/lazy-loading-ngmodules/clear.gif" width="200" alt="lazy loaded modules diagram">
+  <img src="generated/images/guide/lazy-loading-ngmodules/chunk-arrow.png" width="600" alt="延遲載入模組圖">
 </div>
 
+若要再次看到它，或在專案中作業後測試，點選 Network 分頁左上角那個帶有一條線的圓圈，清除所有內容：
 
-Then reload with `Cmd+r` or `Ctrl+r`, depending on your platform.
+<div class="lightbox">
+  <img src="generated/images/guide/lazy-loading-ngmodules/clear.gif" width="200" alt="延遲載入模組圖">
+</div>
 
-## `forRoot()` and `forChild()`
+然後依你的平台，按 `Cmd+r` 或 `Ctrl+r` 重新載入。
 
-You might have noticed that the CLI adds `RouterModule.forRoot(routes)` to the `AppRoutingModule` `imports` array.
-This lets Angular know that the `AppRoutingModule` is a routing module and `forRoot()` specifies that this is the root routing module.
-It configures all the routes you pass to it, gives you access to the router directives, and registers the `Router` service.
-Use `forRoot()` only once in the application, inside the `AppRoutingModule`.
+## `forRoot()` 與 `forChild()`
 
-The CLI also adds `RouterModule.forChild(routes)` to feature routing modules.
-This way, Angular knows that the route list is only responsible for providing additional routes and is intended for feature modules.
-You can use `forChild()` in multiple modules.
+你可能已經注意到，CLI 將 `RouterModule.forRoot(routes)` 加入了 `AppRoutingModule` 的 `imports` 陣列。
+這讓 Angular 知道 `AppRoutingModule` 是一個路由模組，而 `forRoot()` 指定這是根路由模組。
+它設定你傳入的所有路由，讓你能存取路由器指令，並註冊 `Router` 服務。
+在應用程式中只在 `AppRoutingModule` 內使用一次 `forRoot()`。
 
-The `forRoot()` method takes care of the *global* injector configuration for the Router.
-The `forChild()` method has no injector configuration. It uses directives such as `RouterOutlet` and `RouterLink`.
-For more information, see the [`forRoot()` pattern](guide/singleton-services#forRoot) section of the [Singleton Services](guide/singleton-services) guide.
+CLI 也將 `RouterModule.forChild(routes)` 加入功能路由模組。
+如此一來，Angular 知道這份路由清單只負責提供額外的路由，旨在供功能模組使用。
+你可以在多個模組中使用 `forChild()`。
+
+`forRoot()` 方法負責 Router 的*全域*注入器設定。
+`forChild()` 方法沒有注入器設定。它使用 `RouterOutlet` 與 `RouterLink` 等指令。
+更多資訊，請見[單例服務](guide/singleton-services)指南中的 [`forRoot()` pattern](guide/singleton-services#forRoot) 章節。
 
 {@a preloading}
 
-## Preloading
+## 預載入
 
-Preloading improves UX by loading parts of your app in the background.
-You can preload modules or component data.
+預載入會在背景載入應用程式的部分內容，藉此改善使用者體驗。
+你可以預載入模組或元件資料。
 
-### Preloading modules
+### 預載入模組
 
-Preloading modules improves UX by loading parts of your app in the background so users don't have to wait for the elements to download when they activate a route.
+預載入模組會在背景載入應用程式的部分內容，藉此改善使用者體驗，讓使用者在啟用某條路由時，不需要等待元素下載。
 
-To enable preloading of all lazy loaded modules, import the `PreloadAllModules` token from the Angular `router`.
+若要啟用所有延遲載入模組的預載入，請從 Angular `router` 匯入 `PreloadAllModules` 權杖。
 
 <code-example header="AppRoutingModule (excerpt)">
 
@@ -234,7 +225,7 @@ import { PreloadAllModules } from '@angular/router';
 
 </code-example>
 
-Still in the `AppRoutingModule`, specify your preloading strategy in `forRoot()`.
+仍在 `AppRoutingModule` 中，於 `forRoot()` 指定你的預先載入策略。
 
 <code-example header="AppRoutingModule (excerpt)">
 
@@ -247,22 +238,21 @@ RouterModule.forRoot(
 
 </code-example>
 
-### Preloading component data
+### 預載入元件資料
 
-To preload component data, you can use a `resolver`.
-Resolvers improve UX by blocking the page load until all necessary data is available to fully display the page.
+若要預載入元件資料，你可以使用 `resolver`。
+解析器（resolver）會封鎖頁面載入，直到完整顯示頁面所需的所有資料都可用，藉此改善使用者體驗。
 
-#### Resolvers
+#### 解析器
 
-Create a resolver service.
-With the CLI, the command to generate a service is as follows:
-
+建立一個解析器服務。
+使用 CLI 時，產生服務的指令如下：
 
 <code-example language="none" class="code-shell">
   ng generate service <service-name>
 </code-example>
 
-In your service, import the following router members, implement `Resolve`, and inject the `Router` service:
+在你的服務中，匯入以下路由成員、實作 `Resolve`，並注入 `Router` 服務：
 
 <code-example header="Resolver service (excerpt)">
 
@@ -278,7 +268,7 @@ export class CrisisDetailResolverService implements Resolve<> {
 
 </code-example>
 
-Import this resolver into your module's routing module.
+將此解析器匯入你的模組的路由模組。
 
 <code-example header="Feature module's routing module (excerpt)">
 
@@ -286,7 +276,7 @@ import { YourResolverService }    from './your-resolver.service';
 
 </code-example>
 
-Add a `resolve` object to the component's `route` configuration.
+在元件的 `route` 設定中加入一個 `resolve` 物件。
 
 <code-example header="Feature module's routing module (excerpt)">
 {
@@ -298,9 +288,7 @@ Add a `resolve` object to the component's `route` configuration.
 }
 </code-example>
 
-
-In the component, use an `Observable` to get the data from the `ActivatedRoute`.
-
+在元件中，使用 `Observable` 從 `ActivatedRoute` 取得資料。
 
 <code-example header="Component (excerpt)">
 ngOnInit() {
@@ -311,16 +299,15 @@ ngOnInit() {
 }
 </code-example>
 
-For more information with a working example, see the [routing tutorial section on preloading](guide/router#preloading-background-loading-of-feature-areas).
-
+關於更多資訊與可運作的範例，請見[路由教學中關於預先載入的一節](guide/router#預先載入在背景載入功能區)。
 
 <hr>
 
-## More on NgModules and routing
+## 更多關於 NgModules 與路由
 
-You may also be interested in the following:
-* [Routing and Navigation](guide/router).
-* [Providers](guide/providers).
-* [Types of Feature Modules](guide/module-types).
-* [Route-level code-splitting in Angular](https://web.dev/route-level-code-splitting-in-angular/)
-* [Route preloading strategies in Angular](https://web.dev/route-preloading-in-angular/)
+你可能也會對下列內容感興趣：
+* [路由與導覽](guide/router)。
+* [提供者](guide/providers)。
+* [功能模組的類型](guide/module-types)。
+* [Angular 中的路由層級程式碼分割](https://web.dev/route-level-code-splitting-in-angular/)
+* [Angular 中的路由預先載入策略](https://web.dev/route-preloading-in-angular/)

@@ -1,166 +1,163 @@
-# Getting started with service workers
+# 開始使用 service worker
 
 
-This document explains how to enable Angular service worker support in projects that you created with the [Angular CLI](cli). It then uses a simple example to show you a service worker in action, demonstrating loading and basic caching.
+本文件說明如何在使用 [Angular CLI](cli) 建立的專案中啟用 Angular service worker 支援，接著透過範例實際示範 service worker 的運作，展示載入與基本快取的行為。
 
-#### Prerequisites
+#### 先決條件
 
-A basic understanding of the information in [Introduction to Angular service workers](guide/service-worker-intro).
+對[Angular service worker 簡介](guide/service-worker-intro)中的資訊有基本的了解。
 
 
-## Adding a service worker to your project
+## 將 service worker 加入你的專案
 
-To set up the Angular service worker in your project, use the CLI command `ng add @angular/pwa`. It takes care of configuring your app to use service workers by adding the `service-worker` package along
-with setting up the necessary support files.
+若要在專案中設定 Angular service worker，請使用 CLI 指令 `ng add @angular/pwa`。它會負責設定應用程式使用 service worker，加入 `service-worker` 套件，並設定必要的支援檔案。
 
 ```sh
 ng add @angular/pwa --project *project-name*
 ```
 
-The above command completes the following actions:
+前述指令會完成下列動作：
 
-1. Adds the `@angular/service-worker` package to your project.
-2. Enables service worker build support in the CLI.
-3. Imports and registers the service worker in the app module.
-4. Updates the `index.html` file:
-    * Includes a link to add the `manifest.webmanifest` file.
-    * Adds meta tags for `theme-color`.
-5. Installs icon files to support the installed Progressive Web App (PWA).
-6. Creates the service worker configuration file called [`ngsw-config.json`](/guide/service-worker-config), which specifies the caching behaviors and other settings.
+1. 將 `@angular/service-worker` 套件加入你的專案。
+2. 在 CLI 中啟用 service worker 建置支援。
+3. 在應用程式模組中匯入並註冊 service worker。
+4. 更新 `index.html` 檔案：
+    * 加入連結，引入 `manifest.webmanifest` 檔案。
+    * 加入 `theme-color` 的 meta 標籤。
+5. 安裝圖示檔案，以支援安裝後的 Progressive Web App（PWA）。
+6. 建立名為 [`ngsw-config.json`](/guide/service-worker-config) 的 service worker 設定檔，用來指定快取行為與其他設定。
 
 
- Now, build the project:
+ 接著，建置專案：
 
 ```sh
 ng build --prod
 ```
 
-The CLI project is now set up to use the Angular service worker.
+CLI 專案現在已設定完成，可以使用 Angular service worker。
 
 
-## Service worker in action: a tour
+## Service worker 實際運作：導覽
 
-This section demonstrates a service worker in action,
-using an example application.
+本節使用範例應用程式，實際示範 service worker 的運作。
 
-### Serving with `http-server`
+### 使用 `http-server` 提供服務
 
-Because `ng serve` does not work with service workers, you must use a separate HTTP server to test your project locally. You can use any HTTP server. The example below uses the [http-server](https://www.npmjs.com/package/http-server) package from npm. To reduce the possibility of conflicts and avoid serving stale content, test on a dedicated port and disable caching.
+因為 `ng serve` 無法搭配 service worker 使用，你必須用獨立的 HTTP 伺服器在本機測試專案。可以使用任何 HTTP 伺服器。以下範例使用 npm 上的 [http-server](https://www.npmjs.com/package/http-server) 套件。為降低發生衝突的可能性並避免提供過時的內容，請在專用的連接埠上測試，並停用快取。
 
-To serve the directory containing your web files with `http-server`, run the following command:
+若要用 `http-server` 提供包含 Web 檔案的目錄服務，請執行以下指令：
 
 ```sh
 http-server -p 8080 -c-1 dist/<project-name>
 ```
 
-### Initial load
+### 首次載入
 
-With the server running, you can point your browser at http://localhost:8080/. Your application should load normally.
+伺服器執行時，你可以將瀏覽器指向 http://localhost:8080/。你的應用程式應該會正常載入。
 
-**Tip:** When testing Angular service workers, it's a good idea to use an incognito or private window in your browser to ensure the service worker doesn't end up reading from a previous leftover state, which can cause unexpected behavior.
-
-<div class="alert is-helpful">
-
-**Note:**
-If you are not using HTTPS, the service worker will only be registered when accessing the app on `localhost`.
-
-</div>
-
-### Simulating a network issue
-
-To simulate a network issue, disable network interaction for your application. In Chrome:
-
-1. Select **Tools** > **Developer Tools** (from the Chrome menu located at the top right corner).
-2. Go to the **Network tab**.
-3. Check the **Offline box**.
-
-<div class="lightbox">
-  <img src="generated/images/guide/service-worker/offline-checkbox.png" alt="The offline checkbox in the Network tab is checked">
-</div>
-
-Now the app has no access to network interaction.
-
-For applications that do not use the Angular service worker, refreshing now would display Chrome's Internet disconnected page that says "There is no Internet connection".
-
-With the addition of an Angular service worker, the application behavior changes. On a refresh, the page loads normally.
-
-If you look at the Network tab, you can verify that the service worker is active.
-
-<div class="lightbox">
-  <img src="generated/images/guide/service-worker/sw-active.png" alt="Requests are marked as from ServiceWorker">
-</div>
-
-Notice that under the "Size" column, the requests state is `(from ServiceWorker)`. This means that the resources are not being loaded from the network. Instead, they are being loaded from the service worker's cache.
-
-
-### What's being cached?
-
-Notice that all of the files the browser needs to render this application are cached. The `ngsw-config.json` boilerplate configuration is set up to cache the specific resources used by the CLI:
-
-* `index.html`.
-* `favicon.ico`.
-* Build artifacts (JS and CSS bundles).
-* Anything under `assets`.
-* Images and fonts directly under the configured `outputPath` (by default `./dist/<project-name>/`) or `resourcesOutputPath`. See [`ng build`](cli/build) for more information about these options.
-
+**提示：** 測試 Angular service worker 時，建議使用瀏覽器的無痕或私密視窗，確保 service worker 不會讀到先前殘留的狀態，以免造成非預期的行為。
 
 <div class="alert is-helpful">
-Pay attention to two key points:
 
-1. The generated `ngsw-config.json` includes a limited list of cachable fonts and images extentions. In some cases, you might want to modify the glob pattern to suit your needs.
+**注意：**
+若你不是使用 HTTPS，service worker 只會在你於 `localhost` 存取應用程式時才註冊。
 
-1. If `resourcesOutputPath` or `assets` paths are modified after the generation of configuration file, you need to change the paths manually in `ngsw-config.json`.
 </div>
 
-### Making changes to your application
+### 模擬網路問題
 
-Now that you've seen how service workers cache your application, the
-next step is understanding how updates work.
+若要模擬網路問題，請停用應用程式的網路互動。在 Chrome 中：
 
-1. If you're testing in an incognito window, open a second blank tab. This will keep the incognito and the cache state alive during your test.
+1. 從 Chrome 右上角的選單中，選取 **Tools** > **Developer Tools**。
+2. 前往 **Network tab**。
+3. 勾選 **Offline 方塊**。
 
-2. Close the application tab, but not the window. This should also close the Developer Tools.
+<div class="lightbox">
+  <img src="generated/images/guide/service-worker/offline-checkbox.png" alt="Network 分頁中的離線核取方塊已勾選">
+</div>
 
-3. Shut down `http-server`.
+現在應用程式已無法進行網路互動。
 
-4. Next, make a change to the application, and watch the service worker install the update.
+對於未使用 Angular service worker 的應用程式，此時重新整理會顯示 Chrome 的網路中斷頁面，上面寫著「There is no Internet connection」。
 
-5. Open `src/app/app.component.html` for editing.
+加入 Angular service worker 後，應用程式的行為就不同了。重新整理時，頁面會正常載入。
 
-6. Change the text `Welcome to {{title}}!` to `Bienvenue à {{title}}!`.
+查看 Network 分頁，確認 service worker 已在運作。
 
-7. Build and run the server again:
+<div class="lightbox">
+  <img src="generated/images/guide/service-worker/sw-active.png" alt="要求標示為來自 ServiceWorker">
+</div>
+
+請注意，在「Size」欄位下，請求的狀態是 `(from ServiceWorker)`。這表示資源不是從網路載入的，而是從 service worker 的快取載入。
+
+
+### 哪些內容被快取了？
+
+請注意，瀏覽器呈現這個應用程式所需的全部檔案都已被快取。`ngsw-config.json` 的範本設定會快取 CLI 所使用的特定資源：
+
+* `index.html`。
+* `favicon.ico`。
+* 建置產物（JS 與 CSS 套件）。
+* `assets` 下的所有內容。
+* 設定好的 `outputPath`（預設為 `./dist/<project-name>/`）或 `resourcesOutputPath` 正下方直接放置的圖片與字型。如需進一步了解這些選項，請參閱 [`ng build`](cli/build)。
+
+
+<div class="alert is-helpful">
+請注意以下兩個重點：
+
+1. 產生的 `ngsw-config.json` 只包含有限的可快取字型與圖片副檔名清單。在某些情況下，你可能需要修改 glob 模式以符合你的需求。
+
+1. 如果 `resourcesOutputPath` 或 `assets` 路徑在設定檔產生之後被修改，你需要手動修改 `ngsw-config.json` 中的路徑。
+</div>
+
+### 修改你的應用程式
+
+現在你已經了解 service worker 如何快取你的應用程式，下一步是了解更新如何運作。
+
+1. 如果你正在無痕視窗中測試，請再開一個空白分頁。這樣能在測試期間保持無痕模式與快取狀態存活。
+
+2. 關閉應用程式分頁，但不要關閉視窗。這也會一併關閉 Developer Tools。
+
+3. 關閉 `http-server`。
+
+4. 接著，對應用程式做一項變更，並觀察 service worker 安裝更新。
+
+5. 開啟 `src/app/app.component.html` 進行編輯。
+
+6. 將文字 `Welcome to {{title}}!` 改為 `Bienvenue à {{title}}!`。
+
+7. 再次建置並執行伺服器：
 
 ```sh
 ng build --prod
 http-server -p 8080 -c-1 dist/<project-name>
 ```
 
-### Updating your application in the browser
+### 在瀏覽器中更新你的應用程式
 
-Now look at how the browser and service worker handle the updated application.
+接著看看瀏覽器與 service worker 如何處理更新後的應用程式。
 
-1. Open http://localhost:8080 again in the same window. What happens?
-
-<div class="lightbox">
-  <img src="generated/images/guide/service-worker/welcome-msg-en.png" alt="It still says Welcome to Service Workers!">
-</div>
-
-What went wrong? Nothing, actually. The Angular service worker is doing its job and serving the version of the application that it has **installed**, even though there is an update available. In the interest of speed, the service worker doesn't wait to check for updates before it serves the application that it has cached.
-
-If you look at the `http-server` logs, you can see the service worker requesting `/ngsw.json`. This is how the service worker checks for updates.
-
-2. Refresh the page.
+1. 在同一個視窗中再次開啟 http://localhost:8080。發生了什麼事？
 
 <div class="lightbox">
-  <img src="generated/images/guide/service-worker/welcome-msg-fr.png" alt="The text has changed to say Bienvenue à app!">
+  <img src="generated/images/guide/service-worker/welcome-msg-en.png" alt="仍顯示「Welcome to Service Workers!」">
 </div>
 
-The service worker installed the updated version of your app *in the background*, and the next time the page is loaded or reloaded, the service worker switches to the latest version.
+哪裡出錯了？其實什麼都沒出錯。Angular service worker 正在做它的工作，提供它已**安裝**的應用程式版本，即使已有更新可用。為了速度，service worker 在提供已快取的應用程式之前，不會先等待檢查更新。
+
+查看 `http-server` 的記錄檔，你可以看到 service worker 正在請求 `/ngsw.json`。service worker 就是這樣檢查更新的。
+
+2. 重新整理頁面。
+
+<div class="lightbox">
+  <img src="generated/images/guide/service-worker/welcome-msg-fr.png" alt="文字已變為「Bienvenue à app!」">
+</div>
+
+service worker 已在*背景*安裝更新後的應用程式版本，下次載入或重新載入頁面時，service worker 就會切換到最新版本。
 
 <hr />
 
-## More on Angular service workers
+## 更多 Angular Service Worker 資訊
 
-You may also be interested in the following:
-* [Communicating with service workers](guide/service-worker-communications).
+你可能也會對以下內容有興趣：
+* [與 service worker 通訊](guide/service-worker-communications)。

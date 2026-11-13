@@ -1,122 +1,122 @@
-# Building with Bazel
+# 使用 Bazel 建置
 
-This guide explains how to build and test Angular apps with Bazel.
+本指南說明如何使用 Bazel 建置與測試 Angular 應用程式。
 
 
 <div class="alert is-helpful">
 
-This guide assumes you are already familiar with developing and building Angular applications using the [CLI](cli).
+本指南假設你已經熟悉如何使用 [CLI](cli) 開發與建置 Angular 應用程式。
 
-It describes features which are part of Angular Labs, and are not considered a stable, supported API.
+它描述的功能屬於 Angular Labs 的一部分，不被視為穩定、受支援的 API。
 
 </div>
 
-## Using Bazel with the Angular CLI
+## 搭配 Angular CLI 使用 Bazel
 
-The `@angular/bazel` package provides a builder that allows Angular CLI to use Bazel as the build tool.
+`@angular/bazel` 套件提供了一個建置器（builder），讓 Angular CLI 能使用 Bazel 作為建置工具。
 
-To opt-in an existing application, run
+若要為現有應用程式啟用，執行
 
 ```sh
 ng add @angular/bazel
 ```
 
-To use Bazel in a new application, first install `@angular/bazel` globally
+若要在新應用程式中使用 Bazel，先全域安裝 `@angular/bazel`
 
 ```sh
 npm install -g @angular/bazel
 ```
 
-then create the new application with
+然後以以下命令建立新應用程式
 
 ```sh
 ng new --collection=@angular/bazel
 ```
 
-Now when you use Angular CLI build commands such as `ng build` and `ng serve`,
-Bazel is used behind the scenes.
-Outputs from Bazel appear in the `dist/bin` folder.
+現在當你使用 `ng build`、`ng serve` 等 Angular CLI 建置命令時，
+Bazel 會在幕後被使用。
+Bazel 的輸出會出現在 `dist/bin` 資料夾中。
 
-> The command-line output includes extra logging from Bazel.
-> We plan to reduce this in the future.
+> 命令列輸出包含來自 Bazel 的額外記錄。
+> 我們計劃在未來減少這些輸出。
 
-### Removing Bazel
+### 移除 Bazel
 
-If you need to opt-out from using Bazel, you can restore the backup files:
+如果你需要停用 Bazel，可以還原備份檔案：
 
-- `/angular.json.bak` replaces `/angular.json`
+- `/angular.json.bak` 取代 `/angular.json`
 
-## Advanced configuration
+## 進階設定
 
 <div class="alert is-helpful">
 
-Editing the Bazel configuration may prevent you opting out of Bazel.
-Custom behaviors driven by Bazel won't be available in other Builders.
+編輯 Bazel 設定可能會讓你無法再停用 Bazel。
+由 Bazel 驅動的自訂行為將無法在其他建置器中使用。
 
-This section assumes you are familiar with [Bazel](https://docs.bazel.build).
+本節假設你已熟悉 [Bazel](https://docs.bazel.build)。
 
 </div>
 
-You can manually adjust the Bazel configuration to:
+你可以手動調整 Bazel 設定來：
 
-* customize the build steps
-* parallellize the build for scale and incrementality
+* 自訂建置步驟
+* 將建置平行化，以獲得規模與增量建置的效益
 
-Create the initial Bazel configuration files by running the following command:
+執行以下命令來建立初始的 Bazel 設定檔：
 
 ```sh
 ng build --leaveBazelFilesOnDisk
 ```
 
-Now you'll find new files in the Angular workspace:
+現在你會在 Angular 工作區中找到新檔案：
 
-* `/WORKSPACE` tells Bazel how to download external dependencies.
-* `/BUILD.bazel` and `/src/BUILD.bazel` tell Bazel about your source code.
+* `/WORKSPACE` 告訴 Bazel 如何下載外部相依性。
+* `/BUILD.bazel` 與 `/src/BUILD.bazel` 告訴 Bazel 你的原始碼。
 
-You can find a full-featured example with custom Bazel configurations at https://github.com/bazelbuild/rules_nodejs/tree/master/examples/angular.
+你可以在 https://github.com/bazelbuild/rules_nodejs/tree/master/examples/angular 找到一個功能完整、帶有自訂 Bazel 設定的範例。
 
-Documentation for using Bazel for frontend projects is linked from https://docs.bazel.build/versions/master/bazel-and-javascript.html.
-
-
-
-## Running Bazel directly
-
-In some cases you'll want to bypass the Angular CLI builder, and run the Bazel CLI directly.
-The Bazel tool is managed by the `@bazel/bazelisk` package (similar to how Node.js can be managed by `nvm`).
-You can install it globally to get the `bazelisk` command in your path, or use `$(npm bin)/bazelisk` in place of bazelisk below.
-
-The common commands in Bazel are:
-
-* `bazelisk build [targets]`: Compile the default output artifacts of the given targets.
-* `bazelisk test [targets]`: For whichever `*_test` targets are found in the patterns, run the tests.
-* `bazelisk run [target]`: Compile the program represented by target, and then run it.
-
-To repeat the command any time the inputs change (watch mode), replace `bazelisk` with `ibazel` in these commands.
-
-The output locations are printed in the output.
-
-Full documentation for the Bazel CLI is at https://docs.bazel.build/versions/master/command-line-reference.html.
+使用 Bazel 進行前端專案開發的文件，連結自 https://docs.bazel.build/versions/master/bazel-and-javascript.html。
 
 
-## Querying the build graph
 
-Because Bazel constructs a graph out of your targets, you can find lots of useful information.
+## 直接執行 Bazel
 
-Using the graphviz optional dependency, you'll have a program `dot`, which you can use with `bazel query`:
+在某些情況下，你會想要繞過 Angular CLI 建置器，直接執行 Bazel CLI。
+Bazel 工具由 `@bazel/bazelisk` 套件管理（類似 Node.js 可以由 `nvm` 管理的方式）。
+你可以全域安裝它，讓 `bazelisk` 命令出現在你的 path 中，或在下方的 bazelisk 之處使用 `$(npm bin)/bazelisk` 代替。
+
+Bazel 中常見的命令有：
+
+* `bazelisk build [targets]`：編譯指定目標的預設輸出產物。
+* `bazelisk test [targets]`：對於在模式中找到的任何 `*_test` 目標，執行其測試。
+* `bazelisk run [target]`：編譯目標所代表的程式，然後執行它。
+
+若要在輸入變更時重複執行命令（監看模式），把這些命令中的 `bazelisk` 換成 `ibazel`。
+
+輸出位置會印在輸出中。
+
+Bazel CLI 的完整文件位於 https://docs.bazel.build/versions/master/command-line-reference.html。
+
+
+## 查詢建置圖
+
+由於 Bazel 會從你的目標建構出一張圖，你可以從中找到許多有用的資訊。
+
+使用 graphviz 這個選用相依性，你會得到一個 `dot` 程式，可以搭配 `bazel query` 使用：
 
 ```bash
 $ bazel query --output=graph ... | dot -Tpng > graph.png
 ```
 
-See https://docs.bazel.build/versions/master/query-how-to.html for more details on `bazel query`.
+更多關於 `bazel query` 的細節，請參閱 https://docs.bazel.build/versions/master/query-how-to.html。
 
 
-## Customizing `BUILD.bazel` files
+## 自訂 `BUILD.bazel` 檔案
 
-"Rules" are like plugins for Bazel. Many rule sets are available. This guide documents the ones maintained by the Angular team at Google.
+「規則（Rules）」就像 Bazel 的外掛。市面上有許多規則集可用。本指南記錄的是由 Google 的 Angular 團隊維護的那些。
 
-Rules are used in `BUILD.bazel` files, which are markers for the packages in your workspace. Each `BUILD.bazel` file declares a separate package to Bazel, though you can have more coarse-grained distributions so that the packages you publish (for example, to `npm`) can be made up of many Bazel packages.
+規則用於 `BUILD.bazel` 檔案中，這些檔案是你工作區中各套件的標記。每個 `BUILD.bazel` 檔案向 Bazel 宣告一個獨立的套件，不過你也可以採用較粗粒度的散佈方式，讓你發佈的套件（例如發佈到 `npm`）可以由許多 Bazel 套件組成。
 
-In the `BUILD.bazel` file, each rule must first be imported, using the `load` statement. Then the rule is called with some attributes, and the result of calling the rule is that you've declared to Bazel how it can derive some outputs given some inputs and dependencies. Then later, when you run a `bazel` command line, Bazel loads all the rules you've declared to determine an absolute ordering of what needs to be run. Note that only the rules needed to produce the requested output will actually be executed.
+在 `BUILD.bazel` 檔案中，每條規則必須先以 `load` 陳述式匯入。接著以一些屬性呼叫該規則，呼叫的結果就是：你已經向 Bazel 宣告，在給定一些輸入與相依性時，它可以如何推導出一些輸出。之後，當你執行 `bazel` 命令列時，Bazel 會載入你宣告的所有規則，以決定需要執行的事項的絕對順序。請注意，只有產生所請求輸出所需的規則才會真正被執行。
 
-A list of common rules for frontend development is documented in the README at https://github.com/bazelbuild/rules_nodejs/.
+前端開發常見規則的清單，記錄在 https://github.com/bazelbuild/rules_nodejs/ 的 README 中。

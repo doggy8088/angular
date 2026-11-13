@@ -1,38 +1,38 @@
-# Using published libraries
+# 使用已發行的程式庫
 
-When building Angular applications you can take advantage of sophisticated first-party libraries, such as [Angular Material](https://material.angular.io/), as well as rich ecosystem of third-party libraries.
-See the [Angular Resources](resources) page for links to the most popular ones.
+建置 Angular 應用程式時，你可以運用精緻的第一方程式庫，例如 [Angular Material](https://material.angular.io/)，以及豐富的第三方程式庫生態系統。
+最受歡迎的程式庫連結，請參閱 [Angular 資源](resources) 頁面。
 
-## Installing libraries
+## 安裝程式庫
 
-Libraries are published as [npm packages](guide/npm-packages), usually together with schematics that integrate them with the Angular CLI.
-To integrate reusable library code into an application, you need to install the package and import the provided functionality where you will use it. For most published Angular libraries, you can use the Angular CLI `ng add <lib_name>` command.
+程式庫以 [npm 套件](guide/npm-packages) 的形式發行，通常會附帶能與 Angular CLI 整合的原理圖。
+若要把可重複使用的程式庫程式碼整合進應用程式，你需要安裝套件，並在你將使用它的位置匯入所提供的功能。對於大多數已發行的 Angular 程式庫，你可以使用 Angular CLI 的 `ng add <lib_name>` 指令。
 
-The `ng add` command uses the npm package manager or [yarn](https://yarnpkg.com/) to install the library package, and invokes schematics that are included in the package to other scaffolding within the project code, such as adding import statements, fonts, themes, and so on.
+`ng add` 指令會使用 npm 套件管理工具或 [yarn](https://yarnpkg.com/) 來安裝程式庫套件，並叫用套件中包含的原理圖，在專案程式碼中加入其他鷹架，例如新增 import 陳述式、字型、主題等。
 
-A published library typically provides a README or other documentation on how to add that lib to your app.
-For an example, see [Angular Material](https://material.angular.io/) docs.
+已發行的程式庫通常會提供 README 或其他文件，說明如何將該程式庫加入你的應用程式。
+例如，請參閱 [Angular Material](https://material.angular.io/) 文件。
 
-### Library typings
+### 程式庫的型別定義
 
-Library packages often include typings in `.d.ts` files; see examples in `node_modules/@angular/material`. If your library's package does not include typings and your IDE complains, you may need to install the library's associated `@types/<lib_name>` package.
+程式庫套件通常會在 `.d.ts` 檔案中包含型別定義；範例請見 `node_modules/@angular/material`。如果你的程式庫套件不包含型別定義，而你的 IDE 因此抱怨，你可能需要安裝該程式庫相關聯的 `@types/<lib_name>` 套件。
 
-For example, suppose you have a library named `d3`:
+例如，假設你有一個名為 `d3` 的程式庫：
 
 <code-example language="bash">
 npm install d3 --save
 npm install @types/d3 --save-dev
 </code-example>
 
-Types defined in a `@types/` package for a library installed into the workspace are automatically added to the TypeScript configuration for the project that uses that library.
-TypeScript looks for types in the `node_modules/@types` folder by default, so you don't have to add each type package individually.
+為工作區中已安裝的程式庫所定義的 `@types/` 套件型別，會自動加入使用該程式庫的專案的 TypeScript 設定中。
+TypeScript 預設會在 `node_modules/@types` 資料夾中尋找型別，因此你不需要逐一加入每個型別套件。
 
-If a library doesn't have typings available at `@types/`, you can still use it by manually adding typings for it.
-To do this:
+如果某個程式庫在 `@types/` 沒有可用的型別定義，你仍然可以透過手動為它加入型別定義來使用它。
+做法如下：
 
-1. Create a `typings.d.ts` file in your `src/` folder. This file is automatically included as global type definition.
+1. 在你的 `src/` 資料夾中建立一個 `typings.d.ts` 檔案。這個檔案會自動被包含為全域型別定義。
 
-2. Add the following code in `src/typings.d.ts`.
+2. 將下列程式碼加入 `src/typings.d.ts`。
 
 ```
 declare module 'host' {
@@ -45,7 +45,7 @@ declare module 'host' {
 }
 ```
 
-3. In the component or file that uses the library, add the following code.
+3. 在使用該程式庫的元件或檔案中，加入下列程式碼。
 
 ```
 import * as host from 'host';
@@ -53,24 +53,24 @@ const parsedUrl = host.parse('https://angular.io');
 console.log(parsedUrl.hostname);
 ```
 
-You can define more typings as needed.
+你可以依需要定義更多型別定義。
 
-## Updating libraries
+## 更新程式庫
 
-Libraries can be updated by their publishers, and also have their own dependencies which need to be kept current.
-To check for updates to your installed libraries, use the [`ng update` command](cli/update).
+程式庫可以由其發行者更新，自身也有需要保持最新的依賴。
+若要檢查你已安裝的程式庫是否有更新，請使用 [`ng update` 指令](cli/update)。
 
-Use `ng update <lib_name>` to update individual library versions. The Angular CLI checks the latest published release of the library, and if the latest version is newer than your installed version, downloads it and updates your `package.json` to match the latest version.
+使用 `ng update <lib_name>` 可以更新個別程式庫的版本。Angular CLI 會檢查該程式庫最新發行的版本，如果最新版本比你安裝的版本新，就會下載它，並更新你的 `package.json` 使其與最新版本一致。
 
-When you update Angular to a new version, you need to make sure that any libraries you are using are current. If libraries have interdependencies, you might have to update them in a particular order.
-See the [Angular Update Guide](https://update.angular.io/) for help.
+當你將 Angular 更新到新版本時，你需要確認你使用的所有程式庫都是最新狀態。如果程式庫之間有相互依賴關係，你可能必須按照特定順序更新它們。
+詳情請參閱 [Angular 更新指南](https://update.angular.io/)。
 
-## Adding a library to the runtime global scope
+## 將程式庫加入執行階段的全域範圍
 
-Legacy JavaScript libraries that are not imported into an app can be added to the runtime global scope and loaded as if they were in a script tag.
-Configure the CLI to do this at build time using the "scripts" and "styles" options of the build target in the [CLI configuration file](guide/workspace-config), `angular.json`.
+沒有被匯入應用程式的舊版 JavaScript 程式庫，可以加入執行階段的全域範圍，像放在 script 標籤中一樣載入。
+在建置時使用 [CLI 設定檔](guide/workspace-config)（即 `angular.json`）中建置目標的 "scripts" 與 "styles" 選項，設定 CLI 來完成這件事。
 
-For example, to use the [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/) library, first install the library and its dependencies using the npm package manager:
+例如，若要使用 [Bootstrap 4](https://getbootstrap.com/docs/4.0/getting-started/introduction/) 程式庫，先使用 npm 套件管理工具安裝程式庫及其依賴：
 
 <code-example language="bash">
 npm install jquery --save
@@ -78,7 +78,7 @@ npm install popper.js --save
 npm install bootstrap --save
 </code-example>
 
-In the `angular.json` configuration file, add the associated script files to the "scripts" array:
+在 `angular.json` 設定檔中，將相關的指令碼檔案加入 "scripts" 陣列：
 
 ```
 "scripts": [
@@ -88,7 +88,7 @@ In the `angular.json` configuration file, add the associated script files to the
 ],
 ```
 
-Add the Bootstrap CSS file to the "styles" array:
+將 Bootstrap CSS 檔案加入 "styles" 陣列：
 
 ```
 "styles": [
@@ -97,31 +97,31 @@ Add the Bootstrap CSS file to the "styles" array:
 ],
 ```
 
-Run or restart `ng serve` to see Bootstrap 4 working in your app.
+執行或重新啟動 `ng serve`，即可在你的應用程式中看到 Bootstrap 4 正常運作。
 
-### Using runtime-global libraries inside your app
+### 在應用程式中使用執行階段全域程式庫
 
-Once you import a library using the "scripts" array, you should **not** import it using an import statement in your TypeScript code (such as `import * as $ from 'jquery';`).
-If you do, you'll end up with two different copies of the library: one imported as a global library, and one imported as a module.
-This is especially bad for libraries with plugins, like JQuery, because each copy will have different plugins.
+透過 "scripts" 陣列匯入程式庫之後，你**不應該**在 TypeScript 程式碼中用 import 陳述式匯入它（例如 `import * as $ from 'jquery';`）。
+如果你這樣做，你就會有兩份不同的程式庫副本：一份以全域程式庫形式匯入，另一份以模組形式匯入。
+這對帶有外掛程式的程式庫（例如 JQuery）尤其糟糕，因為每個副本會有不同的外掛程式。
 
-Instead, download typings for your library (`npm install @types/jquery`) and follow the library installation steps. This gives you access to the global variables exposed by that library.
+相反地，請下載你的程式庫的型別定義（`npm install @types/jquery`），並依照程式庫的安裝步驟操作。如此你就能存取該程式庫公開的全域變數。
 
-### Defining typings for runtime-global libraries
+### 為執行階段全域程式庫定義型別
 
-If the global library you need to use does not have global typings, you can declare them manually as `any` in `src/typings.d.ts`. For example:
+如果你需要使用的全域程式庫沒有全域型別定義，你可以在 `src/typings.d.ts` 中手動將它們宣告為 `any`。例如：
 
 ```
 declare var libraryName: any;
 ```
 
-Some scripts extend other libraries; for instance with JQuery plugins:
+有些指令碼會擴充其他程式庫；例如 JQuery 外掛程式：
 
 ```
 $('.test').myPlugin();
 ```
 
-In this case, the installed `@types/jquery` doesn't include `myPlugin`, so you need to add an interface in `src/typings.d.ts`. For example:
+在這種情況下，已安裝的 `@types/jquery` 不包含 `myPlugin`，因此你需要在 `src/typings.d.ts` 中加入一個介面。例如：
 
 ```
 interface JQuery {
@@ -129,7 +129,7 @@ interface JQuery {
 }
 ```
 
-If don't add the interface for the script-defined extension, your IDE shows an error:
+如果你沒有為指令碼定義的擴充加入介面，你的 IDE 會顯示錯誤：
 
 ```
 [TS][Error] Property 'myPlugin' does not exist on type 'JQuery'

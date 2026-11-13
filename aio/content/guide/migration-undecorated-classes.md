@@ -1,17 +1,16 @@
-# Missing `@Directive()`/`@Component()` decorator migration
+# 缺少 `@Directive()`/`@Component()` 裝飾器的遷移
 
-## What does this migration do?
+## 這個遷移做什麼？
 
-This migration adds an empty `@Directive()` decorator to undecorated
-base classes that:
+這個遷移會為未加裝飾器的基底類別加上空的 `@Directive()` 裝飾器，這些基底類別：
 
-- use Angular features
-- are extended by directives or components
+- 使用 Angular 功能
+- 被指令或元件繼承
 
-For example, in the diff below, a `@Directive()` decorator is added to `BaseMenu` because `BaseMenu` uses dependency injection.
+例如，在下面的差異中，`@Directive()` 裝飾器被加到了 `BaseMenu`，因為 `BaseMenu` 使用了依賴注入。
 
 
-  **Before:**
+  **之前：**
   ```ts
   export class BaseMenu {
     constructor(private vcr: ViewContainerRef) {}
@@ -21,7 +20,7 @@ For example, in the diff below, a `@Directive()` decorator is added to `BaseMenu
   export class SettingsMenu extends BaseMenu {}
   ```
 
-  **After:**
+  **之後：**
   ```ts
   @Directive()
   export class BaseMenu {
@@ -32,9 +31,9 @@ For example, in the diff below, a `@Directive()` decorator is added to `BaseMenu
   export class SettingsMenu extends BaseMenu {}
   ```
 
-In the event that a directive or component is extended by a class without a decorator, the schematic copies any inherited directive or component metadata to the derived class.
+若指令或元件被一個沒有裝飾器的類別繼承，原理圖會將繼承而來的指令或元件中繼資料複製到衍生類別。
 
-**Before:**
+**之前：**
 ```ts
 @Component({
   selector: 'base-menu',
@@ -45,7 +44,7 @@ class BaseMenu {}
 export class SettingsMenu extends BaseMenu {}
 ```
 
-**After:**
+**之後：**
 ```ts
 @Component({
   selector: 'base-menu',
@@ -60,7 +59,7 @@ class BaseMenu {}
 export class SettingsMenu extends BaseMenu {}
 ```
 
-This schematic also decorates classes that use Angular field decorators, including:
+這個原理圖也會裝飾使用 Angular 欄位裝飾器的類別，包括：
 - `@Input()`
 - `@Output()`
 - `@HostBinding()`
@@ -69,7 +68,7 @@ This schematic also decorates classes that use Angular field decorators, includi
 - `@ContentChild()` / `@ContentChildren()`
 
 
-**Before:**
+**之前：**
 ```ts
 class Base {
   @Output()
@@ -83,7 +82,7 @@ class Dir extends Base {
 }
 ```
 
-**After:**
+**之後：**
 ```ts
 @Directive() // schematic adds @Directive()
 class Base {
@@ -99,40 +98,39 @@ class Dir extends Base {
 ```
 
 
-## Why is this migration necessary?
+## 為什麼需要這個遷移？
 
-### Migrating classes that use DI
+### 遷移使用 DI 的類別
 
-When a class has a `@Directive()` or `@Component()` decorator, the Angular compiler generates extra code to inject dependencies into the constructor.
-When using inheritance, Ivy needs both the parent class and the child class to apply a decorator to generate the correct code.
+當一個類別有 `@Directive()` 或 `@Component()` 裝飾器時，Angular 編譯器會產生額外的程式碼，將依賴注入到建構函式中。
+使用繼承時，Ivy 需要父類別和子類別都套用裝飾器，才能產生正確的程式碼。
 
-You can think of this change as two cases: a parent class is missing a
-decorator or a child class is missing a decorator.
-In both scenarios, Angular's runtime needs additional information from the compiler.
-This additional information comes from adding decorators.
+你可以將這項變更想成兩種情況：父類別缺少裝飾器，或子類別缺少裝飾器。
+在這兩種情況下，Angular 的執行期都需要來自編譯器的額外資訊。
+這個額外資訊來自於加上裝飾器。
 
 
-#### Decorator missing from parent class
+#### 父類別缺少裝飾器
 
-When the decorator is missing from the parent class, the subclass will inherit a constructor from a class for which the compiler did not generate special constructor info (because it was not decorated as a directive).
-When Angular then tries to create the subclass, it doesn't have the correct info to create it.
+當父類別缺少裝飾器時，子類別會繼承一個建構函式，而編譯器並未為其所屬類別產生特殊的建構函式資訊（因為它沒有被裝飾為指令）。
+當 Angular 接著嘗試建立子類別時，它就沒有正確的資訊來建立它。
 
-In View Engine, the compiler has global knowledge, so it can look up the missing data.
-However, the Ivy compiler only processes each directive in isolation.
-This means that compilation can be faster, but the compiler can't automatically infer the same information as before.
-Adding the `@Directive()` explicitly provides this information.
+在 View Engine 中，編譯器擁有全域知識，因此可以查到缺少的資料。
+然而，Ivy 編譯器只會獨立處理每個指令。
+這意味著編譯可以更快，但編譯器無法自動推斷出與之前相同的資訊。
+明確加上 `@Directive()` 就能提供這個資訊。
 
-In the future, add `@Directive()` to base classes that do not already have decorators and are extended by directives.
+將來，請為尚未有裝飾器且被指令繼承的基底類別加上 `@Directive()`。
 
-#### Decorator missing from child class
+#### 子類別缺少裝飾器
 
-When the child class is missing the decorator, the child class inherits from the parent class yet has no decorators of its own.
-Without a decorator, the compiler has no way of knowing that the class is a `@Directive` or `@Component`, so it doesn't generate the proper instructions for the directive.
+當子類別缺少裝飾器時，子類別繼承自父類別，但自身沒有任何裝飾器。
+沒有裝飾器，編譯器就無從得知該類別是 `@Directive` 或 `@Component`，因此不會為該指令產生正確的指令序列。
 
-### Migrating classes that use field decorators
+### 遷移使用欄位裝飾器的類別
 
-In ViewEngine, base classes with field decorators like `@Input()` worked even when the class did not have a `@Directive()` or `@Component()` decorator.
-For example:
+在 ViewEngine 中，帶有 `@Input()` 這類欄位裝飾器的基底類別，即使該類別沒有 `@Directive()` 或 `@Component()` 裝飾器，也能運作。
+例如：
 
 ```ts
 class Base {
@@ -148,41 +146,41 @@ class Dir extends Base {
 }
 ```
 
-However, this example won't compile with Ivy because the `Base` class _requires_ either a `@Directive()` or `@Component()` decorator to generate code for inputs, outputs, queries, and host bindings.
+然而，這個範例無法以 Ivy 編譯，因為 `Base` 類別_需要_ `@Directive()` 或 `@Component()` 裝飾器，才能為輸入、輸出、查詢和宿主繫結產生程式碼。
 
-Always requiring a class decorator leads to two main benefits for Angular:
+一律要求類別裝飾器為 Angular 帶來兩個主要好處：
 
-1. The previous behavior was inconsistent.
-   Some Angular features required a decorator (dependency injection), but others did not.
-   Now, all Angular features consistently require a class decorator.
+1. 先前的行為不一致。
+   有些 Angular 功能需要裝飾器（依賴注入），但其他功能不需要。
+   現在，所有 Angular 功能一致地都需要類別裝飾器。
 
-1. Supporting undecorated classes increases the code size and complexity of Angular.
-   Always requiring class decorators allows the framework to become smaller and simpler for all users.
+1. 支援未加裝飾器的類別會增加 Angular 的程式碼大小和複雜度。
+   一律要求類別裝飾器，能讓框架對所有使用者都更小、更簡單。
 
 
-## What does it mean to have a `@Directive()` decorator with no metadata inside of it?
+## `@Directive()` 裝飾器裡面沒有任何中繼資料是什麼意思？
 
-The presence of the `@Directive` decorator causes Angular to generate extra code for the affected class.
-If that decorator includes no properties (metadata), the directive won't be matched to elements or instantiated directly, but other classes that _extend_ the directive class will inherit this generated code.
-You can think of this as an "abstract" directive.
+`@Directive` 裝飾器的存在會促使 Angular 為受影響的類別產生額外的程式碼。
+如果該裝飾器不包含任何屬性（中繼資料），該指令就不會被比對到元素，也不會被直接實例化，但其他_繼承_該指令類別的類別會繼承這段產生的程式碼。
+你可以將它想成一個「抽象」指令。
 
-Adding an abstract directive to an `NgModule` will cause an error.
-A directive must have a `selector` property defined in order to match some element in a template.
+將抽象指令加入 `NgModule` 會造成錯誤。
+指令必須定義 `selector` 屬性，才能比對範本中的某些元素。
 
-## When do I need a `@Directive()` decorator without a selector?
+## 我什麼時候需要沒有選擇器的 `@Directive()` 裝飾器？
 
-If you're using dependency injection, or any Angular-specific feature, such as `@HostBinding()`, `@ViewChild()`, or `@Input()`, you need a `@Directive()` or `@Component()` decorator.
-The decorator lets the compiler know to generate the correct instructions to create that class and any classes that extend it.
-If you don't want to use that base class as a directive directly, leave the selector blank.
-If you do want it to be usable independently, fill in the metadata as usual.
+如果你正在使用依賴注入，或任何 Angular 專屬功能，例如 `@HostBinding()`、`@ViewChild()` 或 `@Input()`，你就需要 `@Directive()` 或 `@Component()` 裝飾器。
+裝飾器讓編譯器知道要產生正確的指令序列，來建立該類別以及任何繼承它的類別。
+如果你不想直接將該基底類別用作指令，就將選擇器留空。
+如果你確實想讓它能獨立使用，就照常填入中繼資料。
 
-Classes that don't use Angular features don't need an Angular decorator.
+不使用 Angular 功能的類別不需要 Angular 裝飾器。
 
-## I'm a library author. Should I add the `@Directive()` decorator to base classes?
+## 我是函式庫作者。我應該為基底類別加上 `@Directive()` 裝飾器嗎？
 
-As support for selectorless decorators is introduced in Angular version 9, if you want to support Angular version 8 and earlier, you shouldn't add a selectorless `@Directive()` decorator.
-You can either add `@Directive()` with a selector or move the Angular-specific features to affected subclasses.
+由於對無選擇器裝飾器的支援是在 Angular 第 9 版引入的，如果你想支援 Angular 第 8 版及更早版本，就不應該加上無選擇器的 `@Directive()` 裝飾器。
+你可以加上帶選擇器的 `@Directive()`，或是將 Angular 專屬功能移到受影響的子類別。
 
-## What about applications using non-migrated libraries?
+## 使用未遷移函式庫的應用程式呢？
 
-The [Angular compatibility compiler](guide/glossary#ngcc) (`ngcc`) should automatically transform any non-migrated libraries to generate the proper code.
+[Angular 相容性編譯器](guide/glossary#ngcc)（`ngcc`）應該會自動轉換任何未遷移的函式庫，產生正確的程式碼。

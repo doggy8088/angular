@@ -1,33 +1,32 @@
-# JavaScript modules vs. NgModules
+# JavaScript 模組與 NgModule
 
-JavaScript and Angular use modules to organize code, and
-though they organize it differently, Angular apps rely on both.
+JavaScript 與 Angular 都使用模組來組織程式碼，雖然組織方式不同，Angular 應用程式兩者都依賴。
 
 
-## JavaScript modules
+## JavaScript 模組
 
-In JavaScript, modules are individual files with JavaScript code in them. To make what’s in them available, you write an export statement, usually after the relevant code, like this:
+在 JavaScript 中，模組是含有 JavaScript 程式碼的獨立檔案。若要讓其中的內容可供使用，你可以撰寫匯出陳述式，通常放在相關程式碼之後，如下所示：
 
 ```typescript
 export class AppComponent { ... }
 ```
 
-Then, when you need that file’s code in another file, you import it like this:
+接著，當你在另一個檔案中需要該檔案的程式碼時，可以像這樣匯入它：
 
 ```typescript
 import { AppComponent } from './app.component';
 ```
 
-JavaScript modules help you namespace, preventing accidental global variables.
+JavaScript 模組可協助你建立命名空間，避免意外的全域變數。
 
-For more information on JavaScript modules, see [JavaScript/ECMAScript modules](https://hacks.mozilla.org/2015/08/es6-in-depth-modules/).
+如需進一步了解 JavaScript 模組，請參閱 [JavaScript/ECMAScript 模組](https://hacks.mozilla.org/2015/08/es6-in-depth-modules/)。
 
-## NgModules
+## NgModule
 
 <!-- KW-- perMisko: let's discuss. This does not answer the question why it is different. Also, last sentence is confusing.-->
-NgModules are classes decorated with `@NgModule`. The `@NgModule` decorator’s `imports` array tells Angular what other NgModules the current module needs. The modules in the `imports` array are different than JavaScript modules because they are NgModules rather than regular JavaScript modules. Classes with an `@NgModule` decorator are by convention kept in their own files, but what makes them an `NgModule` isn’t being in their own file, like JavaScript modules; it’s the presence of `@NgModule` and its metadata.
+NgModule 是以 `@NgModule` 裝飾的類別。`@NgModule` 裝飾器的 `imports` 陣列告訴 Angular 目前模組需要哪些其他 NgModule。`imports` 陣列中的模組與 JavaScript 模組不同，因為它們是 NgModule，而不是一般的 JavaScript 模組。帶有 `@NgModule` 裝飾器的類別依慣例放在各自的檔案中，但讓它們成為 `NgModule` 的並不是身處各自的檔案（不像 JavaScript 模組），而是 `@NgModule` 及其 中繼資料的存在。
 
-The `AppModule` generated from the [Angular CLI](cli) demonstrates both kinds of modules in action:
+由 [Angular CLI](cli) 產生的 `AppModule` 示範了這兩種模組的實際運用：
 
 ```typescript
 /* These are JavaScript import statements. Angular doesn’t know anything about these. */
@@ -51,22 +50,22 @@ export class AppModule { }
 ```
 
 
-The NgModule classes differ from JavaScript module in the following key ways:
+NgModule 類別與 JavaScript 模組有以下關鍵差異：
 
-* An NgModule bounds [declarable classes](guide/ngmodule-faq#q-declarable) only.
-Declarables are the only classes that matter to the [Angular compiler](guide/ngmodule-faq#q-angular-compiler).
-* Instead of defining all member classes in one giant file as in a JavaScript module,
-you list the module's classes in the `@NgModule.declarations` list.
-* An NgModule can only export the [declarable classes](guide/ngmodule-faq#q-declarable)
-it owns or imports from other modules. It doesn't declare or export any other kind of class.
-* Unlike JavaScript modules, an NgModule can extend the _entire_ application with services
-by adding providers to the `@NgModule.providers` list.
+* NgModule 只包含[可宣告類別](guide/ngmodule-faq#q-declarable)。
+可宣告類別是 [Angular 編譯器](guide/ngmodule-faq#q-angular-compiler)唯一關心的類別。
+* 與其像 JavaScript 模組那樣把所有成員類別定義在一個巨大的檔案中，
+你可以在 `@NgModule.declarations` 清單中列出模組的類別。
+* NgModule 只能匯出它擁有或從其他模組匯入的[可宣告類別](guide/ngmodule-faq#q-declarable)。
+它不會宣告或匯出任何其他種類的類別。
+* 與 JavaScript 模組不同，NgModule 可以透過把提供者加入 `@NgModule.providers` 清單，
+用服務擴充_整個_應用程式。
 
 <hr />
 
-## More on NgModules
+## 更多關於 NgModule
 
-For more information on NgModules, see:
-* [Bootstrapping](guide/bootstrapping).
-* [Frequently used modules](guide/frequent-ngmodules).
-* [Providers](guide/providers).
+如需進一步了解 NgModule，請參閱：
+* [啟動](guide/bootstrapping)。
+* [常用模組](guide/frequent-ngmodules)。
+* [提供者](guide/providers)。

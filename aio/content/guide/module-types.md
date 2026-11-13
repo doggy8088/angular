@@ -1,57 +1,55 @@
-# Types of feature modules
+# 功能模組的類型
 
-There are five general categories of feature modules which
-tend to fall into the following groups:
+功能模組有五大一般類別，大致分為下列群組：
 
-* Domain feature modules.
-* Routed feature modules.
-* Routing modules.
-* Service feature modules.
-* Widget feature modules.
+* 領域功能模組。
+* 已路由功能模組。
+* 路由模組。
+* 服務功能模組。
+* 小工具功能模組。
 
-While the following guidelines describe the use of each type and their
-typical characteristics, in real world apps, you may see hybrids.
+以下準則描述每種類型的用途與其典型特徵，但在真實世界的應用程式中，你可能會看到混合型態。
 
 <table>
 
  <tr>
    <th style="vertical-align: top">
-     Feature Module
+     功能模組
    </th>
 
    <th style="vertical-align: top">
-     Guidelines
+     準則
    </th>
  </tr>
 
  <tr>
    <td>Domain</td>
    <td>
-     Domain feature modules deliver a user experience dedicated to a particular application domain like editing a customer or placing an order.
+     領域功能模組提供專注於特定應用程式領域的使用者體驗，例如編輯客戶或下訂單。
 
-     They typically have a top component that acts as the feature root and private, supporting sub-components descend from it.
+     它們通常有一個頂層元件，扮演功能根的角色，私有的支援子元件則從它衍生。
 
-     Domain feature modules consist mostly of declarations. Only the top component is exported.
+     領域功能模組主要由宣告組成。只有頂層元件會被匯出。
 
-     Domain feature modules rarely have providers. When they do, the lifetime of the provided services should be the same as the lifetime of the module.
+     領域功能模組很少有提供者。如果有，所提供服務的生命週期應與模組的生命週期相同。
 
-     Domain feature modules are typically imported exactly once by a larger feature module.
+     領域功能模組通常只會被一個較大的功能模組匯入一次。
 
-     They might be imported by the root `AppModule` of a small application that lacks routing.
+     它們可能會被缺乏路由的小型應用程式的根 `AppModule` 匯入。
    </td>
  </tr>
  <tr>
    <td>Routed</td>
    <td>
-     Routed feature modules are domain feature modules whose top components are the targets of router navigation routes.
+     已路由功能模組是領域功能模組，其頂層元件是路由器導覽路由的目標。
 
-     All lazy-loaded modules are routed feature modules by definition.
+     所有延遲載入模組依定義都是已路由功能模組。
 
-     Routed feature modules don’t export anything because their components never appear in the template of an external component.
+     已路由功能模組不匯出任何東西，因為它們的元件永遠不會出現在外部元件的範本中。
 
-     A lazy-loaded routed feature module should not be imported by any module. Doing so would trigger an eager load, defeating the purpose of lazy loading.That means you won’t see them mentioned among the `AppModule` imports. An eager loaded routed feature module must be imported by another module so that the compiler learns about its components.
+     延遲載入的已路由功能模組不應被任何模組匯入。這樣做會觸發積極載入，失去延遲載入的意義。也就是說，你不會在 `AppModule` 的 imports 中看到它們被提及。積極載入的已路由功能模組則必須被另一個模組匯入，編譯器才能知道它的元件。
 
-     Routed feature modules rarely have providers for reasons explained in [Lazy Loading Feature Modules](/guide/lazy-loading-ngmodules). When they do, the lifetime of the provided services should be the same as the lifetime of the module. Don't provide application-wide singleton services in a routed feature module or in a module that the routed module imports.
+     已路由功能模組很少有提供者，原因如[延遲載入功能模組](/guide/lazy-loading-ngmodules)所述。如果有，所提供服務的生命週期應與模組的生命週期相同。不要在已路由功能模組中，或在已路由模組匯入的模組中，提供應用程式全域的單例服務。
    </td>
  </tr>
 
@@ -59,20 +57,20 @@ typical characteristics, in real world apps, you may see hybrids.
    <td>Routing</td>
    <td>
 
-     A routing module provides routing configuration for another module and separates routing concerns from its companion module.
+     路由模組為另一個模組提供路由設定，並將路由相關事項與其搭配模組分開。
 
-     A routing module typically does the following:
+     路由模組通常會做以下事情：
 
      <ul>
-     <li>Defines routes.</li>
-     <li>Adds router configuration to the module's imports.</li>
-     <li>Adds guard and resolver service providers to the module's providers.</li>
-     <li>The name of the routing module should parallel the name of its companion module, using the suffix "Routing". For example, <code>FooModule</code> in <code>foo.module.ts</code> has a routing module named <code>FooRoutingModule</code> in <code>foo-routing.module.ts</code>. If the companion module is the root <code>AppModule</code>, the <code>AppRoutingModule</code> adds router configuration to its imports with <code>RouterModule.forRoot(routes)</code>. All other routing modules are children that import <code>RouterModule.forChild(routes)</code>.</li>
-     <li>A routing module re-exports the <code>RouterModule</code> as a convenience so that components of the companion module have access to router directives such as <code>RouterLink</code> and <code>RouterOutlet</code>.</li>
-     <li>A routing module does not have its own declarations. Components, directives, and pipes are the responsibility of the feature module, not the routing module.</li>
+     <li>定義路由。</li>
+     <li>將路由器設定加入模組的 imports。</li>
+     <li>將守衛與解析器服務提供者加入模組的 providers。</li>
+     <li>路由模組的名稱應與其搭配模組的名稱對應，並使用字尾 "Routing"。例如，<code>foo.module.ts</code> 中的 <code>FooModule</code> 有一個名為 <code>FooRoutingModule</code> 的路由模組，位於 <code>foo-routing.module.ts</code>。如果搭配模組是根 <code>AppModule</code>，<code>AppRoutingModule</code> 會用 <code>RouterModule.forRoot(routes)</code> 將路由器設定加入其 imports。所有其他路由模組都是子模組，匯入 <code>RouterModule.forChild(routes)</code>。</li>
+     <li>路由模組會重新匯出 <code>RouterModule</code> 以方便使用，讓搭配模組的元件可以存取 <code>RouterLink</code> 與 <code>RouterOutlet</code> 等路由器指令。</li>
+     <li>路由模組沒有自己的宣告。元件、指令與管道是功能模組的責任，而不是路由模組的責任。</li>
      </ul>
 
-     A routing module should only be imported by its companion module.
+     路由模組只應被其搭配模組匯入。
 
    </td>
  </tr>
@@ -81,9 +79,9 @@ typical characteristics, in real world apps, you may see hybrids.
    <td>Service</td>
    <td>
 
-     Service modules provide utility services such as data access and messaging. Ideally, they consist entirely of providers and have no declarations. Angular's `HttpClientModule` is a good example of a service module.
+     服務模組提供工具型服務，例如資料存取與訊息傳遞。理想情況下，它們完全由提供者組成，沒有任何宣告。Angular 的 `HttpClientModule` 就是服務模組的一個好例子。
 
-     The root `AppModule` is the only module that should import service modules.
+     根 `AppModule` 是唯一應匯入服務模組的模組。
 
    </td>
  </tr>
@@ -92,89 +90,89 @@ typical characteristics, in real world apps, you may see hybrids.
    <td>Widget</td>
    <td>
 
-     A widget module makes components, directives, and pipes available to external modules. Many third-party UI component libraries are widget modules.
+     小工具模組讓元件、指令與管道可供外部模組使用。許多第三方 UI 元件程式庫都是小工具模組。
 
-     A widget module should consist entirely of declarations, most of them exported.
+     小工具模組應完全由宣告組成，其中大部分會被匯出。
 
-     A widget module should rarely have providers.
+     小工具模組很少有提供者。
 
-     Import widget modules in any module whose component templates need the widgets.
+     在任何元件範本需要這些小工具的模組中，匯入小工具模組。
 
    </td>
  </tr>
 
 </table>
 
-The following table summarizes the key characteristics of each feature module group.
+下表彙總每個功能模組群組的關鍵特徵。
 
 <table>
  <tr>
    <th style="vertical-align: top">
-     Feature Module
+     功能模組
    </th>
 
    <th style="vertical-align: top">
-     Declarations
+     宣告
    </th>
 
    <th style="vertical-align: top">
-     Providers
+     提供者
    </th>
 
    <th style="vertical-align: top">
-     Exports
+     匯出
    </th>
 
    <th style="vertical-align: top">
-     Imported by
+     由何者匯入
    </th>
  </tr>
 
  <tr>
    <td>Domain</td>
-   <td>Yes</td>
-   <td>Rare</td>
-   <td>Top component</td>
-   <td>Feature, AppModule</td>
+   <td>是</td>
+   <td>很少</td>
+   <td>頂層元件</td>
+   <td>功能模組、AppModule</td>
  </tr>
 
  <tr>
    <td>Routed</td>
-   <td>Yes</td>
-   <td>Rare</td>
-   <td>No</td>
-   <td>None</td>
+   <td>是</td>
+   <td>很少</td>
+   <td>否</td>
+   <td>無</td>
  </tr>
 
  <tr>
    <td>Routing</td>
-   <td>No</td>
-   <td>Yes (Guards)</td>
+   <td>否</td>
+   <td>是 (Guards)</td>
    <td>RouterModule</td>
-   <td>Feature (for routing)</td>
+   <td>功能模組 (供路由用)</td>
  </tr>
 
  <tr>
    <td>Service</td>
-   <td>No</td>
-   <td>Yes</td>
-   <td>No</td>
+   <td>否</td>
+   <td>是</td>
+   <td>否</td>
    <td>AppModule</td>
  </tr>
 
  <tr>
    <td>Widget</td>
-   <td>Yes</td>
-   <td>Rare</td>
-   <td>Yes</td>
-   <td>Feature</td>
+   <td>是</td>
+   <td>很少</td>
+   <td>是</td>
+   <td>功能模組</td>
  </tr>
 </table>
 
 <hr />
 
-## More on NgModules
+## 更多關於 NgModule
 
-You may also be interested in the following:
-* [Lazy Loading Modules with the Angular Router](guide/lazy-loading-ngmodules).
-* [Providers](guide/providers).
+你可能也會對以下內容感興趣：
+* [使用 Angular 路由器延遲載入模組](guide/lazy-loading-ngmodules)。
+* [提供者](guide/providers)。

@@ -1,36 +1,31 @@
-# Dependency providers
+# 依賴提供者
 
-A dependency [provider](guide/glossary#provider) configures an injector
-with a [DI token](guide/glossary#di-token),
-which that injector uses to provide the concrete, runtime version of a dependency value.
-The injector relies on the provider configuration to create instances of the dependencies
-that it injects into components, directives, pipes, and other services.
+依賴[提供者](guide/glossary#provider)用 [DI 權杖](guide/glossary#di-token)設定注入器，注入器使用該權杖來提供依賴值的具體執行時期版本。
+注入器依賴提供者設定來建立依賴的實例，並將這些實例注入到元件、指令、管道與其他服務中。
 
-You must configure an injector with a provider, or it won't know how to create the dependency.
-The most obvious way for an injector to create an instance of a service class is with the class itself.
-If you specify the service class itself as the provider token, the default behavior is for the injector to instantiate that class with `new`.
+你必須用提供者設定注入器，否則它不知道如何建立依賴。
+注入器建立服務類別實例最明顯的方式就是使用類別本身。
+如果你指定服務類別本身作為提供者權杖，預設行為是注入器用 `new` 實例化該類別。
 
-In the following typical example, the `Logger` class itself provides a `Logger` instance.
+在以下典型範例中，`Logger` 類別本身提供了一個 `Logger` 實例。
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-logger">
 </code-example>
 
-You can, however, configure an injector with an alternative provider,
-in order to deliver some other object that provides the needed logging functionality.
-For instance:
-* You can provide a substitute class.
+不過，你可以用替代提供者來設定注入器，以提供某個能提供所需記錄功能的其他物件。
+例如：
+* 你可以提供一個替代類別。
 
-* You can provide a logger-like object.
+* 你可以提供一個類似記錄器的物件。
 
-* Your provider can call a logger factory function.
+* 你的提供者可以呼叫記錄器工廠函式。
 
 {@a provide}
 
-## The `Provider` object literal
+## `Provider` 物件實字
 
-The class-provider syntax is a shorthand expression that expands
-into a provider configuration, defined by the [`Provider` interface](api/core/Provider).
-The following code snippets shows how a class that is given as the `providers` value is expanded into a full provider object.
+類別提供者語法是一種速記表達式，會展開成由 [`Provider` 介面](api/core/Provider)定義的提供者設定。
+下列程式碼片段示範了作為 `providers` 值給定的類別如何展開成完整的提供者物件。
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-logger">
 </code-example>
@@ -38,101 +33,92 @@ The following code snippets shows how a class that is given as the `providers` v
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-3" >
 </code-example>
 
-The expanded provider configuration is an object literal with two properties.
+展開後的提供者設定是一個物件實字，包含兩個屬性。
 
-* The `provide` property holds the [token](guide/dependency-injection#token)
-that serves as the key for both locating a dependency value and configuring the injector.
+* `provide` 屬性存放[權杖](guide/dependency-injection#token)，它同時作為尋找依賴值與設定注入器的鍵。
 
-* The second property is a provider definition object, which tells the injector how to create the dependency value.
-The provider-definition key can be `useClass`, as in the example.
-It can also be `useExisting`, `useValue`, or `useFactory`.
-Each of these keys provides a different type of dependency, as discussed below.
-
+* 第二個屬性是提供者定義物件，告訴注入器如何建立依賴值。
+提供者定義鍵可以是 `useClass`，如本範例。
+也可以是 `useExisting`、`useValue` 或 `useFactory`。
+這些鍵各自提供不同型別的依賴，如下所述。
 
 {@a class-provider}
 
-## Alternative class providers
+## 替代類別提供者
 
-Different classes can provide the same service.
-For example, the following code tells the injector
-to return a `BetterLogger` instance when the component asks for a logger
-using the `Logger` token.
+不同的類別可以提供相同的服務。
+例如，下列程式碼告訴注入器：當元件使用 `Logger` token 請求記錄器時，傳回 `BetterLogger` 實例。
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-4" >
 </code-example>
 
 {@a class-provider-dependencies}
 
-### Class providers with dependencies
+### 設定具有依賴的類別提供者
 
-Another class, `EvenBetterLogger`, might display the user name in the log message.
-This logger gets the user from an injected `UserService` instance.
+另一個類別 `EvenBetterLogger` 可能會在日誌訊息中顯示使用者名稱。
+這個記錄器會從注入的 `UserService` 實例取得使用者。
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="EvenBetterLogger"></code-example>
 
-The injector needs providers for both this new logging service and its dependent `UserService`. Configure this alternative logger with the `useClass` provider-definition key, like `BetterLogger`. The following array specifies both providers in the `providers` metadata option of the parent module or component.
+注入器需要這個新的記錄服務與它所依賴的 `UserService` 兩者的提供者。用 `useClass` 提供者定義鍵來設定這個替代記錄器，就像 `BetterLogger` 一樣。下列陣列在父模組或元件的 `providers` 中繼資料選項中指定了這兩個提供者。
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-5"></code-example>
 
 {@a aliased-class-providers}
 
-### Aliased class providers
+### 為類別提供者取別名
 
-Suppose an old component depends upon the `OldLogger` class.
-`OldLogger` has the same interface as `NewLogger`, but for some reason
-you can't update the old component to use it.
+假設有一個舊元件依賴 `OldLogger` 類別。
+`OldLogger` 與 `NewLogger` 有相同的介面，但出於某些原因，你無法更新舊元件來使用它。
 
-When the old component logs a message with `OldLogger`,
-you want the singleton instance of `NewLogger` to handle it instead.
-In this case, the dependency injector should inject that singleton instance
-when a component asks for either the new or the old logger.
-`OldLogger` should be an *alias* for `NewLogger`.
+當舊元件用 `OldLogger` 記錄訊息時，你希望改由 `NewLogger` 的單例實例來處理。
+在這種情況下，當元件請求新或舊的記錄器時，依賴注入器都應該注入那個單例實例。
+`OldLogger` 應該是 `NewLogger` 的*別名*。
 
-If you try to alias `OldLogger` to `NewLogger` with `useClass`, you end up with two different `NewLogger` instances in your app.
+如果你試圖用 `useClass` 將 `OldLogger` 別名為 `NewLogger`，你的應用程式中最終會有兩個不同的 `NewLogger` 實例。
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-6a"></code-example>
 
-To make sure there is only one instance of `NewLogger`, alias `OldLogger` with the `useExisting` option.
+為了確保只有一個 `NewLogger` 實例，請用 `useExisting` 選項為 `OldLogger` 取別名。
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-6b"></code-example>
 
 {@a value-provider}
 
-## Value providers
+## 值提供者
 
-Sometimes it's easier to provide a ready-made object rather than ask the injector to create it from a class.
-To inject an object you have already created,
-configure the injector with the `useValue` option
+有時候，提供一個現成的物件比要求注入器從類別建立它更容易。
+要注入你已經建立好的物件，請用 `useValue` 選項設定注入器
 
-The following code defines a variable that creates such an object to play the logger role.
+下列程式碼定義了一個變數，建立這樣一個物件來扮演記錄器的角色。
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="silent-logger"></code-example>
 
-The following provider object uses the `useValue` key to associate the variable with the `Logger` token.
+下列提供者物件使用 `useValue` 鍵，將該變數與 `Logger` 權杖關聯起來。
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-7"></code-example>
 
 {@a non-class-dependencies}
 
-### Non-class dependencies
+### 非類別依賴
 
-Not all dependencies are classes.
-Sometimes you want to inject a string, function, or object.
+並非所有依賴都是類別。
+有時候你想注入一個字串、函式或物件。
 
-Apps often define configuration objects with lots of small facts,
-like the title of the application or the address of a web API endpoint.
-These configuration objects aren't always instances of a class.
-They can be object literals, as shown in the following example.
+應用程式經常定義包含許多小事實的設定物件，像是應用程式的標題或 Web API 端點的位址。
+這些設定物件並不總是類別的實例。
+它們可以是物件實字，如下列範例所示。
 
 <code-example path="dependency-injection/src/app/app.config.ts" region="config" header="src/app/app.config.ts (excerpt)"></code-example>
 
 {@a interface-not-valid-token}
 
-**TypeScript interfaces are not valid tokens**
+**TypeScript 介面不是有效的權杖**
 
-The `HERO_DI_CONFIG` constant conforms to the `AppConfig` interface.
-Unfortunately, you cannot use a TypeScript interface as a token.
-In TypeScript, an interface is a design-time artifact, and doesn't have a runtime representation (token) that the DI framework can use.
+`HERO_DI_CONFIG` 常數符合 `AppConfig` 介面。
+不幸的是，你不能使用 TypeScript 介面作為權杖。
+在 TypeScript 中，介面是設計時期的產物，沒有 DI 框架可以使用的執行時期表示（權杖）。
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-9-interface"></code-example>
 
@@ -140,96 +126,87 @@ In TypeScript, an interface is a design-time artifact, and doesn't have a runtim
 
 <div class="alert is-helpful">
 
-This might seem strange if you're used to dependency injection in strongly typed languages where an interface is the preferred dependency lookup key.
-However, JavaScript, doesn't have interfaces, so when TypeScript is transpiled to JavaScript, the interface disappears.
-There is no interface type information left for Angular to find at runtime.
+如果你習慣了強型別語言中的依賴注入，可能會覺得這很奇怪，在那些語言中，介面是慣用的依賴查閱鍵。
+然而，JavaScript 沒有介面，所以當 TypeScript 被轉譯為 JavaScript 時，介面就消失了。
+執行時期沒有留下任何介面型別資訊供 Angular 尋找。
 
 </div>
 
-One alternative is to provide and inject the configuration object in an NgModule like `AppModule`.
+一個替代方案是在像 `AppModule` 這樣的 NgModule 中提供並注入設定物件。
 
 <code-example path="dependency-injection/src/app/app.module.ts" region="providers" header="src/app/app.module.ts (providers)"></code-example>
 
-Another solution to choosing a provider token for non-class dependencies is
-to define and use an `InjectionToken` object.
-The following example shows how to define such a token.
+為非類別依賴選擇提供者權杖的另一個解決方案，是定義並使用 `InjectionToken` 物件。
+下列範例示範如何定義這樣一個權杖。
 
 <code-example path="dependency-injection/src/app/app.config.ts" region="token" header="src/app/app.config.ts"></code-example>
 
-The type parameter, while optional, conveys the dependency's type to developers and tooling.
-The token description is another developer aid.
+型別參數雖然是選用的，但它能向開發者與工具傳達依賴的型別。
+token 描述則是另一項協助開發者的資訊。
 
-Register the dependency provider using the `InjectionToken` object:
+使用 `InjectionToken` 物件註冊依賴提供者：
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-9"></code-example>
 
-Now you can inject the configuration object into any constructor that needs it, with
-the help of an `@Inject()` parameter decorator.
+現在，借助 `@Inject()` 參數裝飾器，你可以將設定物件注入到任何需要它的建構函式中。
 
 <code-example path="dependency-injection/src/app/app.component.2.ts" region="ctor" header="src/app/app.component.ts"></code-example>
 
 <div class="alert is-helpful">
 
-Although the `AppConfig` interface plays no role in dependency injection,
-it supports typing of the configuration object within the class.
+雖然 `AppConfig` 介面在依賴注入中不扮演任何角色，它支援類別內設定物件的型別。
 
 </div>
-
 
 {@a factory-provider}
 {@a factory-providers}
 
-## Factory providers
+## 工廠提供者
 
-Sometimes you need to create a dependent value dynamically,
-based on information you won't have until run time.
-For example, you might need information that changes repeatedly in the course of the browser session.
-Also, your injectable service might not have independent access to the source of the information.
+有時候，你需要根據執行時期才知道的資訊，動態建立依賴值。
+例如，你可能需要會在瀏覽器工作階段過程中反覆變化的資訊。
+另外，你的可注入服務可能無法獨立存取資訊來源。
 
-In cases like this you can use a *factory provider*.
-Factory providers can also be useful when creating an instance of a dependency from
-a third-party library that wasn't designed to work with DI.
+在這種情況下，你可以使用*工廠提供者*。
+工廠提供者在從未設計與 DI 一起運作的第三方函式庫建立依賴實例時也很有用。
 
-For example, suppose `HeroService` must hide *secret* heroes from normal users.
-Only authorized users should see secret heroes.
+例如，假設 `HeroService` 必須對一般使用者隱藏*秘密*英雄。
+只有授權使用者應該能看到秘密英雄。
 
-Like  `EvenBetterLogger`, `HeroService` needs to know if the user is authorized to see secret heroes.
-That authorization can change during the course of a single application session,
-as when you log in a different user.
+就像 `EvenBetterLogger` 一樣，`HeroService` 需要知道使用者是否有權看到秘密英雄。
+該授權可以在單一應用程式工作階段過程中改變，例如當你登入不同的使用者時。
 
-Let's say you don't want to inject `UserService` directly into `HeroService`, because you don't want to complicate that service with security-sensitive information.
-`HeroService` won't have direct access to the user information to decide
-who is authorized and who isn't.
+想像你不想將 `UserService` 直接注入 `HeroService`，因為你不想讓該服務被安全性敏感資訊複雜化。
+`HeroService` 將無法直接存取使用者資訊來決定
+誰有授權、誰沒有。
 
-To resolve this, we give the `HeroService` constructor a boolean flag to control display of secret heroes.
+為了解決這個問題，給 `HeroService` 建構函式一個布林旗標，以控制秘密英雄的顯示。
 
 <code-example path="dependency-injection/src/app/heroes/hero.service.ts" region="internals" header="src/app/heroes/hero.service.ts (excerpt)"></code-example>
 
-You can inject `Logger`, but you can't inject the  `isAuthorized` flag. Instead, you can use a factory provider to create a new logger instance for `HeroService`.
+你可以注入 `Logger`，但你無法注入 `isAuthorized` 旗標。取而代之，你可以使用工廠提供者為 `HeroService` 建立新的記錄器實例。
 
-A factory provider needs a factory function.
+工廠提供者需要一個工廠函式。
 
 <code-example path="dependency-injection/src/app/heroes/hero.service.provider.ts" region="factory" header="src/app/heroes/hero.service.provider.ts (excerpt)"></code-example>
 
-Although `HeroService` has no access to `UserService`, the factory function does.
-You inject both `Logger` and `UserService` into the factory provider
-and let the injector pass them along to the factory function.
+雖然 `HeroService` 無法存取 `UserService`，但工廠函式可以。
+你將 `Logger` 與 `UserService` 都注入到工廠提供者中，並讓注入器將它們傳遞給工廠函式。
 
 <code-example path="dependency-injection/src/app/heroes/hero.service.provider.ts" region="provider" header="src/app/heroes/hero.service.provider.ts (excerpt)"></code-example>
 
-* The `useFactory` field tells Angular that the provider is a factory function whose implementation is `heroServiceFactory`.
+* `useFactory` 欄位告訴 Angular，該提供者是一個工廠函式，其實作為 `heroServiceFactory`。
 
-* The `deps` property is an array of [provider tokens](guide/dependency-injection#token).
-The `Logger` and `UserService` classes serve as tokens for their own class providers.
-The injector resolves these tokens and injects the corresponding services into the matching factory function parameters.
+* `deps` 屬性是一個[提供者權杖](guide/dependency-injection#token)陣列。
+`Logger` 與 `UserService` 類別各自作為自身類別提供者的權杖。
+注入器會解析這些權杖，並將對應的服務注入到相符的工廠函式參數中。
 
-Notice that you captured the factory provider in an exported variable, `heroServiceProvider`.
-This extra step makes the factory provider reusable.
-You can configure a provider of `HeroService` with this variable wherever you need it.
-In this sample, you need it only in `HeroesComponent`,
-where `heroServiceProvider` replaces `HeroService` in the metadata `providers` array.
+請注意，你將工廠提供者捕獲在一個匯出的變數 `heroServiceProvider` 中。
+這個額外的步驟使工廠提供者可重複使用。
+你可以在任何需要的地方用這個變數設定 `HeroService` 的提供者。
+在本範例中，你只在 `HeroesComponent` 中需要它，在那裡 `heroServiceProvider` 在中繼資料 `providers` 陣列中取代了 `HeroService`。
 
-The following shows the new and the old implementations side-by-side.
+以下將新舊實作並列顯示。
 
 <code-tabs>
 
@@ -241,24 +218,22 @@ The following shows the new and the old implementations side-by-side.
 
 </code-tabs>
 
-## Predefined tokens and multiple providers
+## 預先定義的權杖與多重提供者
 
-Angular provides a number of built-in injection-token constants that you can use to customize the behavior of
-various systems.
+Angular 提供了許多內建的注入權杖常數，你可以用來客製化各種系統的行為。
 
-For example, you can use the following built-in tokens as hooks into the framework’s bootstrapping and initialization process.
-A provider object can associate any of these injection tokens with one or more callback functions that take app-specific initialization actions.
+例如，你可以使用下列內建權杖作為掛勾，介入框架的啟動與初始化過程。
+提供者物件可以將這些注入權杖中的任何一個與一個或多個回呼函式關聯起來，這些函式會執行應用程式專屬的初始化動作。
 
-* [PLATFORM_INITIALIZER](api/core/PLATFORM_INITIALIZER): Callback is invoked when a platform is initialized.
+* [PLATFORM_INITIALIZER](api/core/PLATFORM_INITIALIZER)：回呼在平台初始化時被呼叫。
 
-* [APP_BOOTSTRAP_LISTENER](api/core/APP_BOOTSTRAP_LISTENER): Callback is invoked for each component that is bootstrapped. The handler function receives the ComponentRef instance of the bootstrapped component.
+* [APP_BOOTSTRAP_LISTENER](api/core/APP_BOOTSTRAP_LISTENER)：回呼會為每個被啟動的元件呼叫。處理函式會收到被啟動元件的 ComponentRef 實例。
 
-* [APP_INITIALIZER](api/core/APP_INITIALIZER): Callback is invoked before an app is initialized. All registered initializers can optionally return a Promise. All initializer functions that return Promises must be resolved before the application is bootstrapped. If one of the initializers fails to resolves, the application is not bootstrapped.
+* [APP_INITIALIZER](api/core/APP_INITIALIZER)：回呼在應用程式初始化之前被呼叫。所有已註冊的初始化器都可以選擇回傳 Promise。所有回傳 Promise 的初始化器函式都必須在應用程式啟動之前解析完畢。如果其中一個初始化器未能解析，應用程式就不會啟動。
 
-The provider object can have a third option, `multi: true`, which you can use with `APP_INITIALIZER`
-to register multiple handlers for the provide event.
+提供者物件可以有第三個選項 `multi: true`，你可以將它與 `APP_INITIALIZER` 一起使用，為該提供事件註冊多個處理器。
 
-For example, when bootstrapping an application, you can register many initializers using the same token.
+例如，在啟動應用程式時，你可以使用同一個權杖註冊許多初始化器。
 
 ```
 export const APP_TOKENS = [
@@ -268,71 +243,63 @@ export const APP_TOKENS = [
 ];
 ```
 
-Multiple providers can be associated with a single token in other areas as well.
-For example, you can register a custom form validator using the built-in [NG_VALIDATORS](api/forms/NG_VALIDATORS) token,
-and provide multiple instances of a given validator provider by using the `multi: true` property in the provider object.
-Angular adds your custom validators to the existing collection.
+多重提供者也可以在其他領域與單一權杖關聯。
+例如，你可以使用內建的 [NG_VALIDATORS](api/forms/NG_VALIDATORS) 權杖註冊自訂表單驗證器，並透過在提供者物件中使用 `multi: true` 屬性，提供給定驗證器提供者的多個實例。
+Angular 會將你的自訂驗證器加入現有的集合中。
 
-The Router also makes use of multiple providers associated with a single token.
-When you provide multiple sets of routes using [RouterModule.forRoot](api/router/RouterModule#forroot)
-and [RouterModule.forChild](api/router/RouterModule#forchild) in a single module,
-the [ROUTES](api/router/ROUTES) token combines all the different provided sets of routes into a single value.
+路由器也使用與單一權杖關聯的多重提供者。
+當你在單一模組中使用 [RouterModule.forRoot](api/router/RouterModule#forroot) 與 [RouterModule.forChild](api/router/RouterModule#forchild) 提供多組路由時，[ROUTES](api/router/ROUTES) 權杖會將所有不同提供的路由集合合併為單一值。
 
 <div class="alert is-helpful">
 
-Search for [Constants in API documentation](api?type=const) to find more built-in tokens.
+在 [API 文件中的常數](api?type=const)中搜尋，以找到更多內建權杖。
 
 </div>
 
 {@a tree-shakable-provider}
 {@a tree-shakable-providers}
 
-## Tree-shakable providers
+## 可樹搖提供者
 
-Tree shaking refers to a compiler option that removes code from the final bundle if the app doesn't reference that code.
-When providers are tree-shakable, the Angular compiler removes the associated
-services from the final output when it determines that your application doesn't use those services.
-This significantly reduces the size of your bundles.
+樹搖指的是編譯器的一個選項，會從最終套件中移除應用程式未參照的程式碼。
+當提供者可樹搖時，Angular 編譯器會在判定你的應用程式不使用這些服務時，將關聯的服務從最終輸出中移除。
+這能顯著縮小你的套件大小。
 
 <div class="alert is-helpful">
 
-Ideally, if an application isn't injecting a service, Angular shouldn't include it in the final output.
-However, Angular has to be able to identify at build time whether the app will require the service or not.
-Because it's always possible to inject a service directly using `injector.get(Service)`,
-Angular can't identify all of the places in your code where this injection could happen,
-so it has no choice but to include the service in the injector.
-Thus, services in the NgModule `providers` array or at component level are not tree-shakable.
+理想情況下，如果應用程式沒有注入某個服務，Angular 不應該將它包含在最終輸出中。
+然而，Angular 必須能夠在建置時期辨識應用程式是否需要該服務。
+因為永遠有可能使用 `injector.get(Service)` 直接注入服務，Angular 無法辨識你的程式碼中所有可能發生這種注入的地方，所以它別無選擇，只能將服務包含在注入器中。
+因此，NgModule `providers` 陣列中或元件層級的服務是不可樹搖的。
 
 </div>
 
-The following example of non-tree-shakable providers in Angular configures a service provider for the injector of an NgModule.
+下列不可樹搖提供者的範例在 Angular 中，為一個 NgModule 的注入器設定了服務提供者。
 
 <code-example path="dependency-injection/src/app/tree-shaking/service-and-module.ts"  header="src/app/tree-shaking/service-and-modules.ts"></code-example>
 
-You can then import this module into your application module
-to make the service available for injection in your app,
-as in the following example.
+然後你可以將這個模組匯入你的應用程式模組，讓該服務可以在你的應用程式中被注入，如下列範例所示。
 
 <code-example path="dependency-injection/src/app/tree-shaking/app.module.ts"  header="src/app/tree-shaking/app.modules.ts"></code-example>
 
-When `ngc` runs, it compiles `AppModule` into a module factory, which contains definitions for all the providers declared in all the modules it includes. At runtime, this factory becomes an injector that instantiates these services.
+當 `ngc` 執行時，它將 `AppModule` 編譯成模組工廠，其中包含它所包括的所有模組中宣告的所有提供者的定義。在執行時期，這個工廠成為一個注入器，實例化這些服務。
 
-Tree-shaking doesn't work here because Angular can't decide to exclude one chunk of code (the provider definition for the service within the module factory) based on whether another chunk of code (the service class) is used. To make services tree-shakable, the information about how to construct an instance of the service (the provider definition) needs to be a part of the service class itself.
+樹搖在這裡不起作用，因為 Angular 無法根據另一段程式碼（服務類別）是否被使用，來決定排除一段程式碼（模組工廠內的服務提供者定義）。要讓服務可樹搖，如何建構服務實例的資訊（提供者定義）需要成為服務類別本身的一部分。
 
-### Creating tree-shakable providers
+### 建立可樹搖提供者
 
-You can make a provider tree-shakable by specifying it in the `@Injectable()` decorator on the service itself, rather than in the metadata for the NgModule or component that depends on the service.
+你可以透過在服務本身的 `@Injectable()` 裝飾器中指定提供者（而不是在依賴該服務的 NgModule 或元件的中繼資料中），使提供者可樹搖。
 
-The following example shows the tree-shakable equivalent to the `ServiceModule` example above.
+下列範例示範了與上面 `ServiceModule` 範例等效的可樹搖版本。
 
 <code-example path="dependency-injection/src/app/tree-shaking/service.ts"  header="src/app/tree-shaking/service.ts"></code-example>
 
-The service can be instantiated by configuring a factory function, as in the following example.
+該服務可以透過設定工廠函式來實例化，如下列範例所示。
 
 <code-example path="dependency-injection/src/app/tree-shaking/service.0.ts"  header="src/app/tree-shaking/service.0.ts"></code-example>
 
 <div class="alert is-helpful">
 
-To override a tree-shakable provider, configure the injector of a specific NgModule or component with another provider, using the `providers: []` array syntax of the `@NgModule()` or `@Component()` decorator.
+要覆寫可樹搖提供者，請使用 `@NgModule()` 或 `@Component()` 裝飾器的 `providers: []` 陣列語法，用另一個提供者設定特定 NgModule 或元件的注入器。
 
 </div>

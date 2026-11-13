@@ -1,33 +1,32 @@
-# Deployment
+# 部署
 
-When you are ready to deploy your Angular application to a remote server, you have various options for deployment.
+當你準備好將 Angular 應用程式部署到遠端伺服器時，有多種選擇。
 
 {@a dev-deploy}
 {@a copy-files}
 
+## 簡單的部署選項
 
-## Simple deployment options
+在完整部署應用程式之前，你可以使用下列其中一種過渡技巧，來測試部署流程、建置設定與部署後的行為。
 
-Before fully deploying your application, you can test the process, build configuration, and deployed behavior by using one of these interim techniques.
+### 從磁碟建置並提供服務
 
-### Building and serving from disk
+在開發期間，你通常使用 `ng serve` 命令，從本機記憶體建置、監看並提供應用程式（使用 [webpack-dev-server](https://webpack.js.org/guides/development/#webpack-dev-server)）。
+但當你準備部署時，必須使用 `ng build` 命令來建置應用程式，並將建置產物部署到其他地方。
 
-During development, you typically use the `ng serve` command to build, watch, and serve the application from local memory, using [webpack-dev-server](https://webpack.js.org/guides/development/#webpack-dev-server).
-When you are ready to deploy, however, you must use the `ng build` command to build the app and deploy the build artifacts elsewhere.
-
-Both `ng build` and `ng serve` clear the output folder before they build the project, but only the `ng build` command writes the generated build artifacts to the output folder.
+`ng build` 與 `ng serve` 都會在建置專案前清空輸出資料夾，但只有 `ng build` 命令會把產生的建置產物寫入輸出資料夾。
 
 <div class="alert is-helpful">
 
-The output folder is  `dist/project-name/` by default.
-To output to a different folder, change the `outputPath` in `angular.json`.
+輸出資料夾預設為 `dist/project-name/`。
+若要輸出到不同的資料夾，請變更 `angular.json` 中的 `outputPath`。
 
 </div>
 
-As you near the end of the development process, serving the contents of your output folder from a local web server can give you a better idea of how your application will behave when it is deployed to a remote server.
-You will need two terminals to get the live-reload experience.
+當開發過程接近尾聲時，從本機網頁伺服器提供輸出資料夾的內容，可以讓你更了解應用程式部署到遠端伺服器後的行為。
+若要體驗即時重新載入，你需要兩個終端機。
 
-* On the first terminal, run the [`ng build` command](cli/build) in *watch* mode to compile the application to the `dist` folder.
+* 在第一個終端機中，以 *watch* 模式執行 [`ng build` 命令](cli/build)，將應用程式編譯到 `dist` 資料夾。
 
   <code-example language="none" class="code-shell">
 
@@ -35,9 +34,9 @@ You will need two terminals to get the live-reload experience.
 
   </code-example>
 
-  Like the `ng serve` command, this regenerates output files when source files change.
+  和 `ng serve` 命令一樣，原始檔變更時會重新產生輸出檔案。
 
-* On the second terminal, install a web server (such as [lite-server](https://github.com/johnpapa/lite-server)), and run it against the output folder. For example:
+* 在第二個終端機中，安裝一個網頁伺服器（例如 [lite-server](https://github.com/johnpapa/lite-server)），並針對輸出資料夾執行它。例如：
 
   <code-example language="none" class="code-shell">
 
@@ -45,34 +44,34 @@ You will need two terminals to get the live-reload experience.
 
   </code-example>
 
-   The server will automatically reload your browser when new files are output.
+   有新檔案輸出時，伺服器會自動重新載入你的瀏覽器。
 
 <div class="alert is-critical">
 
-This method is for development and testing only, and is not a supported or secure way of deploying an application.
+這個方法僅供開發與測試使用，不是受支援或安全的應用程式部署方式。
 
 </div>
 
-### Automatic deployment with the CLI
+### 使用 CLI 自動部署
 
-The Angular CLI command `ng deploy` (introduced in version 8.3.0) executes the `deploy` [CLI builder](guide/cli-builder) associated with your project. A number of third-party builders implement deployment capabilities to different platforms. You can add any of them to your project by running `ng add [package name]`.
+Angular CLI 指令 `ng deploy`（在 8.3.0 版中引入）會執行與你的專案相關聯的 `deploy` [CLI 建置器](guide/cli-builder)。許多第三方建置器為不同平台實作了部署功能。你可以用 `ng add [package name]` 將其中任何一個加入專案。
 
-When you add a package with deployment capability, it'll automatically update your workspace configuration (`angular.json` file) with a `deploy` section for the selected project. You can then use the `ng deploy` command to deploy that project.
+當你新增具備部署功能的套件時，它會自動在你的工作區設定（`angular.json` 檔案）中，為所選專案加入一段 `deploy` 設定。之後你就能用 `ng deploy` 指令部署該專案。
 
-For example, the following command automatically deploys a project to Firebase.
+例如，下列指令會自動將專案部署到 Firebase。
 
 <code-example language="none" class="code-shell">
 ng add @angular/fire
 ng deploy
 </code-example>
 
-The command is interactive. In this case, you must have or create a Firebase account, and authenticate using that account. The command prompts you to select a Firebase project for deployment
+這個命令是互動式的。在這種情況下，你必須擁有或建立一個 Firebase 帳戶，並使用該帳戶進行驗證。命令會提示你選取一個 Firebase 專案進行部署
 
-After the command produces an optimal build of your application (equivalent to `ng deploy --prod`), it'll upload the production assets to Firebase.
+這個命令會為你的應用程式產生最佳化建置（相當於 `ng deploy --prod`），然後把正式環境資產上傳到 Firebase。
 
-In the table below, you can find a list of packages which implement deployment functionality to different platforms. The `deploy` command for each package may require different command line options. You can read more by following the links associated with the package names below:
+下表列出為不同平台實作部署功能的套件。每個套件的 `deploy` 指令可能需要不同的命令列選項。你可以透過下表套件名稱旁的連結進一步瞭解：
 
-| Deployment to                                                 | Package                                                                        |
+| 部署到                                                 | 套件                                                                        |
 |---------------------------------------------------------------|--------------------------------------------------------------------------------|
 | [Firebase hosting](https://firebase.google.com/docs/hosting)  | [`@angular/fire`](https://npmjs.org/package/@angular/fire)                     |
 | [Azure](https://azure.microsoft.com/en-us/)                   | [`@azure/ng-deploy`](https://npmjs.org/package/@azure/ng-deploy)               |
@@ -82,13 +81,13 @@ In the table below, you can find a list of packages which implement deployment f
 | [NPM](https://npmjs.com/)                                     | [`ngx-deploy-npm`](https://npmjs.org/package/ngx-deploy-npm)                   |
 | [Amazon Cloud S3](https://aws.amazon.com/s3/?nc2=h_ql_prod_st_s3) | [`@jefiozie/ngx-aws-deploy`](https://www.npmjs.com/package/@jefiozie/ngx-aws-deploy) |
 
-If you're deploying to a self-managed server or there's no builder for your favorite cloud platform, you can either create a builder that allows you to use the `ng deploy` command, or read through this guide to learn how to manually deploy your app.
+若你要部署到自行管理的伺服器，或你喜歡的雲端平台沒有對應的建置器，你可以建立一個建置器來使用 `ng deploy` 指令，或是閱讀本指南，瞭解如何手動部署應用程式。
 
-### Basic deployment to a remote server
+### 基本部署到遠端伺服器
 
-For the simplest deployment, create a production build and copy the output directory to a web server.
+最簡單的部署方式是建立正式環境建置，並把輸出目錄複製到網頁伺服器。
 
-1. Start with the production build:
+1. 先建立正式環境建置：
 
   <code-example language="none" class="code-shell">
 
@@ -96,24 +95,23 @@ For the simplest deployment, create a production build and copy the output direc
 
   </code-example>
 
+2. 把輸出資料夾內_所有_的內容（預設為 `dist/`）複製到伺服器上的一個資料夾。
 
-2. Copy _everything_ within the output folder (`dist/` by default) to a folder on the server.
+3. 設定伺服器，將遺失檔案的請求重新導向到 `index.html`。
+進一步了解伺服器端重新導向，請參閱[下方](#fallback)。
 
-3. Configure the server to redirect requests for missing files to `index.html`.
-Learn more about server-side redirects [below](#fallback).
-
-This is the simplest production-ready deployment of your application.
+這是你的應用程式最簡單的正式環境就緒部署方式。
 
 {@a deploy-to-github}
 
-### Deploy to GitHub pages
+### 部署到 GitHub Pages
 
-Another simple way to deploy your Angular app is to use [GitHub Pages](https://help.github.com/articles/what-is-github-pages/).
+另一個部署 Angular 應用程式的簡單方法，是使用 [GitHub Pages](https://help.github.com/articles/what-is-github-pages/)。
 
-1. You need to [create a GitHub account](https://github.com/join) if you don't have one, and then [create a repository](https://help.github.com/articles/create-a-repo/) for your project.
-Make a note of the user name and project name in GitHub.
+1. 你需要先[建立 GitHub 帳號](https://github.com/join)（如果你還沒有的話），然後為你的專案[建立儲存庫](https://help.github.com/articles/create-a-repo/)。
+記下 GitHub 上的使用者名稱與專案名稱。
 
-1. Build your project using Github project name, with the Angular CLI command [`ng build`](cli/build) and the options shown here:
+1. 使用 Github 專案名稱，透過 Angular CLI 命令 [`ng build`](cli/build) 與這裡顯示的選項建置你的專案：
 
   <code-example language="none" class="code-shell">
 
@@ -121,17 +119,17 @@ Make a note of the user name and project name in GitHub.
 
   </code-example>
 
-1. When the build is complete, make a copy of `docs/index.html` and name it `docs/404.html`.
+1. 建置完成後，複製 `docs/index.html` 並命名為 `docs/404.html`。
 
-1. Commit your changes and push.
+1. 提交變更並推送。
 
-1. On the GitHub project page, configure it to [publish from the docs folder](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/#publishing-your-github-pages-site-from-a-docs-folder-on-your-master-branch).
+1. 在 GitHub 專案頁面上，將其設定為[從 docs 資料夾發佈](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/#publishing-your-github-pages-site-from-a-docs-folder-on-your-master-branch)。
 
-You can see your deployed page at `https://<user_name>.github.io/<project_name>/`.
+你可以在 `https://<user_name>.github.io/<project_name>/` 看到已部署的頁面。
 
 <div class="alert is-helpful">
 
-Check out [angular-cli-ghpages](https://github.com/angular-buch/angular-cli-ghpages), a full featured package that does all this for you and has extra functionality.
+看看 [angular-cli-ghpages](https://github.com/angular-buch/angular-cli-ghpages)，這是一個功能完整的套件，可以為你完成上述所有工作，還有額外功能。
 
 </div>
 
@@ -139,49 +137,43 @@ Check out [angular-cli-ghpages](https://github.com/angular-buch/angular-cli-ghpa
 
 {@a server-configuration}
 
-## Server configuration
+## 伺服器設定
 
-This section covers changes you may have to make to the server or to files deployed on the server.
+本節介紹你可能需要對伺服器或部署在伺服器上的檔案進行的變更。
 
 {@a fallback}
 
-### Routed apps must fallback to `index.html`
+### 具路由的應用程式必須退回 `index.html`
 
-Angular apps are perfect candidates for serving with a simple static HTML server.
-You don't need a server-side engine to dynamically compose application pages because
-Angular does that on the client-side.
+Angular 應用程式非常適合用簡單的靜態 HTML 伺服器來提供服務。
+你不需要伺服器端引擎來動態組合應用程式頁面，因為 Angular 會在客戶端完成這件事。
 
-If the app uses the Angular router, you must configure the server
-to return the application's host page (`index.html`) when asked for a file that it does not have.
+若應用程式使用 Angular 路由器，你必須設定伺服器：當被請求的檔案不存在時，改回傳應用程式的主頁（`index.html`）。
 
 {@a deep-link}
 
-A routed application should support "deep links".
-A _deep link_ is a URL that specifies a path to a component inside the app.
-For example, `http://www.mysite.com/heroes/42` is a _deep link_ to the hero detail page
-that displays the hero with `id: 42`.
+具路由的應用程式應支援「深層連結」。
+_深層連結_ 是指向應用程式內部某個元件路徑的 URL。
+例如，`http://www.mysite.com/heroes/42` 就是指向英雄詳細頁面的_深層連結_，該頁面顯示 `id: 42` 的英雄。
 
-There is no issue when the user navigates to that URL from within a running client.
-The Angular router interprets the URL and routes to that page and hero.
+當使用者從正在執行的客戶端內部前往該 URL 時沒有問題。
+Angular 路由器會解讀該 URL 並路由到該頁面與 hero。
 
-But clicking a link in an email, entering it in the browser address bar,
-or merely refreshing the browser while on the hero detail page &mdash;
-all of these actions are handled by the browser itself, _outside_ the running application.
-The browser makes a direct request to the server for that URL, bypassing the router.
+但點選電子郵件中的連結、在瀏覽器網址列輸入它，或只是在 hero 詳細頁面重新整理瀏覽器&mdash;所有這些動作都是由瀏覽器本身處理，_在_正在執行的應用程式之外。
+瀏覽器會直接向伺服器請求該 URL，繞過路由器。
 
-A static server routinely returns `index.html` when it receives a request for `http://www.mysite.com/`.
-But it rejects `http://www.mysite.com/heroes/42` and returns a `404 - Not Found` error *unless* it is
-configured to return `index.html` instead.
+靜態伺服器在收到 `http://www.mysite.com/` 的請求時，通常會回傳 `index.html`。
+但它會拒絕 `http://www.mysite.com/heroes/42` 並回傳 `404 - Not Found` 錯誤，*除非*它已設定為改回傳 `index.html`。
 
-#### Fallback configuration examples
+#### 退回設定範例
 
-There is no single configuration that works for every server.
-The following sections describe configurations for some of the most popular servers.
-The list is by no means exhaustive, but should provide you with a good starting point.
+沒有任何一種設定適用於所有伺服器。
+以下各節說明一些最熱門伺服器的設定。
+這份清單絕非詳盡無遺，但應能為你提供一個好的起點。
 
-* [Apache](https://httpd.apache.org/): add a
-[rewrite rule](http://httpd.apache.org/docs/current/mod/mod_rewrite.html) to the `.htaccess` file as shown
-  (https://ngmilk.rocks/2015/03/09/angularjs-html5-mode-or-pretty-urls-on-apache-using-htaccess/):
+* [Apache](https://httpd.apache.org/)：在 `.htaccess` 檔案中加入一條
+[rewrite 規則](http://httpd.apache.org/docs/current/mod/mod_rewrite.html)，如
+  (https://ngmilk.rocks/2015/03/09/angularjs-html5-mode-or-pretty-urls-on-apache-using-htaccess/) 所示：
 
   <code-example>
     RewriteEngine On
@@ -193,16 +185,15 @@ The list is by no means exhaustive, but should provide you with a good starting 
     RewriteRule ^ /index.html
   </code-example>
 
-
-* [Nginx](http://nginx.org/): use `try_files`, as described in
-[Front Controller Pattern Web Apps](https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/#front-controller-pattern-web-apps),
-modified to serve `index.html`:
+* [Nginx](http://nginx.org/)：使用 `try_files`，如
+[Front Controller Pattern Web Apps](https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/#front-controller-pattern-web-apps) 所述，
+並修改為提供 `index.html`：
 
   ```
   try_files $uri $uri/ /index.html;
   ```
 
-* [Ruby](https://www.ruby-lang.org/): create a Ruby server using ([sinatra](http://sinatrarb.com/)) with a basic Ruby file that configures the server `server.rb`:
+* [Ruby](https://www.ruby-lang.org/)：使用 ([sinatra](http://sinatrarb.com/)) 建立 Ruby 伺服器，並使用一個設定伺服器 `server.rb` 的基本 Ruby 檔案：
 
   ``` ruby
   require 'sinatra'
@@ -220,9 +211,8 @@ modified to serve `index.html`:
   end
   ```
 
-
-* [IIS](https://www.iis.net/): add a rewrite rule to `web.config`, similar to the one shown
-[here](http://stackoverflow.com/a/26152011/2116927):
+* [IIS](https://www.iis.net/)：在 `web.config` 中加入一條 rewrite 規則，類似
+[這裡](http://stackoverflow.com/a/26152011/2116927) 所示：
 
   <code-example format='.' language="xml">
     &lt;system.webServer&gt;
@@ -241,20 +231,18 @@ modified to serve `index.html`:
     &lt;/system.webServer&gt;
   </code-example>
 
+* [GitHub Pages](https://pages.github.com/)：你無法
+[直接設定](https://github.com/isaacs/github/issues/408)
+GitHub Pages 伺服器，但你可以加入一個 404 頁面。
+把 `index.html` 複製為 `404.html`。
+它仍會作為 404 回應提供，但瀏覽器會處理該頁面並正確載入應用程式。
+同時也建議
+[從 `docs/` 於 master 提供服務](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/#publishing-your-github-pages-site-from-a-docs-folder-on-your-master-branch)
+並
+[建立 `.nojekyll` 檔案](https://www.bennadel.com/blog/3181-including-node-modules-and-vendors-folders-in-your-github-pages-site.htm)
 
-* [GitHub Pages](https://pages.github.com/): you can't
-[directly configure](https://github.com/isaacs/github/issues/408)
-the GitHub Pages server, but you can add a 404 page.
-Copy `index.html` into `404.html`.
-It will still be served as the 404 response, but the browser will process that page and load the app properly.
-It's also a good idea to
-[serve from `docs/` on master](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/#publishing-your-github-pages-site-from-a-docs-folder-on-your-master-branch)
-and to
-[create a `.nojekyll` file](https://www.bennadel.com/blog/3181-including-node-modules-and-vendors-folders-in-your-github-pages-site.htm)
-
-
-* [Firebase hosting](https://firebase.google.com/docs/hosting/): add a
-[rewrite rule](https://firebase.google.com/docs/hosting/url-redirects-rewrites#section-rewrites).
+* [Firebase hosting](https://firebase.google.com/docs/hosting/)：加入一條
+[rewrite 規則](https://firebase.google.com/docs/hosting/url-redirects-rewrites#section-rewrites)。
 
   <code-example language="json">
     "rewrites": [ {
@@ -265,42 +253,40 @@ and to
 
 {@a cors}
 
-### Requesting services from a different server (CORS)
+### 從不同的伺服器請求服務（CORS）
 
-Angular developers may encounter a
+Angular 開發人員在向應用程式自身主機伺服器以外的伺服器發出服務請求（通常是資料服務請求）時，可能會遇到
 <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" title="Cross-origin resource sharing">
-<i>cross-origin resource sharing</i></a> error when making a service request (typically a data service request)
-to a server other than the application's own host server.
-Browsers forbid such requests unless the server permits them explicitly.
+<i>跨來源資源共用</i></a> 錯誤。
+瀏覽器禁止這類請求，除非伺服器明確允許。
 
-There isn't anything the client application can do about these errors.
-The server must be configured to accept the application's requests.
-Read about how to enable CORS for specific servers at
-<a href="http://enable-cors.org/server.html" title="Enabling CORS server">enable-cors.org</a>.
+客戶端應用程式對這些錯誤無能為力。
+伺服器必須設定為接受應用程式的請求。
+關於如何為特定伺服器啟用 CORS，請參閱
+<a href="http://enable-cors.org/server.html" title="Enabling CORS server">enable-cors.org</a>。
 
 <hr>
 
 {@a optimize}
 
-## Production optimizations
+## 正式環境最佳化
 
-The `--prod` _meta-flag_ engages the following build optimization features.
+`--prod` *meta-flag* 會啟用下列建置最佳化功能。
 
-* [Ahead-of-Time (AOT) Compilation](guide/aot-compiler): pre-compiles Angular component templates.
-* [Production mode](#enable-prod-mode): deploys the production environment which enables _production mode_.
-* Bundling: concatenates your many application and library files into a few bundles.
-* Minification: removes excess whitespace, comments, and optional tokens.
-* Uglification: rewrites code to use short, cryptic variable and function names.
-* Dead code elimination: removes unreferenced modules and much unused code.
+* [Ahead-of-Time (AOT) Compilation](guide/aot-compiler)：預先編譯 Angular 元件範本。
+* [Production mode](#enable-prod-mode)：部署正式環境，藉此啟用_正式模式_。
+* Bundling：將你眾多的應用程式與程式庫檔案串連成幾個套件。
+* Minification：移除多餘的空白、註解與可選的標記。
+* Uglification：將程式碼改寫為使用簡短、難以理解的變數與函式名稱。
+* Dead code elimination：移除未被參考的模組與許多未使用的程式碼。
 
-See [`ng build`](cli/build) for more about CLI build options and what they do.
-
+更多 CLI 建置選項及其效果，請參閱 [`ng build`](cli/build)。
 
 {@a enable-prod-mode}
 
-### Enable runtime production mode
+### 啟用執行期正式模式
 
-In addition to build optimizations, Angular also has a runtime production mode. Angular apps run in development mode by default, as you can see by the following message on the browser console:
+除了建置最佳化，Angular 也有執行期正式模式。Angular 應用程式預設以開發模式執行，如瀏覽器主控台的下列訊息所示：
 
 <code-example format="nocode">
 
@@ -308,66 +294,60 @@ In addition to build optimizations, Angular also has a runtime production mode. 
 
 </code-example>
 
-Switching to _production mode_ makes it run faster by disabling development specific checks such as the dual change detection cycles.
+切換到*正式模式*可以停用開發專屬的檢查（例如雙重變更偵測週期），讓它執行得更快。
 
-When you enable production builds via `--prod` command line flag, the runtime production mode is enabled as well.
+當你透過 `--prod` 命令列旗標啟用正式環境建置時，執行期正式模式也會一併啟用。
 
 {@a lazy-loading}
 
-### Lazy loading
+### 延遲載入
 
-You can dramatically reduce launch time by only loading the application modules that
-absolutely must be present when the app starts.
+只載入應用程式啟動時絕對必須存在的應用程式模組，可以大幅縮短啟動時間。
 
-Configure the Angular Router to defer loading of all other modules (and their associated code), either by
-[waiting until the app has launched](guide/router#preloading  "Preloading")
-or by [_lazy loading_](guide/router#lazy-loading "Lazy loading")
-them on demand.
+設定 Angular 路由器，延後載入所有其他模組（及其相關程式碼），方式可以是
+[等到應用程式啟動後](guide/router#preloading  "Preloading")
+或是在需要時[_延遲載入_](guide/router#lazy-loading "Lazy loading")
+它們。
 
 <div class="callout is-helpful">
 
-<header>Don't eagerly import something from a lazy-loaded module</header>
+<header>不要急切地從延遲載入的模組匯入內容</header>
 
-If you mean to lazy-load a module, be careful not import it
-in a file that's eagerly loaded when the app starts (such as the root `AppModule`).
-If you do that, the module will be loaded immediately.
+如果你打算延遲載入某個模組，請小心不要在應用程式啟動時會急切載入的檔案（例如根 `AppModule`）中匯入它。
+如果你這麼做，該模組會立即被載入。
 
-The bundling configuration must take lazy loading into consideration.
-Because lazy-loaded modules aren't imported in JavaScript, bundlers exclude them by default.
-Bundlers don't know about the router configuration and can't create separate bundles for lazy-loaded modules.
-You would have to create these bundles manually.
+綑綁設定必須考慮延遲載入。由於延遲載入的模組不會在 JavaScript 中被匯入，綑綁工具預設會排除它們。
+綑綁工具不知道路由器設定，無法為延遲載入的模組建立獨立的套件。
+你必須手動建立這些套件。
 
-The CLI runs the
-[Angular Ahead-of-Time Webpack Plugin](https://github.com/angular/angular-cli/tree/master/packages/ngtools/webpack)
-which automatically recognizes lazy-loaded `NgModules` and creates separate bundles for them.
+CLI 會執行
+[Angular Ahead-of-Time Webpack Plugin](https://github.com/angular/angular-cli/tree/master/packages/ngtools/webpack)，
+它會自動辨識延遲載入的 `NgModules`，並為它們建立獨立的套件。
 
 </div>
 
 {@a measure}
 
-### Measure performance
+### 衡量效能
 
-You can make better decisions about what to optimize and how when you have a clear and accurate understanding of
-what's making the application slow.
-The cause may not be what you think it is.
-You can waste a lot of time and money optimizing something that has no tangible benefit or even makes the app slower.
-You should measure the app's actual behavior when running in the environments that are important to you.
+當你清楚且準確地了解是什麼讓應用程式變慢時，你就能對要最佳化什麼、如何最佳化做出更好的決定。
+原因可能和你想的不一樣。
+你可能會浪費大量時間與金錢去最佳化某個沒有實際效益、甚至會讓應用程式更慢的東西。
+你應該在對你重要的環境中執行時，衡量應用程式的實際行為。
 
-The
 <a href="https://developers.google.com/web/tools/chrome-devtools/network-performance/understanding-resource-timing" title="Chrome DevTools Network Performance">
-Chrome DevTools Network Performance page</a> is a good place to start learning about measuring performance.
+Chrome DevTools Network Performance 頁面</a> 是開始學習衡量效能的好地方。
 
-The [WebPageTest](https://www.webpagetest.org/) tool is another good choice
-that can also help verify that your deployment was successful.
+[WebPageTest](https://www.webpagetest.org/) 工具是另一個好選擇，也可以幫助你驗證部署是否成功。
 
 {@a inspect-bundle}
 
-### Inspect the bundles
+### 檢查套件
 
-The <a href="https://github.com/danvk/source-map-explorer/blob/master/README.md">source-map-explorer</a>
-tool is a great way to inspect the generated JavaScript bundles after a production build.
+<a href="https://github.com/danvk/source-map-explorer/blob/master/README.md">source-map-explorer</a>
+工具是檢查正式環境建置後產生的 JavaScript 套件的好方法。
 
-Install `source-map-explorer`:
+安裝 `source-map-explorer`：
 
 <code-example language="none" class="code-shell">
 
@@ -375,7 +355,7 @@ Install `source-map-explorer`:
 
 </code-example>
 
-Build your app for production _including the source maps_
+為正式環境建置應用程式，*包含來源對應表*
 
 <code-example language="none" class="code-shell">
 
@@ -383,7 +363,7 @@ Build your app for production _including the source maps_
 
 </code-example>
 
-List the generated bundles in the `dist/` folder.
+列出 `dist/` 資料夾中產生的套件。
 
 <code-example language="none" class="code-shell">
 
@@ -391,8 +371,8 @@ List the generated bundles in the `dist/` folder.
 
 </code-example>
 
-Run the explorer to generate a graphical representation of one of the bundles.
-The following example displays the graph for the _main_ bundle.
+執行 explorer，為其中一個套件產生圖形表示。
+下列範例顯示 *main* 套件的圖表。
 
 <code-example language="none" class="code-shell">
 
@@ -400,88 +380,87 @@ The following example displays the graph for the _main_ bundle.
 
 </code-example>
 
-The `source-map-explorer` analyzes the source map generated with the bundle and draws a map of all dependencies,
-showing exactly which classes are included in the bundle.
+`source-map-explorer` 會分析隨套件產生的來源對應表，並繪製所有相依性的地圖，準確顯示套件中包含哪些類別。
 
-Here's the output for the _main_ bundle of an example app called `cli-quickstart`.
+以下是名為 `cli-quickstart` 的範例應用程式的 *main* 套件輸出。
 
 <div class="lightbox">
-  <img src="generated/images/guide/deployment/quickstart-sourcemap-explorer.png" alt="quickstart sourcemap explorer">
+  <img src="generated/images/guide/deployment/quickstart-sourcemap-explorer.png" alt="quickstart 的 sourcemap explorer">
 </div>
 
 {@a base-tag}
 
-## The `base` tag
+## `base` 標籤
 
-The HTML [_&lt;base href="..."/&gt;_](/guide/router)
-specifies a base path for resolving relative URLs to assets such as images, scripts, and style sheets.
-For example, given the `<base href="/my/app/">`, the browser resolves a URL such as `some/place/foo.jpg`
-into a server request for `my/app/some/place/foo.jpg`.
-During navigation, the Angular router uses the _base href_ as the base path to component, template, and module files.
+HTML [_&lt;base href="..."/&gt;_](/guide/router)
+會指定一個基底路徑，用來解析指向圖片、指令碼與樣式表等資產的相對 URL。
+例如，給定 `<base href="/my/app/">`，瀏覽器會把 `some/place/foo.jpg` 這樣的 URL
+解析為對 `my/app/some/place/foo.jpg` 的伺服器請求。
+在導覽期間，Angular 路由器會使用 _base href_ 作為元件、範本與模組檔案的基底路徑。
 
 <div class="alert is-helpful">
 
-See also the [*APP_BASE_HREF*](api/common/APP_BASE_HREF "API: APP_BASE_HREF") alternative.
+另請參閱 [*APP_BASE_HREF*](api/common/APP_BASE_HREF "API: APP_BASE_HREF") 替代方案。
 
 </div>
 
-In development, you typically start the server in the folder that holds `index.html`.
-That's the root folder and you'd add `<base href="/">` near the top of `index.html` because `/` is the root of the app.
+在開發期間，你通常會在存放 `index.html` 的資料夾中啟動伺服器。
+那就是根資料夾，你會在 `index.html` 靠近頂部的地方加入 `<base href="/">`，因為 `/` 是應用程式的根。
 
-But on the shared or production server, you might serve the app from a subfolder.
-For example, when the URL to load the app is something like `http://www.mysite.com/my/app/`,
-the subfolder is `my/app/` and you should add `<base href="/my/app/">` to the server version of the `index.html`.
+但在共用或正式環境伺服器上，你可能會從子資料夾提供應用程式。
+例如，當載入應用程式的 URL 是 `http://www.mysite.com/my/app/` 這類網址時，
+子資料夾是 `my/app/`，你應該在伺服器版本的 `index.html` 中加入 `<base href="/my/app/">`。
 
-When the `base` tag is mis-configured, the app fails to load and the browser console displays `404 - Not Found` errors
-for the missing files. Look at where it _tried_ to find those files and adjust the base tag appropriately.
+當 `base` 標籤設定錯誤時，應用程式無法載入，瀏覽器主控台會針對遺失的檔案顯示 `404 - Not Found` 錯誤。
+查看它*嘗試*在哪裡尋找那些檔案，並適當調整 base 標籤。
 
 {@a differential-loading}
 
-## Differential Loading
+## 差異式載入
 
-When building web applications, you want to make sure your application is compatible with the majority of browsers.
-Even as JavaScript continues to evolve, with new features being introduced, not all browsers are updated with support for these new features at the same pace.
+建置 Web 應用程式時，你會希望確保應用程式與大多數瀏覽器相容。
+即使 JavaScript 不斷演進、持續引入新功能，並非所有瀏覽器都以相同的速度更新，支援這些新功能。
 
-The code you write in development using TypeScript is compiled and bundled into ES2015, the JavaScript syntax that is compatible with most browsers.
-All modern browsers support ES2015 and beyond, but in most cases, you still have to account for users accessing your application from a browser that doesn't.
-When targeting older browsers, [polyfills](guide/browser-support#polyfills) can bridge the gap by providing functionality that doesn't exist in the older versions of JavaScript supported by those browsers.
+你在開發中使用 TypeScript 撰寫的程式碼，會被編譯並綑綁為 ES2015，也就是與大多數瀏覽器相容的 JavaScript 語法。
+所有現代瀏覽器都支援 ES2015 及更新的版本，但在大多數情況下，你仍然需要考慮從不支援 ES2015 的瀏覽器存取應用程式的使用者。
+當以較舊的瀏覽器為目標時，[polyfill](guide/browser-support#polyfills) 可以彌補差距，提供那些瀏覽器所支援的舊版 JavaScript 中不存在的功能。
 
-To maximize compatibility, you could ship a single bundle that includes all your compiled code, plus any polyfills that may be needed.
-Users with modern browsers, however, shouldn't have to pay the price of increased bundle size that comes with polyfills they don't need.
-Differential loading, which is supported by default in Angular CLI version 8 and higher, solves this problem.
+為了最大化相容性，你可以提供單一套件，包含所有編譯後的程式碼，以及可能需要的任何 polyfill。
+然而，使用現代瀏覽器的使用者不應該為他們不需要的 polyfill 所增加的套件大小付出代價。
+差異式載入（Angular CLI 第 8 版及更高版本預設支援）可以解決這個問題。
 
-Differential loading is a strategy that allows your web application to support multiple browsers, but only load the necessary code that the browser needs. When differential loading is enabled (which is the default) the CLI builds two separate bundles as part of your deployed application.
+差異式載入是一種策略，讓你的 Web 應用程式能支援多種瀏覽器，但只載入瀏覽器需要的必要程式碼。啟用差異式載入時（這是預設行為），CLI 會建立兩個獨立的套件，作為你部署的應用程式的一部分。
 
-* The first bundle contains modern ES2015 syntax, takes advantage of built-in support in modern browsers, ships fewer polyfills, and results in a smaller bundle size.
+* 第一個套件包含現代的 ES2015 語法。這個套件利用現代瀏覽器的內建支援，提供更少的 polyfill，讓套件更小。
 
-* The second bundle contains code in the old ES5 syntax, along with all necessary polyfills. This results in a larger bundle size, but supports older browsers.
+* 第二個套件包含舊式 ES5 語法的程式碼，以及所有必要的 polyfill。第二個套件較大，但支援較舊的瀏覽器。
 
-### Differential builds
+### 差異式建置
 
-When you deploy using the Angular CLI build process, you can choose how and when to support differential loading.
-The [`ng build` CLI command](cli/build) queries the browser configuration and the configured build target to determine if support for legacy browsers is required, and whether the build should produce the necessary bundles used for differential loading.
+當你使用 Angular CLI 建置流程部署時，你可以選擇如何以及何時支援差異式載入。
+[`ng build` CLI 命令](cli/build) 會查詢瀏覽器設定與設定的建置目標，判斷是否需要支援舊版瀏覽器，以及建置是否應產生差異式載入所需的套件。
 
-The following configurations determine your requirements.
+下列設定決定你的需求。
 
-* Browsers list
+* Browserslist
 
-   The `browserslist` configuration file is included in your application [project structure](guide/file-structure#application-configuration-files) and provides the minimum browsers your application supports. See the [Browserslist spec](https://github.com/browserslist/browserslist) for complete configuration options.
+   `browserslist` 設定檔包含在你的應用程式[專案結構](guide/file-structure#應用程式設定檔)中，提供你的應用程式支援的最低瀏覽器版本。完整設定選項，請參閱 [Browserslist 規格](https://github.com/browserslist/browserslist)。
 
-* TypeScript configuration
+* TypeScript 設定
 
-   In the TypeScript configuration file, `tsconfig.json`, the "target" option in the `compilerOptions` section determines the ECMAScript target version that the code is compiled to.
-   Modern browsers support ES2015 natively, while ES5 is more commonly used to support legacy browsers.
+   在 TypeScript 設定檔 `tsconfig.json` 中，`compilerOptions` 區段的 "target" 選項決定程式碼編譯到的 ECMAScript 目標版本。
+   現代瀏覽器原生支援 ES2015，而 ES5 更常用於支援舊版瀏覽器。
 
 <div class="alert is-helpful">
 
-   Differential loading is currently only supported when using `es2015` as a compilation target. When used with targets higher than `es2015`, the build process emits a warning.
+   差異式載入目前僅支援使用 `es2015` 作為編譯目標。用高於 `es2015` 的目標時，建置流程會發出警告。
 
 </div>
 
-For a development build, the output produced by `ng build` is simpler and easier to debug, allowing you to rely less on sourcemaps of compiled code.
+對於開發建置，`ng build` 產生的輸出較簡單且較容易除錯，讓你不必過度依賴編譯後程式碼的 sourcemap。
 
-For a production build, your configuration determines which bundles are created for deployment of your application.
-When needed, the `index.html` file is also modified during the build process to include script tags that enable differential loading, as shown in the following example.
+對於正式環境建置，你的設定決定要為應用程式的部署建立哪些套件。
+需要時，建置流程也會修改 `index.html` 檔案，加入啟用差異式載入的 script 標籤，如下列範例所示。
 
 <code-example language="html" header="index.html">
 &lt;body>
@@ -499,20 +478,20 @@ When needed, the `index.html` file is also modified during the build process to 
 &lt;/body>
 </code-example>
 
-Each script tag has a `type="module"` or `nomodule` attribute. Browsers with native support for ES modules only load the scripts with the `module` type attribute and ignore scripts with the `nomodule` attribute. Legacy browsers only load the scripts with the `nomodule` attribute, and ignore the script tags with the `module` type that load ES modules.
+每個 script 標籤都有一個 `type="module"` 或 `nomodule` 屬性。原生支援 ES 模組的瀏覽器只會載入帶有 `module` 型別屬性的 script，並忽略帶有 `nomodule` 屬性的 script。舊版瀏覽器只會載入帶有 `nomodule` 屬性的 script，並忽略載入 ES 模組的 `module` 型別 script 標籤。
 
 <div class="alert is-helpful">
 
-   Some legacy browsers still download both bundles, but only execute the appropriate scripts based on the attributes mentioned above. You can read more on the issue [here](https://github.com/philipwalton/webpack-esnext-boilerplate/issues/1).
+   有些舊版瀏覽器仍會下載這兩個套件，但只會依據上述屬性執行適當的 script。你可以在[這裡](https://github.com/philipwalton/webpack-esnext-boilerplate/issues/1)進一步了解這個問題。
 
 </div>
 
-### Configuring differential loading
+### 設定差異式載入
 
-Differential loading is supported by default with version 8 and later of the Angular CLI.
-For each application project in your workspace, you can configure how builds are produced based on the `browserslist` and `tsconfig.json` configuration files in your application project.
+Angular CLI 第 8 版及更高版本預設支援差異式載入。
+對於工作區中的每個應用程式專案，你可以根據應用程式專案中的 `browserslist` 與 `tsconfig.json` 設定檔，設定建置的產生方式。
 
-For a newly created Angular application, legacy browsers such as IE 9-11 are ignored, and the compilation target is ES2015.
+對於新建立的 Angular 應用程式，IE 9-11 等舊版瀏覽器會被忽略，編譯目標為 ES2015。
 
 <code-example language="none" header="browserslist">
 > 0.5%
@@ -549,51 +528,50 @@ not IE 9-11 # For IE 9-11 support, remove 'not'.
 
 </code-example>
 
-The default configuration creates two builds, with differential loading enabled.
+預設設定會建立兩種建置，並啟用差異式載入。
 
 <div class="alert is-important">
 
-   To see which browsers are supported with the default configuration and determine which settings meet to your browser support requirements, see the [Browserslist compatibility page](https://browserl.ist/?q=%3E+0.5%25%2C+last+2+versions%2C+Firefox+ESR%2C+not+dead%2C+not+IE+9-11).
+   若要查看支援哪些瀏覽器並決定哪些設定符合你的瀏覽器支援需求，請參閱 [Browserslist 相容性頁面](https://browserl.ist/?q=%3E+0.5%25%2C+last+2+versions%2C+Firefox+ESR%2C+not+dead%2C+not+IE+9-11)。
 
 </div>
 
-The `browserslist` configuration allows you to ignore browsers without ES2015 support. In this case, a single build is produced.
+`browserslist` 設定讓你可以忽略不支援 ES2015 的瀏覽器。在這種情況下，只會產生單一建置。
 
-If your `browserslist` configuration includes support for any legacy browsers, the build target in the TypeScript configuration determines whether the build will support differential loading.
+如果你的 `browserslist` 設定包含對任何舊版瀏覽器的支援，TypeScript 設定中的建置目標會決定建置是否支援差異式載入。
 
 {@a configuration-table }
 
-| browserslist | ES target | Build result |
+| Browserslist | ES 目標 | 建置結果 |
 | -------- | -------- | -------- |
-| ES5 support disabled | es2015  | Single build, ES5 not required |
-| ES5 support enabled  | es5     | Single build w/conditional polyfills for ES5 only |
-| ES5 support enabled  | es2015  | Differential loading (two builds w/conditional polyfills) |
+| 已停用 ES5 支援 | es2015  | 單一建置，不需要 ES5 |
+| 已啟用 ES5 支援  | es5     | 單一建置，僅含 ES5 的條件式 polyfill |
+| 已啟用 ES5 支援  | es2015  | 差異式載入（兩種建置，含條件式 polyfill） |
 
+### 退出差異式載入
 
-### Opting out of differential loading
+如果差異式載入導致非預期的問題，或你需要為了舊版瀏覽器支援而特別以 ES5 為目標，可以明確地停用差異式載入。
 
-Differential loading can be explicitly disabled if it causes unexpected issues, or if you need to target ES5 specifically for legacy browser support.
+若要明確停用差異式載入並建立 ES5 建置：
 
-To explicitly disable differential loading and create an ES5 build:
-
-- Enable the `dead` or `IE` browsers in the `browserslist` configuration file by removing the `not` keyword in front of them.
-- To create a single ES5 build, set the target in the `compilerOptions` to `es5`.
+- 在 `browserslist` 設定檔中，移除 `dead` 或 `IE` 瀏覽器前面的 `not` 關鍵字來啟用它們。
+- 若要建立單一 ES5 建置，請將 `compilerOptions` 中的 target 設定為 `es5`。
 
 {@a test-and-serve}
 
-## Local development in older browsers
+## 在較舊的瀏覽器中進行本機開發
 
-In Angular CLI version 8 and higher, differential loading is enabled by default for the `ng build` command.
-The `ng serve`, `ng test`, and `ng e2e` commands, however, generate a single ES2015 build which cannot run in older browsers that don't support the modules, such as IE 11.
+在 Angular CLI 8 版及更高版本中，差異式載入會為 `ng build` 命令預設啟用。
+不過，`ng serve`、`ng test` 與 `ng e2e` 命令會產生單一 ES2015 建置，無法在不支援模組的較舊瀏覽器（例如 IE 11）中執行。
 
-If you want to run ES5 code during development, you could disable differential loading completely.
-To maintain the benefits of differential loading, however, a better option is to define multiple configurations for `ng serve`, `ng e2e`, and `ng test`.
+如果你想在開發期間執行 ES5 程式碼，你可以完全停用差異式載入。
+不過，若要保持差異式載入的優點，更好的選擇是為 `ng serve`、`ng e2e` 與 `ng test` 定義多個設定。
 
 {@a differential-serve}
 
-### Configuring serve for ES5
+### 為 ES5 設定 serve
 
-To do this for `ng serve`, create a new file, `tsconfig-es5.app.json` next to `tsconfig.app.json` with the following content.
+若要為 `ng serve` 這麼做，請在 `tsconfig.app.json` 旁建立一個新檔案 `tsconfig-es5.app.json`，內容如下。
 
 <code-example language="json">
 
@@ -606,7 +584,7 @@ To do this for `ng serve`, create a new file, `tsconfig-es5.app.json` next to `t
 
 </code-example>
 
-In `angular.json` add two new configuration sections under the `build` and `serve` targets to point to the new TypeScript configuration.
+在 `angular.json` 中，在 `build` 與 `serve` 目標下加入兩個新的設定區段，指向新的 TypeScript 設定。
 
 <code-example language="json">
 
@@ -641,7 +619,7 @@ In `angular.json` add two new configuration sections under the `build` and `serv
 
 </code-example>
 
-You can then run the `ng serve` command with this configuration. Make sure to replace `<app-name>` (in `"<app-name>:build:es5"`) with the actual name of the app, as it appears under `projects` in `angular.json`. For example, if your app name is `myAngularApp` the config will become `"browserTarget": "myAngularApp:build:es5"`.
+接著，你可以用這個設定執行 `ng serve` 命令。請務必將 `<app-name>`（在 `"<app-name>:build:es5"` 中）替換為應用程式的實際名稱，如同它在 `angular.json` 的 `projects` 下顯示的那樣。例如，如果你的應用程式名稱是 `myAngularApp`，設定就會變成 `"browserTarget": "myAngularApp:build:es5"`。
 
 <code-example language="none" class="code-shell">
 
@@ -651,9 +629,9 @@ ng serve --configuration es5
 
 {@a differential-test}
 
-### Configuring the test command
+### 設定 test 命令
 
-Create a new file, `tsconfig-es5.spec.json` next to `tsconfig.spec.json` with the following content.
+在 `tsconfig.spec.json` 旁建立一個新檔案 `tsconfig-es5.spec.json`，內容如下。
 
 <code-example language="json">
 
@@ -682,7 +660,7 @@ Create a new file, `tsconfig-es5.spec.json` next to `tsconfig.spec.json` with th
 
 </code-example>
 
-You can then run the tests with this configuration
+接著，你可以用這個設定執行測試
 
 <code-example language="none" class="code-shell">
 
@@ -690,9 +668,9 @@ ng test --configuration es5
 
 </code-example>
 
-### Configuring the e2e command
+### 設定 e2e 命令
 
-Create an [ES5 serve configuration](guide/deployment#configuring-serve-for-es5) as explained above, and configuration an ES5 configuration for the E2E target.
+如上所述，建立一個 [ES5 serve 設定](guide/deployment#為-es5-設定-serve)，並為 E2E 目標設定一個 ES5 設定。
 
 <code-example language="json">
 
@@ -713,7 +691,7 @@ Create an [ES5 serve configuration](guide/deployment#configuring-serve-for-es5) 
 
 </code-example>
 
-You can then run the `ng e2e` command with this configuration. Make sure to replace `<app-name>` (in `"<app-name>:serve:es5"`) with the actual name of the app, as it appears under `projects` in `angular.json`. For example, if your app name is `myAngularApp` the config will become `"devServerTarget": "myAngularApp:serve:es5"`.
+接著，你可以用這個設定執行 `ng e2e` 命令。請務必將 `<app-name>`（在 `"<app-name>:serve:es5"` 中）替換成應用程式的實際名稱，也就是它在 `angular.json` 的 `projects` 底下出現的名稱。例如，如果你的應用程式名稱是 `myAngularApp`，設定就會變成 `"devServerTarget": "myAngularApp:serve:es5"`。
 
 <code-example language="none" class="code-shell">
 
