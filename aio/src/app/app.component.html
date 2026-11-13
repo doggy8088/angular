@@ -15,7 +15,7 @@
     </aio-notification>
   </mat-toolbar-row>
   <mat-toolbar-row>
-    <button mat-button class="hamburger" [class.starting]="isStarting" (click)="sidenav.toggle()" title="Docs menu">
+    <button mat-button class="hamburger" [class.starting]="isStarting" (click)="sidenav.toggle()" title="文件選單">
       <mat-icon svgIcon="menu"></mat-icon>
     </button>
     <a class="nav-link home" href="/" [ngSwitch]="showTopMenu">
@@ -25,13 +25,13 @@
     <aio-top-menu *ngIf="showTopMenu" [nodes]="topMenuNodes" [currentNode]="currentNodes?.TopBar"></aio-top-menu>
     <aio-search-box class="search-container" #searchBox (onSearch)="doSearch($event)" (onFocus)="doSearch($event)"></aio-search-box>
     <div class="toolbar-external-icons-container">
-      <a href="https://twitter.com/angular" title="Twitter" aria-label="Angular on twitter">
+      <a href="https://twitter.com/angular" title="Twitter" aria-label="Twitter 上的 Angular">
         <mat-icon svgIcon="logos:twitter"></mat-icon>
       </a>
-      <a href="https://github.com/angular/angular" title="GitHub" aria-label="Angular on github">
+      <a href="https://github.com/angular/angular" title="GitHub" aria-label="GitHub 上的 Angular">
         <mat-icon svgIcon="logos:github"></mat-icon>
       </a>
-      <a href="https://youtube.com/angular" title="YouTube" aria-label="Angular on YouTube">
+      <a href="https://youtube.com/angular" title="YouTube" aria-label="YouTube 上的 Angular">
         <mat-icon svgIcon="logos:youtube"></mat-icon>
       </a>
     </div>

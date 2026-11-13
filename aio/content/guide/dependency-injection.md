@@ -1,80 +1,80 @@
-# Dependency injection in Angular
+# Angular 中的依賴注入
 
-Dependencies are services or objects that a class needs to perform its function.
-Dependency injection, or DI, is a design pattern in which a class requests dependencies from external sources rather than creating them.
+依賴是類別執行其功能所需的服務或物件。
+依賴注入（dependency injection，簡稱 DI）是一種設計模式，在這種模式中，類別會向外部來源請求依賴，而不是自行建立它們。
 
-Angular's DI framework provides dependencies to a class upon instantiation.
-You can use Angular DI to increase flexibility and modularity in your applications.
+Angular 的 DI 框架會在類別實例化時為它提供依賴。
+你可以使用 Angular DI 來提高應用程式的彈性與模組化程度。
 
 <div class="alert is-helpful">
 
-See the <live-example></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example></live-example>，查看包含本指南程式碼片段的實際範例。
 
 </div>
 
-## Creating an injectable service
+## 建立可注入的服務
 
-To generate a new `HeroService` class in the `src/app/heroes` folder use the following [Angular CLI](cli) command.
+若要在 `src/app/heroes` 資料夾中產生一個新的 `HeroService` 類別，請使用下列 [Angular CLI](cli) 指令。
 
 <code-example language="sh">
 ng generate service heroes/hero
 </code-example>
 
-This command creates the following default `HeroService`.
+這個指令會建立以下預設的 `HeroService`。
 
 <code-example path="dependency-injection/src/app/heroes/hero.service.0.ts" header="src/app/heroes/hero.service.ts (CLI-generated)">
 </code-example>
 
-The `@Injectable()` decorator specifies that Angular can use this class in the DI system.
-The metadata, `providedIn: 'root'`, means that the `HeroService` is visible throughout the application.
+`@Injectable()` 裝飾器表明 Angular 可以在 DI 系統中使用這個類別。
+`providedIn: 'root'` 這項詮釋資料，意味著 `HeroService` 在整個應用程式中都可見。
 
-Next, to get the hero mock data, add a `getHeroes()` method that returns the heroes from `mock.heroes.ts`.
+接著，若要取得英雄模擬資料，請加入一個 `getHeroes()` 方法，從 `mock.heroes.ts` 傳回英雄。
 
 <code-example path="dependency-injection/src/app/heroes/hero.service.3.ts" header="src/app/heroes/hero.service.ts">
 </code-example>
 
-For clarity and maintainability, it is recommended that you define components and services in separate files.
+為了清晰與可維護性，建議你把元件與服務定義在不同的檔案中。
 
-If you do combine a component and service in the same file, it is important to define the service first, and then the component.
-If you define the component before the service, Angular returns a run-time null reference error.
+如果你確實把元件與服務合併在同一個檔案中，務必先定義服務，再定義元件。
+如果你在服務之前定義元件，Angular 會傳回執行時期的 null 參照錯誤。
 
 
 {@a injector-config}
 {@a bootstrap}
 
-## Injecting services
+## 注入服務
 
-Injecting services results in making them visible to a component.
+注入服務能讓服務在元件中可見。
 
-To inject a dependency in a component's `constructor()`, supply a constructor argument with the dependency type.
-The following example specifies the `HeroService` in the `HeroListComponent` constructor.
-The type of `heroService` is `HeroService`.
+若要把依賴注入元件的 `constructor()`，請提供一個帶有依賴型別的建構子引數。
+下列範例在 `HeroListComponent` 建構子中指定了 `HeroService`。
+`heroService` 的型別是 `HeroService`。
 
 <code-example header="src/app/heroes/hero-list.component (constructor signature)" path="dependency-injection/src/app/heroes/hero-list.component.ts"
 region="ctor-signature">
 </code-example>
 
 
-For more information, see [Providing dependencies in modules](guide/providers) and [Hierarchical injectors](guide/hierarchical-dependency-injection).
+如需更多資訊，請參閱[在模組中提供依賴](guide/providers)與[階層式注入器](guide/hierarchical-dependency-injection)。
 
 {@a service-needs-service}
 
-## Using services in other services
+## 在其他服務中使用服務
 
-When a service depends on another service, follow the same pattern as injecting into a component.
-In the following example `HeroService` depends on a `Logger` service to report its activities.
+當一個服務依賴另一個服務時，採用的模式與注入到元件相同。
+在以下範例中，`HeroService` 依賴 `Logger` 服務來記錄它的活動。
 
-First, import the `Logger` service.
-Next, inject the `Logger` service in the `HeroService` `constructor()` by specifying `private logger: Logger` within the parentheses.
+首先，匯入 `Logger` 服務。
+接著，在 `HeroService` 的 `constructor()` 括號內指定 `private logger: Logger`，以注入 `Logger` 服務。
 
-When you create a class whose `constructor()` has parameters, specify the type and metadata about those parameters so that Angular can inject the correct service.
+當你建立的類別其 `constructor()` 帶有參數時，請指定這些參數的型別與詮釋資料，讓 Angular 能注入正確的服務。
 
-Here, the `constructor()` specifies a type of `Logger` and stores the instance of `Logger` in a private field called `logger`.
+在這裡，`constructor()` 指定了 `Logger` 型別，並把 `Logger` 實例儲存在名為 `logger` 的私有欄位中。
 
 
-The following code tabs feature the `Logger` service and two versions of `HeroService`.
-The first version of `HeroService` does not depend on the `Logger` service.
-The revised second version does depend on `Logger` service.
+下列程式碼分頁展示了 `Logger` 服務與兩個版本的 `HeroService`。
+第一版的 `HeroService` 不依賴 `Logger` 服務。
+修訂後的第二版則依賴 `Logger` 服務。
 
 <code-tabs>
 
@@ -90,10 +90,10 @@ The revised second version does depend on `Logger` service.
 
 </code-tabs>
 
-In this example, the `getHeroes()` method uses the `Logger` service by logging a message when fetching heroes.
+在這個範例中，`getHeroes()` 方法在擷取英雄時，使用 `Logger` 服務記錄了一則訊息。
 
-## What's next
+## 後續步驟
 
-* [Dependency providers](guide/dependency-injection-providers)
-* [DI tokens and providers](guide/dependency-injection-providers)
-* [Dependency Injection in Action](guide/dependency-injection-in-action)
+* [依賴提供者](guide/dependency-injection-providers)
+* [DI 權杖與提供者](guide/dependency-injection-providers)
+* [依賴注入實戰](guide/dependency-injection-in-action)

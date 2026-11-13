@@ -1,12 +1,12 @@
-# `tslib` direct dependency migration
+# `tslib` 直接相依性遷移
 
-## What does this migration do?
+## 這個遷移做什麼？
 
-If you have any libraries within your workspace, this migration will convert `tslib` peer dependencies to direct dependencies for the libraries.
-TypeScript uses the `tslib` package to provide common helper functions used in compiled TypeScript code.
-The `tslib` version is also updated to `2.0.0` to support TypeScript 3.9.
+如果你的工作區中有任何函式庫，這個遷移會將函式庫的 `tslib` 同儕相依性轉換為直接相依性。
+TypeScript 使用 `tslib` 套件提供編譯後 TypeScript 程式碼中常用的輔助函式。
+`tslib` 的版本也會更新到 `2.0.0`，以支援 TypeScript 3.9。
 
-Before:
+之前：
 ```json
 {
   "name": "my-lib",
@@ -19,7 +19,7 @@ Before:
 }
 ```
 
-After:
+之後：
 ```json
 {
   "name": "my-lib",
@@ -34,19 +34,19 @@ After:
 }
 ```
 
-## Why is this migration necessary?
+## 為什麼需要這個遷移？
 
-The [`tslib`](https://github.com/Microsoft/tslib) is a runtime library for Typescript.
-The version of this library is bound to the version of the TypeScript compiler used to compile a library.
-Peer dependencies do not accurately represent this relationship between the runtime and the compiler.
-If `tslib` remained declared as a library peer dependency, it would be possible for some Angular workspaces to get into a state where the workspace could not satisfy `tslib` peer dependency requirements for multiple libraries, resulting in build-time or run-time errors.
+[`tslib`](https://github.com/Microsoft/tslib) 是 TypeScript 的執行期函式庫。
+這個函式庫的版本與用來編譯函式庫的 TypeScript 編譯器版本綁定。
+同儕相依性無法準確表達執行期與編譯器之間的這種關係。
+如果 `tslib` 繼續被宣告為函式庫的同儕相依性，某些 Angular 工作區可能會陷入無法同時滿足多個函式庫的 `tslib` 同儕相依性要求的狀態，導致建置期或執行期錯誤。
 
-As of TypeScript 3.9 (used by Angular v10), `tslib` version of 2.x is required to build new applications.
-However, older libraries built with previous version of TypeScript and already published to npm might need `tslib` 1.x.
-This migration makes it possible for code depending on incompatible versions of the `tslib` runtime library to remain interoperable.
+自 TypeScript 3.9（Angular v10 使用）起，建置新應用程式需要 2.x 版的 `tslib`。
+然而，以先前版本 TypeScript 建置且已發佈到 npm 的較舊函式庫，可能需要 `tslib` 1.x。
+這個遷移讓依賴不相容版本 `tslib` 執行期函式庫的程式碼能夠保持互通。
 
 
-## Do I still need `tslib` as a dependency in my workspace `package.json`?
+## 我的工作區 `package.json` 中仍然需要 `tslib` 作為相依性嗎？
 
-Yes.
-The `tslib` dependency declared in the `package.json` file of the workspace is used to build applications within this workspace, as well as run unit tests for workspace libraries, and is required.
+是的。
+工作區的 `package.json` 檔案中宣告的 `tslib` 相依性用於建置此工作區內的應用程式，以及執行工作區函式庫的單元測試，是必需的。

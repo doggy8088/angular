@@ -1,64 +1,66 @@
-# Event binding
+# 事件繫結
 
-Event binding allows you to listen for and respond to user actions such as keystrokes, mouse movements, clicks, and touches.
+事件繫結讓你可以監聽並回應使用者操作，例如按鍵、滑鼠移動、點選和觸控。
 
 <div class="alert is-helpful">
 
-See the <live-example></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example></live-example>，查看包含本指南程式碼片段的實際範例。
 
 </div>
 
-## Binding to events
+## 繫結到事件
 
-To bind to an event you use the Angular event binding syntax.
-This syntax consists of a target event name within parentheses to the left of an equal sign, and a quoted template statement to the right.
-In the following example, the target event name is `click` and the template statement is `onSave()`.
+要繫結到事件，你要使用 Angular 事件繫結語法。
+這個語法由等號左邊括號內的目標事件名稱，以及右邊引號括起來的範本陳述式組成。
+在下列範例中，目標事件名稱是 `click`，範本陳述式是 `onSave()`。
 
 <code-example language="html" header="Event binding syntax">
 &lt;button (click)="onSave()"&gt;Save&lt;/button&gt;
 </code-example>
 
-The event binding listens for the button's click events and calls the component's `onSave()` method whenever a click occurs.
+事件繫結會監聽按鈕的 click 事件，並在每次發生點選時呼叫元件的 `onSave()` 方法。
 
 <div class="lightbox">
-  <img src='generated/images/guide/template-syntax/syntax-diagram.svg' alt="Syntax diagram">
+  <img src='generated/images/guide/template-syntax/syntax-diagram.svg' alt="語法圖">
 </div>
 
-## Custom events with `EventEmitter`
+<a id="custom-events-with-eventemitter"></a>
 
-[Directives](guide/built-in-directives) typically raise custom events with an Angular [EventEmitter](api/core/EventEmitter) as follows.
+## 使用 `EventEmitter` 的自訂事件
 
-1. The directive creates an `EventEmitter` and exposes it as a property.
-1. The directive then calls `EventEmitter.emit(data)` to emit an event, passing in message data, which can be anything.
-1. Parent directives listen for the event by binding to this property and accessing the data through the `$event` object.
+[指令](guide/built-in-directives)通常會使用 Angular [EventEmitter](api/core/EventEmitter)引發自訂事件，如下所示。
 
-Consider an `ItemDetailComponent` that presents item information and responds to user actions.
-Although the `ItemDetailComponent` has a delete button, it doesn't contain the functionality to delete the hero.
-It can only raise an event reporting the user's delete request.
+1. 指令會建立一個 `EventEmitter`，並將它公開為屬性。
+1. 接著，指令呼叫 `EventEmitter.emit(data)` 來發出事件，並傳入訊息資料，資料可以是任何內容。
+1. 父指令透過繫結到這個屬性來監聽事件，並透過 `$event` 物件存取資料。
+
+以呈現項目資訊並回應使用者操作的 `ItemDetailComponent` 為例。
+雖然 `ItemDetailComponent` 有一個刪除按鈕，但它並不包含刪除英雄的功能。
+它只能引發一個事件，回報使用者的刪除請求。
 
 
 <code-example path="event-binding/src/app/item-detail/item-detail.component.html" header="src/app/item-detail/item-detail.component.html (template)" region="line-through"></code-example>
 
-The component defines a `deleteRequest` property that returns an `EventEmitter`.
-When the user clicks **Delete**, the component invokes the `delete()` method, telling the `EventEmitter` to emit an `Item` object.
+這個元件定義了一個會回傳 `EventEmitter` 的 `deleteRequest` 屬性。
+當使用者點選 **Delete** 時，元件會呼叫 `delete()` 方法，讓 `EventEmitter` 發出一個 `Item` 物件。
 
 <code-example path="event-binding/src/app/item-detail/item-detail.component.ts" header="src/app/item-detail/item-detail.component.ts (deleteRequest)" region="deleteRequest"></code-example>
 
-The hosting parent component binds to the `deleteRequest` event of the `ItemDetailComponent` as follows.
+承載它的父元件會如下繫結到 `ItemDetailComponent` 的 `deleteRequest` 事件。
 
 <code-example path="event-binding/src/app/app.component.html" header="src/app/app.component.html (event-binding-to-component)" region="event-binding-to-component"></code-example>
 
-When the `deleteRequest` event fires, Angular calls the parent component's `deleteItem()` method with the item.
+當 `deleteRequest` 事件觸發時，Angular 會以該項目呼叫父元件的 `deleteItem()` 方法。
 
-### Determining an event target
+### 決定事件目標
 
-To determine an event target, Angular checks if the name of the target event matches an event property of a known directive.
-In the following example, Angular checks to see if `myClick` is an event on the custom `ClickDirective`.
+要決定事件目標，Angular 會檢查目標事件的名稱，是否符合已知指令的事件屬性。
+在下列範例中，Angular 會檢查 `myClick` 是否為自訂 `ClickDirective` 上的事件。
 
 <code-example path="event-binding/src/app/app.component.html" region="custom-directive" header="src/app/app.component.html"></code-example>
 
-If the target event name, `myClick` fails to match an element event or an output property of `ClickDirective`, Angular reports an "unknown directive" error.
+如果目標事件名稱 `myClick` 不符合元素事件或 `ClickDirective` 的輸出屬性，Angular 會回報 "unknown directive" 錯誤。
 
-## What's next
+## 後續步驟
 
-For more information on how event binding works, see [How event binding works](guide/event-binding-concepts).
+如需進一步了解事件繫結的運作方式，請參閱[事件繫結如何運作](guide/event-binding-concepts)。

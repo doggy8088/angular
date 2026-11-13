@@ -1,172 +1,152 @@
-# Testing services
+# 測試服務
 
 
-To check that your services are working as you intend, you can write tests specifically for them.
+若要檢查你的服務是否如你所預期般運作，你可以專門為它們撰寫測試。
 
 <div class="alert is-helpful">
 
-  For the sample app that the testing guides describe, see the <live-example name="testing" embedded-style noDownload>sample app</live-example>.
+  如需測試指南所述的範例應用程式，請見 <live-example name="testing" embedded-style noDownload>範例應用程式</live-example>。
 
-  For the tests features in the testing guides, see <live-example name="testing" stackblitz="specs" noDownload>tests</live-example>.
+  如需測試指南中的測試功能，請見 <live-example name="testing" stackblitz="specs" noDownload>測試</live-example>。
 
 </div>
 
 
-Services are often the easiest files to unit test.
-Here are some synchronous and asynchronous unit tests of the `ValueService`
-written without assistance from Angular testing utilities.
+服務通常是最容易進行單元測試的檔案。
+以下是一些在沒有 Angular 測試工具協助下撰寫的 `ValueService` 同步與非同步單元測試。
 
 <code-example path="testing/src/app/demo/demo.spec.ts" region="ValueService" header="app/demo/demo.spec.ts"></code-example>
 
 {@a services-with-dependencies}
 
-## Services with dependencies
+## 具有相依性的服務
 
-Services often depend on other services that Angular injects into the constructor.
-In many cases, it's easy to create and _inject_ these dependencies by hand while
-calling the service's constructor.
+服務通常相依於 Angular 注入到建構函式中的其他服務。
+在許多情況下，你可以在呼叫服務建構函式時，手動建立並 _注入_ 這些相依性。
 
-The `MasterService` is a simple example:
+`MasterService` 是一個簡單的範例：
 
 <code-example path="testing/src/app/demo/demo.ts" region="MasterService" header="app/demo/demo.ts"></code-example>
 
-`MasterService` delegates its only method, `getValue`, to the injected `ValueService`.
+`MasterService` 將它唯一的方法 `getValue` 委派給注入的 `ValueService`。
 
-Here are several ways to test it.
+以下是幾種測試它的方法。
 
 <code-example path="testing/src/app/demo/demo.spec.ts" region="MasterService" header="app/demo/demo.spec.ts"></code-example>
 
-The first test creates a `ValueService` with `new` and passes it to the `MasterService` constructor.
+第一個測試以 `ValueService` 建立一個 `new`，並將它傳給 `MasterService` 建構函式。
 
-However, injecting the real service rarely works well as most dependent services are difficult to create and control.
+然而，注入真實的服務很少能運作得好，因為大多數相依的服務都很難建立與控制。
 
-Instead you can mock the dependency, use a dummy value, or create a
-[spy](https://jasmine.github.io/2.0/introduction.html#section-Spies)
-on the pertinent service method.
+相反地，請模擬該相依性、使用虛擬值，或在相關的服務方法上建立一個
+[spy](https://jasmine.github.io/2.0/introduction.html#section-Spies)。
 
 <div class="alert is-helpful">
 
-Prefer spies as they are usually the easiest way to mock services.
+建議優先使用 spy 替身，因為它們通常是模擬服務的最佳方式。
 
 </div>
 
-These standard testing techniques are great for unit testing services in isolation.
+這些標準測試技巧非常適合以獨立方式單元測試服務。
 
-However, you almost always inject services into application classes using Angular
-dependency injection and you should have tests that reflect that usage pattern.
-Angular testing utilities make it easy to investigate how injected services behave.
+然而，你幾乎總是使用 Angular 依賴注入將服務注入應用程式類別，因此你應該要有能反映該使用模式的測試。
+Angular 測試工具讓調查注入服務的行為變得直接明瞭。
 
-## Testing services with the _TestBed_
+## 以 _TestBed_ 測試服務
 
-Your app relies on Angular [dependency injection (DI)](guide/dependency-injection)
-to create services.
-When a service has a dependent service, DI finds or creates that dependent service.
-And if that dependent service has its own dependencies, DI finds-or-creates them as well.
+你的應用程式仰賴 Angular [依賴注入（DI）](guide/dependency-injection) 來建立服務。
+當一個服務有相依的服務時，DI 會尋找或建立該相依服務。
+而如果該相依服務有它自己的相依性，DI 也會一併尋找或建立它們。
 
-As service _consumer_, you don't worry about any of this.
-You don't worry about the order of constructor arguments or how they're created.
+身為服務 _消費者_，你不需要擔心這一切。
+你不需要擔心建構函式引數的順序，也不需要擔心它們如何被建立。
 
-As a service _tester_, you must at least think about the first level of service dependencies
-but you _can_ let Angular DI do the service creation and deal with constructor argument order
-when you use the `TestBed` testing utility to provide and create services.
+身為服務 _測試者_，你至少必須思考第一層級的服務相依性，但你可以讓 Angular DI 處理服務的建立與建構函式引數順序，方法是使用 `TestBed` 測試工具來提供與建立服務。
 
 {@a testbed}
 
 ## Angular _TestBed_
 
-The `TestBed` is the most important of the Angular testing utilities.
-The `TestBed` creates a dynamically-constructed Angular _test_ module that emulates
-an Angular [@NgModule](guide/ngmodules).
+`TestBed` 是 Angular 測試工具中最重要的一個。
+`TestBed` 會建立一個動態建構的 Angular _測試_ 模組，模擬 Angular 的 [@NgModule](guide/ngmodules)。
 
-The `TestBed.configureTestingModule()` method takes a metadata object that can have most of the properties of an [@NgModule](guide/ngmodules).
+`TestBed.configureTestingModule()` 方法接受一個中繼資料物件，該物件可以具有 [@NgModule](guide/ngmodules) 的大多數屬性。
 
-To test a service, you set the `providers` metadata property with an
-array of the services that you'll test or mock.
+若要測試服務，請將 `providers` 中繼資料屬性設定為你要測試或模擬的服務陣列。
 
 <code-example path="testing/src/app/demo/demo.testbed.spec.ts" region="value-service-before-each" header="app/demo/demo.testbed.spec.ts (provide ValueService in beforeEach)"></code-example>
 
-Then inject it inside a test by calling `TestBed.inject()` with the service class as the argument.
+然後在測試內呼叫 `TestBed.inject()`，並以服務類別作為引數來注入它。
 
 <div class="alert is-helpful">
 
-**Note:** `TestBed.get()` was deprecated as of Angular version 9.
-To help minimize breaking changes, Angular introduces a new function called `TestBed.inject()`, which you should use instead.
-For information on the removal of `TestBed.get()`,
-see its entry in the [Deprecations index](guide/deprecations#index).
+**注意：** `TestBed.get()` 已於 Angular 第 9 版起棄用。
+為了盡量減少破壞性變更，Angular 推出了一個名為 `TestBed.inject()` 的新函式，你應該改用它。
+如需了解 `TestBed.get()` 的移除資訊，請參閱[棄用索引](guide/deprecations#索引)中的相關條目。
 
 </div>
 
 <code-example path="testing/src/app/demo/demo.testbed.spec.ts" region="value-service-inject-it"></code-example>
 
-Or inside the `beforeEach()` if you prefer to inject the service as part of your setup.
+或是在 `beforeEach()` 內注入，如果你偏好將服務的注入作為設定作業的一部分。
 
 <code-example path="testing/src/app/demo/demo.testbed.spec.ts" region="value-service-inject-before-each"> </code-example>
 
-When testing a service with a dependency, provide the mock in the `providers` array.
+測試具有相依性的服務時，請在 `providers` 陣列中提供該 mock。
 
-In the following example, the mock is a spy object.
+在下列範例中，mock 是一個 spy 物件。
 
 <code-example path="testing/src/app/demo/demo.testbed.spec.ts" region="master-service-before-each"></code-example>
 
-The test consumes that spy in the same way it did earlier.
+該測試以與先前相同的方式使用該 spy。
 
 <code-example path="testing/src/app/demo/demo.testbed.spec.ts" region="master-service-it">
 </code-example>
 
 {@a no-before-each}
 
-## Testing without _beforeEach()_
+## 不使用 _beforeEach()_ 進行測試
 
-Most test suites in this guide call `beforeEach()` to set the preconditions for each `it()` test
-and rely on the `TestBed` to create classes and inject services.
+本指南中的大多數測試套件都會呼叫 `beforeEach()`，為每個 `it()` 測試設定前置條件，並仰賴 `TestBed` 來建立類別與注入服務。
 
-There's another school of testing that never calls `beforeEach()` and prefers to create classes explicitly rather than use the `TestBed`.
+還有另一派測試從不呼叫 `beforeEach()`，偏好明確地建立類別，而非使用 `TestBed`。
 
-Here's how you might rewrite one of the `MasterService` tests in that style.
+以下是你可能如何以那種風格改寫其中一個 `MasterService` 測試。
 
-Begin by putting re-usable, preparatory code in a _setup_ function instead of `beforeEach()`.
+先將可重複使用、具準備性質的程式碼放進一個 _setup_ 函式，而不是放在 `beforeEach()` 中。
 
 <code-example
   path="testing/src/app/demo/demo.spec.ts"
   region="no-before-each-setup"
   header="app/demo/demo.spec.ts (setup)"></code-example>
 
-The `setup()` function returns an object literal
-with the variables, such as `masterService`, that a test might reference.
-You don't define _semi-global_ variables (e.g., `let masterService: MasterService`)
-in the body of the `describe()`.
+`setup()` 函式會傳回一個物件字面值，其中帶有測試可能引用的變數，例如 `masterService`。
+你不會在 `describe()` 的主體中定義 _半全域_ 變數（例如 `let masterService: MasterService`）。
 
-Then each test invokes `setup()` in its first line, before continuing
-with steps that manipulate the test subject and assert expectations.
+然後每個測試在第一行叫用 `setup()`，接著繼續進行操作測試主體並斷言期望的步驟。
 
 <code-example
   path="testing/src/app/demo/demo.spec.ts"
   region="no-before-each-test"></code-example>
 
-Notice how the test uses
-[_destructuring assignment_](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
-to extract the setup variables that it needs.
+請注意，測試如何使用
+[_解構賦值_](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+來擷取它需要的設定變數。
 
 <code-example
   path="testing/src/app/demo/demo.spec.ts"
   region="no-before-each-setup-call">
 </code-example>
 
-Many developers feel this approach is cleaner and more explicit than the
-traditional `beforeEach()` style.
+許多開發者覺得這種作法比傳統的 `beforeEach()` 風格更簡潔、更明確。
 
-Although this testing guide follows the traditional style and
-the default [CLI schematics](https://github.com/angular/angular-cli)
-generate test files with `beforeEach()` and `TestBed`,
-feel free to adopt _this alternative approach_ in your own projects.
+雖然本測試指南遵循傳統風格，且預設的 [CLI schematics](https://github.com/angular/angular-cli) 產生的測試檔案帶有 `beforeEach()` 與 `TestBed`，仍歡迎你在自己的專案中採用 _這個替代作法_。
 
-## Testing HTTP services
+## 測試 HTTP 服務
 
-Data services that make HTTP calls to remote servers typically inject and delegate
-to the Angular [`HttpClient`](guide/http) service for XHR calls.
+向遠端伺服器發出 HTTP 呼叫的資料服務，通常會注入 Angular 的 [`HttpClient`](guide/http) 服務，並委派給它進行 XHR 呼叫。
 
-You can test a data service with an injected `HttpClient` spy as you would
-test any service with a dependency.
+你可以像測試任何具有相依性的服務一樣，使用注入的 `HttpClient` spy 來測試資料服務。
 <code-example
   path="testing/src/app/model/hero.service.spec.ts"
   region="test-with-spies"
@@ -175,25 +155,19 @@ test any service with a dependency.
 
 <div class="alert is-important">
 
-The `HeroService` methods return `Observables`. You must
-_subscribe_ to an observable to (a) cause it to execute and (b)
-assert that the method succeeds or fails.
+`HeroService` 的方法會回傳 `Observables`。你必須
+_訂閱_ observable，才能（a）讓它執行，以及（b）斷言該方法成功或失敗。
 
-The `subscribe()` method takes a success (`next`) and fail (`error`) callback.
-Make sure you provide _both_ callbacks so that you capture errors.
-Neglecting to do so produces an asynchronous uncaught observable error that
-the test runner will likely attribute to a completely different test.
+`subscribe()` 方法接受一個成功（`next`）與一個失敗（`error`）回呼。
+請確保你有提供 _這兩個_ 回呼，這樣你才能捕捉到錯誤。
+若疏於這麼做，會產生一個非同步的未捕捉 observable 錯誤，測試執行器很可能會將它歸因到一個完全不同的測試上。
 
 </div>
 
 ## _HttpClientTestingModule_
 
-Extended interactions between a data service and the `HttpClient` can be complex
-and difficult to mock with spies.
+資料服務與 `HttpClient` 之間的擴充互動可能很複雜，而且很難用 spy 來模擬。
 
-The `HttpClientTestingModule` can make these testing scenarios more manageable.
+`HttpClientTestingModule` 可以讓這些測試情境更容易管理。
 
-While the _code sample_ accompanying this guide demonstrates `HttpClientTestingModule`,
-this page defers to the [Http guide](guide/http#testing-http-requests),
-which covers testing with the `HttpClientTestingModule` in detail.
-
+雖然本指南隨附的 _程式碼範例_ 有示範 `HttpClientTestingModule`，但本頁將內容留給 [Http 指南](guide/http#測試請求)，該指南詳細涵蓋了使用 `HttpClientTestingModule` 的測試。

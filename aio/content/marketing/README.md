@@ -1,31 +1,31 @@
-# Contributors page
+# 貢獻者頁面
 
-We have an official accounting of who is on the Angular Team, who are "trusted collaborators" (see https://team.angular.io/collaborators), and so on.
+我們有官方的紀錄，說明誰在 Angular 團隊、誰是「受信任的協作者」（請參閱 https://team.angular.io/collaborators），等等。
 
-The `contributors.json` should be maintained to keep our "org chart" in a single consistent place.
+應維護 `contributors.json`，讓我們的「組織圖」保持在單一一致的位置。
 
-## GDE listings
+## GDE 清單
 
-There are two pages:
+有兩個頁面：
 
 - https://developers.google.com/experts/all/technology/angular
-(Googlers: source at http://google3/googledata/devsite/content/en/experts/all/technology/angular.html)
-which is maintained by Dawid Ostrowski based on a spreadsheet
-https://docs.google.com/spreadsheets/d/1_Ls2Kle7NxPBIG8f3OEVZ4gJZ8OCTtBxGYwMPb1TUVE/edit#gid=0.
+（Googlers：來源為 http://google3/googledata/devsite/content/en/experts/all/technology/angular.html）
+由 Dawid Ostrowski 根據試算表
+https://docs.google.com/spreadsheets/d/1_Ls2Kle7NxPBIG8f3OEVZ4gJZ8OCTtBxGYwMPb1TUVE/edit#gid=0 維護。
   <!-- gkalpak: That URL doesn't seem to work any more. New URL: https://developers.google.com/programs/experts/directory/ (?) -->
 
-- Ours: https://angular.io/about?group=GDE which is derived from `contributors.json`.
+- 我們的：https://angular.io/about?group=GDE，由 `contributors.json` 衍生而來。
 
-## About the data
+## 關於資料
 
-- Keys in `contributors.json` should be GitHub handles. (Most currently are, but not all.)
-  This will allow us to use GitHub as the default source for things like name, avatar, etc.
-- Keys are sorted in alphabetical order, please keep the sorting order when adding new entries.
-- Pictures are stored in `aio/content/images/bios/<picture-filename>`.
+- `contributors.json` 中的鍵應該是 GitHub 使用者名稱。（目前大多數是，但並非全部。）
+  這樣我們就能以 GitHub 作為姓名、頭像等資訊的預設來源。
+- 鍵以字母順序排序，新增項目時請保持排序順序。
+- 圖片存放在 `aio/content/images/bios/<picture-filename>`。
 
-## Processing the data
+## 處理資料
 
-Install https://stedolan.github.io/jq/ which is amazing.
+請安裝 https://stedolan.github.io/jq/，它非常好用。
 
 ```sh
 for handle in $(jq keys[] --raw-output < aio/content/marketing/contributors.json)
@@ -34,4 +34,4 @@ do echo -e "\n$handle\n---------\n"; curl --silent -H "Authorization: token ${TO
 done
 ```
 
-Relevant scripts are stored in `aio/scripts/contributors/`.
+相關的指令碼存放在 `aio/scripts/contributors/`。
