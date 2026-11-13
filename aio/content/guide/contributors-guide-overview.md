@@ -1,39 +1,39 @@
-# Content Contributor's Guide
+# 內容貢獻者指南
 
-Angular, as an open source project, depends on its community. This dependence is particularly important to the documentation. The more the community contributes to the documentation, the better the documentation becomes, which helps both new and experienced Angular developers.
+Angular 是開放原始碼專案，有賴社群的支持。這種仰賴對文件尤其重要。社群對文件的貢獻越多，文件就越完善，對 Angular 新手與資深開發者都有幫助。
 
-The topics in this section cover ways in which you can contribute to the Angular documentation set.
+本節的主題涵蓋你可以為 Angular 文件集貢獻心力的方式。
 
-## Before you begin
+## 開始之前
 
-Before you get started with your contributions, we recommend that you review [Contributing to Angular](https://github.com/angular/angular/blob/master/CONTRIBUTING.md). That topic explains many of the tasks and guidelines you need to know before you make your first pull request.
+在開始貢獻之前，建議你先閱讀 [Contributing to Angular](https://github.com/angular/angular/blob/master/CONTRIBUTING.md)。該主題說明了在提出第一個 pull request 之前，你需要知道的許多工作與準則。
 
-## Contributing to Angular
+## 為 Angular 貢獻
 
 <div class="card-container">
-  <a href="guide/reviewing-content" class="docs-card" title="Reviewing content">
-    <section>Review content</section>
-    <p>Keep Angular content up-to-date by reviewing topics for accuracy.</p>
-    <p class="card-footer">Help keep content up to date</p>
+  <a href="guide/reviewing-content" class="docs-card" title="審查內容">
+    <section>審查內容</section>
+    <p>透過審查主題的正確性，讓 Angular 內容保持最新。</p>
+    <p class="card-footer">協助保持內容最新</p>
   </a>
-  <a href="guide/updating-search-keywords" class="docs-card" title="Updating search keywords">
-    <section>Update search keywords</section>
-    <p>Help Angular developers by improving the search keywords for existing topics.</p>
-    <p class="card-footer">Improve documentation search</p>
+  <a href="guide/updating-search-keywords" class="docs-card" title="更新搜尋關鍵字">
+    <section>更新搜尋關鍵字</section>
+    <p>透過改善現有主題的搜尋關鍵字，協助 Angular 開發者。</p>
+    <p class="card-footer">改善文件搜尋</p>
   </a>
-  <a href="guide/updating-content-github-ui" class="docs-card" title="Updating content through GitHub">
-    <section>Update content through GitHub</section>
-    <p>Learn how to make documentation changes through the GitHub UI.</p>
-    <p class="card-footer">Contribute to Angular in your browser</p>
+  <a href="guide/updating-content-github-ui" class="docs-card" title="透過 GitHub 更新內容">
+    <section>透過 GitHub 更新內容</section>
+    <p>瞭解如何透過 GitHub UI 修改文件。</p>
+    <p class="card-footer">在你的瀏覽器中為 Angular 貢獻</p>
   </a>
-  <a href="guide/docs-style-guide" class="docs-card" title="Documentation Style Guide">
-    <section>Documentation style guide</section>
-    <p>Review the syntax and styles used within the Angular documentation set.</p>
-    <p class="card-footer">Get to know the writing style</p>
+  <a href="guide/docs-style-guide" class="docs-card" title="文件風格指南">
+    <section>文件風格指南</section>
+    <p>檢視 Angular 文件集中使用的語法與風格。</p>
+    <p class="card-footer">瞭解寫作風格</p>
   </a>
-  <a href="guide/localizing-angular" class="docs-card" title="Angular localization guidelines">
-    <section>Angular localization guidelines</section>
-    <p>Learn about the guidelines for localizing Angular documentation.</p>
-    <p class="card-footer">Localize documentation</p>
+  <a href="guide/localizing-angular" class="docs-card" title="Angular 在地化準則">
+    <section>Angular 在地化準則</section>
+    <p>瞭解 Angular 文件在地化的準則。</p>
+    <p class="card-footer">為文件進行在地化</p>
   </a>
 </div>

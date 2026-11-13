@@ -1,18 +1,20 @@
-# Refer to locales by ID
+# 以 ID 參照地區設定
 
-Angular uses the Unicode *locale identifier* (Unicode locale ID) to find the correct locale data for internationalization of text strings.
+Angular 使用 Unicode *地區設定識別碼* \(Unicode locale ID\) 來尋找正確的地區設定資料，以便對文字字串進行國際化。
 
 <div class="callout is-helpful">
 
-<header>Unicode locale ID</header>
+<header>Unicode 地區設定 ID</header>
 
-*   A locale ID conforms to the [Unicode Common Locale Data Repository (CLDR) core specification][UnicodeCldrDevelopmentCoreSpecification]. For more information about locale IDs, see [Unicode Language and Locale Identifiers][UnicodeCldrDevelopmentCoreSpecificationHVgyyng33o798].
-*   CLDR and Angular use [BCP 47 tags][RfcEditorInfoBcp47] as the base for the locale ID.
+*   地區設定 ID 符合 [Unicode Common Locale Data Repository (CLDR) core specification][UnicodeCldrDevelopmentCoreSpecification]。
+    關於地區設定 ID 的更多資訊，請見 [Unicode Language and Locale Identifiers][UnicodeCldrDevelopmentCoreSpecificationHVgyyng33o798]。
+
+*   CLDR 與 Angular 以 [BCP 47 tags][RfcEditorInfoBcp47] 作為地區設定 ID 的基礎
 
 </div>
 
-A locale ID specifies the language, country, and an optional code for further variants or subdivisions.
-A locale ID consists of the language identifier, a dash (`-`) character, and the locale extension.
+地區設定 ID 指定了語言、國家，以及用於進一步變體或細分的選用代碼。
+地區設定 ID 由語言識別碼、一個連字號 \(`-`\) 字元與地區設定擴充部分組成。
 
 <code-example>
 
@@ -22,46 +24,46 @@ A locale ID consists of the language identifier, a dash (`-`) character, and the
 
 <div class="alert is-helpful">
 
-To accurately translate your Angular project, you must decide which languages and locales you are targeting for internationalization.
+若要正確翻譯你的 Angular 專案，你必須決定國際化要鎖定的語言與地區設定。
 
-Many countries share the same language, but differ in usage.
-The differences include grammar, punctuation, formats for currency, decimal numbers, dates, and so on.
+許多國家使用相同的語言，但用法不同。
+差異包括文法、標點符號、貨幣格式、十進位數字、日期等等。
 
 </div>
 
-For the examples in this guide, use the following languages and locales.
+在本指南的範例中，請使用以下語言與地區設定。
 
-| Language | Locale                   | Unicode locale ID |
+| 語言 | 地區設定             | Unicode locale ID |
 |:---      |:---                      |:---               |
-| English  | Canada                   | `en-CA`           |
-| English  | United States of America | `en-US`           |
-| French   | Canada                   | `fr-CA`           |
-| French   | France                   | `fr-FR`           |
+| 英文 | 加拿大               | `en-CA`           |
+| 英文 | 美國                 | `en-US`           |
+| 法文 | 加拿大               | `fr-CA`           |
+| 法文 | 法國                 | `fr-FR`           |
 
-The [Angular repository][GithubAngularAngularTreeMasterPackagesCommonLocales] includes common locales.
+[Angular 儲存庫][GithubAngularAngularTreeMasterPackagesCommonLocales] 包含常見的地區設定。
 
 <div class="callout is-helpful">
 
-For a list of language codes, see [ISO 639-2][LocStandardsIso6392].
+語言代碼清單請見 [ISO 639-2][LocStandardsIso6392]。
 
 <!--todo: Is this accurate.  ISO 639-2 is 3 digit.  ISO 639-1 is 2 digit.  Reference: http://www.loc.gov/standards/iso639-2/php/code_list.php -->
 
 </div>
 
-## Set the source locale ID
+## 設定來源地區設定 ID
 
-Use the Angular CLI to set the source language in which you are writing the component template and code.
+使用 Angular CLI 設定你撰寫元件範本與程式碼時使用的來源語言。
 
-By default, Angular uses `en-US` as the source locale of your project.
+依預設，Angular 使用 `en-US` 作為專案的來源地區設定。
 
-To change the source locale of your project for the build, complete the following actions.
+若要變更建置時專案的來源地區設定，請完成以下動作。
 
-1.  Open the [`angular.json`][AioGuideWorkspaceConfig] workspace build configuration file
-1.  Change the source locale in the `sourceLocale` field
+1.  開啟 [`angular.json`][AioGuideWorkspaceConfig] 工作區建置設定檔
+1.  變更 `sourceLocale` 欄位中的來源地區設定
 
-## What's next
+## 接下來
 
-*   [Format data based on locale][AioGuideI18nCommonFormatDataLocale]
+*   [依據地區設定格式化資料][AioGuideI18nCommonFormatDataLocale]
 
 <!-- links -->
 

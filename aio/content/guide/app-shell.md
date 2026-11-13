@@ -1,32 +1,32 @@
-# App shell
+# 應用程式殼層
 
-Application shell is a way to render a portion of your application using a route at build time.
-It can improve the user experience by quickly launching a static rendered page (a skeleton common to all pages) while the browser downloads the full client version and switches to it automatically after the code loads.
+應用程式殼層是一種在建置時使用路由來渲染應用程式一部分的方法。
+它能快速啟動靜態渲染頁面（所有頁面共通的骨架），同時瀏覽器下載完整用戶端版本，並在程式碼載入後自動切換，藉此改善使用者體驗。
 
-This gives users a meaningful first paint of your application that appears quickly because the browser can render the HTML and CSS without the need to initialize any JavaScript.
+這讓使用者能快速看到應用程式有意義的首次繪製，因為瀏覽器不需要初始化任何 JavaScript，就能渲染 HTML 與 CSS。
 
-Learn more in [The App Shell Model](https://developers.google.com/web/fundamentals/architecture/app-shell).
+進一步了解請參閱 [The App Shell Model](https://developers.google.com/web/fundamentals/architecture/app-shell)。
 
-## Step 1: Prepare the application
+## 步驟 1：準備應用程式
 
-Do this with the following CLI command:
+使用下列 CLI 指令來執行此操作：
 <code-example language="bash">
 ng new my-app --routing
 </code-example>
 
-For an existing application, you have to manually add the `RouterModule` and defining a `<router-outlet>` within your application.
+對於既有應用程式，你必須在應用程式中手動加入 `RouterModule` 並定義 `<router-outlet>`。
 
-## Step 2: Create the app shell
+## 步驟 2：建立應用程式殼層
 
-Use the CLI to automatically create the application shell.
+使用 CLI 自動建立應用程式殼層。
 
 <code-example language="bash">
 ng generate app-shell
 </code-example>
 
-For more information about this command see [App shell command](cli/generate#app-shell-command). 
+想進一步了解這個指令，請參閱 [App shell 指令](cli/generate#app-shell-command)。 
 
-After running this command you can see that the `angular.json` configuration file has been updated to add two new targets, with a few other changes.
+執行此指令後，你可以看到 `angular.json` 設定檔已更新，新增了兩個新的目標，以及一些其他變更。
 
 <code-example language="json">
 "server": {
@@ -73,18 +73,18 @@ After running this command you can see that the `angular.json` configuration fil
 }
 </code-example>
 
-## Step 3: Verify the app is built with the shell content
+## 步驟 3：驗證應用程式已使用殼層內容建置
 
-Use the CLI to build the `app-shell` target.
+使用 CLI 建置 `app-shell` 目標。
 
 <code-example language="bash">
 ng run my-app:app-shell:development
 </code-example>
 
-Or to use the production configuration.
+或是使用生產環境設定。
 
 <code-example language="bash">
 ng run my-app:app-shell:production
 </code-example>
 
-To verify the build output, open <code class="no-auto-link">dist/my-app/browser/index.html</code>. Look for default text `app-shell works!` to show that the application shell route was rendered as part of the output.
+若要驗證建置輸出，請開啟 <code class="no-auto-link">dist/my-app/browser/index.html</code>。尋找預設文字 `app-shell works!`，確認應用程式殼層路由已渲染並包含在輸出中。

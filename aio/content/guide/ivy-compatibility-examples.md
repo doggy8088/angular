@@ -1,19 +1,19 @@
-# Ivy compatibility examples
+# Ivy 相容性範例
 
-This appendix is intended to provide more background on Ivy changes. Many of these examples list error messages you may see, so searching by error message might be a good idea if you are debugging.
+本附錄旨在提供關於 Ivy 變更的更多背景資訊。這些範例中有許多列出了你可能會看到的錯誤訊息，因此如果你正在除錯，依錯誤訊息搜尋可能是個好主意。
 
 <div class="alert is-critical">
-NOTE: Most of these issues affect a small percentage of applications encountering unusual or rare edge cases.
+注意：這些問題大多只影響少數遇到不尋常或罕見邊界情況的應用程式。
 </div>
 
 
 {@a content-children-descendants}
-## @ContentChildren queries only match direct children by default
+## @ContentChildren 查詢預設只比對直接子節點
 
 
-### Basic example of change
+### 變更的基本範例
 
-Let's say a component (`Comp`) has a `@ContentChildren` query for `'foo'`:
+假設有一個元件（`Comp`），它有一個針對 `'foo'` 的 `@ContentChildren` 查詢：
 
 ```html
 <comp>
@@ -23,20 +23,20 @@ Let's say a component (`Comp`) has a `@ContentChildren` query for `'foo'`:
 </comp>
 ```
 
-In the previous runtime, the `<div>` with `#foo` would match.
-With Ivy, that `<div>` does not match because it is not a direct child of `<comp>`.
+在先前的執行時期中，帶有 `#foo` 的 `<div>` 會比對成功。
+在 Ivy 中，那個 `<div>` 不會比對成功，因為它不是 `<comp>` 的直接子節點。
 
 
-### Background
+### 背景
 
-By default, `@ContentChildren` queries have the `descendants` flag set to `false`.
+預設情況下，`@ContentChildren` 查詢的 `descendants` 旗標設為 `false`。
 
-In the previous rendering engine, "descendants" referred to "descendant directives".
-An element could be a match as long as there were no other directives between the element and the requesting directive.
-This made sense for directives with nesting like tabs, where nested tab directives might not be desirable to match.
-However, this caused surprising behavior for users because adding an unrelated directive like `ngClass` to a wrapper element could invalidate query results.
+在先前的渲染引擎中，「descendants」指的是「後代指令」。
+只要在元素與發出請求的指令之間沒有其他指令，元素就可以比對成功。
+這對具有嵌套結構的指令（如 tabs）來說是合理的，因為嵌套的 tab 指令可能不希望被比對到。
+然而，這對使用者造成了出乎意料的行為，因為在包裝元素上加入像 `ngClass` 這樣不相關的指令，就可能使查詢結果失效。
 
-For example, with the content query and template below, the last two `Tab` directives would not be matches:
+例如，對於下方的內容查詢與範本，最後兩個 `Tab` 指令不會比對成功：
 
 ```
 @ContentChildren(Tab, {descendants: false}) tabs: QueryList<Tab>
@@ -56,8 +56,8 @@ For example, with the content query and template below, the last two `Tab` direc
 </tab-list>
 ```
 
-In addition, the differences between type and string predicates were subtle and sometimes unclear.
-For example, if you replace the type predicate above with a `'foo'` string predicate, the matches change:
+此外，型別述詞與字串述詞之間的差異既細微，有時又不清楚。
+例如，如果你把上方的型別述詞換成 `'foo'` 字串述詞，比對結果就會改變：
 
 ```
 @ContentChildren('foo', {descendants: false}) foos: QueryList<ElementRef>
@@ -77,12 +77,12 @@ For example, if you replace the type predicate above with a `'foo'` string predi
 </tab-list>
 ```
 
-Because the previous behavior was inconsistent and surprising to users, we did not want to reproduce it in Ivy.
-Instead, we simplified the mental model so that "descendants" refers to DOM nesting only.
-Any DOM element between the requesting component and a potential match will invalidate that match.
-Type predicates and string predicates also have identical matching behavior.
+由於先前的行為不一致且讓使用者感到意外，我們不想在 Ivy 中重現它。
+相反地，我們簡化了心智模型，讓「descendants」只指 DOM 嵌套。
+在發出請求的元件與潛在比對物件之間的任何 DOM 元素，都會使該比對失效。
+型別述詞與字串述詞的比對行為也完全相同。
 
-Ivy behavior for directive/string predicates:
+指令／字串述詞的 Ivy 行為：
 ```
 <tab-list>
   <div>
@@ -98,30 +98,30 @@ Ivy behavior for directive/string predicates:
 ```
 
 
-### Example of error
+### 錯誤範例
 
-The error message that you see will depend on how the particular content query is used in the application code.
-Frequently, an error is thrown when a property is referenced on the content query result (which is now `undefined`).
+你看到的錯誤訊息，將取決於該內容查詢在應用程式程式碼中的使用方式。
+通常，當程式碼參照內容查詢結果（現在是 `undefined`）的某個屬性時，就會拋出錯誤。
 
-For example, if the component sets the content query results to a property, `foos`, `foos.first.bar` would throw the error:
+例如，如果元件把內容查詢結果設給一個屬性 `foos`，那麼 `foos.first.bar` 就會拋出這個錯誤：
 
 ```
 Uncaught TypeError: Cannot read property 'bar' of undefined
 ```
 
-If you see an error like this, and the `undefined` property refers to the result of a `@ContentChildren` query, it may well be caused by this change.
+如果你看到像這樣的錯誤，而且那個 `undefined` 屬性指的是 `@ContentChildren` 查詢的結果，那很可能就是由此變更造成的。
 
 
-### Recommended fix
+### 建議的修復方式
 
-You can either add the `descendants: true` flag to ignore wrapper elements or remove the wrapper elements themselves.
+你可以加入 `descendants: true` 旗標來忽略包裝元素，或移除包裝元素本身。
 
-Option 1:
+選項 1：
 ```
 @ContentChildren('foo', {descendants: true}) foos: QueryList<ElementRef>;
 ```
 
-Option 2:
+選項 2：
 ```
 <comp>
    <div #foo></div>   <!-- matches in both old runtime and  new runtime -->
@@ -129,12 +129,12 @@ Option 2:
 ```
 
 {@a undecorated-classes}
-## All classes that use Angular DI must have an Angular class-level decorator
+## 所有使用 Angular DI 的類別都必須有 Angular 類別層級裝飾器
 
 
-### Basic example of change:
+### 變更的基本範例：
 
-In the previous rendering engine, the following would work:
+在先前的渲染引擎中，以下程式碼可以運作：
 
 ```
 export class DataService {
@@ -145,9 +145,9 @@ export class DataService {
 export class AppService extends DataService {...}
 ```
 
-In Ivy, it will throw an error because `DataService` is using Angular dependency injection, but is missing an `@Injectable` decorator.
+在 Ivy 中，它會拋出錯誤，因為 `DataService` 正在使用 Angular 依賴注入，卻缺少 `@Injectable` 裝飾器。
 
-The following would also work in the previous rendering engine, but in Ivy would require a `@Directive` decorator because it uses DI:
+以下程式碼在先前的渲染引擎中也可以運作，但在 Ivy 中將需要 `@Directive` 裝飾器，因為它使用了 DI：
 
 ```
 export class BaseMenu {
@@ -158,26 +158,26 @@ export class BaseMenu {
 export class SettingsMenu extends BaseMenu {}
 ```
 
-The same is true if your directive class extends a decorated directive, but does not have a decorator of its own.
+如果你指令類別繼承自一個有裝飾器的指令、但本身沒有裝飾器，也同樣如此。
 
-If you're using the CLI, there are two automated migrations that should transition your code for you ([this one](guide/migration-injectable) and [this one](guide/migration-undecorated-classes)).
-However, as you're adding new code in version 9, you may run into this difference.
+如果你使用 CLI，應該有兩個自動化遷移會替你轉換程式碼（[這一個](guide/migration-injectable)與[這一個](guide/migration-undecorated-classes)）。
+然而，當你在第 9 版中加入新程式碼時，可能還是會遇到這項差異。
 
-### Background
+### 背景
 
-When a class has an Angular decorator like `@Injectable` or `@Directive`, the Angular compiler generates extra code to support injecting dependencies into the constructor of your class.
-When using inheritance, Ivy needs both the parent class and the child class to apply a decorator to generate the correct code.
-Otherwise, when the decorator is missing from the parent class, the subclass will inherit a constructor from a class for which the compiler did not generate special constructor info, and Angular won't have the dependency info it needs to create it properly.
+當類別有 Angular 裝飾器（如 `@Injectable` 或 `@Directive`）時，Angular 編譯器會產生額外的程式碼，來支援把相依性注入你的類別建構子。
+使用繼承時，Ivy 需要父類別與子類別都套用裝飾器，才能產生正確的程式碼。
+否則，當父類別缺少裝飾器時，子類別將繼承一個建構子，而編譯器並未為該類別產生特殊的建構子資訊，Angular 就不會有正確建立它所需的相依性資訊。
 
-In the previous rendering engine, the compiler had global knowledge, so in some cases (such as AOT mode or the presence of certain injection flags), it could look up the missing data.
-However, the Ivy compiler only processes each class in isolation.
-This means that compilation has the potential to be faster (and opens the framework up for optimizations and features going forward), but the compiler can't automatically infer the same information as before.
+在先前的渲染引擎中，編譯器具有全域知識，因此在某些情況下（如 AOT 模式或某些注入旗標存在時），它可以查詢缺失的資料。
+然而，Ivy 編譯器只會獨立處理每個類別。
+這表示編譯有更快的潛力（並為框架開啟了今後的最佳化與功能），但編譯器無法再像以前一樣自動推斷出相同的資訊。
 
-Adding the proper decorator explicitly provides this information.
+明確加入正確的裝飾器，就能提供這些資訊。
 
-### Example of error
+### 錯誤範例
 
-In JIT mode, the framework will throw the following error:
+在 JIT 模式中，框架將拋出以下錯誤：
 
 ```
 ERROR: This constructor is not compatible with Angular Dependency Injection because its dependency at index X of the parameter list is invalid.
@@ -186,7 +186,7 @@ This can happen if the dependency type is a primitive like a string or if an anc
 Please check that 1) the type for the parameter at index X is correct and 2) the correct Angular decorators are defined for this class and its ancestors.
 ```
 
-In AOT mode, you'll see something like:
+在 AOT 模式中，你會看到類似這樣的訊息：
 
 ```
 X inherits its constructor from Y, but the latter does not have an Angular decorator of its own.
@@ -194,19 +194,19 @@ Dependency injection will not be able to resolve the parameters of Y's construct
 @Directive decorator to Y, or add an explicit constructor to X.
 ```
 
-In some cases, the framework may not be able to detect the missing decorator.
-In these cases, you'll generally see a runtime error thrown when there is a property access attempted on the missing dependency.
-If dependency was `foo`, you'd see an error when accessing something like `foo.bar`:
+在某些情況下，框架可能無法偵測到缺失的裝飾器。
+在這些情況下，當程式碼嘗試存取缺失相依性的某個屬性時，通常會看到執行時期錯誤被拋出。
+如果相依性是 `foo`，你會在存取類似 `foo.bar` 的東西時看到錯誤：
 
 ```
 Uncaught TypeError: Cannot read property 'bar' of undefined
 ```
 
-If you see an error like this, and the `undefined` value refers to something that should have been injected, it may be this change.
+如果你看到像這樣的錯誤，而且那個 `undefined` 值指的是某個本應被注入的東西，那可能就是這項變更。
 
-### Recommended fix
+### 建議的修復方式
 
-- Add an `@Injectable` decorator to anything you plan to provide or inject.
+- 在你打算提供或注入的任何東西上加入 `@Injectable` 裝飾器。
 
 ```
 @Injectable()
@@ -218,7 +218,7 @@ export class DataService {
 export class AppService extends DataService {...}
 ```
 
-- Add a [selectorless `@Directive` decorator](guide/migration-undecorated-classes#what-does-it-mean-to-have-a-directive-decorator-with-no-metadata-inside-of-it) to any class that extends a directive or any class from which a directive inherits.
+- 在任何繼承指令的類別，或任何指令所繼承的類別上，加入[無選取器的 `@Directive` 裝飾器](guide/migration-undecorated-classes#directive-裝飾器裡面沒有任何中繼資料是什麼意思)。
 
 ```
 @Directive()            // selectorless, so it's not usable directly
@@ -231,10 +231,10 @@ export class SettingsMenu extends BaseMenu {}
 ```
 
 {@a select-value-binding}
-## Cannot Bind to `value` property of `<select>` with `*ngFor`
+## 無法以 `*ngFor` 繫結到 `<select>` 的 `value` 屬性
 
 
-### Basic example of change
+### 變更的基本範例
 
 
 ```html
@@ -243,14 +243,14 @@ export class SettingsMenu extends BaseMenu {}
 </select>
 ```
 
-In the View Engine runtime, the above code would set the initial value of the `<select>` as expected.
-In Ivy, the initial value would not be set at all in this case.
+在 View Engine 執行時期中，上述程式碼會如預期般設定 `<select>` 的初始值。
+在 Ivy 中，在這種情況下，初始值完全不會被設定。
 
 
-### Background
+### 背景
 
-Prior to Ivy, directive input bindings were always executed in their own change detection pass before any DOM bindings were processed.
-This was an implementation detail that supported the use case in question:
+在 Ivy 之前，指令輸入繫結永遠會在 DOM 繫結被處理之前，在它們自己的變更偵測回合中執行。
+這是一個支援此問題使用案例的實作細節：
 
 ```html
 <select [value]="someValue">
@@ -258,33 +258,33 @@ This was an implementation detail that supported the use case in question:
 </select>
 ```
 
-It happened to work because the `*ngFor` would be checked first, during the directive input binding pass, and thus create the options first.
-Then the DOM binding pass would run, which would check the `value` binding.
-At this time, it would be able to match the value against one of the existing options, and set the value of the `<select>` element in the DOM to display that option.
+它之所以能運作，是因為 `*ngFor` 會先在指令輸入繫結回合中被檢查，從而先建立這些選項。
+接著 DOM 繫結回合會執行，檢查 `value` 繫結。
+此時，它就能把值與既有的某個選項比對，並把 DOM 中 `<select>` 元素的值設為顯示該選項。
 
-In Ivy, bindings are checked in the order they are defined in the template, regardless of whether they are directive input bindings or DOM bindings.
-This change makes change detection easier to reason about for debugging purposes, since bindings will be checked in depth-first order as declared in the template.
+在 Ivy 中，繫結會依照它們在範本中定義的順序被檢查，不論它們是指令輸入繫結還是 DOM 繫結。
+這項變更讓變更偵測為了除錯的目的更容易推論，因為繫結會依照它們在範本中宣告的深度優先順序被檢查。
 
-In this case, it means that the `value` binding will be checked before the `*ngFor` is checked, as it is declared above the `*ngFor` in the template.
-Consequently, the value of the `<select>` element will be set before any options are created, and it won't be able to match and display the correct option in the DOM.
+在這個情況下，這表示 `value` 繫結會在 `*ngFor` 被檢查之前就先被檢查，因為它在範本中宣告在 `*ngFor` 之上。
+因此，`<select>` 元素的值會在任何選項被建立之前就先設定，它將無法在 DOM 中比對並顯示正確的選項。
 
-### Example of error
+### 錯誤範例
 
-There is no error thrown, but the `<select>` in question will not have the correct initial value displayed in the DOM.
+並不會拋出錯誤，但問題中的 `<select>` 在 DOM 中將不會顯示正確的初始值。
 
 
-### Recommended fix
+### 建議的修復方式
 
-To fix this problem, we recommend binding to the `selected` property on the `<option>` instead of the `value` on the `<select>`.
+若要修正這個問題，我們建議繫結到 `<option>` 上的 `selected` 屬性，而不是 `<select>` 上的 `value`。
 
-*Before*
+*之前*
 ```html
 <select [value]="someValue">
   <option *ngFor="let option of options" [value]="option"> {{ option }} <option>
 </select>
 ```
 
-*After*
+*之後*
 ```html
 <select>
   <option *ngFor="let option of options" [value]="option" [selected]="someValue == option">
@@ -294,10 +294,10 @@ To fix this problem, we recommend binding to the `selected` property on the `<op
 ```
 
 {@a forward-refs-directive-inputs}
-## Forward references to directive inputs accessed through local refs are no longer supported.
+## 透過本機參照存取的指令輸入前向參照不再支援。
 
 
-### Basic example of change
+### 變更的基本範例
 
 
 ```ts
@@ -315,52 +315,52 @@ export class MyDir {
 <div myDir #myDir="myDir" [name]="myName"></div>
 ```
 
-In the View Engine runtime, the above code would print out the name without any errors.
-In Ivy, the `myDir.name` binding will throw an `ExpressionChangedAfterItHasBeenCheckedError`.
+在 View Engine 執行時期中，上述程式碼會毫無錯誤地輸出名稱。
+在 Ivy 中，`myDir.name` 繫結將拋出 `ExpressionChangedAfterItHasBeenCheckedError`。
 
 
-### Background
+### 背景
 
-In the ViewEngine runtime, directive input bindings and element bindings were executed in different stages. Angular would process the template one full time to check directive inputs only (e.g. `[name]`), then process the whole template again to check element and text bindings only (e.g.`{{ myDir.name }}`). This meant that the `name` directive input would be checked before the `myDir.name` text binding despite their relative order in the template, which some users felt to be counterintuitive.
+在 ViewEngine 執行時期中，指令輸入繫結與元素繫結是在不同階段執行的。Angular 會完整處理範本一次，只檢查指令輸入（例如 `[name]`），然後再次處理整個範本，只檢查元素與文字繫結（例如 `{{ myDir.name }}`）。這表示 `name` 指令輸入會在 `myDir.name` 文字繫結之前被檢查，儘管它們在範本中的相對順序如此，這讓一些使用者覺得違反直覺。
 
-In contrast, Ivy processes the template in just one pass, so that bindings are checked in the same order that they are written in the template. In this case, it means that the `myDir.name` binding will be checked before the `name` input sets the property on the directive (and thus it will be `undefined`). Since the `myDir.name` property will be set by the time the next change detection pass runs, a change detection error is thrown.
+相較之下，Ivy 只會以一個回合處理範本，因此繫結會依照它們在範本中書寫的順序被檢查。在這個情況下，這表示 `myDir.name` 繫結會在 `name` 輸入對指令設定屬性之前被檢查（因此它將是 `undefined`）。由於到了下一個變更偵測回合執行時，`myDir.name` 屬性將已被設定，於是會拋出一個變更偵測錯誤。
 
-### Example of error
+### 錯誤範例
 
-Assuming that the value for `myName` is `Angular`, you should see an error that looks like
+假設 `myName` 的值是 `Angular`，你應該會看到類似這樣的錯誤
 
 ```
 Error: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. Previous value: 'undefined'. Current value: 'Angular'.
 ```
 
-### Recommended fix
+### 建議的修復方式
 
-To fix this problem, we recommend either getting the information for the binding directly from the host component (e.g. the `myName` property from our example) or to move the data binding after the directive has been declared so that the initial value is available on the first pass.
+若要修正這個問題，我們建議直接從宿主元件取得繫結所需的資訊（例如我們範例中的 `myName` 屬性），或把資料繫結移到指令宣告之後，讓初始值在第一個回合就可用。
 
-*Before*
+*之前*
 ```html
 {{ myDir.name }}
 <div myDir #myDir="myDir" [name]="myName"></div>
 ```
 
-*After*
+*之後*
 ```html
 {{ myName }}
 <div myDir [name]="myName"></div>
 ```
 
 {@a foreign-values}
-## Foreign functions and foreign values aren't statically resolvable
+## 外來函式與外來值無法以靜態方式解析
 
-### Basic example of change 
+### 變更的基本範例
 
-Consider a library that defines and exports some selector string to be used in other libraries:
+考慮一個程式庫，它定義並匯出一個供其他程式庫使用的選取器字串：
 
 ```
 export let mySelector = '[my-selector]';
 ```
 
-This selector is then imported in another library or an application:
+這個選取器接著在另一個程式庫或應用程式中被匯入：
 
 ```
 import {mySelector} from 'my-library';
@@ -369,28 +369,28 @@ import {mySelector} from 'my-library';
 export class MyDirective {}
 ```
 
-Because the `mySelector` value is imported from an external library, it is part of a different compilation unit and therefore considered _foreign_.
+由於 `mySelector` 值是從外部程式庫匯入的，它屬於不同的編譯單元，因此被視為_外來的_。
 
-While this code would work correctly in the View Engine compiler, it would fail to compile in Ivy in AOT mode.
+雖然這段程式碼在 View Engine 編譯器中能正確運作，但在 Ivy 中以 AOT 模式編譯時將會失敗。
 
-### Background
+### 背景
 
-In View Engine, the compiler would capture the source code of a library in `metadata.json` files when bundling the library, so that external consumers could "look inside" the source code of an external library.
-When AOT-compiling the application, the `metadata.json` files would be used to determine the value of `mySelector`.
-In Ivy, the `metadata.json` files are no longer used. Instead, the compiler extracts metadata for external libraries from the `.d.ts` files that TypeScript creates.
-This has several benefits such as better performance, much improved error reporting, and enables more build caching opportunities as there is no longer a dependency on library internals.
+在 View Engine 中，編譯器在打包程式庫時，會把程式庫的原始碼擷取在 `metadata.json` 檔案中，讓外部取用者能「看進」外部程式庫的原始碼。
+當 AOT 編譯應用程式時，`metadata.json` 檔案會被用來決定 `mySelector` 的值。
+在 Ivy 中，`metadata.json` 檔案不再被使用。相反地，編譯器會從 TypeScript 建立的 `.d.ts` 檔案中擷取外部程式庫的中繼資料。
+這帶來多項好處，例如更好的效能、大幅改善的錯誤回報，以及更多建置快取的機會，因為不再依賴程式庫內部實作。
 
-Looking back at the previous example, the `mySelector` value would be represented in the `.d.ts` as follows:
+回頭看先前的範例，`mySelector` 值在 `.d.ts` 中會像這樣呈現：
 
 ```
 export declare let mySelector: string;
 ```
 
-Notice that the actual value of the selector is no longer present, so that the Ivy compiler is unable to use it during AOT compilations.
+請注意，選取器的實際值不再存在，因此 Ivy 編譯器在 AOT 編譯期間無法使用它。
 
-### Example of error
+### 錯誤範例
 
-In the above example, a compilation error would occur when compiling `MyDirective`:
+在上方的範例中，編譯 `MyDirective` 時會發生編譯錯誤：
 
 ```
 error NG1010: selector must be a string
@@ -402,15 +402,15 @@ error NG1010: selector must be a string
 
 ```
 
-### Recommended fix
+### 建議的修復方式
 
-When exporting values from a library, ensure the actual value is present in the `.d.ts` file. This typically requires that the variable be declared as a constant:
+從程式庫匯出值時，請確保實際值存在於 `.d.ts` 檔案中。這通常要求變數被宣告為常數：
 
 ```
 export const mySelector = '[my-selector]';
 ```
 
-In classes, a field should be declared using the `static readonly` modifiers:
+在類別中，欄位應使用 `static readonly` 修飾符宣告：
 
 ```
 export class Selectors {

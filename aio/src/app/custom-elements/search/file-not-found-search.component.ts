@@ -9,7 +9,7 @@ import { SearchService } from 'app/search/search.service';
   selector: 'aio-file-not-found-search',
   template:
   `<div class="alert is-helpful">
-      <p>Let's see if any of these search results help...</p>
+      <p>看看這些搜尋結果是否有幫助…</p>
    </div>
   <aio-search-results class="embedded" [searchResults]="searchResults | async"></aio-search-results>`
 })

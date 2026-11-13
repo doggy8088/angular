@@ -1,61 +1,59 @@
-# Template expression operators
+# 範本運算式運算子
 
 <div class="callout is-critical">
 
-<header>Marked for archiving</header>
+<header>已標記為封存</header>
 
-To ensure that you have the best experience possible, this topic is marked for archiving until we determine that it clearly conveys the most accurate information possible.
+為了確保你獲得最佳體驗，本主題已標記為待歸檔，直到我們確認它能清楚傳達最正確的資訊為止。
 
-In the meantime, this topic might be helpful: [Hierarchical injectors](guide/hierarchical-dependency-injection).
+在此期間，這個主題或許有幫助：[階層式注入器](guide/hierarchical-dependency-injection)。
 
-If you think this content should not be archived, please file a [GitHub issue](https://github.com/angular/angular/issues/new?template=3-docs-bug.md).
+如果你認為這個內容不應該歸檔，請提交一個 [GitHub issue](https://github.com/angular/angular/issues/new?template=3-docs-bug.md)。
 
 </div>
 
-The Angular template expression language employs a subset of JavaScript syntax supplemented with a few special operators
-for specific scenarios.
+Angular 範本運算式語言採用 JavaScript 語法的子集，並輔以少數針對特定情境的特殊運算子。
 
 <div class="alert is-helpful">
 
-See the <live-example></live-example> for a working example containing the code snippets in this guide.
+請參閱 <live-example></live-example>，查看包含本指南程式碼片段的實際範例。
 
 </div>
 
 {@a non-null-assertion-operator}
 
-## The non-null assertion operator ( `!` )
+## 非空值斷言運算子（`!`）
 
-When you use TypeScript's `--strictNullChecks` flag, you can prevent the type checker from throwing an error with Angular's non-null assertion operator, `!`.
+當你使用 TypeScript 的 `--strictNullChecks` 旗標時，可以使用 Angular 的非空值斷言運算子 `!`，來防止型別檢查器擲出錯誤。
 
-The Angular non-null assertion operator causes the TypeScript type checker to suspend strict `null` and `undefined` checks for a specific property expression.
+Angular 的非空值斷言運算子會讓 TypeScript 型別檢查器針對特定的屬性運算式，暫停嚴格的 `null` 與 `undefined` 檢查。
 
-For example, you can assert that `item` properties are also defined.
+例如，你可以斷言 `item` 的屬性也已定義。
 
 <code-example path="template-expression-operators/src/app/app.component.html" region="non-null" header="src/app/app.component.html"></code-example>
 
-Often, you want to make sure that any property bindings aren't `null` or `undefined`.
-However, there are situations in which such states are acceptable.
-For those situations, you can use Angular's non-null assertion operator to prevent TypeScript from reporting that a property is `null` or `undefined`.
+通常，你會想確保任何屬性繫結都不是 `null` 或 `undefined`。
+不過，有些情況下這樣的狀態是可以接受的。
+針對這些情況，你可以使用 Angular 的非空值斷言運算子，來防止 TypeScript 回報某個屬性為 `null` 或 `undefined`。
 
-The non-null assertion operator, `!`, is optional unless you turn on strict null checks.
+非空值斷言運算子 `!` 是選用的，除非你開啟了嚴格空值檢查。
 
-For more information, see TypeScript's [strict null checking](http://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html "Strict null checking in TypeScript").
+如需更多資訊，請參閱 TypeScript 的[嚴格空值檢查](http://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-0.html "Strict null checking in TypeScript")。
 
 
 {@a any-type-cast-function}
 
-## The `$any()` type cast function
+## `$any()` 型別轉換函式
 
-Sometimes a binding expression triggers a type error during [AOT compilation](guide/aot-compiler) and it is not possible or difficult to fully specify the type.
-To silence the error, you can use the `$any()` cast function to cast
-the expression to the [`any` type](https://www.typescriptlang.org/docs/handbook/basic-types.html#any) as in the following example:
+有時繫結運算式會在 [AOT 編譯](guide/aot-compiler)期間觸發型別錯誤，而且無法或難以完整指定型別。
+若要消除這個錯誤，你可以使用 `$any()` 轉換函式，把運算式轉換為 [`any` 型別](https://www.typescriptlang.org/docs/handbook/basic-types.html#any)，如下列範例所示：
 
 <code-example path="built-in-template-functions/src/app/app.component.html" region="any-type-cast-function-1" header="src/app/app.component.html"></code-example>
 
-Using `$any()` prevents TypeScript from reporting that `bestByDate` is not a member of the `item` object.
+使用 `$any()` 可以防止 TypeScript 回報 `bestByDate` 不是 `item` 物件的成員。
 
-The `$any()` cast function also works with `this` to allow access to undeclared members of the component.
+`$any()` 轉換函式也可以搭配 `this` 使用，以便存取元件未宣告的成員。
 
 <code-example path="built-in-template-functions/src/app/app.component.html" region="any-type-cast-function-2" header="src/app/app.component.html"></code-example>
 
-The `$any()` cast function works anywhere in a binding expression where a method call is valid.
+`$any()` 轉換函式可在繫結運算式中任何方法呼叫有效的位置使用。

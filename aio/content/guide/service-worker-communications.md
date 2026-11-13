@@ -1,98 +1,83 @@
-# Service worker communication
+# 與 Service Worker 通訊
 
-Importing `ServiceWorkerModule` into your `AppModule` doesn't just register the service worker, it also provides a few services you can use to interact with the service worker and control the caching of your application.
+將 `ServiceWorkerModule` 匯入 `AppModule` 不只是註冊 service worker，也提供了一些服務，讓你與 service worker 互動，並控制應用程式的快取。
 
-#### Prerequisites
+#### 必要條件
 
-A basic understanding of the following:
-* [Getting Started with Service Workers](guide/service-worker-getting-started).
+對下列內容有基本的了解：
+* [開始使用 service worker](guide/service-worker-getting-started)。
 
 
-## `SwUpdate` service
+## `SwUpdate` 服務
 
-The `SwUpdate` service gives you access to events that indicate when the service worker discovers an available update for your application or when it activates such an update&mdash;meaning it is now serving content from that update to your application.
+`SwUpdate` 服務讓你存取多個事件，這些事件會指出 service worker 何時發現應用程式可用的更新，或何時啟用該更新&mdash;也就是它開始把該更新的內容提供給你的應用程式。
 
-The `SwUpdate` service supports four separate operations:
-* Getting notified of *available* updates. These are new versions of the application to be loaded if the page is refreshed.
-* Getting notified of update *activation*. This is when the service worker starts serving a new version of the application immediately.
-* Asking the service worker to check the server for new updates.
-* Asking the service worker to activate the latest version of the application for the current tab.
+`SwUpdate` 服務支援四種獨立的操作：
+* 收到 *available* 更新的通知。這些是應用程式的新版本，會在頁面重新整理時載入。
+* 收到更新 *activation* 的通知。這是指 service worker 立即開始提供應用程式的新版本。
+* 要求 service worker 檢查伺服器是否有新更新。
+* 要求 service worker 為目前的分頁啟用最新版本的應用程式。
 
-### Available and activated updates
+### 可用與已啟用的更新
 
-The two update events, `available` and `activated`, are `Observable` properties of `SwUpdate`:
+這兩個更新事件 `available` 與 `activated`，是 `SwUpdate` 的 `Observable` 屬性：
 
 <code-example path="service-worker-getting-started/src/app/log-update.service.ts" header="log-update.service.ts" region="sw-update"></code-example>
 
 
-Use these events to notify the user of a pending update or to refresh their pages when the code they are running is out of date.
+使用這些事件，在有待處理的更新時通知使用者，或在使用者執行的程式碼過舊時重新整理他們的頁面。
 
-### Checking for updates
+### 檢查更新
 
-It's possible to ask the service worker to check if any updates have been deployed to the server.
-The service worker checks for updates during initialization and on each navigation request&mdash;that is, when the user navigates from a different address to your application.
-However, you might choose to manually check for updates if you have a site that changes frequently or want updates to happen on a schedule.
+你可以要求 service worker 檢查伺服器上是否已部署任何更新。service worker 會在初始化期間以及每次導覽請求時檢查更新&mdash;也就是使用者從不同位址導覽到你的應用程式時。不過，如果你的網站經常變更，或想讓更新依排程發生，你也可以選擇手動檢查更新。
 
-Do this with the `checkForUpdate()` method:
+使用 `checkForUpdate()` 方法來完成：
 
 <code-example path="service-worker-getting-started/src/app/check-for-update.service.ts" header="check-for-update.service.ts"></code-example>
 
-This method returns a `Promise` which indicates that the update check completed successfully, though it does not indicate whether an update was discovered as a result of the check. Even if one is found, the service worker must still successfully download the changed files, which can fail. If successful, the `available` event indicates availability of a new version of the application.
+這個方法會回傳一個 `Promise`，表示更新檢查已成功完成，但不表示檢查是否因此發現更新。即使找到更新，service worker 仍必須成功下載變更的檔案，而這可能會失敗。若成功，`available` 事件會表示應用程式有新版本可用。
 
 <div class="alert is-important">
 
-In order to avoid negatively affecting the initial rendering of the page, `ServiceWorkerModule` waits for up to 30 seconds by default for the application to stabilize, before registering the ServiceWorker script.
-Constantly polling for updates, for example, with [setInterval()](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval) or RxJS' [interval()](https://rxjs.dev/api/index/function/interval), prevents the application from stabilizing and the ServiceWorker script is not registered with the browser until the 30 seconds upper limit is reached.
+為了避免對頁面的初始渲染造成負面影響，`ServiceWorkerModule` 預設會等待應用程式穩定，最多等待 30 秒，才註冊 ServiceWorker 指令碼。持續輪詢更新，例如使用 [setInterval()](https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/setInterval) 或 RxJS 的 [interval()](https://rxjs.dev/api/index/function/interval)，會讓應用程式無法穩定，ServiceWorker 指令碼要等到 30 秒上限到達後才會向瀏覽器註冊。
 
-Note that this is true for any kind of polling done by your application.
-Check the {@link ApplicationRef#isStable isStable} documentation for more information.
+請注意，你的應用程式所做的任何輪詢都是如此。更多資訊，請參閱 {@link ApplicationRef#isStable isStable} 文件。
 
-Avoid that delay by waiting for the application to stabilize first, before starting to poll for updates, as shown in the preceding example.
-Alternatively, you might want to define a different {@link SwRegistrationOptions#registrationStrategy registration strategy} for the ServiceWorker.
+若要避免這段延遲，請如前例所示，先等待應用程式穩定，再開始輪詢更新。或者，你也可以為 ServiceWorker 定義不同的 {@link SwRegistrationOptions#registrationStrategy 註冊策略}。
 
 </div>
 
-### Forcing update activation
+### 強制啟用更新
 
-If the current tab needs to be updated to the latest application version immediately, it can ask to do so with the `activateUpdate()` method:
+如果目前的分頁需要立即更新至最新的應用程式版本，可以呼叫 `activateUpdate()` 方法來要求更新：
 
 <code-example path="service-worker-getting-started/src/app/prompt-update.service.ts" header="prompt-update.service.ts" region="sw-activate"></code-example>
 
 <div class="alert is-important">
 
-Calling `activateUpdate()` without reloading the page could break lazy-loading in a currently running app, especially if the lazy-loaded chunks use filenames with hashes, which change every version.
-Therefore, it is recommended to reload the page once the promise returned by `activateUpdate()` is resolved.
+在不重新載入頁面的情況下呼叫 `activateUpdate()`，可能會破壞目前正在執行的應用程式的延遲載入，特別是當延遲載入的 chunk 使用帶有雜湊的檔案名稱時，這些名稱在每個版本都會變更。因此，建議在 `activateUpdate()` 回傳的 promise 完成後重新載入頁面。
 
 </div>
 
-### Handling an unrecoverable state
+### 處理無法復原的狀態
 
-In some cases, the version of the application used by the service worker to serve a client might be in a broken state that cannot be recovered from without a full page reload.
+在某些情況下，service worker 用來服務用戶端的應用程式版本，可能處於損壞狀態，若不完整重新載入頁面就無法復原。
 
-For example, imagine the following scenario:
-- A user opens the application for the first time and the service worker caches the latest version of the application.
-  Assume the application's cached assets include `index.html`, `main.<main-hash-1>.js` and `lazy-chunk.<lazy-hash-1>.js`.
-- The user closes the application and does not open it for a while.
-- After some time, a new version of the application is deployed to the server.
-  This newer version includes the files `index.html`, `main.<main-hash-2>.js` and `lazy-chunk.<lazy-hash-2>.js` (note that the hashes are different now, because the content of the files changed).
-  The old version is no longer available on the server.
-- In the meantime, the user's browser decides to evict `lazy-chunk.<lazy-hash-1>.js` from its cache.
-  Browsers might decide to evict specific (or all) resources from a cache in order to reclaim disk space.
-- The user opens the application again.
-  The service worker serves the latest version known to it at this point, namely the old version (`index.html` and `main.<main-hash-1>.js`).
-- At some later point, the application requests the lazy bundle, `lazy-chunk.<lazy-hash-1>.js`.
-- The service worker is unable to find the asset in the cache (remember that the browser evicted it).
-  Nor is it able to retrieve it from the server (because the server now only has `lazy-chunk.<lazy-hash-2>.js` from the newer version).
+例如，想像以下情境：
+- 使用者第一次開啟應用程式，service worker 快取了最新版本的應用程式。假設應用程式已快取的資產包括 `index.html`、`main.<main-hash-1>.js` 與 `lazy-chunk.<lazy-hash-1>.js`。
+- 使用者關閉應用程式，一段時間沒有再開啟。
+- 過了一段時間後，新版本的應用程式部署到伺服器。這個較新的版本包括 `index.html`、`main.<main-hash-2>.js` 與 `lazy-chunk.<lazy-hash-2>.js` 這些檔案（請注意，雜湊值現在不同了，因為檔案內容已變更）。舊版本在伺服器上已不再提供。
+- 同時，使用者的瀏覽器決定把 `lazy-chunk.<lazy-hash-1>.js` 從快取中清除。瀏覽器可能會為了回收磁碟空間，決定清除快取中的特定（或全部）資源。
+- 使用者再次開啟應用程式。service worker 提供它此時所知的最新版本，也就是舊版本（`index.html` 與 `main.<main-hash-1>.js`）。
+- 在稍後的某個時間點，應用程式請求延遲載入的 bundle：`lazy-chunk.<lazy-hash-1>.js`。
+- service worker 在快取中找不到該資產（記得它已被瀏覽器清除）。它也無法從伺服器取得（因為伺服器現在只有較新版本的 `lazy-chunk.<lazy-hash-2>.js`）。
 
-In the preceding scenario, the service worker is not able to serve an asset that would normally be cached.
-That particular application version is broken and there is no way to fix the state of the client without reloading the page.
-In such cases, the service worker notifies the client by sending an `UnrecoverableStateEvent` event.
-Subscribe to `SwUpdate#unrecoverable` to be notified and handle these errors.
+在上述情境中，service worker 無法提供一個通常會被快取的資產。該應用程式版本已損壞，若不重新載入頁面，就無法修復用戶端的狀態。在這種情況下，service worker 會發送一個 `UnrecoverableStateEvent` 事件來通知用戶端。訂閱 `SwUpdate#unrecoverable` 即可收到通知並處理這些錯誤。
 
 <code-example path="service-worker-getting-started/src/app/handle-unrecoverable-state.service.ts" header="handle-unrecoverable-state.service.ts" region="sw-unrecoverable-state"></code-example>
 
 
-## More on Angular service workers
+## 更多 Angular Service Worker 資訊
 
-You might also be interested in the following:
-* [Service Worker Notifications](guide/service-worker-notifications).
+你可能也會對以下內容有興趣：
+* [推播通知](guide/service-worker-notifications)。

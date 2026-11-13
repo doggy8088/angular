@@ -1,5 +1,5 @@
-The `<ng-content>` element specifies where to project content inside a component template.
+`<ng-content>` 元素會指定要在元件範本內投影內容的位置。
 
 @elementAttribute select="selector"
 
-Only select elements from the projected content that match the given CSS `selector`.
+只從投影內容中選取符合指定 CSS `selector` 的元素。

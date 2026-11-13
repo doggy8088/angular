@@ -1,70 +1,68 @@
-# Router Reference
+# 路由器參考
 
-The following sections highlight some core router concepts.
+以下各節將介紹一些核心的路由器概念。
 
 {@a basics-router-imports}
 
-### Router imports
+### 路由器匯入
 
-The Angular Router is an optional service that presents a particular component view for a given URL.
-It is not part of the Angular core and thus is in its own library package, `@angular/router`.
+Angular Router 是一項選擇性服務，會針對給定的 URL 呈現特定的元件檢視。
+它不屬於 Angular 核心，因此放在自己的函式庫套件 `@angular/router` 中。
 
-Import what you need from it as you would from any other Angular package.
+你可以像使用其他 Angular 套件一樣，從中匯入你需要的內容。
 
 <code-example path="router/src/app/app.module.1.ts" header="src/app/app.module.ts (import)" region="import-router"></code-example>
 
 
 <div class="alert is-helpful">
 
-For more on browser URL styles, see [`LocationStrategy` and browser URL styles](guide/router#browser-url-styles).
+關於瀏覽器 URL 樣式的更多資訊，請參閱[`LocationStrategy` 與瀏覽器 URL 樣式](guide/router#browser-url-styles)。
 
 </div>
 
 {@a basics-config}
 
-### Configuration
+### 設定
 
-A routed Angular application has one singleton instance of the `Router` service.
-When the browser's URL changes, that router looks for a corresponding `Route` from which it can determine the component to display.
+經路由的 Angular 應用程式會有一個 `Router` 服務的單例實例。
+當瀏覽器的 URL 變更時，該路由器會尋找對應的 `Route`，據此判斷要顯示哪個元件。
 
-A router has no routes until you configure it.
-The following example creates five route definitions, configures the router via the `RouterModule.forRoot()` method, and adds the result to the `AppModule`'s `imports` array.
+路由器在你設定之前沒有任何路由。
+下列範例建立了五個路由定義、透過 `RouterModule.forRoot()` 方法設定路由器，並將結果加入 `AppModule` 的 `imports` 陣列中。
 
 <code-example path="router/src/app/app.module.0.ts" header="src/app/app.module.ts (excerpt)"></code-example>
 
 {@a example-config}
 
-The `appRoutes` array of routes describes how to navigate.
-Pass it to the `RouterModule.forRoot()` method in the module `imports` to configure the router.
+`appRoutes` 路由陣列描述了如何導覽。
+請將它傳給模組 `imports` 中的 `RouterModule.forRoot()` 方法來設定路由器。
 
-Each `Route` maps a URL `path` to a component.
-There are no leading slashes in the path.
-The router parses and builds the final URL for you, which lets you use both relative and absolute paths when navigating between application views.
+每個 `Route` 都將一個 URL `path` 對應到一個元件。
+路徑中沒有前置斜線。
+路由器會為你解析並建構最終的 URL，讓你在應用程式檢視之間導覽時，能同時使用相對路徑與絕對路徑。
 
-The `:id` in the second route is a token for a route parameter.
-In a URL such as `/hero/42`, "42" is the value of the `id` parameter.
-The corresponding `HeroDetailComponent` uses that value to find and present the hero whose `id` is 42.
+第二個路由中的 `:id` 是路由參數的權杖。
+在 `/hero/42` 這樣的 URL 中，"42" 是 `id` 參數的值。
+對應的 `HeroDetailComponent` 會使用該值，找出並呈現 `id` 為 42 的英雄。
 
-The `data` property in the third route is a place to store arbitrary data associated with
-this specific route.
-The data property is accessible within each activated route. Use it to store items such as page titles, breadcrumb text, and other read-only, static data.
-Use the [resolve guard](guide/router-tutorial-toh#resolve-guard) to retrieve dynamic data.
+第三個路由中的 `data` 屬性是存放與這條特定路由相關之任意資料的地方。
+`data` 屬性可以在每個已啟用的路由中存取。用它來存放頁面標題、麵包屑文字，以及其他唯讀的靜態資料。
+若要擷取動態資料，請使用[解析守衛](guide/router-tutorial-toh#resolve-guard)。
 
-The empty path in the fourth route represents the default path for the application&mdash;the place to go when the path in the URL is empty, as it typically is at the start.
-This default route redirects to the route for the `/heroes` URL and, therefore, displays the `HeroesListComponent`.
+第四個路由中的空路徑代表應用程式的預設路徑&mdash;當 URL 中的路徑為空時（剛開始時通常如此）要前往的地方。
+這個預設路由會重新導向到 `/heroes` URL 對應的路由，因此會顯示 `HeroesListComponent`。
 
-If you need to see what events are happening during the navigation lifecycle, there is the `enableTracing` option as part of the router's default configuration.
-This outputs each router event that took place during each navigation lifecycle to the browser console.
-Use `enableTracing` only for debugging purposes.
-You set the `enableTracing: true` option in the object passed as the second argument to the `RouterModule.forRoot()` method.
+如果你需要在導覽生命週期中查看正在發生的事件，可以使用路由器預設設定中的 `enableTracing` 選項。
+這個選項會把每次導覽生命週期中發生的每個路由器事件輸出到瀏覽器主控台。
+`enableTracing` 僅供除錯使用。
+你可以在傳給 `RouterModule.forRoot()` 方法第二個引數的物件中設定 `enableTracing: true` 選項。
 
 {@a basics-router-outlet}
 
-### Router outlet
+### 路由器出口
 
-The `RouterOutlet` is a directive from the router library that is used like a component.
-It acts as a placeholder that marks the spot in the template where the router should
-display the components for that outlet.
+`RouterOutlet` 是路由器函式庫中的一個指令，使用方式與元件相似。
+它扮演佔位元素的角色，標示範本中路由器應為該出口顯示元件的位置。
 
 <code-example language="html">
   &lt;router-outlet>&lt;/router-outlet>
@@ -72,63 +70,63 @@ display the components for that outlet.
 
 </code-example>
 
-Given the preceding configuration, when the browser URL for this application becomes `/heroes`, the router matches that URL to the route path `/heroes` and displays the `HeroListComponent` as a sibling element to the `RouterOutlet` that you've placed in the host component's template.
+承接前面的設定，當此應用程式的瀏覽器 URL 變成 `/heroes` 時，路由器會把該 URL 比對到路由路徑 `/heroes`，並將 `HeroListComponent` 顯示為你放在宿主元件範本中的 `RouterOutlet` 的同層元素。
 
 {@a basics-router-links}
 
 {@a router-link}
 
-### Router links
+### 路由器連結
 
-To navigate as a result of some user action such as the click of an anchor tag, use `RouterLink`.
+若要因應使用者的操作（例如點選錨點標籤）進行導覽，請使用 `RouterLink`。
 
-Consider the following template:
+請看下列範本：
 
 <code-example path="router/src/app/app.component.1.html" header="src/app/app.component.html"></code-example>
 
-The `RouterLink` directives on the anchor tags give the router control over those elements.
-The navigation paths are fixed, so you can assign a string to the `routerLink` (a "one-time" binding).
+錨點標籤上的 `RouterLink` 指令讓路由器能控制這些元素。
+導覽路徑是固定的，因此你可以把字串指派給 `routerLink`（一次性繫結）。
 
-Had the navigation path been more dynamic, you could have bound to a template expression that returned an array of route link parameters; that is, the [link parameters array](guide/router#link-parameters-array).
-The router resolves that array into a complete URL.
+如果導覽路徑更具動態性，你可以繫結到一個傳回路由連結參數陣列的範本運算式，也就是[連結參數陣列](guide/router#連結參數陣列)。
+路由器會將該陣列解析為完整的 URL。
 
 {@a router-link-active}
 
-### Active router links
+### 啟用中的路由器連結
 
-The `RouterLinkActive` directive toggles CSS classes for active `RouterLink` bindings based on the current `RouterState`.
+`RouterLinkActive` 指令會根據目前的 `RouterState`，為啟用中的 `RouterLink` 繫結切換 CSS 類別。
 
-On each anchor tag, you see a [property binding](guide/property-binding) to the `RouterLinkActive` directive that looks like `routerLinkActive="..."`.
+在每個錨點標籤上，你會看到一個指向 `RouterLinkActive` 指令的[屬性繫結](guide/property-binding)，形式如下 `routerLinkActive="..."`。
 
-The template expression to the right of the equal sign, `=`, contains a space-delimited string of CSS classes that the Router adds when this link is active (and removes when the link is inactive).
-You set the `RouterLinkActive` directive to a string of classes such as `routerLinkActive="active fluffy"` or bind it to a component property that returns such a string (for example, `[routerLinkActive]="someStringProperty"`).
+等號 `=` 右側的範本運算式包含一個以空白分隔的 CSS 類別字串，Router 會在這個連結啟用時加入這些類別（在連結停用時將其移除）。
+你可以把 `RouterLinkActive` 指令設為像 `routerLinkActive="active fluffy"` 這樣的類別字串，或將它繫結到傳回這類字串的元件屬性（例如 `[routerLinkActive]="someStringProperty"`）。
 
-Active route links cascade down through each level of the route tree, so parent and child router links can be active at the same time.
-To override this behavior, bind to the `[routerLinkActiveOptions]` input binding with the `{ exact: true }` expression. By using `{ exact: true }`, a given `RouterLink` is only active if its URL is an exact match to the current URL.
+啟用中的路由連結會沿著路由樹的每一層向下串聯，因此父層與子層的路由器連結可以同時處於啟用狀態。
+若要覆寫此行為，請將 `[routerLinkActiveOptions]` 輸入繫結設定為 `{ exact: true }` 運算式。使用 `{ exact: true }` 時，給定的 `RouterLink` 只有在其 URL 與目前 URL 完全相符時才會啟用。
 
 {@a basics-router-state}
 
-### Router state
+### 路由器狀態
 
-After the end of each successful navigation lifecycle, the router builds a tree of `ActivatedRoute` objects that make up the current state of the router. You can access the current `RouterState` from anywhere in the application using the `Router` service and the `routerState` property.
+在每次成功導覽的生命週期結束後，路由器會建立一棵由 `ActivatedRoute` 物件組成的樹，構成路由器目前的狀態。你可以使用 `Router` 服務與 `routerState` 屬性，從應用程式中的任何位置存取目前的 `RouterState`。
 
-Each `ActivatedRoute` in the `RouterState` provides methods to traverse up and down the route tree to get information from parent, child, and sibling routes.
+`RouterState` 中的每個 `ActivatedRoute` 都提供方法，可沿路由樹上下遍歷，取得父層、子層與同層路由的資訊。
 
 {@a activated-route}
 
-### Activated route
+### 已啟用的路由
 
-The route path and parameters are available through an injected router service called the [ActivatedRoute](api/router/ActivatedRoute).
-It has a great deal of useful information including:
+路由路徑與參數可以透過一個注入的路由器服務取得，這個服務稱為 [ActivatedRoute](api/router/ActivatedRoute)。
+它包含大量實用資訊，包括：
 
 <table>
   <tr>
     <th>
-      Property
+      屬性
     </th>
 
     <th>
-      Description
+      詳細說明
     </th>
   </tr>
 
@@ -138,7 +136,7 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    An `Observable` of the route path(s), represented as an array of strings for each part of the route path.
+    路由路徑的 `Observable`，以字串陣列表示路由路徑的每個部分。
 
     </td>
   </tr>
@@ -149,8 +147,8 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    An `Observable` that contains the `data` object provided for the route.
-    Also contains any resolved values from the [resolve guard](guide/router-tutorial-toh#resolve-guard).
+    包含為路由提供的 `data` 物件的 `Observable`。
+    也包含來自[解析守衛](guide/router-tutorial-toh#resolve-guard)的任何已解析值。
 
     </td>
   </tr>
@@ -161,7 +159,7 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    An `Observable` that contains the required and [optional parameters](guide/router-tutorial-toh#optional-route-parameters) specific to the route.
+    包含該路由專屬的必要與[選用參數](guide/router-tutorial-toh#optional-route-parameters)的 `Observable`。
 
     </td>
   </tr>
@@ -172,8 +170,8 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    An `Observable` that contains a [map](api/router/ParamMap) of the required and [optional parameters](guide/router-tutorial-toh#optional-route-parameters) specific to the route.
-    The map supports retrieving single and multiple values from the same parameter.
+    包含該路由專屬的必要與[選用參數](guide/router-tutorial-toh#optional-route-parameters)的[對應表](api/router/ParamMap)的 `Observable`。
+    該對應表支援從同一個參數擷取單一值與多個值。
 
     </td>
   </tr>
@@ -184,8 +182,8 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    An `Observable` that contains a [map](api/router/ParamMap) of the [query parameters](guide/router-tutorial-toh#query-parameters) available to all routes.
-    The map supports retrieving single and multiple values from the query parameter.
+    包含所有路由都可用的[查詢參數](guide/router-tutorial-toh#query-parameters)的[對應表](api/router/ParamMap)的 `Observable`。
+    該對應表支援從查詢參數擷取單一值與多個值。
 
     </td>
   </tr>
@@ -196,7 +194,7 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    An `Observable` that contains the [query parameters](guide/router-tutorial-toh#query-parameters) available to all routes.
+    包含所有路由都可用的[查詢參數](guide/router-tutorial-toh#query-parameters)的 `Observable`。
 
     </td>
   </tr>
@@ -207,7 +205,7 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    An `Observable` of the URL [fragment](guide/router-tutorial-toh#fragment) available to all routes.
+    所有路由都可用的 URL [片段](guide/router-tutorial-toh#fragment)的 `Observable`。
 
     </td>
   </tr>
@@ -218,8 +216,8 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    The name of the `RouterOutlet` used to render the route.
-    For an unnamed outlet, the outlet name is primary.
+    用來渲染路由的 `RouterOutlet` 名稱。
+    對於未命名的出口，出口名稱為 primary。
 
     </td>
   </tr>
@@ -230,7 +228,7 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    The route configuration used for the route that contains the origin path.
+    用於該路由的路由設定，其中包含原始路徑。
 
     </td>
   </tr>
@@ -241,7 +239,7 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    The route's parent `ActivatedRoute` when this route is a [child route](guide/router-tutorial-toh#child-routing-component).
+    當此路由是[子路由](guide/router-tutorial-toh#子路由元件)時，該路由的父層 `ActivatedRoute`。
 
     </td>
   </tr>
@@ -252,7 +250,7 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    Contains the first `ActivatedRoute` in the list of this route's child routes.
+    包含此路由的子路由清單中的第一個 `ActivatedRoute`。
 
     </td>
   </tr>
@@ -263,25 +261,25 @@ It has a great deal of useful information including:
     </td>
     <td>
 
-    Contains all the [child routes](guide/router-tutorial-toh#child-routing-component) activated under the current route.
+    包含目前路由之下已啟用的所有[子路由](guide/router-tutorial-toh#子路由元件)。
 
     </td>
   </tr>
 </table>
 
-### Router events
+### 路由器事件
 
-During each navigation, the `Router` emits navigation events through the `Router.events` property.
-These events range from when the navigation starts and ends to many points in between. The full list of navigation events is displayed in the following table.
+每次導覽期間，`Router` 都會透過 `Router.events` 屬性發出導覽事件。
+這些事件涵蓋從導覽開始、結束，到中間的許多時間點。完整的導覽事件清單如下表所示。
 
 <table>
   <tr>
     <th>
-      Router Event
+      路由器事件
     </th>
 
     <th>
-      Description
+      詳細說明
     </th>
   </tr>
 
@@ -291,7 +289,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/NavigationStart) triggered when navigation starts.
+      在導覽開始時觸發的[事件](api/router/NavigationStart)。
 
     </td>
   </tr>
@@ -302,8 +300,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/RouteConfigLoadStart) triggered before the `Router`
-      [lazy loads](guide/router-tutorial-toh#asynchronous-routing) a route configuration.
+      在 `Router` [延遲載入](guide/router-tutorial-toh#asynchronous-routing)路由設定之前觸發的[事件](api/router/RouteConfigLoadStart)。
 
     </td>
   </tr>
@@ -314,7 +311,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/RouteConfigLoadEnd) triggered after a route has been lazy loaded.
+      在路由被延遲載入後觸發的[事件](api/router/RouteConfigLoadEnd)。
 
     </td>
   </tr>
@@ -325,7 +322,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/RoutesRecognized) triggered when the Router parses the URL and the routes are recognized.
+      在 Router 解析 URL 且路由被辨認時觸發的[事件](api/router/RoutesRecognized)。
 
     </td>
   </tr>
@@ -336,7 +333,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/GuardsCheckStart) triggered when the Router begins the Guards phase of routing.
+      在 Router 開始路由的 Guards 階段時觸發的[事件](api/router/GuardsCheckStart)。
 
     </td>
   </tr>
@@ -347,7 +344,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/ChildActivationStart) triggered when the Router begins activating a route's children.
+      在 Router 開始啟用路由的子路由時觸發的[事件](api/router/ChildActivationStart)。
 
     </td>
   </tr>
@@ -358,7 +355,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/ActivationStart) triggered when the Router begins activating a route.
+      在 Router 開始啟用路由時觸發的[事件](api/router/ActivationStart)。
 
     </td>
   </tr>
@@ -369,7 +366,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/GuardsCheckEnd) triggered when the Router finishes the Guards phase of routing successfully.
+      在 Router 成功完成路由的 Guards 階段時觸發的[事件](api/router/GuardsCheckEnd)。
 
     </td>
   </tr>
@@ -380,7 +377,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/ResolveStart) triggered when the Router begins the Resolve phase of routing.
+      在 Router 開始路由的 Resolve 階段時觸發的[事件](api/router/ResolveStart)。
 
     </td>
   </tr>
@@ -391,7 +388,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/ResolveEnd) triggered when the Router finishes the Resolve phase of routing successfuly.
+      在 Router 成功完成路由的 Resolve 階段時觸發的[事件](api/router/ResolveEnd)。
 
     </td>
   </tr>
@@ -402,7 +399,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/ChildActivationEnd) triggered when the Router finishes activating a route's children.
+      在 Router 完成啟用路由的子路由時觸發的[事件](api/router/ChildActivationEnd)。
 
     </td>
   </tr>
@@ -413,7 +410,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/ActivationEnd) triggered when the Router finishes activating a route.
+      在 Router 完成啟用路由時觸發的[事件](api/router/ActivationEnd)。
 
     </td>
   </tr>
@@ -424,7 +421,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/NavigationEnd) triggered when navigation ends successfully.
+      在導覽成功結束時觸發的[事件](api/router/NavigationEnd)。
 
     </td>
   </tr>
@@ -435,9 +432,9 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/NavigationCancel) triggered when navigation is canceled.
-      This can happen when a [Route Guard](guide/router-tutorial-toh#guards) returns false during navigation,
-      or redirects by returning a `UrlTree`.
+      在導覽被取消時觸發的[事件](api/router/NavigationCancel)。
+      這可能發生在[路由守衛](guide/router-tutorial-toh#guards)在導覽期間傳回 false，
+      或以傳回 `UrlTree` 的方式重新導向時。
 
     </td>
   </tr>
@@ -448,7 +445,7 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/NavigationError) triggered when navigation fails due to an unexpected error.
+      在導覽因未預期的錯誤而失敗時觸發的[事件](api/router/NavigationError)。
 
     </td>
   </tr>
@@ -459,29 +456,29 @@ These events range from when the navigation starts and ends to many points in be
     </td>
     <td>
 
-      An [event](api/router/Scroll) that represents a scrolling event.
+      代表捲動事件的[事件](api/router/Scroll)。
 
     </td>
   </tr>
 </table>
 
-When you enable the `enableTracing` option, Angular logs these events to the console.
-For an example of filtering router navigation events, see the [router section](guide/observables-in-angular#router) of the [Observables in Angular](guide/observables-in-angular) guide.
+當你啟用 `enableTracing` 選項時，Angular 會把這些事件記錄到主控台。
+關於篩選路由器導覽事件的範例，請參閱 [Angular 中的 Observable](guide/observables-in-angular) 指南的[路由器一節](guide/observables-in-angular#router)。
 
-### Router terminology
+### 路由器術語
 
-Here are the key `Router` terms and their meanings:
+以下是重要的 `Router` 術語及其意義：
 
 <table>
 
   <tr>
 
     <th>
-      Router Part
+      路由器組成
     </th>
 
     <th>
-      Meaning
+      詳細說明
     </th>
 
   </tr>
@@ -493,8 +490,8 @@ Here are the key `Router` terms and their meanings:
     </td>
 
     <td>
-      Displays the application component for the active URL.
-      Manages navigation from one component to the next.
+      顯示目前 URL 的應用程式元件。
+      管理從一個元件到下一個元件的導覽。
     </td>
 
   </tr>
@@ -506,8 +503,8 @@ Here are the key `Router` terms and their meanings:
     </td>
 
     <td>
-      A separate NgModule that provides the necessary service providers
-      and directives for navigating through application views.
+      獨立的 NgModule，提供瀏覽應用程式檢視所需的
+      服務提供者與指令。
     </td>
 
   </tr>
@@ -519,7 +516,7 @@ Here are the key `Router` terms and their meanings:
     </td>
 
     <td>
-      Defines an array of Routes, each mapping a URL path to a component.
+      定義路由陣列，每條路由將一個 URL 路徑對應到一個元件。
     </td>
 
   </tr>
@@ -531,8 +528,8 @@ Here are the key `Router` terms and their meanings:
     </td>
 
     <td>
-      Defines how the router should navigate to a component based on a URL pattern.
-      Most routes consist of a path and a component type.
+      定義路由器應如何根據 URL 模式導覽到元件。
+      大多數路由由路徑與元件類型組成。
     </td>
 
   </tr>
@@ -544,7 +541,7 @@ Here are the key `Router` terms and their meanings:
     </td>
 
     <td>
-      The directive (<code>&lt;router-outlet></code>) that marks where the router displays a view.
+      標示路由器顯示檢視位置的指令（<code>&lt;router-outlet></code>）。
     </td>
 
   </tr>
@@ -556,7 +553,7 @@ Here are the key `Router` terms and their meanings:
     </td>
 
     <td>
-      The directive for binding a clickable HTML element to a route. Clicking an element with a <code>routerLink</code> directive that is bound to a <i>string</i> or a <i>link parameters array</i> triggers a navigation.
+      將可點選的 HTML 元素繫結到路由的指令。點選具有 <code>routerLink</code> 指令（繫結到<i>字串</i>或<i>連結參數陣列</i>）的元素會觸發導覽。
     </td>
 
   </tr>
@@ -568,7 +565,7 @@ Here are the key `Router` terms and their meanings:
     </td>
 
     <td>
-      The directive for adding/removing classes from an HTML element when an associated <code>routerLink</code> contained on or inside the element becomes active/inactive.
+      當元素上或元素內包含的相關 <code>routerLink</code> 啟用／停用時，為 HTML 元素加入／移除類別的指令。
     </td>
 
   </tr>
@@ -580,7 +577,7 @@ Here are the key `Router` terms and their meanings:
     </td>
 
     <td>
-      A service that is provided to each route component that contains route specific information such as route parameters, static data, resolve data, global query params, and the global fragment.
+      提供給每個路由元件的服務，包含路由專屬資訊，例如路由參數、靜態資料、解析資料、全域查詢參數與全域片段。
     </td>
 
   </tr>
@@ -592,7 +589,7 @@ Here are the key `Router` terms and their meanings:
     </td>
 
     <td>
-      The current state of the router including a tree of the currently activated routes together with convenience methods for traversing the route tree.
+      路由器的目前狀態，包含目前已啟用路由的樹狀結構，以及用於遍歷路由樹的便利方法。
     </td>
 
   </tr>
@@ -600,12 +597,12 @@ Here are the key `Router` terms and their meanings:
   <tr>
 
     <td>
-      <b><i>Link parameters array</i></b>
+      <b><i>連結參數陣列</i></b>
     </td>
 
     <td>
-      An array that the router interprets as a routing instruction.
-      You can bind that array to a <code>RouterLink</code> or pass the array as an argument to the <code>Router.navigate</code> method.
+      路由器將其解讀為路由指令的陣列。
+      你可以將該陣列繫結到 <code>RouterLink</code>，或將其作為引數傳給 <code>Router.navigate</code> 方法。
     </td>
 
   </tr>
@@ -613,11 +610,11 @@ Here are the key `Router` terms and their meanings:
   <tr>
 
     <td>
-      <b><i>Routing component</i></b>
+      <b><i>路由元件</i></b>
     </td>
 
     <td>
-      An Angular component with a <code>RouterOutlet</code> that displays views based on router navigations.
+      具有 <code>RouterOutlet</code> 的 Angular 元件，會根據路由器導覽顯示檢視。
     </td>
 
   </tr>

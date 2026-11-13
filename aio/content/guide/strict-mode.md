@@ -1,19 +1,19 @@
-# Strict mode
+# 嚴格模式
 
-Angular CLI creates all new workspaces and projects with **strict mode** enabled.
+Angular CLI 建立的所有新工作區與專案都會啟用**嚴格模式**。
 
-Strict mode improves maintainability and helps you catch bugs ahead of time.
-Additionally, strict mode applications are easier to statically analyze and can help the `ng update` command refactor code more safely and precisely when you are updating to future versions of Angular.
+嚴格模式可提升可維護性，並協助你提早發現錯誤。
+此外，嚴格模式的應用程式更容易進行靜態分析，而且當你更新到未來的 Angular 版本時，可以協助 `ng update` 命令更安全、更精確地重構程式碼。
 
-Specifically, strict mode affects newly generated applications in the following way:
+具體來說，嚴格模式會以下列方式影響新產生的應用程式：
 
-* Enables [`strict` mode in TypeScript](https://www.typescriptlang.org/tsconfig#strict), as well as other strictness flags recommended by the TypeScript team. Specifically, `forceConsistentCasingInFileNames`, `noImplicitReturns`,  `noFallthroughCasesInSwitch`.
-* Turns on strict Angular compiler flags [`strictTemplates`](guide/angular-compiler-options#stricttemplates), [`strictInjectionParameters`](guide/angular-compiler-options#strictinjectionparameters) and [`strictInputAccessModifiers`](guide/template-typecheck#troubleshooting-template-errors).
-* Reduces the [bundle size budgets](guide/build#configuring-size-budgets) for the `initial` and `anyComponentStyle` budget types by 75% compared to the previous defaults.
+* 啟用 TypeScript 中的 [`strict` 模式](https://www.typescriptlang.org/tsconfig#strict)，以及 TypeScript 團隊建議的其他嚴格旗標。具體來說是 `forceConsistentCasingInFileNames`、`noImplicitReturns` 與 `noFallthroughCasesInSwitch`。
+* 開啟嚴格的 Angular 編譯器旗標 [`strictTemplates`](guide/angular-compiler-options#stricttemplates)、[`strictInjectionParameters`](guide/angular-compiler-options#strictinjectionparameters) 與 [`strictInputAccessModifiers`](guide/template-typecheck#範本錯誤疑難排解)。
+* 將 `initial` 與 `anyComponentStyle` 這兩種預算類型的[套件大小預算](guide/build#設定大小預算)縮減為先前預設值的 75%。
 
-You can apply these settings at the workspace and project level.
+你可以在工作區與專案層級套用這些設定。
 
-Using the basic `ng new` command to create a new workspace and application automatically uses strict mode, as in the following command:
+使用基本的 `ng new` 命令建立新的工作區與應用程式時，會自動使用嚴格模式，如下列命令所示：
 
 <code-example language="sh">
 
@@ -21,7 +21,7 @@ ng new [project-name]
 
 </code-example>
 
-To create a new application in the strict mode within an existing non-strict workspace, run the following command:
+若要在現有的非嚴格工作區中，以嚴格模式建立新的應用程式，請執行下列命令：
 
 <code-example language="sh">
 

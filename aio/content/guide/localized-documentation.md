@@ -1,6 +1,6 @@
-# Localized documentation
+# 在地化文件
 
-This topic lists localized versions of the Angular documentation.
+本主題列出 Angular 文件的在地化版本。
 
 * [Español](http://docs.angular.lat/)
 * [简体中文版](https://angular.cn/)
@@ -8,4 +8,4 @@ This topic lists localized versions of the Angular documentation.
 * [日本語版](https://angular.jp/)
 * [한국어](https://angular.kr/)
 
-For information on localizing Angular documentation, see [Angular localization guidelines](guide/localizing-angular).
+如需瞭解 Angular 文件在地化的相關資訊，請參閱 [Angular 在地化指南](guide/localizing-angular)。

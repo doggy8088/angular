@@ -1,60 +1,57 @@
-<h1 class="no-toc">Introduction to the Angular Docs</h1>
+<h1 class="no-toc">Angular 文件介紹</h1>
 
-Angular is an application design framework and development platform for creating efficient and sophisticated single-page apps.
+Angular 是用於建立高效且精密的單頁應用程式的應用程式設計框架與開發平台。
 
-These Angular docs help you learn and use the Angular framework and development platform, from your first application to optimizing complex single-page apps for enterprises.
-Tutorials and guides include downloadable examples to accelerate your projects.
+這些 Angular 文件能協助你學習與使用 Angular 框架與開發平台，從你的第一個應用程式，到為企業優化複雜的單頁應用程式。
+教學與指南包含可下載的範例，能加速你的專案進度。
 
 
 <div class="card-container">
-  <a href="guide/what-is-angular" class="docs-card" title="Angular Platform Overview">
-    <section>What is Angular</section>
-    <p>Get a high-level overview of the Angular platform.</p>
-    <p class="card-footer">Platform overview</p>
+  <a href="guide/what-is-angular" class="docs-card" title="Angular 平台概覽">
+    <section>什麼是 Angular</section>
+    <p>概覽 Angular 平台的整體樣貌。</p>
+    <p class="card-footer">平台概覽</p>
   </a>
-  <a href="start" class="docs-card" title="Getting started">
-    <section>Getting started</section>
-    <p>Examine and work with a small ready-made Angular app, without any setup.</p>
-    <p class="card-footer">Try it now</p>
+  <a href="start" class="docs-card" title="開始使用">
+    <section>開始使用</section>
+    <p>檢視並操作一個現成的小型 Angular 應用程式，無需任何設定。</p>
+    <p class="card-footer">立即試用</p>
   </a>
-  <a href="guide/architecture" class="docs-card" title="Angular Concepts">
-    <section>Learn and Explore</section>
-    <p>Learn about the fundamental design concepts and architecture of Angular apps.</p>
-    <p class="card-footer">Introduction to Angular concepts</p>
+  <a href="guide/architecture" class="docs-card" title="Angular 概念">
+    <section>學習與探索</section>
+    <p>了解 Angular 應用程式的基本設計概念與架構。</p>
+    <p class="card-footer">Angular 概念簡介</p>
   </a>
-  <a href="guide/setup-local" class="docs-card" title="Angular Local Environment Setup">
-    <section>Set up your environment</section>
-    <p>Set up your local environment for development with the Angular CLI.</p>
-    <p class="card-footer">Local setup</p>
+  <a href="guide/setup-local" class="docs-card" title="Angular 本機環境設定">
+    <section>設定你的環境</section>
+    <p>使用 Angular CLI 設定本機開發環境。</p>
+    <p class="card-footer">本機設定</p>
   </a>
-  <a href="tutorial" class="docs-card" title="Work through a full tutorial">
+  <a href="tutorial" class="docs-card" title="完成完整教學">
     <section>Hello World</section>
-    <p>Work through a full tutorial to create your first app.</p>
-    <p class="card-footer">Tour of Heroes tutorial</p>
+    <p>完成完整教學，建立你的第一個應用程式。</p>
+    <p class="card-footer">英雄之旅教學</p>
   </a>
 </div>
 
 
-## Assumptions
+## 假設條件
 
 
-These docs assume that you are already familiar with [HTML](https://developer.mozilla.org/docs/Learn/HTML/Introduction_to_HTML "Learn HTML"), [CSS](https://developer.mozilla.org/docs/Learn/CSS/First_steps "Learn CSS"), [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript "Learn JavaScript"),
-and some of the tools from the [latest standards](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Language_Resources "Latest JavaScript standards"), such as [classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes "ES2015 Classes") and [modules](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import "ES2015 Modules").
-The code samples are written using [TypeScript](https://www.typescriptlang.org/ "TypeScript").
-Most Angular code can be written with just the latest JavaScript, using [types](https://www.typescriptlang.org/docs/handbook/classes.html "TypeScript Types") for dependency injection, and using [decorators](https://www.typescriptlang.org/docs/handbook/decorators.html "Decorators") for metadata.
+這些文件假設你已經熟悉 [HTML](https://developer.mozilla.org/docs/Learn/HTML/Introduction_to_HTML "Learn HTML")、[CSS](https://developer.mozilla.org/docs/Learn/CSS/First_steps "Learn CSS")、[JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript "Learn JavaScript")，
+以及[最新標準](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Language_Resources "Latest JavaScript standards")中的部分工具，例如[類別](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes "ES2015 Classes")與[模組](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import "ES2015 Modules")。
+程式碼範例以 [TypeScript](https://www.typescriptlang.org/ "TypeScript") 撰寫。
+大多數 Angular 程式碼只需使用最新的 JavaScript 就能撰寫，使用[型別](https://www.typescriptlang.org/docs/handbook/classes.html "TypeScript Types")進行依賴注入，並使用[裝飾器](https://www.typescriptlang.org/docs/handbook/decorators.html "Decorators")來提供中繼資料。
 
 
-## Feedback
+## 意見回饋
 
-<h3>You can sit with us!</h3>
+<h3>歡迎加入我們！</h3>
 
-We want to hear from you. [Report problems or submit suggestions for future docs](https://github.com/angular/angular/issues/new/choose "Angular GitHub repository new issue form").
+我們想聽聽你的意見。[回報問題或提交對未來文件的建議](https://github.com/angular/angular/issues/new/choose "Angular GitHub repository new issue form")。
 
-Contribute to Angular docs by creating
-[pull requests](https://github.com/angular/angular/pulls "Angular Github pull requests")
-on the Angular Github repository.
-See [Contributing to Angular](https://github.com/angular/angular/blob/master/CONTRIBUTING.md "Contributing guide")
-for information about submission guidelines.
+請在 Angular GitHub 存放庫上建立 [Pull Request](https://github.com/angular/angular/pulls "Angular Github pull requests")，為 Angular 文件做出貢獻。
+關於提交準則的資訊，請參閱[為 Angular 做出貢獻](https://github.com/angular/angular/blob/master/CONTRIBUTING.md "Contributing guide")。
 
-Our community values respectful, supportive communication.
-Please consult and adhere to the [Code of Conduct](https://github.com/angular/code-of-conduct/blob/master/CODE_OF_CONDUCT.md "Contributor code of conduct").
+我們的社群重視相互尊重、彼此支持的溝通方式。
+請參閱並遵守[行為準則](https://github.com/angular/code-of-conduct/blob/master/CODE_OF_CONDUCT.md "Contributor code of conduct")。

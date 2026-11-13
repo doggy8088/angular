@@ -2,7 +2,7 @@
 
 <aio-cookies-popup></aio-cookies-popup>
 
-<a class="skip-to-content-link" href="#main-content">Skip to main content</a>
+<a class="skip-to-content-link" href="#main-content">跳至主要內容</a>
 
 <div *ngIf="isFetching" class="progress-bar-container">
   <mat-progress-bar mode="indeterminate" color="warn"></mat-progress-bar>
@@ -19,7 +19,7 @@
     </aio-notification>
   </mat-toolbar-row>
   <mat-toolbar-row>
-    <button mat-button class="hamburger" [class.no-animations]="disableAnimations" (click)="sidenav.toggle()" title="Docs menu">
+    <button mat-button class="hamburger" [class.no-animations]="disableAnimations" (click)="sidenav.toggle()" title="文件選單">
       <mat-icon svgIcon="menu"></mat-icon>
     </button>
     <a class="nav-link home" href="/" [ngSwitch]="showTopMenu">
@@ -30,13 +30,13 @@
     <aio-search-box class="search-container" #searchBox (onSearch)="doSearch($event)" (onFocus)="doSearch($event)"></aio-search-box>
     <aio-theme-toggle></aio-theme-toggle>
     <div class="toolbar-external-icons-container">
-      <a mat-icon-button href="https://twitter.com/angular" title="Twitter" aria-label="Angular on twitter">
+      <a mat-icon-button href="https://twitter.com/angular" title="Twitter" aria-label="Twitter 上的 Angular">
         <mat-icon svgIcon="logos:twitter"></mat-icon>
       </a>
-      <a mat-icon-button href="https://github.com/angular/angular" title="GitHub" aria-label="Angular on github">
+      <a mat-icon-button href="https://github.com/angular/angular" title="GitHub" aria-label="GitHub 上的 Angular">
         <mat-icon svgIcon="logos:github"></mat-icon>
       </a>
-      <a mat-icon-button href="https://youtube.com/angular" title="YouTube" aria-label="Angular on YouTube">
+      <a mat-icon-button href="https://youtube.com/angular" title="YouTube" aria-label="YouTube 上的 Angular">
         <mat-icon svgIcon="logos:youtube"></mat-icon>
       </a>
     </div>

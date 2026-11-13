@@ -1,84 +1,68 @@
-# Generating code using schematics
+# 使用原理圖產生程式碼
 
-A schematic is a template-based code generator that supports complex logic.
-It is a set of instructions for transforming a software project by generating or modifying code.
-Schematics are packaged into [collections](guide/glossary#collection) and installed with npm.
+原理圖是一種以範本為基礎的程式碼產生器，支援複雜的邏輯。它是一組指示，用來透過產生或修改程式碼來轉換軟體專案。原理圖會打包成[集合](guide/glossary#集合collection)，並透過 npm 安裝。
 
-The schematic collection can be a powerful tool for creating, modifying, and maintaining any software project, but is particularly useful for customizing Angular projects to suit the particular needs of your own organization.
-You might use schematics, for example, to generate commonly-used UI patterns or specific components, using predefined templates or layouts.
-Use schematics to enforce architectural rules and conventions, making your projects consistent and inter-operative.
+原理圖集合可以是建立、修改與維護任何軟體專案的強大工具，對於將 Angular 專案客製化成符合自家組織特定需求的樣子尤其有用。舉例來說，你可以用原理圖來產生常用的 UI 模式或特定元件，並使用預先定義的範本或版面配置。你也可以用原理圖來落實架構規則與慣例，讓專案保持一致且能互相配合。
 
-## Schematics for the Angular CLI
+## Angular CLI 的原理圖
 
-Schematics are part of the Angular ecosystem. The [Angular CLI](guide/glossary#cli)  uses schematics to apply transforms to a web-app project.
-You can modify these schematics, and define new ones to do things like update your code to fix breaking changes in a dependency, for example, or to add a new configuration option or framework to an existing project.
+原理圖是 Angular 生態系的一部分。[Angular CLI](guide/glossary#cli) 使用原理圖，將轉換套用到 web 應用程式專案上。你可以修改這些原理圖，也能定義新的原理圖，來做像是把程式碼更新以修正某個相依套件的破壞性變更，或是為既有專案新增設定選項或框架之類的事。
 
-Schematics that are included in the `@schematics/angular` collection are run by default by the commands `ng generate` and `ng add`.
-The package contains named schematics that configure the options that are available to the CLI for `ng generate` sub-commands, such as `ng generate component` and `ng generate service`.
-The subcommands for `ng generate` are shorthand for the corresponding schematic. To specify a particular schematic (or collection of schematics) to generate, using the long form:
+`ng generate` 與 `ng add` 指令預設會執行 `@schematics/angular` 集合中包含的原理圖。這個套件包含具名的原理圖，用來設定 CLI 的 `ng generate` 子指令可用的選項，例如 `ng generate component` 與 `ng generate service`。`ng generate` 的子指令就是對應原理圖的簡寫形式。若要使用完整形式指定要產生的特定原理圖（或原理圖集合）：
 
 <code-example language="bash">
 ng generate my-schematic-collection:my-schematic-name
 </code-example>
 
-or
+或
 
 <code-example language="bash">
 ng generate my-schematic-name --collection collection-name
 </code-example>
 
-### Configuring CLI schematics
+### 設定 CLI 原理圖
 
-A JSON schema associated with a schematic tells the Angular CLI what options are available to commands and subcommands, and determines the defaults.
-These defaults can be overridden by providing a different value for an option on the command line.
-See [Workspace Configuration](guide/workspace-config) for information about how to change the generation option defaults for your workspace.
+與原理圖關聯的 JSON schema 會告訴 Angular CLI，指令與子指令有哪些可用選項，並決定預設值。只要在指令列為某個選項提供不同的值，就能覆寫這些預設值。關於如何變更工作區的產生選項預設值，請參閱[工作區設定](guide/workspace-config)。
 
-The JSON schemas for the default schematics used by the CLI to generate projects and parts of projects are collected in the package [`@schematics/angular`](https://github.com/angular/angular-cli/tree/master/packages/schematics/angular).
-The schema describes the options available to the CLI for each of the `ng generate` sub-commands, as shown in the `--help` output.
+CLI 用來產生專案與專案各部分的預設原理圖，其 JSON schema 彙集在 [`@schematics/angular`](https://github.com/angular/angular-cli/tree/master/packages/schematics/angular) 套件中。schema 描述了 CLI 在每個 `ng generate` 子指令下可用的選項，如 `--help` 輸出所示。
 
-## Developing schematics for libraries
+## 為程式庫開發原理圖
 
-As a library developer, you can create your own collections of custom schematics to integrate your library with the Angular CLI.
+身為程式庫開發者，你可以建立自己的自訂原理圖集合，把你的程式庫與 Angular CLI 整合起來。
 
-* An *add schematic* lets developers install your library in an Angular workspace using `ng add`.
+* _新增原理圖_讓開發者能用 `ng add` 在 Angular 工作區中安裝你的程式庫。
 
-* *Generation schematics* can tell the `ng generate` subcommands how to modify projects, add configurations and scripts, and scaffold artifacts that are defined in your library.
+* _產生原理圖_可以告訴 `ng generate` 子指令如何修改專案、新增設定與指令碼，以及建構你的程式庫中定義的產物。
 
-* An *update schematic* can tell the `ng update` command how to update your library's dependencies and adjust for breaking changes when you release a new version.
+* _更新原理圖_可以告訴 `ng update` 指令，在你發佈新版本時如何更新程式庫的相依套件，並因應破壞性變更做調整。
 
-For more details of what these look like and how to create them, see:
-* [Authoring Schematics](guide/schematics-authoring)
-* [Schematics for Libraries](guide/schematics-for-libraries)
+想進一步了解這些原理圖的樣貌與建立方式，請參閱：
+* [撰寫原理圖](guide/schematics-authoring)
+* [程式庫的原理圖](guide/schematics-for-libraries)
 
-### Add schematics
+### 新增原理圖
 
-An add schematic is typically supplied with a library, so that the library can be added to an existing project with `ng add`.
-The `add` command uses your package manager to download new dependencies, and invokes an installation script that is implemented as a schematic.
+新增原理圖通常會隨程式庫一起提供，讓程式庫能用 `ng add` 加入既有專案。`add` 指令會用你的套件管理器下載新的相依套件，並叫用一個以原理圖實作的安裝指令碼。
 
-For example, the [`@angular/material`](https://material.angular.io/guide/schematics) schematic tells the `add` command to install and set up Angular Material and theming, and register new starter components that can be created with `ng generate`.
-Look at this one as an example and model for your own add schematic.
+舉例來說，[`@angular/material`](https://material.angular.io/guide/schematics) 原理圖會告訴 `add` 指令安裝並設定 Angular Material 與主題，並註冊可以用 `ng generate` 建立的新起始元件。可以把這個原理圖當作你自製新增原理圖的範例與範本。
 
-Partner and third party libraries also support the Angular CLI with add schematics.
-For example, `@ng-bootstrap/schematics` adds [ng-bootstrap](https://ng-bootstrap.github.io/)  to an app, and  `@clr/angular` installs and sets up [Clarity from VMWare](https://vmware.github.io/clarity/documentation/v1.0/get-started).
+合作夥伴與第三方程式庫也透過新增原理圖支援 Angular CLI。舉例來說，`@ng-bootstrap/schematics` 會把 [ng-bootstrap](https://ng-bootstrap.github.io/) 加入應用程式，`@clr/angular` 則會安裝並設定 [VMWare 的 Clarity](https://vmware.github.io/clarity/documentation/v1.0/get-started)。
 
-An add schematic can also update a project with configuration changes, add additional dependencies (such as polyfills), or scaffold package-specific initialization code.
-For example, the `@angular/pwa` schematic turns your application into a PWA by adding an application manifest and service worker, and the `@angular/elements`  schematic adds the `document-register-element.js` polyfill and dependencies for Angular Elements.
+新增原理圖也能以設定變更來更新專案、加入額外的相依套件（例如 polyfill），或建構套件專屬的初始化程式碼。舉例來說，`@angular/pwa` 原理圖會加入應用程式資訊清單與 service worker，把你的應用程式變成 PWA，而 `@angular/elements` 原理圖則會加入 `document-register-element.js` polyfill 與 Angular Elements 的相依套件。
 
-### Generation schematics
+### 產生原理圖
 
-Generation schematics are instructions for the `ng generate` command.
-The documented sub-commands use the default Angular generation schematics, but you can specify a different schematic (in place of a sub-command) to generate an artifact defined in your library.
+產生原理圖是給 `ng generate` 指令的指示。文件記載的子指令使用預設的 Angular 產生原理圖，但你可以指定不同的原理圖（取代子指令），來產生你的程式庫中定義的產物。
 
-Angular Material, for example, supplies generation schematics for the UI components that it defines.
-The following command uses one of these schematics to render an Angular Material `<mat-table>` that is pre-configured with a datasource for sorting and pagination.
+舉例來說，Angular Material 提供了它所定義之 UI 元件的產生原理圖。下列指令使用其中一個原理圖，來呈現一個預先設定好資料來源、可供排序與分頁的 Angular Material `<mat-table>`。
 
 <code-example language="bash">
 ng generate @angular/material:table <component-name>
 </code-example>
 
-### Update schematics
+### 更新原理圖
 
- The `ng update` command can be used to update your workspace's library dependencies. If you supply no options or use the help option, the command examines your workspace and suggests libraries to update.
+ `ng update` 指令可以用來更新工作區的程式庫相依套件。如果你不提供任何選項或使用說明選項，該指令會檢查你的工作區，並建議要更新的程式庫。
 
 <code-example language="bash">
 ng update
@@ -97,25 +81,24 @@ ng update
     Run "ng update --all" to try to update all at the same time.
 </code-example>
 
-If you pass the command a set of libraries to update (or the `--all` flag), it updates those libraries, their peer dependencies, and the peer dependencies that depend on them.
+如果你把要更新的程式庫集合（或 `--all` 旗標）傳給該指令，它會更新這些程式庫、它們的對等相依套件，以及相依於它們的對等相依套件。
 
 <div class="alert is-helpful">
 
-If there are inconsistencies (for example, if peer dependencies cannot be matched by a simple [semver](https://semver.io/) range), the command generates an error and does not change anything in the workspace.
+如果有不一致之處（例如，無法用簡單的 [semver](https://semver.io/) 範圍比對對等相依性），該指令會產生錯誤，且不會變更工作區中的任何內容。
 
-We recommend that you do not force an update of all dependencies by default. Try updating specific dependencies first.
+我們建議你不要預設就強制更新所有相依套件。先試著更新特定的相依套件。
 
-For more about how the `ng update` command works, see [Update Command](https://github.com/angular/angular-cli/blob/master/docs/specifications/update.md).
+想深入了解 `ng update` 指令的運作方式，請參閱[更新指令](https://github.com/angular/angular-cli/blob/master/docs/specifications/update.md)。
 
 </div>
 
-If you create a new version of your library that introduces potential breaking changes, you can provide an *update schematic* to enable the `ng update` command to automatically resolve any such changes in the project being updated.
+如果你發佈的程式庫新版本引入了潛在的破壞性變更，你可以提供一個_更新原理圖_，讓 `ng update` 指令能自動解決被更新專案中的這類變更。
 
-For example, suppose you want to update the Angular Material library.
+舉例來說，假設你想更新 Angular Material 程式庫。
 
 <code-example language="bash">
 ng update @angular/material
 </code-example>
 
-This command updates both `@angular/material` and its dependency `@angular/cdk` in your workspace's `package.json`.
-If either package contains an update schematic that covers migration from the existing version to a new version, the command runs that schematic on your workspace.
+這個指令會更新工作區 `package.json` 中的 `@angular/material` 及其相依套件 `@angular/cdk`。如果任一套件包含涵蓋從現有版本遷移到新版本的更新原理圖，該指令就會在你的工作區上執行該原理圖。

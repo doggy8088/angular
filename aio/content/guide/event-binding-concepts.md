@@ -1,38 +1,34 @@
 
-# How event binding works
+# 事件繫結如何運作
 
-In an event binding, Angular configures an event handler for the target event.
-You can use event binding with your own custom events.
+在事件繫結中，Angular 會為目標事件設定一個事件處理器。你可以將事件繫結與你自己的自訂事件一起使用。
 
-When the component or directive raises the event, the handler executes the template statement.
-The template statement performs an action in response to the event.
+當元件或指令引發事件時，處理器會執行範本陳述式。範本陳述式會執行動作以回應事件。
 
-## Handling events
+## 處理事件
 
-A common way to handle events is to pass the event object, `$event`, to the method handling the event.
-The `$event` object often contains information the method needs, such as a user's name or an image URL.
+處理事件的常見方式，是把事件物件 `$event` 傳給處理事件的方法。`$event` 物件通常包含方法需要的資訊，例如使用者的名稱或圖片 URL。
 
-The target event determines the shape of the `$event` object.
-If the target event is a native DOM element event, then `$event` is a [DOM event object](https://developer.mozilla.org/en-US/docs/Web/Events), with properties such as `target` and `target.value`.
+目標事件決定了 `$event` 物件的形狀。如果目標事件是原生的 DOM 元素事件，那麼 `$event` 就是一個 [DOM 事件物件](https://developer.mozilla.org/en-US/docs/Web/Events)，帶有 `target` 與 `target.value` 等屬性。
 
-In the following example the code sets the `<input>` `value` property by binding to the `name` property.
+在下列範例中，程式碼透過繫結到 `name` 屬性，來設定 `<input>` 的 `value` 屬性。
 
 
 <code-example path="event-binding/src/app/app.component.html" region="event-binding-3" header="src/app/app.component.html"></code-example>
 
-With this example, the following actions occur:
+使用這個範例時，會發生下列動作：
 
-1. The code binds to the `input` event of the `<input>` element, which allows the code to listen for changes.
-1. When the user makes changes, the component raises the `input` event.
-1. The binding executes the statement within a context that includes the DOM event object, `$event`.
-1. Angular retrieves the changed text by calling `getValue($event.target)` and updates the `name` property.
+1. 程式碼會繫結到 `<input>` 元素的 `input` 事件，讓程式碼可以監聽變更。
+1. 當使用者做出變更時，元件會引發 `input` 事件。
+1. 繫結會在包含 DOM 事件物件 `$event` 的上下文中執行陳述式。
+1. Angular 會呼叫 `getValue($event.target)` 來取得變更後的文字，並更新 `name` 屬性。
 
-If the event belongs to a directive or component, `$event` has the shape that the directive or component produces.
+如果事件屬於某個指令或元件，`$event` 會具有該指令或元件所產生的形狀。
 
 <div class="alert is-helpful">
 
-The type of `$event.target` is only `EventTarget` in the template.
-In the `getValue()` method, the target is cast to an `HTMLInputElement` to allow type-safe access to its `value` property.
+在範本中，`$event.target` 的型別只有 `EventTarget`。
+在 `getValue()` 方法中，target 會被轉型為 `HTMLInputElement`，以便用型別安全的方式存取其 `value` 屬性。
 
 <code-example path="event-binding/src/app/app.component.ts" region="getValue"></code-example>
 

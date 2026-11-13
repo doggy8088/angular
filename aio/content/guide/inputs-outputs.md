@@ -1,15 +1,15 @@
-# Sharing data between child and parent directives and components
+# 在子指令與父指令及元件之間共享資料
 
-A common pattern in Angular is sharing data between a parent component and one or more child components.
-Implement this pattern with the `@Input()` and `@Output()` decorators.
+Angular 中常見的模式，是在父元件與一個或多個子元件之間共享資料。
+請使用 `@Input()` 與 `@Output()` 裝飾器來實作這種模式。
 
 <div class="alert is-helpful">
 
-See the <live-example></live-example> for a working example containing the code snippets in this guide.
+請見 <live-example></live-example>，查看包含本指南程式碼片段的可運作範例。
 
 </div>
 
-Consider the following hierarchy:
+考慮以下階層結構：
 
 ```html
 <parent-component>
@@ -18,155 +18,151 @@ Consider the following hierarchy:
 
 ```
 
-The `<parent-component>` serves as the context for the `<child-component>`.
+`<parent-component>` 作為 `<child-component>` 的脈絡。
 
-`@Input()` and `@Output()` give a child component a way to communicate with its parent component.
-`@Input()` lets a parent component update data in the child component.
-Conversely, `@Output()` lets the child send data to a parent component.
-
+`@Input()` 與 `@Output()` 讓子元件有辦法與父元件溝通。
+`@Input()` 讓父元件可以更新子元件中的資料。
+反之，`@Output()` 讓子元件可以將資料傳送給父元件。
 
 {@a input}
 
-## Sending data to a child component
+## 將資料傳送給子元件
 
-The `@Input()` decorator in a child component or directive signifies that the property can receive its value from its parent component.
+子元件或指令中的 `@Input()` 裝飾器，表示該屬性可以從父元件接收它的值。
 
 <div class="lightbox">
-  <img src="generated/images/guide/inputs-outputs/input.svg" alt="Input data flow diagram of data flowing from parent to child">
+  <img src="generated/images/guide/inputs-outputs/input.svg" alt="父元件到子元件的輸入資料流程圖">
 </div>
 
-To use `@Input()`, you must configure the parent and child.
+若要使用 `@Input()`，你必須設定父元件與子元件。
 
-### Configuring the child component
+### 設定子元件
 
-To use the `@Input()` decorator in a child component class, first import `Input` and then decorate the property with `@Input()`, as in the following example.
+若要在子元件類別中使用 `@Input()` 裝飾器，請先匯入 `Input`，再以 `@Input()` 裝飾該屬性，如下列範例所示。
 
 <code-example path="inputs-outputs/src/app/item-detail/item-detail.component.ts" region="use-input" header="src/app/item-detail/item-detail.component.ts"></code-example>
 
+在這個案例中，`@Input()` 裝飾了型別為 `string` 的屬性 <code class="no-auto-link">item</code>，不過 `@Input()` 屬性的型別可以是任何型別，例如 `number`、`string`、`boolean` 或 `object`。
+`item` 的值來自父元件。
 
-In this case, `@Input()` decorates the property <code class="no-auto-link">item</code>, which has a type of `string`, however, `@Input()` properties can have any type, such as `number`, `string`, `boolean`, or `object`.
-The value for `item` comes from the parent component.
-
-Next, in the child component template, add the following:
+接著，在子元件範本中加入以下內容：
 
 <code-example path="inputs-outputs/src/app/item-detail/item-detail.component.html" region="property-in-template" header="src/app/item-detail/item-detail.component.html"></code-example>
 
-### Configuring the parent component
+### 設定父元件
 
-The next step is to bind the property in the parent component's template.
-In this example, the parent component template is `app.component.html`.
+下一步是在父元件範本中繫結該屬性。
+在這個範例中，父元件範本是 `app.component.html`。
 
-1. Use the child's selector, here `<app-item-detail>`, as a directive within the
-parent component template.
-
-2. Use [property binding](guide/property-binding) to bind the `item` property in the child to the `currentItem` property of the parent.
+1.  使用子元件的選取器（這裡是 `<app-item-detail>`）作為父元件範本內的指令。
+2.  使用[屬性繫結](guide/property-binding)，將子元件的 `item` 屬性繫結到父元件的 `currentItem` 屬性。
 
 <code-example path="inputs-outputs/src/app/app.component.html" region="input-parent" header="src/app/app.component.html"></code-example>
 
-3. In the parent component class, designate a value for `currentItem`:
+3.  在父元件類別中，為 `currentItem` 指定一個值：
 
 <code-example path="inputs-outputs/src/app/app.component.ts" region="parent-property" header="src/app/app.component.ts"></code-example>
 
-With `@Input()`, Angular passes the value for `currentItem` to the child so that `item` renders as `Television`.
+使用 `@Input()` 時，Angular 會將 `currentItem` 的值傳給子元件，使 `item` 渲染為 `Television`。
 
-The following diagram shows this structure:
+下圖顯示了這種結構：
 
 <div class="lightbox">
-  <img src="generated/images/guide/inputs-outputs/input-diagram-target-source.svg" alt="Property binding diagram of the target, item, in square brackets set to the source, currentItem, on the right of an equal sign">
+  <img src="generated/images/guide/inputs-outputs/input-diagram-target-source.svg" alt="屬性繫結圖：目標 item 以方括號表示，來源 currentItem 在等號右側">
 </div>
 
-The target in the square brackets, `[]`, is the property you decorate with `@Input()` in the child component.
-The binding source, the part to the right of the equal sign, is the data that the parent component passes to the nested component.
+方括號 `[]` 中的目標，就是你在子元件中以 `@Input()` 裝飾的屬性。
+繫結來源，也就是等號右邊的部分，是父元件傳給巢狀元件的資料。
 
-### Watching for `@Input()` changes
+### 監看 `@Input()` 的變更
 
-To watch for changes on an `@Input()` property, use `OnChanges`, one of Angular's [lifecycle hooks](guide/lifecycle-hooks).
-See the [`OnChanges`](guide/lifecycle-hooks#onchanges) section of the [Lifecycle Hooks](guide/lifecycle-hooks) guide for more details and examples.
+若要監看 `@Input()` 屬性的變更，請使用 `OnChanges`，它是 Angular 的[生命週期鉤子](guide/lifecycle-hooks)之一。
+關於更多詳細資訊與範例，請見[生命週期鉤子](guide/lifecycle-hooks)指南中的 [`OnChanges`](guide/lifecycle-hooks#onchanges) 一節。
 
 {@a output}
 
-## Sending data to a parent component
+## 將資料傳送給父元件
 
-The `@Output()` decorator in a child component or directive lets data flow from the child to the parent.
+子元件或指令中的 `@Output()` 裝飾器，讓資料從子元件流向父元件。
 
 <div class="lightbox">
-  <img src="generated/images/guide/inputs-outputs/output.svg" alt="Output diagram of the data flow going from child to parent">
+  <img src="generated/images/guide/inputs-outputs/output.svg" alt="子元件到父元件的輸出資料流程圖">
 </div>
 
-`@Output()` marks a property in a child component as a doorway through which data can travel from the child to the parent.
+`@Output()` 將子元件中的屬性標記為一道門，資料可以經由它從子元件傳到父元件。
 
-The child component uses the `@Output()` property to raise an event to notify the parent of the change.
-To raise an event, an `@Output()` must have the type of `EventEmitter`, which is a class in `@angular/core` that you use to emit custom events.
+子元件使用 `@Output()` 屬性來發出事件，通知父元件發生變更。
+若要發出事件，`@Output()` 的型別必須是 `EventEmitter`，它是 `@angular/core` 中的一個類別，你可以用它來發出自訂事件。
 
-The following example shows how to set up an `@Output()` in a child component that pushes data from an HTML `<input>` to an array in the parent component.
+以下範例展示如何在子元件中設定 `@Output()`，將資料從 HTML `<input>` 推入父元件的陣列中。
 
-To use `@Output()`, you must configure the parent and child.
+若要使用 `@Output()`，你必須設定父元件與子元件。
 
-### Configuring the child component
+### 設定子元件
 
-The following example features an `<input>` where a user can enter a value and click a `<button>` that raises an event. The `EventEmitter` then relays the data to the parent component.
+以下範例有一個 `<input>`，使用者可以在其中輸入值，並點選一個會發出事件的 `<button>`。
+`EventEmitter` 接著會將資料轉交給父元件。
 
-1. Import `Output` and `EventEmitter` in the child component class:
+1.  在子元件類別中匯入 `Output` 與 `EventEmitter`：
 
   ```js
   import { Output, EventEmitter } from '@angular/core';
 
   ```
 
-1. In the component class, decorate a property with `@Output()`.
-  The following example `newItemEvent` `@Output()` has a type of `EventEmitter`, which means it's an event.
+1.  在元件類別中，以 `@Output()` 裝飾一個屬性。
+    以下範例中的 `newItemEvent` `@Output()` 型別為 `EventEmitter`，表示它是一個事件。
 
   <code-example path="inputs-outputs/src/app/item-output/item-output.component.ts" region="item-output" header="src/app/item-output/item-output.component.ts"></code-example>
 
-  The different parts of the preceding declaration are as follows:
+    上述宣告的各個部分如下：
 
-    * `@Output()`&mdash;a decorator function marking the property as a way for data to go from the child to the parent
-    * `newItemEvent`&mdash;the name of the `@Output()`
-    * `EventEmitter<string>`&mdash;the `@Output()`'s type
-    * `new EventEmitter<string>()`&mdash;tells Angular to create a new event emitter and that the data it emits is of type string.
+    * `@Output()`&mdash;一個裝飾器函式，將屬性標記為資料從子元件傳到父元件的途徑
+    * `newItemEvent`&mdash;`@Output()` 的名稱
+    * `EventEmitter<string>`&mdash;`@Output()` 的型別
+    * `new EventEmitter<string>()`&mdash;告訴 Angular 建立一個新的事件發出器，且它發出的資料型別為字串。
 
-  For more information on `EventEmitter`, see the [EventEmitter API documentation](api/core/EventEmitter).
+    關於 `EventEmitter` 的更多資訊，請見 [EventEmitter API 文件](api/core/EventEmitter)。
 
-1. Create an `addNewItem()` method in the same component class:
+1.  在同一個元件類別中建立 `addNewItem()` 方法：
 
   <code-example path="inputs-outputs/src/app/item-output/item-output.component.ts" region="item-output-class" header="src/app/item-output/item-output.component.ts"></code-example>
 
-  The `addNewItem()` function uses the `@Output()`, `newItemEvent`, to raise an event with the value the user types into the `<input>`.
+    `addNewItem()` 函式使用 `@Output()` `newItemEvent`，以使用者在 `<input>` 中輸入的值發出事件。
 
-### Configuring the child's template
+### 設定子元件的範本
 
-The child's template has two controls.
-The first is an HTML `<input>` with a [template reference variable](guide/template-reference-variables) , `#newItem`, where the user types in an item name.
-The `value` property of the `#newItem` variable stores what the user types into the `<input>`.
+子元件的範本有兩個控制項。
+第一個是帶有[範本參照變數](guide/template-reference-variables) `#newItem` 的 HTML `<input>`，使用者在其中輸入項目名稱。
+`#newItem` 變數的 `value` 屬性會儲存使用者在 `<input>` 中輸入的內容。
 
 <code-example path="inputs-outputs/src/app/item-output/item-output.component.html" region="child-output" header="src/app/item-output/item-output.component.html"></code-example>
 
-The second element is a `<button>` with a `click` [event binding](guide/event-binding).
+第二個元素是帶有 `click` [事件繫結](guide/event-binding)的 `<button>`。
 
-The `(click)` event is bound to the `addNewItem()` method in the child component class.
-The `addNewItem()` method takes as its argument the value of the `#newItem.value` property.
+`(click)` 事件會繫結到子元件類別中的 `addNewItem()` 方法。
+`addNewItem()` 方法以 `#newItem.value` 屬性的值作為引數。
 
-### Configuring the parent component
+### 設定父元件
 
-The `AppComponent` in this example features a list of `items` in an array and a method for adding more items to the array.
+這個範例中的 `AppComponent` 有一個陣列形式的 `items` 清單，以及一個向陣列加入更多項目的方法。
 
 <code-example path="inputs-outputs/src/app/app.component.ts" region="add-new-item" header="src/app/app.component.ts"></code-example>
 
-The `addItem()` method takes an argument in the form of a string and then adds that string to the `items` array.
+`addItem()` 方法接受一個字串形式的引數，然後將該字串加入 `items` 陣列。
 
-### Configuring the parent's template
+### 設定父元件的範本
 
-1. In the parent's template, bind the parent's method to the child's event.
-
-1. Put the child selector, here `<app-item-output>`, within the parent component's template, `app.component.html`.
+1.  在父元件的範本中，將父元件的方法繫結到子元件的事件。
+1.  將子元件的選取器（這裡是 `<app-item-output>`）放在父元件的範本 `app.component.html` 中。
 
   <code-example path="inputs-outputs/src/app/app.component.html" region="output-parent" header="src/app/app.component.html"></code-example>
 
-  The event binding, `(newItemEvent)='addItem($event)'`, connects the event in the child, `newItemEvent`, to the method in the parent, `addItem()`.
+    事件繫結 `(newItemEvent)='addItem($event)'` 將子元件中的事件 `newItemEvent` 連接到父元件中的方法 `addItem()`。
 
-  The `$event` contains the data that the user types into the `<input>` in the child template UI.
+    `$event` 包含使用者在子元件範本 UI 的 `<input>` 中輸入的資料。
 
-  To see the `@Output()` working, add the following to the parent's template:
+    若要查看 `@Output()` 的運作情形，請在父元件的範本中加入以下內容：
 
   ```html
     <ul>
@@ -174,30 +170,27 @@ The `addItem()` method takes an argument in the form of a string and then adds t
     </ul>
   ```
 
-  The `*ngFor` iterates over the items in the `items` array.
-  When you enter a value in the child's `<input>` and click the button, the child emits the event and the parent's `addItem()` method pushes the value to the `items` array and new item renders in the list.
+    `*ngFor` 會逐一走訪 `items` 陣列中的項目。
+    當你在子元件的 `<input>` 中輸入值並點選按鈕時，子元件會發出事件，父元件的 `addItem()` 方法會將值推入 `items` 陣列，新的項目便會渲染在清單中。
 
+## 同時使用 `@Input()` 與 `@Output()`
 
-## Using `@Input()` and `@Output()` together
-
-Use `@Input()` and `@Output()` on the same child component as follows:
+在同一個子元件上同時使用 `@Input()` 與 `@Output()`，如下所示：
 
 <code-example path="inputs-outputs/src/app/app.component.html" region="together" header="src/app/app.component.html"></code-example>
 
-The target, `item`, which is an `@Input()` property in the child component class, receives its value from the parent's property, `currentItem`.
-When you click delete, the child component raises an event, `deleteRequest`, which is the argument for the parent's `crossOffItem()` method.
+目標 `item` 是子元件類別中的 `@Input()` 屬性，它從父元件的屬性 `currentItem` 接收值。
+當你點選刪除時，子元件會發出事件 `deleteRequest`，它是父元件 `crossOffItem()` 方法的引數。
 
-The following diagram shows the different parts of the `@Input()` and `@Output()` on the `<app-input-output>` child component.
+下圖顯示了 `<app-input-output>` 子元件上 `@Input()` 與 `@Output()` 的不同部分。
 
 <div class="lightbox">
-  <img src="generated/images/guide/inputs-outputs/input-output-diagram.svg" alt="Diagram of an input target and an output target each bound to a source.">
+  <img src="generated/images/guide/inputs-outputs/input-output-diagram.svg" alt="輸入目標與輸出目標各自繫結到來源的圖">
 </div>
 
-The child selector is `<app-input-output>` with `item` and `deleteRequest` being `@Input()` and `@Output()`
-properties in the child component class.
-The property `currentItem` and the method `crossOffItem()` are both in the parent component class.
+子元件的選取器是 `<app-input-output>`，其中 `item` 與 `deleteRequest` 分別是子元件類別中的 `@Input()` 與 `@Output()` 屬性。
+屬性 `currentItem` 與方法 `crossOffItem()` 都在父元件類別中。
 
-To combine property and event bindings using the banana-in-a-box
-syntax, `[()]`, see [Two-way Binding](guide/two-way-binding).
+若要使用香蕉盒語法 `[()]` 結合屬性繫結與事件繫結，請見[雙向繫結](guide/two-way-binding)。
 
 @reviewed 2021-09-17

@@ -1,72 +1,71 @@
-# Common Internationalization tasks
+# 常見的國際化工作
 
-Use the following Angular tasks to internationalize your project.
+使用下列 Angular 工作將你的專案國際化。
 
-*   Use built-in pipes to display dates, numbers, percentages, and currencies in a local format.
-*   Mark text in component templates for translation.
-*   Mark plural forms of expressions for translation.
-*   Mark alternate text for translation.
+*   使用內建管道，以當地格式顯示日期、數字、百分比與貨幣。
+*   在元件範本中標記文字以供翻譯。
+*   標記運算式的複數形式以供翻譯。
+*   標記替代文字以供翻譯。
 
-After you prepare your project for an international audience, use the [Angular CLI][AioCliMain] to localize your project.
-Complete the following tasks to localize your project.
+為專案做好面對國際受眾的準備後，使用 [Angular CLI][AioCliMain] 將專案在地化。請完成下列工作以在地化你的專案。
 
-*   Use the CLI to extract marked text to a *source language* file.
-*   Make a copy of the *source language* file for each language, and send all of *translation* files to a translator or service.
-*   Use the CLI to merge the finished translation files when you build your project for one or more locales.
+*   使用 CLI 將標記的文字擷取到*來源語言*檔案。
+*   為每種語言複製一份*來源語言*檔案，並將所有的*翻譯*檔案傳送給譯者或服務。
+*   在為一個或多個地區設定建置專案時，使用 CLI 合併已完成的翻譯檔案。
 
 <div class="alert is-helpful">
 
-Create an adaptable user interface for all of your target locales that takes into consideration the differences in spacing for different languages.
-For more details, see [How to approach internationalization][ThinkwithgoogleMarketfinderIntlEnUsGuideHowToApproachI18nOverview].
+為所有目標地區設定建立一個可適應的使用者介面，並考量不同語言在間距上的差異。
+更多詳細資訊，請見[如何著手國際化][ThinkwithgoogleMarketfinderIntlEnUsGuideHowToApproachI18nOverview]。
 
 </div>
 
-## Prerequisites
+## 先決條件
 
-To prepare your project for translations, you should have a basic understanding of the following subjects.
+若要讓專案為翻譯做好準備，你應該對下列主題有基本的了解。
 
-*   [Templates][AioGuideGlossaryTemplate]
-*   [Components][AioGuideGlossaryComponent]
-*   [Angular CLI][AioCliMain] [command-line][AioGuideGlossaryCommandLineInterfaceCli] tool for managing the Angular development cycle
-*   [Extensible Markup Language (XML)][W3Xml] used for translation files
+*   [範本][AioGuideGlossaryTemplate]
+*   [元件][AioGuideGlossaryComponent]
+*   [Angular CLI][AioCliMain] [命令列][AioGuideGlossaryCommandLineInterfaceCli]工具，用於管理 Angular 開發週期
+*   用於翻譯檔案的[可延伸標記語言（XML）][W3Xml]
 
-## Learn about common Angular internationalization tasks
+## 了解常見的 Angular 國際化工作
 
 <div class="card-container">
-    <a href="guide/i18n-common-add-package" class="docs-card" title="Add the localize package">
-        <section>Add the localize package</section>
-        <p>Learn how to add the Angular Localize package to your project</p>
-        <p class="card-footer">Add the localize package</p>
+    <a href="guide/i18n-common-add-package" class="docs-card" title="新增 localize 套件">
+        <section>新增 localize 套件</section>
+        <p>了解如何將 Angular Localize 套件加入你的專案</p>
+        <p class="card-footer">新增 localize 套件</p>
     </a>
-    <a href="guide/i18n-common-locale-id" class="docs-card" title="Refer to locales by ID">
-        <section>Refer to locales by ID</section>
-        <p>Learn how to identify and specify a locale identifier for your project</p>
-        <p class="card-footer">Refer to locales by ID</p>
+    <a href="guide/i18n-common-locale-id" class="docs-card" title="依 ID 參照地區設定">
+        <section>依 ID 參照地區設定</section>
+        <p>了解如何為你的專案識別與指定地區設定識別碼</p>
+        <p class="card-footer">依 ID 參照地區設定</p>
     </a>
-    <a href="guide/i18n-common-format-data-locale" class="docs-card" title="Format data based on locale">
-        <section>Format data based on locale</section>
-        <p>Learn how to implement localized data pipes and override the locale for your project</p>
-        <p class="card-footer">Format data based on locale</p>
+    <a href="guide/i18n-common-format-data-locale" class="docs-card" title="依地區設定格式化資料">
+        <section>依地區設定格式化資料</section>
+        <p>了解如何實作在地化資料管道並覆寫專案的地區設定</p>
+        <p class="card-footer">依地區設定格式化資料</p>
     </a>
-    <a href="guide/i18n-common-prepare" class="docs-card" title="Prepare component for translation">
-        <section>Prepare component for translation</section>
-        <p>Learn how to specify source text for translation</p>
-        <p class="card-footer">Prepare component for translation</p>
+    <a href="guide/i18n-common-prepare" class="docs-card" title="準備元件以供翻譯">
+        <section>準備元件以供翻譯</section>
+        <p>了解如何指定要翻譯的來源文字</p>
+        <p class="card-footer">準備元件以供翻譯</p>
     </a>
-    <a href="guide/i18n-common-translation-files" class="docs-card" title="Work with translation files">
-        <section>Work with translation files</section>
-        <p>Learn how to review and process translation text</p>
-        <p class="card-footer">Work with translation files</p>
+    <a href="guide/i18n-common-translation-files" class="docs-card" title="使用翻譯檔案">
+        <section>使用翻譯檔案</section>
+        <p>了解如何檢閱與處理翻譯文字</p>
+        <p class="card-footer">使用翻譯檔案</p>
     </a>
-    <a href="guide/i18n-common-merge" class="docs-card" title="Merge translations into the application">
-        <section>Merge translations into the application</section>
-        <p>Learn how to merge translations and build your translated application</p>
-        <p class="card-footer">Merge translations into the application</p>
+    <a href="guide/i18n-common-merge" class="docs-card" title="將翻譯合併至應用程式">
+        <section>將翻譯合併至應用程式</section>
+        <p>了解如何合併翻譯並建置翻譯後的應用程式</p>
+        <p class="card-footer">將翻譯合併至應用程式</p>
     </a>
-    <a href="guide/i18n-common-deploy" class="docs-card" title="Deploy multiple locales">
-        <section>Deploy multiple locales</section>
-        <p>Learn how to deploy multiple locales for your application</p>
-        <p class="card-footer">Deploy multiple locales</p>
+    <a href="guide/i18n-common-deploy" class="docs-card" title="部署多個地區設定">
+        <section>部署多個地區設定</section>
+        <p>了解如何為你的應用程式部署多個地區設定</p>
+        <p class="card-footer">部署多個地區設定</p>
     </a>
 </div>
 
@@ -74,15 +73,15 @@ To prepare your project for translations, you should have a basic understanding 
 
 [AioCliMain]: cli "CLI Overview and Command Reference | Angular"
 
-[AioGuideGlossaryCommandLineInterfaceCli]: guide/glossary#command-line-interface-cli "command-line interface (CLI) - Glossary | Angular"
-[AioGuideGlossaryComponent]: guide/glossary#component "component - Glossary | Angular"
-[AioGuideGlossaryTemplate]: guide/glossary#template "template - Glossary | Angular"
+[AioGuideGlossaryCommandLineInterfaceCli]: guide/glossary#命令列介面command-line-interfacecli "命令列介面（CLI）- 詞彙表 | Angular"
+[AioGuideGlossaryComponent]: guide/glossary#元件component "元件 - 詞彙表 | Angular"
+[AioGuideGlossaryTemplate]: guide/glossary#範本template "範本 - 詞彙表 | Angular"
 
 <!-- external links -->
 
-[ThinkwithgoogleMarketfinderIntlEnUsGuideHowToApproachI18nOverview]: https://marketfinder.thinkwithgoogle.com/intl/en_us/guide/how-to-approach-i18n#overview "Overview - How to approach internationalization | Market Finder | Think with Google"
+[ThinkwithgoogleMarketfinderIntlEnUsGuideHowToApproachI18nOverview]: https://marketfinder.thinkwithgoogle.com/intl/en_us/guide/how-to-approach-i18n#overview "總覽 - 如何著手國際化 | Market Finder | Think with Google"
 
-[W3Xml]: https://www.w3.org/XML "Extensible Markup Language (XML) | W3C"
+[W3Xml]: https://www.w3.org/XML "可延伸標記語言（XML）| W3C"
 
 <!-- end links -->
 

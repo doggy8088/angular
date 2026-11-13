@@ -1,96 +1,96 @@
-# Deploying an application
+# 部署應用程式
 
-Deploying your application is the process of compiling, or building, your code and hosting the JavaScript, CSS, and HTML on a web server.
+部署應用程式是指編譯或建置你的程式碼，並將 JavaScript、CSS 與 HTML 託管在網頁伺服器上的過程。
 
-This section builds on the previous steps in the [Getting Started](start "Try it: A basic application") tutorial and shows you how to deploy your application.
+本節建立在[入門](start "Try it: A basic application")教學先前步驟的基礎上，並說明如何部署你的應用程式。
 
-## Prerequisites
+## 先備條件
 
-A best practice is to run your project locally before you deploy it. To run your project locally, you need the following installed on your computer:
+最佳做法是在部署專案之前先在本機執行它。若要在本機執行專案，你的電腦上需要安裝下列項目：
 
-* [Node.js](https://nodejs.org/en/).
-* The [Angular CLI](https://cli.angular.io/).
-    From the terminal, install the Angular CLI globally with:
+* [Node.js](https://nodejs.org/en/)。
+* [Angular CLI](https://cli.angular.io/)。
+    在終端機中，使用下列指令全域安裝 Angular CLI：
 
     ```sh
     npm install -g @angular/cli
     ```
 
-    With the Angular CLI, you can use the command `ng` to create new workspaces, new projects, serve your application during development, or produce builds to share or distribute.
+    有了 Angular CLI，你可以使用 `ng` 指令來建立新的工作區、新的專案，在開發期間提供應用程式服務，或產生要分享或散發的建置。
 
-## Running your application locally
+## 在本機執行應用程式
 
-1. Download the source code from your StackBlitz project by clicking the `Download Project` icon in the left menu, across from `Project`, to download your files.
+1. 按一下左側選單中 `Project` 對面的 `Download Project` 圖示，從你的 StackBlitz 專案下載原始碼，下載你的檔案。
 
-1. Create a new Angular CLI workspace using the [`ng new`](cli/new "CLI ng new command reference") command, where `my-project-name` is what you would like to call your project:
+1. 使用 [`ng new`](cli/new "CLI ng new command reference") 指令建立新的 Angular CLI 工作區，其中 `my-project-name` 是你想要為專案取的名稱：
 
     ```sh
     ng new my-project-name
     ```
-    
-    This command displays a series of configuration prompts. For this tutorial, accept the default settings for each prompt.
 
-1. In your newly CLI-generated application, replace the `/src` folder with the `/src` folder from your `StackBlitz` download.
+    這個指令會顯示一系列設定提示。本教學中，每個提示都接受預設設定即可。
 
-1. Use the following CLI command to run your application locally:
+1. 在你剛以 CLI 產生的應用程式中，將 `/src` 資料夾換成你從 `StackBlitz` 下載的 `/src` 資料夾。
+
+1. 使用下列 CLI 指令在本機執行你的應用程式：
 
     ```sh
     ng serve
     ```
 
-1. To see your application in the  browser, go to http://localhost:4200/.
-    If the default port 4200 is not available, you can specify another port with the port flag as in the following example:
+1. 若要在瀏覽器中查看你的應用程式，請前往 http://localhost:4200/。
+    如果預設連接埠 4200 無法使用，你可以使用 port 旗標指定另一個連接埠，如下列範例所示：
 
      ```sh
     ng serve --port 4201
     ```
 
-    While serving your application, you can edit your code and see the changes update automatically in the browser.
-    To stop the `ng serve` command, press `Ctrl`+`c`.
+    在提供應用程式服務時，你可以編輯程式碼，並在瀏覽器中看到變更自動更新。
+    若要停止 `ng serve` 指令，請按下 `Ctrl`+`c`。
 
 {@a building}
-## Building and hosting your application
+## 建置與託管應用程式
 
- 1. To build your application for production, use the `build` command. By default, this command uses the `production` build configuration.
+ 1. 若要為正式環境建置應用程式，請使用 `build` 指令。根據預設，此指令會使用 `production` 建置設定。
 
     ```sh
     ng build
     ```
 
-    This command creates a `dist` folder in the application root directory with all the files that a hosting service needs for serving your application.
+    此指令會在應用程式根目錄中建立一個 `dist` 資料夾，其中包含託管服務提供應用程式服務所需的所有檔案。
 
     <div class="alert is-helpful">
 
-    If the above `ng build` command throws an error about missing packages, append the missing dependencies in your local project's `package.json` file to match the one in the downloaded StackBlitz project.
+    如果上述 `ng build` 指令因缺少套件而擲出錯誤，請將缺少的相依性附加到你本機專案的 `package.json` 檔案中，使其與下載的 StackBlitz 專案中的檔案相符。
 
     </div>
 
-1. Copy the contents of the `dist/my-project-name` folder to your web server.
-    Because these files are static, you can host them on any web server capable of serving files; such as `Node.js`, Java, .NET, or any backend such as [Firebase](https://firebase.google.com/docs/hosting), [Google Cloud](https://cloud.google.com/solutions/web-hosting), or [App Engine](https://cloud.google.com/appengine/docs/standard/python/getting-started/hosting-a-static-website).
-    For more information, see [Building & Serving](guide/build "Building and Serving Angular Apps") and [Deployment](guide/deployment "Deployment guide").
+1. 將 `dist/my-project-name` 資料夾的內容複製到你的網頁伺服器。
+    由於這些檔案是靜態的，你可以將它們託管在任何能夠提供檔案服務的網頁伺服器上，例如 `Node.js`、Java、.NET，或任何後端，例如 [Firebase](https://firebase.google.com/docs/hosting)、[Google Cloud](https://cloud.google.com/solutions/web-hosting) 或 [App Engine](https://cloud.google.com/appengine/docs/standard/python/getting-started/hosting-a-static-website)。
+    如需進一步了解，請參閱[建置與提供服務](guide/build "Building and Serving Angular Apps")與[部署](guide/deployment "Deployment guide")。
 
-## What's next
+## 後續步驟
 
-In this tutorial, you've laid the foundation to explore the Angular world in areas such as mobile development, UX/UI development, and server-side rendering.
-You can go deeper by studying more of Angular's features, engaging with the vibrant community, and exploring the robust ecosystem.
+在本教學中，你已經打下基礎，可以在行動開發、UX/UI 開發與伺服器端渲染等領域探索 Angular 的世界。
+你可以透過學習 Angular 的更多功能、參與充滿活力的社群，以及探索強大的生態系，進一步深入了解。
 
-### Learning more Angular
+### 進一步學習 Angular
 
-For a more in-depth tutorial that leads you through building an application locally and exploring many of Angular's most popular features, see [Tour of Heroes](tutorial).
+如需更深入的教學，帶你逐步在本機建立應用程式並探索 Angular 許多最受歡迎的功能，請參閱[英雄之旅](tutorial)。
 
-To explore Angular's foundational concepts, see the guides in the Understanding Angular section such as [Angular Components Overview](guide/component-overview) or [Template syntax](guide/template-syntax).
+若要探索 Angular 的基礎概念，請參閱「Understanding Angular」一節中的指南，例如 [Angular 元件總覽](guide/component-overview) 或[範本語法](guide/template-syntax)。
 
-### Joining the community
+### 加入社群
 
 
-[Tweet that you've completed this tutorial](https://twitter.com/intent/tweet?url=https://angular.io/start&text=I%20just%20finished%20the%20Angular%20Getting%20Started%20Tutorial "Angular on Twitter"), tell us what you think, or submit [suggestions for future editions](https://github.com/angular/angular/issues/new/choose "Angular GitHub repository new issue form").
+[發推文告訴大家你已完成本教學](https://twitter.com/intent/tweet?url=https://angular.io/start&text=I%20just%20finished%20the%20Angular%20Getting%20Started%20Tutorial "Angular on Twitter")，告訴我們你的想法，或提交[對未來版本的建議](https://github.com/angular/angular/issues/new/choose "Angular GitHub repository new issue form")。
 
-Keep current by following the [Angular blog](https://blog.angular.io/ "Angular blog").
+追蹤 [Angular 部落格](https://blog.angular.io/ "Angular blog")，掌握最新動態。
 
-### Exploring the Angular ecosystem
+### 探索 Angular 生態系
 
-To support your UX/UI development, see [Angular Material](https://material.angular.io/ "Angular Material web site").
+若要支援你的 UX/UI 開發，請參閱 [Angular Material](https://material.angular.io/ "Angular Material web site")。
 
-The Angular community also has an extensive [network of third-party tools and libraries](resources "Angular resources list").
+Angular 社群也有各式各樣的[第三方工具與程式庫](resources "Angular resources list")。
 
 @reviewed 2021-09-15

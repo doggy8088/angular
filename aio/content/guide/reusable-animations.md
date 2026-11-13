@@ -1,40 +1,40 @@
-# Reusable animations
+# 可重複使用的動畫
 
-This topic provides some examples of how to create reusable animations.
+本主題提供如何建立可重複使用動畫的範例。
 
-## Prerequisites
+## 先決條件
 
-Before continuing with this topic, you should be familiar with the following:
+在繼續本主題之前，你應該熟悉下列內容：
 
-* [Introduction to Angular animations](guide/animations)
-* [Transition and triggers](guide/transition-and-triggers)
+* [Angular 動畫簡介](guide/animations)
+* [轉場與觸發器](guide/transition-and-triggers)
 
-## Creating reusable animations
+## 建立可重複使用的動畫
 
-To create a reusable animation, use the <code>[animation](api/animations/animation)()</code> function to define an animation in a separate `.ts` file and declare this animation definition as a `const` export variable. You can then import and reuse this animation in any of your application components using the <code>[useAnimation](api/animations/useAnimation)()</code> function.
+若要建立可重複使用的動畫，請使用 <code>[animation](api/animations/animation)()</code> 函式在獨立的 `.ts` 檔案中定義動畫，並把這個動畫定義宣告為 `const` 匯出變數。你接著可以使用 <code>[useAnimation](api/animations/useAnimation)()</code> 函式，在應用程式元件中匯入並重複使用這個動畫。
 
 <code-example path="animations/src/app/animations.1.ts" header="src/app/animations.ts" region="animation-const" language="typescript"></code-example>
 
-In the preceding code snippet, `transitionAnimation` is made reusable by declaring it as an export variable.
+在前面的程式碼片段中，`transitionAnimation` 被宣告為匯出變數，因而可以重複使用。
 
 <div class="alert is-helpful">
 
-**Note:** The `height`, `opacity`, `backgroundColor`, and `time` inputs are replaced during runtime.
+**注意：** `height`、`opacity`、`backgroundColor` 與 `time` 輸入會在執行期間被取代。
 </div>
 
-You can also export a part of an animation. For example, the following snippet exports the animation `trigger`.
+你也可以匯出動畫的一部分。例如，以下片段匯出了動畫 `trigger`。
 
 <code-example path="animations/src/app/animations.1.ts" header="src/app/animations.1.ts" region="trigger-const" language="typescript"></code-example>
 
-From this point, you can import reusable animation variables in your component class. For example, the following code snippet imports the `transitionAnimation` variable and uses it via the `useAnimation()` function.
+從這一步開始，你可以把可重複使用的動畫變數匯入元件類別中。例如，以下程式碼片段匯入了 `transitionAnimation` 變數，並透過 `useAnimation()` 函式使用它。
 
 <code-example path="animations/src/app/open-close.component.3.ts" header="src/app/open-close.component.ts" region="reusable" language="typescript"></code-example>
 
-## More on Angular animations
+## 深入了解 Angular 動畫
 
-You might also be interested in the following:
+你可能也會對以下內容有興趣：
 
-* [Introduction to Angular animations](guide/animations)
-* [Transition and triggers](guide/transition-and-triggers)
-* [Complex animation Sequences](guide/complex-animation-sequences)
-* [Route transition animations](guide/route-animations)
+* [Angular 動畫簡介](guide/animations)
+* [轉場與觸發器](guide/transition-and-triggers)
+* [複雜動畫序列](guide/complex-animation-sequences)
+* [路由轉場動畫](guide/route-animations)

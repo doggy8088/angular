@@ -1,37 +1,37 @@
-# Overview of Angular libraries
+# Angular 程式庫總覽
 
-Many applications need to solve the same general problems, such as presenting a unified user interface, presenting data, and allowing data entry.
-Developers can create general solutions for particular domains that can be adapted for re-use in different applications.
-Such a solution can be built as Angular *libraries* and these libraries can be published and shared as *npm packages*.
+許多應用程式都需要解決相同的一般性問題，例如呈現一致的使用者介面、呈現資料，以及讓使用者輸入資料。
+開發者可以針對特定領域建立一般性的解決方案，調整後在不同的應用程式中重複使用。
+這樣的解決方案可以建置成 Angular *程式庫*，這些程式庫也能發行並以 *npm 套件*的形式分享。
 
-An Angular library is an Angular [project](guide/glossary#project) that differs from an application in that it cannot run on its own.
-A library must be imported and used in an application.
+Angular 程式庫是一種 Angular [專案](guide/glossary#專案project)，它與應用程式的差別在於無法自行執行。
+程式庫必須被匯入應用程式中才能使用。
 
-Libraries extend Angular's base functionality. For example, to add [reactive forms](guide/reactive-forms) to an app, add the library package using `ng add @angular/forms`, then import the `ReactiveFormsModule` from the `@angular/forms` library in your application code.
-Similarly, adding the [service worker](guide/service-worker-intro) library to an Angular application is one of the steps for turning an application into a [Progressive Web App](https://developers.google.com/web/progressive-web-apps/) (PWA).
-[Angular Material](https://material.angular.io/) is an example of a large, general-purpose library that provides sophisticated, reusable, and adaptable UI components.
+程式庫能擴充 Angular 的基礎功能。例如，若要為應用程式加入[反應式表單](guide/reactive-forms)，可以使用 `ng add @angular/forms` 加入程式庫套件，再在應用程式程式碼中從 `@angular/forms` 程式庫匯入 `ReactiveFormsModule`。
+同樣地，為 Angular 應用程式加入 [service worker](guide/service-worker-intro) 程式庫，是將應用程式轉變成[漸進式 Web 應用程式](https://developers.google.com/web/progressive-web-apps/)（PWA）的步驟之一。
+[Angular Material](https://material.angular.io/) 就是一個大型通用程式庫的例子，它提供精緻、可重複使用且能靈活調整的 UI 元件。
 
-Any application developer can use these and other libraries that have been published as npm packages by the Angular team or by third parties. See [Using Published Libraries](guide/using-libraries).
+任何應用程式開發者都能使用這些程式庫，以及由 Angular 團隊或第三方發行成 npm 套件的其他程式庫。請參閱[使用已發行的程式庫](guide/using-libraries)。
 
-## Creating libraries
+## 建立程式庫
 
-If you have developed functionality that is suitable for reuse, you can create your own libraries.
-These libraries can be used locally in your workspace, or you can publish them as [npm packages](guide/npm-packages) to share with other projects or other Angular developers.
-These packages can be published to the npm registry, a private npm Enterprise registry, or a private package management system that supports npm packages.
-See [Creating Libraries](guide/creating-libraries).
+如果你開發的功能適合重複使用，你可以建立自己的程式庫。
+這些程式庫可以在你的工作區中本機使用，你也可以將它們發行成 [npm 套件](guide/npm-packages)，與其他專案或其他 Angular 開發者分享。
+這些套件可以發行到 npm 註冊表、私有的 npm Enterprise 註冊表，或支援 npm 套件的私有套件管理系統。
+請參閱[建立程式庫](guide/creating-libraries)。
 
-Whether you decide to package functionality as a library is an architectural decision, similar to deciding whether a piece of functionality is a component or a service, or deciding on the scope of a component.
+是否將功能包裝成程式庫，是一個架構層面的決定，類似於決定某項功能該做成元件還是服務，或決定元件的範圍。
 
-Packaging functionality as a library forces the artifacts in the library to be decoupled from the application's business logic.
-This can help to avoid various bad practices or architecture mistakes that can make it difficult to decouple and reuse code in the future.
+將功能包裝成程式庫，會迫使程式庫中的產物與應用程式的業務邏輯解耦。
+這有助於避免各種不良做法或架構錯誤，以免日後難以解耦並重複使用程式碼。
 
-Putting code into a separate library is more complex than simply putting everything in one application.
-It requires more of an investment in time and thought for managing, maintaining, and updating the library.
-This complexity can pay off, however, when the library is being used in multiple applications.
+把程式碼放進獨立的程式庫，比把所有東西都放進單一應用程式更複雜。
+它需要在管理、維護與更新程式庫上投入更多時間與心力。
+不過，當程式庫被多個應用程式使用時，這份複雜度就能帶來回報。
 
 <div class="alert is-helpful">
 
-Note that libraries are intended to be used by Angular applications.
-To add Angular functionality to non-Angular web applications, use [Angular custom elements](guide/elements).
+請注意，程式庫是供 Angular 應用程式使用的。
+若要為非 Angular 的網頁應用程式加入 Angular 功能，請使用 [Angular 自訂元素](guide/elements)。
 
 </div>

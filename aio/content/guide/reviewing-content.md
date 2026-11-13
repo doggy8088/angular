@@ -1,41 +1,41 @@
-# Reviewing Content
+# 檢閱內容
 
-Angular developers work best when they have access to accurate and complete documentation. Keeping existing content up-to-date is an essential part of ensuring that all developers have a great documentation experience.
+當 Angular 開發者能取得正確且完整的文件時，他們的工作表現最好。讓現有內容保持最新，是確保所有開發者都有良好文件體驗的重要一環。
 
-This topic describes how you can help keep Angular content up-to-date by reviewing content.
+本主題說明如何透過檢閱內容，協助讓 Angular 內容保持最新狀態。
 
-## Before you begin
+## 開始之前
 
-You can review content even if you've never contributed to Angular before. However, you may find it helpful to have the [Contributing to Angular](https://github.com/angular/angular/blob/master/CONTRIBUTING.md) guide available if you're filing your first pull request in the repository.
+即使你從未為 Angular 做出過貢獻，你也可以檢閱內容。不過，如果你要在儲存庫中提交你的第一個提取請求，手邊有[為 Angular 做出貢獻](https://github.com/angular/angular/blob/master/CONTRIBUTING.md)指南可能會有所幫助。
 
-## Reviewing content (`@reviewed`)
+## 檢閱內容（`@reviewed`）
 
-All of the task-based guides, tutorials, and conceptual topics that you find on Angular.io support a `@reviewed` tag. When present, this tag is followed by the date representing when a given topic was reviewed for accuracy and completeness. On the published topic, this reviewed information appears at the bottom of the topic; for example, `Last reviewed on` followed by the day of the week, month, day, and year.
+你在 Angular.io 上看到的所有任務型指南、教學與概念主題都支援 `@reviewed` 標籤。當這個標籤存在時，其後會跟著一個日期，代表該主題被檢閱其正確性與完整性的時間。在已發布的主題上，這項檢閱資訊會出現在主題底部；例如，`Last reviewed on` 後面接著星期、月份、日與年份。
 
 <div class="lightbox">
-  <img src="generated/images/guide/contributors-guide/last-reviewed.png" alt="Example of the last reviewed date specifying the day of the week, the month, the date, and the year on a page footer.">
+  <img src="generated/images/guide/contributors-guide/last-reviewed.png" alt="上次檢閱日期的範例，標明星期、月份、日期與年份，位於頁面頁尾。">
 </div>
 
-This reviewed date indicates when someone last reviewed the topic to ensure that its contents were accurate.
+這個檢閱日期表示某人上次檢閱該主題，以確保其內容正確的時間。
 
-You can review a topic using either the GitHub user interface or in an editor on your local machine. You can also review any topic that you like. Previous experience in the subject of the topic is helpful, but not required.
+你可以使用 GitHub 使用者介面，或在本機的編輯器中檢閱主題。你也可以檢閱任何你喜歡的主題。對該主題領域的先前經驗會有所幫助，但並非必要。
 
-**To review a topic:**
+**檢閱主題的步驟：**
 
-1. Navigate to the topic that you want to review.
+1. 導覽至你想檢閱的主題。
 
-1. Locate the last reviewed date at the bottom of the topic and verify that the topic meets the [review criteria](#review-criteria).
+1. 找到主題底部的上次檢閱日期，並確認該主題符合[檢閱標準](#review-criteria)。
 
-   If the topic does not have a last reviewed date, you are welcome to add it to the topic. To add a date, use the `YYYY-MM-DD` date format. Example: 
+   如果主題沒有上次檢閱日期，歡迎你把它加入主題。加入日期時，請使用 `YYYY-MM-DD` 日期格式。範例： 
    `@reviewed 2021-03-23`
 
-1. Read through the topic.
+1. 通讀該主題。
 
-1. If the topic requires an update, either [file an issue](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#submit-issue) that describes the update required, or [create a pull request](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#submit-pr) with the update.
+1. 如果主題需要更新，請[提交議題](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#submit-issue)說明所需的更新，或[建立提取請求](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#submit-pr)附上更新。
 
-1. Update the `@reviewed` tag, either through the [GitHub user interface](guide/updating-content-github-ui) or through Angular's [standard pull request process](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#submit-pr).
+1. 透過 [GitHub 使用者介面](guide/updating-content-github-ui) 或 Angular 的[標準提取請求流程](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#submit-pr)，更新 `@reviewed` 標籤。
 
 {@a review-criteria}
-### Review criteria
+### 檢閱標準
 
-In general, topics should be reviewed either every six months, or around every major release.
+一般來說，主題應該每六個月檢閱一次，或在每個主要版本發布前後檢閱。

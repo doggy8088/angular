@@ -1,32 +1,31 @@
-# Entry components
+# 進入點元件
 
 <div class="alert is-helpful">
 
-Entry components have been deprecated with the [Ivy rendering engine](guide/ivy).
-For more information, see [entryComponents deprecation](guide/deprecations#entrycomponents-and-analyze_for_entry_components-no-longer-required) in the [Deprecated APIs and features](guide/deprecations).
+進入點元件已隨著 [Ivy 渲染引擎](guide/ivy) 被棄用。
+更多資訊，請參閱[已棄用的 API 與功能](guide/deprecations)中的 [entryComponents 棄用說明](guide/deprecations#entrycomponents-與-analyze_for_entry_components-不再需要)。
 
 </div>
 
-An entry component is any component that Angular loads imperatively, (which means you’re not referencing it in the template), by type. You specify an entry component by bootstrapping it in an NgModule, or including it in a routing definition.
+進入點元件是指 Angular 以命令式方式依型別載入的任何元件（意即你沒有在範本中參照它）。你可以透過在 NgModule 中啟動它，或將它納入路由定義，來指定進入點元件。
 
 <div class="alert is-helpful">
 
-    To contrast the two types of components, there are components which are included in the template, which are declarative. Additionally, there are components which you load imperatively; that is, entry components.
+    為了對比這兩種類型的元件：有些元件包含在範本中，屬於宣告式元件。另外還有你以命令式方式載入的元件，也就是進入點元件。
 
 </div>
 
 
-There are two main kinds of entry components:
+進入點元件主要有兩種：
 
-* The bootstrapped root component.
-* A component you specify in a route definition.
-
-
-## A bootstrapped entry component
+* 被啟動的根元件。
+* 你在路由定義中指定的元件。
 
 
-The following is an example of specifying a bootstrapped component,
-`AppComponent`, in a basic `app.module.ts`:
+## 被啟動的進入點元件
+
+
+以下範例示範如何在基本的 `app.module.ts` 中指定被啟動的元件 `AppComponent`：
 
 ```typescript
 @NgModule({
@@ -44,28 +43,25 @@ The following is an example of specifying a bootstrapped component,
 })
 ```
 
-A bootstrapped component is an entry component
-that Angular loads into the DOM during the bootstrap process (application launch).
-Other entry components are loaded dynamically by other means, such as with the router.
+被啟動的元件是一種進入點元件，Angular 會在啟動流程（應用程式啟動）期間將它載入 DOM。
+其他進入點元件則透過其他方式動態載入，例如透過路由器。
 
-Angular loads a root `AppComponent` dynamically because it's listed by type in `@NgModule.bootstrap`.
+Angular 會動態載入根元件 `AppComponent`，因為它以型別列於 `@NgModule.bootstrap` 中。
 
 <div class="alert is-helpful">
 
-A component can also be bootstrapped imperatively in the module's `ngDoBootstrap()` method.
-The `@NgModule.bootstrap` property tells the compiler that this is an entry component and
-it should generate code to bootstrap the application with this component.
+元件也可以在模組的 `ngDoBootstrap()` 方法中以命令式方式啟動。
+`@NgModule.bootstrap` 屬性告訴編譯器這是一個進入點元件，編譯器應產生程式碼，用這個元件來啟動應用程式。
 
 </div>
 
 
-A bootstrapped component is necessarily an entry component because bootstrapping is an imperative process, thus it needs to have an entry component.
+被啟動的元件必然是進入點元件，因為啟動是一個命令式流程，所以它需要有一個進入點元件。
 
-## A routed entry component
+## 路由進入點元件
 
 
-The second kind of entry component occurs in a route definition like
-this:
+第二種進入點元件出現在像這樣的路由定義中：
 
 ```typescript
 const routes: Routes = [
@@ -76,41 +72,36 @@ const routes: Routes = [
 ];
 ```
 
-A route definition refers to a component by its type with `component: CustomerListComponent`.
+路由定義透過 `component: CustomerListComponent` 以型別參照一個元件。
 
-All router components must be entry components. Because this would require you to add the component in two places (router and `entryComponents`) the Compiler is smart enough to recognize that this is a router definition and automatically add the router component into `entryComponents`.
+所有路由器元件都必須是進入點元件。因為這會要求你在兩個地方加入該元件（路由器和 `entryComponents`），編譯器很聰明，能辨識出這是一個路由定義，並自動將路由器元件加入 `entryComponents`。
 
 
-## The `entryComponents` array
+## `entryComponents` 陣列
 <div class="alert is-helpful">
 
-   Since 9.0.0 with Ivy, the `entryComponents` property is no longer necessary. See [deprecations guide](guide/deprecations#entryComponents).
+   自 9.0.0 導入 Ivy 起，`entryComponents` 屬性已不再需要。請參閱[棄用指南](guide/deprecations#entryComponents)。
 
 </div>
 
-Though the `@NgModule` decorator has an `entryComponents` array, most of the time
-you won't have to explicitly set any entry components because Angular adds components listed in `@NgModule.bootstrap` and those in route definitions to entry components automatically. Though these two mechanisms account for most entry components, if your application happens to bootstrap or dynamically load a component by type imperatively,
-you must add it to `entryComponents` explicitly.
+雖然 `@NgModule` 裝飾器有一個 `entryComponents` 陣列，但大多數時候你不需要明確設定任何進入點元件，因為 Angular 會自動把列在 `@NgModule.bootstrap` 中的元件，以及路由定義中的元件，加入進入點元件。雖然這兩個機制涵蓋了大多數的進入點元件，但如果你的應用程式以命令式方式依型別啟動或動態載入某個元件，你就必須明確地將它加入 `entryComponents`。
 
-### `entryComponents` and the compiler
+### `entryComponents` 與編譯器
 
-For production applications you want to load the smallest code possible.
-The code should contain only the classes that you actually need and
-exclude components that are never used. For this reason, the Angular compiler only generates code for components which are reachable from the `entryComponents`; This means that adding more references to `@NgModule.declarations` does not imply that they will necessarily be included in the final bundle.
+對於生產環境的應用程式，你會希望載入的程式碼盡可能小。
+程式碼應該只包含你實際需要的類別，並排除永遠不會用到的元件。因此，Angular 編譯器只會為能從 `entryComponents` 到達的元件產生程式碼；這表示在 `@NgModule.declarations` 中加入更多參照，並不代表它們一定會包含在最終的程式包中。
 
-In fact, many libraries declare and export components you'll never use.
-For example, a material design library will export all components because it doesn’t know which ones you will use. However, it is unlikely that you will use them all.
-For the ones you don't reference, the tree shaker drops these components from the final code package.
+事實上，許多程式庫都會宣告並匯出你永遠不會用到的元件。
+例如，一個 Material Design 程式庫會匯出所有元件，因為它不知道你會使用哪一些。不過，你不太可能全部都用到。
+對於你沒有參照的元件，搖樹優化（tree-shaking）會把它們從最終的程式碼包中丟棄。
 
-If a component isn't an _entry component_ and isn't found in a template,
-the tree shaker will throw it away. So, it's best to add only the components that are truly entry components to help keep your app
-as trim as possible.
+如果一個元件不是*進入點元件*，也沒有出現在某個範本中，搖樹優化就會把它丟棄。所以，最好只加入真正是進入點元件的元件，幫助你的應用程式保持盡可能精簡。
 
 
-## More on Angular modules
+## 關於 Angular 模組的更多資訊
 
-You may also be interested in the following:
-* [Types of NgModules](guide/module-types)
-* [Lazy Loading Modules with the Angular Router](guide/lazy-loading-ngmodules).
-* [Providers](guide/providers).
-* [NgModules FAQ](guide/ngmodule-faq).
+你可能也會對以下內容感興趣：
+* [NgModule 的類型](guide/module-types)
+* [使用 Angular 路由器延遲載入模組](guide/lazy-loading-ngmodules)。
+* [提供者](guide/providers)。
+* [NgModule 常見問題](guide/ngmodule-faq)。

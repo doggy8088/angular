@@ -1,36 +1,36 @@
-Angular's `<ng-template>` element defines a template that is not rendered by default.
+Angular 的 `<ng-template>` 元素定義了一個預設不會渲染的範本。
 
-With `<ng-template>`, you can define template content that is only being rendered by Angular when you, whether directly or indirectly, specifically instruct it to do so, allowing you to have full control over how and when the content is displayed.
+使用 `<ng-template>`，你可以定義只有在你直接或間接明確指示 Angular 時才會渲染的範本內容，讓你能完全掌控內容顯示的方式與時機。
 
 @usageNotes
 
-### Structural Directives
+### 結構指令
 
-One of the main uses for `<ng-template>` is to hold template content that will be used by [Structural directives](/guide/structural-directives). Those directives can add and remove copies of the template content based on their own logic.
+`<ng-template>` 的主要用途之一，是容納將由[結構指令](/guide/structural-directives)使用的範本內容。這些指令可以根據自身的邏輯，加入或移除範本內容的複本。
 
-When using the [structural directive shorthand](/guide/structural-directives#structural-directive-shorthand), Angular creates an `<ng-template>` element behind the scenes.
+使用[結構指令簡寫](/guide/structural-directives#結構指令簡寫)時，Angular 會在幕後建立一個 `<ng-template>` 元素。
 
 ### TemplateRef
 
-`<ng-template>` elements are represented as instances of the `TemplateRef` class.
+`<ng-template>` 元素會以 `TemplateRef` 類別的實例來表示。
 
-To add copies of the template to the DOM, pass this object to the `ViewContainerRef` method `createEmbeddedView()`.
+如要將範本的複本加入 DOM，請將這個物件傳給 `ViewContainerRef` 的方法 `createEmbeddedView()`。
 
-### Template Variables
+### 範本變數
 
-`<ng-template>` elements can be referenced in templates using [standard template variables](/guide/template-reference-variables#how-angular-assigns-values-to-template-variables).
+`<ng-template>` 元素可以在範本中使用[標準範本變數](/guide/template-reference-variables#angular-如何將值指派給範本變數)來參照。
 
-_This is how `<ng-template>` elements are used as `ngIf` else clauses._
+_這就是 `<ng-template>` 元素用作 `ngIf` else 子句的方式。_
 
-Such template variables can be used in conjunction with `ngTemplateOutlet` directives to render the content defined inside `<ng-template>` tags.
-
-
-### Querying
-
-A [Query](/api/core/Query) (such as `ViewChild`) can find the `TemplateRef` associated to an `<ng-template>` element so that it can be used programmatically; for instance, to pass it to the `ViewContainerRef` method `createEmbeddedView()`.
+這類範本變數可以搭配 `ngTemplateOutlet` 指令使用，以渲染定義在 `<ng-template>` 標籤內的內容。
 
 
-### Context
-Inside the `<ng-template>` tags you can reference variables present in the surrounding outer template.
-Additionally, a context object can be associated with `<ng-template>` elements.
-Such an object contains variables that can be accessed from within the template contents via template (`let` and `as`) declarations.
+### 查詢
+
+[查詢](/api/core/Query) (例如 `ViewChild`) 可以找到與 `<ng-template>` 元素相關聯的 `TemplateRef`，以便透過程式使用；例如，將它傳給 `ViewContainerRef` 的方法 `createEmbeddedView()`。
+
+
+### 內容脈絡
+在 `<ng-template>` 標籤內，你可以參照周圍外部範本中存在的變數。
+此外，內容脈絡物件可以與 `<ng-template>` 元素相關聯。
+這類物件包含的變數，可以透過範本 (`let` 與 `as`) 宣告，從範本內容內部存取。
