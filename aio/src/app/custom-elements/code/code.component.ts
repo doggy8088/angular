@@ -31,7 +31,7 @@ import { tap } from 'rxjs/operators';
   template: `
     <pre class="prettyprint lang-{{language}}">
       <button *ngIf="!hideCopy" class="material-icons copy-button no-print"
-        title="Copy code snippet"
+        title="複製程式碼片段"
         [attr.aria-label]="ariaLabel"
         (click)="doCopy()">
         <span aria-hidden="true">content_copy</span>
@@ -83,7 +83,7 @@ export class CodeComponent implements OnChanges {
   @Input()
   set header(header: string) {
     this._header = header;
-    this.ariaLabel = this.header ? `Copy code snippet from ${this.header}` : '';
+    this.ariaLabel = this.header ? `從 ${this.header} 複製程式碼片段` : '';
   }
   get header(): string { return this._header; }
   private _header: string;

@@ -1,69 +1,63 @@
-# Service worker communication
+# 與 Service Worker 通訊
 
-Importing `ServiceWorkerModule` into your `AppModule` doesn't just register the service worker, it also provides a few services you can use to interact with the service worker and control the caching of your app.
+將 `ServiceWorkerModule` 匯入 `AppModule` 不只是註冊 service worker，也提供了一些服務，讓你與 service worker 互動，並控制應用程式的快取。
 
-#### Prerequisites
+#### 必要條件
 
-A basic understanding of the following:
-* [Getting Started with Service Workers](guide/service-worker-getting-started).
+對下列內容有基本的了解：
+* [開始使用 service worker](guide/service-worker-getting-started)。
 
 <hr />
 
 
-## `SwUpdate` service
+## `SwUpdate` 服務
 
-The `SwUpdate` service gives you access to events that indicate when the service worker has discovered an available update for your app or when it has activated such an update&mdash;meaning it is now serving content from that update to your app.
+`SwUpdate` 服務讓你存取多個事件，這些事件會指出 service worker 何時發現應用程式可用的更新，或何時啟用該更新&mdash;也就是它開始把該更新的內容提供給你的應用程式。
 
-The `SwUpdate` service supports four separate operations:
-* Getting notified of *available* updates. These are new versions of the app to be loaded if the page is refreshed.
-* Getting notified of update *activation*. This is when the service worker starts serving a new version of the app immediately.
-* Asking the service worker to check the server for new updates.
-* Asking the service worker to activate the latest version of the app for the current tab.
+`SwUpdate` 服務支援四種獨立的操作：
+* 收到 *available* 更新的通知。這些是應用程式的新版本，會在頁面重新整理時載入。
+* 收到更新 *activation* 的通知。這是指 service worker 立即開始提供應用程式的新版本。
+* 要求 service worker 檢查伺服器是否有新更新。
+* 要求 service worker 為目前的分頁啟用最新版本的應用程式。
 
-### Available and activated updates
+### 可用與已啟用的更新
 
-The two update events, `available` and `activated`, are `Observable` properties of `SwUpdate`:
+這兩個更新事件 `available` 與 `activated`，是 `SwUpdate` 的 `Observable` 屬性：
 
 <code-example path="service-worker-getting-started/src/app/log-update.service.ts" header="log-update.service.ts" region="sw-update"></code-example>
 
 
-You can use these events to notify the user of a pending update or to refresh their pages when the code they are running is out of date.
+使用這些事件，在有待處理的更新時通知使用者，或在使用者執行的程式碼過舊時重新整理他們的頁面。
 
-### Checking for updates
+### 檢查更新
 
-It's possible to ask the service worker to check if any updates have been deployed to the server. You might choose to do this if you have a site that changes frequently or want updates to happen on a schedule.
+你可以要求 service worker 檢查伺服器上是否已部署任何更新。如果你的網站經常變更，或想讓更新依排程發生，你可能會選擇這麼做。
 
-Do this with the `checkForUpdate()` method:
+使用 `checkForUpdate()` 方法來完成：
 
 <code-example path="service-worker-getting-started/src/app/check-for-update.service.ts" header="check-for-update.service.ts"></code-example>
 
-
-This method returns a `Promise` which indicates that the update check has completed successfully, though it does not indicate whether an update was discovered as a result of the check. Even if one is found, the service worker must still successfully download the changed files, which can fail. If successful, the `available` event will indicate availability of a new version of the app.
+這個方法會回傳一個 `Promise`，表示更新檢查已成功完成，但不表示檢查是否因此發現更新。即使找到更新，service worker 仍必須成功下載變更的檔案，而這可能會失敗。若成功，`available` 事件會表示應用程式有新版本可用。
 
 <div class="alert is-important">
 
-In order to avoid negatively affecting the initial rendering, `ServiceWorkerModule` will by default
-wait for the app to stabilize, before registering the ServiceWorker script. Constantly polling for
-updates, e.g. with `interval()`, will prevent the app from stabilizing and the ServiceWorker
-script will never be registered with the browser.
+為了避免對初始渲染造成負面影響，`ServiceWorkerModule` 預設會等待應用程式穩定，才註冊 ServiceWorker 指令碼。持續輪詢更新（例如使用 `interval()`）會讓應用程式無法穩定，ServiceWorker 指令碼將永遠不會向瀏覽器註冊。
 
-You can avoid that by waiting for the app to stabilize first, before starting to poll for updates
-(as shown in the example above).
+你可以先等待應用程式穩定，再開始輪詢更新，以避免這種情況（如上例所示）。
 
-Note that this is true for any kind of polling done by your application.
-Check the {@link ApplicationRef#isStable isStable} documentation for more information.
+請注意，你的應用程式所做的任何輪詢都是如此。更多資訊，請參閱 {@link ApplicationRef#isStable isStable} 文件。
 
 </div>
 
-### Forcing update activation
+### 強制啟用更新
 
-If the current tab needs to be updated to the latest app version immediately, it can ask to do so with the `activateUpdate()` method:
+如果目前的分頁需要立即更新至最新的應用程式版本，可以呼叫 `activateUpdate()` 方法來要求更新：
 
 <code-example path="service-worker-getting-started/src/app/prompt-update.service.ts" header="prompt-update.service.ts" region="sw-activate"></code-example>
 
-Doing this could break lazy-loading into currently running apps, especially if the lazy-loaded chunks use filenames with hashes, which change every version.
+這樣做可能會破壞目前正在執行的應用程式的延遲載入，特別是當延遲載入的 chunk 使用帶有雜湊的檔案名稱時，這些名稱在每個版本都會變更。
 
-## More on Angular service workers
+## 更多 Angular Service Worker 資訊
 
-You may also be interested in the following:
-* [Service Worker in Production](guide/service-worker-devops).
+你可能也會對以下內容有興趣：
+* [正式環境中的 Service Worker](guide/service-worker-devops)。

@@ -1,87 +1,87 @@
-# Forms
+# 表單
 
-At the end of [Managing Data](start/data "Getting Started: Managing Data"), the online store application has a product catalog and a shopping cart.
+在[管理資料](start/data "Getting Started: Managing Data")結束時，線上商店應用程式已有產品目錄與購物車。
 
-In this section, you'll finish the app by adding a form-based checkout feature. You'll create a form to collect user information as part of checkout.
+在本節中，你將加入以表單為基礎的結帳功能，完成這個應用程式。你將建立表單，在結帳時收集使用者資訊。
 
-## Forms in Angular
+## Angular 中的表單
 
-Forms in Angular take the standard capabilities of the HTML based forms and add an orchestration layer to help with creating custom form controls, and to supply great validation experiences. There are two parts to an Angular Reactive form, the objects that live in the component to store and manage the form, and the visualization of the form that lives in the template.
+Angular 中的表單採用以 HTML 為基礎的表單的標準能力，並加入一層協調機制，協助建立自訂表單控制項，並提供出色的驗證體驗。Angular Reactive 表單包含兩個部分：位於元件中、負責存放與管理表單的物件，以及位於範本中、呈現表單的視覺化部分。
 
-## Define the checkout form model
+## 定義結帳表單模型
 
-First, you'll set up the checkout form model. The form model is the source of truth for the status of the form and is defined in the component class.
+首先，你將設定結帳表單模型。表單模型是表單狀態的唯一真實來源，定義在元件類別中。
 
-1. Open `cart.component.ts`.
+1. 開啟 `cart.component.ts`。
 
-1. Angular's `FormBuilder` service provides convenient methods for generating controls. As with the other services you've used, you need to import and inject the service before you can use it:
+1. Angular 的 `FormBuilder` 服務提供方便的方法來產生控制項。如同你先前用過的其他服務，你需要先匯入並注入此服務，才能使用它：
 
-    1. Import the `FormBuilder` service from the `@angular/forms` package.
+    1. 從 `@angular/forms` 套件匯入 `FormBuilder` 服務。
 
       <code-example header="src/app/cart/cart.component.ts" path="getting-started/src/app/cart/cart.component.ts" region="imports">
       </code-example>
 
-      The `FormBuilder` service is provided by the `ReactiveFormsModule`, which is already defined in the `AppModule` you modified previously (in `app.module.ts`).
+      `FormBuilder` 服務由 `ReactiveFormsModule` 提供，而該模組已定義在你先前修改過的 `AppModule` 中（位於 `app.module.ts`）。
 
-    1. Inject the `FormBuilder` service.
+    1. 注入 `FormBuilder` 服務。
 
       <code-example header="src/app/cart/cart.component.ts" path="getting-started/src/app/cart/cart.component.ts" region="inject-form-builder">
       </code-example>
 
-1. In the `CartComponent` class, define the `checkoutForm` property to store the form model.
+1. 在 `CartComponent` 類別中，定義 `checkoutForm` 屬性來存放表單模型。
 
     <code-example header="src/app/cart/cart.component.ts" path="getting-started/src/app/cart/cart.component.ts" region="checkout-form">
     </code-example>
 
-1. During checkout, the app will prompt the user for a name and address. So that you can gather that information later, set the `checkoutForm` property with a form model containing `name` and `address` fields, using the `FormBuilder#group()` method.
+1. 在結帳時，應用程式會提示使用者輸入姓名與地址。為了之後能收集這些資訊，請使用 `FormBuilder#group()` 方法，將 `checkoutForm` 屬性設定為包含 `name` 與 `address` 欄位的表單模型。
 
     <code-example header="src/app/cart/cart.component.ts" path="getting-started/src/app/cart/cart.component.ts" region="checkout-form-group"></code-example>
 
-1. For the checkout process, users need to be able to submit the form data (their name and address). When the order is submitted, the form should reset and the cart should clear.
+1. 在結帳流程中，使用者需要能提交表單資料（他們的姓名與地址）。當訂單提交時，表單應重設，購物車也應清空。
 
-    In `cart.component.ts`, define an `onSubmit()` method to process the form. Use the `CartService#clearCart()` method to empty the cart items and reset the form after it is submitted. (In a real-world app, this method also would submit the data to an external server.)
+    在 `cart.component.ts` 中，定義一個 `onSubmit()` 方法來處理表單。使用 `CartService#clearCart()` 方法，在表單提交後清空購物車商品並重設表單。（在真實世界的應用程式中，這個方法也會把資料提交到外部伺服器。）
 
-    The entire cart component is shown below:
+    整個購物車元件如下所示：
 
     <code-example header="src/app/cart/cart.component.ts" path="getting-started/src/app/cart/cart.component.ts">
     </code-example>
 
-The form model is defined in the component class. To reflect the model in the view, you'll need a checkout form.
+表單模型定義在元件類別中。若要在檢視中反映這個模型，你需要一個結帳表單。
 
-## Create the checkout form
+## 建立結帳表單
 
-Next, you'll add a checkout form at the bottom of the "Cart" page.
+接下來，你將在「Cart」頁面底部加入結帳表單。
 
-1. Open `cart.component.html`.
+1. 開啟 `cart.component.html`。
 
-1. At the bottom of the template, add an empty HTML form to capture user information.
+1. 在範本底部，加入一個空的 HTML 表單來擷取使用者資訊。
 
-1. Use a `formGroup` property binding to bind the `checkoutForm` to the `form` tag in the template. Also include a "Purchase" button to submit the form.
+1. 使用 `formGroup` 屬性繫結，將 `checkoutForm` 繫結到範本中的 `form` 標籤。另外加入一個「Purchase」按鈕來提交表單。
 
   <code-example header="src/app/cart/cart.component.html" path="getting-started/src/app/cart/cart.component.3.html" region="checkout-form">
   </code-example>
 
-1. On the `form` tag, use an `ngSubmit` event binding to listen for the form submission and call the `onSubmit()` method with the `checkoutForm` value.
+1. 在 `form` 標籤上，使用 `ngSubmit` 事件繫結來監聽表單提交，並以 `checkoutForm` 的值呼叫 `onSubmit()` 方法。
 
   <code-example path="getting-started/src/app/cart/cart.component.html" region="checkout-form-1">
   </code-example>
 
-1. Add input fields for `name` and `address`. Use the `formControlName` attribute binding to bind the `checkoutForm` form controls for `name` and `address` to their input fields. The final complete component is shown below:
+1. 為 `name` 與 `address` 加入輸入欄位。使用 `formControlName` 屬性繫結，將 `checkoutForm` 中 `name` 與 `address` 的表單控制項繫結到各自的輸入欄位。最後的完整元件如下所示：
 
   <code-example path="getting-started/src/app/cart/cart.component.html" region="checkout-form-2">
   </code-example>
 
-After putting a few items in the cart, users can now review their items, enter name and address, and submit their purchase:
+將幾項商品放入購物車後，使用者現在可以檢視商品、輸入姓名與地址，並提交購買：
 
 <figure class="lightbox">
   <div class="card">
-    <img src='generated/images/guide/start/cart-with-items-and-form.png' alt="Cart page with checkout form">
+    <img src='generated/images/guide/start/cart-with-items-and-form.png' alt="含結帳表單的購物車頁面">
   </div>
 </figure>
 
 
-## Next steps
+## 後續步驟
 
-Congratulations! You have a complete online store application with a product catalog, a shopping cart, and a checkout function.
+恭喜！你現在擁有一個完整的線上商店應用程式，包含產品目錄、購物車與結帳功能。
 
-[Continue to the "Deployment" section](start/deployment "Getting Started: Deployment") to move to local development, or deploy your app to Firebase or your own server.
+[繼續前往「部署」一節](start/deployment "Getting Started: Deployment")，轉移到本機開發，或將應用程式部署到 Firebase 或你自己的伺服器。

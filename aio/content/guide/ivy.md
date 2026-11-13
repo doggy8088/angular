@@ -1,28 +1,27 @@
-# Opting into Angular Ivy
+# 選擇啟用 Angular Ivy
 
-Ivy is the code name for Angular's [next-generation compilation and rendering pipeline](https://blog.angular.io/a-plan-for-version-8-0-and-ivy-b3318dfc19f7). Starting with Angular version 8, you can choose to opt in to start using a preview version of Ivy and help in its continuing development and tuning.
+Ivy 是 Angular [次世代編譯與渲染管線](https://blog.angular.io/a-plan-for-version-8-0-and-ivy-b3318dfc19f7)的代號。從 Angular 第 8 版開始，你可以選擇啟用並開始使用 Ivy 的預覽版本，協助其持續的開發與調校。
 
 <div class="alert is-helpful">
 
-   To preview Ivy, use `@angular/core@next` version of Angular (8.1.x), rather than `@angular/core@latest` (8.0.x), as it contains all the latest bug fixes and improvements.
+   若要預覽 Ivy，請使用 `@angular/core@next` 版的 Angular（8.1.x），而不是 `@angular/core@latest`（8.0.x），因為它包含了所有最新的錯誤修正與改進。
 
 </div>
 
+## 在新專案中使用 Ivy
 
-## Using Ivy in a new project
-
-To start a new project with Ivy enabled, use the `--enable-ivy` flag with the [`ng new`](cli/new) command:
+若要以啟用 Ivy 的狀態開始新專案，請在 [`ng new`](cli/new) 命令中使用 `--enable-ivy` 旗標：
 
 ```sh
 ng new shiny-ivy-app --enable-ivy
 ```
 
-The new project is automatically configured for Ivy. Specifically, the enableIvy option is set to `true` in the project's `tsconfig.app.json` file.
+新專案會自動針對 Ivy 做好設定。具體來說，專案 `tsconfig.app.json` 檔案中的 enableIvy 選項會被設為 `true`。
 
+## 在現有專案中使用 Ivy
 
-## Using Ivy in an existing project
+若要更新現有專案以使用 Ivy，請在專案 `tsconfig.app.json` 的 `angularCompilerOptions` 中設定 `enableIvy` 選項。
 
-To update an existing project to use Ivy, set the `enableIvy` option in the `angularCompilerOptions` in your project's `tsconfig.app.json`.
 ```json
 {
   "compilerOptions": { ... },
@@ -32,7 +31,8 @@ To update an existing project to use Ivy, set the `enableIvy` option in the `ang
 }
 ```
 
-AOT compilation with Ivy is faster and should be used by default. In the `angular.json` workspace configuration file, set the default build options for your project to always use AOT compilation.
+使用 Ivy 的 AOT 編譯速度更快，應預設使用。
+在 `angular.json` 工作區設定檔中，把專案的預設建置選項設為永遠使用 AOT 編譯。
 
 ```json
 {
@@ -51,5 +51,4 @@ AOT compilation with Ivy is faster and should be used by default. In the `angula
 }
 ```
 
-To stop using the Ivy compiler, set `enableIvy` to `false` in `tsconfig.app.json`, or remove it completely. Also remove `"aot": true` from your default build options if you didn't have it there before.
- 
+若要停止使用 Ivy 編譯器，請在 `tsconfig.app.json` 中將 `enableIvy` 設為 `false`，或將其完全移除。如果你原本的預設建置選項中沒有 `"aot": true`，也請將它移除。

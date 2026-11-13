@@ -1,50 +1,50 @@
-# Managing Data
+# 管理資料
 
-At the end of [Routing](start/routing "Getting Started: Routing"), the online store application has a product catalog with two views: a product list and product details.
-Users can click on a product name from the list to see details in a new view, with a distinct URL (route).
+在[路由](start/routing "Getting Started: Routing")結束時，線上商店應用程式已有一個產品目錄，包含兩個檢視：產品清單與產品詳細資料。
+使用者可以點選清單中的產品名稱，在新的檢視中查看詳細資料，該檢視有專屬的 URL，也就是路由。
 
-In this section, you'll create the shopping cart. You'll:
-* Update the product details page to include a "Buy" button, which adds the current product to a list of products managed by a cart service.
-* Add a cart component, which displays the items you added to your cart.
-* Add a shipping component, which retrieves shipping prices for the items in the cart by using Angular's `HttpClient` to retrieve shipping data from a `.json` file.
+在本節中，你將建立購物車。你將會：
+* 更新產品詳細資料頁面，加入「Buy」按鈕，按下後會把目前的產品加入購物車服務所管理的產品清單。
+* 加入購物車元件，顯示你加入購物車的商品。
+* 加入運送元件，使用 Angular 的 `HttpClient` 從 `.json` 檔案擷取運送資料，取得購物車商品的運費價格。
 
 {@a services}
-## Services
+## 服務
 
-Services are an integral part of Angular applications. In Angular, a service is an instance of a class that can be made available to any part of your application using Angular's [dependency injection system](guide/glossary#dependency-injection-di "dependency injection definition").
+服務是 Angular 應用程式不可或缺的一部分。在 Angular 中，服務是某個類別的執行個體，你可以使用 Angular 的[依賴注入系統](guide/glossary#依賴注入（dependency-injection，di） "依賴注入定義")，讓應用程式的任何部分都能使用它。
 
-Services are the place where you share data between parts of your application. For the online store, the cart service is where you store your cart data and methods.
+服務是你可以在應用程式各部分之間分享資料的地方。以線上商店來說，購物車服務就是你存放購物車資料與方法的地方。
 
 {@a create-cart-service}
-## Create the shopping cart service
+## 建立購物車服務
 
-Up to this point, users can view product information, and simulate sharing and being notified about product changes. They cannot, however, buy products.
+到目前為止，使用者可以檢視產品資訊，並模擬分享與收到產品變更通知。不過，他們還不能購買產品。
 
-In this section, you'll add a "Buy" button to the product details page.
-You'll also set up a cart service to store information about products in the cart.
+在本節中，你將在產品詳細資料頁面加入「Buy」按鈕。
+你也會設定購物車服務，來儲存購物車中產品的資訊。
 
 <div class="alert is-helpful">
 
-Later, in the [Forms](start/forms "Getting Started: Forms") part of this tutorial, this cart service also will be accessed from the page where the user checks out.
+本教學後面的部分，[表單](start/forms "Getting Started: Forms")，這個購物車服務也會從使用者結帳的頁面被存取。
 
 </div>
 
 {@a generate-cart-service}
-### Define a cart service
+### 定義購物車服務
 
-1. Generate a cart service.
+1. 產生購物車服務。
 
-    1. Right click on the `app` folder, choose `Angular Generator`, and choose `Service`. Name the new service `cart`.
+    1. 在 `app` 資料夾上按右鍵，選擇 `Angular Generator`，再選擇 `Service`。將新服務命名為 `cart`。
 
         <code-example header="src/app/cart.service.ts" path="getting-started/src/app/cart.service.1.ts"></code-example>
 
-    1. If the generated `@Injectable()` decorator does not include the `{ providedIn: 'root' }` statement, then insert it as shown above.
+    1. 如果產生的 `@Injectable()` 裝飾器未包含 `{ providedIn: 'root' }` 陳述式，請如上所示將它加入。
 
-1. In the `CartService` class, define an `items` property to store the list (array) of the current products in the cart.
+1. 在 `CartService` 類別中，定義 `items` 屬性，用來儲存購物車中目前產品的清單（陣列）。
 
     <code-example path="getting-started/src/app/cart.service.ts" region="props"></code-example>
 
-1. Define methods to add items to the cart, return cart items, and clear the cart items:
+1. 定義方法，把商品加入購物車、傳回購物車商品，以及清空購物車商品：
 
     <code-example path="getting-started/src/app/cart.service.ts" region="methods"></code-example>
 
@@ -61,22 +61,22 @@ Later, in the [Forms](start/forms "Getting Started: Forms") part of this tutoria
     -->
 
 {@a product-details-use-cart-service}
-### Use the cart service
+### 使用購物車服務
 
-In this section, you'll update the product details component to use the cart service.
-You'll add a "Buy" button to the product details view.
-When the "Buy" button is clicked, you'll use the cart service to add the current product to the cart.
+在本節中，你將更新產品詳細資料元件來使用購物車服務。
+你會在產品詳細資料檢視中加入「Buy」按鈕。
+當「Buy」按鈕被點選時，你會使用購物車服務把目前的產品加入購物車。
 
-1. Open `product-details.component.ts`.
+1. 開啟 `product-details.component.ts`。
 
-1. Set up the component to be able to use the cart service.
+1. 設定元件來使用購物車服務。
 
-    1. Import the cart service.
+    1. 匯入購物車服務。
 
         <code-example header="src/app/product-details/product-details.component.ts" path="getting-started/src/app/product-details/product-details.component.ts" region="cart-service">
         </code-example>
 
-    1. Inject the cart service.
+    1. 注入購物車服務。
 
         <code-example path="getting-started/src/app/product-details/product-details.component.ts" region="inject-cart-service">
         </code-example>
@@ -85,63 +85,63 @@ When the "Buy" button is clicked, you'll use the cart service to add the current
         To do: Consider defining "inject" and describing the concept of "dependency injection"
         -->
 
-1. Define the `addToCart()` method, which adds the current product to the cart.
+1. 定義 `addToCart()` 方法，把目前的產品加入購物車。
 
-    The `addToCart()` method:
-    * Receives the current `product`
-    * Uses the cart service's `#addToCart()` method to add the product to the cart
-    * Displays a message that the product has been added to the cart
+    `addToCart()` 方法會：
+    * 接收目前的 `product`
+    * 使用購物車服務的 `#addToCart()` 方法把產品加入購物車
+    * 顯示訊息，告知產品已加入購物車
 
     <code-example path="getting-started/src/app/product-details/product-details.component.ts" region="add-to-cart"></code-example>
 
-1. Update the product details template to have a "Buy" button that adds the current product to the cart.
+1. 更新產品詳細資料範本，加入「Buy」按鈕，按下後會把目前的產品加入購物車。
 
-    1. Open `product-details.component.html`.
+    1. 開啟 `product-details.component.html`。
 
-    1. Add a button with the label "Buy", and bind the `click()` event to the `addToCart()` method:
+    1. 加入標籤為「Buy」的按鈕，並把 `click()` 事件繫結到 `addToCart()` 方法：
 
         <code-example header="src/app/product-details/product-details.component.html" path="getting-started/src/app/product-details/product-details.component.html">
         </code-example>
 
-1. To see the new "Buy" button, refresh the application and click on a product's name to display its details.
+1. 若要查看新的「Buy」按鈕，請重新整理應用程式，並點選產品名稱以顯示其詳細資料。
 
     <figure class="lightbox">
       <div class="card">
-        <img src='generated/images/guide/start/product-details-buy.png' alt="Display details for selected product with a Buy button">
+        <img src='generated/images/guide/start/product-details-buy.png' alt="顯示所選產品的詳細資料，並有一個 Buy 按鈕">
       </div>
     </figure>
 
-1. Click the "Buy" button. The product is added to the stored list of items in the cart, and a message is displayed.
+1. 點選「Buy」按鈕。產品會被加入購物車已儲存的商品清單，並顯示一則訊息。
 
     <figure class="lightbox">
       <div class="card">
-        <img src='generated/images/guide/start/buy-alert.png' alt="Display details for selected product with a Buy button">
+        <img src='generated/images/guide/start/buy-alert.png' alt="顯示所選產品的詳細資料，並有一個 Buy 按鈕">
       </div>
     </figure>
 
 
-## Create the cart page
+## 建立購物車頁面
 
-At this point, users can put items in the cart by clicking "Buy", but they can't yet see their cart.
+目前，使用者點選「Buy」就能把商品放進購物車，但還看不到自己的購物車。
 
-We'll create the cart page in two steps:
+我們將以兩個步驟建立購物車頁面：
 
-1. Create a cart component and set up routing to the new component. At this point, the cart page will only have default text.
-1. Display the cart items.
+1. 建立購物車元件，並為新元件設定路由。此時，購物車頁面只有預設文字。
+1. 顯示購物車商品。
 
-### Set up the component
+### 設定元件
 
- To create the cart page, you begin by following the same steps you did to create the product details component and to set up routing for the new component.
+ 若要建立購物車頁面，先依照你建立產品詳細資料元件並為新元件設定路由時相同的步驟進行。
 
-1. Generate a cart component, named `cart`.
+1. 產生一個購物車元件，命名為 `cart`。
 
-    Reminder: In the file list, right-click the `app` folder, choose `Angular Generator` and `Component`.
+    提醒：在檔案清單中，在 `app` 資料夾上按右鍵，選擇 `Angular Generator` 與 `Component`。
 
     <code-example header="src/app/cart/cart.component.ts" path="getting-started/src/app/cart/cart.component.1.ts"></code-example>
 
-1. Add routing (a URL pattern) for the cart component.
+1. 為購物車元件加入路由（URL 模式）。
 
-    Reminder: Open `app.module.ts` and add a route for the component `CartComponent`, with a `path` of `cart`:
+    提醒：開啟 `app.module.ts`，為 `CartComponent` 元件加入一條路由，`path` 為 `cart`：
 
     <code-example header="src/app/app.module.ts" path="getting-started/src/app/app.module.ts" region="cart-route">
     </code-example>
@@ -150,76 +150,76 @@ We'll create the cart page in two steps:
     To do: Can we shorten the example code to remove the extra at the bottom?
     -->
 
-1. To see the new cart component, click the "Checkout" button. You can see the "cart works!" default text, and the URL has the pattern `https://getting-started.stackblitz.io/cart`,  where `getting-started.stackblitz.io` may be different for your StackBlitz project.
+1. 若要查看新的購物車元件，請點選「Checkout」按鈕。你會看到預設文字「cart works!」，而 URL 的格式為 `https://getting-started.stackblitz.io/cart`，其中 `getting-started.stackblitz.io` 在你的 StackBlitz 專案中可能不同。
 
-    (Note: The "Checkout" button that we provided in the top-bar component was already configured with a `routerLink` for `/cart`.)
+    （注意：我們在 top-bar 元件中提供的「Checkout」按鈕，已預先設定好指向 `/cart` 的 `routerLink`。）
 
     <figure class="lightbox">
       <div class="card">
-        <img src='generated/images/guide/start/cart-works.png' alt="Display cart page before customizing">
+        <img src='generated/images/guide/start/cart-works.png' alt="自訂前的購物車頁面">
       </div>
     </figure>
 
 
-### Display the cart items
+### 顯示購物車商品
 
-Services can be used to share data across components:
+你可以使用服務在各元件之間分享資料：
 
-* The product details component already uses the cart service (`CartService`) to add products to the cart.
-* In this section, you'll update the cart component to use the cart service to display the products in the cart.
+* 產品詳細資料元件已使用購物車服務（`CartService`）把產品加入購物車。
+* 在本節中，你將更新購物車元件，使用購物車服務來顯示購物車中的產品。
 
 
-1. Open `cart.component.ts`.
+1. 開啟 `cart.component.ts`。
 
-1. Set up the component to be able to use the cart service. (This is the same way you set up the product details component to use the cart service, above.)
+1. 設定元件來使用購物車服務。（這與上方設定產品詳細資料元件使用購物車服務的方式相同。）
 
-    1. Import the `CartService` from the `cart.service.ts` file.
+    1. 從 `cart.service.ts` 檔案匯入 `CartService`。
 
         <code-example header="src/app/cart/cart.component.ts" path="getting-started/src/app/cart/cart.component.2.ts" region="imports">
         </code-example>
 
-    1. Inject the `CartService` to manage cart information.
+    1. 注入 `CartService` 來管理購物車資訊。
 
         <code-example path="getting-started/src/app/cart/cart.component.2.ts" region="inject-cart">
         </code-example>
 
-1. Define the `items` property to store the products in the cart.
+1. 定義 `items` 屬性，用來儲存購物車中的產品。
 
     <code-example path="getting-started/src/app/cart/cart.component.2.ts" region="items">
     </code-example>
 
-1. Set the items using the cart service's `getItems()` method. (You defined this method [when you generated `cart.service.ts`](#generate-cart-service).)
+1. 使用購物車服務的 `getItems()` 方法設定商品。（你是在[產生 `cart.service.ts` 時](#generate-cart-service)定義這個方法的。）
 
-    The resulting `CartComponent` class should look like this:
+    產生的 `CartComponent` 類別應該像這樣：
 
     <code-example path="getting-started/src/app/cart/cart.component.3.ts" region="props-services">
     </code-example>
 
-1. Update the template with a header ("Cart"), and use a `<div>` with an `*ngFor` to display each of the cart items with its name and price.
+1. 更新範本，加入標題（「Cart」），並使用帶有 `*ngFor` 的 `<div>` 顯示每個購物車商品的名稱與價格。
 
-    The resulting `CartComponent` template should look like this:
+    產生的 `CartComponent` 範本應該像這樣：
 
     <code-example header="src/app/cart/cart.component.html" path="getting-started/src/app/cart/cart.component.2.html" region="prices">
     </code-example>
 
-1. Test your cart component.
+1. 測試你的購物車元件。
 
-    1. Click on "My Store" to go to the product list page.
-    1. Click on a product name to display its details.
-    1. Click "Buy" to add the product to the cart.
-    1. Click "Checkout" to see the cart.
-    1. To add another product, click "My Store" to return to the product list. Repeat the steps above.
+    1. 點選「My Store」前往產品清單頁面。
+    1. 點選產品名稱以顯示其詳細資料。
+    1. 點選「Buy」把產品加入購物車。
+    1. 點選「Checkout」查看購物車。
+    1. 若要再加入其他產品，點選「My Store」回到產品清單。重複上述步驟。
 
     <figure class="lightbox">
       <div class="card">
-        <img src='generated/images/guide/start/cart-page-full.png' alt="Cart page with products added">
+        <img src='generated/images/guide/start/cart-page-full.png' alt="已加入產品的購物車頁面">
       </div>
     </figure>
 
 
 <div class="alert is-helpful">
 
-StackBlitz tip: Any time the preview refreshes, the cart is cleared. If you make changes to the app, the page refreshes, and you'll need to buy products again to populate the cart.
+StackBlitz 小提示：只要預覽重新整理，購物車就會被清空。如果你變更了應用程式，頁面會重新整理，因此你需要重新購買產品，才能把購物車填滿。
 
 </div>
 
@@ -229,49 +229,49 @@ To do: New screen shot. No shipping prices link yet. Show a few products in the 
 
 <div class="alert is-helpful">
 
-Learn more: See [Introduction to Services and Dependency Injection](guide/architecture-services "Architecture > Intro to Services and DI") for more information about services.
+了解更多：如需進一步了解服務，請參閱[服務與依賴注入簡介](guide/architecture-services "Architecture > Intro to Services and DI")。
 
 </div>
 
 
 
-## Retrieve shipping prices
+## 擷取運費價格
 <!-- Accessing data with the HTTP client -->
 
-Data returned from servers often takes the form of a stream.
-Streams are useful because they make it easy to transform the data that is returned, and to make modifications to the way data is requested.
-The Angular HTTP client (`HttpClient`) is a built-in way to fetch data from external APIs and provide them to your application as a stream.
+伺服器傳回的資料經常採用串流的形式。
+串流很有用，因為它們讓轉換傳回的資料變得容易，也方便調整請求資料的方式。
+Angular 的 HTTP 用戶端（`HttpClient`）是從外部 API 取得資料並以串流形式提供給你的應用程式的內建方式。
 
-In this section, you'll use the HTTP client to retrieve shipping prices from an external file.
+在本節中，你將使用 HTTP 用戶端從外部檔案擷取運費價格。
 
-### Predefined shipping data
+### 預先定義的運送資料
 
-For the purpose of this Getting Started guide, we have provided shipping data in `assets/shipping.json`.
-You'll use this data to add shipping prices for items in the cart.
+為了本入門指南的目的，我們已在 `assets/shipping.json` 中提供運送資料。
+你將使用這份資料，為購物車中的商品加入運費價格。
 
 <code-example header="src/assets/shipping.json" path="getting-started/src/assets/shipping.json">
 </code-example>
 
 
-### Enable HttpClient for app
+### 為應用程式啟用 HttpClient
 
-Before you can use Angular's HTTP client, you must set up your app to use `HttpClientModule`.
+在使用 Angular 的 HTTP 用戶端之前，你必須先設定你的應用程式使用 `HttpClientModule`。
 
-Angular's `HttpClientModule` registers the providers needed to use a single instance of the `HttpClient` service throughout your app.
-The `HttpClient` service is what you inject into your services to fetch data and interact with external APIs and resources.
+Angular 的 `HttpClientModule` 會註冊在整個應用程式中使用單一 `HttpClient` 服務執行個體所需的提供者。
+`HttpClient` 服務就是你注入到服務中、用來擷取資料並與外部 API 及資源互動的服務。
 
-1. Open `app.module.ts`.
+1. 開啟 `app.module.ts`。
 
-  This file contains imports and functionality that is available to the entire app.
+  這個檔案包含整個應用程式都能使用的匯入項目與功能。
 
-1. Import `HttpClientModule` from the `@angular/common/http` package.
+1. 從 `@angular/common/http` 套件匯入 `HttpClientModule`。
 
     <code-example header="src/app/app.module.ts" path="getting-started/src/app/app.module.ts" region="http-client-module-import">
     </code-example>
 
-1. Add `HttpClientModule` to the `imports` array of the app module (`@NgModule`).
+1. 將 `HttpClientModule` 加入應用程式模組（`@NgModule`）的 `imports` 陣列。
 
-    This registers Angular's `HttpClient` providers globally.
+    這會在全域註冊 Angular 的 `HttpClient` 提供者。
 
     <code-example path="getting-started/src/app/app.module.ts" region="http-client-module">
     </code-example>
@@ -284,78 +284,78 @@ To do: Should ReactiveFormsModule already be here? Currently, it is in the start
 To do: Should ReactiveFormsModule already be here?
 -->
 
-### Enable HttpClient for cart service
+### 為購物車服務啟用 HttpClient
 
-1. Open `cart.service.ts`.
+1. 開啟 `cart.service.ts`。
 
-1. Import `HttpClient` from the `@angular/common/http` package.
+1. 從 `@angular/common/http` 套件匯入 `HttpClient`。
 
     <code-example header="src/app/cart.service.ts" path="getting-started/src/app/cart.service.ts" region="import-http">
     </code-example>
 
-1. Inject `HttpClient` into the constructor of the `CartService` component class:
+1. 將 `HttpClient` 注入 `CartService` 元件類別的建構子：
 
     <code-example path="getting-started/src/app/cart.service.ts" region="inject-http">
     </code-example>
 
 
-### Define the get() method
+### 定義 get() 方法
 
-As you've seen, multiple components can leverage the same service.
-Later in this tutorial, the shipping component will use the cart service to retrieve shipping data via HTTP from the `shipping.json` file.
-Here you'll define the `get()` method that will be used.
+如你所見，多個元件可以利用同一個服務。
+在本教學後面，運送元件會使用購物車服務，透過 HTTP 從 `shipping.json` 檔案擷取運送資料。
+在這裡，你將定義會被用到的 `get()` 方法。
 
-1. Continue working in `cart.service.ts`.
+1. 繼續在 `cart.service.ts` 中工作。
 
-1. Below the `clearCart()` method, define a new `getShippingPrices()` method that uses the `HttpClient#get()` method to retrieve the shipping data (types and prices).
+1. 在 `clearCart()` 方法下方，定義新的 `getShippingPrices()` 方法，使用 `HttpClient#get()` 方法擷取運送資料（類型與價格）。
 
     <code-example header="src/app/cart.service.ts" path="getting-started/src/app/cart.service.ts" region="get-shipping"></code-example>
 
 
 <div class="alert is-helpful">
 
-Learn more: See the [HttpClient guide](guide/http "HttpClient guide") for more information about Angular's `HttpClient`.
+了解更多：如需進一步了解 Angular 的 `HttpClient`，請參閱 [HttpClient 指南](guide/http "HttpClient guide")。
 
 </div>
 
 
 
 
-## Define the shipping page
+## 定義運送頁面
 
-Now that your app can retrieve shipping data, you'll create a shipping component and associated template.
+現在你的應用程式已能擷取運送資料，接著你將建立運送元件與相關範本。
 
-1. Generate a new component named `shipping`.
+1. 產生一個名為 `shipping` 的新元件。
 
-    Reminder: In the file list, right-click the `app` folder, choose `Angular Generator` and `Component`.
+    提醒：在檔案清單中，在 `app` 資料夾上按右鍵，選擇 `Angular Generator` 與 `Component`。
 
     <code-example header="src/app/shipping/shipping.component.ts" path="getting-started/src/app/shipping/shipping.component.1.ts"></code-example>
 
-1. In `app.module.ts`, add a route for shipping. Specify a `path` of `shipping` and a component of `ShippingComponent`.
+1. 在 `app.module.ts` 中，為運送功能加入路由。將 `path` 指定為 `shipping`，元件指定為 `ShippingComponent`。
 
     <code-example header="src/app/app.module.ts" path="getting-started/src/app/app.module.ts" region="shipping-route"></code-example>
 
-    The new shipping component isn't hooked into any other component yet, but you can see it in the preview pane by entering the URL specified by its route. The URL has the pattern: `https://getting-started.stackblitz.io/shipping` where the `getting-started.stackblitz.io` part may be different for your StackBlitz project.
+    新的運送元件尚未與任何其他元件掛勾，不過你可以在預覽窗格中輸入其路由指定的 URL 來查看它。URL 的格式為：`https://getting-started.stackblitz.io/shipping`，其中 `getting-started.stackblitz.io` 這個部分在你的 StackBlitz 專案中可能不同。
 
-1. Modify the shipping component so it uses the cart service to retrieve shipping data via HTTP from the `shipping.json` file.
+1. 修改運送元件，讓它使用購物車服務，透過 HTTP 從 `shipping.json` 檔案擷取運送資料。
 
-    1. Import the cart service.
+    1. 匯入購物車服務。
 
         <code-example header="src/app/shipping/shipping.component.ts" path="getting-started/src/app/shipping/shipping.component.ts" region="imports"></code-example>
 
-    1. Define a `shippingCosts` property.
+    1. 定義 `shippingCosts` 屬性。
 
         <code-example path="getting-started/src/app/shipping/shipping.component.ts" region="props"></code-example>
 
-    1. Inject the cart service into the `ShippingComponent` class:
+    1. 將購物車服務注入 `ShippingComponent` 類別：
 
         <code-example path="getting-started/src/app/shipping/shipping.component.ts" region="inject-cart-service"></code-example>
 
-    1. Set the `shippingCosts` property using the `getShippingPrices()` method from cart service.
+    1. 使用購物車服務的 `getShippingPrices()` 方法設定 `shippingCosts` 屬性。
 
         <code-example path="getting-started/src/app/shipping/shipping.component.ts" region="ctor"></code-example>
 
-1. Update the shipping component's template to display the shipping types and prices using async pipe:
+1. 更新運送元件的範本，使用 async 管道顯示運送方式與價格：
 
     <code-example header="src/app/shipping/shipping.component.html" path="getting-started/src/app/shipping/shipping.component.html"></code-example>
 
@@ -363,35 +363,33 @@ Now that your app can retrieve shipping data, you'll create a shipping component
     To decide: Should we describe async pipe
     -->
 
-1. Add a link from the cart page to the shipping page:
+1. 從購物車頁面加入連到運送頁面的連結：
 
     <code-example header="src/app/cart/cart.component.html" path="getting-started/src/app/cart/cart.component.2.html"></code-example>
 
-1. Test your shipping prices feature:
+1. 測試你的運費價格功能：
 
-    Click on the "Checkout" button to see the updated cart. (Remember that changing the app causes the preview to refresh, which empties the cart.)
-
-    <figure class="lightbox">
-      <div class="card">
-        <img src='generated/images/guide/start/cart-empty-with-shipping-prices.png' alt="Cart with link to shipping prices">
-      </div>
-    </figure>
-
-    Click on the link to navigate to the shipping prices.
+    點選「Checkout」按鈕，查看更新後的購物車。（請記住，變更應用程式會使預覽重新整理，購物車也會隨之清空。）
 
     <figure class="lightbox">
       <div class="card">
-        <img src='generated/images/guide/start/shipping-prices.png' alt="Display shipping prices">
+        <img src='generated/images/guide/start/cart-empty-with-shipping-prices.png' alt="附有運費價格連結的購物車">
+      </div>
+    </figure>
+
+    點選連結，導覽至運費價格。
+
+    <figure class="lightbox">
+      <div class="card">
+        <img src='generated/images/guide/start/shipping-prices.png' alt="顯示運費價格">
       </div>
     </figure>
 
 
-## Next steps
+## 後續步驟
 
-Congratulations! You have an online store application with a product catalog and shopping cart. You also have the ability to look up and display shipping prices.
+恭喜！你現在擁有一個線上商店應用程式，包含產品目錄與購物車。你也可以查詢並顯示運費價格。
 
-To continue exploring Angular, choose either of the following options:
-* [Continue to the "Forms" section](start/forms "Getting Started: Forms") to finish the app by adding the shopping cart page and a form-based checkout feature. You'll create a form to collect user information as part of checkout.
-* [Skip ahead to the "Deployment" section](start/deployment "Getting Started: Deployment") to move to local development, or deploy your app to Firebase or your own server.
-
-
+要繼續探索 Angular，請選擇下列其中一個選項：
+* [繼續前往「表單」一節](start/forms "Getting Started: Forms")，加入購物車頁面與結帳表單，完成應用程式。你將建立表單，在結帳時收集使用者資訊。
+* [直接跳到「部署」一節](start/deployment "Getting Started: Deployment")，轉移到本機開發，或將應用程式部署到 Firebase 或你自己的伺服器。

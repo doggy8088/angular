@@ -1,115 +1,101 @@
-# Workspace and project file structure
+# 工作區與專案檔案結構
 
-You develop applications in the context of an Angular [workspace](guide/glossary#workspace). A workspace contains the files for one or more [projects](guide/glossary#project). A project is the set of files that comprise a standalone application or a shareable library.
+你要在 Angular [工作區](guide/glossary#工作區（workspace）)的脈絡下開發應用程式。一個工作區包含一或多個[專案](guide/glossary#專案（project）)的檔案。一個專案就是組成一個獨立應用程式或一個可共用函式庫的檔案集合。
 
-The Angular CLI `ng new` command creates a workspace.
+Angular CLI 的 `ng new` 指令會建立一個工作區。
 
 <code-example language="bash">
 ng new &lt;my-project&gt;
 </code-example>
 
-When you run this command, the CLI installs the necessary Angular npm packages and other dependencies in a new workspace, with a root-level application named *my-project*.
-The workspace root folder contains various support and configuration files, and a README file with generated descriptive text that you can customize.
+執行這個指令時，CLI 會在新的工作區中安裝必要的 Angular npm 套件與其他依賴，並建立一個名為 *my-project* 的根層級應用程式。工作區根資料夾包含各種支援與設定檔，以及一個帶有產生出來的描述文字的 README 檔案，你可以自訂它。
 
-By default, `ng new` creates an initial skeleton application at the root level of the workspace, along with its end-to-end tests.
-The skeleton is for a simple Welcome application that is ready to run and easy to modify.
-The root-level application has the same name as the workspace, and the source files reside in the `src/` subfolder of the workspace.
+依預設，`ng new` 會在工作區的根層級建立一個初始骨架應用程式，以及它的端對端測試。這個骨架是一個簡單的 Welcome 應用程式，隨時可以執行，也很容易修改。根層級應用程式與工作區同名，原始檔案位於工作區的 `src/` 子資料夾中。
 
-This default behavior is suitable for a typical "multi-repo" development style where each application resides in its own workspace.
-Beginners and intermediate users are encouraged to use `ng new` to create a separate workspace for each application.
+這種預設行為適合典型的「多儲存庫」開發風格，也就是每個應用程式都位於各自的工作區中。建議初學者與中階使用者使用 `ng new`，為每個應用程式建立個別的工作區。
 
-Angular also supports workspaces with [multiple projects](#multiple-projects).
-This type of development environment is suitable for advanced users who are developing [shareable libraries](guide/glossary#library),
-and for enterprises that use a "monorepo" development style, with a single repository and global configuration for all Angular projects.
+Angular 也支援包含[多個專案](#multiple-projects)的工作區。這種開發環境適合正在開發[可共用函式庫](guide/glossary#程式庫（library）)的進階使用者，也適合採用「monorepo」開發風格的企業：以單一儲存庫與全域組態管理所有的 Angular 專案。
 
-To set up a monorepo workspace, you should skip the creating the root application.
-See [Setting up for a multi-project workspace](#multiple-projects) below.
+若要設定單一儲存庫工作區，你應該略過建立根應用程式。請參閱下方的[為多專案工作區進行設定](#multiple-projects)。
 
-## Workspace configuration files
+## 工作區設定檔
 
-All projects within a workspace share a [CLI configuration context](guide/workspace-config).
-The top level of the workspace contains workspace-wide configuration files, configuration files for the root-level application, and subfolders for the root-level application source and test files.
+工作區內的所有專案都共用一個 [CLI 組態脈絡](guide/workspace-config)。工作區的最上層包含工作區層級的設定檔、根層級應用程式的設定檔，以及根層級應用程式原始檔案與測試檔案的子資料夾。
 
-| WORKSPACE CONFIG FILES    | PURPOSE |
+| 工作區設定檔    | 用途 |
 | :--------------------- | :------------------------------------------|
-| `.editorconfig`        | Configuration for code editors. See [EditorConfig](https://editorconfig.org/). |
-| `.gitignore`           | Specifies intentionally untracked files that [Git](https://git-scm.com/) should ignore. |
-| `README.md`            | Introductory documentation for the root app. |
-| `angular.json`         | CLI configuration defaults for all projects in the workspace, including configuration options for build, serve, and test tools that the CLI uses, such as [TSLint](https://palantir.github.io/tslint/), [Karma](https://karma-runner.github.io/), and [Protractor](http://www.protractortest.org/). For details, see [Angular Workspace Configuration](guide/workspace-config). |
-| `package.json`          | Configures [npm package dependencies](guide/npm-packages) that are available to all projects in the workspace. See [npm documentation](https://docs.npmjs.com/files/package.json) for the specific format and contents of this file. |
-| `package-lock.json`     | Provides version information for all packages installed into `node_modules` by the npm client. See [npm documentation](https://docs.npmjs.com/files/package-lock.json) for details. If you use the yarn client, this file will be [yarn.lock](https://yarnpkg.com/lang/en/docs/yarn-lock/) instead. |
-| `src/`                  | Source files for the root-level application project. |
-| `node_modules/`         | Provides [npm packages](guide/npm-packages) to the entire workspace. Workspace-wide `node_modules` dependencies are visible to all projects. |
-| `tsconfig.json`         | Default [TypeScript](https://www.typescriptlang.org/) configuration for projects in the workspace. |
-| `tslint.json`           | Default [TSLint](https://palantir.github.io/tslint/) configuration for projects in the workspace. |
+| `.editorconfig`        | 程式碼編輯器的組態。請見 [EditorConfig](https://editorconfig.org/)。 |
+| `.gitignore`           | 指定 [Git](https://git-scm.com/) 應該忽略的刻意不追蹤的檔案。 |
+| `README.md`            | 根應用程式的介紹文件。 |
+| `angular.json`         | 工作區中所有專案的 CLI 組態預設值，包括 CLI 使用的建置、伺服與測試工具的組態選項，例如 [TSLint](https://palantir.github.io/tslint/)、[Karma](https://karma-runner.github.io/) 與 [Protractor](http://www.protractortest.org/)。詳情請見 [Angular 工作區組態](guide/workspace-config)。 |
+| `package.json`          | 設定工作區中所有專案都可用的 [npm 套件依賴](guide/npm-packages)。關於這個檔案的具體格式與內容，請見 [npm 文件](https://docs.npmjs.com/files/package.json)。 |
+| `package-lock.json`     | 提供 npm 用戶端安裝到 `node_modules` 的所有套件的版本資訊。詳情請見 [npm 文件](https://docs.npmjs.com/files/package-lock.json)。如果你使用 yarn 用戶端，這個檔案會是 [yarn.lock](https://yarnpkg.com/lang/en/docs/yarn-lock/)。 |
+| `src/`                  | 根層級應用程式專案的原始檔案。 |
+| `node_modules/`         | 為整個工作區提供 [npm 套件](guide/npm-packages)。工作區層級的 `node_modules` 依賴對所有專案都可見。 |
+| `tsconfig.json`         | 工作區中專案的預設 [TypeScript](https://www.typescriptlang.org/) 組態。 |
+| `tslint.json`           | 工作區中專案的預設 [TSLint](https://palantir.github.io/tslint/) 設定。 |
 
+## 應用程式專案檔案
 
-## Application project files
+預設情況下，CLI 指令 `ng new my-app` 會建立一個名為 "my-app" 的工作區資料夾，並在工作區最上層的 `src/` 資料夾中產生新的應用程式骨架。新產生的應用程式包含根模組的原始檔案，以及根元件與範本。
 
-By default, the CLI command `ng new my-app` creates a workspace folder named "my-app" and generates a new application skeleton in a `src/` folder at the top level of the workspace.
-A newly generated application contains source files for a root module, with a root component and template.
-
-When the workspace file structure is in place, you can use the `ng generate` command on the command line to add functionality and data to the application.
-This initial root-level application is the *default app* for CLI commands (unless you change the default after creating [additional apps](#multiple-projects)).
+工作區檔案結構就緒後，你可以在命令列使用 `ng generate` 指令，為應用程式加入功能與資料。這個初始的根層級應用程式是 CLI 指令的*預設應用程式*（除非你在建立[其他應用程式](#multiple-projects)後變更預設值）。
 
 <div class="alert is-helpful">
 
-   Besides using the CLI on the command line, you can also use an interactive development environment like [Angular Console](https://angularconsole.com/), or manipulate files directly in the app's source folder and configuration files.
+   除了在命令列使用 CLI，你也可以使用像 [Angular Console](https://angularconsole.com/) 這樣的互動式開發環境，或直接在應用程式的原始檔案資料夾與組態檔中操作檔案。
 
 </div>
 
-For a single-application workspace, the `src/` subfolder of the workspace contains the source files (application logic, data, and assets) for the root application.
-For a multi-project workspace, additional projects in the `projects/` folder contain a `project-name/src/` subfolder with the same structure.
+對於單一應用程式工作區，工作區的 `src/` 子資料夾包含根應用程式的原始檔案（應用程式邏輯、資料與資產）。對於多專案工作區，`projects/` 資料夾中的其他專案包含一個 `project-name/src/` 子資料夾，結構相同。
 
-### Application source files
+### 應用程式原始檔案
 
-Files at the top level of `src/` support testing and running your application. Subfolders contain the application source and application-specific configuration.
+`src/` 最上層的檔案用來支援測試與執行你的應用程式。子資料夾包含應用程式原始檔案與應用程式專屬組態。
 
-| APP SUPPORT FILES    | PURPOSE |
+| 應用程式支援檔案    | 用途 |
 | :--------------------- | :------------------------------------------|
-| `app/`                 | Contains the component files in which your application logic and data are defined. See details [below](#app-src). |
-| `assets/`              | Contains image and other asset files to be copied as-is when you build your application. |
-| `environments/`        | Contains build configuration options for particular target environments. By default there is an unnamed standard development environment and a production ("prod") environment. You can define additional target environment configurations. |
-| `favicon.ico`          | An icon to use for this application in the bookmark bar. |
-| `index.html`           | The main HTML page that is served when someone visits your site. The CLI automatically adds all JavaScript and CSS files when building your app, so you typically don't need to add any `<script>` or` <link>` tags here manually. |
-| `main.ts`              | The main entry point for your application. Compiles the application with the [JIT compiler](https://angular.io/guide/glossary#jit) and bootstraps the application's root module (AppModule) to run in the browser. You can also use the [AOT compiler](https://angular.io/guide/aot-compiler) without changing any code by appending the `--aot` flag to the CLI `build` and `serve` commands. |
-| `polyfills.ts`         | Provides polyfill scripts for browser support. |
-| `styles.sass`          | Lists CSS files that supply styles for a project. The extension reflects the style preprocessor you have configured for the project. |
-| `test.ts`              | The main entry point for your unit tests, with some Angular-specific configuration. You don't typically need to edit this file. |
+| `app/`                 | 包含定義應用程式邏輯與資料的元件檔案。詳情請見[下方](#app-src)。 |
+| `assets/`              | 包含圖片與其他資產檔案，建置應用程式時會原樣複製。 |
+| `environments/`        | 包含特定目標環境的建置組態選項。預設有一個未命名的標準開發環境，以及一個生產（"prod"）環境。你可以定義其他的目標環境組態。 |
+| `favicon.ico`          | 在書籤列中為這個應用程式使用的圖示。 |
+| `index.html`           | 有人造訪你的網站時提供的主要 HTML 頁面。CLI 在建置應用程式時會自動加入所有的 JavaScript 與 CSS 檔案，因此你通常不需要在這裡手動加入任何 `<script>` 或` <link>` 標籤。 |
+| `main.ts`              | 應用程式的主要進入點。使用 [JIT 編譯器](https://angular.io/guide/glossary#jit)編譯應用程式，並啟動應用程式的根模組（AppModule）在瀏覽器中執行。你也可以在 CLI 的 `build` 與 `serve` 指令加上 `--aot` 旗標，不需變更任何程式碼就使用 [AOT 編譯器](https://angular.io/guide/aot-compiler)。 |
+| `polyfills.ts`         | 提供瀏覽器支援的 polyfill 指令碼。 |
+| `styles.sass`          | 列出為專案提供樣式的 CSS 檔案。副檔名反映你為專案設定的樣式預處理器。 |
+| `test.ts`              | 單元測試的主要進入點，包含一些 Angular 專屬的設定。你通常不需要編輯這個檔案。 |
 
 {@a app-src}
 
-Inside the `src/` folder, the `app/` folder contains your project's logic and data.
-Angular components, templates, and styles go here.
+在 `src/` 資料夾中，`app/` 資料夾包含專案的邏輯與資料。Angular 元件、範本與樣式都放在這裡。
 
-| `src/app/` FILES | PURPOSE |
+| `src/app/` 檔案 | 用途 |
 | :-------------------------- | :------------------------------------------|
-| `app/app.component.ts`      | Defines the logic for the app's root component, named `AppComponent`. The view associated with this root component becomes the root of the [view hierarchy](guide/glossary#view-hierarchy) as you add components and services to your application. |
-| `app/app.component.html`    | Defines the HTML template associated with the root `AppComponent`. |
-| `app/app.component.css`     | Defines the base CSS stylesheet for the root `AppComponent`. |
-| `app/app.component.spec.ts` | Defines a unit test for the root `AppComponent`. |
-| `app/app.module.ts`         | Defines the root module, named `AppModule`, that tells Angular how to assemble the application. Initially declares only the `AppComponent`. As you add more components to the app, they must be declared here. |
+| `app/app.component.ts`      | 為應用程式的根元件（名為 `AppComponent`）定義邏輯。隨著你為應用程式加入元件與服務，與這個根元件關聯的 view 會成為[view 階層](guide/glossary#檢視階層（view-hierarchy）)的根。 |
+| `app/app.component.html`    | 定義與根 `AppComponent` 關聯的 HTML 範本。 |
+| `app/app.component.css`     | 為根 `AppComponent` 定義基礎 CSS 樣式表。 |
+| `app/app.component.spec.ts` | 為根 `AppComponent` 定義單元測試。 |
+| `app/app.module.ts`         | 定義根模組（名為 `AppModule`），告訴 Angular 如何組裝應用程式。最初只宣告 `AppComponent`。當你為應用程式加入更多元件時，必須在此宣告。 |
 
-### Application configuration files
+### 應用程式設定檔
 
-The application-specific configuration files for the root application reside at the workspace root level.
-For a multi-project workspace, project-specific configuration files are in the project root, under `projects/project-name/`.
+根應用程式的應用程式專屬組態檔位於工作區根層級。對於多專案工作區，專案專屬組態檔位於專案根目錄下的 `projects/project-name/`。
 
-Project-specific [TypeScript](https://www.typescriptlang.org/) configuration files inherit from the workspace-wide `tsconfig.json`, and project-specific [TSLint](https://palantir.github.io/tslint/) configuration files inherit from the workspace-wide `tslint.json`.
+專案專屬的 [TypeScript](https://www.typescriptlang.org/) 設定檔會繼承自工作區層級的 `tsconfig.json`，專案專屬的 [TSLint](https://palantir.github.io/tslint/) 設定檔則繼承自工作區層級的 `tslint.json`。
 
-| APPLICATION-SPECIFIC CONFIG FILES    | PURPOSE |
+| 應用程式專屬設定檔    | 用途 |
 | :--------------------- | :------------------------------------------|
-| `browserslist`         | Configures sharing of target browsers and Node.js versions among various front-end tools. See [Browserslist on GitHub](https://github.com/browserslist/browserslist) for more information.  |
-| `karma.conf.js`      | Application-specific [Karma](https://karma-runner.github.io/2.0/config/configuration-file.html) configuration. |
-| `tsconfig.app.json`    | Application-specific [TypeScript](https://www.typescriptlang.org/) configuration, including TypeScript and Angular template compiler options. See [TypeScript Configuration](guide/typescript-configuration). |
-| `tsconfig.spec.json`   | [TypeScript](https://www.typescriptlang.org/) configuration for the application tests. See [TypeScript Configuration](guide/typescript-configuration). |
-| `tslint.json`          | Application-specific [TSLint](https://palantir.github.io/tslint/) configuration. |
+| `browserslist`         | 設定目標瀏覽器與 Node.js 版本在各種前端工具之間的分享。更多資訊請見 [Browserslist on GitHub](https://github.com/browserslist/browserslist)。  |
+| `karma.conf.js`      | 應用程式專屬的 [Karma](https://karma-runner.github.io/2.0/config/configuration-file.html) 設定。 |
+| `tsconfig.app.json`    | 應用程式專屬的 [TypeScript](https://www.typescriptlang.org/) 組態，包括 TypeScript 與 Angular 範本編譯器選項。請見 [TypeScript 組態](guide/typescript-configuration)。 |
+| `tsconfig.spec.json`   | 應用程式測試的 [TypeScript](https://www.typescriptlang.org/) 組態。請見 [TypeScript 組態](guide/typescript-configuration)。 |
+| `tslint.json`          | 應用程式專屬的 [TSLint](https://palantir.github.io/tslint/) 設定。 |
 
-### End-to-end test files
+### 端到端測試檔案
 
-An `e2e/` folder at the top level contains source files for a set of end-to-end tests that correspond to the root-level application, along with test-specific configuration files.
+頂層的 `e2e/` 資料夾包含一組端到端測試的原始檔案，這些測試對應到根層級的應用程式，以及測試專屬的設定檔。
 
-For a multi-project workspace, application-specific end-to-end tests are in the project root, under `projects/project-name/e2e/`.
+對於多專案工作區，應用程式專屬的端到端測試位於專案根目錄下，路徑為 `projects/project-name/e2e/`。
 
 <code-example language="none">
   e2e/
@@ -122,31 +108,28 @@ For a multi-project workspace, application-specific end-to-end tests are in the 
 
 {@a multiple-projects}
 
-## Multiple projects
+## 多個專案
 
-A multi-project workspace is suitable for an enterprise that uses a single repository and global configuration for all Angular projects (the "monorepo" model). A multi-project workspace also supports library development.
+多專案工作區適合使用單一儲存庫與全域組態管理所有 Angular 專案（「monorepo」模式）的企業。多專案工作區也支援函式庫開發。
 
-### Setting up for a multi-project workspace
+### 為多專案工作區進行設定
 
-If you intend to have multiple projects in a workspace, you can skip the initial application generation when you create the workspace, and give the workspace a unique name.
-The following command creates a workspace with all of the workspace-wide configuration files, but no root-level application.
+如果你打算在一個工作區中擁有多個專案，可以在建立工作區時略過初始應用程式的產生，並為工作區取一個獨一無二的名稱。下列指令會建立一個包含所有工作區層級設定檔的工作區，但不包含根層級應用程式。
 
 <code-example language="bash">
 ng new my-workspace --createApplication="false"
 </code-example>
 
-You can then generate apps and libraries with names that are unique within the workspace.
+接著你可以產生在工作區內名稱獨一無二的應用程式與函式庫。
 
 <code-example language="bash">
 cd my-workspace
 ng generate application my-first-app
 </code-example>
 
-### Multiple project file structure
+### 多專案檔案結構
 
-The first explicitly generated application goes into the `projects/` folder along with all other projects in the workspace.
-Newly generated libraries are also added under `projects/`.
-When you create projects this way, the file structure of the workspace is entirely consistent with the structure of the [workspace configuration file](guide/workspace-config), `angular.json`.
+第一個明確產生的應用程式會與工作區中的所有其他專案一起放入 `projects/` 資料夾。新產生的函式庫也會加入 `projects/` 底下。以這種方式建立專案時，工作區的檔案結構與[工作區組態檔](guide/workspace-config) `angular.json` 的結構完全一致。
 
 <code-example language="none">
 my-workspace/
@@ -163,22 +146,22 @@ my-workspace/
       src/        --source and support files for library)
 </code-example>
 
-## Library project files
+## 函式庫專案檔案
 
-When you generate a library using the CLI (with a command such as `ng generate library my-lib`), the generated files go into the projects/ folder of the workspace. For more information about creating your own libraries, see  [Creating Libraries](https://angular.io/guide/creating-libraries).
+使用 CLI 產生函式庫時（例如執行 `ng generate library my-lib` 這樣的指令），產生的檔案會放入工作區的 projects/ 資料夾。如需進一步了解如何建立自己的函式庫，請見 [建立函式庫](https://angular.io/guide/creating-libraries)。
 
-Libraries (unlike applications and their associated e2e projects) have their own `package.json` configuration files.
+函式庫（與應用程式及其相關的 e2e 專案不同）有自己的 `package.json` 組態檔。
 
-Under the `projects/` folder, the `my-lib` folder contains your library code.
+在 `projects/` 資料夾下，`my-lib` 資料夾包含你的函式庫程式碼。
 
-| LIBRARY SOURCE FILES | PURPOSE                                                                      |
+| 函式庫原始檔案 | 用途                                                                      |
 | :------------------- | :----------------------------------------------------------------------------|
-| `src/lib`           |  Contains your library project's logic and data. Like an application project, a library project can contain components, services, modules, directives, and pipes.                                                            |
-| `src/test.ts`       | The main entry point for your unit tests, with some library-specific configuration. You don't typically need to edit this file.                                                                                            |
-| `src/public-api.ts`  | Specifies all files that are exported from your library.                                                                                                                                                                     |
-| `karma.conf.js`      | Library-specific [Karma](https://karma-runner.github.io/2.0/config/configuration-file.html) configuration.                                                                                                                   |
-| `ng-package.json`    | Configuration file used by [ng-packagr](https://github.com/ng-packagr/ng-packagr) for building your library.                                                                                                                 |
-| `package.json`       | Configures [npm package dependencies](guide/npm-packages) that are required for this library.                                                                                                                                |
-| `tsconfig.lib.json`  | Library-specific [TypeScript](https://www.typescriptlang.org/) configuration, including TypeScript and Angular template compiler options. See [TypeScript Configuration](guide/typescript-configuration).            |
-| `tsconfig.spec.json` | [TypeScript](https://www.typescriptlang.org/) configuration for the library tests. See [TypeScript Configuration](guide/typescript-configuration).                                                                     |
-| `tslint.json`        | Library-specific [TSLint](https://palantir.github.io/tslint/) configuration. |
+| `src/lib`           |  包含你的函式庫專案的邏輯與資料。與應用程式專案一樣，函式庫專案可以包含元件、服務、模組、指令與管道。                                                            |
+| `src/test.ts`       | 單元測試的主要進入點，包含一些函式庫專屬的設定。你通常不需要編輯這個檔案。                                                                                            |
+| `src/public-api.ts`  | 指定從你的函式庫匯出的所有檔案。                                                                                                                                                                     |
+| `karma.conf.js`      | 函式庫專屬的 [Karma](https://karma-runner.github.io/2.0/config/configuration-file.html) 設定。                                                                                                                   |
+| `ng-package.json`    | [ng-packagr](https://github.com/ng-packagr/ng-packagr) 用來建置你的函式庫的組態檔。                                                                                                                 |
+| `package.json`       | 設定這個函式庫所需的 [npm 套件依賴](guide/npm-packages)。                                                                                                                                |
+| `tsconfig.lib.json`  | 函式庫專屬的 [TypeScript](https://www.typescriptlang.org/) 組態，包括 TypeScript 與 Angular 範本編譯器選項。請見 [TypeScript 組態](guide/typescript-configuration)。            |
+| `tsconfig.spec.json` | 函式庫測試的 [TypeScript](https://www.typescriptlang.org/) 組態。請見 [TypeScript 組態](guide/typescript-configuration)。                                                                     |
+| `tslint.json`        | 函式庫專屬的 [TSLint](https://palantir.github.io/tslint/) 設定。 |

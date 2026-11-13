@@ -1,109 +1,100 @@
-# Workspace npm dependencies
+# 工作區的 npm 相依性
 
-The Angular Framework, Angular CLI, and components used by Angular applications are packaged as [npm packages](https://docs.npmjs.com/getting-started/what-is-npm "What is npm?") and distributed via the [npm registry](https://docs.npmjs.com/).
+Angular 框架、Angular CLI 以及 Angular 應用程式所使用的元件，都封裝為 [npm 套件](https://docs.npmjs.com/getting-started/what-is-npm "What is npm?")，並透過 [npm registry](https://docs.npmjs.com) 發布。
 
-You can download and install these npm packages by using the [npm CLI client](https://docs.npmjs.com/cli/install), which is installed with and runs as a [Node.js®](https://nodejs.org "Nodejs.org") application. By default, the Angular CLI uses the npm client.
+你可以使用 [npm CLI 用戶端](https://docs.npmjs.com/cli/install)下載並安裝這些 npm 套件，該用戶端隨 [Node.js®](https://nodejs.org "Nodejs.org") 應用程式一起安裝並執行。預設情況下，Angular CLI 使用 npm 用戶端。
 
-Alternatively, you can use the [yarn client](https://yarnpkg.com/) for downloading and installing npm packages.
-
+或者，你也可以使用 [yarn 用戶端](https://yarnpkg.com/)下載並安裝 npm 套件。
 
 <div class="alert is-helpful">
 
-See [Local Environment Setup](guide/setup-local "Setting up for Local Development") for information about the required versions and installation of `Node.js` and `npm`.
+關於 `Node.js` 與 `npm` 所需版本與安裝的資訊，請參閱[本機環境設定](guide/setup-local "Setting up for Local Development")。
 
-If you already have projects running on your machine that use other versions of Node.js and npm, consider using [nvm](https://github.com/creationix/nvm) to manage the multiple versions of Node.js and npm.
+如果你的電腦上已有使用其他版本 Node.js 與 npm 執行的專案，建議使用 [nvm](https://github.com/creationix/nvm) 來管理多個版本的 Node.js 與 npm。
 
 </div>
-
 
 ## `package.json`
 
-Both `npm` and `yarn` install the packages that are identified in a [`package.json`](https://docs.npmjs.com/files/package.json) file.
+`npm` 與 `yarn` 都會安裝 [`package.json`](https://docs.npmjs.com/files/package.json) 檔案中所列出的套件。
 
-The CLI command `ng new` creates a `package.json` file when it creates the new workspace.
-This `package.json` is used by all projects in the workspace, including the initial app project that is created by the CLI when it creates the workspace.
+CLI 指令 `ng new` 在建立新工作區時，會建立一個 `package.json` 檔案。
+這個 `package.json` 會供工作區中的所有專案使用，包括 CLI 在建立工作區時所建立的初始應用程式專案。
 
-Initially, this `package.json` includes _a starter set of packages_, some of which are required by Angular and others that support common application scenarios.
-You add packages to `package.json` as your application evolves.
-You may even remove some.
+這個 `package.json` 一開始會包含*一組入門套件*，其中有些是 Angular 必需的套件，有些則支援常見的應用程式情境。
+隨著應用程式持續演進，你可以把套件加入 `package.json`。
+你甚至可以移除一些套件。
 
-The `package.json` is organized into two groups of packages:
+`package.json` 分為兩組套件：
 
-* [Dependencies](guide/npm-packages#dependencies) are essential to *running* applications.
-* [DevDependencies](guide/npm-packages#dev-dependencies) are only necessary to *develop* applications.
+* [相依性](guide/npm-packages#相依套件)對*執行*應用程式至關重要。
+* [開發相依性](guide/npm-packages#dev-dependencies)只在*開發*應用程式時才需要。
 
 <div class="alert is-helpful">
 
-**Library developers:** By default, the CLI command [`ng generate library`](cli/generate) creates a `package.json` for the new library. That `package.json` is used when publishing the library to npm.
-For more information, see the CLI wiki page [Library Support](https://github.com/angular/angular-cli/wiki/stories-create-library).
+**函式庫開發者：** 預設情況下，CLI 指令 [`ng generate library`](cli/generate) 會為新函式庫建立一個 `package.json`。該 `package.json` 會在將函式庫發佈到 npm 時使用。
+更多資訊請參閱 CLI wiki 頁面[函式庫支援](https://github.com/angular/angular-cli/wiki/stories-create-library)。
 </div>
 
-
 {@a dependencies}
-## Dependencies
+## 相依套件
 
-The packages listed in the `dependencies` section of `package.json` are essential to *running* applications.
+`package.json` 的 `dependencies` 區段中所列的套件，對*執行*應用程式至關重要。
 
-The `dependencies` section of `package.json` contains:
+`package.json` 的 `dependencies` 區段包含：
 
-* [**Angular packages**](#angular-packages): Angular core and optional modules; their package names begin `@angular/`.
+* [**Angular 套件**](#angular-套件)：Angular 核心與選用模組；其套件名稱以 `@angular/` 開頭。
 
-* [**Support packages**](#support-packages): 3rd party libraries that must be present for Angular apps to run.
+* [**支援套件**](#支援套件)：Angular 應用程式執行時必須存在的第三方程式庫。
 
-* [**Polyfill packages**](#polyfills): Polyfills plug gaps in a browser's JavaScript implementation.
+* [**Polyfill 套件**](#polyfills)：Polyfill 可填補瀏覽器 JavaScript 實作中的缺口。
 
-To add a new dependency, use the [`ng add`](cli/add) command.
+若要加入新的相依性，請使用 [`ng add`](cli/add) 指令。
 
 {@a angular-packages}
-### Angular packages
+### Angular 套件
 
-The following Angular packages are included as dependencies in the default `package.json` file for a new Angular workspace.
-For a complete list of Angular packages, see the [API reference](http://angular.io/api?type=package).
+下列 Angular 套件會列為新 Angular 工作區預設 `package.json` 檔案中的相依性。
+完整的 Angular 套件清單，請參閱 [API 參考文件](http://angular.io/api?type=package)。
 
 Package name                               | Description
 ----------------------------------------   | --------------------------------------------------
-[**@angular/animations**](api/animations) | Angular's animations library makes it easy to define and apply animation effects such as page and list transitions. For more information, see the [Animations guide](guide/animations).
-[**@angular/common**](api/common) | The commonly-needed services, pipes, and directives provided by the Angular team. The [`HttpClientModule`](api/common/http/HttpClientModule) is also here, in the [`@angular/common/http`](api/common/http) subfolder. For more information, see the [HttpClient guide](guide/http).
-**@angular/compiler** | Angular's template compiler. It understands templates and can convert them to code that makes the application run and render. Typically you don’t interact with the compiler directly; rather, you use it indirectly via `platform-browser-dynamic` when JIT compiling in the browser. For more information, see the [Ahead-of-time Compilation guide](guide/aot-compiler).
-[**@angular/core**](api/core) | Critical runtime parts of the framework that are needed by every application. Includes all metadata decorators, `Component`, `Directive`,  dependency injection, and the component lifecycle hooks.
-[**@angular/forms**](api/forms) | Support for both [template-driven](guide/forms) and [reactive forms](guide/reactive-forms). For information about choosing the best forms approach for your app, see [Introduction to forms](guide/forms-overview).
-[**@angular/<br />platform&#8209;browser**](api/platform-browser) | Everything DOM and browser related, especially the pieces that help render into the DOM. This package also includes the `bootstrapModuleFactory()` method for bootstrapping applications for production builds that pre-compile with [AOT](guide/aot-compiler).
-[**@angular/<br />platform&#8209;browser&#8209;dynamic**](api/platform-browser-dynamic) | Includes [providers](api/core/Provider) and methods to compile and run the app on the client using the [JIT compiler](guide/aot-compiler).
-[**@angular/router**](api/router) | The router module navigates among your app pages when the browser URL changes. For more information, see [Routing and Navigation](guide/router).
-
+[**@angular/animations**](api/animations) | Angular 的動畫函式庫，讓你輕鬆定義並套用頁面與清單轉場等動畫效果。更多資訊，請參閱[動畫指南](guide/animations)。
+[**@angular/common**](api/common) | Angular 團隊提供的常用服務、管道與指令。[`HttpClientModule`](api/common/http/HttpClientModule) 也在這裡，位於 [`@angular/common/http`](api/common/http) 子資料夾中。更多資訊請參閱 [HttpClient 指南](guide/http)。
+**@angular/compiler** | Angular 的範本編譯器。它理解範本，並可將其轉換為讓應用程式執行與渲染的程式碼。通常你不會直接與編譯器互動，而是在瀏覽器中使用 `platform-browser-dynamic` 進行 JIT 編譯時間接使用它。更多資訊請參閱[預先編譯指南](guide/aot-compiler)。
+[**@angular/core**](api/core) | 每個應用程式都需要的框架關鍵執行時期部分。包括所有中繼資料裝飾器、`Component`、`Directive`、依賴注入，以及元件生命週期掛鉤。
+[**@angular/forms**](api/forms) | 支援[範本驅動](guide/forms)與[反應式表單](guide/reactive-forms)。關於如何為你的應用程式選擇最佳表單方式，請參閱[表單簡介](guide/forms-overview)。
+[**@angular/<br />platform&#8209;browser**](api/platform-browser) | 所有與 DOM 與瀏覽器相關的部分，特別是協助渲染至 DOM 的部分。此套件也包含 `bootstrapModuleFactory()` 方法，用於為使用 [AOT](guide/aot-compiler) 預先編譯的正式版建置啟動應用程式。
+[**@angular/<br />platform&#8209;browser&#8209;dynamic**](api/platform-browser-dynamic) | 包含[提供者](api/core/Provider)與方法，可使用 [JIT 編譯器](guide/aot-compiler) 在用戶端編譯並執行應用程式。
+[**@angular/router**](api/router) | 當瀏覽器 URL 變更時，路由模組會在你的應用程式頁面之間導覽。更多資訊，請參閱[路由與導覽](guide/router)。
 
 {@a support-packages}
-### Support packages
+### 支援套件
 
-The following support packages are included as dependencies in the default `package.json` file for a new Angular workspace.
-
+下列支援套件包含在新 Angular 工作區預設 `package.json` 檔案的相依性中。
 
 Package name                               | Description
 ----------------------------------------   | --------------------------------------------------
-[**rxjs**](https://github.com/ReactiveX/rxjs) | Many Angular APIs return [_observables_](guide/glossary#observable). RxJS is an implementation of the proposed [Observables specification](https://github.com/tc39/proposal-observable) currently before the [TC39](https://www.ecma-international.org/memento/tc39-m.htm) committee, which determines standards for the JavaScript language.
-[**zone.js**](https://github.com/angular/zone.js) | Angular relies on zone.js to run Angular's change detection processes when native JavaScript operations raise events. Zone.js is an implementation of a [specification](https://gist.github.com/mhevery/63fdcdf7c65886051d55) currently before the [TC39](http://www.ecma-international.org/memento/TC39.htm) committee that determines standards for the JavaScript language.
-
+[**rxjs**](https://github.com/ReactiveX/rxjs) | 許多 Angular API 會傳回[*可觀察物件*](guide/glossary#可觀察物件（observable）)。RxJS 是目前提交給決定 JavaScript 語言標準的 [TC39](https://www.ecma-international.org/memento/tc39-m.htm) 委員會的 [Observable 規格提案](https://github.com/tc39/proposal-observable)的一種實作。
+[**zone.js**](https://github.com/angular/zone.js) | 當原生 JavaScript 操作引發事件時，Angular 依靠 zone.js 來執行 Angular 的變更偵測程序。Zone.js 是目前提交給決定 JavaScript 語言標準的 [TC39](http://www.ecma-international.org/memento/TC39.htm) 委員會的[規格](https://gist.github.com/mhevery/63fdcdf7c65886051d55)的一種實作。
 
 {@a polyfills}
-### Polyfill packages
+### Polyfill 套件
 
-Many browsers lack native support for some features in the latest HTML standards,
-features that Angular requires.
-[_Polyfills_](https://en.wikipedia.org/wiki/Polyfill_(programming)) can emulate the missing features.
-The [Browser Support](guide/browser-support) guide explains which browsers need polyfills and
-how you can add them.
+許多瀏覽器缺乏對最新 HTML 標準中某些功能的原生支援，而這些功能是 Angular 所需要的。
+[*Polyfill*](https://en.wikipedia.org/wiki/Polyfill_(programming)) 可以模擬缺少的功能。
+[瀏覽器支援](guide/browser-support)指南說明哪些瀏覽器需要 polyfill，以及如何加入它們。
 
-The `package.json` for a new Angular workspace installs the [core-js](https://github.com/zloirock/core-js) package,
-which polyfills missing features for several popular browser.
-
+新 Angular 工作區的 `package.json` 會安裝 [core-js](https://github.com/zloirock/core-js) 套件，
+它為數個熱門瀏覽器 polyfill 缺少的功能。
 
 {@a dev-dependencies}
 
-## DevDependencies
+## 開發相依性
 
-The packages listed in the `devDependencies` section of `package.json` help you develop the application on your local machine. You don't deploy them with the production application.
+`package.json` 的 `devDependencies` 區段中所列的套件，可協助你在本機上開發應用程式。你不會將它們與正式版應用程式一起部署。
 
-To add a new `devDependency`, use either one of the following commands:
+若要加入新的 `devDependency`，請使用下列任一指令：
 
 <code-example language="sh" class="code-shell">
   npm install --dev &lt;package-name&gt;
@@ -113,28 +104,26 @@ To add a new `devDependency`, use either one of the following commands:
   yarn add --dev &lt;package-name&gt;
 </code-example>
 
-The following `devDependencies` are provided in the default `package.json` file for a new Angular workspace.
-
+下列 `devDependencies` 提供於新 Angular 工作區預設的 `package.json` 檔案中。
 
 Package name                               | Description
 ----------------------------------------   | -----------------------------------
-[**@angular&#8209;devkit/<br />build&#8209;angular**](https://github.com/angular/angular-cli/) | The Angular build tools.
-[**@angular/cli**](https://github.com/angular/angular-cli/) | The Angular CLI tools.
-**@angular/<br />compiler&#8209;cli** | The Angular compiler, which is invoked by the Angular CLI's `ng build` and `ng serve` commands.
-**@angular/<br />language&#8209;service** | The [Angular language service](guide/language-service) analyzes component templates and provides type and error information that TypeScript-aware editors can use to improve the developer's experience. For example, see the [Angular language service extension for VS Code](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template).
-**@types/... ** | TypeScript definition files for 3rd party libraries such as Jasmine and Node.js.
-[**codelyzer**](https://www.npmjs.com/package/codelyzer) | A linter for Angular apps whose rules conform to the Angular [style guide](guide/styleguide).
-**jasmine/... ** | Packages to support the [Jasmine](https://jasmine.github.io/) test library.
-**karma/... ** | Packages to support the [karma](https://www.npmjs.com/package/karma) test runner.
-[**protractor**](https://www.npmjs.com/package/protractor) | An end-to-end (e2e) framework for Angular apps. Built on top of [WebDriverJS](https://github.com/SeleniumHQ/selenium/wiki/WebDriverJs).
-[**ts-node**](https://www.npmjs.com/package/ts-node) | TypeScript execution environment and REPL for Node.js.
-[**tslint**](https://www.npmjs.com/package/tslint) | A static analysis tool that checks TypeScript code for readability, maintainability, and functionality errors.
-[**typescript**](https://www.npmjs.com/package/typescript) | The TypeScript language server, including the *tsc* TypeScript compiler.
+[**@angular&#8209;devkit/<br />build&#8209;angular**](https://github.com/angular/angular-cli/) | Angular 建置工具。
+[**@angular/cli**](https://github.com/angular/angular-cli/) | Angular CLI 工具。
+**@angular/<br />compiler&#8209;cli** | Angular 編譯器，由 Angular CLI 的 `ng build` 與 `ng serve` 指令呼叫。
+**@angular/<br />language&#8209;service** | [Angular 語言服務](guide/language-service)會分析元件範本，並提供型別與錯誤資訊，讓具備 TypeScript 感知能力的編輯器可用來改善開發體驗。例如，請參閱 [VS Code 的 Angular 語言服務擴充功能](https://marketplace.visualstudio.com/items?itemName=Angular.ng-template)。
+**@types/... ** | Jasmine 與 Node.js 等第三方程式庫的 TypeScript 定義檔案。
+[**codelyzer**](https://www.npmjs.com/package/codelyzer) | 一款 Angular 應用程式的 linter，其規則遵循 Angular [風格指南](guide/styleguide)。
+**jasmine/... ** | 支援 [Jasmine](https://jasmine.github.io/) 測試程式庫的套件。
+**karma/... ** | 支援 [karma](https://www.npmjs.com/package/karma) 測試執行器的套件。
+[**protractor**](https://www.npmjs.com/package/protractor) | 一個用於 Angular 應用程式的端到端（e2e）框架。建立在 [WebDriverJS](https://github.com/SeleniumHQ/selenium/wiki/WebDriverJs) 之上。
+[**ts-node**](https://www.npmjs.com/package/ts-node) | Node.js 的 TypeScript 執行環境與 REPL。
+[**tslint**](https://www.npmjs.com/package/tslint) | 一個靜態分析工具，用於檢查 TypeScript 程式碼的可讀性、可維護性與功能錯誤。
+[**typescript**](https://www.npmjs.com/package/typescript) | TypeScript 語言伺服器，包括 *tsc* TypeScript 編譯器。
 
+## 相關資訊
 
-## Related information
+關於 Angular CLI 如何處理套件的資訊，請參閱下列指南：
 
- For information about how the Angular CLI handles packages see the following guides:
-
- * [Building and serving](guide/build) describes how packages come together to create a development build.
- * [Deployment](guide/deployment) describes how packages come together to create a production build.
+ * [建置與提供服務](guide/build) 說明套件如何組合以建立開發建置。
+ * [部署](guide/deployment) 說明套件如何組合以建立正式版建置。

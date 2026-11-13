@@ -1,230 +1,229 @@
-# Display a Heroes List
+# 顯示英雄清單
 
-In this page, you'll expand the Tour of Heroes app to display a list of heroes, and
-allow users to select a hero and display the hero's details.
+在本頁中，你將擴充 Tour of Heroes 應用程式來顯示英雄清單，並
+讓使用者選取一位英雄、顯示該英雄的詳細資料。
 
 
-## Create mock heroes
+## 建立模擬英雄
 
-You'll need some heroes to display.
+你會需要一些英雄來顯示。
 
-Eventually you'll get them from a remote data server.
-For now, you'll create some _mock heroes_ and pretend they came from the server.
+最終你會從遠端資料伺服器取得它們。
+目前，你先建立一些_模擬英雄_，並假裝它們來自伺服器。
 
-Create a file called `mock-heroes.ts` in the `src/app/` folder.
-Define a `HEROES` constant as an array of ten heroes and export it.
-The file should look like this.
+在 `src/app/` 資料夾中建立一個名為 `mock-heroes.ts` 的檔案。
+把 `HEROES` 常數定義為包含十位英雄的陣列並將其匯出。
+這個檔案應該會像這樣。
 
 <code-example path="toh-pt2/src/app/mock-heroes.ts" header="src/app/mock-heroes.ts"></code-example>
 
-## Displaying heroes
+## 顯示英雄
 
-Open the `HeroesComponent` class file and import the mock `HEROES`.
+開啟 `HeroesComponent` 類別檔案，匯入模擬的 `HEROES`。
 
 <code-example path="toh-pt2/src/app/heroes/heroes.component.ts" region="import-heroes" header="src/app/heroes/heroes.component.ts (import HEROES)">
 </code-example>
 
-In the same file (`HeroesComponent` class), define a component property called `heroes` to expose the `HEROES` array for binding.
+在同一個檔案中（`HeroesComponent` 類別），定義一個名為 `heroes` 的元件屬性，把 `HEROES` 陣列公開出來以供繫結。
 
 <code-example path="toh-pt2/src/app/heroes/heroes.component.ts" header="src/app/heroes/heroes.component.ts" region="component">
 </code-example>
 
-### List heroes with `*ngFor`
+### 使用 `*ngFor` 列出英雄
 
-Open the `HeroesComponent` template file and make the following changes:
+開啟 `HeroesComponent` 範本檔案，進行以下修改：
 
-* Add an `<h2>` at the top,
-* Below it add an HTML unordered list (`<ul>`)
-* Insert an `<li>` within the `<ul>` that displays properties of a `hero`.
-* Sprinkle some CSS classes for styling (you'll add the CSS styles shortly).
+* 在最上方加入一個 `<h2>`，
+* 在它下方加入一個 HTML 無序清單（`<ul>`）
+* 在 `<ul>` 中插入一個 `<li>`，用來顯示 `hero` 的屬性。
+* 撒上一些 CSS 類別來設定樣式（你很快就會加入 CSS 樣式）。
 
-Make it look like this:
+讓它看起來像這樣：
 
 <code-example path="toh-pt2/src/app/heroes/heroes.component.1.html" region="list" header="heroes.component.html (heroes template)"></code-example>
 
-That shows one hero. To list them all, add an `*ngFor` to the `<li>` to iterate through the list of heroes:
+這樣只會顯示一位英雄。若要列出全部，請在 `<li>` 上加入 `*ngFor` 來逐一走訪英雄清單：
 
 <code-example path="toh-pt2/src/app/heroes/heroes.component.1.html" region="li">
 </code-example>
 
-The [`*ngFor`](guide/template-syntax#ngFor) is Angular's _repeater_ directive.
-It repeats the host element for each element in a list.
+[`*ngFor`](guide/template-syntax#ngFor) 是 Angular 的_重複器_指令。
+它會為清單中的每個元素重複宿主元素。
 
-The syntax in this example is as follows:
+本範例中的語法如下：
 
-* `<li>` is the host element.
-* `heroes` holds the mock heroes list from the `HeroesComponent` class, the mock heroes list.
-* `hero` holds the current hero object for each iteration through the list.
+* `<li>` 是宿主元素。
+* `heroes` 保存來自 `HeroesComponent` 類別的模擬英雄清單，也就是模擬英雄清單。
+* `hero` 保存每次走訪清單時的目前英雄物件。
 
 <div class="alert is-important">
 
-Don't forget the asterisk (*) in front of `ngFor`. It's a critical part of the syntax.
+別忘了在 `ngFor` 前面加上星號（*）。這是語法中關鍵的一部分。
 
 </div>
 
-After the browser refreshes, the list of heroes appears.
+瀏覽器重新整理後，就會出現英雄清單。
 
 {@a styles}
 
-### Style the heroes
+### 設定英雄樣式
 
-The heroes list should be attractive and should respond visually when users
-hover over and select a hero from the list.
+英雄清單應該要美觀，而且當使用者
+將滑鼠移到清單中的英雄上方或選取英雄時，應該要有視覺上的回應。
 
-In the [first tutorial](tutorial/toh-pt0#app-wide-styles), you set the basic styles for the entire application in `styles.css`.
-That stylesheet didn't include styles for this list of heroes.
+在[第一篇教學](tutorial/toh-pt0#app-wide-styles)中，你在 `styles.css` 中為整個應用程式設定了基本樣式。
+那份樣式表並未包含這個英雄清單的樣式。
 
-You could add more styles to `styles.css` and keep growing that stylesheet as you add components.
+你可以繼續在 `styles.css` 中加入更多樣式，隨著加入元件而讓那份樣式表不斷擴大。
 
-You may prefer instead to define private styles for a specific component and keep everything a component needs&mdash; the code, the HTML,
-and the CSS &mdash;together in one place.
+你也可以改為針對特定元件定義專用樣式，並把元件所需的一切&mdash;程式碼、HTML
+與 CSS&mdash;都放在同一個地方。
 
-This approach makes it easier to re-use the component somewhere else
-and deliver the component's intended appearance even if the global styles are different.
+這種做法讓元件更容易在其他地方重複使用，
+即使全域樣式不同，也能呈現元件預期的外觀。
 
-You define private styles either inline in the `@Component.styles` array or
-as stylesheet file(s) identified in the `@Component.styleUrls` array.
+你可以把專用樣式以行內方式定義在 `@Component.styles` 陣列中，
+或是定義在 `@Component.styleUrls` 陣列所指出的樣式表檔案中。
 
-When the CLI generated the `HeroesComponent`, it created an empty `heroes.component.css` stylesheet for the `HeroesComponent`
-and pointed to it in `@Component.styleUrls` like this.
+當 CLI 產生 `HeroesComponent` 時，它為 `HeroesComponent` 建立了一個空的 `heroes.component.css` 樣式表，
+並在 `@Component.styleUrls` 中指向它，如下所示。
 
 <code-example path="toh-pt2/src/app/heroes/heroes.component.ts" region="metadata"
  header="src/app/heroes/heroes.component.ts (@Component)">
 </code-example>
 
-Open the `heroes.component.css` file and paste in the private CSS styles for the `HeroesComponent`.
-You'll find them in the [final code review](#final-code-review) at the bottom of this guide.
+開啟 `heroes.component.css` 檔案，貼入 `HeroesComponent` 的專用 CSS 樣式。
+你可以在本指南底部的[最終程式碼檢閱](#final-code-review)中找到它們。
 
 <div class="alert is-important">
 
-Styles and stylesheets identified in `@Component` metadata are scoped to that specific component.
-The `heroes.component.css` styles apply only to the `HeroesComponent` and don't affect the outer HTML or the HTML in any other component.
+在 `@Component` 中繼資料中指出的樣式與樣式表，其作用範圍僅限於該特定元件。
+`heroes.component.css` 的樣式只會套用到 `HeroesComponent`，不會影響外部的 HTML 或任何其他元件中的 HTML。
 
 </div>
 
-## Master/Detail
+## 主版/詳細資料
 
-When the user clicks a hero in the **master** list,
-the component should display the selected hero's **details** at the bottom of the page.
+當使用者點選**主版**清單中的英雄時，元件應該在頁面底部顯示所選英雄的**詳細資料**。
 
-In this section, you'll listen for the hero item click event
-and update the hero detail.
+在本節中，你將監聽英雄項目的點選事件，
+並更新英雄的詳細資料。
 
-### Add a click event binding
+### 加入點選事件繫結
 
-Add a click event binding to the `<li>` like this:
+像這樣在 `<li>` 上加入點選事件繫結：
 
 <code-example path="toh-pt2/src/app/heroes/heroes.component.1.html" region="selectedHero-click" header="heroes.component.html (template excerpt)"></code-example>
 
-This is an example of Angular's [event binding](guide/template-syntax#event-binding) syntax.
+這是 Angular [事件繫結](guide/template-syntax#event-binding)語法的一個範例。
 
-The parentheses around `click` tell Angular to listen for the `<li>` element's  `click` event.
-When the user clicks in the `<li>`, Angular executes the `onSelect(hero)` expression.
-
-
-In the next section, define an `onSelect()` method in `HeroesComponent` to
-display the hero that was defined in the `*ngFor` expression.
+`click` 周圍的括號告訴 Angular，要監聽 `<li>` 元素的 `click` 事件。
+當使用者在 `<li>` 中點選時，Angular 就會執行 `onSelect(hero)` 運算式。
 
 
-### Add the click event handler
+在下一節中，於 `HeroesComponent` 中定義一個 `onSelect()` 方法，
+來顯示在 `*ngFor` 運算式中定義的英雄。
 
-Rename the component's `hero` property to `selectedHero` but don't assign it.
-There is no _selected hero_ when the application starts.
 
-Add the following `onSelect()` method, which assigns the clicked hero from the template
-to the component's `selectedHero`.
+### 加入點選事件處理常式
+
+把元件的 `hero` 屬性重新命名為 `selectedHero`，但不要給它指派任何值。
+應用程式啟動時還沒有任何_已選取的英雄_。
+
+加入以下的 `onSelect()` 方法，它會把範本中被點選的英雄
+指派給元件的 `selectedHero`。
 
 <code-example path="toh-pt2/src/app/heroes/heroes.component.ts" region="on-select" header="src/app/heroes/heroes.component.ts (onSelect)"></code-example>
 
-### Add a details section
+### 加入詳細資料區段
 
-Currently, you have a list in the component template. To click on a hero on the list
-and reveal details about that hero, you need a section for the details to render in the
-template. Add the following to `heroes.component.html` beneath the list section:
+目前，元件範本中有一個清單。若要點選清單上的英雄
+並揭露該英雄的詳細資料，你需要在範本中有一個供詳細資料渲染的
+區段。在 `heroes.component.html` 的清單區段下方加入以下內容：
 
 <code-example path="toh-pt2/src/app/heroes/heroes.component.html" region="selectedHero-details" header="heroes.component.html (selected hero details)"></code-example>
 
-After the browser refreshes, the application is broken.
+瀏覽器重新整理後，應用程式就壞掉了。
 
-Open the browser developer tools and look in the console for an error message like this:
+開啟瀏覽器的開發人員工具，在主控台中尋找類似以下的錯誤訊息：
 
 <code-example language="sh" class="code-shell">
   HeroesComponent.html:3 ERROR TypeError: Cannot read property 'name' of undefined
 </code-example>
 
-#### What happened?
+#### 發生了什麼事？
 
-When the app starts, the `selectedHero` is `undefined` _by design_.
+應用程式啟動時，`selectedHero` _依設計_就是 `undefined`。
 
-Binding expressions in the template that refer to properties of `selectedHero`&mdash;expressions like `{{selectedHero.name}}`&mdash;_must fail_ because there is no selected hero.
-
-
-#### The fix - hide empty details with _*ngIf_
+範本中參照 `selectedHero` 屬性的繫結運算式&mdash;例如 `{{selectedHero.name}}` 這類運算式&mdash;_必然會失敗_，因為還沒有選取任何英雄。
 
 
-The component should only display the selected hero details if the `selectedHero` exists.
+#### 修復方式&mdash;用 _*ngIf_ 隱藏空白的詳細資料
 
-Wrap the hero detail HTML in a `<div>`.
-Add Angular's `*ngIf` directive to the `<div>` and set it to `selectedHero`.
+
+元件只應該在 `selectedHero` 存在時，才顯示所選英雄的詳細資料。
+
+把英雄詳細資料的 HTML 包在 `<div>` 中。
+在 `<div>` 上加入 Angular 的 `*ngIf` 指令，並將其設為 `selectedHero`。
 
 
 <div class="alert is-important">
 
-Don't forget the asterisk (*) in front of `ngIf`. It's a critical part of the syntax.
+別忘了在 `ngIf` 前面加上星號（*）。這是語法中關鍵的一部分。
 
 </div>
 
 <code-example path="toh-pt2/src/app/heroes/heroes.component.html" region="ng-if" header="src/app/heroes/heroes.component.html (*ngIf)"></code-example>
 
-After the browser refreshes, the list of names reappears.
-The details area is blank.
-Click a hero in the list of heroes and its details appear.
-The app seems to be working again.
-The heroes appear in a list and details about the clicked hero appear at the bottom of the page.
+瀏覽器重新整理後，名稱清單會再次出現。
+詳細資料區域是空白的。
+點選英雄清單中的一位英雄，其詳細資料就會出現。
+應用程式似乎又能運作了。
+英雄會以清單形式出現，被點選英雄的詳細資料則會出現在頁面底部。
 
 
-#### Why it works
+#### 為什麼這樣有效
 
-When `selectedHero` is undefined, the `ngIf` removes the hero detail from the DOM. There are no `selectedHero` bindings to consider.
+當 `selectedHero` 是 undefined 時，`ngIf` 會把英雄詳細資料從 DOM 中移除。這樣就沒有需要考量的 `selectedHero` 繫結。
 
-When the user picks a hero, `selectedHero` has a value and
-`ngIf` puts the hero detail into the DOM.
+當使用者選取一位英雄時，`selectedHero` 就有了值，
+`ngIf` 便會把英雄詳細資料放入 DOM 中。
 
-### Style the selected hero
+### 設定已選取英雄的樣式
 
-It's difficult to identify the _selected hero_ in the list when all `<li>` elements look alike.
+當所有 `<li>` 元素看起來都一樣時，很難在清單中辨識出_已選取的英雄_。
 
-If the user clicks "Magneta", that hero should render with a distinctive but subtle background color like this:
+如果使用者點選「Magneta」，該英雄應以獨特但低調的背景色呈現，如下所示：
 
 <figure class="lightbox">
   <div class="card">
-    <img src='generated/images/guide/toh/heroes-list-selected.png' alt="Selected hero">
+    <img src='generated/images/guide/toh/heroes-list-selected.png' alt="已選取的英雄">
   </div>
 </figure>
 
-That _selected hero_ coloring is the work of the `.selected` CSS class in the [styles you added earlier](#styles).
-You just have to apply the `.selected` class to the `<li>` when the user clicks it.
+_已選取的英雄_之所以有這樣的配色，是[先前加入的樣式](#styles)中 `.selected` CSS 類別的效果。
+你只要在使用者點選 `<li>` 時，把 `.selected` 類別套用到該 `<li>` 即可。
 
-The Angular [class binding](guide/template-syntax#class-binding) makes it easy to add and remove a CSS class conditionally.
-Just add `[class.some-css-class]="some-condition"` to the element you want to style.
+Angular 的[類別繫結](guide/template-syntax#類別繫結)讓你能輕鬆地依條件加入或移除 CSS 類別。
+只要在你想設定樣式的元素上加入 `[class.some-css-class]="some-condition"` 即可。
 
-Add the following `[class.selected]` binding to the `<li>` in the `HeroesComponent` template:
+在 `HeroesComponent` 範本的 `<li>` 上加入以下的 `[class.selected]` 繫結：
 
 <code-example path="toh-pt2/src/app/heroes/heroes.component.1.html" region="class-selected" header="heroes.component.html (toggle the 'selected' CSS class)"></code-example>
 
-When the current row hero is the same as the `selectedHero`, Angular adds the `selected` CSS class. When the two heroes are different, Angular removes the class.
+當目前列的英雄與 `selectedHero` 相同時，Angular 會加入 `selected` CSS 類別。當兩位英雄不同時，Angular 會移除這個類別。
 
-The finished `<li>` looks like this:
+完成後的 `<li>` 看起來像這樣：
 
 <code-example path="toh-pt2/src/app/heroes/heroes.component.html" region="li" header="heroes.component.html (list item hero)"></code-example>
 
 {@a final-code-review}
 
-## Final code review
+## 最終程式碼檢閱
 
-Your app should look like this <live-example></live-example>.
+你的應用程式應該像這樣 <live-example></live-example>。
 
-Here are the code files discussed on this page, including the `HeroesComponent` styles.
+以下是本頁討論過的程式碼檔案，包括 `HeroesComponent` 的樣式。
 
 <code-tabs>
 
@@ -242,10 +241,10 @@ Here are the code files discussed on this page, including the `HeroesComponent` 
 
 </code-tabs>
 
-## Summary
+## 摘要
 
-* The Tour of Heroes app displays a list of heroes in a Master/Detail view.
-* The user can select a hero and see that hero's details.
-* You used `*ngFor` to display a list.
-* You used `*ngIf` to conditionally include or exclude a block of HTML.
-* You can toggle a CSS style class with a `class` binding.
+* Tour of Heroes 應用程式以主版/詳細資料檢視顯示英雄清單。
+* 使用者可以選取一位英雄並查看該英雄的詳細資料。
+* 你使用 `*ngFor` 來顯示清單。
+* 你使用 `*ngIf` 來依條件包含或排除一段 HTML。
+* 你可以使用 `class` 繫結來切換 CSS 樣式類別。

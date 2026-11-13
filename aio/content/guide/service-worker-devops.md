@@ -1,175 +1,172 @@
-# Service worker in production
+# Service Worker 運維
 
-This page is a reference for deploying and supporting production apps that use the Angular service worker. It explains how the Angular service worker fits into the larger production environment, the service worker's behavior under various conditions, and available resources and fail-safes.
+本頁是部署與支援使用 Angular service worker 的正式環境應用程式時的參考資料。它說明 Angular service worker 如何融入更大的正式環境、service worker 在各種條件下的行為，以及可用的資源與故障安全機制。
 
-#### Prerequisites
+#### 必要條件
 
-A basic understanding of the following:
-* [Service Worker Communication](guide/service-worker-communications).
+對下列內容有基本的了解：
+* [與 Service Worker 通訊](guide/service-worker-communications)。
 
 <hr />
 
-## Service worker and caching of app resources
+## Service worker 與應用程式資源的快取
 
-Conceptually, you can imagine the Angular service worker as a forward cache or a CDN edge that is installed in the end user's web browser. The service worker's job is to satisfy requests made by the Angular app for resources or data from a local cache, without needing to wait for the network. Like any cache, it has rules for how content is expired and updated.
+從概念上來說，把 Angular service worker 想像成一個正向快取，或是安裝在最終使用者 Web 瀏覽器中的 CDN 邊緣節點。Service worker 的工作，是從本機快取滿足 Angular 應用程式對資源或資料的請求，不需要等待網路。和任何快取一樣，它有內容何時到期與如何更新的規則。
 
 {@a versions}
 
-### App versions
+### 應用程式版本
 
-In the context of an Angular service worker, a "version" is a collection of resources that represent a specific build of the Angular app. Whenever a new build of the app is deployed, the service worker treats that build as a new version of the app. This is true even if only a single file is updated. At any given time, the service worker may have multiple versions of the app in its cache and it may be serving them simultaneously. For more information, see the [App tabs](guide/service-worker-devops#tabs) section below.
+在 Angular service worker 的脈絡中，「版本」是代表 Angular 應用程式某個特定建置的一組資源集合。每當應用程式的新建置被部署時，service worker 就會把該建置視為應用程式的新版本。即使只更新了單一個檔案也是如此。在任何時間點，service worker 的快取中可能同時有多個版本的應用程式，也可能同時提供它們。更多資訊，請參閱下方的[應用程式分頁](guide/service-worker-devops#tabs)一節。
 
-To preserve app integrity, the Angular service worker groups all files into a version together. The files grouped into a version usually include HTML, JS, and CSS files. Grouping of these files is essential for integrity because HTML, JS, and CSS files frequently refer to each other and depend on specific content. For example, an `index.html` file might have a `<script>` tag that references `bundle.js` and it might attempt to call a function `startApp()` from within that script. Any time this version of `index.html` is served, the corresponding `bundle.js` must be served with it. For example, assume that the `startApp()` function is renamed to `runApp()` in both files. In this scenario, it is not valid to serve the old `index.html`, which calls `startApp()`, along with the new bundle, which defines `runApp()`.
+為了維持應用程式的完整性，Angular service worker 把所有檔案分組到一個版本中。分組到一個版本中的檔案通常包括 HTML、JS 與 CSS 檔案。把這些檔案分組對完整性至關重要，因為 HTML、JS 與 CSS 檔案經常互相參照，並依賴特定的內容。例如，一個 `index.html` 檔案可能有一個 `<script>` 標籤參照 `bundle.js`，並可能嘗試從該指令碼中呼叫 `startApp()` 函式。每當這個版本的 `index.html` 被提供時，就必須同時提供對應的 `bundle.js`。例如，假設 `startApp()` 函式在兩個檔案中都被重新命名為 `runApp()`。在這個情境中，提供呼叫 `startApp()` 的舊 `index.html`、搭配定義 `runApp()` 的新 bundle，是不成立的。
 
-This file integrity is especially important when lazy loading modules.
-A JS bundle may reference many lazy chunks, and the filenames of the
-lazy chunks are unique to the particular build of the app. If a running
-app at version `X` attempts to load a lazy chunk, but the server has
-updated to version `X + 1` already, the lazy loading operation will fail.
+在延遲載入模組時，這種檔案完整性尤其重要。
+一個 JS bundle 可能參照許多延遲載入的 chunk，而這些延遲 chunk 的
+檔案名稱是該應用程式建置所獨有的。如果一個執行中的
+應用程式在版本 `X` 試圖載入一個延遲 chunk，但伺服器已經
+更新到版本 `X + 1`，延遲載入操作就會失敗。
 
-The version identifier of the app is determined by the contents of all
-resources, and it changes if any of them change. In practice, the version
-is determined by the contents of the `ngsw.json` file, which includes
-hashes for all known content. If any of the cached files change, the file's
-hash will change in `ngsw.json`, causing the Angular service worker to
-treat the active set of files as a new version.
+應用程式的版本識別碼由所有資源的內容決定，
+只要其中任何一個變更，識別碼就會變更。實務上，版本
+是由 `ngsw.json` 檔案的內容決定的，該檔案包括
+所有已知內容的雜湊。如果任何已快取的檔案變更，該檔案的
+雜湊就會在 `ngsw.json` 中變更，因而導致 Angular service worker 把
+目前作用中的檔案集合視為新版本。
 
-With the versioning behavior of the Angular service worker, an application
-server can ensure that the Angular app always has a consistent set of files.
+有了 Angular service worker 的版本控制行為，應用程式
+伺服器就能確保 Angular 應用程式永遠擁有一致的檔案集合。
 
-#### Update checks
+#### 更新檢查
 
-Every time the user opens or refreshes the application, the Angular service worker
-checks for updates to the app by looking for updates to the `ngsw.json` manifest. If
-an update is found, it is downloaded and cached automatically, and will be served
-the next time the application is loaded.
+每當使用者開啟或重新整理應用程式時，Angular service worker
+都會透過尋找 `ngsw.json` manifest 的更新，來檢查應用程式是否有更新。如果
+找到更新，它會被自動下載並快取，並在下次
+載入應用程式時提供。
 
-### Resource integrity
+### 資源完整性
 
-One of the potential side effects of long caching is inadvertently
-caching an invalid resource. In a normal HTTP cache, a hard refresh
-or cache expiration limits the negative effects of caching an invalid
-file. A service worker ignores such constraints and effectively long
-caches the entire app. Consequently, it is essential that the service worker
-gets the correct content.
+長期快取的一個潛在副作用，是不小心
+快取了一個無效的資源。在一般的 HTTP 快取中，強制重新整理
+或快取到期會限制快取無效檔案的負面
+影響。Service worker 忽略這類限制，實際上把整個應用程式長期
+快取。因此，service worker 取得正確的內容至關重要。
 
-To ensure resource integrity, the Angular service worker validates
-the hashes of all resources for which it has a hash. Typically for
-an app created with the [Angular CLI](cli), this is everything in the `dist` directory covered by
-the user's `src/ngsw-config.json` configuration.
+為了確保資源完整性，Angular service worker 會驗證
+它擁有雜湊的所有資源的雜湊。通常，對於
+以 [Angular CLI](cli) 建立的應用程式，這是指 `dist` 目錄中被
+使用者的 `src/ngsw-config.json` 設定涵蓋的一切。
 
-If a particular file fails validation, the Angular service worker
-attempts to re-fetch the content using a "cache-busting" URL
-parameter to eliminate the effects of browser or intermediate
-caching. If that content also fails validation, the service worker
-considers the entire version of the app to be invalid and it stops
-serving the app. If necessary, the service worker enters a safe mode
-where requests fall back on the network, opting not to use its cache
-if the risk of serving invalid, broken, or outdated content is high.
+如果某個特定檔案未通過驗證，Angular service worker
+會嘗試使用一個「cache-busting」URL
+參數重新擷取內容，以消除瀏覽器或中間層
+快取的影響。如果該內容也未通過驗證，service worker
+會認為應用程式的整個版本無效，並停止
+提供該應用程式。如有必要，service worker 會進入安全模式，
+讓請求退回使用網路；當提供無效、損壞或過時內容的風險很高時，它會選擇不使用它的快取。
 
-Hash mismatches can occur for a variety of reasons:
+雜湊不一致可能因各種原因而發生：
 
-* Caching layers in between the origin server and the end user could serve stale content.
-* A non-atomic deployment could result in the Angular service worker having visibility of partially updated content.
-* Errors during the build process could result in updated resources without `ngsw.json` being updated. The reverse could also happen resulting in an updated `ngsw.json` without updated resources.
+* 來源伺服器與最終使用者之間的快取層可能提供過時的內容。
+* 非原子性的部署可能導致 Angular service worker 看到部分更新的內容。
+* 建置流程中的錯誤可能導致資源已更新、但 `ngsw.json` 未更新。反過來也可能發生，導致 `ngsw.json` 已更新、但資源未更新。
 
-#### Unhashed content
+#### 未雜湊的內容
 
-The only resources that have hashes in the `ngsw.json`
-manifest are resources that were present in the `dist`
-directory at the time the manifest was built. Other
-resources, especially those loaded from CDNs, have
-content that is unknown at build time or are updated
-more frequently than the app is deployed.
+在 `ngsw.json`
+manifest 中有雜湊的資源，只有那些在 manifest
+建立時存在於 `dist`
+目錄中的資源。其他
+資源，尤其是從 CDN 載入的資源，其
+內容在建置時未知，或更新
+頻率比應用程式的部署更頻繁。
 
-If the Angular service worker does not have a hash to validate
-a given resource, it still caches its contents but it honors
-the HTTP caching headers by using a policy of "stale while
-revalidate." That is, when HTTP caching headers for a cached
-resource indicate that the resource has expired, the Angular
-service worker continues to serve the content and it attempts
-to refresh the resource in the background. This way, broken
-unhashed resources do not remain in the cache beyond their
-configured lifetimes.
+如果 Angular service worker 沒有雜湊可驗證
+某個資源，它仍然會快取該資源的內容，但會遵循
+HTTP 快取標頭，採用「stale while
+revalidate」政策。也就是說，當已快取
+資源的 HTTP 快取標頭指出該資源已到期時，Angular
+service worker 會繼續提供該內容，並嘗試
+在背景重新整理該資源。如此一來，損壞的
+未雜湊資源不會在快取中停留超過它們
+設定的存活時間。
 
 {@a tabs}
 
-### App tabs
+### 應用程式分頁
 
-It can be problematic for an app if the version of resources
-it's receiving changes suddenly or without warning. See the
-[Versions](guide/service-worker-devops#versions) section above
-for a description of such issues.
+如果一個應用程式接收到的資源版本
+突然或在沒有警告的情況下變更，可能會造成問題。請參閱
+上方的[版本](guide/service-worker-devops#versions)一節，
+了解這類問題的說明。
 
-The Angular service worker provides a guarantee: a running app
-will continue to run the same version of the app. If another
-instance of the app is opened in a new web browser tab, then
-the most current version of the app is served. As a result,
-that new tab can be running a different version of the app
-than the original tab.
+Angular service worker 提供一項保證：執行中的應用程式
+會繼續執行同一個版本的應用程式。如果另一個
+應用程式執行個體在新的 Web 瀏覽器分頁中開啟，則
+會提供應用程式的最新版本。因此，
+那個新分頁執行的應用程式版本可能
+與原始分頁不同。
 
-It's important to note that this guarantee is **stronger**
-than that provided by the normal web deployment model. Without
-a service worker, there is no guarantee that code lazily loaded
-later in a running app is from the same version as the initial
-code for the app.
+值得注意的是，這項保證比一般 Web 部署模型提供的**更強**。
+沒有 service worker，就無法保證
+在執行中的應用程式裡稍後延遲載入的程式碼，與
+應用程式的初始程式碼來自同一個版本。
 
-There are a few limited reasons why the Angular service worker
-might change the version of a running app. Some of them are
-error conditions:
+Angular service worker 可能變更執行中
+應用程式版本的原因只有少數幾個。其中一些是
+錯誤條件：
 
-* The current version becomes invalid due to a failed hash.
-* An unrelated error causes the service worker to enter safe mode; that is, temporary deactivation.
+* 目前版本因雜湊失敗而變得無效。
+* 一個不相關的錯誤導致 service worker 進入安全模式；也就是暫時停用。
 
-The Angular service worker is aware of which versions are in
-use at any given moment and it cleans up versions when
-no tab is using them.
+Angular service worker 隨時都知道哪些版本
+正在使用中，並在
+沒有分頁使用某個版本時將它清理掉。
 
-Other reasons the Angular service worker might change the version
-of a running app are normal events:
+Angular service worker 可能變更執行中應用程式版本的其他
+原因，屬於正常事件：
 
-* The page is reloaded/refreshed.
-* The page requests an update be immediately activated via the `SwUpdate` service.
+* 頁面被重新載入／重新整理。
+* 頁面使用 `SwUpdate` 服務請求立即啟用一個更新。
 
-### Service worker updates
+### Service worker 更新
 
-The Angular service worker is a small script that runs in web browsers.
-From time to time, the service worker will be updated with bug
-fixes and feature improvements.
+Angular service worker 是一個在 Web 瀏覽器中執行的小型指令碼。
+Service worker 會不時以錯誤
+修正與功能改進來更新。
 
-The Angular service worker is downloaded when the app is first opened
-and when the app is accessed after a period of inactivity. If the
-service worker has changed, the service worker will be updated in the background.
+Angular service worker 會在應用程式第一次開啟時下載，
+也會在一段時間沒有活動後再次存取應用程式時下載。如果
+service worker 有變更，它會在背景更新。
 
-Most updates to the Angular service worker are transparent to the
-app&mdash;the old caches are still valid and content is still served
-normally. However, occasionally a bugfix or feature in the Angular
-service worker requires the invalidation of old caches. In this case,
-the app will be refreshed transparently from the network.
+Angular service worker 的大多數更新對應用程式來說是透明的
+——舊的快取仍然有效，內容也照常
+提供。不過，偶爾 Angular
+service worker 的錯誤修正或功能會需要讓舊快取失效。在這種情況下，
+應用程式會被透明地從網路重新整理。
 
-### Bypassing the service worker
+### 繞過 service worker
 
-In some cases, you may want to bypass the service worker entirely and let the browser handle the
-request instead. An example is when you rely on a feature that is currently not supported in service
-workers (e.g.
-[reporting progress on uploaded files](https://github.com/w3c/ServiceWorker/issues/1141)).
+在某些情況下，你可能會想完全繞過 service worker，改讓瀏覽器處理
+請求。例如，當你依賴一個目前在 service
+workers 中不受支援的功能時（例如[回報已上傳檔案的進度](https://github.com/w3c/ServiceWorker/issues/1141)）。
 
-To bypass the service worker you can set `ngsw-bypass` as a request header, or as a query parameter.
-(The value of the header or query parameter is ignored and can be empty or omitted.)
+若要繞過 service worker，請把 `ngsw-bypass` 設為請求標頭，或設為查詢參數。
+（標頭或查詢參數的值會被忽略，可以是空的或省略。）
 
-## Debugging the Angular service worker
+## 對 Angular service worker 進行除錯
 
-Occasionally, it may be necessary to examine the Angular service
-worker in a running state to investigate issues or to ensure that
-it is operating as designed. Browsers provide built-in tools for
-debugging service workers and the Angular service worker itself
-includes useful debugging features.
+偶爾，你可能需要檢視執行狀態中的 Angular service
+worker，以調查問題或確認它是否如設計般
+運作。瀏覽器提供內建工具來
+除錯 service worker，而 Angular service worker 本身
+也包含實用的除錯功能。
 
-### Locating and analyzing debugging information
+### 尋找與分析除錯資訊
 
-The Angular service worker exposes debugging information under
-the `ngsw/` virtual directory. Currently, the single exposed URL
-is `ngsw/state`. Here is an example of this debug page's contents:
+Angular service worker 在
+`ngsw/` 虛擬目錄下公開除錯資訊。目前唯一公開的 URL
+是 `ngsw/state`。以下是這個除錯頁面內容的範例：
 
 ```
 NGSW Debug Info:
@@ -191,61 +188,61 @@ Task queue:
 Debug log:
 ```
 
-#### Driver state
+#### Driver 狀態
 
-The first line indicates the driver state:
+第一行指出 driver 的狀態：
 
 ```
 Driver state: NORMAL ((nominal))
 ```
 
-`NORMAL` indicates that the service worker is operating normally and is not in a degraded state.
+`NORMAL` 表示 service worker 運作正常，且不在降級狀態。
 
-There are two possible degraded states:
+有兩種可能的降級狀態：
 
-* `EXISTING_CLIENTS_ONLY`: the service worker does not have a
-clean copy of the latest known version of the app. Older cached
-versions are safe to use, so existing tabs continue to run from
-cache, but new loads of the app will be served from the network.
-The service worker will try to recover from this state when a new
-version of the application is detected and installed (that is,
-when a new `ngsw.json` is available).
+* `EXISTING_CLIENTS_ONLY`：service worker 沒有
+應用程式最新已知版本的乾淨副本。較舊的已快取
+版本使用起來是安全的，因此既有分頁會繼續從
+快取執行，但應用程式的新載入會從網路提供。
+service worker 會在偵測並安裝到
+應用程式新版本時，嘗試從這個狀態復原（也就是
+有新的 `ngsw.json` 可用時）。
 
-* `SAFE_MODE`: the service worker cannot guarantee the safety of
-using cached data. Either an unexpected error occurred or all
-cached versions are invalid. All traffic will be served from the
-network, running as little service worker code as possible.
+* `SAFE_MODE`：service worker 無法保證
+使用已快取資料的安全性。可能是發生了非預期的錯誤，或所有
+已快取版本都無效。所有流量都會從
+網路提供，並儘可能少執行 service worker 程式碼。
 
-In both cases, the parenthetical annotation provides the
-error that caused the service worker to enter the degraded state.
+在這兩種情況下，括號中的註解提供
+導致 service worker 進入降級狀態的錯誤。
 
-Both states are temporary; they are saved only for the lifetime of the [ServiceWorker
-instance](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope).
-The browser sometimes terminates an idle service worker to conserve memory and
-processor power, and creates a new service worker instance in response to
-network events. The new instance starts in the `NORMAL` mode, regardless of the
-state of the previous instance.
+這兩個狀態都是暫時的；它們只會在 [ServiceWorker
+執行個體](https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope) 的存活期間內保存。
+瀏覽器有時會終止閒置的 service worker 以節省記憶體與
+處理器電力，並在回應
+網路事件時建立一個新的 service worker 執行個體。新執行個體會以 `NORMAL` 模式開始，無論
+先前執行個體的狀態為何。
 
-#### Latest manifest hash
+#### 最新 manifest 雜湊
 
 ```
 Latest manifest hash: eea7f5f464f90789b621170af5a569d6be077e5c
 ```
 
-This is the SHA1 hash of the most up-to-date version of the app that the service worker knows about.
+這是 service worker 所知應用程式最新版本的 SHA1 雜湊。
 
 
-#### Last update check
+#### 上次更新檢查
 
 ```
 Last update check: never
 ```
 
-This indicates the last time the service worker checked for a new version, or update, of the app. `never` indicates that the service worker has never checked for an update.
+這指出 service worker 上次檢查應用程式新版本或更新的時間。`never` 表示 service worker 從未檢查過更新。
 
-In this example debug file, the update check is currently scheduled, as explained the next section.
+在這個除錯檔案範例中，更新檢查目前已排程，下一節會說明。
 
-#### Version
+#### 版本
 
 ```
 === Version eea7f5f464f90789b621170af5a569d6be077e5c ===
@@ -253,14 +250,14 @@ In this example debug file, the update check is currently scheduled, as explaine
 Clients: 7b79a015-69af-4d3d-9ae6-95ba90c79486, 5bc08295-aaf2-42f3-a4cc-9e4ef9100f65
 ```
 
-In this example, the service worker has one version of the app cached and
-being used to serve two different tabs. Note that this version hash
-is the "latest manifest hash" listed above. Both clients are on the
-latest version. Each client is listed by its ID from the `Clients`
-API in the browser.
+在這個範例中，service worker 已快取一個版本的應用程式，並
+用它來服務兩個不同的分頁。請注意，這個版本雜湊
+就是上面列出的「最新 manifest 雜湊」。兩個用戶端都在
+最新版本上。每個用戶端都以其在瀏覽器 `Clients`
+API 中的 ID 列出。
 
 
-#### Idle task queue
+#### 閒置工作佇列
 
 ```
 === Idle Task Queue ===
@@ -270,100 +267,97 @@ Task queue:
  * init post-load (update, cleanup)
 ```
 
-The Idle Task Queue is the queue of all pending tasks that happen
-in the background in the service worker. If there are any tasks
-in the queue, they are listed with a description. In this example,
-the service worker has one such task scheduled, a post-initialization
-operation involving an update check and cleanup of stale caches.
+閒置工作佇列是所有在
+背景於 service worker 中發生的待處理工作的佇列。如果佇列中有任何工作，
+它們會連同說明一起列出。在這個範例中，
+service worker 已排程一個這樣的工作：一個初始化後的操作，
+包含更新檢查與清理過時快取。
 
-The last update tick/run counters give the time since specific
-events happened related to the idle queue. The "Last update run"
-counter shows the last time idle tasks were actually executed.
-"Last update tick" shows the time since the last event after
-which the queue might be processed.
+上次更新 tick／run 計數器，提供自特定
+與閒置佇列相關的事件發生以來經過的時間。「Last update run」
+計數器顯示上次實際執行閒置工作的時間。
+「Last update tick」顯示自上一個
+佇列可能被處理的事件以來經過的時間。
 
 
-#### Debug log
+#### 除錯記錄
 
 ```
 Debug log:
 ```
 
-Errors that occur within the service worker will be logged here.
+在 service worker 內發生的錯誤會記錄在這裡。
 
 
-### Developer Tools
+### 開發者工具
 
-Browsers such as Chrome provide developer tools for interacting
-with service workers. Such tools can be powerful when used properly,
-but there are a few things to keep in mind.
+Chrome 等瀏覽器提供與 service worker 互動的
+開發者工具。這類工具在正確使用時功能強大，
+但有幾件事要記住。
 
-* When using developer tools, the service worker is kept running
-in the background and never restarts. This can cause behavior with Dev
-Tools open to differ from behavior a user might experience.
+* 使用開發者工具時，service worker 會保持在
+背景執行，永遠不會重新啟動。這可能導致開啟 Dev
+Tools 時的行為，與使用者可能體驗到的行為不同。
 
-* If you look in the Cache Storage viewer, the cache is frequently
-out of date. Right click the Cache Storage title and refresh the caches.
+* 如果你查看 Cache Storage 檢視器，快取經常是
+過時的。在 Cache Storage 標題上按右鍵，並重新整理快取。
 
-Stopping and starting the service worker in the Service Worker
-pane triggers a check for updates.
+在 Service Worker 窗格中停止並啟動 service worker，會觸發更新檢查。
 
-## Service Worker Safety
+## Service Worker 安全性
 
-Like any complex system, bugs or broken configurations can cause
-the Angular service worker to act in unforeseen ways. While its
-design attempts to minimize the impact of such problems, the
-Angular service worker contains several failsafe mechanisms in case
-an administrator ever needs to deactivate the service worker quickly.
+和任何複雜系統一樣，錯誤或損壞的設定可能導致
+Angular service worker 以無法預見的方式運作。雖然它的
+設計試圖把這類問題的影響降到最低，
+Angular service worker 仍包含多種故障安全機制，以備
+管理員需要快速停用 service worker 時使用。
 
-### Fail-safe
+### 故障安全機制
 
-To deactivate the service worker, remove or rename the
-`ngsw.json` file. When the service worker's request
-for `ngsw.json` returns a `404`, then the service worker
-removes all of its caches and de-registers itself,
-essentially self-destructing.
+若要停用 service worker，請移除或重新命名
+`ngsw.json` 檔案。當 service worker 對
+`ngsw.json` 的請求回傳 `404` 時，service worker
+就會移除它所有的快取並取消註冊自己，
+實際上等於自我毀滅。
 
-### Safety Worker
+### Safety worker 安全指令碼
 
-Also included in the `@angular/service-worker` NPM package is a small
-script `safety-worker.js`, which when loaded will unregister itself
-from the browser. This script can be used as a last resort to get rid
-of unwanted service workers already installed on client pages.
+`@angular/service-worker` NPM 套件中也包含一個小型
+指令碼 `safety-worker.js`，載入時，它會向瀏覽器取消註冊自己。
+這個指令碼可以
+作為最後手段，用來移除已安裝在
+用戶端頁面上、不想要的 service worker。
 
-It's important to note that you cannot register this worker directly,
-as old clients with cached state may not see a new `index.html` which
-installs the different worker script. Instead, you must serve the
-contents of `safety-worker.js` at the URL of the Service Worker script
-you are trying to unregister, and must continue to do so until you are
-certain all users have successfully unregistered the old worker. For
-most sites, this means that you should serve the safety worker at the
-old Service Worker URL forever.
+值得注意的是，你不能直接註冊這個 worker，
+因為帶有已快取狀態的舊用戶端，可能看不到安裝不同 worker 指令碼的新 `index.html`。
+相反地，你必須在你試圖取消註冊的 Service Worker 指令碼的 URL 上，提供
+`safety-worker.js` 的內容，並必須持續這麼做，直到你確定
+所有使用者都已成功取消註冊舊的 worker 為止。對
+大多數網站來說，這意味著你應該永遠在
+舊的 Service Worker URL 上提供 safety worker。
 
-This script can be used both to deactivate `@angular/service-worker`
-as well as any other Service Workers which might have been served in
-the past on your site.
+這個指令碼既可以用來停用 `@angular/service-worker`，
+也可以移除
+你網站過去可能曾提供的任何其他 Service Worker。
 
-### Changing your app's location
+### 變更應用程式的位置
 
-It is important to note that service workers don't work behind redirect. You 
-may have already encountered the error `The script resource is behind a redirect, which is disallowed`.
+值得注意的是，service worker 無法在重新導向之後運作。你
+可能已經遇過這個錯誤 `The script resource is behind a redirect, which is disallowed`。
 
-This can be a problem if you have to change your app's location. If you setup 
-a redirect from the old location (for example `example.com`) to the new 
-location (for example `www.example.com`) the worker will stop working. 
-Also, the redirect won't even trigger for users who are loading the site 
-entirely from Service Worker. The old worker (registered at `example.com`)
- tries to update and sends requests to the old location `example.com` which 
- get redirected to the new location `www.example.com` and create the error 
-`The script resource is behind a redirect, which is disallowed`.
+如果你必須變更應用程式的位置，這可能會是個問題。如果你設定了
+從舊位置（例如 `example.com`）到新位置
+（例如 `www.example.com`）的重新導向，worker 就會停止運作。
+此外，對於完全從 Service Worker 載入網站的使用者，重新導向甚至不會觸發。
+舊 worker（在 `example.com` 註冊）
+會嘗試更新，並向舊位置 `example.com` 發送請求；
+這些請求會被重新導向到新位置 `www.example.com`，並產生錯誤
+`The script resource is behind a redirect, which is disallowed`。
 
-To remedy this, you may need to kill the old worker using one of the above
-techniques ([Fail-safe](#fail-safe) or [Safety Worker](#safety-worker)).
+若要修正這個問題，你可能需要使用上述其中一種技巧（[故障安全機制](#故障安全機制)或 [Safety Worker](#safety-worker-安全指令碼)）來終止舊 worker。
 
 
-## More on Angular service workers
+## 更多 Angular Service Worker 資訊
 
-You may also be interested in the following:
-* [Service Worker Configuration](guide/service-worker-config).
-
+你可能也會對以下內容有興趣：
+* [Service Worker 設定](guide/service-worker-config)。

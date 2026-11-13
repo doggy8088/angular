@@ -1,17 +1,17 @@
-# Browser support
+# 瀏覽器支援
 
-Angular supports most recent browsers. This includes the following specific versions:
+Angular 支援大多數的最新瀏覽器。這包括以下特定版本：
 
 <table>
 
   <tr>
 
 <th>
-      Browser
+      瀏覽器
 </th>
 
 <th>
-      Supported versions
+      支援的版本
 </th>
 
   </tr>
@@ -23,7 +23,7 @@ Angular supports most recent browsers. This includes the following specific vers
     </td>
 
     <td>
-      latest
+      最新版
     </td>
   </tr>
 
@@ -34,7 +34,7 @@ Angular supports most recent browsers. This includes the following specific vers
     </td>
 
     <td>
-      latest
+      最新版
     </td>
   </tr>
 
@@ -45,7 +45,7 @@ Angular supports most recent browsers. This includes the following specific vers
     </td>
 
     <td>
-      2 most recent major versions
+      最近 2 個主要版本
     </td>
   </tr>
   <tr>
@@ -53,7 +53,7 @@ Angular supports most recent browsers. This includes the following specific vers
       IE
     </td>
     <td>
-      11, 10, 9 ("compatibility view" mode not supported)
+      11, 10, 9（不支援「相容性檢視」模式）
     </td>
   </tr>
  <tr>
@@ -71,7 +71,7 @@ Angular supports most recent browsers. This includes the following specific vers
     </td>
 
     <td>
-      2 most recent major versions
+      最近 2 個主要版本
     </td>
   </tr>
   <tr>
@@ -80,7 +80,7 @@ Angular supports most recent browsers. This includes the following specific vers
     </td>
 
     <td>
-      2 most recent major versions
+      最近 2 個主要版本
     </td>
   </tr>
   <tr>
@@ -97,57 +97,57 @@ Angular supports most recent browsers. This includes the following specific vers
 
 <div class="alert is-helpful">
 
-Angular's continuous integration process runs unit tests of the framework on all of these browsers for every pull request,
-using <a href="https://saucelabs.com/">SauceLabs</a> and
-<a href="https://www.browserstack.com">Browserstack</a>.
+Angular 的持續整合流程會針對每一份 pull request，在所有這些瀏覽器上執行框架的單元測試，
+使用 <a href="https://saucelabs.com/">SauceLabs</a> 與
+<a href="https://www.browserstack.com">Browserstack</a>。
 
 </div>
 
 ## Polyfills
 
-Angular is built on the latest standards of the web platform.
-Targeting such a wide range of browsers is challenging because they do not support all features of modern browsers.
-You compensate by loading polyfill scripts ("polyfills") for the browsers that you must support.
-The [table below](#polyfill-libs) identifies most of the polyfills you might need.
+Angular 建立在 Web 平台的最新標準之上。
+要支援如此廣泛的瀏覽器是很有挑戰性的，因為它們並不支援現代瀏覽器的所有功能。
+你可以為必須支援的瀏覽器載入 polyfill 指令稿（「polyfills」）來彌補這一點。
+[下表](#polyfill-libs)列出了你可能需要的大部分 polyfill。
 
 <div class="alert is-important">
 
-The suggested polyfills are the ones that run full Angular applications.
-You may need additional polyfills to support features not covered by this list.
-Note that polyfills cannot magically transform an old, slow browser into a modern, fast one.
+建議的 polyfill 是能執行完整 Angular 應用程式的那些。
+你可能需要額外的 polyfill，才能支援此清單未涵蓋的功能。
+請注意，polyfill 無法神奇地把老舊、緩慢的瀏覽器變成現代、快速的瀏覽器。
 
 </div>
 
-In Angular CLI version 8 and higher, applications are built using *differential loading*, a strategy where the CLI builds two separate bundles as part of your deployed application.
+在 Angular CLI 8 版及更高版本中，應用程式使用*差異載入*（differential loading）建置，這是一種 CLI 會建置兩個獨立 bundle 作為已部署應用程式一部分的策略。
 
-* The first bundle contains modern ES2015 syntax, takes advantage of built-in support in modern browsers, ships less polyfills, and results in a smaller bundle size.
+* 第一個 bundle 包含現代 ES2015 語法，利用現代瀏覽器的內建支援，附帶較少的 polyfill，bundle 尺寸也較小。
 
-* The second bundle contains code in the old ES5 syntax, along with all necessary polyfills. This results in a larger bundle size, but supports older browsers.
+* 第二個 bundle 包含舊 ES5 語法的程式碼，以及所有必需的 polyfill。這會產生較大的 bundle 尺寸，但能支援較舊的瀏覽器。
 
-This strategy allows you to continue to build your web application to support multiple browsers, but only load the necessary code that the browser needs.
-For more information about how this works, see [Differential Loading](guide/deployment#differential-loading) in the [Deployment guide](guide/deployment).
+這種策略讓你可以繼續建置支援多種瀏覽器的 Web 應用程式，但只載入瀏覽器所需的必要程式碼。
+關於其運作方式的更多資訊，請參閱[部署指南](guide/deployment)中的 [Differential Loading](guide/deployment#differential-loading)。
 
-## Enabling polyfills with CLI projects
+## 在 CLI 專案中啟用 polyfills
 
-The [Angular CLI](cli) provides support for polyfills.
-If you are not using the CLI to create your projects, see [Polyfill instructions for non-CLI users](#non-cli).
+[Angular CLI](cli) 提供對 polyfills 的支援。
+如果你不是使用 CLI 來建立你的專案，請參閱[非 CLI 使用者的 polyfill 說明](#non-cli)。
 
-When you create a project with the `ng new` command, a `src/polyfills.ts` configuration file is created as part of your project folder.
-This file incorporates the mandatory and many of the optional polyfills as JavaScript `import` statements.
+當你使用 `ng new` 指令建立專案時，專案資料夾中會建立一個 `src/polyfills.ts` 設定檔。
+這個檔案以 JavaScript `import` 陳述式的形式，納入了必需的以及許多可選的 polyfill。
 
-* The npm packages for the [_mandatory_ polyfills](#polyfill-libs) (such as `zone.js`) are installed automatically for you when you create your project with `ng new`, and their corresponding `import` statements are already enabled in the `src/polyfills.ts` configuration file.
+* [_必需_ polyfills](#polyfill-libs)（例如 `zone.js`）的 npm 套件會在你用 `ng new` 建立專案時自動為你安裝，其對應的 `import` 陳述式在 `src/polyfills.ts` 設定檔中已啟用。
 
-* If you need an _optional_ polyfill, you must install its npm package, then uncomment or create the corresponding import statement in the `src/polyfills.ts` configuration file.
+* 如果你需要*可選的* polyfill，你必須安裝它的 npm 套件，然後在 `src/polyfills.ts` 設定檔中取消註解或建立對應的 import 陳述式。
 
-For example, if you need the optional [web animations polyfill](http://caniuse.com/#feat=web-animation), you could install it with `npm`, using the following command (or the `yarn` equivalent):
+例如，如果你需要可選的 [web animations polyfill](http://caniuse.com/#feat=web-animation)，你可以用 `npm` 透過下列指令（或 `yarn` 的等效指令）安裝它：
 
 <code-example language="sh" class="code-shell">
   # install the optional web animations polyfill
   npm install --save web-animations-js
 </code-example>
 
-You can then add the import statement in the `src/polyfills.ts` file.
-For many polyfills, you can simply un-comment the corresponding `import` statement in the file, as in the following example.
+接著，你可以在 `src/polyfills.ts` 檔案中加入 import 陳述式。
+對於許多 polyfill，你可以直接取消註解檔案中對應的 `import` 陳述式，如下列範例所示。
 
 <code-example header="src/polyfills.ts">
   /**
@@ -157,24 +157,23 @@ For many polyfills, you can simply un-comment the corresponding `import` stateme
   import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 </code-example>
 
-If the polyfill you want is not already in `polyfills.ts` file, add the `import` statement by hand.
-
+如果你想要的 polyfill 還不在 `polyfills.ts` 檔案中，請手動加入 `import` 陳述式。
 
 {@a polyfill-libs}
 
-### Mandatory polyfills
-These are the polyfills required to run an Angular application on each supported browser:
+### 必需的 polyfills
+這些是每個支援的瀏覽器上執行 Angular 應用程式所需的 polyfill：
 
 <table>
 
   <tr style="vertical-align: top">
 
     <th>
-      Browsers (Desktop & Mobile)
+      瀏覽器（桌面與行動）
     </th>
 
     <th>
-      Polyfills Required
+      所需的 Polyfill
     </th>
 
   </tr>
@@ -210,17 +209,16 @@ These are the polyfills required to run an Angular application on each supported
 
 </table>
 
+### 需要 polyfill 的可選瀏覽器功能
 
-### Optional browser features to polyfill
-
-Some features of Angular may require additional polyfills.
+Angular 的某些功能可能需要額外的 polyfill。
 
 <table>
 
   <tr style="vertical-align: top">
 
     <th>
-      Feature
+      功能
     </th>
 
     <th>
@@ -228,7 +226,7 @@ Some features of Angular may require additional polyfills.
     </th>
 
     <th style="width: 50%">
-       Browsers (Desktop & Mobile)
+       瀏覽器（桌面與行動）
     </th>
 
   </tr>
@@ -238,7 +236,7 @@ Some features of Angular may require additional polyfills.
     <td>
 
       [AnimationBuilder](api/animations/AnimationBuilder).
-      (Standard animation support does not require polyfills.)
+      （標準動畫支援不需要 polyfill。）
 
     </td>
 
@@ -248,10 +246,9 @@ Some features of Angular may require additional polyfills.
 
     </td>
 
-    <td>
-      <p>If AnimationBuilder is used, enables scrubbing
-      support for IE/Edge and Safari.
-      (Chrome and Firefox support this natively).</p>
+<td>
+      <p>如果使用 AnimationBuilder，可為 IE/Edge 與 Safari 啟用 scrubbing
+      支援。（Chrome 與 Firefox 原生支援此功能）。</p>
     </td>
 
   </tr>
@@ -260,7 +257,7 @@ Some features of Angular may require additional polyfills.
 
     <td>
 
-     If you use the following deprecated i18n pipes:
+     如果你使用下列已棄用的 i18n 管道：
      [date](api/common/DeprecatedDatePipe),
      [currency](api/common/DeprecatedCurrencyPipe),
      [decimal](api/common/DeprecatedDecimalPipe),
@@ -275,7 +272,7 @@ Some features of Angular may require additional polyfills.
     </td>
 
     <td>
-      All but Chrome, Firefox, Edge, IE 11 and Safari 10
+      除 Chrome、Firefox、Edge、IE 11 與 Safari 10 之外的所有瀏覽器
     </td>
 
   </tr>
@@ -284,7 +281,7 @@ Some features of Angular may require additional polyfills.
 
     <td>
 
-       [NgClass](api/common/NgClass) on SVG elements
+       在 SVG 元素上的 [NgClass](api/common/NgClass)
     </td>
 
     <td>
@@ -303,7 +300,7 @@ Some features of Angular may require additional polyfills.
 
     <td>
 
-      [Http](guide/http) when sending and receiving binary data
+      [Http](guide/http) 在傳送與接收二進位資料時
     </td>
 
     <td>
@@ -326,9 +323,8 @@ Some features of Angular may require additional polyfills.
 
     <td>
 
-      [Router](guide/router) when using
-      [hash-based routing](guide/router#appendix-locationstrategy-and-browser-url-styles)
-    </td>
+[Router](guide/router) 在使用
+      [以 hash 為基礎的路由](guide/router#附錄：locationstrategy-與瀏覽器-url-樣式)時
 
     <td>
 
@@ -344,12 +340,9 @@ Some features of Angular may require additional polyfills.
 
 </table>
 
+### 建議的 polyfills
 
-
-### Suggested polyfills
-
-The following polyfills are used to test the framework itself. They are a good starting point for an application.
-
+下列 polyfill 用於測試框架本身。它們是應用程式很好的起點。
 
 <table>
 
@@ -360,11 +353,11 @@ The following polyfills are used to test the framework itself. They are a good s
     </th>
 
     <th>
-      License
+      授權
     </th>
 
     <th>
-      Size*
+      大小*
     </th>
 
   </tr>
@@ -414,7 +407,7 @@ The following polyfills are used to test the framework itself. They are a good s
     </td>
 
     <td>
-      Public domain
+      公共領域
     </td>
 
     <td>
@@ -432,7 +425,7 @@ The following polyfills are used to test the framework itself. They are a good s
     </td>
 
     <td>
-      MIT / Unicode license
+      MIT / Unicode 授權
     </td>
 
     <td>
@@ -515,17 +508,16 @@ The following polyfills are used to test the framework itself. They are a good s
 
 </table>
 
-
-\* Figures are for minified and gzipped code,
-computed with the <a href="http://closure-compiler.appspot.com/home">closure compiler</a>.
+\* 數字為經縮小與 gzip 壓縮後的程式碼，
+使用 <a href="http://closure-compiler.appspot.com/home">closure compiler</a> 計算。
 
 {@a non-cli}
 
-## Polyfills for non-CLI users
+## 非 CLI 使用者的 polyfills
 
-If you are not using the CLI, add your polyfill scripts directly to the host web page (`index.html`).
+如果你不是使用 CLI，請將你的 polyfill 指令稿直接加入主機網頁（`index.html`）。
 
-For example:
+例如：
 
 <code-example header="src/index.html" language="html">
   &lt;!-- pre-zone polyfills -->

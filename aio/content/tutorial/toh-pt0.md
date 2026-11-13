@@ -1,49 +1,49 @@
-# The Application Shell
+# 應用程式殼層
 
-You begin by creating an initial application using the Angular CLI. Throughout this tutorial, you’ll modify and extend that starter application to create the Tour of Heroes app.
+你會先使用 Angular CLI 建立一個初始應用程式。在本教學的過程中，你將修改並擴充該入門應用程式，建立出 Tour of Heroes 應用程式。
 
-In this part of the tutorial, you'll do the following:
+在本教學的這個部分，你將進行下列事項：
 
-1. Set up your environment.
-2. Create a new workspace and initial app project.
-3. Serve the application.
-4. Make changes to the application.
-
-
-## Set up your environment
-
-To set up your development environment, follow the instructions in [Local Environment Setup](guide/setup-local "Setting up for Local Development").
+1. 設定你的環境。
+2. 建立新的工作區與初始應用程式專案。
+3. 提供應用程式服務。
+4. 修改應用程式。
 
 
-## Create a new workspace and an initial application
+## 設定你的環境
 
-You develop apps in the context of an Angular [workspace](guide/glossary#workspace). A workspace contains the files for one or more [projects](guide/glossary#project). A project is the set of files that comprise an app, a library, or end-to-end (e2e) tests. For this tutorial, you will create a new workspace.
+要設定你的開發環境，請依照[本機環境設定](guide/setup-local "Setting up for Local Development")中的說明操作。
 
-To create a new workspace and an initial app project:
 
-  1. Ensure that you are not already in an Angular workspace folder. For example, if you have previously created the Getting Started workspace, change to the parent of that folder.
-  2. Run the CLI command `ng new` and provide the name `angular-tour-of-heroes`, as shown here:
+## 建立新的工作區與初始應用程式
+
+你是在 Angular [工作區](guide/glossary#工作區（workspace）)的脈絡下開發應用程式。一個工作區包含一個或多個[專案](guide/glossary#專案（project）)的檔案。一個專案是由構成應用程式、程式庫或端到端（e2e）測試的檔案所組成的集合。在本教學中，你將建立一個新的工作區。
+
+要建立新的工作區與初始應用程式專案：
+
+  1. 確認你目前不在 Angular 工作區資料夾中。例如，如果你先前已建立 Getting Started 工作區，請切換到該資料夾的父目錄。
+  2. 執行 CLI 指令 `ng new`，並提供名稱 `angular-tour-of-heroes`，如下所示：
 
   <code-example language="sh" class="code-shell">
      ng new angular-tour-of-heroes
   </code-example>
 
-  3. The `ng new` command prompts you for information about features to include in the initial app project. Accept the defaults by pressing the Enter or Return key.
+  3. `ng new` 指令會提示你提供初始應用程式專案要包含哪些功能的資訊。按下 Enter 或 Return 鍵，接受預設值即可。
 
-The Angular CLI installs the necessary Angular `npm` packages and other dependencies. This can take a few minutes.
+Angular CLI 會安裝必要的 Angular `npm` 套件與其他相依性。這可能需要幾分鐘。
 
-It also creates the following workspace and starter project files:
+它也會建立以下工作區與入門專案檔案：
 
-  * A new workspace, with a root folder named `angular-tour-of-heroes`.
-  * An initial skeleton app project, also called `angular-tour-of-heroes` (in the `src` subfolder).
-  * An end-to-end test project (in the e2e subfolder).
-  * Related configuration files.
+  * 一個新的工作區，根資料夾名為 `angular-tour-of-heroes`。
+  * 一個初始骨架應用程式專案，又稱為 `angular-tour-of-heroes`（位於 `src` 子資料夾中）。
+  * 一個端到端測試專案（位於 e2e 子資料夾中）。
+  * 相關的設定檔。
 
-The initial app project contains a simple Welcome app, ready to run.
+初始應用程式專案包含一個可直接執行的簡單 Welcome 應用程式。
 
-## Serve the application
+## 提供應用程式服務
 
-Go to the workspace directory and launch the application.
+前往工作區目錄並啟動應用程式。
 
 <code-example language="sh" class="code-shell">
   cd angular-tour-of-heroes
@@ -52,71 +52,71 @@ Go to the workspace directory and launch the application.
 
 <div class="alert is-helpful">
 
-The `ng serve` command builds the app, starts the development server,
-watches the source files, and rebuilds the app as you make changes to those files.
+`ng serve` 指令會建置應用程式、啟動開發伺服器，
+監看原始碼檔案，並在你修改這些檔案時重新建置應用程式。
 
-The `--open` flag opens a browser to `http://localhost:4200/`.
+`--open` 旗標會開啟瀏覽器，前往 `http://localhost:4200/`。
 
 </div>
 
-You should see the app running in your browser.
+你應該會在瀏覽器中看到應用程式正在執行。
 
-## Angular components
+## Angular 元件
 
-The page you see is the _application shell_.
-The shell is controlled by an Angular **component** named `AppComponent`.
+你看到的頁面是_應用程式殼層_。
+這個殼層由名為 `AppComponent` 的 Angular **元件**控制。
 
-_Components_ are the fundamental building blocks of Angular applications.
-They display data on the screen, listen for user input, and take action based on that input.
+_元件_是 Angular 應用程式的基本建構單位。
+它們會在畫面上顯示資料、聆聽使用者輸入，並根據輸入採取行動。
 
-## Make changes to the application
+## 修改應用程式
 
-Open the project in your favorite editor or IDE and navigate to the `src/app` folder to make some changes to the starter app.
+在你慣用的編輯器或 IDE 中開啟專案，並前往 `src/app` 資料夾，對入門應用程式做一些修改。
 
-You'll find the implementation of the shell `AppComponent` distributed over three files:
+你會發現殼層 `AppComponent` 的實作分散在三個檔案中：
 
-1. `app.component.ts`&mdash; the component class code, written in TypeScript.
-1. `app.component.html`&mdash; the component template, written in HTML.
-1. `app.component.css`&mdash; the component's private CSS styles.
+1. `app.component.ts`&mdash; 以 TypeScript 撰寫的元件類別程式碼。
+1. `app.component.html`&mdash; 以 HTML 撰寫的元件範本。
+1. `app.component.css`&mdash; 這個元件專用的 CSS 樣式。
 
-### Change the application title
+### 變更應用程式標題
 
-Open the component class file (`app.component.ts`) and change the value of the `title` property to 'Tour of Heroes'.
+開啟元件類別檔案（`app.component.ts`），把 `title` 屬性的值改為 'Tour of Heroes'。
 
 <code-example path="toh-pt0/src/app/app.component.ts" region="set-title" header="app.component.ts (class title property)"></code-example>
 
-Open the component template file (`app.component.html`) and
-delete the default template generated by the Angular CLI.
-Replace it with the following line of HTML.
+開啟元件範本檔案（`app.component.html`），
+刪除 Angular CLI 產生的預設範本。
+以下列這行 HTML 取代它。
 
 <code-example path="toh-pt0/src/app/app.component.html"
   header="app.component.html (template)"></code-example>
 
-The double curly braces are Angular's *interpolation binding* syntax.
-This interpolation binding presents the component's `title` property value
-inside the HTML header tag.
+雙大括號是 Angular 的*插值繫結*語法。
+這個插值繫結會把元件的 `title` 屬性值
+呈現在 HTML 標頭標籤內。
 
-The browser refreshes and displays the new application title.
+瀏覽器會重新整理並顯示新的應用程式標題。
 
 {@a app-wide-styles}
 
-### Add application styles
+### 加入應用程式樣式
 
-Most apps strive for a consistent look across the application.
-The CLI generated an empty `styles.css` for this purpose.
-Put your application-wide styles there.
+大多數應用程式都希望在整個應用程式中維持一致的外觀。
+CLI 為此產生了一個空的 `styles.css`。
+請把應用程式範圍的樣式放在那裡。
 
-Open `src/styles.css` and add the code below to the file.
+開啟 `src/styles.css`，把以下程式碼加入檔案中。
 
 <code-example path="toh-pt0/src/styles.1.css" header="src/styles.css (excerpt)">
 </code-example>
 
-## Final code review
+## 最終程式碼檢閱
 
-The source code for this tutorial and the complete _Tour of Heroes_ global styles
-are available in the <live-example></live-example>.
+本教學的原始碼與完整的 _Tour of Heroes_ 全域樣式
+可以在 <live-example></live-example> 取得。
 
-Here are the code files discussed on this page.
+以下是本頁討論過的程式碼檔案。
 
 <code-tabs>
 
@@ -132,8 +132,8 @@ Here are the code files discussed on this page.
   </code-pane>
 </code-tabs>
 
-## Summary
+## 摘要
 
-* You created the initial application structure using the Angular CLI.
-* You learned that Angular components display data.
-* You used the double curly braces of interpolation to display the app title.
+* 你使用 Angular CLI 建立了初始應用程式結構。
+* 你學到 Angular 元件會顯示資料。
+* 你使用插值的雙大括號來顯示應用程式標題。
