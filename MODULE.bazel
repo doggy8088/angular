@@ -7,7 +7,7 @@ module(
 bazel_dep(name = "rules_pkg", version = "1.3.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.7")
 bazel_dep(name = "aspect_rules_ts", version = "3.10.1")
-bazel_dep(name = "aspect_rules_js", version = "3.5.2")
+bazel_dep(name = "aspect_rules_js", version = "3.6.0")
 bazel_dep(name = "aspect_rules_esbuild", version = "0.27.1")
 bazel_dep(name = "aspect_rules_jasmine", version = "2.0.4")
 single_version_override(
@@ -18,35 +18,35 @@ single_version_override(
 
 bazel_dep(name = "aspect_rules_rollup", version = "2.0.1")
 bazel_dep(name = "bazel_skylib", version = "1.9.2")
-bazel_dep(name = "bazel_lib", version = "3.7.2")
+bazel_dep(name = "bazel_lib", version = "3.8.0")
 bazel_dep(name = "platforms", version = "1.1.0")
 bazel_dep(name = "tar.bzl", version = "0.10.9")
 bazel_dep(name = "yq.bzl", version = "0.4.0")
 bazel_dep(name = "rules_angular")
 git_override(
     module_name = "rules_angular",
-    commit = "8d91421845049c1e454728a41326f3351ed25130",
+    commit = "e5cb4c388495711d194f2d686cb0f0f69fd3bd54",
     remote = "https://github.com/angular/rules_angular.git",
 )
 
 bazel_dep(name = "devinfra")
 git_override(
     module_name = "devinfra",
-    commit = "3c8fd25a3724b38307f58b2756335e8b9f93184d",
+    commit = "4915333b8fd3bb24085df356cde085edf2d7db89",
     remote = "https://github.com/angular/dev-infra.git",
 )
 
 bazel_dep(name = "rules_sass")
 git_override(
     module_name = "rules_sass",
-    commit = "0903833890ccee91cc834fc3f8448550171f23f0",
+    commit = "53391fc5b8d1e1c5506801b9a54f4a298665578e",
     remote = "https://github.com/angular/rules_sass.git",
 )
 
 bazel_dep(name = "rules_browsers")
 git_override(
     module_name = "rules_browsers",
-    commit = "986894b4e2df9f706e1b900c36fe78d1793c4e69",
+    commit = "6c0b598bef709b8d3ec603c733a1b18d073b191b",
     remote = "https://github.com/angular/rules_browsers.git",
 )
 
