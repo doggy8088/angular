@@ -438,19 +438,26 @@ NOTE: `[formField]` 指令會依欄位的 `readonly()` 狀態自動繫結 `reado
 ### 存取表單狀態
 
 ```angular-ts
+import {Component, signal} from '@angular/core';
+import {FormField, FormRoot, form, required} from '@angular/forms/signals';
+
 @Component({
+  imports: [FormRoot, FormField],
   template: `
-    <form novalidate>
+    <form [formRoot]="loginForm">
       <input [formField]="loginForm.email" />
       <input [formField]="loginForm.password" />
 
-      <button [disabled]="!loginForm().valid()">Sign In</button>
+      <button type="submit" [disabled]="!loginForm().valid()">Sign In</button>
     </form>
   `,
 })
 export class Login {
   loginModel = signal({email: '', password: ''});
-  loginForm = form(this.loginModel);
+  loginForm = form(this.loginModel, (schemaPath) => {
+    required(schemaPath.email);
+    required(schemaPath.password);
+  });
 }
 ```
 
@@ -746,7 +753,7 @@ export class Registration {
 }
 ```
 
-當你使用 `FormRoot` 時，送出表單會自動呼叫 `submit()` 函式，把所有欄位標記為已觸碰（揭露驗證錯誤），並在表單有效時執行你的 `action` 回呼。
+當你使用 `FormRoot` 搭配具有 `submission` 選項的表單時，送出表單會自動呼叫 `submit()` 函式，把所有欄位標記為已觸碰（揭露驗證錯誤），並在表單有效時執行你的 `action` 回呼。
 
 你也可以不使用指令，手動送出表單：呼叫 `submit(this.registrationForm)`。像這樣明確呼叫 `submit` 函式時，你可以傳入 `FormSubmitOptions`，覆寫表單預設的 `submission` 邏輯：`submit(this.registrationForm, {action: () => /* ... */ })`。
 
@@ -865,7 +872,7 @@ onSubmit() {
 
 ### 自訂控制項
 
-預設情況下，對自訂控制項呼叫 `focusBoundControl()` 不會有任何效果，因為自訂控制項可以包含多個原生輸入元素。例如，日期選擇器可以包含分別的日期、月份與年份欄位。因此，Angular 無法判斷哪個元素應該接收焦點，或應該執行什麼動作。
+預設情況下，對自訂控制項呼叫 `focusBoundControl()` 會聚焦該控制項的宿主元素，而宿主元素通常無法接收焦點。自訂控制項可以包含多個原生輸入元素。例如，日期選擇器可以包含分別的日期、月份與年份欄位。因此，Angular 無法判斷哪個元素應該接收焦點，或應該執行什麼動作。
 
 若要讓自訂控制項支援程式化聚焦，請實作 `focus()` 方法。當對與自訂控制項相關聯的欄位狀態呼叫 `focusBoundControl()` 時，Angular 會呼叫該控制項的 `focus()` 方法（若有的話）。
 
@@ -873,7 +880,7 @@ onSubmit() {
 
 ```html
 <div class="password-block">
-  <input type="password" #passwordCtrl [value]="value()" (input)="value.set($event.target.value)" />
+  <input type="password" #passwordCtrl [value]="value()" (input)="value.set(passwordCtrl.value)" />
 </div>
 ```
 

@@ -32,6 +32,8 @@ export const routes: Routes = [
 
 當你導覽到 `/products/123` 時，若 `ProductDetails` 在建立或渲染期間擲出錯誤，Angular 路由器會改為在 `<router-outlet>` 內建立 `ProductErrorFallback` 的執行個體。
 
+NOTE: 只有在啟用錯誤邊界後，`errorComponent` 才會生效。請參閱[全域錯誤邊界設定](#global-error-boundary-configuration)。
+
 NOTE: 與可使用 `loadComponent` 延遲載入的路由元件不同，`errorComponent` 必須在路由設定中積極載入。
 
 ---
@@ -87,9 +89,9 @@ export class ProductErrorFallback {
 }
 ```
 
-## 全域錯誤邊界設定
+## 全域錯誤邊界設定 {#global-error-boundary-configuration}
 
-你可以使用 `provideRouter` 中的 `withErrorBoundaries` 功能，在整個應用程式中全域啟用路由器錯誤邊界：
+使用 `provideRouter` 中的 `withErrorBoundaries` 功能，為你的應用程式啟用路由器錯誤邊界。沒有它，路由的 `errorComponent` 會被忽略：
 
 ```ts {header:"app.config.ts"}
 import {ApplicationConfig, inject} from '@angular/core';

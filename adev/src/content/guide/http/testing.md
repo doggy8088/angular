@@ -139,7 +139,7 @@ req.flush('Failed!', {status: 500, statusText: 'Internal Server Error'});
 
 ### 網路錯誤
 
-請求也可能因網路錯誤而失敗，這類錯誤會以 `ProgressEvent` 錯誤的形式呈現。它們可以透過 `error()` 方法傳送：
+請求也可能因網路錯誤而失敗，`HttpClient` 會將這類錯誤回報為 `status` 為 `0` 的 `HttpErrorResponse`。你可以用 `error()` 方法模擬這類錯誤，它會把給定的 `ProgressEvent` 包裝成這種回應：
 
 ```ts
 const req = httpTesting.expectOne('/api/config');
