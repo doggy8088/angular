@@ -1,77 +1,55 @@
 # Angular Language Service
 
-The Angular Language Service is a way to get completions, errors,
-hints, and navigation inside your Angular templates whether they
-are external in an HTML file or embedded in annotations/decorators
-in a string. The Angular Language Service autodetects that you are
-opening an Angular file, reads your `tsconfig.json` file, finds all the
-templates you have in your application, and then provides language
-services for any templates that you open.
+Angular Language Service 是一種在 Angular 範本中取得自動完成、錯誤、提示與導覽的方式，無論範本是放在 HTML 檔案中的外部範本，或是以字串形式內嵌在註解/裝飾器中。Angular Language Service 會自動偵測你開啟的是 Angular 檔案，讀取你的 `tsconfig.json` 檔案，找出應用程式中的所有範本，並為你開啟的任何範本提供語言服務。
 
 
-## Autocompletion
+## 自動完成
 
-Autocompletion can speed up your development time by providing you with
-contextual possibilities and hints as you type. This example shows
-autocomplete in an interpolation. As you type it out,
-you can hit tab to complete.
+自動完成能在你輸入時提供符合情境的候選項目與提示，加快你的開發速度。這個範例展示了內插中的自動完成。輸入過程中，你可以按下 tab 鍵完成輸入。
 
 <figure>
-  <img src="generated/images/guide/language-service/language-completion.gif" alt="autocompletion">
+  <img src="generated/images/guide/language-service/language-completion.gif" alt="自動完成">
 </figure>
 
-There are also completions within
-elements. Any elements you have as a component selector will
-show up in the completion list.
+元素內部也有程式碼補全功能。你作為元件選擇器使用的任何元素，都會出現在補全清單中。
 
-## Error checking
+## 錯誤檢查
 
-The Angular Language Service can also forewarn you of mistakes in your code.
-In this example, Angular doesn't know what `orders` is or where it comes from.
+Angular 語言服務可以預先提醒你程式碼中的錯誤。在這個範例中，Angular 不知道 `orders` 是什麼，也不知道它來自哪裡。
 
 <figure>
-  <img src="generated/images/guide/language-service/language-error.gif" alt="error checking">
+  <img src="generated/images/guide/language-service/language-error.gif" alt="錯誤檢查">
 </figure>
 
-## Navigation
+## 導覽
 
-Navigation allows you to hover to
-see where a component, directive, module, etc. is from and then
-click and press F12 to go directly to its definition.
+導覽讓你將滑鼠停留在上方，就能看到元件、指令、模組等來自哪裡，接著點選並按下 F12 直接前往其定義。
 
 <figure>
-  <img src="generated/images/guide/language-service/language-navigation.gif" alt="navigation">
+  <img src="generated/images/guide/language-service/language-navigation.gif" alt="導覽">
 </figure>
 
 
-## Angular Language Service in your editor
+## 編輯器中的 Angular Language Service
 
-Angular Language Service is currently available for [Visual Studio Code](https://code.visualstudio.com/) and
-[WebStorm](https://www.jetbrains.com/webstorm).
+Angular Language Service 目前可用於 [Visual Studio Code](https://code.visualstudio.com/) 與 [WebStorm](https://www.jetbrains.com/webstorm)。
 
 ### Visual Studio Code
 
-In Visual Studio Code, install Angular Language Service from the store,
-which is accessible from the bottom icon on the left menu pane.
-You can also use the VS Quick Open (⌘+P on Mac, CTRL+P on Windows) to search for the extension. When you've opened it,
-enter the following command:
+在 Visual Studio Code 中，從商店安裝 Angular Language Service，該商店可透過左側選單窗格底部的圖示開啟。你也可以使用 VS 快速開啟（Mac 上為 ⌘+P，Windows 上為 CTRL+P）搜尋擴充功能。開啟後，輸入下列命令：
 
 ```sh
 ext install Angular.ng-template
 ```
 
-Then click the install button to install the Angular Language Service.
+接著點按安裝按鈕，安裝 Angular Language Service。
 
 
 ### WebStorm
 
-In webstorm, you have to install the language service as a dev dependency.
-When Angular sees this dev dependency, it provides the
-language service inside of WebStorm. Webstorm then gives you
-colorization inside the template and autocomplete in addition to the Angular Language Service.
+在 WebStorm 中，你必須將語言服務安裝為開發依賴。當 Angular 看到這個開發依賴時，便會在 WebStorm 內提供語言服務。接著，除了 Angular Language Service 之外，WebStorm 還會在範本中提供色彩標示與自動完成。
 
-Here's the dev dependency
-you need to have in `package.json`:
+你需要在 `package.json` 中加入的開發依賴如下：
 
 ```json
 devDependencies {
@@ -79,8 +57,7 @@ devDependencies {
 }
 ```
 
-Then in the terminal window at the root of your project,
-install the `devDependencies` with `npm` or `yarn`:
+在專案根目錄的終端機視窗中，使用 `npm` 或 `yarn` 安裝 `devDependencies`：
 
 ```sh
 npm install
@@ -100,62 +77,51 @@ yarn install
 
 ### Sublime Text
 
-In [Sublime Text](https://www.sublimetext.com/), you first need an extension to allow Typescript.
-Install the latest version of typescript in a local `node_modules` directory:
+在 [Sublime Text](https://www.sublimetext.com/) 中，你首先需要一個支援 TypeScript 的擴充功能。在本地的 `node_modules` 目錄中安裝最新版 TypeScript：
 
 ```sh
 npm install --save-dev typescript
 ```
 
-Then install the Angular Language Service in the same location:
+接著在相同位置安裝 Angular Language Service：
 ```sh
 npm install --save-dev @angular/language-service
 ```
 
-Starting with TypeScript 2.3, TypeScript has a language service plugin model that the language service can use.
+從 TypeScript 2.3 開始，TypeScript 具有語言服務可以使用的外掛程式模型。
 
-Next, in your user preferences (`Cmd+,` or `Ctrl+,`), add:
+接著，在你的使用者偏好設定（`Cmd+,` 或 `Ctrl+,`）中加入：
 
 ```json
 "typescript-tsdk": "<path to your folder>/node_modules/typescript/lib"
 ```
 
 
-## Installing in your project
+## 在專案中安裝
 
-You can also install Angular Language Service in your project with the
-following `npm` command:
+你也可以用下列 `npm` 命令在專案中安裝 Angular Language Service：
 
 ```sh
 npm install --save-dev @angular/language-service
 ```
-Additionally, add the following to the `"compilerOptions"` section of
-your project's `tsconfig.json`.
+此外，將下列內容加入專案 `tsconfig.json` 的 `"compilerOptions"` 區段。
 
 ```json
   "plugins": [
       {"name": "@angular/language-service"}
   ]
 ```
-Note that this only provides diagnostics and completions in `.ts`
-files. You need a custom sublime plugin (or modifications to the current plugin)
-for completions in HTML files.
+請注意，這只會在 `.ts` 檔案中提供診斷與補全功能。若要在 HTML 檔案中取得補全功能，你需要一個自訂的 Sublime 外掛程式（或修改現有的外掛程式）。
 
 
-## How the Language Service works
+## 語言服務的運作方式
 
-When you use an editor with a language service, there's an
-editor process which starts a separate language process/service
-to which it speaks through an [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call).
-Any time you type inside of the editor, it sends information to the other process to
-track the state of your project. When you trigger a completion list within a template, the editor process first parses the template into an HTML AST, or [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree). Then the Angular compiler interprets
-what module the template is part of, the scope you're in, and the component selector. Then it figures out where in the template AST your cursor is. When it determines the
-context, it can then determine what the children can be.
+當你使用具有語言服務的編輯器時，編輯器程序會啟動一個獨立的語言程序/服務，並透過 [RPC](https://en.wikipedia.org/wiki/Remote_procedure_call) 與它通訊。每當你在編輯器中輸入，編輯器就會將資訊傳送給另一個程序，以追蹤專案的狀態。當你在範本中觸發補全清單時，編輯器程序會先將範本解析為 HTML AST，也就是[抽象語法樹](https://en.wikipedia.org/wiki/Abstract_syntax_tree)。接著 Angular 編譯器會解讀範本屬於哪個模組、你所在的範疇，以及元件選擇器。然後它會找出你的游標在範本 AST 中的位置。判斷出上下文後，它就能判斷該處可以出現哪些子元素。
 
-It's a little more involved if you are in an interpolation. If you have an interpolation of `{{data.---}}` inside a `div` and need the completion list after `data.---`, the compiler can't use the HTML AST to find the answer. The HTML AST can only tell the compiler that there is some text with the characters "`{{data.---}}`". That's when the template parser produces an expression AST, which resides within the template AST. The Angular Language Services then looks at `data.---` within its context and asks the TypeScript Language Service what the members of data are. TypeScript then returns the list of possibilities.
+如果你在內插中，情況會稍微複雜一點。如果你在 `div` 中有一個 `{{data.---}}` 的內插，並需要在 `data.---` 之後取得補全清單，編譯器無法使用 HTML AST 找到答案。HTML AST 只能告訴編譯器，存在一些包含「`{{data.---}}`」字元的文字。這時範本解析器會產生一個運算式 AST，它位於範本 AST 之內。接著 Angular Language Service 會在其上下文中查看 `data.---`，詢問 TypeScript Language Service `data` 的成員有哪些。TypeScript 接著便回傳可能性的清單。
 
 
-For more in-depth information, see the
+若要進一步深入了解，請見
 [Angular Language Service API](https://github.com/angular/angular/blob/master/packages/language-service/src/types.ts)
 
 
@@ -167,9 +133,9 @@ For more in-depth information, see the
 
 <hr>
 
-## More on Information
+## 更多資訊
 
-For more information, see [Chuck Jazdzewski's presentation](https://www.youtube.com/watch?v=ez3R0Gi4z5A&t=368s) on the Angular Language
-Service from [ng-conf](https://www.ng-conf.org/) 2017.
+如需更多資訊，請參閱 [Chuck Jazdzewski 的演講](https://www.youtube.com/watch?v=ez3R0Gi4z5A&t=368s)，那是他在 [ng-conf](https://www.ng-conf.org/) 2017 年關於 Angular Language Service 的演講。
+
 
 

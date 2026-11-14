@@ -1,119 +1,113 @@
-# Angular Documentation Style Guide
+# Angular 文件風格指南
+
 <!-- formerly Authors Style Guide -->
 
-This Style Guide is for anyone who contributes to the Angular documentation (this site). 
-These guidelines should be followed by all authors. 
-Deviations must be approved by a documentation editor.
+本風格指南適用於所有為 Angular 文件（本站）做出貢獻的人。
+所有作者都應遵循這些準則。
+偏離準則必須獲得文件編輯的核准。
 
-The guidelines described here serve two purposes: 
+這裡描述的準則有兩個目的：
 
-* To ensure a high-quality, consistent experience for Angular documentation users. 
+* 為 Angular 文件使用者確保高品質、一致的體驗。
 
-* To simplify the writing process for contributing authors. 
-This guide helps you make decisions about tone, voice, and style. 
-It also helps you find the right markup quickly. 
-
+* 簡化貢獻作者的寫作流程。
+本指南幫助你決定語氣、語調與風格。
+它也幫助你快速找到正確的標記。
 
 <div class="alert is-helpful">
 
-This guide is a *living document*; it changes over time. 
-We strive for consistency to the extent feasible, but you may find parts of our documentation that don't match this style guide. 
-When in doubt, **follow this guide rather than imitating existing documents.**
+本指南是一份*活文件*；它會隨著時間而改變。
+我們在可行的範圍內努力保持一致，但你可能會發現我們的文件有些部分不符合本風格指南。
+有疑問時，**請遵循本指南，而不是模仿現有的文件。**
 
 </div>
 
-## Scope of these guidelines
+## 這些準則的範圍
 
-We ask all contributing authors to adhere to three aspects of style: 
+我們要求所有貢獻作者遵守三個方面的風格：
 
+* **寫作風格：** 用詞、文法、大小寫與標點符號。
+遵守 Angular 的寫作準則可確保一致的「語調」，幫助確保資訊的正確性，並方便世界各地不同背景的讀者使用。
 
-* **Writing style:** Word usage, grammar, capitalization, and punctuation. 
-Adherence to Angular's writing guidelines ensures a consistent "voice", helps ensure accuracy of the information, and facilitates use world-wide, by audiences with different backgrounds. 
+* **標記風格：** 如何包含圖片、表格、警告框與程式碼片段。
+Angular 文件以 Markdown 撰寫，並有本站專用的自訂擴充。正確的標記可確保一致的外觀與感覺，並且對文件正確建置與運作至關重要。
 
+* **Angular 程式碼風格：** 範例應用程式與程式碼片段的程式碼風格。
+我們鼓勵使用程式碼範例來示範如何套用所討論的概念與功能。
+Angular 有一個自訂框架，讓作者能直接從範例應用程式中包含程式碼片段，這些範例會在文件建置過程中自動測試。
+若要貢獻範例程式碼，你必須了解 Angular 本身，以及 Angular 文件範例的自訂框架。
 
-* **Markup style:** How to include images, tables, alert boxes, and code snippets. 
-Angular docs are written in Markdown, with custom extensions for this site. Correct markup ensures a consistent look-and-feel, and is essential for the doc to build and function correctly. 
+對於每個風格方面，下表說明了在哪裡可以找到主要準則，以及本 Angular 文件風格指南提供什麼。
 
-
-* **Angular coding style:** Coding style for example apps and code snippets. 
-Code examples are encouraged for demonstrating how to apply the concepts and features discussed. 
-Angular has a custom framework that enables authors to include code snippets directly from example apps  that are automatically tested as part of doc builds. 
-To contribute example code, you must understand Angular itself and the custom framework for Angular doc examples. 
-
-For each aspect of style, the following table explains where to find the primary guidelines and what this Angular Documentation Style Guide offers. 
-
-
-Style                    | Guidelines
+風格                     | 準則
 ------------------------ | -------------------------------
-**Writing style**        | Primary: [Google Developer Documentation Style Guide](https://developers.google.com/style/)<br />This guide: Specifies any special considerations for Angular docs.  
-**Markup style**         | Primary: This guide<br />This guide: Specifies guidelines for markup of guides and tutorials, which are written primarily in Markdown. 
-**Angular coding style** | Primary: [Angular Style Guide](guide/styleguide "Angular Application Code Style Guide").<br />This guide: How to create, store, and include code examples in guides and tutorials. 
+**寫作風格**             | 主要：[Google Developer Documentation Style Guide](https://developers.google.com/style/)<br />本指南：指定 Angular 文件的任何特殊考量。
+**標記風格**             | 主要：本指南<br />本指南：指定指南與教學的標記準則，這些主要以 Markdown 撰寫。
+**Angular 程式碼風格**   | 主要：[Angular 風格指南](guide/styleguide "Angular Application Code Style Guide")。<br />本指南：如何在指南與教學中建立、儲存與包含程式碼範例。
 
 <div class="alert is-helpful">
 
-Note: Angular API and CLI reference docs are generated from source code and/or related source files, which may have other markup styles and other ways of including code examples.
+注意：Angular API 與 CLI 參照文件是從原始碼及／或相關原始檔產生的，它們可能有其他標記風格，以及其他包含程式碼範例的方式。
 
 </div>
 
+## 文件產生與工具
 
-## Doc generation and tooling
+若要變更文件頁面與範例程式碼，請複製 [Angular github 儲存庫](https://github.com/angular/angular "Angular repo")，並前往 `aio/` 資料夾。
 
-To make changes to the documentation pages and sample code, clone the [Angular github repository](https://github.com/angular/angular "Angular repo") and go to the `aio/` folder.
+[aio/README.md](https://github.com/angular/angular/blob/master/aio/README.md "AIO ReadMe")說明如何安裝與使用工具來編輯與測試你的變更。
 
-The [aio/README.md](https://github.com/angular/angular/blob/master/aio/README.md "AIO ReadMe") explains how to install and use the tools to edit and test your changes.
+以下是給指南頁面作者的幾個必要指令。
 
-Here are a few essential commands for guide page authors.
+1. `yarn setup` &mdash; 安裝套件；建置文件、stackblitz 與 zip。
 
-1. `yarn setup` &mdash; installs packages; builds docs, stackblitz, and zips.
+1. `yarn docs-watch --watch-only` &mdash; 監看已儲存的內容變更並重新整理瀏覽器。（可選的）`--watch-only` 旗標會跳過初始的文件重建。
 
-1. `yarn docs-watch --watch-only` &mdash; watches for saved content changes and refreshes the browser. The (optional) `--watch-only` flag skips the initial docs rebuild.
+1. `yarn start`  &mdash;  啟動文件檢視器應用程式，讓你在瀏覽器中看到本機變更。
 
-1. `yarn start`  &mdash;  starts the doc viewer application so you can see your local changes in the browser.
+1.  http://localhost:4200/  &mdash;  瀏覽到在本機執行的應用程式。
 
-1.  http://localhost:4200/  &mdash;  browse to the app running locally.
+你可以用 `yarn serve-and-sync` 將 `yarn docs-watch` 與 `yarn start` 合併為一個指令。
 
-You can combine `yarn docs-watch` and `yarn start` into one command with `yarn serve-and-sync`.
+## 指南頁面
 
-## Guide pages
+ 除了少數幾個之外，所有指南頁面都是副檔名為 `.md` 的 [markdown](https://daringfireball.net/projects/markdown/syntax "markdown") 檔案。
 
- All but a few guide pages are [markdown](https://daringfireball.net/projects/markdown/syntax "markdown") files with an `.md` extension.
+每個指南頁面檔案都儲存在 `content/guide` 目錄中。雖然[側邊導覽](#導覽)面板顯示為階層結構，但該目錄是扁平的，沒有子資料夾。
+扁平資料夾的做法讓我們可以調整表面上的導覽結構，而不需移動頁面檔案或重新導向舊的頁面 URL。
 
-Every guide page file is stored in the `content/guide` directory. Although the [side navigation](#navigation) panel displays as a hierarchy, the directory is flat with no sub-folders.
-The flat folder approach allows us to shuffle the apparent navigation structure without moving page files or redirecting old page URLs.
+文件產生過程會取用 `content/guide` 目錄中的 markdown 檔案，並在 `src/generated/docs/guide` 目錄中產生 JSON 檔案，該目錄也是扁平的。那些 JSON 檔案包含文件中繼資料與 HTML 內容的組合。
 
-The doc generation process consumes the markdown files in the `content/guide` directory and produces JSON files in the `src/generated/docs/guide` directory, which is also flat. Those JSON files contain a combination of document metadata and HTML content.
+讀者透過頁面 URL 請求頁面。文件檢視器取得對應的 JSON 檔案、解譯它，並將它渲染為完整成形的 HTML 頁面。
 
-The reader requests a page by its Page URL. The doc viewer fetches the corresponding JSON file, interprets it, and renders it as fully-formed HTML page.
-
-Page URLs mirror the `content` file structure. The URL for the page of a guide is in the form `guide/{page-name}`. The page for _this_ "Authors Style Guide" is located at `content/guide/docs-style-guide.md` and its URL is `guide/docs-style-guide`.
-
+頁面 URL 對映 `content` 檔案結構。指南頁面的 URL 形式為 `guide/{page-name}`。本「作者風格指南」頁面位於 `content/guide/docs-style-guide.md`，其 URL 為 `guide/docs-style-guide`。
 
 <div class="alert is-helpful">
 
-_Tutorial_ pages are exactly like guide pages. The only difference is that they reside in `content/tutorial` instead of `content/guide` and have URLs like `tutorial/{page-name}`.
+_教學_頁面與指南頁面完全相同。唯一的區別是它們位於 `content/tutorial` 而不是 `content/guide`，且 URL 形式為 `tutorial/{page-name}`。
 
-_API_ pages are generated from Angular source code into the `src/generated/docs/api` directory.
-The doc viewer translates URLs that begin `api/` into requests for document JSON files in that directory. This style guide does not discuss creation or maintenance of API pages.
+_API_ 頁面是從 Angular 原始碼產生到 `src/generated/docs/api` 目錄中。
+文件檢視器會將以 `api/` 開頭的 URL 轉換為對該目錄中文件 JSON 檔案的請求。本風格指南不討論 API 頁面的建立或維護。
 
-_Marketing_ pages are similar to guide pages. They're located in the `content/marketing` directory. While they can be markdown files, they may be static HTML pages or dynamic HTML pages that render with JSON data.
+_行銷_頁面與指南頁面相似。它們位於 `content/marketing` 目錄中。雖然它們可以是 markdown 檔案，但它們也可以是靜態 HTML 頁面，或是以 JSON 資料渲染的動態 HTML 頁面。
 
-Only a few people are authorized to write marketing pages. This style guide does not discuss creation or maintenance of marketing pages.
+只有少數人被授權撰寫行銷頁面。本風格指南不討論行銷頁面的建立或維護。
 
 </div>
 
-## Markdown and HTML
+## Markdown 與 HTML
 
-While documentation guide pages ultimately render as HTML, almost all of them are written in [markdown](https://daringfireball.net/projects/markdown/syntax "markdown").
+雖然文件指南頁面最終渲染為 HTML，但幾乎所有頁面都是以 [markdown](https://daringfireball.net/projects/markdown/syntax "markdown") 撰寫的。
 
-Markdown is easier to read and to edit than HTML. Many editors (including Visual Studio Code) can render markdown as you type it.
+Markdown 比 HTML 更容易閱讀與編輯。許多編輯器（包括 Visual Studio Code）可以在你輸入時渲染 markdown。
 
-From time to time you'll have to step away from markdown and write a portion of the document in HTML. Markdown allows you to mix HTML and markdown in the same document.
+有時候你必須離開 markdown，將文件的一部分以 HTML 撰寫。Markdown 允許你在同一文件中混合 HTML 與 markdown。
 
-Standard markdown processors don't allow you to put markdown _within_ HTML tags. But the Angular documentation markdown processor **supports markdown within HTML**, as long as you follow one rule:
+標準的 markdown 處理器不允許你在 HTML 標籤_之內_放 markdown。但 Angular 文件的 markdown 處理器**支援在 HTML 內使用 markdown**，只要你遵循一條規則：
 
 <div class="alert is-critical">
 
-**Always** follow every opening and closing HTML tag with _a blank line_.
+**務必**在每個開頭與結尾 HTML 標籤之後加一個_空白行_。
 
 </div>
 
@@ -127,47 +121,48 @@ Standard markdown processors don't allow you to put markdown _within_ HTML tags.
 
 <div class="alert is-helpful">
 
-  It is customary but not required to _precede_ the _closing HTML_ tag with a blank line as well.
+  在_結尾 HTML_ 標籤之前也加上一個空白行是慣例，但不是必須的。
 
 </div>
 
-## Title
+## 標題
 
-Every guide document must have a title.
+每個指南文件都必須有一個標題。
 
-The title should appear at the top of the physical page.
-Begin the title with the markdown `#` character. Alternatively, you can write the equivalent `<h1>`.
+標題應該出現在實體頁面的頂部。
+以 markdown 的 `#` 字元開始標題。或者，你可以寫等效的 `<h1>`。
 
 ```html
   # Authors Style Guide
 ```
 
-**Only one title (`<h1>`) per document!**
+**每個文件只能有一個標題（`<h1>`）！**
 
-Title text should be in "Title Case", which means that you use capital letters to start the first words and all _principal_ words. Use lower case letters for _secondary_ words such as "in", "of", and "the".
+標題文字應該使用「標題大小寫」，也就是以大寫字母作為第一個單詞與所有_主要_單詞的開頭。像 "in"、"of" 與 "the" 這樣的_次要_單詞使用小寫字母。
 
 ```html
   # The Meat of the Matter
 ```
 
-**Always follow the title with at least one blank line.**
+**標題後面務必至少留一個空行。**
 
-## Sections
+## 章節
 
-A typical document is divided into sections.
+典型的文件被劃分為若干章節。
 
-All section heading text should be in "Sentence case", which means the first word is capitalized and all other words are lower case.
+所有章節標題文字都應該使用「句子大小寫」，也就是第一個單詞大寫，所有其他單詞小寫。
 
-**Always follow the section heading with at least one blank line.**
+**章節標題之後務必至少加一個空白行。**
 
 <h2 class="no-toc">
+
 Main section heading
 </h2>
-There are usually one or more main sections that may be further divided into secondary sections.
+通常有一個或多個主要章節，可以進一步劃分為次要章節。
 
-Begin a main section heading with the markdown `##` characters. Alternatively, you can write the equivalent `<h2>` HTML tag.
+以 markdown 的 `##` 字元開始主要章節標題。或者，你可以寫等效的 `<h2>` HTML 標籤。
 
-The main section heading should be followed by a blank line and then the content for that heading.
+主要章節標題之後應該加一個空白行，然後是該標題的內容。
 
 ```html
   ## Sections
@@ -176,14 +171,15 @@ The main section heading should be followed by a blank line and then the content
 ```
 
 <h3 class="no-toc">
+
 Secondary section heading
 </h3>
 
-A secondary section heading is related to a main heading and _falls textually within_ the bounds of that main heading.
+次要章節標題與主要標題相關，並且在文字上_落在_該主要標題的範圍之內。
 
-Begin a secondary heading with the markdown `###` characters. Alternatively, you can write the equivalent `<h3>` HTML tag.
+以 markdown 的 `###` 字元開始次要標題。或者，你可以寫等效的 `<h3>` HTML 標籤。
 
-The secondary heading should be followed by a blank line and then the content for that heading.
+次要標題之後應該加一個空白行，然後是該標題的內容。
 
 ```html
   ### Secondary section heading
@@ -191,11 +187,11 @@ The secondary heading should be followed by a blank line and then the content fo
   A secondary section ...
 ```
 
-#### Additional section headings
+#### 其他章節標題
 
-Try to minimize the heading depth, preferably only two. But more headings, such as this one, are permitted if they make sense.
+試著將標題深度降至最低，最好只有兩層。但如果有意義，像這樣更多的標題也是允許的。
 
-**N.B.**:  The [Table-of-contents](#table-of-contents) generator only considers main (`<h2>`) and secondary (`<h3>`) headings.
+**N.B.**： [目錄](#目錄)產生器只考慮主要（`<h2>`）與次要（`<h3>`）標題。
 
 ```html
   #### Additional section headings
@@ -203,13 +199,13 @@ Try to minimize the heading depth, preferably only two. But more headings, such 
   Try to minimize ...
 ```
 
-## Table of contents
+## 目錄
 
-Most pages display a table of contents (TOC). The TOC appears in the right panel when the viewport is wide. When narrow, the TOC appears in an expandable/collapsible region near the top of the page.
+大多數頁面顯示目錄 (TOC)。當視口寬時，TOC 出現在右側面板中。當視口窄時，TOC 出現在頁面頂部附近一個可展開／可摺疊的區域中。
 
-You should not create your own TOC by hand. The TOC is generated automatically from the page's main and secondary section headers.
+你不應該自己手動建立目錄。目錄是從頁面的主要與次要章節標題自動產生的。
 
-To exclude a heading from the TOC, create the heading as an `<h2>` or `<h3>` element with a class called 'no-toc'. You can't do this with markdown.
+若要將標題排除在目錄之外，請將標題建立為帶有 'no-toc' 類別的 `<h2>` 或 `<h3>` 元素。你無法用 markdown 做到這一點。
 
 ```html
 <h3 class="no-toc">
@@ -217,7 +213,7 @@ This heading is not displayed in the TOC
 </h3>
 ```
 
-You can turn off TOC generation for the _entire_ page by writing the title with an `<h1>` tag and the `no-toc` class.
+你可以用帶有 `no-toc` 類別的 `<h1>` 標籤撰寫標題，來關閉_整個_頁面的目錄產生功能。
 
 ```html
 <h1 class="no-toc">
@@ -225,16 +221,17 @@ A guide without a TOC
 </h1>
 ```
 
-## Navigation
+## 導覽
 
-The navigation links at the top, left, and bottom of the screen are generated from the JSON configuration file, `content/navigation.json`.
+螢幕頂部、左側與底部的導覽連結是從 JSON 設定檔 `content/navigation.json` 產生的。
 
-The authority to change the `navigation.json` file is limited to a few core team members.
-But for a new guide page, you should suggest a navigation title and position in the left-side navigation panel called the "side nav".
+變更 `navigation.json` 檔案的權限僅限於少數核心團隊成員。
+但對於新的指南頁面，你應該在稱為「側邊導覽」的左側導覽面板中建議一個導覽標題與位置。
 
-Look for the `SideNav` node in `navigation.json`. The `SideNav` node is an array of navigation nodes. Each node is either an _item_ node for a single document or a _header_ node with child nodes.
+在 `navigation.json` 中尋找 `SideNav` 節點。`SideNav` 節點是一個導覽節點陣列。每個節點要麼是單一文件的_項目_節點，要麼是帶有子節點的_標頭_節點。
 
-Find the header for your page. For example, a guide page that describes an Angular feature is probably a child of the `Fundamentals` header.
+找到你的頁面所屬的標頭。
+例如，描述 Angular 功能的指南頁面很可能是 `Fundamentals` 標頭的子節點。
 
 ```html
 {
@@ -244,9 +241,9 @@ Find the header for your page. For example, a guide page that describes an Angul
 }
 ```
 
-A _header_ node child can be an _item_ node or another _header_ node. If your guide page belongs under a sub-header, find that sub-header in the JSON.
+_標頭_節點的子節點可以是_項目_節點或另一個_標頭_節點。如果你的指南頁面屬於某個子標頭之下，請在 JSON 中找到該子標頭。
 
-Add an _item_ node for your guide page as a child of the appropriate _header_ node. It probably looks something like this one.
+在適當的_標頭_節點下，為你的指南頁面加入一個_項目_節點。它大概長得像這樣。
 
 ```html
 {
@@ -256,54 +253,49 @@ Add an _item_ node for your guide page as a child of the appropriate _header_ no
 }
 ```
 
-A navigation node has the following properties:
+導覽節點具有下列屬性：
 
-* `url`- the URL of the guide page (_item node only_).
+* `url` - 指南頁面的 URL（_僅項目節點_）。
 
-* `title`- the text displayed in the side nav.
+* `title` - 在側邊導覽中顯示的文字。
 
-* `tooltip` - text that appears when the reader hovers over the navigation link.
+* `tooltip` - 當讀者將滑鼠懸停在導覽連結上時出現的文字。
 
-* `children` - an array of child nodes (_header node only_).
+* `children` - 子節點陣列（_僅標頭節點_）。
 
-* `hidden` - defined and set true if this is a guide page that should _not_ be displayed in the navigation panel. Rarely needed, it is a way to hide the page from navigation while making it available to readers who should know about it. _This_ "Authors Style Guide" is a hidden page.
-
-
-<div class="alert is-critical">
-
-Do not create a node that is both a _header_ and an _item_ node. That is, do not specify the `url` property of a _header_ node.
-
-</div>
-
+* `hidden` - 如果這是一個不應該顯示在導覽面板中的指南頁面，則定義並設為 true。這很少需要，它是一種讓頁面不顯示在導覽中、但仍可供應該知道它的讀者使用的方法。本「作者風格指南」就是一個隱藏頁面。
 
 <div class="alert is-critical">
 
-The current guidelines allow for a three-level navigation structure with two header levels. Don't add a third header level.
+不要建立同時是_標頭_又是_項目_的節點。也就是說，不要指定_標頭_節點的 `url` 屬性。
 
 </div>
 
+<div class="alert is-critical">
 
-## Code snippets
+目前的準則允許三層導覽結構，包含兩個標頭層級。不要加入第三個標頭層級。
 
-Guides are rich in examples of working Angular code. Example code can be commands entered in a terminal window, a fragment of TypeScript or HTML, or an entire code file.
+</div>
 
-Whatever the source, the doc viewer renders them as "code snippets", either individually with the [_code-example_](#code-example "code-example") component or as a tabbed collection with the [_code-tabs_](#code-tabs "code-tabs") component.
+## 程式碼片段
 
+指南中富含可運作的 Angular 程式碼範例。範例程式碼可以是在終端機視窗中輸入的指令、TypeScript 或 HTML 的片段，或整個程式碼檔案。
+
+不論來源為何，文件檢視器都將它們渲染為「程式碼片段」，或單獨使用 [_code-example_](#code-example "code-example") 元件，或作為分頁集合使用 [_code-tabs_](#code-tabs "code-tabs") 元件。
 
 {@a code-example}
 
-### Code example
+### 程式碼範例
 
-You can display a simple, inline code snippet with the markdown backtick syntax.
-We generally prefer to display a code snippet with the Angular documentation _code-example_ component
-represented by the `<code-example>` tag.
+你可以使用 markdown 反引號語法顯示簡單的行內程式碼片段。
+我們一般偏好使用 Angular 文件的 _code-example_ 元件（以 `<code-example>` 標籤表示）來顯示程式碼片段。
 
 <h3 class="no-toc">Inline code-snippets</h3>
 
-You should source code snippets [from working sample code](#from-code-samples) when possible.
-But there are times when an inline snippet is the better choice.
+你應該盡可能[從可運作的範例程式碼](#from-code-samples)取得程式碼片段。
+但有些時候，行內片段是更好的選擇。
 
-For terminal input and output, put the content between `<code-example>` tags, set the CSS class to `code-shell`, and set the language attribute to `sh` as in this example.
+對於終端機的輸入與輸出，請將內容放在 `<code-example>` 標籤之間，將 CSS 類別設為 `code-shell`，並將 language 屬性設為 `sh`，如本範例所示。
 
 <code-example language="sh" class="code-shell">
   npm start
@@ -315,45 +307,45 @@ For terminal input and output, put the content between `<code-example>` tags, se
 </code-example>
 ```
 
-Inline, hand-coded snippets like this one are _not_ testable and, therefore, are intrinsically unreliable.
-This example belongs to the small set of pre-approved, inline snippets that includes
-user input in a command shell or the _output_ of some process.
+像這樣行內手寫的片段是_不可_測試的，因此本質上不可靠。
+這個範例屬於預先核准的行內片段小集合之一，其中包括指令殼層中的使用者輸入，或某個過程的_輸出_。
 
-**Do not write inline code snippets** unless you have a good reason and the editor's permission to do so.
-In all other cases, code snippets should be generated automatically from tested code samples.
+**不要撰寫行內程式碼片段**，除非你有充分的理由並獲得編輯的許可。
+在所有其他情況下，程式碼片段都應該從經過測試的程式碼範例自動產生。
 
 {@a from-code-samples}
 
 <h3 class="no-toc">Code snippets and code samples</h3>
 
-One of the documentation design goals is that guide page code snippets should be examples of real, working code.
+文件的設計目標之一是，指南頁面的程式碼片段應該是真實、可運作程式碼的範例。
 
-We meet this goal by displaying code snippets that are derived directly from standalone code samples, written specifically for these guide pages.
+我們透過顯示直接源自獨立程式碼範例的程式碼片段來實現這一目標，這些範例是專門為這些指南頁面撰寫的。
 
-The author of a guide page is responsible for the code sample that supports that page.
-The author must also write end-to-end tests for the sample.
+指南頁面的作者對支援該頁面的程式碼範例負責。
+作者還必須為範例撰寫端到端測試。
 
-Code samples are located in sub-folders of the `content/examples` directory of the `angular/angular` repository. An example folder name should be the same as the guide page it supports.
+程式碼範例位於 `angular/angular` 儲存庫的 `content/examples` 目錄的子資料夾中。範例資料夾名稱應該與它所支援的指南頁面相同。
 
 <div class="alert is-helpful">
 
-A guide page might not have its own sample code. It might refer instead to a sample belonging to another page.
+指南頁面可能沒有自己的範例程式碼。
+它可能參照的是屬於其他頁面的範例。
 
 </div>
 
-The Angular CI process runs all end-to-end tests for every Angular PR. Angular re-tests the samples after every new version of a sample and every new version of Angular itself.
+Angular CI 過程會為每個 Angular PR 執行所有端到端測試。Angular 在範例的每個新版本以及 Angular 本身的每個新版本之後重新測試範例。
 
-When possible, every snippet of code on a guide page should be derived from a code sample file. You tell the Angular documentation engine which code file - or fragment of a code file - to display by configuring `<code-example>` attributes.
+在可能的情況下，指南頁面上的每段程式碼都應該源自程式碼範例檔案。你可以透過設定 `<code-example>` 屬性，告訴 Angular 文件引擎要顯示哪個程式碼檔案（或程式碼檔案的片段）。
 
-#### Code snippet from a file
+#### 來自檔案的程式碼片段
 
-_This_ "Authors Doc Style Guide" has its own sample application, located in the `content/examples/docs-style-guide` folder.
+_本_「作者文件風格指南」有自己的範例應用程式，位於 `content/examples/docs-style-guide` 資料夾中。
 
-The following _code-example_ displays the sample's `app.module.ts`.
+以下 _code-example_ 顯示範例的 `app.module.ts`。
 
 <code-example path="docs-style-guide/src/app/app.module.ts" header="src/app/app.module.ts"></code-example>
 
-Here's the brief markup that produced that lengthy snippet:
+以下是產生那段冗長片段的簡短標記：
 
 ```html
 <code-example
@@ -362,27 +354,26 @@ Here's the brief markup that produced that lengthy snippet:
 </code-example>
 ```
 
-You identified the snippet's source file by setting the `path` attribute to sample folder's location _within_ `content/examples`.
-In this example, that path is  `docs-style-guide/src/app/app.module.ts`.
+你透過將 `path` 屬性設為範例資料夾在 `content/examples` _之內_的位置，標識了片段的原始檔案。
+在本範例中，該路徑是 `docs-style-guide/src/app/app.module.ts`。
 
-You added a header to tell the reader where to find the file by setting the `header` attribute.
-Following convention, you set the `header` attribute to the file's location within the sample's root folder.
+你加入了一個標頭來告訴讀者在哪裡找到檔案，方法是設定 `header` 屬性。
+按照慣例，你將 `header` 屬性設為檔案在範例根資料夾中的位置。
 
 <div class="alert is-helpful">
 
-Unless otherwise noted, all code snippets in this page are derived from sample source code
-located in the `content/examples/docs-style-guide` directory.
+除非另有說明，本頁中的所有程式碼片段都源自位於 `content/examples/docs-style-guide` 目錄中的範例原始碼。
 
 </div>
 
 <div class="alert is-important">
 
-The doc tooling reports an error if the file identified in the path does not exist **or is _git_-ignored**.
+如果路徑中標識的檔案不存在，文件工具會報告錯誤，**如果檔案被 _git_ 忽略，也會報告錯誤**。
 
-Most `.js` files are _git_-ignored.
-If you want to include an ignored code file in your project and display it in a guide you must _un-ignore_ it.
+大多數 `.js` 檔案都被 _git_ 忽略。
+如果你想在專案中包含一個被忽略的程式碼檔案並在指南中顯示它，你必須_取消忽略_它。
 
-The preferred way to un-ignore a file is to update the `content/examples/.gitignore` like this:
+取消忽略檔案的慣用方法是像這樣更新 `content/examples/.gitignore`：
 
 <code-example header="content/examples/.gitignore">
   # my-guide
@@ -392,38 +383,37 @@ The preferred way to un-ignore a file is to update the `content/examples/.gitign
 
 </div>
 
-#### Code-example attributes
+#### code-example 屬性
 
-You control the _code-example_ output by setting one or more of its attributes:
+你可以透過設定 _code-example_ 的一個或多個屬性來控制其輸出：
 
-* `path`- the path to the file in the `content/examples` folder.
+* `path` - `content/examples` 資料夾中檔案的路徑。
 
-* `header`- the header of the code listing.
+* `header` - 程式碼清單的標頭。
 
-* `region`- displays the source file fragment with that region name; regions are identified by _docregion_ markup in the source file, as explained [below](#region "Displaying a code fragment").
+* `region` - 顯示具有該區域名稱的原始檔案片段；區域由原始檔案中的 _docregion_ 標記標識，如[下文](#region "Displaying a code fragment")所說明。
 
-* `linenums`- value may be `true`, `false`, or a `number`. When not specified, line numbers are automatically displayed when there are greater than 10 lines of code. The rarely used `number` option starts line numbering at the given value. `linenums=4` sets the starting line number to 4.
+* `linenums` - 值可以是 `true`、`false` 或 `number`。未指定時，當程式碼超過 10 行時會自動顯示行號。很少使用的 `number` 選項從給定值開始編排行號。`linenums=4` 將起始行號設為 4。
 
-* `class`- code snippets can be styled with the CSS classes `no-box`, `code-shell`, and `avoid`.
+* `class` - 程式碼片段可以使用 CSS 類別 `no-box`、`code-shell` 與 `avoid` 來設定樣式。
 
-* `hideCopy`- hides the copy button
+* `hideCopy` - 隱藏複製按鈕
 
-* `language`- the source code language such as `javascript`, `html`, `css`, `typescript`, `json`, or `sh`. This attribute only works for inline examples.
+* `language` - 原始碼語言，例如 `javascript`、`html`、`css`、`typescript`、`json` 或 `sh`。這個屬性僅適用於行內範例。
 
 {@a region}
 
-#### Displaying a code fragment
+#### 顯示程式碼片段
 
-Often you want to focus on a fragment of code within a sample code file. In this example, you focus on the `AppModule` class and its `NgModule` metadata.
+你常常想聚焦於範例程式碼檔案中的一段程式碼。在本範例中，你聚焦於 `AppModule` 類別及其 `NgModule` 中繼資料。
 
 <code-example
   path="docs-style-guide/src/app/app.module.ts"
   region="class">
 </code-example>
 
-First you surround that fragment in the source file with a named _docregion_ as described [below](#source-code-markup).
-Then you reference that _docregion_ in the `region` attribute of the `<code-example>` like this
-
+首先，你用一個命名的 _docregion_ 將該片段在原始檔案中包圍起來，如[下文](#source-code-markup)所述。
+然後你在 `<code-example>` 的 `region` 屬性中參照那個 _docregion_，像這樣
 
 ```html
 <code-example
@@ -432,25 +422,24 @@ Then you reference that _docregion_ in the `region` attribute of the `<code-exam
 </code-example>
 ```
 
-A couple of observations:
+幾點觀察：
 
-1. The `region` value, `"class"`, is the name of the `#docregion` in the source file. Confirm that by looking at `content/examples/docs-style-guide/src/app/app.module.ts`
+1. `region` 值 `"class"` 是原始檔案中 `#docregion` 的名稱。透過查看 `content/examples/docs-style-guide/src/app/app.module.ts` 確認這一點
 
-1. Omitting the `header` is fine when the source of the fragment is obvious. We just said that this is a fragment of the `app.module.ts` file which was displayed immediately above, in full, with a header.
-There's no need to repeat the header.
+1. 當片段的來源很明顯時，省略 `header` 是可以的。我們剛才說這是 `app.module.ts` 檔案的一個片段，該檔案剛在上面完整顯示，並帶有標頭。
+沒有必要重複標頭。
 
-1. The line numbers disappeared. By default, the doc viewer omits line numbers when there are fewer than 10 lines of code; it adds line numbers after that. You can turn line numbers on or off explicitly by setting the `linenums` attribute.
+1. 行號消失了。依預設，當程式碼少於 10 行時，文件檢視器會省略行號；超過之後才會加上行號。你可以透過設定 `linenums` 屬性，明確開啟或關閉行號。
 
-#### Example of bad code
+#### 壞程式碼範例
 
-Sometimes you want to display an example of bad code or bad design.
+有時候你想顯示壞程式碼或壞設計的範例。
 
-You should be careful. Readers don't always read carefully and are likely to copy and paste your example of bad code in their own applications. So don't display bad code often.
+你應該小心。讀者不一定仔細閱讀，他們很可能會將你的壞程式碼範例複製並貼到自己的應用程式中。所以不要經常顯示壞程式碼。
 
-When you do, set the `class` to `avoid`. The code snippet will be framed in bright red to grab the reader's attention.
+當你這樣做時，請將 `class` 設為 `avoid`。程式碼片段會以鮮紅色邊框呈現，以吸引讀者的注意。
 
-Here's the markup for an "avoid" example in the
-[_Angular Style Guide_](guide/styleguide#style-05-03 "Style 05-03: components as elements").
+以下是在 [_Angular Style Guide_](guide/styleguide#style-05-03 "Style 05-03: components as elements") 中一個 "avoid" 範例的標記。
 
 ```html
 <code-example
@@ -464,22 +453,23 @@ Here's the markup for an "avoid" example in the
 </code-example>
 
 {@a code-tabs}
-### Code Tabs
 
-Code tabs display code much like _code examples_ do.  The added advantage is that they can display multiple code samples within a tabbed interface.  Each tab is displayed using _code pane_.
+### 程式碼分頁
 
-#### Code-tabs attributes
+程式碼分頁顯示程式碼的方式與_程式碼範例_非常相似。額外的優點是它們可以在分頁介面中顯示多個程式碼範例。每個分頁使用 _code pane_ 顯示。
 
-* `linenums`: The value can be `true`, `false` or a number indicating the starting line number. If not specified, line numbers are enabled only when code for a tab pane has greater than 10 lines of code.
+#### Code-tabs 屬性
 
-#### Code-pane attributes
+* `linenums`：值可以是 `true`、`false` 或表示起始行號的數字。如果未指定，僅當頁籤窗格的程式碼超過 10 行時才啟用行號。
 
-* `path` - a file in the content/examples folder
-* `header` - seen in the header of a tab
-* `linenums` - overrides the `linenums` property at the `code-tabs` level for this particular pane. The value can be `true`, `false` or a number indicating the starting line number. If not specified, line numbers are enabled only when the number of lines of code are greater than 10.
+#### Code-pane 屬性
 
-The next example displays multiple code tabs, each with its own header.
-It demonstrates control over display of line numbers at both the `<code-tabs>` and `<code-pane>` levels.
+* `path` - content/examples 資料夾中的檔案
+* `header` - 在分頁的標頭中顯示
+* `linenums` - 覆寫此特定窗格在 `code-tabs` 層級的 `linenums` 屬性。值可以是 `true`、`false` 或表示起始行號的數字。如果未指定，僅當程式碼行數超過 10 行時才啟用行號。
+
+下一個範例顯示多個程式碼分頁，每個都有自己的標頭。
+它示範了在 `<code-tabs>` 與 `<code-pane>` 兩個層級上對行號顯示的控制。
 
 <code-tabs linenums="false">
   <code-pane
@@ -502,10 +492,10 @@ It demonstrates control over display of line numbers at both the `<code-tabs>` a
   </code-pane>
 </code-tabs>
 
-Here's the markup for that example.
+以下是該範例的標記。
 
-Note how the `linenums` attribute in the  `<code-tabs>` explicitly disables numbering for all panes.
-The `linenums` attribute in the second pane restores line numbering for _itself only_.
+請注意 `<code-tabs>` 中的 `linenums` 屬性如何明確地為所有窗格停用編號。
+第二個窗格中的 `linenums` 屬性僅為_它自己_恢復行號。
 
 ```html
 <code-tabs linenums="false">
@@ -532,24 +522,25 @@ The `linenums` attribute in the second pane restores line numbering for _itself 
 
 {@a source-code-markup}
 
-## Source code markup
+## 原始碼標記
 
-You must add special code snippet markup to sample source code files before they can be displayed by `<code-example>` and `<code-tabs>` components.
+在範例原始碼檔案能被 `<code-example>` 與 `<code-tabs>` 元件顯示之前，你必須為其加入特殊的程式碼片段標記。
 
 <div class="alert is-helpful">
 
-The sample source code for this page, located in `context/examples/docs-style-guide`, contains examples of every code snippet markup described in this section.
+本頁的範例原始碼位於 `context/examples/docs-style-guide`，包含本節所述每個程式碼片段標記的範例。
 
 </div>
 
-Code snippet markup is always in the form of a comment. Here's the default _docregion_ markup for a TypeScript or JavaScript file:
+程式碼片段標記總是以註解的形式出現。以下是 TypeScript 或 JavaScript 檔案的預設 _docregion_ 標記：
 
 ```
 // #docregion
 ... some code ...
 // #enddocregion
 ```
-Different file types have different comment syntax so adjust accordingly.
+
+不同的檔案類型有不同的註解語法，請相應調整。
 
 ```html
 <!-- #docregion -->
@@ -563,29 +554,28 @@ Different file types have different comment syntax so adjust accordingly.
 /* #enddocregion */
 ```
 
-The doc generation process erases these comments before displaying them in the doc viewer.
-It also strips them from stackblitz and sample code downloads.
+文件產生過程會在文件檢視器中顯示這些註解之前將它們清除。
+它也會從 stackblitz 與範例程式碼下載中移除它們。
 
 <div class="alert is-important">
 
-Code snippet markup is not supported in JSON files because comments are forbidden in JSON files.
-See [below](#json-files) for details and workarounds.
+JSON 檔案不支援程式碼片段標記，因為 JSON 檔案禁止註解。
+詳情與變通方法請參閱[下文](#json-檔案)。
 
 </div>
 
-
 #### _#docregion_
 
-The _#docregion_ is the most important kind of code snippet markup.
+_#docregion_ 是最重要的一種程式碼片段標記。
 
-The `<code-example>` and `<code-tabs>` components won't display a source code file unless it has a _#docregion_.
+`<code-example>` 與 `<code-tabs>` 元件不會顯示沒有 _#docregion_ 的原始碼檔案。
 
-The _#docregion_ comment begins a code snippet region.
-Every line of code _after_ that comment belongs in the region _until_ the code fragment processor encounters the end of the file or a closing _#enddocregion_.
+_#docregion_ 註解開啟一個程式碼片段區域。
+該註解_之後_的每一行程式碼都屬於該區域，_直到_程式碼片段處理器遇到檔案結尾或結尾的 _#enddocregion_。
 
 <div class="alert is-helpful">
 
-The `src/main.ts` is a simple example of a file with a single _#docregion_ at the top of the file.
+`src/main.ts` 是一個簡單的範例，其檔案頂部有單一的 _#docregion_。
 
 <code-example
   path="docs-style-guide/src/main.ts"
@@ -659,7 +649,7 @@ export class AppComponent {
 // #enddocregion class, class-skeleton
 </code-example>
 
-Here's are the two corresponding code snippets displayed side-by-side.
+以下是並列顯示的兩個對應程式碼片段。
 
 <code-tabs>
   <code-pane
@@ -674,30 +664,30 @@ Here's are the two corresponding code snippets displayed side-by-side.
   </code-pane>
 </code-tabs>
 
-Some observations:
+幾點觀察：
 
-* The `#docplaster` at the top is another bit of code snippet markup. It tells the processor how to join the fragments into a single snippet.
+* 頂部的 `#docplaster` 是另一種程式碼片段標記。它告訴處理器如何將片段連接成單一片段。
 
-  In this example, we tell the processor to put the fragments together without anything in between - without any "plaster".  Most sample files define this _empty plaster_.
+  在本範例中，我們告訴處理器將片段直接連接起來，中間不加任何東西——不加任何「plaster」。大多數範例檔案都定義這個_空 plaster_。
 
-  If we neglected to add, `#docplaster`, the processor would insert the _default_ plaster - an ellipsis comment - between the fragments. Try removing the `#docplaster` comment yourself to see the effect.
+  如果我們忽略加入 `#docplaster`，處理器會在片段之間插入_預設_ plaster——一個省略號註解。試著自己移除 `#docplaster` 註解以查看效果。
 
-* One `#docregion` comment mentions **_two_** region names as does an `#enddocregion` comment. This is a convenient way to start (or stop) multiple regions on the same code line. You could have put these comments on separate lines and many authors prefer to do so.
+* 一個 `#docregion` 註解提及了**_兩個_**區域名稱，`#enddocregion` 註解也是如此。這是在同一行程式碼上開始（或停止）多個區域的便捷方式。你可以將這些註解放在不同的行上，許多作者更喜歡這樣做。
 
-#### JSON files
+#### JSON 檔案
 
-Code snippet markup is not supported for JSON files because comments are forbidden in JSON files.
+JSON 檔案不支援程式碼片段標記，因為 JSON 檔案禁止註解。
 
-You can display an entire JSON file by referring to it in the `src` attribute.
-But you can't display JSON fragments because you can't add `#docregion` tags to the file.
+你可以透過在 `src` 屬性中參照整個 JSON 檔案來顯示它。
+但你不能顯示 JSON 片段，因為你無法將 `#docregion` 標籤加入檔案。
 
-If the JSON file is too big, you could copy the nodes-of-interest into markdown backticks.
+如果 JSON 檔案太大，你可以將感興趣的節點複製到 markdown 反引號中。
 
-Unfortunately, it's easy to mistakenly create invalid JSON that way. The preferred way is to create a JSON partial file with the fragment you want to display.
+不幸的是，這樣很容易誤建無效的 JSON。慣用的方法是建立一個包含你想顯示之片段的 JSON 部分檔案。
 
-You can't test this partial file and you'll never use it in the application. But at least your IDE can confirm that it is syntactically correct.
+你無法測試這個部分檔案，也永遠不會在應用程式中使用它。但至少你的 IDE 可以確認它的語法正確。
 
-Here's an example that excerpts certain scripts from `package.json` into a partial file named `package.1.json`.
+以下範例將 `package.json` 中的某些指令碼節錄到名為 `package.1.json` 的部分檔案中。
 
 <code-example
   path="docs-style-guide/package.1.json"
@@ -882,7 +872,7 @@ text to which it applies, using the special `{@a name}` syntax like this.
   #### Ugly, long section header anchors
 </code-example>
 
-Now [link to that custom anchor name](#ugly-anchors) as you did before.
+現在像之前一樣[連結到該自訂錨點名稱](#ugly-anchors)。
 
 ```html
 Now [link to that custom anchor name](#ugly-anchors) as you did before.
@@ -890,9 +880,9 @@ Now [link to that custom anchor name](#ugly-anchors) as you did before.
 
 <div class="alert is-helpful">
 
-Alternatively, you can use the HTML `<a>` tag.
+或者，你可以使用 HTML `<a>` 標籤。
 
-If you do, be sure to set the `id` attribute - not the `name` attribute! The docs generator will not convert the `name` to the proper link URL.
+如果你這樣做，請務必設定 `id` 屬性——而不是 `name` 屬性！文件產生器不會將 `name` 轉換為正確的連結 URL。
 
 ```html
 <a id="anchors"></a>
@@ -902,23 +892,23 @@ If you do, be sure to set the `id` attribute - not the `name` attribute! The doc
 
 </div>
 
-## Alerts and Calllouts
+## 警示與提示框
 
-Alerts and callouts present warnings, extra detail or references to other pages. They can also be used to provide commentary that _enriches_ the reader's understanding of the content being presented.
+警示與提示框呈現警告、額外細節或對其他頁面的參照。它們也可以用來提供評論，_豐富_讀者對所呈現內容的理解。
 
-An alert or callout _must not_ contain anything _essential_ to that understanding. Don't put a critical instruction or a tutorial step in a subsection.
+警示或提示框_絕不能_包含對該理解至關重要的任何內容。不要將關鍵指令或教學步驟放在子章節中。
 
-### Alerts
+### 警示
 
-Alerts draw attention to short important points. Alerts should not be used for multi-line content (use [callouts](#callouts "callouts") instead).
+警示吸引對簡短重要要點的注意。警示不應該用於多行內容（改用[提示框](#提示框 "callouts")）。
 
 <div class="alert is-helpful">
 
-  You'll learn about styles for live examples in the [section below](guide/docs-style-guide#live-examples "Live examples").
+  你將在[下面的小節](guide/docs-style-guide#live-examples "Live examples")中了解即時範例的風格。
 
 </div>
 
-  Note that at least one blank line must follow both the opening and closing `<div>` tags. A blank line before the closing `</div>` is customary but not required.
+  請注意，開頭與結尾 `<div>` 標籤之後都必須至少有一個空白行。在結尾 `</div>` 之前加一個空白行是慣例，但不是必須的。
 
 ```html
 <div class="alert is-helpful">
@@ -928,28 +918,28 @@ You'll learn about styles for live examples in the [section below](guide/docs-st
 </div>
 ```
 
-There are three different _urgency levels_ used to style the alerts based on the severity or importance of the content.
+有三種不同的_緊急程度_用來根據內容的嚴重性或重要性為警示設定樣式。
 
 <div class="alert is-critical">
 
-A critical alert.
+一個關鍵的提示。
 
 </div>
 
 <div class="alert is-important">
 
-An important alert.
+一個重要的提示。
 
 </div>
 
 <div class="alert is-helpful">
 
-A helpful, informational alert.
+一個有幫助的資訊提示。
 
 </div>
 
+以下是這些警示的標記。
 
-Here is the markup for these alerts.
 ```html
 <div class="alert is-critical">
 
@@ -970,36 +960,40 @@ A helpful, informational alert.
 </div>
 ```
 
-### Callouts
+### 提示框
 
-Callouts, like alerts, are meant to draw attention to important points. Use a callout when you want a riveting header and multi-line content.
+提示框和警示一樣，都是為了吸引對重要要點的注意。當你想要一個引人注目的標頭與多行內容時，使用提示框。
 
-If you have more than two paragraphs, consider creating a new page or making it part of the main content.
+如果你有超過兩個段落，請考慮建立新頁面或將其納入主要內容。
 
-Callouts use the same _urgency levels_ that alerts do.
+提示框使用與警示相同的_緊急程度_。
 
 <div class="callout is-critical">
-<header>A critical point</header>
+
+  <header>一個關鍵的重點</header>
 
 **Pitchfork hoodie semiotics**, roof party pop-up _paleo_ messenger messenger bag cred Carles tousled Truffaut yr. Semiotics viral freegan VHS, Shoreditch disrupt McSweeney's. Intelligentsia kale chips Vice four dollar toast, Schlitz crucifix
 
 </div>
 
 <div class="callout is-important">
-<header>An important point</header>
+
+  <header>一個重要的重點</header>
 
 **Pitchfork hoodie semiotics**, roof party pop-up _paleo_ messenger bag cred Carles tousled Truffaut yr. Semiotics viral freegan VHS, Shoreditch disrupt McSweeney's. Intelligentsia kale chips Vice four dollar toast, Schlitz crucifix
 
 </div>
 
 <div class="callout is-helpful">
-<header>A helpful or informational point</header>
+
+  <header>一個有幫助或資訊性的重點</header>
 
 **Pitchfork hoodie semiotics**, roof party pop-up _paleo_ messenger bag cred Carles tousled Truffaut yr. Semiotics viral freegan VHS, Shoreditch disrupt McSweeney's. Intelligentsia kale chips Vice four dollar toast, Schlitz crucifix
 
 </div>
 
-Here is the markup for the first of these callouts.
+以下是最先的這些提示框的標記。
+
 ```html
 <div class="callout is-critical">
 <header>A critical point</header>
@@ -1009,62 +1003,71 @@ Here is the markup for the first of these callouts.
 </div>
 ```
 
-Notice that:
-* the callout header text is forced to all upper case
-* the callout body can be written in markdown
-* a blank line separates the `</header>` tag from the markdown content
+請注意：
+* 提示框標頭文字會被強制全部大寫
+* 提示框主體可以用 markdown 撰寫
+* `</header>` 標籤與 markdown 內容之間以一個空白行分隔
 
-Callouts are meant to grab the user's attention. They are not for casual asides. Please use them sparingly.
+提示框是為了吸引使用者的注意。它們不適合隨意的旁白。請謹慎使用它們。
 
-## Trees
+## 樹狀結構
 
-Trees can represent hierarchical data.
+樹可以表示階層式資料。
 
 <div class='filetree'>
 
   <div class='file'>
+
     sample-dir
   </div>
 
   <div class='children'>
 
     <div class='file'>
+
       src
     </div>
 
     <div class='children'>
 
       <div class='file'>
+
         app
       </div>
 
       <div class='children'>
 
         <div class='file'>
+
           app.component.ts
         </div>
 
         <div class='file'>
+
           app.module.ts
         </div>
 
       </div>
 
       <div class='file'>
+
         styles.css
       </div>
 
       <div class='file'>
+
         tsconfig.json
       </div>
 
     </div>
 
     <div class='file'>
+
       node_modules ...
     </div>
 
     <div class='file'>
+
       package.json
     </div>
 
@@ -1072,7 +1075,7 @@ Trees can represent hierarchical data.
 
 </div>
 
-Here is the markup for this file tree.
+以下是此檔案樹狀結構的標記。
 
 ```html
 <div class='filetree'>
@@ -1112,18 +1115,19 @@ Here is the markup for this file tree.
 </div>
 ```
 
+## 表格
 
-## Tables
-
-Use HTML tables to present tabular data.
-
+使用 HTML 表格來呈現表格資料。
 
 <style>
+
   td, th {vertical-align: top}
 </style>
 
 <table>
+
   <tr>
+
     <th>Framework</th>
     <th>Task</th>
     <th>Speed</th>
@@ -1136,14 +1140,19 @@ Use HTML tables to present tabular data.
   <tr>
     <td><code>Angular v2</code></td>
     <td>Routing</td>
+
     <!-- can use markdown too; remember blank lines -->
+
     <td>
 
       *Faster*
 
     </td>
+
   </tr>
+
   <tr>
+
     <td><code>Angular v4</code></td>
     <td>Routing</td>
     <td>
@@ -1151,10 +1160,12 @@ Use HTML tables to present tabular data.
       **Fastest :)**
 
     </td>
+
   </tr>
+
 </table>
 
-Here is the markup for this table.
+以下是此表格的標記。
 
 ```html
 <style>
@@ -1194,32 +1205,33 @@ Here is the markup for this table.
 </table>
 ```
 
-## Images
+## 圖片
 
 <h3 class="no-toc">Image location</h3>
 
-Store images in the `content/images` directory in a folder with the same URL as the guide page.
-Images for this "Authors Style Guide" page belong in the `content/images/guide/docs-style-guide` folder.
+將圖片儲存在 `content/images` 目錄中，放在與指南頁面 URL 相同的資料夾中。
+本「作者風格指南」頁面的圖片屬於 `content/images/guide/docs-style-guide` 資料夾。
 
-Angular doc generation copies these image folders to the _runtime_ location, `generated/images`.
-Set the image `src` attribute to begin in _that_ directory.
+Angular 文件產生會將這些圖片資料夾複製到_執行時期_位置 `generated/images`。
+將圖片的 `src` 屬性設為以_該_目錄開頭。
 
-Here's the `src` attribute for the "flying hero" image belonging to this page.
+以下是屬於本頁的「flying hero」圖片的 `src` 屬性。
+
 ```
 src="generated/images/guide/docs-style-guide/flying-hero.png"
 ```
 
 <h3 class="no-toc">Use the HTML <i>&lt;img&gt;</i> tag</h3>
 
-**Do not use the markdown image syntax, \!\[\.\.\.\]\(\.\.\.\).**
+**不要使用 markdown 圖片語法 \!\[\.\.\.\]\(\.\.\.\).**
 
-Images should be specified in an `<img>` tag.
+圖片應該在 `<img>` 標籤中指定。
 
-For accessibility, always set the `alt` attribute with a meaningful description of the image.
+  為了無障礙，請務必設定 `alt` 屬性，並提供圖片的有意義描述。
 
-You should nest the `<img>` tag within a `<figure>` tag, which styles the image within a drop-shadow frame. You'll need the editor's permission to skip the `<figure>` tag.
+你應該將 `<img>` 標籤巢狀放在 `<figure>` 標籤內，該標籤會將圖片置於帶有陰影的框架中設定樣式。你需要編輯的許可才能跳過 `<figure>` 標籤。
 
-Here's a conforming example
+以下是一個符合規定的範例
 
 <figure>
   <img src="generated/images/guide/docs-style-guide/flying-hero.png" alt="flying hero">
@@ -1232,13 +1244,13 @@ Here's a conforming example
 </figure>
 ```
 
-_Note that the HTML image element does not have a closing tag._
+_請注意，HTML 圖片元素沒有結尾標籤。_
 
 <h3 class="no-toc">Image dimensions</h3>
 
-The doc generator reads the image dimensions from the file and adds width and height attributes to the `img` tag automatically. If you want to control the size of the image, supply your own width and height attributes.
+文件產生器會從檔案讀取圖片尺寸，並自動將 width 與 height 屬性加入 `img` 標籤。如果你想控制圖片的大小，請提供你自己的 width 與 height 屬性。
 
-Here's the "flying hero" at a more reasonable scale.
+以下是以更合理比例呈現的「flying hero」。
 
 <figure>
  <img src="generated/images/guide/docs-style-guide/flying-hero.png" alt="flying Angular hero" width="200">
@@ -1253,9 +1265,9 @@ Here's the "flying hero" at a more reasonable scale.
 </figure>
 ```
 
-Wide images can be a problem. Most browsers try to rescale the image but wide images may overflow the document in certain viewports.
+寬圖片可能會造成問題。大多數瀏覽器會試著重新縮放圖片，但在某些視口中，寬圖片可能會溢出文件。
 
-**Do not set a width greater than 700px**. If you wish to display a larger image, provide a link to the actual image that the user can click on to see the full size image separately as in this example of `source-map-explorer` output from the "Ahead-of-time Compilation" guide:
+**不要設定大於 700px 的寬度**。如果你希望顯示更大的圖片，請提供一個指向實際圖片的連結，讓使用者可以點擊以分開查看全尺寸圖片，如「Ahead-of-time Compilation」指南中 `source-map-explorer` 輸出的這個範例所示：
 
 <a href="generated/images/guide/docs-style-guide/toh-pt6-bundle.png" title="Click to view larger image">
   <figure>
@@ -1265,25 +1277,25 @@ Wide images can be a problem. Most browsers try to rescale the image but wide im
 
 <h3 class="no-toc">Image compression</h3>
 
-Large image files can be slow to load, harming the user experience. Always compress the image.
-Consider using an image compression web site such as [tinypng](https://tinypng.com/ "tinypng").
+大型圖片檔案載入緩慢，會損害使用者體驗。務必壓縮圖片。
+考慮使用像 [tinypng](https://tinypng.com/ "tinypng") 這樣的圖片壓縮網站。
 
 <h3 class="no-toc">Floating images</h3>
 
-You can float the image to the left or right of text by applying the class="left" or class="right" attributes respectively.
+你可以分別套用 class="left" 或 class="right" 屬性，將圖片浮動到文字的左側或右側。
 
 <img src="generated/images/guide/docs-style-guide/flying-hero.png"
    alt="flying Angular hero"
    width="200"
    class="left">
 
-This text wraps around to the right of the floating "flying hero" image.
+這段文字會環繞在浮動的「flying hero」圖片右側。
 
-Headings and code-examples automatically clear a floating image. If you need to force a piece of text to clear a floating image, add `<br class="clear">` where the text should break.
+標題與 code-example 會自動清除浮動圖片。如果你需要強制某段文字清除浮動圖片，請在文字應中斷處加入 `<br class="clear">`。
 
 <br class="clear">
 
-The markup for the above example is:
+上述範例的標記是：
 
 ```html
 <img src="generated/images/guide/docs-style-guide/flying-hero.png"
@@ -1298,11 +1310,11 @@ Headings and code-examples automatically clear a floating image. If you need to 
 <br class="clear">
 ```
 
-Note that you generally don't wrap a floating image in a `<figure>` element.
+請注意，你一般不會將浮動圖片包裝在 `<figure>` 元素中。
 
-#### Floating within a subsection
+#### 在子章節內浮動
 
-If you have a floating image inside an alert, callout, or a subsection, it is a good idea to apply the `clear-fix` class to the `div` to ensure that the image doesn't overflow its container. For example:
+如果你在警示、提示框或子章節內有浮動圖片，最好將 `clear-fix` 類別套用到 `div` 上，以確保圖片不會溢出其容器。例如：
 
 <div class="alert is-helpful clear-fix">
 

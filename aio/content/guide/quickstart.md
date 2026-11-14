@@ -1,51 +1,51 @@
-# Getting started 
+# 入門
 
-Welcome to Angular! Angular helps you build modern applications for the web, mobile, or desktop.  
+歡迎使用 Angular！Angular 協助你為 Web、行動裝置或桌面建置現代應用程式。
 
-This guide shows you how to build and run a simple Angular
-app. You'll use the [Angular CLI tool](cli "CLI command reference") to accelerate development, 
-while adhering to the [Style Guide](guide/styleguide "Angular style guide") recommendations that
-benefit _every_ Angular project.
+本指南將示範如何建置並執行一個簡單的 Angular
+應用程式。你將使用 [Angular CLI 工具](cli "CLI command reference") 來加速開發，
+同時遵循[風格指南](guide/styleguide "Angular style guide")的建議，
+讓_每個_ Angular 專案都受益。
 
-This guide takes less than 30 minutes to complete. 
-At the end of this guide&mdash;as part of final code review&mdash;there is a link to download a copy of the final application code. (If you don't execute the commands in this guide, you can still download the final application code.)
+完成本指南不需要 30 分鐘。
+在本指南的最後&mdash;作為最終程式碼審查的一部分&mdash;有一個連結，可以下載最終應用程式程式碼的副本。（即使你沒有執行本指南中的指令，你仍然可以下載最終應用程式程式碼。）
 
 
 {@a devenv}
 {@a prerequisites}
-## Prerequisites 
+## 必要條件
 
-Before you begin, make sure your development environment includes `Node.js®` and an npm package manager. 
+在開始之前，請確定你的開發環境包含 `Node.js®` 與一個 npm 套件管理員。
 
 {@a nodejs}
 ### Node.js
 
-Angular requires `Node.js` version 8.x or 10.x.
+Angular 需要 `Node.js` 8.x 或 10.x 版。
 
-* To check your version, run `node -v` in a terminal/console window.
+* 若要檢查你的版本，請在終端機／主控台視窗中執行 `node -v`。
 
-* To get `Node.js`, go to [nodejs.org](https://nodejs.org "Nodejs.org").
+* 若要取得 `Node.js`，請前往 [nodejs.org](https://nodejs.org "Nodejs.org")。
 
 {@a npm}
-### npm package manager
+### npm 套件管理員
 
-Angular, the Angular CLI, and Angular apps depend on features and functionality provided by libraries that are available as [npm packages](https://docs.npmjs.com/getting-started/what-is-npm). To download and install npm packages, you must have an npm package manager. 
+Angular、Angular CLI 與 Angular 應用程式，都依賴以 [npm 套件](https://docs.npmjs.com/getting-started/what-is-npm) 形式提供的程式庫所提供的特色與功能。若要下載並安裝 npm 套件，你必須有一個 npm 套件管理員。
 
-This Quick Start uses the [npm client](https://docs.npmjs.com/cli/install) command line interface, which is installed with `Node.js` by default. 
+本快速入門使用 [npm 客戶端](https://docs.npmjs.com/cli/install)命令列介面，它會隨 `Node.js` 一起預設安裝。
 
-To check that you have the npm client installed, run `npm -v` in a terminal/console window.
+若要確認你已安裝 npm 客戶端，請在終端機／主控台視窗中執行 `npm -v`。
 
 
 {@a install-cli}
 
-## Step 1: Install the Angular CLI
+## 步驟 1：安裝 Angular CLI
 
-You use the Angular CLI 
-to create projects, generate application and library code, and perform a variety of ongoing development tasks such as testing, bundling, and deployment.
+你可以使用 Angular CLI
+來建立專案、產生應用程式與函式庫程式碼，並執行各種持續性的開發工作，例如測試、打包與部署。
 
-Install the Angular CLI globally. 
+在全域安裝 Angular CLI。
 
-To install the CLI using `npm`, open a terminal/console window and enter the following command:
+若要使用 `npm` 安裝 CLI，請開啟終端機／主控台視窗，並輸入下列指令：
 
 
 <code-example language="sh" class="code-shell">
@@ -57,87 +57,87 @@ To install the CLI using `npm`, open a terminal/console window and enter the fol
 
 {@a create-proj}
 
-## Step 2: Create a workspace and initial application
+## 步驟 2：建立工作區與初始應用程式
 
-You develop apps in the context of an Angular [**workspace**](guide/glossary#workspace). A workspace contains the files for one or more [**projects**](guide/glossary/#project). A project is the set of files that comprise an app, a library, or end-to-end (e2e) tests. 
+你是在 Angular [**工作區**](guide/glossary#工作區（workspace）)的脈絡下開發應用程式。工作區包含一個或多個 [**專案**](guide/glossary/#專案（project）)的檔案。專案是構成應用程式、函式庫或端對端（e2e）測試的檔案集合。
 
-To create a new workspace and initial app project: 
+要建立新的工作區與初始應用程式專案：
 
-1. Run the CLI command `ng new` and provide the name `my-app`, as shown here: 
+1. 執行 CLI 指令 `ng new`，並提供名稱 `my-app`，如下所示：
 
     <code-example language="sh" class="code-shell">
       ng new my-app
 
     </code-example>
 
-2. The `ng new` command prompts you for information about features to include in the initial app project. Accept the defaults by pressing the Enter or Return key. 
+2. `ng new` 指令會提示你提供初始應用程式要包含哪些功能的資訊。按下 Enter 或 Return 鍵，接受預設值即可。
 
-The Angular CLI installs the necessary Angular npm packages and other dependencies. This can take a few minutes. 
+Angular CLI 會安裝必要的 Angular npm 套件與其他相依套件。這可能需要幾分鐘。
 
-It also creates the following workspace and starter project files: 
+它還會建立下列工作區與起始專案檔案：
 
-* A new workspace, with a root folder named `my-app`
-* An initial skeleton app project, also called `my-app` (in the `src` subfolder)
-* An end-to-end test project (in the `e2e` subfolder)
-* Related configuration files
+* 一個新的工作區，根資料夾名為 `my-app`
+* 一個初始的骨架應用程式專案，同樣稱為 `my-app`（位於 `src` 子資料夾中）
+* 一個端對端測試專案（位於 `e2e` 子資料夾中）
+* 相關的設定檔案
 
-The initial app project contains a simple Welcome app, ready to run. 
+初始應用程式專案包含一個簡單的 Welcome 應用程式，隨時可以執行。
 
 {@a serve}
 
-## Step 3: Serve the application
+## 步驟 3：執行應用程式
 
-Angular includes a server, so that you can easily build and serve your app locally.
+Angular 內含一個伺服器，讓你可以輕鬆在本機建置並提供你的應用程式。
 
-1. Go to the workspace folder (`my-app`).
+1. 前往工作區資料夾（`my-app`）。
 
-1. Launch the server by using the CLI command `ng serve`, with the `--open` option.
+1. 使用 CLI 指令 `ng serve` 並加上 `--open` 選項，啟動伺服器。
 
 <code-example language="sh" class="code-shell">
   cd my-app
   ng serve --open
 </code-example>
 
-The `ng serve` command launches the server, watches your files,
-and rebuilds the app as you make changes to those files.
+`ng serve` 指令會啟動伺服器、監看你的檔案，
+並在你變更這些檔案時重建應用程式。
 
-The `--open` (or just `-o`) option automatically opens your browser
-to `http://localhost:4200/`.
+`--open`（或簡寫 `-o`）選項會自動開啟你的瀏覽器
+前往 `http://localhost:4200/`。
 
-Your app greets you with a message:
+你的應用程式會以一則訊息歡迎你：
 
 
 <figure>
-  <img src='generated/images/guide/cli-quickstart/app-works.png' alt="Welcome to my-app!">
+  <img src='generated/images/guide/cli-quickstart/app-works.png' alt="顯示「Welcome to my-app!」的畫面">
 </figure>
 
 
 
 {@a first-component}
 
-## Step 4: Edit your first Angular component
+## 步驟 4：編輯你的第一個 Angular 元件
 
-[**_Components_**](guide/glossary#component) are the fundamental building blocks of Angular applications. 
-They display data on the screen, listen for user input, and take action based on that input. 
+[**_元件_**](guide/glossary#元件（component）)是 Angular 應用程式的基本建置區塊。
+它們在畫面上顯示資料、監聽使用者輸入，並根據該輸入採取行動。
 
-As part of the initial app, the CLI created the first Angular component for you. It is the _root component_, and it is named `app-root`. 
+作為初始應用程式的一部分，CLI 已為你建立了第一個 Angular 元件。它就是_根元件_，名稱為 `app-root`。
 
-1. Open `./src/app/app.component.ts`. 
+1. 開啟 `./src/app/app.component.ts`。
 
-2. Change the `title` property from `'my-app'` to `'My First Angular App'`.
+2. 將 `title` 屬性從 `'my-app'` 變更為 `'My First Angular App'`。
 
     <code-example path="cli-quickstart/src/app/app.component.ts" region="component" header="src/app/app.component.ts" linenums="false"></code-example>
 
-    The browser reloads automatically with the revised title. That's nice, but it could look better.
+    瀏覽器會自動以修訂後的標題重新載入。這樣很好，但它可以看起來更好。
 
-3. Open `./src/app/app.component.css` and give the component some style.
+3. 開啟 `./src/app/app.component.css`，並為元件加入一些樣式。
 
     <code-example path="cli-quickstart/src/app/app.component.css" header="src/app/app.component.css" linenums="false"></code-example>
 
-Looking good! 
+看起來不錯！
 
 <figure>
-  <img src='generated/images/guide/cli-quickstart/my-first-app.png' alt="Output of Getting Started app">
+  <img src='generated/images/guide/cli-quickstart/my-first-app.png' alt="入門應用程式的輸出結果">
 </figure>
 
 
@@ -145,40 +145,38 @@ Looking good!
 
 {@a project-file-review}
 
-## Final code review
+## 最終程式碼審查
 
-You can <a href="generated/zips/cli-quickstart/cli-quickstart.zip" target="_blank">download an example</a> of the app that you created in this Getting Started guide. 
+你可以<a href="generated/zips/cli-quickstart/cli-quickstart.zip" target="_blank">下載</a>你在本入門指南中建立的應用程式範例。
 
 
 <div class="alert is-helpful">
 
-**Tip:** Most Angular guides include links to download example files and run live examples in [Stackblitz](http://www.stackblitz.com), so that you can see Angular concepts and code in action. 
+**提示：** 大多數 Angular 指南都包含連結，讓你可以下載範例檔案並在 [Stackblitz](http://www.stackblitz.com) 中執行即時範例，這樣你就可以看到 Angular 概念與程式碼的實際運作。
 
 
 </div>
 
 
-For more information about Angular project files and the file structure, see [Workspace and project file structure](guide/file-structure).
+關於 Angular 專案檔案與檔案結構的更多資訊，請參閱[工作區與專案檔案結構](guide/file-structure)。
 
 
 
 
-## Next steps
+## 後續步驟
 
-Now that you've seen the essentials of an Angular app and the Angular CLI, continue with these other introductory materials: 
+現在你已經瞭解了 Angular 應用程式與 Angular CLI 的要點，可以接著使用這些其他的入門教材：
 
-* The [Tour of Heroes tutorial](tutorial "Tour of Heroes tutorial") provides additional hands-on learning. It walks you through the steps to build an app that helps a staffing agency manage a group of superhero employees. 
-It has many of the features you'd expect to find in a data-driven application: 
+* [英雄之旅教學](tutorial "Tour of Heroes tutorial")提供額外的動手學習機會。它會引導你完成建置一個應用程式的步驟，該應用程式協助人力仲介公司管理一組超級英雄員工。
+它具備你預期在資料驅動的應用程式中會看到的許多功能：
 
-        - Acquiring and displaying a list of items
+        - 取得並顯示一組項目清單
 
-        - Editing a selected item's detail
+        - 編輯所選取項目的詳細資訊
 
-        - Navigating among different views of the data
-
-
-* The [Architecture guide](guide/architecture "Architecture guide") describes key concepts such as modules, components, services, and dependency injection (DI). It provides a foundation for more in-depth guides about specific Angular concepts and features.  
-
-After the Tutorial and Architecture guide, you'll be ready to continue exploring Angular on your own through the other guides and references in this documentation set, focusing on the features most important for your apps. 
+        - 在資料的不同檢視間導覽
 
 
+* [架構指南](guide/architecture "Architecture guide")說明了模組、元件、服務與依賴注入（DI）等關鍵概念。它為更深入的指南提供了基礎，這些指南專門介紹特定的 Angular 概念與功能。
+
+在完成教學與架構指南後，你將準備好透過本文件集的其他指南與參考資料，自行繼續探索 Angular，專注於對你的應用程式最重要的功能。

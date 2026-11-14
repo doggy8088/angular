@@ -1,38 +1,30 @@
-# TypeScript Configuration
+# TypeScript 設定
 
-TypeScript is a primary language for Angular application development.
-It is a superset of JavaScript with design-time support for type safety and tooling.
+TypeScript 是 Angular 應用程式開發的主要語言。
+它是 JavaScript 的超集，在設計階段支援型別安全與工具。
 
-Browsers can't execute TypeScript directly. Typescript must be "transpiled" into JavaScript using the *tsc* compiler,
-which requires some configuration.
+瀏覽器無法直接執行 TypeScript。Typescript 必須使用 *tsc* 編譯器「轉譯」為 JavaScript，
+這需要一些設定。
 
-This page covers some aspects of TypeScript configuration and the TypeScript environment
-that are important to Angular developers, including details about the following files:
+本頁介紹 TypeScript 設定與 TypeScript 環境中對 Angular 開發者重要的部分，包括以下檔案的詳細資訊：
 
-* [tsconfig.json](guide/typescript-configuration#tsconfig)&mdash;TypeScript compiler configuration.
-* [typings](guide/typescript-configuration#typings)&mdash;TypesScript declaration files.
-
+* [tsconfig.json](guide/typescript-configuration#tsconfig)&mdash;TypeScript 編譯器設定。
+* [typings](guide/typescript-configuration#typings)&mdash;TypesScript 宣告檔案。
 
 {@a tsconfig}
 
-
-
 ## *tsconfig.json*
-Typically, you add a TypeScript configuration file called `tsconfig.json` to your project to
-guide the compiler as it generates JavaScript files.
+通常，你會在專案中加入一個名為 `tsconfig.json` 的 TypeScript 設定檔，
+以在編譯器產生 JavaScript 檔案時提供指引。
 
 <div class="alert is-helpful">
 
-
-
-For details about `tsconfig.json`, see the official
-[TypeScript wiki](http://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
+如需了解 `tsconfig.json` 的詳細資訊，請參閱官方
+[TypeScript wiki](http://www.typescriptlang.org/docs/handbook/tsconfig-json.html)。
 
 </div>
 
-
-
-The [Setup](guide/setup) guide uses the following `tsconfig.json`:
+[設定](guide/setup)指南使用下列 `tsconfig.json`：
 
 <code-example lang="json" header="tsconfig.json" linenums="false">
   {
@@ -50,111 +42,84 @@ The [Setup](guide/setup) guide uses the following `tsconfig.json`:
   }
 </code-example>
 
-This file contains options and flags that are essential for Angular applications.
-
+這個檔案包含對 Angular 應用程式至關重要的選項與旗標。
 
 {@a noImplicitAny}
 
+### *noImplicitAny* 與 *suppressImplicitAnyIndexErrors*
 
-### *noImplicitAny* and *suppressImplicitAnyIndexErrors*
+TypeScript 開發者對於 `noImplicitAny` 旗標應該設為 `true` 還是 `false` 意見不一。
+沒有正確答案，而且你之後也可以更改旗標。
+但你現在的選擇可能會對較大的專案造成影響，因此值得討論。
 
-TypeScript developers disagree about whether the `noImplicitAny` flag should be `true` or `false`.
-There is no correct answer and you can change the flag later.
-But your choice now can make a difference in larger projects, so it merits discussion.
+當 `noImplicitAny` 旗標為 `false`（預設值），且編譯器無法根據變數的使用方式推斷其型別時，編譯器會默默地將型別預設為 `any`。這就是 *隱含 `any`* 的意思。
 
-When the `noImplicitAny` flag is `false` (the default), and if
-the compiler cannot infer the variable type based on how it's used,
-the compiler silently defaults the type to `any`. That's what is meant by *implicit `any`*.
+文件設定將 `noImplicitAny` 旗標設為 `true`。
+當 `noImplicitAny` 旗標為 `true` 且 TypeScript 編譯器無法推斷型別時，它仍會產生 JavaScript 檔案，但同時也會**回報錯誤**。
+許多經驗豐富的開發者偏好這種較嚴格的設定，因為型別檢查能在編譯時期捕捉更多無意的錯誤。
 
-The documentation setup sets the `noImplicitAny` flag to `true`.
-When the `noImplicitAny` flag is `true` and the TypeScript compiler cannot infer
-the type, it still generates the JavaScript files, but it also **reports an error**.
-Many seasoned developers prefer this stricter setting because type checking catches more
-unintentional errors at compile time.
+即使 `noImplicitAny` 旗標為 `true`，你仍可把變數的型別設為 `any`。
 
-You can set a variable's type to `any` even when the `noImplicitAny` flag is `true`.
-
-When the `noImplicitAny` flag is `true`, you may get *implicit index errors* as well.
-Most developers feel that *this particular error* is more annoying than helpful.
-You can suppress them with the following additional flag:
+當 `noImplicitAny` 旗標為 `true` 時，你可能還會遇到 *隱含索引錯誤*。
+大多數開發者認為 *這個特定錯誤* 帶來的困擾大於幫助。
+你可以用下列額外的旗標來抑制它們：
 
 <code-example format=".">
   "suppressImplicitAnyIndexErrors":true
 
 </code-example>
 
-
-
-The documentation setup sets this flag to `true` as well.
-
+文件設定也將這個旗標設為 `true`。
 
 {@a typings}
 
+## TypeScript 型別定義
+許多 JavaScript 函式庫（例如 jQuery、Jasmine 測試函式庫與 Angular）以 TypeScript 編譯器本身無法辨識的功能與語法，擴充了 JavaScript 環境。
+當編譯器無法辨識某個內容時，就會丟出錯誤。
 
+使用 [TypeScript 型別定義檔](https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html)&mdash;`d.ts files`&mdash;來告訴編譯器你載入的函式庫。
 
-## TypeScript Typings
-Many JavaScript libraries, such as jQuery, the Jasmine testing library, and Angular,
-extend the JavaScript environment with features and syntax
-that the TypeScript compiler doesn't recognize natively.
-When the compiler doesn't recognize something, it throws an error.
+支援 TypeScript 的編輯器會利用這些相同的定義檔，來顯示函式庫功能的型別資訊。
 
-Use [TypeScript type definition files](https://www.typescriptlang.org/docs/handbook/writing-declaration-files.html)&mdash;`d.ts files`&mdash;to tell the compiler about the libraries you load.
+許多函式庫會在 npm 套件中附上定義檔，讓 TypeScript 編譯器與編輯器都能找到它們。Angular 就是其中一個函式庫。
+任何 Angular 應用程式的 `node_modules/@angular/core/` 資料夾中，都包含數個描述 Angular 各部分的 `d.ts` 檔案。
 
-TypeScript-aware editors leverage these same definition files to display type information about library features.
-
-Many libraries include definition files in their npm packages where both the TypeScript compiler and editors
-can find them. Angular is one such library.
-The `node_modules/@angular/core/` folder of any Angular application contains several `d.ts` files that describe parts of Angular.
-
-**You need do nothing to get *typings* files for library packages that include `d.ts` files.
-Angular packages include them already.**
+**對於內含 `d.ts` 檔案的函式庫套件，你不需要做任何事就能取得 *typings* 檔案。
+Angular 套件已內含這些檔案。**
 
 ### lib.d.ts
 
-TypeScript includes a special declaration file called `lib.d.ts`. This file contains the ambient declarations for various common JavaScript constructs present in JavaScript runtimes and the DOM.
+TypeScript 內含一個特殊的宣告檔案，稱為 `lib.d.ts`。這個檔案包含 JavaScript 執行階段與 DOM 中各種常見 JavaScript 結構的環境宣告。
 
-Based on the `--target`, TypeScript adds _additional_ ambient declarations
-like `Promise` if the target is `es6`.
+根據 `--target`，TypeScript 會加入 _額外的_ 環境宣告，例如當 target 為 `es6` 時加入 `Promise`。
 
-Since the QuickStart is targeting `es5`, you can override the
-list of declaration files to be included:
-
+由於 QuickStart 以 `es5` 為目標，你可以覆寫要包含的宣告檔案清單：
 
 <code-example format=".">
   "lib": ["es2015", "dom"]
 
 </code-example>
 
+正因如此，即使目標是 `es5`，你也擁有全部的 `es6` 型別定義。
 
+### 可安裝的型別定義檔
+許多函式庫&mdash;其中包括 jQuery、Jasmine 與 Lodash&mdash;*並未*在 npm 套件中附上 `d.ts` 檔案。
+幸好，這些函式庫的作者或社群貢獻者已為它們建立了獨立的 `d.ts` 檔案，並發佈在眾所周知的位置。
 
-Thanks to that, you have all the `es6` typings even when targeting `es5`.
+你可以使用 `npm`，透過 [`@types/*` 範圍套件](http://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html) 安裝這些型別定義，而 TypeScript 從 2.0 起會自動辨識它們。
 
-### Installable typings files
-Many libraries&mdash;jQuery, Jasmine, and Lodash among them&mdash;do *not* include `d.ts` files in their npm packages.
-Fortunately, either their authors or community contributors have created separate `d.ts` files for these libraries and
-published them in well-known locations.
+例如，要安裝 `jasmine` 的型別定義，你可以執行 `npm install @types/jasmine --save-dev`。
 
-You can install these typings via `npm` using the
-[`@types/*` scoped package](http://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html)
-and Typescript, starting at 2.0, automatically recognizes them.
+QuickStart 用到兩個 *typings*，也就是 `d.ts` 檔案：
 
-For instance, to install typings for `jasmine` you could do `npm install @types/jasmine --save-dev`.
+* [jasmine](http://jasmine.github.io/) 型別定義，供 Jasmine 測試框架使用。
 
+* [node](https://www.npmjs.com/package/@types/node)，供參照 *Node.js®* 環境中物件的程式碼使用；
 
-QuickStart identifies two *typings*, or `d.ts`, files:
-
-* [jasmine](http://jasmine.github.io/) typings for the Jasmine test framework.
-
-* [node](https://www.npmjs.com/package/@types/node) for code that references objects in the *Node.js®* environment;
-
-
-QuickStart doesn't require these typings but many of the samples do.
-
+QuickStart 並不要求這些型別定義，但許多範例會用到。
 
 {@a target}
 
-
 ### *target*
 
-By default, the target is `es5`, you can configure the target to `es6` if you only want to deploy the application to
-es6 compatible browser. But if you configure the target to `es6` in some old browser such as `IE`, `Syntax Error` will be thrown.
+預設目標是 `es5`，如果你只想把應用程式部署到相容 es6 的瀏覽器，可以把目標設定為 `es6`。但若在某些舊瀏覽器（例如 `IE`）中把目標設定為 `es6`，將會丟出 `Syntax Error`。

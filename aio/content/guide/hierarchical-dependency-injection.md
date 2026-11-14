@@ -1,121 +1,117 @@
-# Hierarchical Dependency Injectors
+# 階層式依賴注入器
 
-The Angular dependency injection system is _hierarchical_.
-There is a tree of injectors that parallels an app's component tree.
-You can reconfigure the injectors at any level of that component tree.
+Angular 依賴注入系統是_階層式_的。
+有一棵注入器樹，與應用程式的元件樹平行。
+你可以在該元件樹的任何層級重新設定注入器。
 
-This guide explores this system and how to use it to your advantage.
-It uses examples based on this <live-example></live-example>.
+本指南探討這個系統，以及如何善用它。
+它使用的範例以這個 <live-example></live-example> 為基礎。
 
 {@a ngmodule-vs-comp}
 {@a where-to-register}
 
-## Where to configure providers
+## 在何處設定提供者
 
-You can configure providers for different injectors in the injector hierarchy.
-An internal platform-level injector is shared by all running apps.
-The `AppModule` injector is the root of an app-wide injector hierarchy, and within
-an NgModule, directive-level injectors follow the structure of the component hierarchy.
+你可以在注入器階層中為不同的注入器設定提供者。
+一個內部的平台層級注入器由所有執行中的應用程式共用。
+`AppModule` 注入器是全應用程式注入器階層的根，而在
+NgModule 內，指令層級的注入器遵循元件階層的結構。
 
-The choices you make about where to configure providers lead to differences in the final bundle size, service _scope_, and service _lifetime_.
+你對於在何處設定提供者的選擇，會造成最終套件大小、服務的_範疇_，以及服務的_生命週期_的差異。
 
-When you specify providers in the `@Injectable()` decorator of the service itself (typically at the app root level), optimization tools such as those used by the CLI's production builds can perform *tree shaking*, which removes services that aren't used by your app. Tree shaking results in smaller bundle sizes. 
+當你在服務本身的 `@Injectable()` 裝飾器中指定提供者時（通常在應用程式根層級），最佳化工具（例如 CLI 生產建置所使用的工具）可以執行*樹搖*，移除你的應用程式未使用的服務。樹搖能帶來更小的套件大小。
 
-* Learn more about [tree-shakable providers](guide/dependency-injection-providers#tree-shakable-providers).
+* 進一步了解[可樹搖的提供者](guide/dependency-injection-providers#tree-shakable-providers)。
 
-You're likely to inject `UserService` in many places throughout the app and will want to inject the same service instance every time. Providing `UserService` through the `root` injector is a good choice, and is the default that the [Angular CLI](cli) uses when you generate a service for your app.
+你在應用程式中很多地方都可能會注入 `UserService`，並且會希望每次注入的都是同一個服務實例。透過 `root` 注入器提供 `UserService` 是個好選擇，這也是 [Angular CLI](cli) 在你為應用程式產生服務時使用的預設做法。
 
 <div class="alert is-helpful">
-<header>Platform injector</header>
+<header>平台注入器</header>
 
-When you use `providedIn:'root'`, you are configuring the root injector for the _app_, which is the injector for `AppModule`.
-The actual root of the entire injector hierarchy is a _platform injector_ that is the parent of app-root injectors. 
-This allows multiple apps to share a platform configuration. For example, a browser has only one URL bar, no matter how many apps you have running.
+當你使用 `providedIn:'root'` 時，你設定的是_應用程式_的根注入器，也就是 `AppModule` 的注入器。
+整個注入器階層真正的根是一個_平台注入器_，它是應用程式根注入器的父注入器。
+這讓多個應用程式可以共用一個平台設定。例如，無論你有多少應用程式在執行，瀏覽器都只有一個 URL 列。
 
-The platform injector is used internally during bootstrap, to configure platform-specific dependencies. You can configure additional platform-specific providers at the platform level by supplying `extraProviders` using the `platformBrowser()` function. 
+平台注入器在啟動期間於內部使用，以設定平台專屬的依賴。你可以使用 `platformBrowser()` 函式提供 `extraProviders`，在平台層級設定額外的平台專屬提供者。
 
-Learn more about dependency resolution through the injector hierarchy: 
-[What you always wanted to know about Angular Dependency Injection tree](https://blog.angularindepth.com/angular-dependency-injection-and-tree-shakeable-tokens-4588a8f70d5d)
+進一步了解透過注入器階層進行的依賴解析：
+[你一直想知道的 Angular 依賴注入樹](https://blog.angularindepth.com/angular-dependency-injection-and-tree-shakeable-tokens-4588a8f70d5d)
 
 
 </div>
 
-*NgModule-level* providers can be specified with `@NgModule()` `providers` metadata option, or in the `@Injectable()` `providedIn` option (with some module other than the root `AppModule`).
+*NgModule 層級*的提供者可以用 `@NgModule()` 的 `providers` 中繼資料選項指定，或在 `@Injectable()` 的 `providedIn` 選項中指定（搭配根 `AppModule` 以外的某個模組）。
 
-Use the `@NgModule()` `providers` option if a module is [lazy loaded](guide/lazy-loading-ngmodules). The module's own injector is configured with the provider when that module is loaded, and Angular can inject the corresponding services in any class it creates in that module. If you use the `@Injectable()` option `providedIn: MyLazyloadModule`, the provider could be shaken out at compile time, if it is not used anywhere else in the app. 
+如果模組是[延遲載入](guide/lazy-loading-ngmodules)的，請使用 `@NgModule()` 的 `providers` 選項。當該模組載入時，模組自己的注入器會以該提供者設定，Angular 可以在它在該模組中建立的任何類別中注入對應的服務。如果你使用 `@Injectable()` 選項 `providedIn: MyLazyloadModule`，若該提供者在應用程式中其他地方都沒有使用，可能在編譯時期就被搖除。
 
-* Learn more about [tree-shakable providers](guide/dependency-injection-providers#tree-shakable-providers).
+* 進一步了解[可樹搖的提供者](guide/dependency-injection-providers#tree-shakable-providers)。
 
-For both root-level and module-level injectors, a service instance lives for the life of the app or module, and Angular injects this one service instance in every class that needs it.
+對於根層級與模組層級的注入器，服務實例的生命週期與應用程式或模組相同，Angular 會在每個需要它的類別中注入這同一個服務實例。
 
-*Component-level* providers configure each component instance's own injector. 
-Angular can only inject the corresponding services in that component instance or one of its descendant component instances. 
-Angular can't inject the same service instance anywhere else. 
+*元件層級*的提供者為每個元件實例設定其自己的注入器。
+Angular 只能在該元件實例或其後代元件實例中注入對應的服務。
+Angular 無法在其他任何地方注入同一個服務實例。
 
-A component-provided service may have a limited lifetime. 
-Each new instance of the component gets its own instance of the service. 
-When the component instance is destroyed, so is that service instance.
+由元件提供的服務可能有有限的生命週期。
+元件的每個新實例都有自己的服務實例。
+當元件實例被銷毀時，該服務實例也隨之銷毀。
 
-In our sample app, `HeroComponent` is created when the application starts 
-and is never destroyed,
-so the `HeroService` instance created for `HeroComponent` lives for the life of the app. 
-If you want to restrict `HeroService` access to `HeroComponent` and its nested 
-`HeroListComponent`, provide `HeroService` at the component level, in `HeroComponent` metadata.
+在我們的範例應用程式中，`HeroComponent` 在應用程式啟動時建立
+且永遠不會被銷毀，
+所以為 `HeroComponent` 建立的 `HeroService` 實例的生命週期與應用程式相同。
+若要將 `HeroService` 的存取限制在 `HeroComponent` 及其巢狀的
+`HeroListComponent`，請在元件層級、於 `HeroComponent` 的中繼資料中提供 `HeroService`。
 
-* See more [examples of component-level injection](#component-injectors) below.
+* 請參閱下方更多[元件層級注入的範例](#component-injectors)。
 
 
 {@a register-providers-injectable}
 
-### @Injectable-level configuration 
+### @Injectable 層級設定
 
-The `@Injectable()` decorator identifies every service class. The `providedIn` metadata option for a service class configures a specific injector (typically `root`)
-to use the decorated class as a provider of the service. 
-When an injectable class provides its own service to the `root` injector, the service is available anywhere the class is imported. 
+`@Injectable()` 裝飾器標示每個服務類別。服務類別的 `providedIn` 中繼資料選項會設定一個特定的注入器（通常是 `root`），使用被裝飾的類別作為該服務的提供者。
+當可注入類別向 `root` 注入器提供它自己的服務時，只要該類別被匯入，該服務便隨處可用。
 
-The following example configures a provider for `HeroService` using the `@Injectable()` decorator on the class.
+下列範例使用類別上的 `@Injectable()` 裝飾器，為 `HeroService` 設定提供者。
 
-<code-example path="dependency-injection/src/app/heroes/hero.service.0.ts"  header="src/app/heroes/heroes.service.ts" linenums="false"> </code-example> 
+<code-example path="dependency-injection/src/app/heroes/hero.service.0.ts"  header="src/app/heroes/heroes.service.ts" linenums="false"> </code-example>
 
-This configuration tells Angular that the app's root injector is responsible for creating an 
-instance of `HeroService` by invoking its constructor,
-and for making that instance available across the application. 
+這個設定告訴 Angular，應用程式的根注入器負責透過呼叫其建構函式來建立
+`HeroService` 的實例，
+並讓該實例在整個應用程式中可用。
 
-Providing a service with the app's root injector is a typical case,
-and the CLI sets up this kind of a provider automatically for you
-when generating a new service. 
-However, you might not always want to provide your service at the root level.
-You might, for instance, want users to explicitly opt-in to using the service.
+以應用程式的根注入器提供服務是典型的做法，
+當你產生新服務時，CLI 會自動為你設定這類提供者。
+不過，你不一定總是想在根層級提供服務。
+例如，你可能想讓使用者明確選擇使用該服務。
 
-Instead of specifying the `root` injector, you can set `providedIn` to a specific NgModule. 
+除了指定 `root` 注入器，你也可以將 `providedIn` 設為特定的 NgModule。
 
-For example, in the following excerpt, the `@Injectable()` decorator configures a provider
-that is available in any injector that includes the `HeroModule`.
+例如，在下列摘錄中，`@Injectable()` 裝飾器設定的提供者
+可在任何包含 `HeroModule` 的注入器中使用。
 
 <code-example path="dependency-injection/src/app/heroes/hero.service.4.ts"  header="src/app/heroes/hero.service.ts" linenums="false"> </code-example>
 
-This is generally no different from configuring the injector of the NgModule itself,
-except that the service is tree-shakable if the NgModule doesn't use it.
-It can be useful for a library that offers a particular service that some
-components *might* want to inject optionally,
-and leave it up to the app whether to provide the service.
+這通常與設定 NgModule 本身的注入器沒有什麼不同，
+不同之處在於，若 NgModule 沒有使用該服務，該服務是可樹搖的。
+這對提供特定服務的程式庫很有用，某些
+元件*可能*想要選擇性地注入該服務，
+並由應用程式決定是否提供該服務。
 
-* Learn more about [tree-shakable providers](guide/dependency-injection-providers#tree-shakable-providers).
+* 進一步了解[可樹搖的提供者](guide/dependency-injection-providers#tree-shakable-providers)。
 
 
-### @NgModule-level injectors
+### @NgModule 層級注入器
 
-You can configure a provider at the module level using the `providers` metadata option for a non-root NgModule, in order to limit the scope of the provider to that module.
-This is the equivalent of specifying the non-root module in the `@Injectable()` metadata, except that the service provided via `providers` is not tree-shakable.
+你可以使用非根 NgModule 的 `providers` 中繼資料選項，在模組層級設定提供者，以將提供者的範疇限制在該模組。
+這等同於在 `@Injectable()` 中繼資料中指定非根模組，不同之處在於，透過 `providers` 提供的服務不是可樹搖的。
 
-You generally don't need to specify `AppModule` with `providedIn`, because the app's `root` injector is the `AppModule` injector. 
-However, if you configure a app-wide provider in the `@NgModule()` metadata for `AppModule`,
-it overrides one configured for `root` in the `@Injectable()` metadata. 
-You can do this to configure a non-default provider of a service that is shared with multiple apps. 
+你通常不需要以 `providedIn` 指定 `AppModule`，因為應用程式的 `root` 注入器就是 `AppModule` 注入器。
+不過，若你在 `AppModule` 的 `@NgModule()` 中繼資料中設定全應用程式提供者，它會覆寫在 `@Injectable()` 中繼資料中為 `root` 設定的提供者。
+你可以這樣做，來設定與多個應用程式共用的服務的非預設提供者。
 
-Here is an example of the case where the component router configuration includes
-a non-default [location strategy](guide/router#location-strategy) by listing its provider
-in the `providers` list of the `AppModule`.
+以下是一個例子：元件路由器設定透過在 `AppModule` 的 `providers` 清單中列出其提供者，
+加入了一個非預設的[位置策略](guide/router#location-strategy)。
 
 <code-example path="dependency-injection-in-action/src/app/app.module.ts" region="providers" header="src/app/app.module.ts (providers)" linenums="false">
 
@@ -124,137 +120,134 @@ in the `providers` list of the `AppModule`.
 
 {@a register-providers-component}
 
-### @Component-level injectors
+### @Component 層級注入器
 
-Individual components within an NgModule have their own injectors.
-You can limit the scope of a provider to a component and its children
-by configuring the provider at the component level using the `@Component` metadata.
+NgModule 內的個別元件有它們自己的注入器。
+你可以將提供者的範疇限制在某個元件及其子元件，方法是使用 `@Component` 中繼資料在元件層級設定提供者。
 
-The following example is a revised `HeroesComponent` that specifies `HeroService` in its `providers` array. `HeroService` can provide heroes to instances of this component, or to any child component instances. 
+下列範例是修訂過的 `HeroesComponent`，在其 `providers` 陣列中指定了 `HeroService`。`HeroService` 可以為這個元件的實例，或任何子元件實例提供英雄。
 
 <code-example path="dependency-injection/src/app/heroes/heroes.component.1.ts" header="src/app/heroes/heroes.component.ts" linenums="false">
 </code-example>
 
-### Element injectors
+### 元素注入器
 
-An injector does not actually belong to a component, but rather to the component instance's anchor element in the DOM. A different component instance on a different DOM element uses a different injector.
+注入器實際上不屬於元件，而是屬於元件實例在 DOM 中的錨點元素。不同 DOM 元素上的不同元件實例使用不同的注入器。
 
-Components are a special type of directive, and the `providers` property of
-`@Component()` is inherited from `@Directive()`. 
-Directives can also have dependencies, and you can configure providers
-in their `@Directive()` metadata. 
-When you configure a provider for a component or directive using the `providers` property, that provider belongs to the injector for the anchor DOM element. Components and directives on the same element share an injector.
+元件是特殊類型的指令，`@Component()` 的 `providers` 屬性
+繼承自 `@Directive()`。
+指令也可以有依賴，你可以在它們的 `@Directive()` 中繼資料中設定提供者。
+當你使用 `providers` 屬性為元件或指令設定提供者時，該提供者屬於錨點 DOM 元素的注入器。同一個元素上的元件與指令共用一個注入器。
 
 <!--- TBD with examples
 * For an example of how this works, see [Element-level providers](guide/dependency-injection-in-action#directive-level-providers).
 --->
 
-* Learn more about [Element Injectors in Angular](https://blog.angularindepth.com/a-curios-case-of-the-host-decorator-and-element-injectors-in-angular-582562abcf0a).
+* 進一步了解 [Element Injectors in Angular](https://blog.angularindepth.com/a-curios-case-of-the-host-decorator-and-element-injectors-in-angular-582562abcf0a)。
 
 
 
-## Injector bubbling
+## 注入器冒泡
 
-Consider this guide's variation on the Tour of Heroes application.
-At the top is the `AppComponent` which has some subcomponents, such as the `HeroesListComponent`.
-The `HeroesListComponent` holds and manages multiple instances of the `HeroTaxReturnComponent`.
-The following diagram represents the state of this three-level component tree when there are three instances of `HeroTaxReturnComponent` open simultaneously.
+考慮本指南對英雄之旅應用程式的變體。
+最上層是 `AppComponent`，它有一些子元件，例如 `HeroesListComponent`。
+`HeroesListComponent` 持有並管理多個 `HeroTaxReturnComponent` 實例。
+下圖表示這個三層元件樹在同時開啟三個 `HeroTaxReturnComponent` 實例時的狀態。
 
 <figure>
-  <img src="generated/images/guide/dependency-injection/component-hierarchy.png" alt="injector tree">
+  <img src="generated/images/guide/dependency-injection/component-hierarchy.png" alt="注入器樹">
 </figure>
 
-When a component requests a dependency, Angular tries to satisfy that dependency with a provider registered in that component's own injector.
-If the component's injector lacks the provider, it passes the request up to its parent component's injector.
-If that injector can't satisfy the request, it passes the request along to the next parent injector up the tree.
-The requests keep bubbling up until Angular finds an injector that can handle the request or runs out of ancestor injectors.
-If it runs out of ancestors, Angular throws an error. 
+當元件請求一個依賴時，Angular 會嘗試以註冊在該元件自己注入器中的提供者來滿足該依賴。
+若元件的注入器缺少該提供者，它會將請求向上傳遞給父元件的注入器。
+若該注入器無法滿足請求，它會將請求沿著樹向上傳遞給下一個父注入器。
+請求會不斷向上冒泡，直到 Angular 找到能處理該請求的注入器，或祖先注入器用完為止。
+若祖先用完，Angular 會拋出錯誤。
 
-If you have registered a provider for the same DI token at different levels, the first one Angular encounters is the one it uses to provide the dependency. If, for example, a provider is registered locally in the component that needs a service, Angular doesn't look for another provider of the same service.  
+若你在不同層級為同一個 DI 權杖註冊了提供者，Angular 遇到的第一個提供者就是它用來提供該依賴的提供者。例如，若提供者在需要服務的元件中本機註冊，Angular 就不會尋找同一個服務的其他提供者。
 
 
 <div class="alert is-helpful">
 
-You can cap the bubbling by adding the `@Host()` parameter decorator on the dependant-service parameter
-in a component's constructor. 
-The hunt for providers stops at the injector for the host element of the component. 
+你可以透過在元件建構函式中，於依賴服務的參數上加入 `@Host()` 參數裝飾器，來限制冒泡的範圍。
+提供者的搜尋會在該元件宿主元素的注入器處停止。
 
-* See an [example](guide/dependency-injection-in-action#qualify-dependency-lookup) of using `@Host` together with `@Optional`, another parameter decorator that lets you handle the null case if no provider is found.
+* 請參閱將 `@Host` 與 `@Optional` 一起使用的[範例](guide/dependency-injection-in-action#qualify-dependency-lookup)；`@Optional` 是另一個參數裝飾器，讓你在找不到提供者時處理 null 的情況。
 
-* Learn more about the [`@Host` decorator and Element Injectors](https://blog.angularindepth.com/a-curios-case-of-the-host-decorator-and-element-injectors-in-angular-582562abcf0a).
+* 進一步了解 [`@Host` 裝飾器與 Element Injectors](https://blog.angularindepth.com/a-curios-case-of-the-host-decorator-and-element-injectors-in-angular-582562abcf0a)。
 
 </div>
 
-If you only register providers with the root injector at the top level (typically the root `AppModule`), the tree of injectors appears to be flat.
-All requests bubble up to the root injector, whether you configured it with the `bootstrapModule` method, or registered all providers with `root` in their own services.
+若你只在最上層以根注入器註冊提供者（通常是根 `AppModule`），注入器樹看起來是平坦的。
+所有請求都會向上冒泡到根注入器，無論你是用 `bootstrapModule` 方法設定的，或是在服務本身以 `root` 註冊了所有提供者。
 
 {@a component-injectors}
 
-## Component injectors
+## 元件注入器
 
-The ability to configure one or more providers at different levels opens up interesting and useful possibilities.
-The guide sample offers some scenarios where you might want to do so.
+能在不同層級設定一個或多個提供者，開啟了有趣且實用的可能性。
+本指南範例提供了一些你可能想要這樣做的情境。
 
-### Scenario: service isolation
+### 情境：服務隔離
 
-Architectural reasons may lead you to restrict access to a service to the application domain where it belongs. 
-For example, the guide sample includes a `VillainsListComponent` that displays a list of villains.
-It gets those villains from a `VillainsService`.
+架構上的理由可能讓你想將服務的存取限制在它所屬的應用程式領域。
+例如，本指南範例包含一個 `VillainsListComponent`，顯示反派清單。
+它從 `VillainsService` 取得那些反派。
 
-If you provide `VillainsService` in the root `AppModule` (where you registered the `HeroesService`),
-that would make the `VillainsService` available everywhere in the application, including the _Hero_ workflows. If you later modified the `VillainsService`, you could break something in a hero component somewhere. Providing the service in the root `AppModule` creates that risk.
+若你在根 `AppModule` 中提供 `VillainsService`（你在那裡註冊了 `HeroesService`），
+那會讓 `VillainsService` 在應用程式中隨處可用，包括_英雄_工作流程。若你之後修改了 `VillainsService`，可能會破壞某處的英雄元件。在根 `AppModule` 中提供該服務就帶來了這種風險。
 
-Instead, you can provide the `VillainsService` in the `providers` metadata of the `VillainsListComponent` like this:
+反之，你可以像這樣在 `VillainsListComponent` 的 `providers` 中繼資料中提供 `VillainsService`：
 
 
 <code-example path="hierarchical-dependency-injection/src/app/villains-list.component.ts" linenums="false" header="src/app/villains-list.component.ts (metadata)" region="metadata">
 
 </code-example>
 
-By providing `VillainsService` in the `VillainsListComponent` metadata and nowhere else,
-the service becomes available only in the `VillainsListComponent` and its sub-component tree.
-It's still a singleton, but it's a singleton that exist solely in the _villain_ domain.
+透過在 `VillainsListComponent` 中繼資料中提供 `VillainsService`，且不在其他任何地方提供，
+該服務只在 `VillainsListComponent` 及其子元件樹中可用。
+它仍然是單例，但它是只存在於_反派_領域的單例。
 
-Now you know that a hero component can't access it. You've reduced your exposure to error.
+現在你知道英雄元件無法存取它。你減少了出錯的風險。
 
-### Scenario: multiple edit sessions
+### 情境：多個編輯工作階段
 
-Many applications allow users to work on several open tasks at the same time.
-For example, in a tax preparation application, the preparer could be working on several tax returns,
-switching from one to the other throughout the day.
+許多應用程式允許使用者同時處理多個開啟的任務。
+例如，在報稅應用程式中，報稅員可以在一天中處理多份報稅單，
+在它們之間切換。
 
-This guide demonstrates that scenario with an example in the Tour of Heroes theme.
-Imagine an outer `HeroListComponent` that displays a list of super heroes.
+本指南以英雄之旅主題的範例展示該情境。
+想像一個外部的 `HeroListComponent`，顯示超級英雄清單。
 
-To open a hero's tax return, the preparer clicks on a hero name, which opens a component for editing that return.
-Each selected hero tax return opens in its own component and multiple returns can be open at the same time.
+若要開啟某位英雄的報稅單，報稅員點選英雄名字，這會開啟一個元件來編輯該報稅單。
+每份被選中的英雄報稅單會在它自己的元件中開啟，多份報稅單可以同時開啟。
 
-Each tax return component has the following characteristics:
+每個報稅單元件有下列特點：
 
-* Is its own tax return editing session.
-* Can change a tax return without affecting a return in another component.
-* Has the ability to save the changes to its tax return or cancel them.
+* 是它自己的報稅單編輯工作階段。
+* 可以變更一份報稅單，而不影響另一個元件中的報稅單。
+* 能夠儲存其報稅單的變更，或取消這些變更。
 
 
 <figure>
-  <img src="generated/images/guide/dependency-injection/hid-heroes-anim.gif" alt="Heroes in action">
+  <img src="generated/images/guide/dependency-injection/hid-heroes-anim.gif" alt="運作中的英雄">
 </figure>
 
-Suppose that the `HeroTaxReturnComponent` has logic to manage and restore changes.
-That would be a pretty easy task for a simple hero tax return.
-In the real world, with a rich tax return data model, the change management would be tricky.
-You could delegate that management to a helper service, as this example does.
+假設 `HeroTaxReturnComponent` 有管理與還原變更的邏輯。
+對一份簡單的英雄報稅單來說，那會是相當容易的任務。
+在真實世界中，有了豐富的報稅單資料模型，變更管理就會很棘手。
+你可以將該管理委託給一個輔助服務，如本範例所示。
 
-Here is the `HeroTaxReturnService`.
-It caches a single `HeroTaxReturn`, tracks changes to that return, and can save or restore it.
-It also delegates to the application-wide singleton `HeroService`, which it gets by injection.
+以下是 `HeroTaxReturnService`。
+它快取單一的 `HeroTaxReturn`，追蹤對該報稅單的變更，並可以儲存或還原它。
+它也會委託給全應用程式單例 `HeroService`，該服務是透過注入取得的。
 
 
 <code-example path="hierarchical-dependency-injection/src/app/hero-tax-return.service.ts" header="src/app/hero-tax-return.service.ts">
 
 </code-example>
 
-Here is the `HeroTaxReturnComponent` that makes use of it.
+以下是使用它的 `HeroTaxReturnComponent`。
 
 
 <code-example path="hierarchical-dependency-injection/src/app/hero-tax-return.component.ts" header="src/app/hero-tax-return.component.ts">
@@ -262,66 +255,64 @@ Here is the `HeroTaxReturnComponent` that makes use of it.
 </code-example>
 
 
-The _tax-return-to-edit_ arrives via the input property which is implemented with getters and setters.
-The setter initializes the component's own instance of the `HeroTaxReturnService` with the incoming return.
-The getter always returns what that service says is the current state of the hero.
-The component also asks the service to save and restore this tax return.
+_待編輯的報稅單_透過輸入屬性抵達，該屬性以 getter 與 setter 實作。
+setter 會以傳入的報稅單初始化元件自己的 `HeroTaxReturnService` 實例。
+getter 永遠傳回該服務所說的英雄目前狀態。
+元件也會要求服務儲存與還原這份報稅單。
 
-This won't work if the service is an application-wide singleton.
-Every component would share the same service instance, and each component would overwrite the tax return that belonged to another hero.
+若服務是全應用程式單例，這就行不通了。
+每個元件都會共用同一個服務實例，每個元件都會覆寫屬於另一位英雄的報稅單。
 
-To prevent this, we configure the component-level injector of `HeroTaxReturnComponent` to provide the service, using the  `providers` property in the component metadata.
+為了防止這一點，我們設定 `HeroTaxReturnComponent` 的元件層級注入器來提供該服務，使用元件中繼資料中的 `providers` 屬性。
 
 
 <code-example path="hierarchical-dependency-injection/src/app/hero-tax-return.component.ts" linenums="false" header="src/app/hero-tax-return.component.ts (providers)" region="providers">
 
 </code-example>
 
-The `HeroTaxReturnComponent` has its own provider of the `HeroTaxReturnService`.
-Recall that every component _instance_ has its own injector.
-Providing the service at the component level ensures that _every_ instance of the component gets its own, private instance of the service, and no tax return gets overwritten.
+`HeroTaxReturnComponent` 有它自己的 `HeroTaxReturnService` 提供者。
+回想一下，每個元件_實例_都有它自己的注入器。
+在元件層級提供服務，確保元件的_每個_實例都有自己私有的服務實例，沒有任何報稅單會被覆寫。
 
 
 <div class="alert is-helpful">
 
 
-The rest of the scenario code relies on other Angular features and techniques that you can learn about elsewhere in the documentation.
-You can review it and download it from the <live-example></live-example>.
+本情境程式碼的其餘部分依賴其他 Angular 功能與技術，你可以在文件其他地方了解它們。
+你可以從 <live-example></live-example> 檢視並下載它。
 
 
 </div>
 
 
 
-### Scenario: specialized providers
+### 情境：專門化的提供者
 
-Another reason to re-provide a service at another level is to substitute a _more specialized_ implementation of that service, deeper in the component tree.
+在另一個層級重新提供服務的另一個理由，是在元件樹更深處替換該服務的一個_更專門化_的實作。
 
-Consider a Car component that depends on several services.
-Suppose you configured the root injector (marked as A) with _generic_ providers for
-`CarService`, `EngineService` and `TiresService`.
+考慮一個依賴多個服務的 Car 元件。
+假設你以 `CarService`、`EngineService` 與 `TiresService` 的_通用_提供者設定了根注入器（標記為 A）。
 
-You create a car component (A) that displays a car constructed from these three generic services.
+你建立了一個 car 元件 (A)，顯示由這三個通用服務建構的一輛車。
 
-Then you create a child component (B) that defines its own, _specialized_ providers for `CarService` and `EngineService`
-that have special capabilities suitable for whatever is going on in component (B).
+接著你建立了一個子元件 (B)，它定義了自己_專門化_的 `CarService` 與 `EngineService` 提供者，具有適合元件 (B) 中正在進行之事的特殊能力。
 
-Component (B) is the parent of another component (C) that defines its own, even _more specialized_ provider for `CarService`.
+元件 (B) 是另一個元件 (C) 的父元件，(C) 定義了它自己、_更專門化_的 `CarService` 提供者。
 
 
 <figure>
-  <img src="generated/images/guide/dependency-injection/car-components.png" alt="car components">
+  <img src="generated/images/guide/dependency-injection/car-components.png" alt="汽車元件">
 </figure>
 
-Behind the scenes, each component sets up its own injector with zero, one, or more providers defined for that component itself.
+在幕後，每個元件都以零個、一個或多個為該元件本身定義的提供者，設定它自己的注入器。
 
-When you resolve an instance of `Car` at the deepest component (C),
-its injector produces an instance of `Car` resolved by injector (C) with an `Engine` resolved by injector (B) and
-`Tires` resolved by the root injector (A).
+當你在最深的元件 (C) 解析 `Car` 的實例時，
+它的注入器產生一個 `Car` 實例，該實例由注入器 (C) 解析，其 `Engine` 由注入器 (B) 解析，
+`Tires` 由根注入器 (A) 解析。
 
 
 <figure>
-  <img src="generated/images/guide/dependency-injection/injector-tree.png" alt="car injector tree">
+  <img src="generated/images/guide/dependency-injection/injector-tree.png" alt="汽車注入器樹">
 </figure>
 
 
@@ -329,7 +320,7 @@ its injector produces an instance of `Car` resolved by injector (C) with an `Eng
 <div class="alert is-helpful">
 
 
-The code for this _cars_ scenario is in the `car.components.ts` and `car.services.ts` files of the sample
-which you can review and download from the <live-example></live-example>.
+這個_汽車_情境的程式碼在範例的 `car.components.ts` 與 `car.services.ts` 檔案中，
+你可以從 <live-example></live-example> 檢視並下載它。
 
 </div>
