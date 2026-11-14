@@ -30,7 +30,7 @@ const defaultLineNumsCount = 10; // by default, show linenums over this number
   template: `
     <pre class="prettyprint lang-{{language}}">
       <button *ngIf="!hideCopy" class="material-icons copy-button no-print"
-        title="Copy code snippet"
+        title="複製程式碼片段"
         [attr.aria-label]="ariaLabel"
         (click)="doCopy()">
         <span aria-hidden="true">content_copy</span>
@@ -107,7 +107,7 @@ export class CodeComponent implements OnChanges {
 
   ngOnChanges() {
     this.code = this.code && leftAlign(this.code);
-    this.ariaLabel = this.title ? `Copy code snippet from ${this.title}` : '';
+    this.ariaLabel = this.title ? `從 ${this.title} 複製程式碼片段` : '';
 
     if (!this.code) {
       const src = this.path ? this.path + (this.region ? '#' + this.region : '') : '';

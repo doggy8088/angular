@@ -1,171 +1,163 @@
-# Getting started with service workers
+# 開始使用 service worker
 
-#### Prerequisites
+#### 先決條件
 
-A basic understanding of the following:
-* [Introduction to Angular service workers](guide/service-worker-intro).
+對下列內容有基本的了解：
+* [Angular service worker 簡介](guide/service-worker-intro)。
 
 <hr />
 
 
-Beginning in Angular 5.0.0, you can easily enable Angular service worker support in any CLI project. This document explains how to enable Angular service worker support in new and existing projects. It then uses a simple example to show you a service worker in action, demonstrating loading and basic caching.  
+從 Angular 5.0.0 開始，你可以輕鬆地在任何 CLI 專案中啟用 Angular service worker 支援。本文件說明如何在新專案與現有專案中啟用 Angular service worker 支援，接著透過一個簡單的範例向你展示 service worker 的實際運作，示範載入與基本快取。
 
-## Adding a service worker to a new application
+## 將 service worker 加入新應用程式
 
-If you're generating a new CLI project, you can use the CLI to set up the Angular service worker as part of creating the project. To do so, add the `--service-worker` flag to the `ng new`  command:
+如果你要產生新的 CLI 專案，可以使用 CLI 在建立專案的同時設定好 Angular service worker。做法是把 `--service-worker` 旗標加到 `ng new` 指令：
 
 ```sh
 ng new my-project --service-worker 
 ```
 
-The `--service-worker` flag takes care of configuring your app to 
-use service workers by adding the `service-worker` package along 
-with setting up the necessary files to support service workers. 
-For information on the details, see the following section 
-which covers the process in detail as it shows you how to add a 
-service worker manually to an existing app.
+`--service-worker` 旗標會負責把你的應用程式設定為使用 service worker：加入 `service-worker` 套件，並設定好支援 service worker 所需的檔案。詳細資訊請參閱下一節，該節詳細介紹了整個流程，展示如何手動將 service worker 加入現有的應用程式。
 
 
 
-## Adding a service worker to an existing app
+## 將 service worker 加入現有的應用程式
 
-To add a service worker to an existing app:
+若要將 service worker 加入現有的應用程式：
 
-1. Add the service worker package.
-2. Enable service worker build support in the CLI.
-3. Import and register the service worker.
-4. Create the service worker configuration file, which specifies the caching behaviors and other settings. 
-5. Build the project.
+1. 加入 service worker 套件。
+2. 在 CLI 中啟用 service worker 建置支援。
+3. 匯入並註冊 service worker。
+4. 建立 service worker 設定檔，指定快取行為與其他設定。
+5. 建置專案。
 
-### Step 1: Add the service worker package
+### 步驟 1：加入 service worker 套件
 
-Add the package `@angular/service-worker`, using the yarn utility as shown here:
+使用 yarn 工具加入 `@angular/service-worker` 套件，如下所示：
 
 ```sh
 yarn add @angular/service-worker
 ```
 
-### Step 2: Enable service worker build support in the CLI
+### 步驟 2：在 CLI 中啟用 service worker 建置支援
 
-To enable the Angular service worker, the CLI must generate an Angular service worker manifest at build time. To cause the CLI to generate the manifest for an existing project, set the `serviceWorker` flag to `true` in the project's `.angular-cli.json` file as shown here:
+若要啟用 Angular service worker，CLI 必須在建置時產生一份 Angular service worker manifest。若要讓 CLI 為現有專案產生 manifest，請把專案 `.angular-cli.json` 檔案中的 `serviceWorker` 旗標設為 `true`，如下所示：
 
 ```sh
 ng set apps.0.serviceWorker=true
 ```
 
-### Step 3: Import and register the service worker
+### 步驟 3：匯入並註冊 service worker
 
-To import and register the Angular service worker:
+若要匯入並註冊 Angular service worker：
 
-At the top of the root module, `src/app/app.module.ts`, import `ServiceWorkerModule` and `environment`.
+在根模組 `src/app/app.module.ts` 的頂部，匯入 `ServiceWorkerModule` 與 `environment`。
 
 <code-example path="service-worker-getting-started/src/app/app.module.ts" linenums="false" title="src/app/app.module.ts" region="sw-import"> </code-example>
 
 
-Add `ServiceWorkerModule` to the `@NgModule` `imports` array. Use the `register()` helper to take care of registering the service worker, taking care to disable the service worker when not running in production mode.
+把 `ServiceWorkerModule` 加入 `@NgModule` 的 `imports` 陣列。使用 `register()` 輔助函式來處理 service worker 的註冊，並注意在非生產模式執行時停用 service worker。
 
 <code-example path="service-worker-getting-started/src/app/app.module.ts" linenums="false" title="src/app/app.module.ts" region="sw-module"> </code-example>
 
-The file `ngsw-worker.js` is the name of the prebuilt service worker script, which the CLI copies into `dist/` to deploy along with your server.
+`ngsw-worker.js` 檔案是預先建置好的 service worker 指令碼的名稱，CLI 會把它複製到 `dist/`，隨著你的伺服器一起部署。
 
-### Step 4: Create the configuration file, `ngsw-config.json`
+### 步驟 4：建立設定檔 `ngsw-config.json`
 
-The Angular CLI needs a service worker configuration file, called `ngsw-config.json`. The configuration file controls how the service worker caches files and data 
-resources.
+Angular CLI 需要一份名為 `ngsw-config.json` 的 service worker 設定檔。設定檔控制 service worker 如何快取檔案與資料資源。
 
-You can begin with the boilerplate version from the CLI, which configures sensible defaults for most applications.
+你可以從 CLI 的樣板版本開始，它為大多數應用程式設定了合理的預設值。
 
-Alternately, save the following as `src/ngsw-config.json`:
+或者，把下列內容儲存為 `src/ngsw-config.json`：
 
 <code-example path="service-worker-getting-started/src/ngsw-config.json" linenums="false" title="src/ngsw-config.json"> </code-example>
 
-### Step 5: Build the project
+### 步驟 5：建置專案
 
-Finally, build the project: 
+最後，建置專案：
 
 ```sh
 ng build --prod
 ```
 
-The CLI project is now set up to use the Angular service worker.
+CLI 專案現在已設定完成，可以使用 Angular service worker。
 
 
-## Service worker in action: a tour
+## Service worker 實際運作：導覽
 
-This section demonstrates a service worker in action, 
-using an example application. 
+本節使用範例應用程式，實際示範 service worker 的運作。
 
-### Serving with `http-server`
+### 使用 `http-server` 提供服務
 
-Because `ng serve` does not work with service workers, you must use a seperate HTTP server to test your project locally. You can use any HTTP server. The example below uses the [http-server](https://www.npmjs.com/package/http-server) package from npm. To reduce the possibility of conflicts, test on a dedicated port.
+因為 `ng serve` 無法搭配 service worker 使用，你必須用獨立的 HTTP 伺服器在本機測試專案。可以使用任何 HTTP 伺服器。以下範例使用 npm 上的 [http-server](https://www.npmjs.com/package/http-server) 套件。為降低發生衝突的可能性，請在專用的連接埠上測試。
 
-To serve with `http-server`, change to the directory containing your web files and start the web server: 
+若要用 `http-server` 提供服務，請切換到包含 Web 檔案的目錄，並啟動 Web 伺服器：
 
 ```sh
 cd dist
 http-server -p 8080
 ```
 
-### Initial load
+### 首次載入
 
-With the server running, you can point your browser at http://localhost:8080/. Your application should load normally.
+伺服器執行時，你可以將瀏覽器指向 http://localhost:8080/。你的應用程式應該會正常載入。
 
-**Tip:** When testing Angular service workers, it's a good idea to use an incognito or private window in your browser to ensure the service worker doesn't end up reading from a previous leftover state, which can cause unexpected behavior.
+**提示：** 測試 Angular service worker 時，建議使用瀏覽器的無痕或私密視窗，確保 service worker 不會讀到先前殘留的狀態，以免造成非預期的行為。
 
-### Simulating a network issue
+### 模擬網路問題
 
-To simulate a network issue, disable network interaction for your application. In Chrome: 
+若要模擬網路問題，請停用應用程式的網路互動。在 Chrome 中：
 
-1. Select **Tools** > **Developer Tools** (from the Chrome menu located at the top right corner).
-2. Go to the **Network tab**.
-3. Check the **Offline box**.
-
-<figure>
-  <img src="generated/images/guide/service-worker/offline-checkbox.png" alt="The offline checkbox in the Network tab is checked">
-</figure>
-
-Now the app has no access to network interaction.
-
-For applications that do not use the Angular service worker, refreshing now would display Chrome's Internet disconnected page that says "There is no Internet connection". 
-
-With the addition of an Angular service worker, the application behavior changes. On a refresh, the page loads normally. 
-
-If you look at the Network tab, you can verify that the service worker is active.
+1. 從 Chrome 右上角的選單中，選取 **Tools** > **Developer Tools**。
+2. 前往 **Network tab**。
+3. 勾選 **Offline 方塊**。
 
 <figure>
-  <img src="generated/images/guide/service-worker/sw-active.png" alt="Requests are marked as from ServiceWorker">
+  <img src="generated/images/guide/service-worker/offline-checkbox.png" alt="Network 分頁中的離線核取方塊已勾選">
 </figure>
 
-Notice that under the "Size" column, the requests state is `(from ServiceWorker)`. This means that the resources are not being loaded from the network. Instead, they are being loaded from the service worker's cache.
+現在應用程式已無法進行網路互動。
+
+對於未使用 Angular service worker 的應用程式，此時重新整理會顯示 Chrome 的網路中斷頁面，上面寫著「There is no Internet connection」。
+
+加入 Angular service worker 後，應用程式的行為就不同了。重新整理時，頁面會正常載入。
+
+查看 Network 分頁，確認 service worker 已在運作。
+
+<figure>
+  <img src="generated/images/guide/service-worker/sw-active.png" alt="要求標示為來自 ServiceWorker">
+</figure>
+
+請注意，在「Size」欄位下，請求的狀態是 `(from ServiceWorker)`。這表示資源不是從網路載入的，而是從 service worker 的快取載入。
 
 
-### What's being cached?
+### 哪些內容被快取了？
 
-Notice that all of the files the browser needs to render this application are cached. The `ngsw-config.json` boilerplate configuration is set up to cache the specific resources used by the CLI:
+請注意，瀏覽器呈現這個應用程式所需的全部檔案都已被快取。`ngsw-config.json` 的範本設定會快取 CLI 所使用的特定資源：
 
-* `index.html`.
-* `favicon.ico`.
-* Build artifacts (JS and CSS bundles).
-* Anything under `assets`.
+* `index.html`。
+* `favicon.ico`。
+* 建置產物（JS 與 CSS 套件）。
+* `assets` 下的所有內容。
 
-### Making changes to your application
+### 修改你的應用程式
 
-Now that you've seen how service workers cache your application, the 
-next step is understanding how updates work. 
+現在你已經了解 service worker 如何快取你的應用程式，下一步是了解更新如何運作。
 
-1. If you're testing in an incognito window, open a second blank tab. This will keep the incognito and the cache state alive during your test.
+1. 如果你正在無痕視窗中測試，請再開一個空白分頁。這樣能在測試期間保持無痕模式與快取狀態存活。
 
-2. Close the application tab, but not the window. This should also close the Developer Tools. 
+2. 關閉應用程式分頁，但不要關閉視窗。這也會一併關閉 Developer Tools。
 
-3. Shut down `http-server`.
+3. 關閉 `http-server`。
 
-4. Next, make a change to the application, and watch the service worker install the update.
+4. 接著，對應用程式做一項變更，並觀察 service worker 安裝更新。
 
-5. Open `src/app/app.component.html` for editing.
+5. 開啟 `src/app/app.component.html` 進行編輯。
 
-6. Change the text `Welcome to {{title}}!` to `Bienvenue à {{title}}!`.
+6. 將文字 `Welcome to {{title}}!` 改為 `Bienvenue à {{title}}!`。
 
-7. Build and run the server again:
+7. 再次建置並執行伺服器：
 
 ```sh
 ng build --prod
@@ -173,31 +165,31 @@ cd dist
 http-server -p 8080
 ```
 
-### Updating your application in the browser
+### 在瀏覽器中更新你的應用程式
 
-Now look at how the browser and service worker handle the updated application.
+接著看看瀏覽器與 service worker 如何處理更新後的應用程式。
 
-1. Open http://localhost:8080 again in the same window. What happens?
-
-<figure>
-  <img src="generated/images/guide/service-worker/welcome-msg-en.png" alt="It still says Welcome to Service Workers!">
-</figure>
-
-What went wrong? Nothing, actually. The Angular service worker is doing its job and serving the version of the application that it has **installed**, even though there is an update available. In the interest of speed, the service worker doesn't wait to check for updates before it serves the application that it has cached.
-
-If you look at the `http-server` logs, you can see the service worker requesting `/ngsw.json`. This is how the service worker checks for updates.
-
-2. Refresh the page.
+1. 在同一個視窗中再次開啟 http://localhost:8080。發生了什麼事？
 
 <figure>
-  <img src="generated/images/guide/service-worker/welcome-msg-fr.png" alt="The text has changed to say Bienvenue à app!">
+  <img src="generated/images/guide/service-worker/welcome-msg-en.png" alt="仍顯示「Welcome to Service Workers!」">
 </figure>
 
-The service worker installed the updated version of your app *in the background*, and the next time the page is loaded or reloaded, the service worker switches to the latest version.
+哪裡出錯了？其實什麼都沒出錯。Angular service worker 正在做它的工作，提供它已**安裝**的應用程式版本，即使已有更新可用。為了速度，service worker 在提供已快取的應用程式之前，不會先等待檢查更新。
+
+查看 `http-server` 的記錄檔，你可以看到 service worker 正在請求 `/ngsw.json`。service worker 就是這樣檢查更新的。
+
+2. 重新整理頁面。
+
+<figure>
+  <img src="generated/images/guide/service-worker/welcome-msg-fr.png" alt="文字已變為「Bienvenue à app!」">
+</figure>
+
+service worker 已在*背景*安裝更新後的應用程式版本，下次載入或重新載入頁面時，service worker 就會切換到最新版本。
 
 <hr />
 
-## More on Angular service workers
+## 更多 Angular Service Worker 資訊
 
-You may also be interested in the following:
-* [Communicating with service workers](guide/service-worker-communications).
+你可能也會對以下內容有興趣：
+* [與 service worker 通訊](guide/service-worker-communications)。

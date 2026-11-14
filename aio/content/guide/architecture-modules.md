@@ -1,106 +1,106 @@
-# Introduction to modules
+# 模組簡介
 
-<img src="generated/images/guide/architecture/module.png" alt="Module" class="left">
+<img src="generated/images/guide/architecture/module.png" alt="模組" class="left">
 
-Angular apps are modular and Angular has its own modularity system called _NgModules_. An NgModule is a container for a cohesive block of code dedicated to an application domain, a workflow, or a closely related set of capabilities. It can contain components, service providers, and other code files whose scope is defined by the containing NgModule. It can import functionality that is exported from other NgModules, and export selected functionality for use by other NgModules.
+Angular 應用程式是模組化的，而 Angular 有自己的模組化系統，稱為 _NgModules_。NgModule 是容器，用來容納專屬於某個應用程式領域、工作流程或一組密切相關功能的內聚程式碼區塊。它可以包含元件、服務提供者，以及範圍由所屬 NgModule 定義的其他程式碼檔案。它可以匯入其他 NgModules 匯出的功能，也可以匯出選定的功能供其他 NgModules 使用。
 
-Every Angular app has at least one NgModule class, [the _root module_](guide/bootstrapping), which is conventionally named `AppModule` and resides in a file named `app.module.ts`. You launch your app by *bootstrapping* the root NgModule.
+每個 Angular 應用程式至少有一個 NgModule 類別，即 [_根模組_](guide/bootstrapping)，依慣例命名為 `AppModule`，位於名為 `app.module.ts` 的檔案中。你可以透過*啟動*根 NgModule 來啟動應用程式。
 
-While a small application might have only one NgModule, most apps have many more _feature modules_. The _root_ NgModule for an app is so named because it can include child NgModules in a hierarchy of any depth.
+小型應用程式可能只有一個 NgModule，但大多數應用程式會有更多_功能模組_。應用程式的_根_ NgModule 之所以如此命名，是因為它可以將子 NgModule 納入任何深度的階層之中。
 
-## NgModule metadata
+## NgModule 中繼資料
 
-An NgModule is defined as a class decorated with `@NgModule`. The `@NgModule` decorator is a function that takes a single metadata object, whose properties describe the module. The most important properties are as follows.
+NgModule 是定義為以 `@NgModule` 裝飾的類別。`@NgModule` 裝飾器是一個函式，接受單一中繼資料物件，其屬性描述該模組。最重要的屬性如下。
 
-* `declarations`&mdash;The [components](guide/architecture-components), _directives_, and _pipes_ that belong to this NgModule.
+* `declarations`&mdash;屬於此 NgModule 的 [元件](guide/architecture-components)、_指令_與_管道_。
 
-* `exports`&mdash;The subset of declarations that should be visible and usable in the _component templates_ of other NgModules.
+* `exports`&mdash;應在其他 NgModules 的_元件範本_中可見且可用的宣告子集。
 
-* `imports`&mdash;Other modules whose exported classes are needed by component templates declared in _this_ NgModule.
+* `imports`&mdash;其他模組，其匯出的類別是_此_ NgModule 中宣告的元件範本所需要的。
 
-* `providers`&mdash;Creators of [services](guide/architecture-services) that this NgModule contributes to the global collection of services; they become accessible in all parts of the app. (You can also specify providers at the component level, which is often preferred.)
+* `providers`&mdash;[服務](guide/architecture-services) 的建立者，此 NgModule 將這些服務貢獻給全域服務集合；它們可在應用程式的所有部分存取。（你也可以在元件層級指定提供者，而這通常是更受偏好的做法。）
 
-* `bootstrap`&mdash;The main application view, called the _root component_, which hosts all other app views. Only the _root NgModule_ should set this `bootstrap` property.
+* `bootstrap`&mdash;主要的應用程式檢視，稱為_根元件_，它承載所有其他應用程式檢視。只有_根 NgModule_應設定此 `bootstrap` 屬性。
 
-Here's a simple root NgModule definition:
+以下是一個簡單的根 NgModule 定義：
 
 <code-example path="architecture/src/app/mini-app.ts" region="module" title="src/app/app.module.ts" linenums="false"></code-example>
 
 <div class="l-sub-section">
 
-  The `export` of `AppComponent` is just to show how to export; it isn't actually necessary in this example. A root NgModule has no reason to _export_ anything because other modules don't need to _import_ the root NgModule.
+  `AppComponent` 的 `export` 只是為了示範如何匯出；在此範例中實際上並不需要。根 NgModule 沒有理由_匯出_任何東西，因為其他模組不需要_匯入_根 NgModule。
 
 </div>
 
-## NgModules and components
+## NgModules 與元件
 
-NgModules provide a _compilation context_ for their components. A root NgModule always has a root component that is created during bootstrap, but any NgModule can include any number of additional components, which can be loaded through the router or created through the template. The components that belong to an NgModule share a compilation context.
+NgModules 為其元件提供_編譯上下文_。根 NgModule 一定有一個在啟動期間建立的根元件，但任何 NgModule 都可以包含任意數量的其他元件，這些元件可以透過路由器載入，或透過範本建立。屬於同一 NgModule 的元件共用一個編譯上下文。
 
 <figure>
 
-<img src="generated/images/guide/architecture/compilation-context.png" alt="Component compilation context" class="left">
+<img src="generated/images/guide/architecture/compilation-context.png" alt="元件編譯內容" class="left">
 
 </figure>
 
 <br class="clear">
 
-A component and its template together define a _view_. A component can contain a _view hierarchy_, which allows you to define arbitrarily complex areas of the screen that can be created, modified, and destroyed as a unit. A view hierarchy can mix views defined in components that belong to different NgModules. This is often the case, especially for UI libraries.
+元件及其範本共同定義一個_檢視_。元件可以包含_檢視階層_，讓你能定義任意複雜的螢幕區域，這些區域可以作為一個單元來建立、修改與銷毀。檢視階層可以混合屬於不同 NgModules 的元件中所定義的檢視。這種情況很常見，特別是對於 UI 程式庫。
 
 <figure>
 
-<img src="generated/images/guide/architecture/view-hierarchy.png" alt="View hierarchy" class="left">
+<img src="generated/images/guide/architecture/view-hierarchy.png" alt="檢視階層" class="left">
 
 </figure>
 
 <br class="clear">
 
-When you create a component, it is associated directly with a single view, called the _host view_. The host view can be the root of a view hierarchy, which can contain _embedded views_, which are in turn the host views of other components. Those components can be in the same NgModule, or can be imported from other NgModules. Views in the tree can be nested to any depth.
+建立元件時，它會直接與單一檢視相關聯，稱為_宿主檢視_。宿主檢視可以是檢視階層的根，其中可包含_內嵌檢視_，而這些內嵌檢視又是其他元件的宿主檢視。這些元件可以位於同一個 NgModule，也可以從其他 NgModules 匯入。樹狀結構中的檢視可以巢狀到任何深度。
 
 <div class="l-sub-section">
-    The hierarchical structure of views is a key factor in the way Angular detects and responds to changes in the DOM and app data. 
+    檢視的階層結構是 Angular 偵測並回應 DOM 與應用程式資料變更方式的關鍵因素。 
 </div>
 
-## NgModules and JavaScript modules
+## NgModules 與 JavaScript 模組
 
-The NgModule system is different from and unrelated to the JavaScript (ES2015) module system for managing collections of JavaScript objects. These are two different and _complementary_ module systems. You can use them both to write your apps.
+NgModule 系統與用於管理 JavaScript 物件集合的 JavaScript（ES2015）模組系統不同，且彼此無關。這是兩個不同且_互補_的模組系統。你可以同時使用這兩者來撰寫應用程式。
 
-In JavaScript each _file_ is a module and all objects defined in the file belong to that module.
-The module declares some objects to be public by marking them with the `export` key word.
-Other JavaScript modules use *import statements* to access public objects from other modules.
+在 JavaScript 中，每個_檔案_都是一個模組，檔案中定義的所有物件都屬於該模組。
+模組以 `export` 關鍵字標記某些物件，將其宣告為公開。
+其他 JavaScript 模組使用*import 陳述式*來存取其他模組中的公開物件。
 
 <code-example path="architecture/src/app/app.module.ts" region="imports" linenums="false"></code-example>
 
 <code-example path="architecture/src/app/app.module.ts" region="export" linenums="false"></code-example>
 
 <div class="l-sub-section">
-  <a href="http://exploringjs.com/es6/ch_modules.html">Learn more about the JavaScript module system on the web.</a>
+  <a href="http://exploringjs.com/es6/ch_modules.html">在網路上進一步瞭解 JavaScript 模組系統。</a>
 </div>
 
-## Angular libraries
+## Angular 程式庫
 
-<img src="generated/images/guide/architecture/library-module.png" alt="Component" class="left">
+<img src="generated/images/guide/architecture/library-module.png" alt="元件" class="left">
 
-Angular ships as a collection of JavaScript modules. You can think of them as library modules. Each Angular library name begins with the `@angular` prefix. Install them with the `npm` package manager and import parts of them with JavaScript `import` statements.
+Angular 以 JavaScript 模組集合的形式提供。你可以將它們視為程式庫模組。每個 Angular 程式庫名稱都以 `@angular` 前置詞開頭。使用 `npm` 套件管理器安裝它們，並以 JavaScript `import` 陳述式匯入其中部分內容。
 
 <br class="clear">
 
-For example, import Angular's `Component` decorator from the `@angular/core` library like this:
+例如，像這樣從 `@angular/core` 程式庫匯入 Angular 的 `Component` 裝飾器：
 
 <code-example path="architecture/src/app/app.component.ts" region="import" linenums="false"></code-example>
 
-You also import NgModules from Angular _libraries_ using JavaScript import statements:
+你也可以使用 JavaScript import 陳述式，從 Angular _程式庫_匯入 NgModules：
 
 <code-example path="architecture/src/app/mini-app.ts" region="import-browser-module" linenums="false"></code-example>
 
-In the example of the simple root module above, the application module needs material from within the `BrowserModule`. To access that material, add it to the `@NgModule` metadata `imports` like this.
+在上述簡單根模組的範例中，應用程式模組需要 `BrowserModule` 內的素材。若要存取該素材，請像這樣將它加入 `@NgModule` 中繼資料的 `imports`。
 
 <code-example path="architecture/src/app/mini-app.ts" region="ngmodule-imports" linenums="false"></code-example>
 
-In this way you're using both the Angular and JavaScript module systems _together_. Although it's easy to confuse the two systems, which share the common vocabulary of "imports" and "exports", you will become familiar with the different contexts in which they are used.
+如此一來，你便同時使用 Angular 與 JavaScript 模組系統。雖然這兩個系統很容易混淆，因為它們共用「imports」與「exports」等共通詞彙，但你將逐漸熟悉它們各自使用的不同情境。
 
 <div class="l-sub-section">
 
-  Learn more from the [NgModules](guide/ngmodules) page.
+  從 [NgModules](guide/ngmodules) 頁面瞭解更多。
 
 </div>
 

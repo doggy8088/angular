@@ -1,13 +1,13 @@
-# Contributing to resources.json
+# 為 resources.json 做出貢獻
 
-## About this list
-We maintain a small list of some of the top Angular resources from across the community, stored in `resources.json`. This list is not intended to be comprehensive, but to act as a starting point to connect Angular developers to the rest of the community.
+## 關於這份清單
+我們維護一份來自整個社群的頂尖 Angular 資源小型清單，存放在 `resources.json`。這份清單並非力求完整，而是作為起點，協助 Angular 開發者與社群其他成員建立連結。
 
-## How do I get listed?
-While we can't accept all contributions, qualifying contributions can be submitted via a PR adding yourself to the `resources.json` file. All contributions should be in the appropriate section and must meet the following criteria:
+## 我如何列入清單？
+雖然我們無法接受所有的貢獻，但符合資格的貢獻可以透過 PR 提交，將你自己加入 `resources.json` 檔案。所有貢獻都應放在適當的區段，並且必須符合以下標準：
 
-1. Your contribution must be valid, and contain a link to a page talking specifically about using Angular
-1. Your contribution should have a clear and concise title and description
-1. Your resource should follow our brand guidelines (see our [Presskit](https://angular.io/presskit))
-1. Your resource should have significant benefit to Angular developers
-1. Your resource should already have traction and praise from Angular developers
+1. 你的貢獻必須有效，並且包含一個連結，指向專門討論如何使用 Angular 的頁面
+1. 你的貢獻應該有清楚且簡潔的標題與說明
+1. 你的資源應遵循我們的品牌準則 (請參閱我們的[新聞資料包](https://angular.io/presskit))
+1. 你的資源應對 Angular 開發者有顯著的助益
+1. 你的資源應該已經獲得 Angular 開發者的關注與好評

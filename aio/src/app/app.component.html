@@ -8,17 +8,17 @@
   <mat-toolbar-row class="notification-container">
     <aio-notification
       icon="insert_comment"
-      iconLabel="Survey"
-      buttonText="Go to survey"
+      iconLabel="問卷"
+      buttonText="前往問卷"
       actionUrl="https://bit.ly/angular-survey-2018"
       notificationId="survey-january-2018"
       expirationDate="2018-01-19"
       (dismissed)="notificationDismissed()">
-      Help Angular by taking a <b>1 minute survey</b>!
+      填寫 <b>1 分鐘問卷</b>，幫助 Angular！
     </aio-notification>
   </mat-toolbar-row>
   <mat-toolbar-row>
-    <button mat-button class="hamburger" [class.starting]="isStarting" (click)="sidenav.toggle()" title="Docs menu">
+    <button mat-button class="hamburger" [class.starting]="isStarting" (click)="sidenav.toggle()" title="文件選單">
       <mat-icon svgIcon="menu"></mat-icon>
     </button>
     <a class="nav-link home" href="/" [ngSwitch]="isSideBySide">

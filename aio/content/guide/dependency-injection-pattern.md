@@ -1,70 +1,70 @@
-# The Dependency Injection pattern
+# 依賴注入模式
 
-**Dependency injection** is an important application design pattern.
-It's used so widely that almost everyone just calls it _DI_.
+**依賴注入**是一種重要的應用程式設計模式。
+它被使用得如此廣泛，幾乎人人都直接稱它為 _DI_。
 
-Angular has its own dependency injection framework, and
-you really can't build an Angular application without it.
+Angular 有自己的依賴注入框架，而且
+你真的不可能不用它就建置出 Angular 應用程式。
 
-This page covers what DI is and why it's useful.
+本頁說明什麼是 DI，以及它為什麼有用。
 
-When you've learned the general pattern, you're ready to turn to
-the [Angular Dependency Injection](guide/dependency-injection) guide to see how it works in an Angular app.
+當你學會了這個通用模式後，就可以接著看
+[Angular 依賴注入](guide/dependency-injection) 指南，了解它在 Angular 應用程式中如何運作。
 
 {@a why-di }
 
-## Why dependency injection?
+## 為什麼要使用依賴注入？
 
-To understand why dependency injection is so important, consider an example without it.
-Imagine writing the following code:
+要了解依賴注入為什麼如此重要，先看一個不使用它的範例。
+想像你寫了以下程式碼：
 
 <code-example path="dependency-injection/src/app/car/car-no-di.ts" region="car" title="src/app/car/car.ts (without DI)">
 </code-example>
 
-The `Car` class creates everything it needs inside its constructor.
-What's the problem?
-The problem is that the `Car` class is brittle, inflexible, and hard to test.
+`Car` 類別在它的建構子裡建立了它需要的一切。
+有什麼問題？
+問題在於 `Car` 類別脆弱、缺乏彈性，而且難以測試。
 
-This `Car` needs an engine and tires. Instead of asking for them,
-the `Car` constructor instantiates its own copies from
-the very specific classes `Engine` and `Tires`.
+這輛 `Car` 需要引擎和輪胎。`Car` 建構子不是向外界索取它們，
+而是從非常具體的 `Engine` 與 `Tires` 類別
+自行實例化出它自己的副本。
 
-What if the `Engine` class evolves and its constructor requires a parameter?
-That would break the `Car` class and it would stay broken until you rewrote it along the lines of
-`this.engine = new Engine(theNewParameter)`.
-The `Engine` constructor parameters weren't even a consideration when you first wrote `Car`.
-You may not anticipate them even now.
-But you'll *have* to start caring because
-when the definition of `Engine` changes, the `Car` class must change.
-That makes `Car` brittle.
+要是 `Engine` 類別演進了，而它的建構子需要一個參數，會怎麼樣？
+那會使 `Car` 類別壞掉，而且它會一直壞著，直到你把它改寫成像
+`this.engine = new Engine(theNewParameter)` 這樣。
+當你第一次寫 `Car` 時，`Engine` 建構子的參數根本不在你的考量之內。
+你現在可能也預料不到。
+但你將*不得不*開始在意，因為
+當 `Engine` 的定義改變時，`Car` 類別也必須改變。
+這使得 `Car` 很脆弱。
 
-What if you want to put a different brand of tires on your `Car`? Too bad.
-You're locked into whatever brand the `Tires` class creates. That makes the
-`Car` class inflexible.
+要是你想給你的 `Car` 裝上不同品牌的輪胎呢？很遺憾，不行。
+你被鎖死在 `Tires` 類別所建立的那個品牌上了。這使得
+`Car` 類別缺乏彈性。
 
-Right now each new car gets its own `engine`. It can't share an `engine` with other cars.
-While that makes sense for an automobile engine,
-surely you can think of other dependencies that should be shared, such as the onboard
-wireless connection to the manufacturer's service center. This `Car` lacks the flexibility
-to share services that have been created previously for other consumers.
+目前每輛新車都有它自己的 `engine`。它無法與其他車共用 `engine`。
+雖然這對汽車引擎來說合情合理，
+但你肯定想得到其他應該共用的依賴，例如車上
+與製造商服務中心的無線連線。這輛 `Car` 缺乏
+共用先前已為其他消費者建立好的服務的彈性。
 
-When you write tests for `Car` you're at the mercy of its hidden dependencies.
-Is it even possible to create a new `Engine` in a test environment?
-What does `Engine` depend upon? What does that dependency depend on?
-Will a new instance of `Engine` make an asynchronous call to the server?
-You certainly don't want that going on during tests.
+當你為 `Car` 寫測試時，你只能任由它隱藏的依賴擺佈。
+在測試環境中真的有辦法建立新的 `Engine` 嗎？
+`Engine` 依賴什麼？那個依賴又依賴什麼？
+新的 `Engine` 實例會對伺服器發出非同步呼叫嗎？
+你當然不希望測試期間發生這種事。
 
-What if the `Car` should flash a warning signal when tire pressure is low?
-How do you confirm that it actually does flash a warning
-if you can't swap in low-pressure tires during the test?
+要是 `Car` 應該在胎壓過低時閃爍警告訊號呢？
+如果你在測試期間無法換上低胎壓的輪胎，
+你要如何確認它真的會閃爍警告？
 
-You have no control over the car's hidden dependencies.
-When you can't control the dependencies, a class becomes difficult to test.
+你對這輛車隱藏的依賴毫無控制。
+當你無法控制依賴時，類別就會變得難以測試。
 
-How can you make `Car` more robust, flexible, and testable?
+你要如何讓 `Car` 更健壯、更有彈性、更容易測試？
 
 {@a ctor-injection}
-That's super easy. Change the `Car` constructor to a version with DI:
+這超級簡單。把 `Car` 建構子改成有 DI 的版本：
 
 <code-tabs>
 
@@ -76,92 +76,91 @@ That's super easy. Change the `Car` constructor to a version with DI:
 
 </code-tabs>
 
-See what happened? The definition of the dependencies are
-now in the constructor.
-The `Car` class no longer creates an `engine` or `tires`.
-It just consumes them.
+看到發生了什麼事嗎？依賴的定義
+現在就在建構子裡。
+`Car` 類別不再建立 `engine` 或 `tires`。
+它只是使用它們。
 
 <div class="l-sub-section">
 
-This example leverages TypeScript's constructor syntax for declaring
-parameters and properties simultaneously.
+這個範例利用了 TypeScript 的建構子語法，
+同時宣告參數與屬性。
 
 </div>
 
-Now you can create a car by passing the engine and tires to the constructor.
+現在你只要將引擎與輪胎傳給建構子，就能建立一輛車。
 
 <code-example path="dependency-injection/src/app/car/car-creations.ts" region="car-ctor-instantiation" linenums="false">
 </code-example>
 
-How cool is that?
-The definition of the `engine` and `tire` dependencies are
-decoupled from the `Car` class.
-You can pass in any kind of `engine` or `tires` you like, as long as they
-conform to the general API requirements of an `engine` or `tires`.
+是不是很酷？
+`engine` 與 `tire` 依賴的定義
+已與 `Car` 類別解耦。
+你可以傳入任何你喜歡的 `engine` 或 `tires`，只要它們
+符合 `engine` 或 `tires` 的一般 API 要求即可。
 
-Now, if someone extends the `Engine` class, that is not `Car`'s problem.
+現在，如果有人擴充了 `Engine` 類別，那也不是 `Car` 的問題。
 
 <div class="l-sub-section">
 
-The _consumer_ of `Car` has the problem. The consumer must update the car creation code to
-something like this:
+`Car` 的_消費者_才有這個問題。消費者必須把建立汽車的程式碼更新成
+像這樣：
 
 <code-example path="dependency-injection/src/app/car/car-creations.ts" region="car-ctor-instantiation-with-param" linenums="false">
 
 </code-example>
 
-The critical point is this: the `Car` class did not have to change.
-You'll take care of the consumer's problem shortly.
+關鍵在於：`Car` 類別完全不需要改變。
+你很快就會處理消費者的問題。
 
 </div>
 
-The `Car` class is much easier to test now because you are in complete control
-of its dependencies.
-You can pass mocks to the constructor that do exactly what you want them to do
-during each test:
+現在 `Car` 類別容易測試多了，因為你可以完全控制
+它的依賴。
+你可以把 mock 傳給建構子，讓它們在每個測試中確切地做你想讓它們做的事：
 
 <code-example path="dependency-injection/src/app/car/car-creations.ts" region="car-ctor-instantiation-with-mocks" linenums="false">
 </code-example>
 
-**You just learned what dependency injection is**.
+**你剛學會了什麼是依賴注入**。
 
-It's a coding pattern in which a class receives its dependencies from external
-sources rather than creating them itself.
+它是一種編碼模式，類別從外部
+來源接收它的依賴，而不是自行建立它們。
 
-Cool! But what about that poor consumer?
-Anyone who wants a `Car` must now
-create all three parts: the `Car`, `Engine`, and `Tires`.
-The `Car` class shed its problems at the consumer's expense.
-You need something that takes care of assembling these parts.
+很酷！但是那個可憐的消費者怎麼辦？
+任何想要一輛 `Car` 的人現在
+都必須建立全部三個部分：`Car`、`Engine` 與 `Tires`。
+`Car` 類別把自己的問題甩給消費者承擔了。
+你需要有個東西負責組裝這些部分。
 
-You _could_ write a giant class to do that:
+你_可以_寫一個巨大的類別來做這件事：
 
 <code-example path="dependency-injection/src/app/car/car-factory.ts" title="src/app/car/car-factory.ts">
 </code-example>
 
-It's not so bad now with only three creation methods.
-But maintaining it will be hairy as the application grows.
-This factory is going to become a huge spiderweb of
-interdependent factory methods!
+現在只有三個建立方法，還不算太糟。
+但隨著應用程式成長，維護它會變得非常棘手。
+這個工廠將變成一張
+由工廠方法互相依賴而成的巨大蜘蛛網！
 
-Wouldn't it be nice if you could simply list the things you want to build without
-having to define which dependency gets injected into what?
+如果你能簡單列出你想建置的東西，
+而不必定義哪個依賴要注入到哪裡面，那不是很好嗎？
 
-This is where the dependency injection framework comes into play.
-Imagine the framework had something called an _injector_.
-You register some classes with this injector, and it figures out how to create them.
+這就是依賴注入框架派上用場的地方。
+想像框架有個叫做_注入器_的東西。
+你向這個注入器註冊一些類別，它就會想出如何建立它們。
 
-When you need a `Car`, you simply ask the injector to get it for you and you're good to go.
+當你需要一輛 `Car` 時，你只要請注入器幫你取得它，就可以了。
 
 <code-example path="dependency-injection/src/app/car/car-injector.ts" region="injector-call" title="src/app/car/car-injector.ts" linenums="false">
 </code-example>
 
-Everyone wins. The `Car` knows nothing about creating an `Engine` or `Tires`.
-The consumer knows nothing about creating a `Car`.
-You don't have a gigantic factory class to maintain.
-Both `Car` and consumer simply ask for what they need and the injector delivers.
+大家都贏。`Car` 對建立 `Engine` 或 `Tires` 一無所知。
+消費者對建立 `Car` 一無所知。
+你不必維護一個巨大的工廠類別。
+`Car` 與消費者只要提出它們需要的東西，注入器就會交付。
 
-This is what a **dependency injection framework** is all about.
+這就是**依賴注入框架**的全部精髓。
 
-Now that you know what dependency injection is and appreciate its benefits,
-turn to the [Angular Dependency Injection](guide/dependency-injection) guide to see how it is implemented in Angular.
+現在你已知道什麼是依賴注入，也體會到它的好處，
+接著請看 [Angular 依賴注入](guide/dependency-injection) 指南，了解它在 Angular 中如何實作。

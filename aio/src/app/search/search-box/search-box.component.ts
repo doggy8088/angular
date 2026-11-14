@@ -17,8 +17,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
   selector: 'aio-search-box',
   template: `<input #searchBox
     type="search"
-    aria-label="search"
-    placeholder="Search"
+    aria-label="搜尋"
+    placeholder="搜尋"
     (input)="doSearch()"
     (keyup)="doSearch()"
     (focus)="doFocus()"

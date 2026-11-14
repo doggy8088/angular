@@ -1,221 +1,215 @@
-# Change Log
+# 變更日誌
 
 
 
-The Angular documentation is a living document with continuous improvements.
-This log calls attention to recent significant changes.
+Angular 文件是一份持續改進的活文件。
+本日誌著重記錄近期的重大變更。
 
-## Updated to Angular 4.0. Documentation for Angular 2.x can be found at [v2.angular.io](https://v2.angular.io).
+## 已更新至 Angular 4.0。Angular 2.x 的文件可在 [v2.angular.tw](https://v2.angular.tw) 找到。
 
-## All mention of moduleId removed. "Component relative paths" guide deleted (2017-03-13)
-We added a new SystemJS plugin (systemjs-angular-loader.js) to our recommended SystemJS configuration.
-This plugin dynamically converts "component-relative" paths in templateUrl and styleUrls to "absolute paths" for you.
+## 已移除所有提及 moduleId 的內容。「元件相對路徑」指南已刪除 (2017-03-13)
+我們已在建議的 SystemJS 設定中加入一個新的 SystemJS 外掛程式（systemjs-angular-loader.js）。
+此外掛程式會自動為你將 templateUrl 與 styleUrls 中的「元件相對」路徑動態轉換為「絕對路徑」。
 
-We strongly encourage you to only write component-relative paths.
-That is the only form of URL discussed in these docs. You no longer need to write @Component({ moduleId: module.id }), nor should you.
+我們強烈建議你只撰寫元件相對路徑。
+本文件討論的 URL 只有這種形式。你不再需要寫 @Component({ moduleId: module.id })，也不應該這樣寫。
 
-## NEW: Downloadable examples for each guide (2017-02-28)
-Now you can download the sample code for any guide and run it locally.
-Look for the new download links next to the "live example" links.
+## 新增：每份指南皆提供可下載的範例 (2017-02-28)
+現在你可以下載任何指南的範例程式碼，並在本機執行。
+留意「即時範例」連結旁的新下載連結。
 
-## Template Syntax/Structural Directives: refreshed (2017-02-06)
-The [_Template-Syntax_](guide/template-syntax) and [_Structural Directives_](guide/structural-directives)
-guides were significantly revised for clarity, accuracy, and current recommended practices.
-Discusses `<ng-container>`.
-Revised samples are more clear and cover all topics discussed.
+## 範本語法／結構指令：內容翻新 (2017-02-06)
+[_範本語法_](guide/template-syntax) 與 [_結構指令_](guide/structural-directives)
+兩份指南已大幅修訂，使內容更清晰、更正確，並符合目前的建議做法。
+其中討論了 `<ng-container>`。
+修訂後的範例更清晰，並涵蓋所有討論的主題。
 
-## NEW: Samples re-structured with `src/` folder (2017-02-02)
-All documentation samples have been realigned with the default folder structure of the Angular CLI.
-That's a step along the road to basing the sample in the Angular CLI.
-But it's also good in its own right.
-It helps clearly separate app code from setup and configuration files.
+## 新增：範例改以 `src/` 資料夾重新組織 (2017-02-02)
+所有文件範例都已與 Angular CLI 的預設資料夾結構對齊。
+這是朝向以 Angular CLI 為範例基礎邁進的一步。
+但這本身也是件好事。
+它有助於清楚地將應用程式程式碼與安裝設定檔案區分開來。
 
-All samples now have a `src/` folder at the project root.
-The former `app/` folder moves under `src/`.
-Read about moving your existing project to this structure in
+現在所有範例在專案根目錄都有一個 `src/` 資料夾。
+原來的 `app/` 資料夾已移至 `src/` 之下。
+若要了解如何將現有專案遷移到此結構，請參閱
 <a href="https://github.com/angular/quickstart#updating-to-a-newer-version-of-the-quickstart-repo" target="Migrating samples/quickstart app to the src folder">
-the QuickStart repo update instructions</a>.
+QuickStart 儲存庫的更新說明</a>。
 
-Notably:
+值得注意的是：
 
-* `app/main.ts` moved to `src/main.ts`.
-* `app/` moved to `src/app/`.
-* `index.html`, `styles.css` and `tsconfig.json` moved inside `src/`.
-* `systemjs.config.js` now imports `main.js` instead of `app`.
-* Added `lite-server` configuration (`bs-config.json`) to serve `src/`.
+* `app/main.ts` 已移至 `src/main.ts`。
+* `app/` 已移至 `src/app/`。
+* `index.html`、`styles.css` 與 `tsconfig.json` 已移至 `src/` 內。
+* `systemjs.config.js` 現在匯入的是 `main.js` 而非 `app`。
+* 新增 `lite-server` 設定（`bs-config.json`），用來提供 `src/` 的內容。
 
-## NEW: Reactive Forms guide (2017-01-31)
-The new [**Reactive Forms**](guide/reactive-forms) guide explains how and why to build a "reactive form".
-"Reactive Forms" are the code-based counterpart to the declarative "Template Driven" forms approach
-introduced in the [Forms](guide/forms) guide.
-Check it out before you decide how to add forms to your app.
-Remember also that you can use both techniques in the same app,
-choosing the approach that best fits each scenario.
+## 新增：反應式表單指南 (2017-01-31)
+新的 [**Reactive Forms**](guide/reactive-forms) 指南說明了如何以及為何要建立「反應式表單」。
+「反應式表單」是以程式碼為基礎的做法，與宣告式的「範本驅動」表單做法相對應，
+後者在 [表單](guide/forms) 指南中介紹。
+在決定如何為應用程式加入表單之前，先來看看這份指南。
+另請記住，你可以在同一個應用程式中同時使用這兩種技術，
+依每個情境選擇最適合的做法。
 
-## NEW: Deployment guide (2017-01-30)
+## 新增：部署指南 (2017-01-30)
 
-The new [Deployment](guide/deployment) guide describes techniques for putting your application on a server.
-It includes important advice on optimizing for production.
+新的 [部署](guide/deployment) 指南說明了將應用程式放上伺服器的技術。
+其中包含針對生產環境最佳化的重要建議。
 
-## Hierarchical Dependency Injection: refreshed (2017-01-13)
+## 階層式依賴注入：內容翻新 (2017-01-13)
 
-[Hierarchical Dependency Injection](guide/hierarchical-dependency-injection) guide is significantly revised.
-Closes issue #3086.
-Revised samples are clearer and cover all topics discussed.
+[階層式依賴注入](guide/hierarchical-dependency-injection) 指南已大幅修訂。
+已關閉 issue #3086。
+修訂後的範例更清晰，並涵蓋所有討論的主題。
 
-## Miscellaneous (2017-01-05)
+## 雜項 (2017-01-05)
 
-* [Setup](guide/setup) guide:
-added (optional) instructions on how to remove _non-essential_ files.
-* No longer consolidate RxJS operator imports in `rxjs-extensions` file; each file should import what it needs.
-* All samples prepend template/style URLs with `./` as a best practice.
-* [Style Guide](guide/styleguide): copy edits and revised rules.
+* [設定](guide/setup) 指南：
+加入了如何移除_非必要_檔案的（可選）說明。
+* 不再將 RxJS 運算子匯入合併至 `rxjs-extensions` 檔案；每個檔案應匯入自己需要的內容。
+* 所有範例都以 `./` 作為範本／樣式 URL 的前綴，作為最佳做法。
+* [風格指南](guide/styleguide)：文字編修與規則修訂。
 
-## Router: more detail (2016-12-21)
+## 路由：更多細節 (2016-12-21)
 
-Added more information to the [Router](guide/router) guide
-including sections named outlets, wildcard routes, and preload strategies.
+在 [路由](guide/router) 指南中加入了更多資訊，
+包括名為 outlets、wildcard routes 與 preload strategies 的小節。
 
-## HTTP: how to set default request headers (and other request options) (2016-12-14)
+## HTTP：如何設定預設請求標頭（以及其他請求選項） (2016-12-14)
 
-Added section on how to set default request headers (and other request options) to
-HTTP guide.
+在 HTTP 指南中加入了如何設定預設請求標頭（以及其他請求選項）的小節。
 
-## Testing: added component test plunkers (2016-12-02)
+## 測試：加入元件測試 plunker (2016-12-02)
 
-Added two plunkers that each test _one simple component_ so you can write a component test plunker of your own: <live-example name="setup" plnkr="quickstart-specs">one</live-example> for the QuickStart seed's `AppComponent` and <live-example name="testing" plnkr="banner-specs">another</live-example> for the Testing guide's `BannerComponent`.
-Linked to these plunkers in "Testing" and "Setup anatomy" guides.
+新增了兩個 plunker，每個各自測試_一個簡單元件_，讓你能自己撰寫元件測試 plunker：QuickStart 種子專案 `AppComponent` 的 <live-example name="setup" plnkr="quickstart-specs">第一個</live-example>，以及測試指南 `BannerComponent` 的 <live-example name="testing" plnkr="banner-specs">另一個</live-example>。
+已在「測試」與「設定剖析」指南中加入這些 plunker 的連結。
 
-## Internationalization: pluralization and _select_ (2016-11-30)
+## 國際化：複數處理與 _select_ (2016-11-30)
 
-The [Internationalization (i18n)](guide/i18n) guide explains how to handle pluralization and
-translation of alternative texts with `select`.
-The sample demonstrates these features too.
+[國際化（i18n）](guide/i18n) 指南說明如何使用 `select` 處理複數形式，
+以及替代文字的翻譯。
+範例也示範了這些功能。
 
-## Testing: karma file updates (2016-11-30)
+## 測試：karma 檔案更新 (2016-11-30)
 
-* `karma.config` + `karma-test-shim` can handle multiple spec source paths;
-see quickstart issue: [angular/quickstart#294](https://github.com/angular/quickstart/issues/294).
-* Displays Jasmine Runner output in the karma-launched browser.
+* `karma.config` 與 `karma-test-shim` 可處理多個 spec 來源路徑；
+參見 quickstart issue：[angular/quickstart#294](https://github.com/angular/quickstart/issues/294)。
+* 在 karma 啟動的瀏覽器中顯示 Jasmine Runner 的輸出。
 
-## QuickStart Rewrite (2016-11-18)
+## QuickStart 重寫 (2016-11-18)
 
-The QuickStart is completely rewritten so that it actually is quick.
-It references a minimal "Hello Angular" app running in Plunker.
-The new [Setup](guide/setup) page tells you how to install a local development environment
-by downloading (or cloning) the QuickStart github repository.
-You are no longer asked to copy-and-paste code into setup files that were not explained anyway.
+QuickStart 已完全重寫，讓它名副其實地快速。
+它引用了一個在 Plunker 中執行的最小「Hello Angular」應用程式。
+新的 [設定](guide/setup) 頁面告訴你如何透過下載（或複製）QuickStart github 儲存庫來安裝本機開發環境。
+你不再需要把程式碼複製貼上到那些反正也沒解釋過的設定檔案中。
 
-## Sync with Angular v.2.2.0 (2016-11-14)
+## 與 Angular v.2.2.0 同步 (2016-11-14)
 
-Docs and code samples updated and tested with Angular v.2.2.0.
+文件與程式碼範例已更新，並以 Angular v.2.2.0 測試。
 
-## UPDATE: NgUpgrade Guide for the AOT friendly _upgrade/static_ module (2016-11-14)
+## 更新：適用於 AOT 友善 _upgrade/static_ 模組的 NgUpgrade 指南 (2016-11-14)
 
-The updated [NgUpgrade Guide](guide/upgrade) guide covers the
-new AOT friendly `upgrade/static` module
-released in v.2.2.0, which is the recommended
-facility for migrating from AngularJS to Angular.
-The documentation for the version prior to v.2.2.0 has been removed.
+更新後的 [NgUpgrade 指南](guide/upgrade) 涵蓋了
+v.2.2.0 中發佈的 AOT 友善 `upgrade/static` 模組，
+這是從 AngularJS 遷移到 Angular 的建議做法。
+v.2.2.0 之前版本的文件已移除。
 
-## ES6  described in "TypeScript to JavaScript" (2016-11-14)
+## 在「TypeScript 轉 JavaScript」中說明 ES6 (2016-11-14)
 
-The updated TypeScript to JavaScript guide explains how to write apps in ES6/7
-by translating the common idioms in the TypeScript documentation examples
-(and elsewhere on the web) to ES6/7 and ES5.
+更新後的 TypeScript 轉 JavaScript 指南說明如何以 ES6/7 撰寫應用程式，
+方法是將 TypeScript 文件範例（以及網路上其他地方）中常見的慣用寫法轉換為 ES6/7 與 ES5。
 
-This was [removed in August 2017](https://github.com/angular/angular/pull/18694) but can still be
-viewed in the [v2 documentation](https://v2.angular.io/docs/ts/latest/cookbook/ts-to-js.html).
+此內容已在 [2017 年 8 月移除](https://github.com/angular/angular/pull/18694)，但仍可
+在 [v2 文件](https://v2.angular.tw/docs/ts/latest/cookbook/ts-to-js.html) 中查看。
 
-## Sync with Angular v.2.1.1 (2016-10-21)
+## 與 Angular v.2.1.1 同步 (2016-10-21)
 
-Docs and code samples updated and tested with Angular v.2.1.1.
+文件與程式碼範例已更新，並以 Angular v.2.1.1 測試。
 
-## npm _@types_ packages replace _typings_ (2016-10-20)
+## npm _@types_ 套件取代 _typings_ (2016-10-20)
 
-Documentation samples now get TypeScript type information for 3rd party libraries
-from npm `@types` packages rather than with the _typings_ tooling.
-The `typings.json` file is gone.
+現在文件範例從 npm `@types` 套件取得第三方函式庫的 TypeScript 型別資訊，
+而不再使用 _typings_ 工具。
+`typings.json` 檔案已消失。
 
-The [AngularJS Upgrade](guide/upgrade) guide reflects this change.
-The `package.json` installs `@types/angular` and several `@types/angular-...`
-packages in support of upgrade; these are not needed for pure Angular development.
+[AngularJS 升級](guide/upgrade) 指南反映了這項變更。
+`package.json` 會安裝 `@types/angular` 以及數個 `@types/angular-...`
+套件以支援升級；純 Angular 開發不需要這些套件。
 
-## "Template Syntax" explains two-way data binding syntax (2016-10-20)
+## 「範本語法」說明雙向資料繫結語法 (2016-10-20)
 
-Demonstrates how to two-way data bind to a custom Angular component and
-re-explains `[(ngModel)]` in terms of the basic `[()]` syntax.
+示範如何對自訂 Angular 元件進行雙向資料繫結，
+並以基本的 `[()]` 語法重新說明 `[(ngModel)]`。
 
-## BREAKING CHANGE: `in-memory-web-api` (v.0.1.11) delivered as esm umd (2016-10-19)
+## 破壞性變更：`in-memory-web-api` (v.0.1.11) 改以 esm umd 形式交付 (2016-10-19)
 
-This change supports ES6 developers and aligns better with typical Angular libraries.
-It does not affect the module's API but it does affect how you load and import it.
-See the <a href="https://github.com/angular/in-memory-web-api/blob/master/CHANGELOG.md#0113-2016-10-20">change note</a>
-in the `in-memory-web-api` repo.
+這項變更支援 ES6 開發者，並與典型的 Angular 函式庫更加一致。
+它不影響該模組的 API，但會影響你載入與匯入它的方式。
+參見 `in-memory-web-api` 儲存庫中的 <a href="https://github.com/angular/in-memory-web-api/blob/master/CHANGELOG.md#0113-2016-10-20">變更說明</a>。
 
-## "Router" _preload_ syntax and _:enter_/_:leave_ animations (2016-10-19)
+## 「路由」的 _preload_ 語法與 _:enter_/_:leave_ 動畫 (2016-10-19)
 
-The router can lazily _preload_ modules _after_ the app starts and
-_before_ the user navigates to them for improved perceived performance.
+路由器可以在應用程式啟動_之後_、使用者前往這些模組_之前_，
+以延遲載入的方式預先載入模組，藉此改善使用者體感的效能。
 
-New `:enter` and `:leave` aliases make animation more natural.
+新的 `:enter` 與 `:leave` 別名讓動畫更自然。
 
-## Sync with Angular v.2.1.0 (2016-10-12)
+## 與 Angular v.2.1.0 同步 (2016-10-12)
 
-Docs and code samples updated and tested with Angular v.2.1.0.
+文件與程式碼範例已更新，並以 Angular v.2.1.0 測試。
 
-## NEW "Ahead of time (AOT) Compilation" guide (2016-10-11)
+## 新增：「預先編譯 (AOT)」指南 (2016-10-11)
 
-The NEW [Ahead of time (AOT) Compilation](guide/aot-compiler) guide
-explains what AOT compilation is and why you'd want it.
-It demonstrates the basics with a QuickStart app
-followed by the more advanced considerations of compiling and bundling the Tour of Heroes.
+新增的 [預先編譯 (AOT)](guide/aot-compiler) 指南
+說明什麼是 AOT 編譯，以及你為何會需要它。
+它先以 QuickStart 應用程式示範基礎，
+接著說明編譯與打包英雄之旅的進階考量。
 
-## Sync with Angular v.2.0.2 (2016-10-6)
+## 與 Angular v.2.0.2 同步 (2016-10-6)
 
-Docs and code samples updated and tested with Angular v.2.0.2.
+文件與程式碼範例已更新，並以 Angular v.2.0.2 測試。
 
-## "Routing and Navigation" guide with the _Router Module_ (2016-10-5)
+## 含 _路由模組_ 的「路由與導覽」指南 (2016-10-5)
 
-The [Routing and Navigation](guide/router) guide now locates route configuration
-in a _Routing Module_.
-The _Routing Module_ replaces the previous _routing object_ involving the `ModuleWithProviders`.
+[路由與導覽](guide/router) 指南現在將路由設定放在 _路由模組_ 中。
+_路由模組_ 取代了先前涉及 `ModuleWithProviders` 的 _路由物件_。
 
-All guided samples with routing use the _Routing Module_ and prose content has been updated,
-most conspicuously in the
-[NgModule](guide/ngmodules) guide and [NgModule FAQ](guide/ngmodule-faq) guide.
+所有含路由的導引範例都使用 _路由模組_，散文內容也已更新，
+其中最明顯的是
+[NgModule](guide/ngmodules) 指南與 [NgModule FAQ](guide/ngmodule-faq) 指南。
 
-## New "Internationalization" guide (2016-09-30)
+## 新增「國際化」指南 (2016-09-30)
 
-Added a new [Internationalization (i18n)](guide/i18n) guide that shows how
-to use Angular "i18n" facilities to translate template text into multiple languages.
+新增了 [國際化（i18n）](guide/i18n) 指南，說明如何
+使用 Angular 的「i18n」功能，將範本文字翻譯成多種語言。
 
-## "angular-in-memory-web-api" package rename (2016-09-27)
+## 「angular-in-memory-web-api」套件更名 (2016-09-27)
 
-Many samples use the `angular-in-memory-web-api` to simulate a remote server.
-This library is also useful to you during early development before you have a server to talk to.
+許多範例使用 `angular-in-memory-web-api` 來模擬遠端伺服器。
+在你還沒有可連線的伺服器時，這個函式庫在早期開發階段也對你很有用。
 
-The package name was changed from "angular2-in-memory-web-api" which is still frozen-in-time on npm.
-The new "angular-in-memory-web-api" has new features.
-<a href="https://github.com/angular/in-memory-web-api/blob/master/README.md">Read about them on github</a>.
+套件名稱已由 "angular2-in-memory-web-api" 更改，後者在 npm 上仍凍結在當時的狀態。
+新的 "angular-in-memory-web-api" 具備新功能。
+<a href="https://github.com/angular/in-memory-web-api/blob/master/README.md">在 github 上閱讀相關資訊</a>。
 
-## "Style Guide" with _NgModules_ (2016-09-27)
+## 含 _NgModules_ 的「風格指南」 (2016-09-27)
 
-[StyleGuide](guide/styleguide) explains recommended conventions for NgModules.
-Barrels now are far less useful and have been removed from the style guide;
-they remain valuable but are not a matter of Angular style.
-Also relaxed the rule that discouraged use of the `@Component.host` property.
+[StyleGuide](guide/styleguide) 說明了 NgModules 的建議慣例。
+Barrels 現在已遠不如以往有用，並已從風格指南中移除；
+它們仍然有價值，但不屬於 Angular 風格的範疇。
+此外，也放寬了不鼓勵使用 `@Component.host` 屬性的規則。
 
-## _moduleId: module.id_ everywhere (2016-09-25)
+## 各處皆有 _moduleId: module.id_ (2016-09-25)
 
-Sample components that get their templates or styles with `templateUrl` or `styleUrls`
-have been converted to _module-relative_ URLs.
-Added the `moduleId: module.id` property-and-value to their `@Component` metadata.
+使用 `templateUrl` 或 `styleUrls` 取得範本或樣式的範例元件，
+已轉換為_模組相對_ URL。
+並已在其 `@Component` 中繼資料中加入 `moduleId: module.id` 屬性與值。
 
-This change is a requirement for compilation with AOT compiler when the app loads
-modules with SystemJS as the samples currently do.
+當應用程式以 SystemJS 載入模組時（如目前的範例），
+這項變更是以 AOT 編譯器編譯時的必要條件。
 
-## "Lifecycle Hooks" guide simplified (2016-09-24)
+## 「生命週期鉤子」指南已簡化 (2016-09-24)
 
-The [Lifecycle Hooks](guide/lifecycle-hooks) guide is shorter, simpler, and
-draws more attention to the order in which Angular calls the hooks.
+[生命週期鉤子](guide/lifecycle-hooks) 指南變得更短、更簡單，
+並更強調 Angular 呼叫這些鉤子的順序。
