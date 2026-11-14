@@ -1,483 +1,483 @@
 # HTTP
 
-In this page, you'll make the following improvements.
+在本頁中，你將進行以下改進。
 
-* Get the hero data from a server.
-* Let users add, edit, and delete hero names.
-* Save the changes to the server.
+* 從伺服器取得英雄資料。
+* 讓使用者新增、編輯與刪除英雄名稱。
+* 把變更儲存到伺服器。
 
-You'll teach the app to make corresponding HTTP calls to a remote server's web API.
+你將教應用程式對遠端伺服器的 Web API 發出對應的 HTTP 呼叫。
 
-When you're done with this page, the app should look like this <live-example></live-example>.
+完成本頁後，應用程式應該像這樣 <live-example></live-example>。
 
-## Where you left off
+## 上次離開的地方
 
-In the [previous page](tutorial/toh-pt5), you learned to navigate between the dashboard and the fixed heroes list,
-editing a selected hero along the way.
-That's the starting point for this page.
+在[上一頁](tutorial/toh-pt5)中，你學會了在儀表板與固定的英雄清單之間導覽，
+並在過程中編輯所選的英雄。
+這就是本頁的起點。
 
-## Keep the app transpiling and running
-Enter the following command in the terminal window:
+## 讓應用程式持續轉譯並執行
+在終端機視窗中輸入以下指令：
 
 <code-example language="sh" class="code-shell">
   npm start
 </code-example>
 
-This command runs the TypeScript compiler in "watch mode", recompiling automatically when the code changes.
-The command simultaneously launches the app in a browser and refreshes the browser when the code changes.
+此指令會以「監看模式」執行 TypeScript 編譯器，在程式碼變更時自動重新編譯。
+此指令同時會在瀏覽器中啟動應用程式，並在程式碼變更時重新整理瀏覽器。
 
-You can keep building the Tour of Heroes without pausing to recompile or refresh the browser.
+你可以持續建置 Tour of Heroes，不必停下來重新編譯或重新整理瀏覽器。
 
-## Providing HTTP Services
+## 提供 HTTP 服務
 
-The `HttpModule` is not a core NgModule.
-`HttpModule` is Angular's optional approach to web access. It exists as a separate add-on module called `@angular/http`
-and is shipped in a separate script file as part of the Angular npm package.
+`HttpModule` 不是核心 NgModule。
+`HttpModule` 是 Angular 選用的 Web 存取方式。它以名為 `@angular/http` 的獨立附加模組形式存在，
+並作為 Angular npm 套件的一部分，以獨立的指令碼檔案形式提供。
 
-You're ready to import from `@angular/http` because `systemjs.config` configured *SystemJS* to load that library when you need it.
+你已經可以從 `@angular/http` 匯入，因為 `systemjs.config` 已設定 *SystemJS* 在你需要時載入該函式庫。
 
-## Register for HTTP services
+## 註冊 HTTP 服務
 
-The app will depend on the Angular `http` service, which itself depends on other supporting services.
-The `HttpModule` from the `@angular/http` library holds providers for a complete set of HTTP services.
+應用程式將依賴 Angular 的 `http` 服務，而該服務本身又依賴其他支援服務。
+來自 `@angular/http` 函式庫的 `HttpModule` 包含一整套 HTTP 服務的提供者。
 
-To allow access to these services from anywhere in the app,
-add `HttpModule` to the `imports` list of the `AppModule`.
+若要讓應用程式中的任何地方都能存取這些服務，
+請把 `HttpModule` 加入 `AppModule` 的 `imports` 清單。
 
 <code-example path="toh-pt6/src/app/app.module.ts" region="v1" title="src/app/app.module.ts (v1)"></code-example>
 
-Notice that you also supply `HttpModule` as part of the *imports* array in root NgModule `AppModule`.
+請注意，你同時也把 `HttpModule` 作為根 NgModule `AppModule` 中 *imports* 陣列的一部分提供。
 
-## Simulate the web API
+## 模擬 Web API
 
-We recommend registering app-wide services in the root
-`AppModule` *providers*.
+我們建議在根
+`AppModule` 的 *providers* 中註冊全應用程式範圍的服務。
 
-Until you have a web server that can handle requests for hero data,
-the HTTP client will fetch and save data from
-a mock service, the *in-memory web API*.
+在你擁有能處理英雄資料請求的 Web 伺服器之前，
+HTTP 用戶端會從模擬服務擷取與儲存資料，
+該服務即*記憶體內 Web API*。
 
-Update <code>src/app/app.module.ts</code> with this version, which uses the mock service:
+請以使用模擬服務的這個版本更新 <code>src/app/app.module.ts</code>：
 
 <code-example path="toh-pt6/src/app/app.module.ts" region="v2" title="src/app/app.module.ts (v2)"></code-example>
 
-Rather than require a real API server, this example simulates communication with the remote server by adding the
+此範例不需要真正的 API 伺服器，而是透過加入
 <a href="https://github.com/angular/in-memory-web-api" title="In-memory Web API">InMemoryWebApiModule</a>
-to the module `imports`, effectively  replacing the `Http` client's XHR backend service with an in-memory alternative.
+到模組的 `imports`，來模擬與遠端伺服器的通訊，實際上是把 `Http` 用戶端的 XHR 後端服務換成記憶體內的替代方案。
 
 <code-example path="toh-pt6/src/app/app.module.ts" region="in-mem-web-api"></code-example>
 
-The `forRoot()` configuration method takes an `InMemoryDataService` class
-that primes the in-memory database.
-Add the file `in-memory-data.service.ts` in `app` with the following content:
+`forRoot()` 設定方法會接受一個 `InMemoryDataService` 類別，
+為記憶體內資料庫預先填入資料。
+在 `app` 中加入檔案 `in-memory-data.service.ts`，內容如下：
 
 <code-example path="toh-pt6/src/app/in-memory-data.service.ts" region="init" title="src/app/in-memory-data.service.ts" linenums="false"></code-example>
 
-This file replaces `mock-heroes.ts`, which is now safe to delete.
-Added hero "Zero" to confirm that the data service can handle a hero with `id==0`.
+此檔案取代了 `mock-heroes.ts`，現在可以安全地刪除它。
+加入了英雄「Zero」，以確認資料服務能處理 `id==0` 的英雄。
 
 
 <div class="alert is-helpful">
 
-  The in-memory web API is only useful in the early stages of development and for demonstrations such as this Tour of Heroes.
-  Don't worry about the details of this backend substitution; you can
-  skip it when you have a real web API server.
+  記憶體內 Web API 只在開發初期以及像 Tour of Heroes 這樣的示範中才有用。
+  不必擔心這個後端替代方案的細節；當你有了真正的 Web API 伺服器時，
+  就可以跳過它。
 
 </div>
 
-## Heroes and HTTP
+## 英雄與 HTTP
 
-In the current `HeroService` implementation, a Promise resolved with mock heroes is returned.
+在目前的 `HeroService` 實作中，會回傳一個以模擬英雄解析完成的 Promise。
 
 <code-example path="toh-pt4/src/app/hero.service.ts" region="get-heroes" title="src/app/hero.service.ts (old getHeroes)"></code-example>
 
-This was implemented in anticipation of ultimately
-fetching heroes with an HTTP client, which must be an asynchronous operation.
+這樣實作是為了預先因應最終
+以 HTTP 用戶端擷取英雄的需求，而這必須是非同步操作。
 
-Now convert `getHeroes()` to use HTTP.
+現在把 `getHeroes()` 改為使用 HTTP。
 
 <code-example path="toh-pt6/src/app/hero.service.ts" region="getHeroes" title="src/app/hero.service.ts (updated getHeroes and new class members)"></code-example>
 
-Update the import statements as follows:
+如下更新匯入陳述式：
 
 <code-example path="toh-pt6/src/app/hero.service.ts" region="imports" title="src/app/hero.service.ts (updated imports)"></code-example>
 
-Refresh the browser. The hero data should successfully load from the
-mock server.
+重新整理瀏覽器。英雄資料應能成功從
+模擬伺服器載入。
 
 {@a http-promise}
 
-### HTTP Promise
+### HTTP 的 Promise
 
-The Angular `http.get` returns an RxJS `Observable`.
-*Observables* are a powerful way to manage asynchronous data flows.
-You'll read about [Observables](tutorial/toh-pt6#observables) later in this page.
+Angular 的 `http.get` 會回傳 RxJS 的 `Observable`。
+*Observables* 是管理非同步資料流的強大方式。
+你將在本頁稍後讀到關於 [Observables](tutorial/toh-pt6#可觀察物件) 的內容。
 
-For now, you've converted the `Observable` to a `Promise` using the `toPromise` operator.
+目前，你已使用 `toPromise` 運算子把 `Observable` 轉換為 `Promise`。
 
 <code-example path="toh-pt6/src/app/hero.service.ts" region="to-promise"></code-example>
 
-The Angular `Observable` doesn't have a `toPromise` operator out of the box.
+Angular 的 `Observable` 並未內建 `toPromise` 運算子。
 
-There are many operators like `toPromise` that extend `Observable` with useful capabilities.
-To use those capabilities, you have to add the operators themselves.
-That's as easy as importing them from the RxJS library like this:
+有許多像 `toPromise` 這樣的運算子，能以實用的能力擴充 `Observable`。
+若要使用這些能力，你必須加入運算子本身。
+這就像從 RxJS 函式庫匯入它們一樣簡單，如下所示：
 
 <code-example path="toh-pt6/src/app/hero.service.ts" region="rxjs"></code-example>
 
 
 <div class="l-sub-section">
 
-  You'll add more operators, and learn why you must do so, [later in this tutorial](tutorial/toh-pt6#rxjs-imports).
+  你將加入更多運算子，並了解為何必須這麼做，詳見[本教學稍後的部分](tutorial/toh-pt6#rxjs-imports)。
 
 </div>
 
 
-### Extracting the data in the *then* callback
+### 在 *then* 回呼中擷取資料
 
-In the *Promise*'s `then()` callback, you call the `json` method of the HTTP `Response` to extract the
-data within the response.
+在 *Promise* 的 `then()` 回呼中，你呼叫 HTTP `Response` 的 `json` 方法來擷取
+回應中的資料。
 
 <code-example path="toh-pt6/src/app/hero.service.ts" region="to-data"></code-example>
 
-The response JSON has a single `data` property, which
-holds the array of heroes that the caller wants.
-So you grab that array and return it as the resolved Promise value.
+回應的 JSON 有單一的 `data` 屬性，其中
+存放著呼叫者想要的英雄陣列。
+因此你取出該陣列，並把它作為已解析的 Promise 值回傳。
 
 
 <div class="alert is-important">
 
-  Note the shape of the data that the server returns.
-  This particular in-memory web API example returns an object with a `data` property.
-  Your API might return something else. Adjust the code to match your web API.
+  請注意伺服器回傳資料的形狀。
+  這個特定的記憶體內 Web API 範例會回傳帶有 `data` 屬性的物件。
+  你的 API 可能回傳不同的東西。請調整程式碼以符合你的 Web API。
 
 </div>
 
 
-The caller is unaware that you fetched the heroes from the (mock) server.
-It receives a Promise of *heroes* just as it did before.
+呼叫者並不知道你已從（模擬）伺服器擷取了英雄。
+它像先前一樣，接收到一個裝著 *heroes* 的 Promise。
 
-### Error Handling
+### 錯誤處理
 
-At the end of `getHeroes()`, you `catch` server failures and pass them to an error handler.
+在 `getHeroes()` 的結尾，你會 `catch` 伺服器失敗，並把它們傳給錯誤處理常式。
 
 <code-example path="toh-pt6/src/app/hero.service.ts" region="catch"></code-example>
 
-This is a critical step.
-You must anticipate HTTP failures, as they happen frequently for reasons beyond your control.
+這是關鍵的一步。
+你必須預期 HTTP 失敗，因為它們常因你無法控制的原因而發生。
 
 <code-example path="toh-pt6/src/app/hero.service.ts" region="handleError"></code-example>
 
-This demo service logs the error to the console; in real life,
-you would handle the error in code. For a demo, this works.
+這個示範服務會把錯誤記錄到主控台；在真實情境中，
+你會在程式碼中處理錯誤。對於示範來說，這樣就可以了。
 
-The code also includes an error to
-the caller in a rejected promise, so that the caller can display a proper error message to the user.
+程式碼也會把錯誤放在一個被拒絕的 Promise 中傳給
+呼叫者，讓呼叫者能向使用者顯示適當的錯誤訊息。
 
-### Get hero by id
+### 依 id 取得英雄
 
-When the `HeroDetailComponent` asks the `HeroService` to fetch a hero,
-the `HeroService` currently fetches all heroes and
-filters for the one with the matching `id`.
-That's fine for a simulation, but it's wasteful to ask a real server for all heroes when you only want one.
-Most web APIs support a _get-by-id_ request in the form `api/hero/:id` (such as `api/hero/11`).
+當 `HeroDetailComponent` 要求 `HeroService` 擷取一位英雄時，
+`HeroService` 目前會擷取所有英雄，
+再篩選出 `id` 相符的那一位。
+對於模擬來說這樣沒問題，但當你只要一位英雄時，向真正的伺服器要求所有英雄是很浪費的。
+大多數 Web API 都支援形式為 `api/hero/:id` 的_依 id 取得_請求（例如 `api/hero/11`）。
 
-Update the `HeroService.getHero()` method to make a _get-by-id_ request:
+更新 `HeroService.getHero()` 方法，改為發出_依 id 取得_請求：
 
 <code-example path="toh-pt6/src/app/hero.service.ts" region="getHero" title="src/app/hero.service.ts"></code-example>
 
-This request is almost the same as `getHeroes()`.
-The hero id in the URL identifies which hero the server should update.
+這個請求與 `getHeroes()` 幾乎相同。
+URL 中的英雄 id 指出伺服器應更新哪一位英雄。
 
-Also, the `data` in the response is a single hero object rather than an array.
+此外，回應中的 `data` 是單一英雄物件，而不是陣列。
 
-### Unchanged _getHeroes_ API
+### 未變更的 _getHeroes_ API
 
-Although you made significant internal changes to `getHeroes()` and `getHero()`,
-the public signatures didn't change.
-You still return a Promise from both methods.
-You won't have to update any of the components that call them.
+雖然你對 `getHeroes()` 與 `getHero()` 做了重大的內部變更，
+但公開的簽章並未改變。
+你仍然從這兩個方法回傳 Promise。
+你不必更新任何呼叫它們的元件。
 
-Now it's time to add the ability to create and delete heroes.
+現在是時候加入建立與刪除英雄的功能了。
 
-## Updating hero details
+## 更新英雄詳細資料
 
-Try editing a hero's name in the hero detail view.
-As you type, the hero name is updated in the view heading.
-But if you click the Back button, the changes are lost.
+試著在英雄詳細檢視中編輯英雄的名稱。
+當你輸入時，英雄名稱會在檢視標題中更新。
+但如果你點選 Back 按鈕，變更就會遺失。
 
-Updates weren't lost before. What changed?
-When the app used a list of mock heroes, updates were applied directly to the
-hero objects within the single, app-wide, shared list. Now that you're fetching data
-from a server, if you want changes to persist, you must write them back to
-the server.
+先前更新並不會遺失。什麼變了呢？
+當應用程式使用模擬英雄清單時，更新會直接套用到
+單一、全應用程式共用清單中的英雄物件。現在你從伺服器擷取資料，
+如果你希望變更能保留下來，就必須把它們寫回
+伺服器。
 
-### Add the ability to save hero details
+### 加入儲存英雄詳細資料的功能
 
-At the end of the hero detail template, add a save button with a `click` event
-binding that invokes a new component method named `save()`.
+在英雄詳細範本的結尾，加入一個儲存按鈕，帶有 `click` 事件
+繫結，會呼叫名為 `save()` 的新元件方法。
 
 <code-example path="toh-pt6/src/app/hero-detail.component.html" region="save" title="src/app/hero-detail.component.html (save)"></code-example>
 
-Add the following `save()` method, which persists hero name changes using the hero service
-`update()` method and then navigates back to the previous view.
+加入以下 `save()` 方法，它會使用英雄服務的
+`update()` 方法來保存英雄名稱的變更，然後導覽回上一個檢視。
 
 <code-example path="toh-pt6/src/app/hero-detail.component.ts" region="save" title="src/app/hero-detail.component.ts (save)"></code-example>
 
-### Add a hero service _update()_ method
+### 加入英雄服務的 _update()_ 方法
 
-The overall structure of the `update()` method is similar to that of
-`getHeroes()`, but it uses an HTTP `put()` to persist server-side changes.
+`update()` 方法的整體結構與
+`getHeroes()` 類似，但它使用 HTTP 的 `put()` 來保存伺服器端的變更。
 
 <code-example path="toh-pt6/src/app/hero.service.ts" region="update" title="src/app/hero.service.ts (update)"></code-example>
 
-To identify which hero the server should update, the hero `id` is encoded in
-the URL. The `put()` body is the JSON string encoding of the hero, obtained by
-calling `JSON.stringify`. The body content type
-(`application/json`) is identified in the request header.
+為了指出伺服器應更新哪一位英雄，英雄的 `id` 會編碼在
+URL 中。`put()` 的主體是英雄的 JSON 字串編碼，透過呼叫
+`JSON.stringify` 取得。主體的內容型別
+（`application/json`）會在請求標頭中標明。
 
-Refresh the browser, change a hero name, save your change,
-and click the browser Back button. Changes should now persist.
+重新整理瀏覽器，變更英雄名稱，儲存你的變更，
+然後點選瀏覽器的 Back 按鈕。變更現在應該能保留下來。
 
-## Add the ability to add heroes
+## 加入新增英雄的功能
 
-To add a hero, the app needs the hero's name. You can use an `input`
-element paired with an add button.
+若要加入英雄，應用程式需要英雄的名稱。你可以使用一個 `input`
+元素搭配一個加入按鈕。
 
-Insert the following into the heroes component HTML, just after
-the heading:
+把以下內容插入英雄元件的 HTML 中，就在
+標題之後：
 
 <code-example path="toh-pt6/src/app/heroes.component.html" region="add" title="src/app/heroes.component.html (add)"></code-example>
 
-In response to a click event, call the component's click handler and then
-clear the input field so that it's ready for another name.
+為了回應點選事件，請呼叫元件的點選處理常式，然後
+清除輸入欄位，以便輸入下一個名稱。
 
 <code-example path="toh-pt6/src/app/heroes.component.ts" region="add" title="src/app/heroes.component.ts (add)"></code-example>
 
-When the given name is non-blank, the handler delegates creation of the
-named hero to the hero service, and then adds the new hero to the array.
+當給定的名稱不是空白時，處理常式會把建立該名稱英雄的工作委派給
+英雄服務，然後把新英雄加入陣列。
 
-Implement the `create()` method in the `HeroService` class.
+在 `HeroService` 類別中實作 `create()` 方法。
 
 <code-example path="toh-pt6/src/app/hero.service.ts" region="create" title="src/app/hero.service.ts (create)"></code-example>
 
-Refresh the browser and create some heroes.
+重新整理瀏覽器並建立一些英雄。
 
-## Add the ability to delete a hero
+## 加入刪除英雄的功能
 
-Each hero in the heroes view should have a delete button.
+英雄檢視中的每位英雄都應該有一個刪除按鈕。
 
-Add the following button element to the heroes component HTML, after the hero
-name in the repeated `<li>` element.
+把以下按鈕元素加入英雄元件的 HTML 中，放在重複的 `<li>` 元素中
+英雄名稱之後。
 
 <code-example path="toh-pt6/src/app/heroes.component.html" region="delete"></code-example>
 
-The `<li>` element should now look like this:
+`<li>` 元素現在應如下所示：
 
 <code-example path="toh-pt6/src/app/heroes.component.html" region="li-element" title="src/app/heroes.component.html (li-element)"></code-example>
 
-In addition to calling the component's `delete()` method, the delete button's
-click handler code stops the propagation of the click event&mdash;you
-don't want the `<li>` click handler to be triggered because doing so would
-select the hero that the user will delete.
+刪除按鈕的點選處理常式除了呼叫元件的 `delete()` 方法之外，
+還會停止點選事件的傳播&mdash;你
+不希望觸發 `<li>` 的點選處理常式，因為那樣會
+選取使用者將要刪除的英雄。
 
-The logic of the `delete()` handler is a bit trickier:
+`delete()` 處理常式的邏輯稍微複雜一些：
 
 <code-example path="toh-pt6/src/app/heroes.component.ts" region="delete" title="src/app/heroes.component.ts (delete)"></code-example>
 
-Of course you delegate hero deletion to the hero service, but the component
-is still responsible for updating the display: it removes the deleted hero
-from the array and resets the selected hero, if necessary.
+當然，你會把英雄刪除委派給英雄服務，但元件
+仍須負責更新顯示內容：它會移除已刪除的英雄，
+並在必要時重設所選的英雄。
 
-To place the delete button at the far right of the hero entry,
-add this CSS:
+若要把刪除按鈕放在英雄項目的最右側，
+請加入這段 CSS：
 
 <code-example path="toh-pt6/src/app/heroes.component.css" region="additions" title="src/app/heroes.component.css (additions)"></code-example>
 
-### Hero service _delete()_ method
+### 英雄服務的 _delete()_ 方法
 
-Add the hero service's `delete()` method, which uses the `delete()` HTTP method to remove the hero from the server:
+加入英雄服務的 `delete()` 方法，它使用 `delete()` HTTP 方法從伺服器移除英雄：
 
 <code-example path="toh-pt6/src/app/hero.service.ts" region="delete" title="src/app/hero.service.ts (delete)"></code-example>
 
-Refresh the browser and try the new delete functionality.
+重新整理瀏覽器，試試新的刪除功能。
 
-## Observables
+## 可觀察物件
 
-Each `Http` service method  returns an `Observable` of HTTP `Response` objects.
+每個 `Http` 服務方法都會回傳 HTTP `Response` 物件的 `Observable`。
 
-The `HeroService` converts that `Observable` into a `Promise` and returns the promise to the caller.
-This section shows you how, when, and why to return the `Observable` directly.
+`HeroService` 會把該 `Observable` 轉換為 `Promise`，並把 Promise 回傳給呼叫者。
+本節將說明如何、何時以及為何直接回傳 `Observable`。
 
-### Background
+### 背景
 
-An *Observable* is a stream of events that you can process with array-like operators.
+*Observable* 是一串事件流，你可以用類似陣列的運算子來處理它。
 
-Angular core has basic support for observables.
-Developers augment that support with operators and extensions from the
+Angular 核心對可觀察物件有基本支援。
+開發者會以運算子與擴充功能增強該支援，這些來自
 <a href="http://reactivex.io/rxjs" target="_blank" title="RxJS">RxJS library</a>.
-You'll see how shortly.
+你很快就會看到做法。
 
-Recall that the `HeroService` chained the `toPromise` operator to the `Observable` result of `http.get()`.
-That operator converted the `Observable` into a `Promise` and you passed that promise back to the caller.
+回想一下，`HeroService` 把 `toPromise` 運算子串連到 `http.get()` 的 `Observable` 結果上。
+該運算子把 `Observable` 轉換為 `Promise`，而你把該 Promise 回傳給呼叫者。
 
-Converting to a Promise is often a good choice. You typically ask `http.get()` to fetch a single chunk of data.
-When you receive the data, you're done.
-The calling component can easily consume a single result in the form of a Promise.
+轉換為 Promise 通常是個好選擇。你通常會要求 `http.get()` 擷取單一區塊的資料。
+當你收到資料時，就完成了。
+呼叫的元件可以輕鬆地以 Promise 的形式使用單一結果。
 
-But requests aren't always done only once.
-You may start one request,
-cancel it, and make a different request before the server has responded to the first request.
+但請求並非總是只執行一次。
+你可能啟動一個請求，
+取消它，並在伺服器回應第一個請求之前發出不同的請求。
 
-A *request-cancel-new-request* sequence is difficult to implement with `Promise`s, but
-easy with `Observable`s.
+*request-cancel-new-request*（請求－取消－新請求）序列用 `Promise` 很難實作，但
+用 `Observable` 卻很容易。
 
-### Add the ability to search by name
+### 加入依名稱搜尋的功能
 
-You're going to add a *hero search* feature to the Tour of Heroes.
-As the user types a name into a search box, you'll make repeated HTTP requests for heroes filtered by that name.
+你將為 Tour of Heroes 加入*英雄搜尋*功能。
+當使用者在搜尋框中輸入名稱時，你會針對依該名稱篩選的英雄重複發出 HTTP 請求。
 
-Start by creating `HeroSearchService` that sends search queries to the server's web API.
+首先建立 `HeroSearchService`，把搜尋查詢傳送到伺服器的 Web API。
 
 <code-example path="toh-pt6/src/app/hero-search.service.ts" title="src/app/hero-search.service.ts"></code-example>
 
-The `http.get()` call in `HeroSearchService` is similar to the one
-in the `HeroService`, although the URL now has a query string.
+`HeroSearchService` 中的 `http.get()` 呼叫與
+`HeroService` 中的呼叫類似，不過 URL 現在帶有查詢字串。
 
-More importantly, you no longer call `toPromise()`.
-Instead you return the *Observable* from the the `http.get()`,
-after chaining it to another RxJS operator, <code>map()</code>,
-to extract heroes from the response data.
-RxJS operator chaining makes response processing easy and readable.
-See the [discussion below about operators](tutorial/toh-pt6#rxjs-imports).</span>
+更重要的是，你不再呼叫 `toPromise()`。
+相反地，你回傳來自 `http.get()` 的 *Observable*，
+並在把它串連到另一個 RxJS 運算子 <code>map()</code> 之後，
+從回應資料中擷取英雄。
+RxJS 運算子串連讓回應處理變得簡單且易讀。
+請參閱[下方關於運算子的討論](tutorial/toh-pt6#rxjs-imports)。</span>
 
 ### HeroSearchComponent
 
-Create a `HeroSearchComponent` that calls the new `HeroSearchService`.
+建立一個呼叫新 `HeroSearchService` 的 `HeroSearchComponent`。
 
-The component template is simple&mdash;just a text box and a list of matching search results.
+元件範本很簡單&mdash;只有一個文字框與一份符合的搜尋結果清單。
 
 <code-example path="toh-pt6/src/app/hero-search.component.html" title="src/app/hero-search.component.html"></code-example>
 
-Also, add styles for the new component.
+此外，為新元件加入樣式。
 
 <code-example path="toh-pt6/src/app/hero-search.component.css" title="src/app/hero-search.component.css"></code-example>
 
-As the user types in the search box, a *keyup* event binding calls the component's `search()`
-method with the new search box value.
+當使用者在搜尋框中輸入時，*keyup* 事件繫結會以新的搜尋框值呼叫元件的 `search()`
+方法。
 
-As expected, the `*ngFor` repeats hero objects from the component's `heroes` property.
+一如預期，`*ngFor` 會重複元件 `heroes` 屬性中的英雄物件。
 
-But as you'll soon see, the `heroes` property is now an *Observable* of hero arrays, rather than just a hero array.
-The `*ngFor` can't do anything with an `Observable` until you route it through the `async` pipe (`AsyncPipe`).
-The `async` pipe subscribes to the `Observable` and produces the array of heroes to `*ngFor`.
+但你很快就會看到，`heroes` 屬性現在是英雄陣列的 *Observable*，而不只是英雄陣列。
+`*ngFor` 無法對 `Observable` 做任何事，除非你把它透過 `async` 管道（`AsyncPipe`）傳送。
+`async` 管道會訂閱 `Observable`，並產生英雄陣列給 `*ngFor`。
 
-Create the `HeroSearchComponent` class and metadata.
+建立 `HeroSearchComponent` 類別與中繼資料。
 
 <code-example path="toh-pt6/src/app/hero-search.component.ts" title="src/app/hero-search.component.ts"></code-example>
 
-#### Search terms
+#### 搜尋字詞
 
-Focus on the `searchTerms`:
+請關注 `searchTerms`：
 
 <code-example path="toh-pt6/src/app/hero-search.component.ts" region="searchTerms"></code-example>
 
-A `Subject` is a producer of an _observable_ event stream;
-`searchTerms` produces an `Observable` of strings, the filter criteria for the name search.
+`Subject` 是_可觀察_事件流的產生者；
+`searchTerms` 會產生字串的 `Observable`，也就是名稱搜尋的篩選條件。
 
-Each call to `search()` puts a new string into this subject's _observable_ stream by calling `next()`.
+每次呼叫 `search()` 都會透過呼叫 `next()`，把新字串放入此 Subject 的_可觀察_串流中。
 
 {@a ngoninit}
 
-#### Initialize the *heroes* property (*ngOnInit*)
+#### 初始化 *heroes* 屬性（*ngOnInit*）
 
-A `Subject` is also an `Observable`.
-You can turn the stream
-of search terms into a stream of `Hero` arrays and assign the result to the `heroes` property.
+`Subject` 本身也是 `Observable`。
+你可以把
+搜尋字詞的串流轉換為 `Hero` 陣列的串流，並把結果指派給 `heroes` 屬性。
 
 <code-example path="toh-pt6/src/app/hero-search.component.ts" region="search"></code-example>
 
-Passing every user keystroke directly to the `HeroSearchService` would create an excessive amount of HTTP requests,
-taxing server resources and burning through the cellular network data plan.
+把使用者的每一次按鍵都直接傳給 `HeroSearchService`，會產生過多的 HTTP 請求，
+耗費伺服器資源，也會耗盡行動網路的流量方案。
 
-Instead, you can chain `Observable` operators that reduce the request flow to the string `Observable`.
-You'll make fewer calls to the `HeroSearchService` and still get timely results. Here's how:
+相反地，你可以串連 `Observable` 運算子，把請求流量減少到字串 `Observable`。
+你對 `HeroSearchService` 的呼叫次數會更少，同時仍能及時取得結果。做法如下：
 
-* `debounceTime(300)` waits until the flow of new string events pauses for 300 milliseconds
-before passing along the latest string. You'll never make requests more frequently than 300ms.
-* `distinctUntilChanged` ensures that a request is sent only if the filter text changed.
-* `switchMap()` calls the search service for each search term that makes it through `debounce` and `distinctUntilChanged`.
-It cancels and discards previous search observables, returning only the latest search service observable.
+* `debounceTime(300)` 會等到新字串事件的流程暫停 300 毫秒後，
+才傳遞最新的字串。你發出請求的頻率永遠不會高於每 300 毫秒一次。
+* `distinctUntilChanged` 會確保只有在篩選文字變更時才傳送請求。
+* `switchMap()` 會針對每個通過 `debounce` 與 `distinctUntilChanged` 的搜尋字詞呼叫搜尋服務。
+它會取消並捨棄先前的搜尋可觀察物件，只回傳最新的搜尋服務可觀察物件。
 
 
 <div class="l-sub-section">
 
-  With the [switchMap operator](http://www.learnrxjs.io/operators/transformation/switchmap.html)
-  (formerly known as `flatMapLatest`),
-  every qualifying key event can trigger an `http()` method call.
-  Even with a 300ms pause between requests, you could have multiple HTTP requests in flight
-  and they may not return in the order sent.
+  使用 [switchMap 運算子](http://www.learnrxjs.io/operators/transformation/switchmap.html)
+  （前身為 `flatMapLatest`）時，
+  每個符合條件的按鍵事件都可能觸發一次 `http()` 方法呼叫。
+  即使每次請求之間有 300 毫秒的暫停，你仍可能有許多進行中的 HTTP 請求，
+  而且它們回傳的順序可能與傳送順序不同。
 
-  `switchMap()` preserves the original request order while returning only the observable from the most recent `http` method call.
-  Results from prior calls are canceled and discarded.
+  `switchMap()` 會保留原始請求的順序，同時只回傳最近一次 `http` 方法呼叫的可觀察物件。
+  先前呼叫的結果會被取消並捨棄。
 
-  If the search text is empty, the `http()` method call is also short circuited
-  and an observable containing an empty array is returned.
+  如果搜尋文字是空的，`http()` 方法呼叫也會被短路，
+  並回傳一個包含空陣列的可觀察物件。
 
-  Note that until the service supports that feature, _canceling_ the `HeroSearchService` Observable
-  doesn't actually abort a pending HTTP request.
-  For now, unwanted results are discarded.
+  請注意，在服務支援該功能之前，_取消_ `HeroSearchService` 的 Observable
+  並不會真的中止待處理的 HTTP 請求。
+  目前，不需要的結果會被捨棄。
 
 </div>
 
 
-* `catch` intercepts a failed observable.
-The simple example prints the error to the console; a real life app would do better.
-Then to clear the search result, you return an observable containing an empty array.
+* `catch` 會攔截失敗的可觀察物件。
+這個簡單範例會把錯誤印到主控台；真實的應用程式會做得更好。
+接著，若要清除搜尋結果，你回傳一個包含空陣列的可觀察物件。
 
 {@a rxjs-imports}
 
-### Import RxJS operators
+### 匯入 RxJS 運算子
 
-Most RxJS operators are not included in Angular's base `Observable` implementation.
-The base implementation includes only what Angular itself requires.
+大多數 RxJS 運算子並未包含在 Angular 的基礎 `Observable` 實作中。
+基礎實作只包含 Angular 本身所需的內容。
 
-When you need more RxJS features, extend  `Observable` by *importing* the libraries in which they are defined.
-Here are all the RxJS imports that _this_ component needs:
+當你需要更多 RxJS 功能時，可以透過*匯入*定義這些功能的函式庫來擴充 `Observable`。
+以下是_這個_元件需要的所有 RxJS 匯入：
 
 <code-example path="toh-pt6/src/app/hero-search.component.ts" region="rxjs-imports" title="src/app/hero-search.component.ts (rxjs imports)" linenums="false"></code-example>
 
-The `import 'rxjs/add/...'` syntax may be unfamiliar.
-It's missing the usual list of symbols between the braces: `{...}`.
+`import 'rxjs/add/...'` 語法可能讓人感到陌生。
+它缺少大括號之間常見的符號清單：`{...}`。
 
-You don't need the operator symbols themselves.
-In each case, the mere act of importing the library
-loads and executes the library's script file which, in turn, adds the operator to the `Observable` class.
+你不需要運算子符號本身。
+在每種情況下，光是匯入函式庫這個動作，
+就會載入並執行函式庫的指令碼檔案，進而把運算子加入 `Observable` 類別。
 
-### Add the search component to the dashboard
+### 把搜尋元件加入儀表板
 
-Add the hero search HTML element to the bottom of the `DashboardComponent` template.
+把英雄搜尋 HTML 元素加入 `DashboardComponent` 範本的底部。
 
 <code-example path="toh-pt6/src/app/dashboard.component.html" title="src/app/dashboard.component.html" linenums="false"></code-example>
 
-Finally, import `HeroSearchComponent` from
+最後，從
 <code>hero-search.component.ts</code>
-and add it to the `declarations` array.
+匯入 `HeroSearchComponent`，並把它加入 `declarations` 陣列。
 
 
 <code-example path="toh-pt6/src/app/app.module.ts" region="search" title="src/app/app.module.ts (search)"></code-example>
 
-Run the app again. In the Dashboard, enter some text in the search box.
-If you enter characters that match any existing hero names, you'll see something like this.
+再次執行應用程式。在儀表板中，於搜尋框輸入一些文字。
+如果你輸入與任何現有英雄名稱相符的字元，你會看到類似以下的畫面。
 
 <figure>
-  <img src='generated/images/guide/toh/toh-hero-search.png' alt="Hero Search Component">
+  <img src='generated/images/guide/toh/toh-hero-search.png' alt="英雄搜尋元件">
 </figure>
 
-## App structure and code
+## 應用程式結構與程式碼
 
-Review the sample source code in the <live-example></live-example> for this page.
-Verify that you have the following structure:
+請在本頁的 <live-example></live-example> 中檢閱範例原始碼。
+確認你的結構如下：
 
 <div class='filetree'>
   <div class='file'>angular-tour-of-heroes</div>
@@ -518,17 +518,17 @@ Verify that you have the following structure:
   </div>
 </div>
 
-## Summary
+## 摘要
 
-You're at the end of your journey, and you've accomplished a lot.
-* You added the necessary dependencies to use HTTP in the app.
-* You refactored `HeroService` to load heroes from a web API.
-* You extended `HeroService` to support `post()`, `put()`, and `delete()` methods.
-* You updated the components to allow adding, editing, and deleting of heroes.
-* You configured an in-memory web API.
-* You learned how to use Observables.
+你已經走到旅程的終點，而且完成了很多事。
+* 你加入了在應用程式中使用 HTTP 所需的依賴。
+* 你重構了 `HeroService`，改為從 Web API 載入英雄。
+* 你擴充了 `HeroService`，支援 `post()`、`put()` 與 `delete()` 方法。
+* 你更新了元件，允許新增、編輯與刪除英雄。
+* 你設定了一個記憶體內 Web API。
+* 你學會了如何使用可觀察物件。
 
-Here are the files you added or changed in this page.
+以下是你在本頁中加入或變更的檔案。
 
 
 <code-tabs>
@@ -550,8 +550,8 @@ Here are the files you added or changed in this page.
   <code-pane title="hero-search.component.css" path="toh-pt6/src/app/hero-search.component.css"></code-pane>
 </code-tabs>
 
-## Next step
+## 下一步
 
-That concludes the "Tour of Heroes" tutorial.
-You're ready to learn more about Angular development in the fundamentals section,
-starting with the [Architecture](guide/architecture "Architecture") guide.
+至此，「Tour of Heroes」教學告一段落。
+你已經準備好在基礎章節中進一步學習 Angular 開發，
+首先從[架構](guide/architecture "Architecture")指南開始。

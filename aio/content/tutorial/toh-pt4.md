@@ -1,30 +1,30 @@
 @title
-Services
+服務
 
 @intro
-Create a reusable service to manage the hero data calls.
+建立一個可重用的服務來管理英雄資料呼叫。
 
 @description
 
 
-As the Tour of Heroes app evolves, you'll add more components that need access to hero data.
+隨著 Tour of Heroes 應用程式的發展，你將加入更多需要存取英雄資料的元件。
 
-Instead of copying and pasting the same code over and over,
-you'll create a single reusable data service and
-inject it into the components that need it.
-Using a separate service keeps components lean and focused on supporting the view,
-and makes it easy to unit-test components with a mock service.
+與其一次又一次複製貼上相同的程式碼，
+你將建立一個單一可重用的資料服務，
+並把它注入需要它的元件中。
+使用獨立的服務能讓元件保持精簡、專注於支援檢視，
+也讓以模擬服務對元件進行單元測試變得容易。
 
-Because data services are invariably asynchronous,
-you'll finish the page with a *Promise*-based version of the data service.
+因為資料服務無一例外都是非同步的，
+你將在本頁最後完成一個以 *Promise* 為基礎的資料服務版本。
 
-When you're done with this page, the app should look like this <live-example></live-example>.
+完成本頁後，應用程式應該像這樣 <live-example></live-example>。
 
 
 
-## Where you left off
-Before continuing with the Tour of Heroes, verify that you have the following structure.
-If not, go back to the previous pages.
+## 上次的進度
+在繼續 Tour of Heroes 之前，請確認你已具備下列結構。
+若尚未具備，請回到前面的頁面。
 
 
 <div class='filetree'>
@@ -101,8 +101,8 @@ If not, go back to the previous pages.
 
 
 
-## Keep the app transpiling and running
-Enter the following command in the terminal window:
+## 讓應用程式持續轉譯並執行
+在終端機視窗中輸入下列命令：
 
 
 <code-example language="sh" class="code-shell">
@@ -112,39 +112,39 @@ Enter the following command in the terminal window:
 
 
 
-This command runs the TypeScript compiler in "watch mode", recompiling automatically when the code changes.
-The command simultaneously launches the app in a browser and refreshes the browser when the code changes.
+此命令會以「watch mode」執行 TypeScript 編譯器，在程式碼變更時自動重新編譯。
+此命令同時會在瀏覽器中啟動應用程式，並在程式碼變更時重新整理瀏覽器。
 
-You can keep building the Tour of Heroes without pausing to recompile or refresh the browser.
+你可以持續建置 Tour of Heroes，無需暫停來重新編譯或重新整理瀏覽器。
 
-## Creating a hero service
-The stakeholders want to show the heroes in various ways on different pages.
-Users can already select a hero from a list.
-Soon you'll add a dashboard with the top performing heroes and create a separate view for editing hero details.
-All three views need hero data.
+## 建立英雄服務
+利害關係人希望在不同頁面上以各種方式呈現英雄。
+使用者已經可以從清單中選取英雄。
+很快地，你將加入一個顯示表現最佳英雄的儀表板，並建立一個獨立檢視來編輯英雄詳細資料。
+這三個檢視都需要英雄資料。
 
-At the moment, the `AppComponent` defines mock heroes for display.
-However, defining heroes is not the component's job,
-and you can't easily share the list of heroes with other components and views.
-In this page, you'll move the hero data acquisition business to a single service that provides the data and
-share that service with all components that need the data.
+目前，`AppComponent` 定義了用於顯示的模擬英雄。
+然而，定義英雄並不是該元件的工作，
+而且你也不容易把英雄清單分享給其他元件與檢視。
+在本頁中，你將把取得英雄資料的工作移至單一服務，由它提供資料，
+並把該服務分享給所有需要資料的元件。
 
-### Create the HeroService
-Create a file in the `app` folder called `hero.service.ts`.
+### 建立 HeroService
+在 `app` 資料夾中建立一個名為 `hero.service.ts` 的檔案。
 
 <div class="l-sub-section">
 
 
 
-The naming convention for service files is the service name in lowercase followed by `.service`.
-For a multi-word service name, use lower [dash-case](guide/glossary#dash-case).
-For example, the filename for `SpecialSuperHeroService` is `special-super-hero.service.ts`.
+服務檔案的命名慣例是將服務名稱改為小寫，後面接上 `.service`。
+如果是多字的服務名稱，請使用小寫的 [dash-case](guide/glossary#dash-case)。
+例如，`SpecialSuperHeroService` 的檔案名稱是 `special-super-hero.service.ts`。
 
 </div>
 
 
 
-Name the class `HeroService` and export it for others to import.
+將類別命名為 `HeroService`，並匯出它供其他人匯入。
 
 
 <code-example path="toh-pt4/src/app/hero.service.1.ts" region="empty-class" title="src/app/hero.service.ts (starting point)" linenums="false">
@@ -153,29 +153,29 @@ Name the class `HeroService` and export it for others to import.
 
 
 
-### Injectable services
-Notice that you imported the Angular `Injectable` function and applied that function as an `@Injectable()` decorator.
+### 可注入的服務
+請注意，你匯入了 Angular 的 `Injectable` 函式，並將該函式套用為 `@Injectable()` 裝飾器。
 
 <div class="callout is-helpful">
 
 
 
-Don't forget the parentheses. Omitting them leads to an error that's difficult to diagnose.
+不要忘了括號。省略括號會導致難以診斷的錯誤。
 
 </div>
 
 
 
-The `@Injectable()` decorator tells TypeScript to emit metadata about the service.
-The metadata specifies that Angular may need to inject other dependencies into this service.
+`@Injectable()` 裝飾器會告訴 TypeScript 發出關於此服務的中繼資料。
+該中繼資料指明 Angular 可能需要把其他依賴注入此服務。
 
-Although the `HeroService` doesn't have any dependencies at the moment,
-applying the `@Injectable()` decorator ​from the start ensures
-consistency and future-proofing.
+雖然 `HeroService` 目前沒有任何依賴，
+但從一開始就套用 `@Injectable()` 裝飾器，
+能確保一致性並為未來做好準備。
 
 
-### Getting hero data
-Add a `getHeroes()` method stub.
+### 取得英雄資料
+加入一個 `getHeroes()` 方法存根。
 
 
 <code-example path="toh-pt4/src/app/hero.service.1.ts" region="getHeroes-stub" title="src/app/hero.service.ts (getHeroes stub)" linenums="false">
@@ -184,15 +184,14 @@ Add a `getHeroes()` method stub.
 
 
 
-The `HeroService` could get `Hero` data from anywhere&mdash;a
-web service, local storage, or a mock data source.
-Removing data access from the component means
-you can change your mind about the implementation anytime,
-without touching the components that need hero data.
+`HeroService` 可以從任何地方取得 `Hero` 資料&mdash;Web 服務、本地儲存空間或模擬資料來源。
+把資料存取從元件中移除，意味著
+你可以隨時改變實作方式，
+而不需動到需要英雄資料的元件。
 
-### Move the mock hero data
-Cut the `HEROES` array from `app.component.ts` and paste it to a new file in the `app` folder named `mock-heroes.ts`.
-Additionally, copy the `import {Hero} ...` statement because the heroes array uses the `Hero` class.
+### 搬移模擬英雄資料
+從 `app.component.ts` 剪下 `HEROES` 陣列，並貼到 `app` 資料夾中名為 `mock-heroes.ts` 的新檔案。
+另外，請複製 `import {Hero} ...` 陳述式，因為英雄陣列使用了 `Hero` 類別。
 
 
 <code-example path="toh-pt4/src/app/mock-heroes.ts" title="src/app/mock-heroes.ts">
@@ -201,10 +200,10 @@ Additionally, copy the `import {Hero} ...` statement because the heroes array us
 
 
 
-The `HEROES` constant is exported so it can be imported elsewhere, such as the `HeroService`.
+`HEROES` 常數已被匯出，因此可以在其他地方匯入，例如 `HeroService`。
 
-In `app.component.ts`, where you cut the `HEROES` array,
-add an uninitialized `heroes` property:
+在 `app.component.ts` 中你剪下 `HEROES` 陣列的位置，
+加入一個未初始化的 `heroes` 屬性：
 
 <code-example path="toh-pt4/src/app/app.component.1.ts" region="heroes-prop" title="src/app/app.component.ts (heroes property)" linenums="false">
 
@@ -212,9 +211,9 @@ add an uninitialized `heroes` property:
 
 
 
-### Return mocked hero data
-Back in the `HeroService`, import the mock `HEROES` and return it from the `getHeroes()` method.
-The `HeroService` looks like this:
+### 回傳模擬的英雄資料
+回到 `HeroService`，匯入模擬的 `HEROES`，並從 `getHeroes()` 方法回傳它。
+`HeroService` 如下所示：
 
 <code-example path="toh-pt4/src/app/hero.service.1.ts" region="full" title="src/app/hero.service.ts" linenums="false">
 
@@ -222,10 +221,10 @@ The `HeroService` looks like this:
 
 
 
-### Import the hero service
-You're ready to use the `HeroService` in other components, starting with `AppComponent`.
+### 匯入英雄服務
+你已準備好在其他元件中使用 `HeroService`，先從 `AppComponent` 開始。
 
-Import the `HeroService` so that you can reference it in the code.
+匯入 `HeroService`，以便在程式碼中參照它。
 
 <code-example path="toh-pt4/src/app/app.component.ts" linenums="false" title="src/app/app.component.ts (hero-service-import)" region="hero-service-import">
 
@@ -233,10 +232,10 @@ Import the `HeroService` so that you can reference it in the code.
 
 
 
-### Don't use *new* with the *HeroService*
-How should the `AppComponent` acquire a runtime concrete `HeroService` instance?
+### 不要對 *HeroService* 使用 *new*
+`AppComponent` 應該如何取得執行階段的具體 `HeroService` 執行個體？
 
-You could create a new instance of the `HeroService` with `new` like this:
+你可以像這樣用 `new` 建立 `HeroService` 的新執行個體：
 
 <code-example path="toh-pt4/src/app/app.component.1.ts" region="new-service" title="src/app/app.component.ts" linenums="false">
 
@@ -244,28 +243,28 @@ You could create a new instance of the `HeroService` with `new` like this:
 
 
 
-However, this option isn't ideal for the following reasons:
+然而，這個做法並不理想，原因如下：
 
-* The component has to know how to create a `HeroService`.
-If you change the `HeroService` constructor,
-you must find and update every place you created the service.
-Patching code in multiple places is error prone and adds to the test burden.
-* You create a service each time you use `new`.
-What if the service caches heroes and shares that cache with others?
-You couldn't do that.
-* With the `AppComponent` locked into a specific implementation of the `HeroService`,
-switching implementations for different scenarios, such as operating offline or using
-different mocked versions for testing, would be difficult.
+* 元件必須知道如何建立 `HeroService`。
+如果你變更了 `HeroService` 的建構子，
+就必須找出並更新每一個建立該服務的地方。
+在多處修補程式碼容易出錯，也會增加測試負擔。
+* 你每次使用 `new` 都會建立一個服務。
+如果服務快取了英雄並把該快取分享給其他人呢？
+你就無法做到這一點。
+* 當 `AppComponent` 被鎖定在 `HeroService` 的特定實作上時，
+要在不同情境下切換實作，例如離線運作或
+使用不同的模擬版本進行測試，就會變得困難。
 
 
-### Inject the *HeroService*
+### 注入 *HeroService*
 
-Instead of using the *new* line, you'll add two lines.
+不要使用 *new* 那一行，你將加入兩行。
 
- * Add a constructor that also defines a private property.
- * Add to the component's `providers` metadata.
+ * 加入一個同時定義私有屬性的建構子。
+ * 加入元件的 `providers` 中繼資料。
 
-Add the constructor:
+加入建構子：
 
 <code-example path="toh-pt4/src/app/app.component.1.ts" region="ctor" title="src/app/app.component.ts (constructor)">
 
@@ -273,24 +272,24 @@ Add the constructor:
 
 
 
-The constructor itself does nothing. The parameter simultaneously
-defines a private `heroService` property and identifies it as a `HeroService` injection site.
+建構子本身不做任何事。該參數同時
+定義了一個私有的 `heroService` 屬性，並將其標示為 `HeroService` 的注入位置。
 
-Now Angular knows to supply an instance of the `HeroService` when it creates an `AppComponent`.
+現在 Angular 知道在建立 `AppComponent` 時，要提供 `HeroService` 的執行個體。
 
 
 <div class="l-sub-section">
 
 
 
-Read more about dependency injection in the [Dependency Injection](guide/dependency-injection) page.
+若想進一步了解依賴注入，請參閱[依賴注入](guide/dependency-injection)頁面。
 
 </div>
 
 
 
-The *injector* doesn't know yet how to create a `HeroService`.
-If you ran the code now, Angular would fail with this error:
+*注入器*還不知道如何建立 `HeroService`。
+如果你現在執行程式碼，Angular 會失敗並出現這個錯誤：
 
 <code-example format="nocode">
   EXCEPTION: No provider for HeroService! (AppComponent -> HeroService)
@@ -298,9 +297,8 @@ If you ran the code now, Angular would fail with this error:
 
 
 
-To teach the injector how to make a `HeroService`,
-add the following `providers` array property to the bottom of the component metadata
-in the `@Component` call.
+若要教注入器如何建立 `HeroService`，
+請在 `@Component` 呼叫中，把下列 `providers` 陣列屬性加入元件中繼資料的底部。
 
 
 
@@ -310,16 +308,16 @@ in the `@Component` call.
 
 
 
-The `providers` array  tells Angular to create a fresh instance of the `HeroService` when it creates an `AppComponent`.
-The `AppComponent`, as well as its child components, can use that service to get hero data.
+`providers` 陣列會告訴 Angular，在建立 `AppComponent` 時建立一個新的 `HeroService` 執行個體。
+`AppComponent` 以及其子元件都可以使用該服務來取得英雄資料。
 
 {@a child-component}
 
 
-### *getHeroes()* in the *AppComponent*
-The service is in a `heroService` private variable.
+### *AppComponent* 中的 *getHeroes()*
+該服務位於 `heroService` 私有變數中。
 
-You could call the service and get the data in one line.
+你可以呼叫該服務，並在一行內取得資料。
 
 <code-example path="toh-pt4/src/app/app.component.1.ts" region="get-heroes" title="src/app/app.component.ts" linenums="false">
 
@@ -327,7 +325,7 @@ You could call the service and get the data in one line.
 
 
 
-You don't really need a dedicated method to wrap one line.  Write it anyway:
+你其實不需要專門用一個方法來包裝一行程式碼。還是把它寫出來吧：
 
 
 <code-example path="toh-pt4/src/app/app.component.1.ts" linenums="false" title="src/app/app.component.ts (getHeroes)" region="getHeroes">
@@ -336,31 +334,31 @@ You don't really need a dedicated method to wrap one line.  Write it anyway:
 
 {@a oninit}
 
-### The *ngOnInit* lifecycle hook
-`AppComponent` should fetch and display hero data with no issues.
+### *ngOnInit* 生命週期鉤子
+`AppComponent` 應該能順利擷取並顯示英雄資料。
 
- You might be tempted to call the `getHeroes()` method in a constructor, but
-a constructor should not contain complex logic,
-especially a constructor that calls a server, such as a data access method.
-The constructor is for simple initializations, like wiring constructor parameters to properties.
+ 你可能會想在建構子中呼叫 `getHeroes()` 方法，但
+建構子不應包含複雜邏輯，
+尤其是會呼叫伺服器的建構子，例如資料存取方法。
+建構子是用於簡單的初始化，例如把建構子參數繫結到屬性。
 
-To have Angular call `getHeroes()`, you can implement the Angular *ngOnInit lifecycle hook*.
-Angular offers interfaces for tapping into critical moments in the component lifecycle:
-at creation, after each change, and at its eventual destruction.
+若要讓 Angular 呼叫 `getHeroes()`，你可以實作 Angular 的 *ngOnInit 生命週期鉤子*。
+Angular 提供了介面，讓你能在元件生命週期的關鍵時刻介入：
+建立時、每次變更後，以及最終銷毀時。
 
-Each interface has a single method. When the component implements that method, Angular calls it at the appropriate time.
+每個介面都有單一方法。當元件實作該方法時，Angular 會在適當的時機呼叫它。
 
 <div class="l-sub-section">
 
 
 
-Read more about lifecycle hooks in the [Lifecycle Hooks](guide/lifecycle-hooks) page.
+若想進一步了解生命週期鉤子，請參閱[生命週期鉤子](guide/lifecycle-hooks)頁面。
 
 </div>
 
 
 
-Here's the essential outline for the `OnInit` interface (don't copy this into your code):
+以下是 `OnInit` 介面的基本大綱（不要把它複製到你的程式碼中）：
 
 <code-example path="toh-pt4/src/app/app.component.1.ts" region="on-init" title="src/app/app.component.ts" linenums="false">
 
@@ -368,7 +366,7 @@ Here's the essential outline for the `OnInit` interface (don't copy this into yo
 
 
 
-Add the implementation for the `OnInit` interface to your export statement:
+把 `OnInit` 介面的實作加入你的匯出陳述式：
 
 <code-example format="nocode">
   export class AppComponent implements OnInit {}
@@ -376,8 +374,8 @@ Add the implementation for the `OnInit` interface to your export statement:
 
 
 
-Write an `ngOnInit` method with the initialization logic inside. Angular will call it
-at the right time. In this case, initialize by calling `getHeroes()`.
+撰寫一個 `ngOnInit` 方法，並把初始化邏輯放在裡面。Angular 會在
+正確的時機呼叫它。在這個情況下，透過呼叫 `getHeroes()` 來進行初始化。
 
 <code-example path="toh-pt4/src/app/app.component.1.ts" linenums="false" title="src/app/app.component.ts (ng-on-init)" region="ng-on-init">
 
@@ -385,13 +383,13 @@ at the right time. In this case, initialize by calling `getHeroes()`.
 
 
 
-The app should run as expected, showing a list of heroes and a hero detail view
-when you click on a hero name.
+應用程式應如預期般執行，當你點選英雄名稱時，
+會顯示英雄清單與英雄詳細檢視。
 {@a async}
 
-## Async services and Promises
-The `HeroService` returns a list of mock heroes immediately;
-its `getHeroes()` signature is synchronous.
+## 非同步服務與 Promise
+`HeroService` 會立即回傳一份模擬英雄清單；
+它的 `getHeroes()` 簽名是同步的。
 
 <code-example path="toh-pt4/src/app/app.component.1.ts" region="get-heroes" title="src/app/app.component.ts" linenums="false">
 
@@ -399,35 +397,35 @@ its `getHeroes()` signature is synchronous.
 
 
 
-Eventually, the hero data will come from a remote server.
-When using a remote server, users don't have to wait for the server to respond;
-additionally, you aren't able to block the UI during the wait.
+最終，英雄資料將來自遠端伺服器。
+使用遠端伺服器時，使用者不必等待伺服器回應；
+此外，你也無法在等待期間阻擋 UI。
 
 
-To coordinate the view with the response, 
-you can use *Promises*, which is an asynchronous 
-technique that changes the signature of the `getHeroes()` method.
+若要讓檢視與回應協調一致，
+你可以使用 *Promise*，這是一種非同步
+技術，會改變 `getHeroes()` 方法的簽名。
 
-### The hero service makes a Promise
+### 英雄服務建立 Promise
 
-A *Promise* essentially promises to call back when the results are ready.
-You ask an asynchronous service to do some work and give it a callback function.
-The service does that work and eventually calls the function with the results or an error.
+*Promise* 本質上是承諾在結果準備好時回呼。
+你請非同步服務做一些工作，並給它一個回呼函式。
+該服務完成該工作後，最終會以結果或錯誤呼叫該函式。
 
 <div class="l-sub-section">
 
 
 
-This is a simplified explanation. Read more about ES2015 Promises in the
-[Promises for asynchronous programming](http://exploringjs.com/es6/ch_promises.html) page of
-[Exploring ES6](http://exploringjs.com/es6.html).
+這是簡化的說明。若想進一步了解 ES2015 Promise，請參閱
+[Exploring ES6](http://exploringjs.com/es6.html) 的
+[非同步程式設計的 Promise](http://exploringjs.com/es6/ch_promises.html) 頁面。
 
 
 </div>
 
 
 
-Update the `HeroService` with this Promise-returning `getHeroes()` method:
+以這個回傳 Promise 的 `getHeroes()` 方法更新 `HeroService`：
 
 <code-example path="toh-pt4/src/app/hero.service.ts" region="get-heroes" title="src/app/hero.service.ts (excerpt)" linenums="false">
 
@@ -435,12 +433,12 @@ Update the `HeroService` with this Promise-returning `getHeroes()` method:
 
 
 
-You're still mocking the data. You're simulating the behavior of an ultra-fast, zero-latency server,
-by returning an *immediately resolved Promise* with the mock heroes as the result.
+你仍然在模擬資料。你透過回傳一個以模擬英雄為結果的*立即解析的 Promise*，
+來模擬超快速、零延遲伺服器的行為。
 
-### Act on the Promise
+### 處理 Promise
 
-As a result of the change to `HeroService`, `this.heroes` is now set to a `Promise` rather than an array of heroes.
+由於 `HeroService` 的變更，`this.heroes` 現在被設為 `Promise`，而不是英雄陣列。
 
 <code-example path="toh-pt4/src/app/app.component.1.ts" region="getHeroes" title="src/app/app.component.ts (getHeroes - old)" linenums="false">
 
@@ -448,10 +446,10 @@ As a result of the change to `HeroService`, `this.heroes` is now set to a `Promi
 
 
 
-You have to change the implementation to *act on the `Promise` when it resolves*.
-When the `Promise` resolves successfully, you'll have heroes to display.
+你必須變更實作，以便在 `Promise` 解析時*對它採取行動*。
+當 `Promise` 成功解析時，你就會有英雄可以顯示。
 
-Pass the callback function as an argument to the Promise's `then()` method:
+把回呼函式作為引數傳給 Promise 的 `then()` 方法：
 
 <code-example path="toh-pt4/src/app/app.component.ts" region="get-heroes" title="src/app/app.component.ts (getHeroes - revised)" linenums="false">
 
@@ -463,31 +461,31 @@ Pass the callback function as an argument to the Promise's `then()` method:
 
 
 
-As described in [Arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions),
-the ES2015 arrow function
-in the callback is more succinct than the equivalent function expression and gracefully handles `this`.
+如 [Arrow functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions) 所述，
+回呼中的 ES2015 箭頭函式
+比等效的函式運算式更簡潔，也能優雅地處理 `this`。
 
 </div>
 
 
 
-The callback sets the component's `heroes` property to the array of heroes returned by the service.
+回呼會把元件的 `heroes` 屬性設為服務回傳的英雄陣列。
 
-The app is still running, showing a list of heroes, and
-responding to a name selection with a detail view.
+應用程式仍在執行，顯示英雄清單，並
+在選取名稱時以詳細檢視回應。
 
 <div class="l-sub-section">
 
 
 
-At the end of this page, [Appendix: take it slow](tutorial/toh-pt4#slow) describes what the app might be like with a poor connection.
+在本頁結尾，[附錄：放慢速度](tutorial/toh-pt4#slow) 說明了在連線不佳時應用程式可能會是什麼樣子。
 
 </div>
 
 
 
-## Review the app structure
-Verify that you have the following structure after all of your refactoring:
+## 檢閱應用程式結構
+請確認在完成所有重構後，你具備下列結構：
 
 
 <div class='filetree'>
@@ -572,7 +570,7 @@ Verify that you have the following structure after all of your refactoring:
 
 
 
-Here are the code files discussed in this page.
+以下是本頁討論過的程式碼檔案。
 
 
 <code-tabs>
@@ -593,29 +591,29 @@ Here are the code files discussed in this page.
 
 
 
-## Summary
-Here's what you achieved in this page:
+## 摘要
+以下是你在本頁中完成的內容：
 
-* You created a service class that can be shared by many components.
-* You used the `ngOnInit` lifecycle hook to get the hero data when the `AppComponent` activates.
-* You defined the `HeroService` as a provider for the `AppComponent`.
-* You created mock hero data and imported them into the service.
-* You designed the service to return a Promise and the component to get the data from the Promise.
+* 你建立了一個可供許多元件共享的服務類別。
+* 你使用 `ngOnInit` 生命週期鉤子，在 `AppComponent` 啟用時取得英雄資料。
+* 你把 `HeroService` 定義為 `AppComponent` 的提供者。
+* 你建立了模擬英雄資料，並把它們匯入服務。
+* 你把服務設計成回傳 Promise，並讓元件從 Promise 取得資料。
 
-Your app should look like this <live-example></live-example>.
+你的應用程式應該像這樣 <live-example></live-example>。
 
-## Next step
-The Tour of Heroes has become more reusable using shared components and services.
-The next goal is to create a dashboard, add menu links that route between the views, and format data in a template.
-As the app evolves, you'll discover how to design it to make it easier to grow and maintain.
+## 下一步
+Tour of Heroes 透過使用共享元件與服務，變得更可重用。
+下一個目標是建立儀表板、加入在檢視之間路由的選單連結，並在範本中格式化資料。
+隨著應用程式的發展，你將探索如何設計它，使其更容易成長與維護。
 
-Read about the Angular component router and navigation among the views in the [next tutorial](tutorial/toh-pt5 "Routing and Navigation") page.
+若想了解 Angular 元件路由器以及檢視之間的導覽，請參閱[下一個教學](tutorial/toh-pt5 "Routing and Navigation")頁面。
 
 {@a slow}
 
-## Appendix: Take it slow
-To simulate a slow connection,
-import the `Hero` symbol and add the following `getHeroesSlowly()` method to the `HeroService`.
+## 附錄：放慢速度
+若要模擬緩慢的連線，
+請匯入 `Hero` 符號，並把下列 `getHeroesSlowly()` 方法加入 `HeroService`。
 
 <code-example path="toh-pt4/src/app/hero.service.ts" region="get-heroes-slowly" title="app/hero.service.ts (getHeroesSlowly)" linenums="false">
 
@@ -623,8 +621,8 @@ import the `Hero` symbol and add the following `getHeroesSlowly()` method to the
 
 
 
-Like `getHeroes()`, it also returns a `Promise`.
-But this Promise waits two seconds before resolving the Promise with mock heroes.
+與 `getHeroes()` 一樣，它也會回傳 `Promise`。
+但這個 Promise 會等待兩秒，才以模擬英雄解析該 Promise。
 
-Back in the `AppComponent`, replace `getHeroes()` with `getHeroesSlowly()`
-and see how the app behaves.
+回到 `AppComponent`，把 `getHeroes()` 換成 `getHeroesSlowly()`，
+並看看應用程式的行為如何。

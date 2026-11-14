@@ -1,7 +1,6 @@
-# Browser support
+# 瀏覽器支援
 
-Angular supports most recent browsers. This includes the following specific versions:
-
+Angular 支援大多數的最新瀏覽器。這包括以下特定版本：
 
 <table>
 
@@ -44,11 +43,11 @@ Angular supports most recent browsers. This includes the following specific vers
   <tr>
 
     <td>
-      latest
+      最新版
     </td>
 
     <td>
-      latest
+      最新版
     </td>
 
     <td>
@@ -187,67 +186,51 @@ Angular supports most recent browsers. This includes the following specific vers
 
 </table>
 
-
-
 <div class="l-sub-section">
 
-
-
-Angular's continuous integration process runs unit tests of the framework on all of these browsers for every pull request,
-using <a href="https://saucelabs.com/">SauceLabs</a> and
-<a href="https://www.browserstack.com">Browserstack</a>.
-
+Angular 的持續整合流程會針對每一份 pull request，在所有這些瀏覽器上執行框架的單元測試，
+使用 <a href="https://saucelabs.com/">SauceLabs</a> 與
+<a href="https://www.browserstack.com">Browserstack</a>。
 
 </div>
 
-
-
 ## Polyfills #
-Angular is built on the latest standards of the web platform.
-Targeting such a wide range of browsers is challenging because they do not support all features of modern browsers.
+Angular 建立在 Web 平台的最新標準之上。
+要支援如此廣泛的瀏覽器是很有挑戰性的，因為它們並不支援現代瀏覽器的所有功能。
 
-You can compensate by loading polyfill scripts ("polyfills") on the host web page (`index.html`)
-that implement missing features in JavaScript.
+你可以透過在主機網頁（`index.html`）上載入 polyfill 指令稿（「polyfills」）來彌補這一點，
+這些指令稿會以 JavaScript 實作缺少的功能。
 
 <code-example path="quickstart/src/index.html" region="polyfills" title="quickstart/src/index.html" linenums="false">
 
 </code-example>
 
+特定瀏覽器可能至少需要一個 polyfill 才能執行_任何_ Angular 應用程式。
+你可能需要額外的 polyfill 來支援特定功能。
 
-
-A particular browser may require at least one polyfill to run _any_ Angular application.
-You may need additional polyfills for specific features.
-
-The tables below can help you determine which polyfills to load, depending on the browsers you target and the features you use.
-
+下表可以幫助你根據目標瀏覽器與所使用的功能，決定要載入哪些 polyfill。
 
 <div class="alert is-important">
 
-
-
-The suggested polyfills are the ones that run full Angular applications.
-You may need additional polyfills to support features not covered by this list.
-Note that polyfills cannot magically transform an old, slow browser into a modern, fast one.
-
+建議的 polyfill 是能執行完整 Angular 應用程式的那些。
+你可能需要額外的 polyfill，才能支援此清單未涵蓋的功能。
+請注意，polyfill 無法神奇地把老舊、緩慢的瀏覽器變成現代、快速的瀏覽器。
 
 </div>
 
-
-
-### Mandatory polyfills ##
-These are the polyfills required to run an Angular application on each supported browser:
-
+### 必需的 polyfills ##
+這些是每個支援的瀏覽器上執行 Angular 應用程式所需的 polyfill：
 
 <table>
 
   <tr style="vertical-align: top">
 
     <th>
-      Browsers (Desktop & Mobile)
+      瀏覽器（桌面與行動）
     </th>
 
     <th>
-      Polyfills Required
+      所需的 Polyfill
     </th>
 
   </tr>
@@ -259,7 +242,7 @@ These are the polyfills required to run an Angular application on each supported
     </td>
 
     <td>
-      None
+      無
     </td>
 
   </tr>
@@ -271,7 +254,6 @@ These are the polyfills required to run an Angular application on each supported
     </td>
 
     <td>
-
 
       [ES6](guide/browser-support#core-es6)
     </td>
@@ -286,7 +268,6 @@ These are the polyfills required to run an Angular application on each supported
 
     <td>
 
-
       [ES6<br>classList](guide/browser-support#classlist)
 
     </td>
@@ -295,23 +276,19 @@ These are the polyfills required to run an Angular application on each supported
 
 </table>
 
+### 需要 polyfill 的可選瀏覽器功能 ##
+Angular 的某些功能可能需要額外的 polyfill。
 
+例如，動畫程式庫依賴標準的 web animation API，而該 API 目前僅在 Chrome 與 Firefox 中提供。你會需要一個 polyfill，才能在其他瀏覽器中使用動畫。
 
-### Optional browser features to polyfill ##
-Some features of Angular may require additional polyfills.
-
-For example, the animations library relies on the standard web animation API, which is only available in Chrome and Firefox today.
-You'll need a polyfill to use animations in other browsers.
-
-Here are the features which may require additional polyfills:
-
+以下是可能需要額外 polyfill 的功能：
 
 <table>
 
   <tr style="vertical-align: top">
 
     <th>
-      Feature
+      功能
     </th>
 
     <th>
@@ -319,7 +296,7 @@ Here are the features which may require additional polyfills:
     </th>
 
     <th style="width: 50%">
-       Browsers (Desktop & Mobile)
+       瀏覽器（桌面與行動）
     </th>
 
   </tr>
@@ -328,17 +305,16 @@ Here are the features which may require additional polyfills:
 
     <td>
 
-      [Animations](guide/animations)
+      [動畫](guide/animations)
     </td>
 
     <td>
-
 
       [Web Animations](guide/browser-support#web-animations)
     </td>
 
     <td>
-      All but Chrome and Firefox<br>Not supported in IE9
+      Chrome 與 Firefox 以外的所有瀏覽器<br>IE9 不支援
     </td>
 
   </tr>
@@ -347,17 +323,16 @@ Here are the features which may require additional polyfills:
 
     <td>
 
-    [Date](api/common/DatePipe), [currency](api/common/CurrencyPipe), [decimal](api/common/DecimalPipe) and [percent](api/common/PercentPipe) pipes
+    [Date](api/common/DatePipe), [currency](api/common/CurrencyPipe), [decimal](api/common/DecimalPipe) 與 [percent](api/common/PercentPipe) 管道
     </td>
 
     <td>
-
 
       [Intl API](guide/browser-support#intl)
     </td>
 
     <td>
-      All but Chrome, Firefox, Edge, IE11 and Safari 10
+      Chrome、Firefox、Edge、IE11 與 Safari 10 除外的所有瀏覽器
     </td>
 
   </tr>
@@ -366,11 +341,10 @@ Here are the features which may require additional polyfills:
 
     <td>
 
-       [NgClass](api/common/NgClass) on SVG elements
+       [NgClass](api/common/NgClass) 在 SVG 元素上
     </td>
 
     <td>
-
 
       [classList](guide/browser-support#classlist)
     </td>
@@ -385,7 +359,7 @@ Here are the features which may require additional polyfills:
 
     <td>
 
-      [Http](guide/http) when sending and receiving binary data
+      [Http](guide/http) 傳送與接收二進位資料時
     </td>
 
     <td>
@@ -403,11 +377,8 @@ Here are the features which may require additional polyfills:
 
 </table>
 
-
-
-### Suggested polyfills ##
-Below are the polyfills which are used to test the framework itself. They are a good starting point for an application.
-
+### 建議的 polyfills ##
+下列 polyfill 用於測試框架本身。它們是應用程式很好的起點。
 
 <table>
 
@@ -418,11 +389,11 @@ Below are the polyfills which are used to test the framework itself. They are a 
     </th>
 
     <th>
-      License
+      授權
     </th>
 
     <th>
-      Size*
+      大小*
     </th>
 
   </tr>
@@ -450,7 +421,7 @@ Below are the polyfills which are used to test the framework itself. They are a 
     </td>
 
     <td>
-      Public domain
+      公共領域
     </td>
 
     <td>
@@ -466,7 +437,7 @@ Below are the polyfills which are used to test the framework itself. They are a 
     </td>
 
     <td>
-      MIT / Unicode license
+      MIT / Unicode 授權
     </td>
 
     <td>
@@ -541,7 +512,5 @@ Below are the polyfills which are used to test the framework itself. They are a 
 
 </table>
 
-
-
-\* Figures are for minified and gzipped code,
-computed with the <a href="http://closure-compiler.appspot.com/home">closure compiler</a>.
+\* 數字為經縮小與 gzip 壓縮後的程式碼，
+使用 <a href="http://closure-compiler.appspot.com/home">closure compiler</a> 計算。

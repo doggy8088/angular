@@ -169,8 +169,8 @@ export class AppComponent implements OnInit {
       .subscribe(([versionInfo, versions]) => {
         // TODO(pbd): consider whether we can lookup the stable and next versions from the internet
         const computedVersions = [
-          { title: 'next', url: 'https://next.angular.io' },
-          { title: 'stable', url: 'https://angular.io' },
+          { title: 'next', url: 'https://dev.angular.tw/' },
+          { title: 'stable', url: 'https://dev.angular.tw/' },
         ];
         if (this.deployment.mode === 'archive') {
           computedVersions.push({ title: `v${versionInfo.major}`, url: null });

@@ -1,21 +1,21 @@
-# Dependency Injection
+# 依賴注入
 
-**Dependency injection** is an important application design pattern.
-Angular has its own dependency injection framework, and
-you really can't build an Angular application without it.
-It's used so widely that almost everyone just calls it _DI_.
+**依賴注入**是一種重要的應用程式設計模式。
+Angular 有它自己的依賴注入框架，
+而且你真的無法在沒有它的情況下建置 Angular 應用程式。
+它被使用得如此廣泛，幾乎每個人都直接稱它為 _DI_。
 
-This page covers what DI is, why it's so useful,
-and [how to use it](guide/dependency-injection#angular-di) in an Angular app.
+本頁說明什麼是 DI、它為何如此有用，
+以及[如何在 Angular 應用程式中使用它](guide/dependency-injection#angular-di)。
 
-Run the <live-example></live-example>.
+執行 <live-example></live-example>。
 
 {@a why-di }
 
-## Why dependency injection?
+## 為何需要依賴注入？
 
-To understand why dependency injection is so important, consider an example without it.
-Imagine writing the following code:
+若要了解依賴注入為何如此重要，請看一個沒有它的範例。
+想像你寫了下列程式碼：
 
 
 <code-example path="dependency-injection/src/app/car/car-no-di.ts" region="car" title="src/app/car/car.ts (without DI)">
@@ -24,50 +24,49 @@ Imagine writing the following code:
 
 
 
-The `Car` class creates everything it needs inside its constructor.
-What's the problem?
-The problem is that the `Car` class is brittle, inflexible, and hard to test.
+`Car` 類別會在它的建構子中建立它需要的一切。
+問題出在哪裡？
+問題是，`Car` 類別脆弱、缺乏彈性，而且難以測試。
 
-This `Car` needs an engine and tires. Instead of asking for them,
-the `Car` constructor instantiates its own copies from
-the very specific classes `Engine` and `Tires`.
+這個 `Car` 需要引擎與輪胎。它不是開口要求它們，
+而是 `Car` 建構子從非常特定的類別 `Engine` 與 `Tires`
+自行實例化出它們的副本。
 
-What if the `Engine` class evolves and its constructor requires a parameter?
-That would break the `Car` class and it would stay broken until you rewrote it along the lines of
-`this.engine = new Engine(theNewParameter)`.
-The `Engine` constructor parameters weren't even a consideration when you first wrote `Car`.
-You may not anticipate them even now.
-But you'll *have* to start caring because
-when the definition of `Engine` changes, the `Car` class must change.
-That makes `Car` brittle.
+如果 `Engine` 類別演進了，它的建構子需要一個參數，會怎麼樣？
+那會毀掉 `Car` 類別，而且在你按照像
+`this.engine = new Engine(theNewParameter)` 這樣重寫它之前，它會一直壞著。
+你第一次寫 `Car` 時，根本沒考慮過 `Engine` 建構子的參數。
+你現在可能也預料不到它們。
+但你將*不得不*開始在意，因為
+當 `Engine` 的定義改變時，`Car` 類別也必須改變。
+這使得 `Car` 很脆弱。
 
-What if you want to put a different brand of tires on your `Car`? Too bad.
-You're locked into whatever brand the `Tires` class creates. That makes the
-`Car` class inflexible.
+如果你想在你的 `Car` 上裝不同品牌的輪胎呢？辦不到。
+你被鎖定在 `Tires` 類別所建立的任何品牌上。這使得
+`Car` 類別缺乏彈性。
 
-Right now each new car gets its own `engine`. It can't share an `engine` with other cars.
-While that makes sense for an automobile engine,
-surely you can think of other dependencies that should be shared, such as the onboard
-wireless connection to the manufacturer's service center. This `Car` lacks the flexibility
-to share services that have been created previously for other consumers.
+目前每輛新車都有它自己的 `engine`。它無法與其他車共用 `engine`。
+雖然這對汽車引擎來說合情合理，
+但你肯定想得到其他應該共用的依賴，例如連向製造商服務中心的車載無線連線。這個 `Car` 缺乏
+共用先前已為其他消費者建立好的服務的彈性。
 
-When you write tests for `Car` you're at the mercy of its hidden dependencies.
-Is it even possible to create a new `Engine` in a test environment?
-What does `Engine` depend upon? What does that dependency depend on?
-Will a new instance of `Engine` make an asynchronous call to the server?
-You certainly don't want that going on during tests.
+當你為 `Car` 撰寫測試時，你只能任由它隱藏的依賴擺佈。
+真的有可能在測試環境中建立一個新的 `Engine` 嗎？
+`Engine` 依賴什麼？那個依賴又依賴什麼？
+一個新的 `Engine` 實例會不會對伺服器發出非同步呼叫？
+你肯定不希望這種事在測試期間發生。
 
-What if the `Car` should flash a warning signal when tire pressure is low?
-How do you confirm that it actually does flash a warning
-if you can't swap in low-pressure tires during the test?
+如果 `Car` 應該在胎壓過低時閃爍警告信號呢？
+如果你在測試期間無法換上低胎壓的輪胎，
+你如何確認它真的會閃爍警告？
 
-You have no control over the car's hidden dependencies.
-When you can't control the dependencies, a class becomes difficult to test.
+你對這輛車隱藏的依賴毫無控制權。
+當你無法控制依賴時，一個類別就變得難以測試。
 
-How can you make `Car` more robust, flexible, and testable?
+你要如何讓 `Car` 更健壯、更有彈性、更容易測試？
 
 {@a ctor-injection}
-That's super easy. Change the `Car` constructor to a version with DI:
+超級簡單。把 `Car` 建構子改成使用 DI 的版本：
 
 
 <code-tabs>
@@ -84,25 +83,25 @@ That's super easy. Change the `Car` constructor to a version with DI:
 
 
 
-See what happened? The definition of the dependencies are
-now in the constructor.
-The `Car` class no longer creates an `engine` or `tires`.
-It just consumes them.
+看出發生了什麼嗎？依賴的定義
+現在出現在建構子中。
+`Car` 類別不再建立 `engine` 或 `tires`。
+它只是消費它們。
 
 
 <div class="l-sub-section">
 
 
 
-This example leverages TypeScript's constructor syntax for declaring
-parameters and properties simultaneously.
+這個範例利用了 TypeScript 的建構子語法，
+可以同時宣告參數與屬性。
 
 
 </div>
 
 
 
-Now you can create a car by passing the engine and tires to the constructor.
+現在你可以將引擎與輪胎傳入建構子，來建立一輛車。
 
 
 <code-example path="dependency-injection/src/app/car/car-creations.ts" region="car-ctor-instantiation" linenums="false">
@@ -111,21 +110,21 @@ Now you can create a car by passing the engine and tires to the constructor.
 
 
 
-How cool is that?
-The definition of the `engine` and `tire` dependencies are
-decoupled from the `Car` class.
-You can pass in any kind of `engine` or `tires` you like, as long as they
-conform to the general API requirements of an `engine` or `tires`.
+是不是很酷？
+`engine` 與 `tire` 依賴的定義
+已與 `Car` 類別解耦。
+你可以傳入任何種類的 `engine` 或 `tires`，只要它們
+符合 `engine` 或 `tires` 的一般 API 要求即可。
 
-Now, if someone extends the `Engine` class, that is not `Car`'s problem.
+現在，如果有人擴充了 `Engine` 類別，那不是 `Car` 的問題。
 
 
 <div class="l-sub-section">
 
 
 
-The _consumer_ of `Car` has the problem. The consumer must update the car creation code to
-something like this:
+`Car` 的_消費者_才有問題。消費者必須把建立車輛的程式碼更新成
+像這樣：
 
 
 <code-example path="dependency-injection/src/app/car/car-creations.ts" region="car-ctor-instantiation-with-param" linenums="false">
@@ -134,18 +133,18 @@ something like this:
 
 
 
-The critical point is this: the `Car` class did not have to change.
-You'll take care of the consumer's problem shortly.
+關鍵點是：`Car` 類別完全不需要改變。
+你很快就會處理消費者的問題。
 
 
 </div>
 
 
 
-The `Car` class is much easier to test now because you are in complete control
-of its dependencies.
-You can pass mocks to the constructor that do exactly what you want them to do
-during each test:
+`Car` 類別現在容易測試得多，因為你完全掌控了
+它的依賴。
+你可以將模擬替身傳入建構子，讓它們在每次測試中
+完全按照你的期望運作：
 
 
 <code-example path="dependency-injection/src/app/car/car-creations.ts" region="car-ctor-instantiation-with-mocks" linenums="false">
@@ -154,18 +153,18 @@ during each test:
 
 
 
-**You just learned what dependency injection is**.
+**你剛剛學會了什麼是依賴注入。**
 
-It's a coding pattern in which a class receives its dependencies from external
-sources rather than creating them itself.
+它是一種程式設計模式，類別會從外部
+來源接收它的依賴，而不是自行建立它們。
 
-Cool! But what about that poor consumer?
-Anyone who wants a `Car` must now
-create all three parts: the `Car`, `Engine`, and `Tires`.
-The `Car` class shed its problems at the consumer's expense.
-You need something that takes care of assembling these parts.
+很酷！但那個可憐的消費者該怎麼辦？
+任何想要一輛 `Car` 的人，現在都必須
+建立全部三個部分：`Car`、`Engine` 與 `Tires`。
+`Car` 類別把自己的問題甩到了消費者身上。
+你需要有個東西負責組裝這些部分。
 
-You _could_ write a giant class to do that:
+你_可以_寫一個龐大的類別來做這件事：
 
 
 <code-example path="dependency-injection/src/app/car/car-factory.ts" title="src/app/car/car-factory.ts">
@@ -174,19 +173,19 @@ You _could_ write a giant class to do that:
 
 
 
-It's not so bad now with only three creation methods.
-But maintaining it will be hairy as the application grows.
-This factory is going to become a huge spiderweb of
-interdependent factory methods!
+現在只有三個建立方法，還不算太糟。
+但隨著應用程式成長，維護它會變得非常棘手。
+這個工廠將會變成一張由相互依賴的工廠方法組成的
+巨大蜘蛛網！
 
-Wouldn't it be nice if you could simply list the things you want to build without
-having to define which dependency gets injected into what?
+如果你可以單純列出你想建置的東西，
+而不必定義哪個依賴要注入到什麼東西裡，豈不是很好？
 
-This is where the dependency injection framework comes into play.
-Imagine the framework had something called an _injector_.
-You register some classes with this injector, and it figures out how to create them.
+這正是依賴注入框架派上用場的地方。
+想像這個框架有一個叫做_注入器_的東西。
+你向這個注入器註冊一些類別，它就會想辦法建立它們。
 
-When you need a `Car`, you simply ask the injector to get it for you and you're good to go.
+當你需要一輛 `Car` 時，你只要請注入器幫你取得它，就可以了。
 
 
 <code-example path="dependency-injection/src/app/car/car-injector.ts" region="injector-call" title="src/app/car/car-injector.ts" linenums="false">
@@ -195,26 +194,26 @@ When you need a `Car`, you simply ask the injector to get it for you and you're 
 
 
 
-Everyone wins. The `Car` knows nothing about creating an `Engine` or `Tires`.
-The consumer knows nothing about creating a `Car`.
-You don't have a gigantic factory class to maintain.
-Both `Car` and consumer simply ask for what they need and the injector delivers.
+人人都是贏家。`Car` 對如何建立 `Engine` 或 `Tires` 一無所知。
+消費者對如何建立 `Car` 一無所知。
+你不需要維護一個龐大的工廠類別。
+`Car` 與消費者都只要要求它們需要的東西，注入器就會交付。
 
-This is what a **dependency injection framework** is all about.
+這正是**依賴注入框架**的精髓所在。
 
-Now that you know what dependency injection is and appreciate its benefits,
-read on to see how it is implemented in Angular.
+現在你已知道什麼是依賴注入，也體會到它的好處，
+請繼續閱讀，了解它在 Angular 中是如何實作的。
 
 {@a angular-di}
 
-## Angular dependency injection
+## Angular 依賴注入
 
-Angular ships with its own dependency injection framework. This framework can also be used
-as a standalone module by other applications and frameworks.
+Angular 附帶了它自己的依賴注入框架。這個框架也可以
+被其他應用程式與框架當作獨立模組使用。
 
-To see what it can do when building components in Angular,
-start with a simplified version of the `HeroesComponent`
-that from the [The Tour of Heroes](tutorial/).
+若要了解它在 Angular 中建置元件時能做些什麼，
+先從[英雄之旅](tutorial/)中的 `HeroesComponent`
+的一個簡化版本開始。
 
 
 <code-tabs>
@@ -239,38 +238,37 @@ that from the [The Tour of Heroes](tutorial/).
 
 
 
-The `HeroesComponent` is the root component of the *Heroes* feature area.
-It governs all the child components of this area.
-This stripped down version has only one child, `HeroListComponent`,
-which displays a list of heroes.
+`HeroesComponent` 是 *Heroes* 功能區域的根元件。
+它管理這個區域的所有子元件。
+這個精簡版本只有一個子元件 `HeroListComponent`，
+它會顯示一份英雄清單。
 
 
-Right now `HeroListComponent` gets heroes from `HEROES`, an in-memory collection
-defined in another file.
-That may suffice in the early stages of development, but it's far from ideal.
-As soon as you try to test this component or want to get your heroes data from a remote server,
-you'll have to change the implementation of `heroes` and
-fix every other use of the `HEROES` mock data.
+目前 `HeroListComponent` 從 `HEROES` 取得英雄，那是一個定義在另一個檔案中的記憶體內集合。
+在開發初期這或許夠用，但遠非理想。
+一旦你嘗試測試這個元件，或是想從遠端伺服器取得英雄資料，
+你就必須改變 `heroes` 的實作，
+並修正其他每一處對 `HEROES` 模擬資料的使用。
 
-It's better to make a service that hides how the app gets hero data.
+更好的做法是製作一個服務，隱藏應用程式取得英雄資料的方式。
 
 
 <div class="l-sub-section">
 
 
 
-Given that the service is a
-[separate concern](https://en.wikipedia.org/wiki/Separation_of_concerns),
-consider writing the service code in its own file.
+既然服務是一個
+[獨立的關注點](https://en.wikipedia.org/wiki/Separation_of_concerns)，
+不妨考慮將服務程式碼寫在它自己的檔案中。
 
-See [this note](guide/dependency-injection#one-class-per-file) for details.
+詳情請參閱[這則說明](guide/dependency-injection#one-class-per-file)。
 
 </div>
 
 
 
-The following `HeroService` exposes a `getHeroes` method that returns
-the same mock data as before, but none of its consumers need to know that.
+下列 `HeroService` 公開了一個 `getHeroes` 方法，它回傳
+與先前相同的模擬資料，但它的任何消費者都不需要知道這一點。
 
 
 <code-example path="dependency-injection/src/app/heroes/hero.service.1.ts" title="src/app/heroes/hero.service.ts">
@@ -285,8 +283,8 @@ the same mock data as before, but none of its consumers need to know that.
 
 
 
-The `@Injectable()` decorator above the service class is
-covered [shortly](guide/dependency-injection#injectable).
+服務類別上方的 `@Injectable()` 裝飾器
+將在[稍後](guide/dependency-injection#injectable)介紹。
 
 
 </div>
@@ -297,19 +295,19 @@ covered [shortly](guide/dependency-injection#injectable).
 
 
 
-Of course, this isn't a real service.
-If the app were actually getting data from a remote server, the API would have to be
-asynchronous, perhaps returning a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
-You'd also have to rewrite the way components consume the service.
-This is important in general, but not in this example.
+當然，這不是一個真正的服務。
+如果應用程式真的從遠端伺服器取得資料，API 就必須是
+非同步的，或許會回傳一個 [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)。
+你也必須改寫元件消費服務的方式。
+這在一般情況下很重要，但在這個範例中不重要。
 
 
 </div>
 
 
 
-A service is nothing more than a class in Angular.
-It remains nothing more than a class until you register it with an Angular injector.
+在 Angular 中，服務只不過是一個類別。
+在你向 Angular 注入器註冊它之前，它也一直只是一個類別。
 
 
 <div id='bootstrap'>
@@ -321,10 +319,10 @@ It remains nothing more than a class until you register it with an Angular injec
 {@a injector-config}
 
 
-### Configuring the injector
+### 設定注入器
 
-You don't have to create an Angular injector.
-Angular creates an application-wide injector for you during the bootstrap process.
+你不需要建立 Angular 注入器。
+Angular 會在啟動過程中為你建立一個全應用程式範圍的注入器。
 
 
 <code-example path="dependency-injection/src/main.ts" linenums="false" title="src/main.ts (bootstrap)" region="bootstrap">
@@ -333,20 +331,18 @@ Angular creates an application-wide injector for you during the bootstrap proces
 
 
 
-You do have to configure the injector by registering the **providers**
-that create the services the application requires.
-This guide explains what [providers](guide/dependency-injection#providers) are later.
+你確實必須註冊**提供者**來設定注入器，它們負責建立應用程式所需的服務。
+本指南稍後會說明什麼是[提供者](guide/dependency-injection#providers)。
 
 
-You can either register a provider within an [NgModule](guide/ngmodule) or in application components.
+你可以在 [NgModule](guide/ngmodule) 內或應用程式元件中註冊提供者。
 
 
 {@a register-providers-ngmodule}
 
 
-### Registering providers in an _NgModule_
-Here's the `AppModule` that registers two providers, `UserService` and an `APP_CONFIG` provider,
-in its `providers` array.
+### 在 _NgModule_ 中註冊提供者
+以下是 `AppModule`，它在它的 `providers` 陣列中註冊了兩個提供者：`UserService` 與一個 `APP_CONFIG` 提供者。
 
 
 <code-example path="dependency-injection/src/app/app.module.ts" linenums="false" title="src/app/app.module.ts (excerpt)" region="ngmodule">
@@ -355,17 +351,17 @@ in its `providers` array.
 
 
 
-Because the `HeroService` is used _only_ within the `HeroesComponent`
-and its subcomponents, the top-level `HeroesComponent` is the ideal
-place to register it.
+因為 `HeroService` _只_在 `HeroesComponent`
+及其子元件內使用，頂層的 `HeroesComponent` 是
+註冊它的理想位置。
 
 
 {@a register-providers-component}
 
 
-### Registering providers in a component
+### 在元件中註冊提供者
 
-Here's a revised `HeroesComponent` that registers the `HeroService` in its `providers` array.
+以下是一個改訂過的 `HeroesComponent`，它在自己的 `providers` 陣列中註冊了 `HeroService`。
 
 
 <code-example path="dependency-injection/src/app/heroes/heroes.component.1.ts" region="full" title="src/app/heroes/heroes.component.ts" linenums="false">
@@ -377,27 +373,28 @@ Here's a revised `HeroesComponent` that registers the `HeroService` in its `prov
 {@a ngmodule-vs-comp}
 
 
-### When to use _NgModule_ versus an application component
+### 何時該用 _NgModule_，何時該用應用程式元件
 
-On the one hand, a provider in an `NgModule` is registered in the root injector. That means that every provider
-registered within an `NgModule` will be accessible in the _entire application_.
+一方面，在 `NgModule` 中提供的提供者會向根注入器註冊。這意味著在 `NgModule` 內註冊的每個提供者
+都可以在_整個應用程式_中存取。
 
-On the other hand, a provider registered in an application component is available only on
-that component and all its children.
+另一方面，在應用程式元件中註冊的提供者，
+只在該元件及其所有子元件上可用。
 
-Here, the `APP_CONFIG` service needs to be available all across the application, so it's
-registered in the `AppModule` `@NgModule` `providers` array.
-But since the `HeroService` is only used within the *Heroes*
-feature area and nowhere else, it makes sense to register it in
-the `HeroesComponent`.
+在這裡，`APP_CONFIG` 服務需要在整個應用程式中都可用，所以它
+註冊在 `AppModule` 的 `@NgModule` `providers` 陣列中。
+但由於 `HeroService` 只在 *Heroes*
+功能區域內使用，其他地方都不會用到，把它註冊在
+`HeroesComponent` 中是合理的。
 
 
 <div class="l-sub-section">
 
 
 
-Also see *"Should I add app-wide providers to the root `AppModule` or
-the root `AppComponent`?"* in the [NgModule FAQ](guide/ngmodule-faq#q-root-component-or-module).
+另請參閱 [NgModule FAQ](guide/ngmodule-faq#q-root-component-or-module) 中的
+*「我應該將全應用程式範圍的提供者加入根 `AppModule` 還是
+根 `AppComponent`？」*
 
 
 </div>
@@ -407,12 +404,12 @@ the root `AppComponent`?"* in the [NgModule FAQ](guide/ngmodule-faq#q-root-compo
 {@a prep-for-injection}
 
 
-### Preparing the _HeroListComponent_ for injection
+### 讓 _HeroListComponent_ 做好注入的準備
 
-The `HeroListComponent` should get heroes from the injected `HeroService`.
-Per the dependency injection pattern, the component must ask for the service in its
-constructor, [as discussed earlier](guide/dependency-injection#ctor-injection).
-It's a small change:
+`HeroListComponent` 應該從被注入的 `HeroService` 取得英雄。
+依照依賴注入模式，元件必須在它的建構子中要求該服務，
+[如先前所討論](guide/dependency-injection#ctor-injection)。
+這是一個小小的變更：
 
 
 <code-tabs>
@@ -433,9 +430,9 @@ It's a small change:
 
 
 
-#### Focus on the constructor
+#### 關注建構子
 
-Adding a parameter to the constructor isn't all that's happening here.
+在建構子中加入一個參數，並不是這裡發生的全部事情。
 
 
 <code-example path="dependency-injection/src/app/heroes/hero-list.component.2.ts" region="ctor" title="src/app/heroes/hero-list.component.ts" linenums="false">
@@ -444,16 +441,16 @@ Adding a parameter to the constructor isn't all that's happening here.
 
 
 
-Note that the constructor parameter has the type `HeroService`, and that
-the `HeroListComponent` class has an `@Component` decorator
-(scroll up to confirm that fact).
-Also recall that the parent component (`HeroesComponent`)
-has `providers` information for `HeroService`.
+請注意，建構子參數的型別是 `HeroService`，而且
+`HeroListComponent` 類別有一個 `@Component` 裝飾器
+（請向上捲動來確認這一點）。
+另請回想，父元件 (`HeroesComponent`)
+擁有 `HeroService` 的 `providers` 資訊。
 
-The constructor parameter type, the `@Component` decorator,
-and the parent's `providers` information combine to tell the
-Angular injector to inject an instance of
-`HeroService` whenever it creates a new `HeroListComponent`.
+建構子參數型別、`@Component` 裝飾器，
+以及父元件的 `providers` 資訊，三者結合起來告訴
+Angular 注入器：每當它建立一個新的 `HeroListComponent` 時，
+就注入一個 `HeroService` 實例。
 
 
 </div>
@@ -463,12 +460,12 @@ Angular injector to inject an instance of
 {@a di-metadata}
 
 
-### Implicit injector creation
+### 隱含建立注入器
 
-You saw how to use an injector to create a new
-`Car` earlier in this guide.
-You _could_ create such an injector
-explicitly:
+在本指南稍早，你看過如何使用注入器來建立一輛新的
+`Car`。
+你_可以_像這樣明確地
+建立一個注入器：
 
 
 <code-example path="dependency-injection/src/app/car/car-injector.ts" region="injector-create-and-call" title="src/app/car/car-injector.ts" linenums="false">
@@ -477,40 +474,38 @@ explicitly:
 
 
 
-You won't find code like that in the Tour of Heroes or any of the other
-documentation samples.
-You *could* write code that [explicitly creates an injector](guide/dependency-injection#explicit-injector) if you *had* to,
-but it's not always the best choice.
-Angular takes care of creating and calling injectors
-when it creates components for you&mdash;whether through HTML markup, as in `<hero-list></hero-list>`,
-or after navigating to a component with the [router](guide/router).
-If you let Angular do its job, you'll enjoy the benefits of automated dependency injection.
+你在英雄之旅或任何其他文件範例中都不會看到這樣的程式碼。
+如果你*必須*這麼做，你*可以*寫出[明確建立注入器](guide/dependency-injection#explicit-injector)的程式碼，
+但這不一定是最好的選擇。
+當 Angular 為你建立元件時，它會負責建立與呼叫注入器&mdash;無論是透過 HTML 標記（例如 `<hero-list></hero-list>`），
+還是透過[路由器](guide/router)導航到一個元件之後。
+如果你讓 Angular 做它的工作，你就能享受到自動化依賴注入的好處。
 
 
 {@a singleton-services}
 
 
-### Singleton services
+### 單例服務
 
-Dependencies are singletons within the scope of an injector.
-In this guide's example, a single `HeroService` instance is shared among the
-`HeroesComponent` and its `HeroListComponent` children.
+依賴在注入器的範圍內是單例。
+在本指南的範例中，一個單一的 `HeroService` 實例會在
+`HeroesComponent` 與它的 `HeroListComponent` 子元件之間共用。
 
-However, Angular DI is a hierarchical injection
-system, which means that nested injectors can create their own service instances.
-For more information, see [Hierarchical Injectors](guide/hierarchical-dependency-injection).
+然而，Angular DI 是一個階層式注入
+系統，這意味著巢狀注入器可以建立它們自己的服務實例。
+如需更多資訊，請參閱[階層式注入器](guide/hierarchical-dependency-injection)。
 
 
 {@a testing-the-component}
 
 
-### Testing the component
+### 測試元件
 
-Earlier you saw that designing a class for dependency injection makes the class easier to test.
-Listing dependencies as constructor parameters may be all you need to test application parts effectively.
+先前你已經看到，為依賴注入而設計類別，會讓類別更容易測試。
+將依賴列為建構子參數，可能就是你有效測試應用程式各部分所需的全部。
 
-For example, you can create a new `HeroListComponent` with a mock service that you can manipulate
-under test:
+例如，你可以用一個可以在測試下操控的模擬服務
+建立一個新的 `HeroListComponent`：
 
 
 <code-example path="dependency-injection/src/app/test.component.ts" region="spec" title="src/app/test.component.ts" linenums="false">
@@ -523,7 +518,7 @@ under test:
 
 
 
-Learn more in [Testing](guide/testing).
+在[測試](guide/testing)中深入了解。
 
 
 </div>
@@ -533,16 +528,16 @@ Learn more in [Testing](guide/testing).
 {@a service-needs-service}
 
 
-### When the service needs a service
+### 當服務需要服務時
 
-The `HeroService` is very simple. It doesn't have any dependencies of its own.
+`HeroService` 非常簡單。它本身沒有任何依賴。
 
 
-What if it had a dependency? What if it reported its activities through a logging service?
-You'd apply the same *constructor injection* pattern,
-adding a constructor that takes a `Logger` parameter.
+要是它有依賴呢？要是它透過記錄服務來回報它的活動呢？
+你可以套用相同的*建構子注入*模式，
+加入一個帶有 `Logger` 參數的建構子。
 
-Here is the revision compared to the original.
+以下是與原始版本並列的改訂版。
 
 
 <code-tabs>
@@ -559,30 +554,29 @@ Here is the revision compared to the original.
 
 
 
-The constructor now asks for an injected instance of a `Logger` and stores it in a private property called `logger`.
-You call that property within the `getHeroes()` method when anyone asks for heroes.
+建構子現在要求一個被注入的 `Logger` 實例，並將它儲存在一個名為 `logger` 的私有欄位中。
+當有人要求英雄時，你會在 `getHeroes()` 方法中呼叫該欄位。
 
 
 {@a injectable}
 
 
-### Why _@Injectable()_?
+### 為什麼要用 _@Injectable()_？
 
-**[@Injectable()](api/core/Injectable)** marks a class as available to an
-injector for instantiation. Generally speaking, an injector reports an
-error when trying to instantiate a class that is not marked as
-`@Injectable()`.
+**[@Injectable()](api/core/Injectable)** 會將一個類別標記為可供
+注入器實例化。一般來說，當注入器嘗試實例化一個未標記為
+`@Injectable()` 的類別時，它會回報錯誤。
 
 
 <div class="l-sub-section">
 
 
 
-As it happens, you could have omitted `@Injectable()` from the first
-version of `HeroService` because it had no injected parameters.
-But you must have it now that the service has an injected dependency.
-You need it because Angular requires constructor parameter metadata
-in order to inject a `Logger`.
+實際上，你本來可以從 `HeroService` 的第一個
+版本中省略 `@Injectable()`，因為它沒有被注入的參數。
+但現在服務有了一個被注入的依賴，你就必須使用它。
+你需要它，是因為 Angular 需要建構子參數的中繼資料
+才能注入一個 `Logger`。
 
 
 </div>
@@ -594,23 +588,23 @@ in order to inject a `Logger`.
 
 
 <header>
-  Suggestion: add @Injectable() to every service class
+  建議：為每個服務類別都加入 @Injectable()
 </header>
 
 
 
-Consider adding `@Injectable()` to every service class, even those that don't have dependencies
-and, therefore, do not technically require it. Here's why:
+不妨考慮為每個服務類別都加入 `@Injectable()`，即使是那些沒有依賴、
+因此技術上並不需要它的類別也一樣。原因如下：
 
 
 <ul style="font-size:inherit">
 
   <li>
-    <b>Future proofing:</b> No need to remember <code>@Injectable()</code> when you add a dependency later.
+    <b>未雨綢繆：</b> 之後加入依賴時，不必記得補上 <code>@Injectable()</code>。
   </li>
 
   <li>
-    <b>Consistency:</b> All services follow the same rules, and you don't have to wonder why a decorator is missing.
+    <b>一致性：</b> 所有服務都遵循相同的規則，你也不必疑惑為什麼少了某個裝飾器。
   </li>
 
 </ul>
@@ -621,36 +615,34 @@ and, therefore, do not technically require it. Here's why:
 
 
 
-Injectors are also responsible for instantiating components
-like `HeroesComponent`. So why doesn't `HeroesComponent` have
-`@Injectable()`?
+注入器也負責實例化像 `HeroesComponent` 這樣的元件。那麼為什麼 `HeroesComponent` 沒有
+`@Injectable()` 呢？
 
-You *can* add it if you really want to. It isn't necessary because the
-`HeroesComponent` is already marked with `@Component`, and this
-decorator class (like `@Directive` and `@Pipe`, which you learn about later)
-is a subtype of [@Injectable()](api/core/Injectable).  It is in
-fact `@Injectable()` decorators that
-identify a class as a target for instantiation by an injector.
+如果你真的想加，你*可以*加。它並非必要，因為
+`HeroesComponent` 已經標記了 `@Component`，而這個
+裝飾器類別（例如你稍後會學到的 `@Directive` 與 `@Pipe`）
+是 [@Injectable()](api/core/Injectable) 的一個子型別。事實上，
+正是 `@Injectable()` 裝飾器
+將一個類別標識為注入器進行實例化的目標。
 
 
 <div class="l-sub-section">
 
 
 
-At runtime, injectors can read class metadata in the transpiled JavaScript code
-and use the constructor parameter type information
-to determine what things to inject.
+在執行時期，注入器可以讀取轉譯後的 JavaScript 程式碼中的類別中繼資料，
+並利用建構子參數型別資訊
+來判斷要注入哪些東西。
 
-Not every JavaScript class has metadata.
-The TypeScript compiler discards metadata by default.
-If the `emitDecoratorMetadata` compiler option is true
-(as it should be in the `tsconfig.json`),
-the compiler adds the metadata to the generated JavaScript
-for _every class with at least one decorator_.
+並非每個 JavaScript 類別都有中繼資料。
+TypeScript 編譯器預設會丟棄中繼資料。
+如果 `emitDecoratorMetadata` 編譯器選項為 true
+（在 `tsconfig.json` 中就應該如此），
+編譯器就會為_每個至少有一個裝飾器的類別_，將中繼資料加入產生的 JavaScript 中。
 
-While any decorator will trigger this effect, mark the service class with the
-[@Injectable()](api/core/Injectable) decorator
-to make the intent clear.
+雖然任何裝飾器都會觸發這個效果，但使用
+[@Injectable()](api/core/Injectable) 裝飾器來標記服務類別，
+可以讓意圖更明確。
 
 
 </div>
@@ -662,13 +654,13 @@ to make the intent clear.
 
 
 <header>
-  Always include the parentheses
+  一定要包含括號
 </header>
 
 
 
-Always write `@Injectable()`, not just `@Injectable`.
-The application will fail mysteriously if you forget the parentheses.
+一定要寫 `@Injectable()`，而不要只寫 `@Injectable`。
+如果你忘記了括號，應用程式會以莫名其妙的方式失敗。
 
 
 </div>
@@ -676,14 +668,14 @@ The application will fail mysteriously if you forget the parentheses.
 
 {@a logger-service}
 
-## Creating and registering a logger service
+## 建立並註冊記錄服務
 
-Inject a logger into `HeroService` in two steps:
+將記錄器注入 `HeroService` 分為兩個步驟：
 
-1. Create the logger service.
-1. Register it with the application.
+1. 建立記錄服務。
+1. 將它向應用程式註冊。
 
-The logger service is quite simple:
+這個記錄服務相當簡單：
 
 
 <code-example path="dependency-injection/src/app/logger.service.ts" title="src/app/logger.service.ts">
@@ -692,9 +684,9 @@ The logger service is quite simple:
 
 
 
-You're likely to need the same logger service everywhere in your application,
-so put it in the project's `app` folder and
-register it in the `providers` array of the application module, `AppModule`.
+你很可能在應用程式的各處都需要同一個記錄服務，
+所以將它放在專案的 `app` 資料夾中，
+並在應用程式模組 `AppModule` 的 `providers` 陣列中註冊它。
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" linenums="false" title="src/app/providers.component.ts (excerpt)" region="providers-logger">
@@ -703,7 +695,7 @@ register it in the `providers` array of the application module, `AppModule`.
 
 
 
-If you forget to register the logger, Angular throws an exception when it first looks for the logger:
+如果你忘記註冊記錄器，Angular 會在它第一次尋找記錄器時擲出例外：
 
 <code-example format="nocode">
   EXCEPTION: No provider for Logger! (HeroListComponent -> HeroService -> Logger)
@@ -712,24 +704,23 @@ If you forget to register the logger, Angular throws an exception when it first 
 
 
 
-That's Angular telling you that the dependency injector couldn't find the *provider* for the logger.
-It needed that provider to create a `Logger` to inject into a new
-`HeroService`, which it needed to
-create and inject into a new `HeroListComponent`.
+那是 Angular 在告訴你，依賴注入器找不到記錄器的*提供者*。
+它需要該提供者來建立一個 `Logger`，以便注入到一個新的
+`HeroService` 中，而它需要
+建立該服務並將它注入到一個新的 `HeroListComponent` 中。
 
-The chain of creations started with the `Logger` provider. *Providers* are the subject of the next section.
+這一連串的建立始於 `Logger` 提供者。*提供者*是下一節的主題。
 
 {@a providers}
 
-## Injector providers
+## 注入器提供者
 
-A provider *provides* the concrete, runtime version of a dependency value.
-The injector relies on **providers** to create instances of the services
-that the injector injects into components and other services.
+提供者*提供*了依賴值的具體執行時期版本。
+注入器依賴**提供者**來建立它注入到元件與其他服務中的服務實例。
 
-You must register a service *provider* with the injector, or it won't know how to create the service.
+你必須向注入器註冊一個服務*提供者*，否則它不會知道如何建立該服務。
 
-Earlier you registered the `Logger` service in the `providers` array of the metadata for the `AppModule` like this:
+先前你曾像這樣，在 `AppModule` 的中繼資料的 `providers` 陣列中註冊 `Logger` 服務：
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-logger" title="src/app/providers.component.ts">
@@ -738,16 +729,16 @@ Earlier you registered the `Logger` service in the `providers` array of the meta
 
 
 
-There are many ways to *provide* something that looks and behaves like a `Logger`.
-The `Logger` class itself is an obvious and natural provider.
-But it's not the only way.
+要*提供*一個外觀與行為都像 `Logger` 的東西，有很多種方式。
+`Logger` 類別本身就是一個明顯而自然的提供者。
+但它不是唯一的方式。
 
-You can configure the injector with alternative providers that can deliver an object that behaves like a `Logger`.
-You could provide a substitute class. You could provide a logger-like object.
-You could give it a provider that calls a logger factory function.
-Any of these approaches might be a good choice under the right circumstances.
+你可以將注入器設定為使用其他提供者，它們可以交付一個行為像 `Logger` 的物件。
+你可以提供一個替代類別。你可以提供一個類似記錄器的物件。
+你可以給它一個呼叫記錄器工廠函式的提供者。
+在適當的情況下，這些做法都可能是好選擇。
 
-What matters is that the injector has a provider to go to when it needs a `Logger`.
+重要的是，當注入器需要一個 `Logger` 時，它有一個提供者可以求助。
 
 
 <div id='provide'>
@@ -756,10 +747,10 @@ What matters is that the injector has a provider to go to when it needs a `Logge
 
 
 
-### The *Provider* class and _provide_ object literal
+### *Provider* 類別與 _provide_ 物件實字
 
 
-You wrote the `providers` array like this:
+你曾將 `providers` 陣列寫成這樣：
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-1" title="src/app/providers.component.ts">
@@ -768,8 +759,8 @@ You wrote the `providers` array like this:
 
 
 
-This is actually a shorthand expression for a provider registration
-using a _provider_ object literal with two properties:
+這其實是一個提供者註冊的簡寫表示式，
+使用帶有兩個屬性的_提供者_物件實字：
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-3" title="src/app/providers.component.ts">
@@ -778,12 +769,12 @@ using a _provider_ object literal with two properties:
 
 
 
-The first is the [token](guide/dependency-injection#token) that serves as the key for both locating a dependency value
-and registering the provider.
+第一個是[權杖](guide/dependency-injection#token)，它既是定位依賴值的鍵，
+也是註冊提供者的鍵。
 
-The second is a provider definition object,
-which you can think of as a *recipe* for creating the dependency value.
-There are many ways to create dependency values just as there are many ways to write a recipe.
+第二個是提供者定義物件，
+你可以將它視為建立依賴值的一個*配方*。
+建立依賴值有很多種方式，就像寫配方有很多種方式一樣。
 
 
 <div id='class-provider'>
@@ -792,11 +783,11 @@ There are many ways to create dependency values just as there are many ways to w
 
 
 
-### Alternative class providers
+### 替代類別提供者
 
-Occasionally you'll ask a different class to provide the service.
-The following code tells the injector
-to return a `BetterLogger` when something asks for the `Logger`.
+有時候你會要求一個不同的類別來提供服務。
+以下程式碼告訴注入器，
+當有東西要求 `Logger` 時，回傳一個 `BetterLogger`。
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-4" title="src/app/providers.component.ts">
@@ -808,10 +799,10 @@ to return a `BetterLogger` when something asks for the `Logger`.
 {@a class-provider-dependencies}
 
 
-### Class provider with dependencies
-Maybe an `EvenBetterLogger` could display the user name in the log message.
-This logger gets the user from the injected `UserService`,
-which is also injected at the application level.
+### 帶有依賴的類別提供者
+也許一個 `EvenBetterLogger` 可以在記錄訊息中顯示使用者名稱。
+這個記錄器會從被注入的 `UserService` 取得使用者，
+該服務也會在應用程式層級被注入。
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="EvenBetterLogger" title="src/app/providers.component.ts" linenums="false">
@@ -820,7 +811,7 @@ which is also injected at the application level.
 
 
 
-Configure it like `BetterLogger`.
+像 `BetterLogger` 一樣設定它。
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-5" title="src/app/providers.component.ts" linenums="false">
@@ -832,21 +823,21 @@ Configure it like `BetterLogger`.
 {@a aliased-class-providers}
 
 
-### Aliased class providers
+### 為類別提供者取別名
 
-Suppose an old component depends upon an `OldLogger` class.
-`OldLogger` has the same interface as the `NewLogger`, but for some reason
-you can't update the old component to use it.
+假設一個舊元件依賴於一個 `OldLogger` 類別。
+`OldLogger` 與 `NewLogger` 有相同的介面，但出於某些原因
+你無法更新舊元件來使用它。
 
-When the *old* component logs a message with `OldLogger`,
-you'd like the singleton instance of `NewLogger` to handle it instead.
+當*舊*元件用 `OldLogger` 記錄訊息時，
+你希望改由 `NewLogger` 的單例實例來處理。
 
-The dependency injector should inject that singleton instance
-when a component asks for either the new or the old logger.
-The `OldLogger` should be an alias for `NewLogger`.
+當元件要求新的或舊的記錄器時，
+依賴注入器應該注入那個單例實例。
+`OldLogger` 應該是 `NewLogger` 的別名。
 
-You certainly do not want two different `NewLogger` instances in your app.
-Unfortunately, that's what you get if you try to alias `OldLogger` to `NewLogger` with `useClass`.
+你當然不希望你的應用程式裡有兩個不同的 `NewLogger` 實例。
+不幸的是，如果你試著用 `useClass` 把 `OldLogger` 別名為 `NewLogger`，得到的正是如此。
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-6a" title="src/app/providers.component.ts" linenums="false">
@@ -855,7 +846,7 @@ Unfortunately, that's what you get if you try to alias `OldLogger` to `NewLogger
 
 
 
-The solution: alias with the `useExisting` option.
+解決方案：使用 `useExisting` 選項來建立別名。
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-6b" linenums="false">
@@ -867,10 +858,10 @@ The solution: alias with the `useExisting` option.
 {@a value-provider}
 
 
-### Value providers
+### 值提供者
 
 
-Sometimes it's easier to provide a ready-made object rather than ask the injector to create it from a class.
+有時候，提供一個現成的物件，比要求注入器從類別建立它更容易。
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="silent-logger" title="src/app/providers.component.ts" linenums="false">
@@ -879,8 +870,8 @@ Sometimes it's easier to provide a ready-made object rather than ask the injecto
 
 
 
-Then you register a provider with the `useValue` option,
-which makes this object play the logger role.
+然後你用 `useValue` 選項註冊一個提供者，
+讓這個物件扮演記錄器的角色。
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-7" linenums="false">
@@ -889,9 +880,9 @@ which makes this object play the logger role.
 
 
 
-See more `useValue` examples in the
-[Non-class dependencies](guide/dependency-injection#non-class-dependencies) and
-[InjectionToken](guide/dependency-injection#injection-token) sections.
+在
+[非類別依賴](guide/dependency-injection#non-class-dependencies) 與
+[InjectionToken](guide/dependency-injection#injection-token) 章節中查看更多 `useValue` 範例。
 
 
 <div id='factory-provider'>
@@ -900,31 +891,31 @@ See more `useValue` examples in the
 
 
 
-### Factory providers
+### 工廠提供者
 
-Sometimes you need to create the dependent value dynamically,
-based on information you won't have until the last possible moment.
-Maybe the information changes repeatedly in the course of the browser session.
+有時候你需要動態建立依賴值，
+基於你在最後一刻之前不會知道的資訊。
+也許該資訊在瀏覽器工作階段的過程中會反覆改變。
 
-Suppose also that the injectable service has no independent access to the source of this information.
+同時假設可注入的服務無法獨立存取這些資訊的來源。
 
-This situation calls for a **factory provider**.
+這種情況需要**工廠提供者**。
 
-To illustrate the point, add a new business requirement:
-the `HeroService` must hide *secret* heroes from normal users.
-Only authorized users should see secret heroes.
+為了說明這一點，加入一個新的業務需求：
+`HeroService` 必須對一般使用者隱藏*秘密*英雄。
+只有已授權的使用者應該看到秘密英雄。
 
-Like the `EvenBetterLogger`, the `HeroService` needs a fact about the user.
-It needs to know if the user is authorized to see secret heroes.
-That authorization can change during the course of a single application session,
-as when you log in a different user.
+與 `EvenBetterLogger` 一樣，`HeroService` 需要一項關於使用者的事實。
+它需要知道使用者是否有權看到秘密英雄。
+這項授權可以在單一應用程式工作階段的過程中改變，
+例如當你登入不同的使用者時。
 
-Unlike `EvenBetterLogger`, you can't inject the `UserService` into the `HeroService`.
-The `HeroService` won't have direct access to the user information to decide
-who is authorized and who is not.
+與 `EvenBetterLogger` 不同，你不能將 `UserService` 注入到 `HeroService` 中。
+`HeroService` 無法直接存取使用者資訊，來決定
+誰已授權誰未授權。
 
 
-Instead, the `HeroService` constructor takes a boolean flag to control display of secret heroes.
+相反地，`HeroService` 建構子接受一個布林旗標，來控制秘密英雄的顯示。
 
 
 <code-example path="dependency-injection/src/app/heroes/hero.service.ts" region="internals" title="src/app/heroes/hero.service.ts (excerpt)" linenums="false">
@@ -933,10 +924,10 @@ Instead, the `HeroService` constructor takes a boolean flag to control display o
 
 
 
-You can inject the `Logger`, but you can't inject the  boolean `isAuthorized`.
-You'll have to take over the creation of new instances of this `HeroService` with a factory provider.
+你可以注入 `Logger`，但你無法注入布林值 `isAuthorized`。
+你必須用工廠提供者接管這個 `HeroService` 新實例的建立。
 
-A factory provider needs a factory function:
+工廠提供者需要一個工廠函式：
 
 
 <code-example path="dependency-injection/src/app/heroes/hero.service.provider.ts" region="factory" title="src/app/heroes/hero.service.provider.ts (excerpt)" linenums="false">
@@ -945,10 +936,10 @@ A factory provider needs a factory function:
 
 
 
-Although the `HeroService` has no access to the `UserService`, the factory function does.
+雖然 `HeroService` 無法存取 `UserService`，但工廠函式可以。
 
-You inject both the `Logger` and the `UserService` into the factory provider
-and let the injector pass them along to the factory function:
+你將 `Logger` 與 `UserService` 都注入到工廠提供者中，
+並讓注入器將它們傳給工廠函式：
 
 
 <code-example path="dependency-injection/src/app/heroes/hero.service.provider.ts" region="provider" title="src/app/heroes/hero.service.provider.ts (excerpt)" linenums="false">
@@ -961,25 +952,25 @@ and let the injector pass them along to the factory function:
 
 
 
-The `useFactory` field tells Angular that the provider is a factory function
-whose implementation is the `heroServiceFactory`.
+`useFactory` 欄位告訴 Angular，該提供者是一個工廠函式，
+其實作即為 `heroServiceFactory`。
 
-The `deps` property is an array of [provider tokens](guide/dependency-injection#token).
-The `Logger` and `UserService` classes serve as tokens for their own class providers.
-The injector resolves these tokens and injects the corresponding services into the matching factory function parameters.
+`deps` 屬性是一個[提供者權杖](guide/dependency-injection#token)的陣列。
+`Logger` 與 `UserService` 類別是它們自己的類別提供者的權杖。
+注入器解析這些權杖，並將對應的服務注入到相符的工廠函式參數中。
 
 
 </div>
 
 
 
-Notice that you captured the factory provider in an exported variable, `heroServiceProvider`.
-This extra step makes the factory provider reusable.
-You can register the `HeroService` with this variable wherever you need it.
+請注意，你將工廠提供者擷取到一個匯出的變數 `heroServiceProvider` 中。
+這個額外的步驟讓工廠提供者可以重複使用。
+你可以在任何需要的地方用這個變數註冊 `HeroService`。
 
-In this sample, you need it only in the `HeroesComponent`,
-where it replaces the previous `HeroService` registration in the metadata `providers` array.
-Here you see the new and the old implementation side-by-side:
+在本範例中，你只在 `HeroesComponent` 中需要它，
+在那裡它取代了詮釋資料 `providers` 陣列中先前的 `HeroService` 註冊。
+這裡你可以看到新與舊的實作並列：
 
 
 <code-tabs>
@@ -997,15 +988,15 @@ Here you see the new and the old implementation side-by-side:
 
 {@a token}
 
-## Dependency injection tokens
+## 依賴注入權杖
 
-When you register a provider with an injector, you associate that provider with a dependency injection token.
-The injector maintains an internal *token-provider* map that it references when
-asked for a dependency. The token is the key to the map.
+當你向注入器註冊提供者時，你會將該提供者與一個依賴注入權杖關聯起來。
+注入器維護著一個內部的*權杖-提供者*對映，當被要求提供
+依賴時，它會參照這個對映。權杖是該對映的鍵。
 
-In all previous examples, the dependency value has been a class *instance*, and
-the class *type* served as its own lookup key.
-Here you get a `HeroService` directly from the injector by supplying the `HeroService` type as the token:
+在先前所有的範例中，依賴值一直是類別*實例*，而
+類別*型別*充當它自己的查找鍵。
+在這裡，你透過提供 `HeroService` 型別作為權杖，直接從注入器取得一個 `HeroService`：
 
 
 <code-example path="dependency-injection/src/app/injector.component.ts" region="get-hero-service" title="src/app/injector.component.ts" linenums="false">
@@ -1014,10 +1005,10 @@ Here you get a `HeroService` directly from the injector by supplying the `HeroSe
 
 
 
-You have similar good fortune when you write a constructor that requires an injected class-based dependency.
-When you define a constructor parameter with the `HeroService` class type,
-Angular knows to inject the
-service associated with that `HeroService` class token:
+當你撰寫一個需要注入的類別依賴的建構子時，你也有同樣的好運氣。
+當你定義一個帶有 `HeroService` 類別型別的建構子參數時，
+Angular 就知道要注入與
+該 `HeroService` 類別權杖相關聯的服務：
 
 
 <code-example path="dependency-injection/src/app/heroes/hero-list.component.ts" region="ctor-signature" title="src/app/heroes/hero-list.component.ts">
@@ -1026,26 +1017,26 @@ service associated with that `HeroService` class token:
 
 
 
-This is especially convenient when you consider that most dependency values are provided by classes.
+當你想到大多數依賴值都是由類別提供的時候，這一點特別方便。
 
 
 {@a non-class-dependencies}
 
 
-### Non-class dependencies
+### 非類別依賴
 
 <p>
-  What if the dependency value isn't a class? Sometimes the thing you want to inject is a
-  string, function, or object.
+  如果依賴值不是類別怎麼辦？有時候你想要注入的東西是
+  一個字串、函式或物件。
 </p>
 
 
 
 <p>
-  Applications often define configuration objects with lots of small facts
-  (like the title of the application or the address of a web API endpoint)
-  but these configuration objects aren't always instances of a class.
-  They can be object literals such as this one:
+  應用程式經常定義包含許多小型事實的設定物件
+  （例如應用程式的標題或某個 Web API 端點的位址），
+  但這些設定物件並不總是類別的實例。
+  它們可以是像這樣的物件實字：
 </p>
 
 
@@ -1056,23 +1047,23 @@ This is especially convenient when you consider that most dependency values are 
 
 
 
-What if you'd like to make this configuration object available for injection?
-You know you can register an object with a [value provider](guide/dependency-injection#value-provider).
+要是你想讓這個設定物件可以被注入呢？
+你知道你可以向[值提供者](guide/dependency-injection#value-provider)註冊一個物件。
 
 
-But what should you use as the token?
-You don't have a class to serve as a token.
-There is no `AppConfig` class.
+但你應該用什麼作為權杖？
+你沒有類別可以充當權杖。
+沒有 `AppConfig` 類別。
 
 
 <div class="l-sub-section">
 
 
 
-### TypeScript interfaces aren't valid tokens
+### TypeScript 介面不是有效的權杖
 
-The `HERO_DI_CONFIG` constant has an interface, `AppConfig`. Unfortunately, you
-cannot use a TypeScript interface as a token:
+`HERO_DI_CONFIG` 常數有一個介面 `AppConfig`。不幸的是，你
+不能將 TypeScript 介面用作權杖：
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-9-interface" title="src/app/providers.component.ts" linenums="false">
 
@@ -1086,12 +1077,12 @@ cannot use a TypeScript interface as a token:
 
 
 
-That seems strange if you're used to dependency injection in strongly typed languages, where
-an interface is the preferred dependency lookup key.
+如果你習慣了強型別語言中的依賴注入，這看起來可能很奇怪，在那些語言中
+介面是首選的依賴查找鍵。
 
-It's not Angular's doing. An interface is a TypeScript design-time artifact. JavaScript doesn't have interfaces.
-The TypeScript interface disappears from the generated JavaScript.
-There is no interface type information left for Angular to find at runtime.
+這不是 Angular 造成的。介面是 TypeScript 的設計時期工件。JavaScript 沒有介面。
+TypeScript 介面會從產生的 JavaScript 中消失。
+執行時期沒有留下任何介面型別資訊可以讓 Angular 找到。
 
 
 </div>
@@ -1103,9 +1094,9 @@ There is no interface type information left for Angular to find at runtime.
 
 ### _InjectionToken_
 
-One solution to choosing a provider token for non-class dependencies is
-to define and use an [*InjectionToken*](api/core/InjectionToken).
-The definition of such a token looks like this:
+為非類別依賴選擇提供者權杖的一個解決方案，
+是定義並使用一個 [*InjectionToken*](api/core/InjectionToken)。
+這樣的權杖的定義看起來像這樣：
 
 
 <code-example path="dependency-injection/src/app/app.config.ts" region="token" title="src/app/app.config.ts" linenums="false">
@@ -1114,10 +1105,10 @@ The definition of such a token looks like this:
 
 
 
-The type parameter, while optional, conveys the dependency's type to developers and tooling.
-The token description is another developer aid.
+型別參數雖然是選用的，但它能向開發者與工具傳達依賴的型別。
+token 描述則是另一項協助開發者的資訊。
 
-Register the dependency provider using the `InjectionToken` object:
+使用 `InjectionToken` 物件註冊依賴提供者：
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="providers-9" title="src/app/providers.component.ts" linenums="false">
@@ -1126,8 +1117,7 @@ Register the dependency provider using the `InjectionToken` object:
 
 
 
-Now you can inject the configuration object into any constructor that needs it, with
-the help of an `@Inject` decorator:
+現在，藉由 `@Inject` 裝飾器的幫助，你可以將設定物件注入到任何需要它的建構子中：
 
 
 <code-example path="dependency-injection/src/app/app.component.2.ts" region="ctor" title="src/app/app.component.ts" linenums="false">
@@ -1140,15 +1130,14 @@ the help of an `@Inject` decorator:
 
 
 
-Although the `AppConfig` interface plays no role in dependency injection,
-it supports typing of the configuration object within the class.
+雖然 `AppConfig` 介面在依賴注入中不扮演任何角色，它支援類別內設定物件的型別。
 
 
 </div>
 
 
 
-Alternatively, you can provide and inject the configuration object in an ngModule like `AppModule`.
+或者，你可以在像 `AppModule` 這樣的 ngModule 中提供並注入設定物件。
 
 <code-example path="dependency-injection/src/app/app.module.ts" region="ngmodule-providers" title="src/app/app.module.ts (ngmodule-providers)"></code-example>
 
@@ -1158,12 +1147,12 @@ Alternatively, you can provide and inject the configuration object in an ngModul
 
 
 
-## Optional dependencies
+## 可選依賴
 
-The `HeroService` *requires* a `Logger`, but what if it could get by without
-a `logger`?
-You can tell Angular that the dependency is optional by annotating the
-constructor argument with `@Optional()`:
+`HeroService` *需要*一個 `Logger`，但要是它沒有
+`logger` 也能將就呢？
+你可以透過用 `@Optional()` 註解建構子引數，
+告訴 Angular 該依賴是可選的：
 
 
 <code-example path="dependency-injection/src/app/providers.component.ts" region="import-optional">
@@ -1178,30 +1167,27 @@ constructor argument with `@Optional()`:
 
 
 
-When using `@Optional()`, your code must be prepared for a null value. If you
-don't register a `logger` somewhere up the line, the injector will set the
-value of `logger` to null.
+使用 `@Optional()` 時，你的程式碼必須為 null 值做好準備。如果你
+沒有在上游某處註冊 `logger`，注入器就會將
+`logger` 的值設為 null。
 
 
 
-## Summary
+## 總結
 
-You learned the basics of Angular dependency injection in this page.
-You can register various kinds of providers,
-and you know how to ask for an injected object (such as a service) by
-adding a parameter to a constructor.
+你在本頁中學到了 Angular 依賴注入的基礎。
+你可以註冊各種不同種類的提供者，而且你知道如何透過在建構函式中加入參數，來請求被注入的物件（例如服務）。
 
-Angular dependency injection is more capable than this guide has described.
-You can learn more about its advanced features, beginning with its support for
-nested injectors, in
-[Hierarchical Dependency Injection](guide/hierarchical-dependency-injection).
+Angular 依賴注入的能力比本指南所描述的更多。
+你可以從它對巢狀注入器的支援開始，進一步了解它的進階功能，見
+[階層式依賴注入](guide/hierarchical-dependency-injection)。
 
 {@a explicit-injector}
 
-## Appendix: Working with injectors directly
+## 附錄：直接使用注入器
 
-Developers rarely work directly with an injector, but
-here's an `InjectorComponent` that does.
+開發者很少直接使用注入器，但是
+這裡有一個這樣做的 `InjectorComponent`。
 
 
 <code-example path="dependency-injection/src/app/injector.component.ts" region="injector" title="src/app/injector.component.ts">
@@ -1210,61 +1196,60 @@ here's an `InjectorComponent` that does.
 
 
 
-An `Injector` is itself an injectable service.
+`Injector` 本身就是一個可注入的服務。
 
-In this example, Angular injects the component's own `Injector` into the component's constructor.
-The component then asks the injected injector for the services it wants in `ngOnInit()`.
+在本範例中，Angular 將元件自己的 `Injector` 注入到該元件的建構子中。
+然後，元件在 `ngOnInit()` 中向注入的注入器索取它想要的服務。
 
-Note that the services themselves are not injected into the component.
-They are retrieved by calling `injector.get()`.
+請注意，服務本身並沒有注入到元件中。
+它們是透過呼叫 `injector.get()` 擷取的。
 
-The `get()` method throws an error if it can't resolve the requested service.
-You can call `get()` with a second parameter, which is the value to return if the service
-is not found. Angular can't find the service if it's not registered with this or any ancestor injector.
+如果 `get()` 方法無法解析所要求的服務，它會拋出一個錯誤。
+你可以呼叫帶有第二個參數的 `get()`，該參數是當服務
+未被找到時要回傳的值。如果服務沒有向這個或任何祖先注入器註冊，Angular 就找不到該服務。
 
 
 <div class="l-sub-section">
 
 
 
-The technique is an example of the
-[service locator pattern](https://en.wikipedia.org/wiki/Service_locator_pattern).
+這項技術是
+[服務定位器模式](https://en.wikipedia.org/wiki/Service_locator_pattern) 的一個範例。
 
-**Avoid** this technique unless you genuinely need it.
-It encourages a careless grab-bag approach such as you see here.
-It's difficult to explain, understand, and test.
-You can't know by inspecting the constructor what this class requires or what it will do.
-It could acquire services from any ancestor component, not just its own.
-You're forced to spelunk the implementation to discover what it does.
+除非你真的需要，否則請**避免**使用這項技術。
+它鼓勵像你在這裡看到的那種隨意的大雜燴式做法。
+它難以解釋、理解與測試。
+你無法透過檢查建構子就知道這個類別需要什麼，或者它會做什麼。
+它可以從任何祖先元件取得服務，而不僅僅是它自己的。
+你被迫要深入挖掘實作才能發現它做了什麼。
 
-Framework developers may take this approach when they
-must acquire services generically and dynamically.
+當框架開發者必須以一般化且動態的方式取得服務時，他們可能會採用這種做法。
 
 
 </div>
 
 {@a one-class-per-file}
 
-## Appendix: Why have one class per file
+## 附錄：為何每個檔案只放一個類別
 
-Having multiple classes in the same file is confusing and best avoided.
-Developers expect one class per file. Keep them happy.
+在同一個檔案中有多個類別令人困惑，最好避免。
+開發者期望一檔案一類別。讓他們開心。
 
-If you combine the `HeroService` class with
-the `HeroesComponent` in the same file,
-**define the component last**.
-If you define the component before the service,
-you'll get a runtime null reference error.
+如果你將 `HeroService` 類別與
+`HeroesComponent` 結合在同一個檔案中，
+**請將元件定義在最後**。
+如果你在服務之前定義元件，
+你將會得到一個執行時期 null 參照錯誤。
 
 
 <div class="l-sub-section">
 
 
 
-You actually can define the component first with the help of the `forwardRef()` method as explained
-in this [blog post](http://blog.thoughtram.io/angular/2015/09/03/forward-references-in-angular-2.html).
-But why flirt with trouble?
-Avoid the problem altogether by defining components and services in separate files.
+你其實可以利用 `forwardRef()` 方法先定義元件，正如
+這篇[部落格文章](http://blog.thoughtram.io/angular/2015/09/03/forward-references-in-angular-2.html)所解釋的那樣。
+但何必自找麻煩呢？
+只要將元件與服務定義在個別的檔案中，就能完全避開這個問題。
 
 </div>
 

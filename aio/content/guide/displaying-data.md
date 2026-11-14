@@ -1,24 +1,22 @@
-# Displaying Data
+# 顯示資料
 
-You can display data by binding controls in an HTML template to properties of an Angular component.
+你可以透過將 HTML 範本中的控制項繫結到 Angular 元件的屬性來顯示資料。
 
-In this page, you'll create a component with a list of heroes.
-You'll display the list of hero names and
-conditionally show a message below the list.
+在本頁中，你將建立一個帶有英雄清單的元件。
+你將顯示英雄名稱清單，並在清單下方有條件地顯示一則訊息。
 
-The final UI looks like this:
+最終的 UI 如下所示：
 
 
 <figure>
-  <img src="generated/images/guide/displaying-data/final.png" alt="Final UI">
+  <img src="generated/images/guide/displaying-data/final.png" alt="最終 UI">
 </figure>
 
 <div class="l-sub-section">
 
 
 
-The <live-example></live-example> demonstrates all of the syntax and code
-snippets described in this page.
+這個 <live-example></live-example> 示範了本頁所述的全部語法與程式碼片段。
 
 
 </div>
@@ -26,18 +24,16 @@ snippets described in this page.
 
 {@a interpolation}
 
-## Showing component properties with interpolation
-The easiest way to display a component property
-is to bind the property name through interpolation.
-With interpolation, you put the property name in the view template, enclosed in double curly braces: `{{myHero}}`.
+## 使用插值顯示元件屬性
+顯示元件屬性最簡單的方法，是透過插值來繫結屬性名稱。
+使用插值時，你把屬性名稱放在檢視範本中，以雙大括號包住：`{{myHero}}`。
 
-Follow the [setup](guide/setup) instructions for creating a new project
-named <code>displaying-data</code>.
+請按照 [設定](guide/setup) 的說明，建立名為 <code>displaying-data</code> 的新專案。
 
-Then modify the <code>app.component.ts</code> file by
-changing the template and the body of the component.
+接著修改 <code>app.component.ts</code> 檔案，
+變更範本與元件的主體。
 
-When you're done, it should look like this:
+完成後，它應該看起來像這樣：
 
 
 <code-example path="displaying-data/src/app/app.component.1.ts" title="src/app/app.component.ts">
@@ -46,10 +42,9 @@ When you're done, it should look like this:
 
 
 
-You added two properties to the formerly empty component: `title` and `myHero`.
+你為先前空白的元件加入了兩個屬性：`title` 與 `myHero`。
 
-The revised template displays the two component properties using double curly brace
-interpolation:
+修訂後的範本使用雙大括號插值來顯示這兩個元件屬性：
 
 
 <code-example path="displaying-data/src/app/app.component.1.ts" linenums="false" title="src/app/app.component.ts (template)" region="template">
@@ -62,38 +57,35 @@ interpolation:
 
 
 
-The template is a multi-line string within ECMAScript 2015 backticks (<code>\`</code>).
-The backtick (<code>\`</code>)&mdash;which is *not* the same character as a single
-quote (`'`)&mdash;allows you to compose a string over several lines, which makes the
-HTML more readable.
+該範本是 ECMAScript 2015 反引號（<code>\`</code>）內的多行字串。
+反引號（<code>\`</code>）&mdash;它*不是*單引號
+（`'`）這個字元&mdash;讓你能跨多行組出一個字串，使 HTML 更易讀。
 
 
 </div>
 
 
 
-Angular automatically pulls the value of the `title` and `myHero` properties from the component and
-inserts those values into the browser. Angular updates the display
-when these properties change.
+Angular 會自動從元件取得 `title` 與 `myHero` 屬性的值，
+並把這些值插入瀏覽器。當這些屬性變更時，Angular 會更新顯示。
 
 
 <div class="l-sub-section">
 
 
 
-More precisely, the redisplay occurs after some kind of asynchronous event related to
-the view, such as a keystroke, a timer completion, or a response to an HTTP request.
+更精確地說，重新顯示發生在某種與檢視相關的非同步事件之後，例如按鍵、計時器完成，或 HTTP 請求的回應。
 
 
 </div>
 
 
 
-Notice that you don't call **new** to create an instance of the `AppComponent` class.
-Angular is creating an instance for you. How?
+請注意，你並不需要呼叫 **new** 來建立 `AppComponent` 類別的實例。
+Angular 正在為你建立一個實例。怎麼做到的？
 
-The CSS `selector` in the `@Component` decorator specifies an element named `<my-app>`.
-That element is a placeholder in the body of your `index.html` file:
+`@Component` 裝飾器中的 CSS `selector` 指定了一個名為 `<my-app>` 的元素。
+該元素是你 `index.html` 檔案主體中的一個佔位符：
 
 
 <code-example path="displaying-data/src/index.html" linenums="false" title="src/index.html (body)" region="body">
@@ -102,39 +94,33 @@ That element is a placeholder in the body of your `index.html` file:
 
 
 
-When you bootstrap with the `AppComponent` class (in <code>main.ts</code>), Angular looks for a `<my-app>`
-in the `index.html`, finds it, instantiates an instance of `AppComponent`, and renders it
-inside the `<my-app>` tag.
+當你以 `AppComponent` 類別啟動（在 <code>main.ts</code> 中）時，Angular 會在 `index.html` 中尋找 `<my-app>`，找到它、實例化 `AppComponent` 的一個實例，並把它渲染到 `<my-app>` 標籤內。
 
-Now run the app. It should display the title and hero name:
+現在執行應用程式。它應該顯示標題與英雄名稱：
 
 <figure>
-  <img src="generated/images/guide/displaying-data/title-and-hero.png" alt="Title and Hero">
+  <img src="generated/images/guide/displaying-data/title-and-hero.png" alt="標題與英雄">
 </figure>
 
 
 
-The next few sections review some of the coding choices in the app.
+接下來的幾節回顧這個應用程式中的一些程式碼選擇。
 
 
-## Template inline or template file?
+## 範本行內還是範本檔案？
 
-You can store your component's template in one of two places.
-You can define it *inline* using the `template` property, or you can define
-the template in a separate HTML file and link to it in
-the component metadata using the `@Component` decorator's `templateUrl` property.
+你可以把元件的範本存放在兩個地方之一。
+你可以*行內*使用 `template` 屬性定義它，或者在一個獨立的 HTML 檔案中定義範本，並透過 `@Component` 裝飾器的 `templateUrl` 屬性，在元件中繼資料中連結到它。
 
-The choice between inline and separate HTML is a matter of taste,
-circumstances, and organization policy.
-Here the app uses inline HTML because the template is small and the demo
-is simpler without the additional HTML file.
+在行內與獨立 HTML 之間做選擇，取決於品味、情境與組織政策。
+這裡的應用程式使用行內 HTML，因為範本很小，而且不需要額外的 HTML 檔案，示範更簡單。
 
-In either style, the template data bindings have the same access to the component's properties.
+無論哪種風格，範本資料繫結對元件屬性都有相同的存取權。
 
 
-## Constructor or variable initialization?
+## 建構函式還是變數初始化？
 
-Although this example uses variable assignment to initialize the components, you can instead declare and initialize the properties using a constructor:
+雖然這個範例使用變數賦值來初始化元件，你也可以改用建構函式來宣告並初始化這些屬性：
 
 
 <code-example path="displaying-data/src/app/app-ctor.component.ts" linenums="false" title="src/app/app-ctor.component.ts (class)" region="class">
@@ -143,13 +129,13 @@ Although this example uses variable assignment to initialize the components, you
 
 
 
-This app uses more terse "variable assignment" style simply for brevity.
+這個應用程式單純為了簡潔，使用較精簡的「變數賦值」風格。
 
 {@a ngFor}
 
-## Showing an array property with ***ngFor**
+## 使用 ***ngFor** 顯示陣列屬性
 
-To display a list of heroes, begin by adding an array of hero names to the component and redefine `myHero` to be the first name in the array.
+若要顯示英雄清單，先為元件加入一組英雄名稱陣列，並把 `myHero` 重新定義為陣列中的第一個名稱。
 
 
 <code-example path="displaying-data/src/app/app.component.2.ts" linenums="false" title="src/app/app.component.ts (class)" region="class">
@@ -158,8 +144,7 @@ To display a list of heroes, begin by adding an array of hero names to the compo
 
 
 
-Now use the Angular `ngFor` directive in the template to display
-each item in the `heroes` list.
+現在在範本中使用 Angular 的 `ngFor` 指令，顯示 `heroes` 清單中的每個項目。
 
 
 <code-example path="displaying-data/src/app/app.component.2.ts" linenums="false" title="src/app/app.component.ts (template)" region="template">
@@ -168,9 +153,9 @@ each item in the `heroes` list.
 
 
 
-This UI uses the HTML unordered list with `<ul>` and `<li>` tags. The `*ngFor`
-in the `<li>` element is the Angular "repeater" directive.
-It marks that `<li>` element (and its children) as the "repeater template":
+這個 UI 使用帶有 `<ul>` 與 `<li>` 標籤的 HTML 無序清單。`<li>` 元素中的 `*ngFor`
+是 Angular 的「重複器（repeater）」指令。
+它把那個 `<li>` 元素（及其子元素）標記為「重複器範本」：
 
 
 <code-example path="displaying-data/src/app/app.component.2.ts" linenums="false" title="src/app/app.component.ts (li)" region="li">
@@ -183,57 +168,56 @@ It marks that `<li>` element (and its children) as the "repeater template":
 
 
 
-Don't forget the leading asterisk (\*) in `*ngFor`. It is an essential part of the syntax.
-For more information, see the [Template Syntax](guide/template-syntax#ngFor) page.
+別忘了 `*ngFor` 開頭的星號（\*）。它是語法中不可或缺的一部分。
+更多資訊，請參閱[範本語法](guide/template-syntax#ngFor)頁面。
 
 
 </div>
 
 
 
-Notice the `hero` in the `ngFor` double-quoted instruction;
-it is an example of a template input variable. Read
-more about template input variables in the [microsyntax](guide/template-syntax#microsyntax) section of
-the [Template Syntax](guide/template-syntax) page.
+請注意 `ngFor` 雙引號指令中的 `hero`；
+它是範本輸入變數的一個例子。更多關於範本輸入變數的資訊，請參閱
+[範本語法](guide/template-syntax)頁面中的[微語法](guide/template-syntax#microsyntax)一節。
 
-Angular duplicates the `<li>` for each item in the list, setting the `hero` variable
-to the item (the hero) in the current iteration. Angular uses that variable as the
-context for the interpolation in the double curly braces.
+Angular 會為清單中的每個項目複製一份 `<li>`，並把 `hero` 變數
+設定為目前迭代中的項目（英雄）。Angular 使用該變數作為
+雙大括號中插值的脈絡。
 
 
 <div class="l-sub-section">
 
 
 
-In this case, `ngFor` is displaying an array, but `ngFor` can
-repeat items for any [iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols) object.
+在這個例子中，`ngFor` 顯示的是一個陣列，但 `ngFor` 可以
+為任何 [iterable](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols) 物件重複項目。
 
 </div>
 
 
 
-Now the heroes appear in an unordered list.
+現在英雄以無序清單的形式出現。
 
 
 <figure>
-  <img src="generated/images/guide/displaying-data/hero-names-list.png" alt="After ngfor">
+  <img src="generated/images/guide/displaying-data/hero-names-list.png" alt="ngFor 之後">
 </figure>
 
 
 
 
-## Creating a class for the data
+## 為資料建立類別
 
-The app's code defines the data directly inside the component, which isn't best practice.
-In a simple demo, however, it's fine.
+這個應用程式的程式碼直接在元件內定義資料，這並非最佳實務。
+不過在簡單的示範中，這樣做沒問題。
 
-At the moment, the binding is to an array of strings.
-In real applications, most bindings are to more specialized objects.
+目前，這個繫結指向一個字串陣列。
+在真實的應用程式中，大多數繫結都指向更專門的物件。
 
-To convert this binding to use specialized objects, turn the array
-of hero names into an array of `Hero` objects. For that you'll need a `Hero` class.
+若要把這個繫結改成使用專門的物件，把英雄名稱陣列
+轉換為 `Hero` 物件陣列。為此你需要一個 `Hero` 類別。
 
-Create a new file in the `app` folder called  `hero.ts` with the following code:
+在 `app` 資料夾中建立一個名為  `hero.ts` 的新檔案，內容為以下程式碼：
 
 
 <code-example path="displaying-data/src/app/hero.ts" linenums="false" title="src/app/hero.ts (excerpt)">
@@ -242,12 +226,12 @@ Create a new file in the `app` folder called  `hero.ts` with the following code:
 
 
 
-You've defined a class with a constructor and two properties: `id` and `name`.
+你定義了一個帶有建構函式與兩個屬性的類別：`id` 與 `name`。
 
-It might not look like the class has properties, but it does.
-The declaration of the constructor parameters takes advantage of a TypeScript shortcut.
+它看起來可能不像有屬性，但它確實有。
+建構函式參數的宣告利用了 TypeScript 的一個捷徑。
 
-Consider the first parameter:
+以第一個參數為例：
 
 
 <code-example path="displaying-data/src/app/hero.ts" linenums="false" title="src/app/hero.ts (id)" region="id">
@@ -256,18 +240,18 @@ Consider the first parameter:
 
 
 
-That brief syntax does a lot:
+那短短的語法做了很多事：
 
-* Declares a constructor parameter and its type.
-* Declares a public property of the same name.
-* Initializes that property with the corresponding argument when creating an instance of the class.
+* 宣告一個建構函式參數及其型別。
+* 宣告一個同名的公開屬性。
+* 在建立該類別的實例時，以對應的引數初始化該屬性。
 
 
 
-### Using the Hero class
+### 使用 Hero 類別
 
-After importing the `Hero` class, the `AppComponent.heroes` property can return a _typed_ array
-of `Hero` objects:
+在匯入 `Hero` 類別之後，`AppComponent.heroes` 屬性可以回傳一個有_型別_的
+`Hero` 物件陣列：
 
 
 <code-example path="displaying-data/src/app/app.component.3.ts" linenums="false" title="src/app/app.component.ts (heroes)" region="heroes">
@@ -276,9 +260,9 @@ of `Hero` objects:
 
 
 
-Next, update the template.
-At the moment it displays the hero's `id` and `name`.
-Fix that to display only the hero's `name` property.
+接著，更新範本。
+它目前顯示英雄的 `id` 與 `name`。
+把它修正為只顯示英雄的 `name` 屬性。
 
 
 <code-example path="displaying-data/src/app/app.component.3.ts" linenums="false" title="src/app/app.component.ts (template)" region="template">
@@ -287,18 +271,18 @@ Fix that to display only the hero's `name` property.
 
 
 
-The display looks the same, but the code is clearer.
+顯示出來的樣子相同，但程式碼更清楚。
 
 {@a ngIf}
 
-## Conditional display with NgIf
+## 使用 NgIf 條件式顯示
 
-Sometimes an app needs to display a view or a portion of a view only under specific circumstances.
+有時候，應用程式需要在特定情況下，才顯示某個檢視或檢視的一部分。
 
-Let's change the example to display a message if there are more than three heroes.
+讓我們修改這個範例：當英雄超過三個時，顯示一則訊息。
 
-The Angular `ngIf` directive inserts or removes an element based on a _truthy/falsy_ condition.
-To see it in action, add the following paragraph at the bottom of the template:
+Angular 的 `ngIf` 指令會根據一個 _truthy/falsy_ 條件，插入或移除一個元素。
+若要看到它的效果，在範本底部加入以下段落：
 
 
 <code-example path="displaying-data/src/app/app.component.ts" linenums="false" title="src/app/app.component.ts (message)" region="message">
@@ -311,50 +295,49 @@ To see it in action, add the following paragraph at the bottom of the template:
 
 
 
-Don't forget the leading asterisk (\*) in `*ngIf`. It is an essential part of the syntax.
-Read more about `ngIf` and `*` in the [ngIf section](guide/template-syntax#ngIf) of the [Template Syntax](guide/template-syntax) page.
+別忘了 `*ngIf` 開頭的星號（\*）。它是語法中不可或缺的一部分。
+更多關於 `ngIf` 與 `*` 的資訊，請參閱[範本語法](guide/template-syntax)頁面中的 [ngIf 一節](guide/template-syntax#ngIf)。
 
 
 </div>
 
 
 
-The template expression inside the double quotes,
-`*ngIf="heroes.length > 3"`, looks and behaves much like TypeScript.
-When the component's list of heroes has more than three items, Angular adds the paragraph
-to the DOM and the message appears. If there are three or fewer items, Angular omits the
-paragraph, so no message appears. For more information,
-see the [template expressions](guide/template-syntax#template-expressions) section of the
-[Template Syntax](guide/template-syntax) page.
+雙引號內的範本運算式
+`*ngIf="heroes.length > 3"`，外觀與行為都與 TypeScript 非常相似。
+當元件的英雄清單有超過三個項目時，Angular 會把該段落
+加入 DOM，訊息隨即出現。如果項目只有三個或更少，Angular 會省略該
+段落，因此訊息不會出現。更多資訊，
+請參閱[範本語法](guide/template-syntax)頁面中的[範本運算式](guide/template-syntax#範本運算式)一節。
 
 
 <div class="alert is-helpful">
 
 
 
-Angular isn't showing and hiding the message. It is adding and removing the paragraph element from the DOM. That improves performance, especially in larger projects when conditionally including or excluding
-big chunks of HTML with many data bindings.
+Angular 不是在顯示與隱藏訊息。它是把段落元素加入 DOM 或從 DOM 移除。這改善了效能，尤其在較大的專案中，當依條件包含或排除
+帶有許多資料繫結的大塊 HTML 時。
 
 
 </div>
 
 
 
-Try it out. Because the array has four items, the message should appear.
-Go back into <code>app.component.ts"</code> and delete or comment out one of the elements from the hero array.
-The browser should refresh automatically and the message should disappear.
+試試看。因為陣列有四個項目，訊息應該會出現。
+回到 <code>app.component.ts"</code>，從 hero 陣列中刪除或註解掉其中一個元素。
+瀏覽器應該會自動重新整理，訊息應該會消失。
 
 
 
-## Summary
-Now you know how to use:
+## 摘要
+現在你知道如何使用：
 
-* **Interpolation** with double curly braces to display a component property.
-* **ngFor** to display an array of items.
-* A TypeScript class to shape the **model data** for your component and display properties of that model.
-* **ngIf** to conditionally display a chunk of HTML based on a boolean expression.
+* 使用雙大括號**插值**來顯示元件屬性。
+* 使用 **ngFor** 顯示項目陣列。
+* 使用 TypeScript 類別塑造元件的模型資料，並顯示該模型的屬性。
+* 使用 **ngIf** 依布林運算式有條件地顯示一塊 HTML。
 
-Here's the final code:
+以下是最終的程式碼：
 
 
 <code-tabs>

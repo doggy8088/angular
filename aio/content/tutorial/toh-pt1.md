@@ -1,17 +1,16 @@
 @title
-The Hero Editor
+英雄編輯器
 
 @intro
-Build a simple hero editor.
+建立一個簡單的英雄編輯器。
 
 @description
 
 
-## Setup to develop locally
-Follow the [setup](guide/setup) instructions for creating a new project
-named <code>angular-tour-of-heroes</code>.
+## 設定本機開發環境
+依照[設定](guide/setup)說明，建立一個名為 <code>angular-tour-of-heroes</code> 的新專案。
 
-The file structure should look like this:
+檔案結構應該像這樣：
 
 
 <div class='filetree'>
@@ -80,14 +79,14 @@ The file structure should look like this:
 
 
 
-When you're done with this page, the app should look like this <live-example></live-example>.
+完成本頁後，應用程式看起來應該像這樣 <live-example></live-example>。
 
 
 {@a keep-transpiling}
 
 
-## Keep the app transpiling and running
-Enter the following command in the terminal window:
+## 讓應用程式持續轉譯並執行
+在終端機視窗中輸入以下命令：
 
 
 <code-example language="sh" class="code-shell">
@@ -97,16 +96,16 @@ Enter the following command in the terminal window:
 
 
 
-This command runs the TypeScript compiler in "watch mode", recompiling automatically when the code changes.
-The command simultaneously launches the app in a browser and refreshes the browser when the code changes.
+這個命令會以「監看模式」執行 TypeScript 編譯器，在程式碼變更時自動重新編譯。
+這個命令同時會在瀏覽器中啟動應用程式，並在程式碼變更時重新整理瀏覽器。
 
-You can keep building the Tour of Heroes without pausing to recompile or refresh the browser.
+你可以持續建置英雄之旅，不必停下來重新編譯或重新整理瀏覽器。
 
 
 
-## Show the hero
-Add two properties to the `AppComponent`: a `title` property for the app name and a `hero` property
-for a hero named "Windstorm."
+## 顯示英雄
+為 `AppComponent` 加入兩個屬性：一個 `title` 屬性表示應用程式名稱，一個 `hero` 屬性
+表示名為「Windstorm」的英雄。
 
 
 <code-example path="toh-pt1/app/app.component.1.ts" region="app-component-1" title="app.component.ts (AppComponent class)" linenums="false">
@@ -115,7 +114,7 @@ for a hero named "Windstorm."
 
 
 
-Now update the template in the `@Component` decorator with data bindings to these new properties.
+現在，用新屬性的資料繫結來更新 `@Component` 裝飾器中的範本。
 
 
 <code-example path="toh-pt1/app/app.component.1.ts" region="show-hero" title="app.component.ts (@Component)" linenums="false">
@@ -124,31 +123,31 @@ Now update the template in the `@Component` decorator with data bindings to thes
 
 
 
-The browser refreshes and displays the title and hero name.
+瀏覽器會重新整理，並顯示標題與英雄名稱。
 
-The double curly braces are Angular's *interpolation binding* syntax.
-These interpolation bindings present the component's `title` and `hero` property values,
-as strings, inside the HTML header tags.
+雙大括號是 Angular 的*插值繫結*語法。
+這些插值繫結會把元件的 `title` 與 `hero` 屬性值，
+以字串形式呈現在 HTML 標題標籤內。
 
 
 <div class="l-sub-section">
 
 
 
-Read more about interpolation in the [Displaying Data](guide/displaying-data) page.
+在[顯示資料](guide/displaying-data)頁面中進一步瞭解插值。
 
 
 </div>
 
 
 
-### Hero object
+### Hero 物件
 
-The hero needs more properties.
-Convert the `hero` from a literal string to a class.
+英雄需要更多屬性。
+把 `hero` 從字面字串轉換為類別。
 
-Create a `Hero` class with `id` and `name` properties.
-Add these properties near the top of the `app.component.ts` file, just below the import statement.
+建立一個具有 `id` 與 `name` 屬性的 `Hero` 類別。
+把這些屬性加在 `app.component.ts` 檔案的頂端，緊接在 import 陳述式下方。
 
 
 <code-example path="toh-pt1/src/app/app.component.ts" region="hero-class-1" title="src/app/app.component.ts (Hero class)" linenums="false">
@@ -157,8 +156,8 @@ Add these properties near the top of the `app.component.ts` file, just below the
 
 
 
-In the `AppComponent` class, refactor the component's `hero` property to be of type `Hero`,
-then initialize it with an `id` of `1` and the name `Windstorm`.
+在 `AppComponent` 類別中，把元件的 `hero` 屬性重構為 `Hero` 型別，
+然後用 `id` 為 `1`、名稱為 `Windstorm` 來初始化它。
 
 
 <code-example path="toh-pt1/src/app/app.component.ts" region="hero-property-1" title="src/app/app.component.ts (hero property)" linenums="false">
@@ -167,8 +166,8 @@ then initialize it with an `id` of `1` and the name `Windstorm`.
 
 
 
-Because you changed the hero from a string to an object,
-update the binding in the template to refer to the hero's `name` property.
+由於你已把英雄從字串改為物件，
+請更新範本中的繫結，改為參照英雄的 `name` 屬性。
 
 
 <code-example path="toh-pt1/app/app.component.1.ts" region="show-hero-2" title="src/app/app.component.ts">
@@ -177,17 +176,17 @@ update the binding in the template to refer to the hero's `name` property.
 
 
 
-The browser refreshes and continues to display the hero's name.
+瀏覽器會重新整理，並繼續顯示英雄的名稱。
 
-### Adding HTML with multi-line template strings
+### 使用多行範本字串加入 HTML
 
-To show all of the hero's properties,
-add a `<div>` for the hero's `id` property and another `<div>` for the hero's `name`.
-To keep the template readable, place each `<div>` on its own line.
+若要顯示英雄的所有屬性，
+請為英雄的 `id` 屬性加一個 `<div>`，再為 `name` 加另一個 `<div>`。
+為了讓範本易於閱讀，把每個 `<div>` 放在各自的一行。
 
-The backticks around the component template let you put the `<h1>`, `<h2>`, and `<div>` elements on their own lines,
-thanks to the <i>template literals</i> feature in ES2015 and TypeScript. For more information, see
-<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals" target="_blank" title="template literal">Template literals</a>.
+元件範本周圍的反引號讓你可以把 `<h1>`、`<h2>` 與 `<div>` 元素放在各自的行上，
+這要歸功於 ES2015 與 TypeScript 中的<i>範本字面值</i>功能。如需更多資訊，請參閱
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals" target="_blank" title="template literal">Template literals</a>。
 
 
 
@@ -198,17 +197,17 @@ thanks to the <i>template literals</i> feature in ES2015 and TypeScript. For mor
 
 
 
-## Edit the hero name
+## 編輯英雄名稱
 
-Users should be able to edit the hero name in an `<input>` textbox.
-The textbox should both _display_ the hero's `name` property
-and _update_ that property as the user types.
+使用者應該能在 `<input>` 文字方塊中編輯英雄名稱。
+文字方塊應該同時_顯示_英雄的 `name` 屬性，
+並在使用者輸入時_更新_該屬性。
 
-You need a two-way binding between the `<input>` form element and the `hero.name` property.
+你需要在 `<input>` 表單元素與 `hero.name` 屬性之間建立雙向繫結。
 
-### Two-way binding
+### 雙向繫結
 
-Refactor the hero name in the template so it looks like this:
+把範本中的英雄名稱重構成像這樣：
 
 <code-example path="toh-pt1/app/app.component.1.ts" region="name-input" title="src/app/app.component.ts" linenums="false">
 
@@ -216,26 +215,26 @@ Refactor the hero name in the template so it looks like this:
 
 
 
-`[(ngModel)]` is the Angular syntax to bind the `hero.name` property
-to the textbox.
-Data flows _in both directions:_ from the property to the textbox,
-and from the textbox back to the property.
+`[(ngModel)]` 是 Angular 用來把 `hero.name` 屬性繫結
+到文字方塊的語法。
+資料會_雙向_流動：從屬性流到文字方塊，
+也從文字方塊流回屬性。
 
-Unfortunately, immediately after this change, the application breaks.
-If you looked in the browser console, you'd see Angular complaining that
-"`ngModel` ... isn't a known property of `input`."
+很不幸，這個變更之後，應用程式立刻就壞了。
+如果你查看瀏覽器主控台，會看到 Angular 抱怨說
+「`ngModel` ... 不是 `input` 的已知屬性」。
 
-Although `NgModel` is a valid Angular directive, it isn't available by default.
-It belongs to the optional `FormsModule`.
-You must opt-in to using that module.
+雖然 `NgModel` 是一個有效的 Angular 指令，但它預設無法使用。
+它屬於選用的 `FormsModule`。
+你必須主動選擇使用該模組。
 
-### Import the _FormsModule_
+### 匯入 _FormsModule_
 
-Open the `app.module.ts` file and import the `FormsModule` symbol from the `@angular/forms` library.
-Then add the `FormsModule` to the `@NgModule` metadata's `imports` array, which contains the list
-of external modules that the app uses.
+開啟 `app.module.ts` 檔案，從 `@angular/forms` 函式庫匯入 `FormsModule` 符號。
+然後把 `FormsModule` 加入 `@NgModule` 中繼資料的 `imports` 陣列，該陣列包含
+應用程式所使用的外部模組清單。
 
-The updated `AppModule` looks like this:
+更新後的 `AppModule` 像這樣：
 
 <code-example path="toh-pt1/src/app/app.module.ts" title="app.module.ts (FormsModule import)">
 
@@ -247,36 +246,36 @@ The updated `AppModule` looks like this:
 
 
 
-Read more about `FormsModule` and `ngModel` in the
-[Two-way data binding with ngModel](guide/forms#ngModel) section of the
-[Forms](guide/forms) guide and the
-[Two-way binding with NgModel](guide/template-syntax#ngModel) section of the
-[Template Syntax](guide/template-syntax) guide.
+在 [Forms](guide/forms) 指南的
+[使用 ngModel 進行雙向資料繫結](guide/forms#ngModel)章節，以及
+[Template Syntax](guide/template-syntax) 指南的
+[使用 NgModel 進行雙向繫結](guide/template-syntax#ngModel)章節中，
+進一步瞭解 `FormsModule` 與 `ngModel`。
 
 
 </div>
 
 
 
-When the browser refreshes, the app should work again.
-You can edit the hero's name and see the changes reflected immediately in the `<h2>` above the textbox.
+當瀏覽器重新整理後，應用程式應該再次正常運作。
+你可以編輯英雄的名稱，並看到變更立即反映在文字方塊上方的 `<h2>` 中。
 
 
 
-## Summary
+## 總結
 
-Take stock of what you've built.
+盤點一下你建置了什麼。
 
-* The Tour of Heroes app uses the double curly braces of interpolation (a type of one-way data binding)
-to display the app title and properties of a `Hero` object.
-* You wrote a multi-line template using ES2015's template literals to make the template readable.
-* You added a two-way data binding to the `<input>` element
-using the built-in `ngModel` directive. This binding both displays the hero's name and allows users to change it.
-* The `ngModel` directive propagates changes to every other binding of the `hero.name`.
+* 英雄之旅應用程式使用插值的雙大括號（一種單向資料繫結）
+來顯示應用程式標題與 `Hero` 物件的屬性。
+* 你使用 ES2015 的範本字面值，撰寫了多行範本，讓範本易於閱讀。
+* 你使用內建的 `ngModel` 指令，為 `<input>` 元素加入了雙向資料繫結。
+這個繫結既會顯示英雄的名稱，也允許使用者變更它。
+* `ngModel` 指令會把變更傳播到 `hero.name` 的其他每個繫結。
 
-Your app should look like this <live-example></live-example>.
+你的應用程式看起來應該像這樣 <live-example></live-example>。
 
-Here's the complete `app.component.ts` as it stands now:
+以下是目前完整的 `app.component.ts`：
 
 
 <code-example path="toh-pt1/src/app/app.component.ts" title="src/app/app.component.ts">
@@ -286,7 +285,7 @@ Here's the complete `app.component.ts` as it stands now:
 
 
 
-## Next step
-In the [next tutorial page](tutorial/toh-pt2  "Master/Detail"), you'll build on the Tour of Heroes app to display a list of heroes.
-You'll also allow the user to select heroes and display their details.
-You'll learn more about how to retrieve lists and bind them to the template.
+## 下一步
+在[下一篇教學頁面](tutorial/toh-pt2  "Master/Detail")中，你將在英雄之旅應用程式的基礎上，顯示一份英雄清單。
+你也將讓使用者選取英雄並顯示他們的詳細資訊。
+你將進一步瞭解如何取得清單，並把它們繫結到範本。

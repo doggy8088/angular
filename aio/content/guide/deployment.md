@@ -1,6 +1,6 @@
-# Deployment
+# 部署
 
-This page describes tools and techniques for deploy and optimize your Angular application.
+本頁說明部署與最佳化你的 Angular 應用程式的工具與技巧。
 
 
 {@a toc}
@@ -9,65 +9,64 @@ This page describes tools and techniques for deploy and optimize your Angular ap
 
 
 
-## Overview
+## 總覽
 
-This guide describes techniques for preparing and deploying an Angular application to a server running remotely.
-The techniques progress from _easy but suboptimal_ to _more optimal and more involved_.
+本指南說明將 Angular 應用程式準備好並部署到遠端伺服器的技巧。
+這些技巧從_簡單但非最佳_進展到_更最佳、也更繁複_。
 
-* The [simple way](guide/deployment#dev-deploy "Simplest deployment possible") is to copy the development environment to the server.
+* [最簡單的方式](guide/deployment#dev-deploy "Simplest deployment possible")是把開發環境複製到伺服器上。
 
-* [_Ahead of Time_ compilation (AOT)](guide/deployment#aot "AOT Compilation") is the first of
-[several optimization strategies](guide/deployment#optimize).
-You'll also want to read the [detailed instructions in the AOT Cookbook](guide/aot-compiler "AOT Cookbook").
+* [_Ahead of Time_ 編譯 (AOT)](guide/deployment#aot "AOT Compilation")是
+[幾種最佳化策略](guide/deployment#optimize)中的第一種。
+你也會想閱讀 [AOT 食譜](guide/aot-compiler "AOT Cookbook")中的詳細說明。
 
-* [Webpack](guide/deployment#webpack "Webpack Optimization") is a popular general purpose packaging tool with a rich ecosystem, including plugins for AOT.
-The Angular [webpack guide](guide/webpack "Webpack: an introduction") can get you started and
-_this_ page provides additional optimization advice, but you'll probably have to learn more about webpack on your own.
+* [Webpack](guide/deployment#webpack "Webpack Optimization")是一種受歡迎的通用打包工具，擁有豐富的生態系，包括 AOT 的外掛。
+Angular 的 [webpack 指南](guide/webpack "Webpack: an introduction")可以幫助你入門，
+而_本_頁提供額外的最佳化建議，但你可能還是得自己多了解 webpack。
 
-* The [Angular configuration](guide/deployment#angular-configuration "Angular configuration") section calls attention to
-specific client application changes that could improve performance.
+* [Angular 設定](guide/deployment#angular-configuration "Angular configuration")一節提請注意
+可能改善效能的特定用戶端應用程式變更。
 
-* The [Server configuration](guide/deployment#server-configuration "Server configuration") section describes
-server-side changes that may be necessary, _no matter how you deploy the application_.
+* [伺服器設定](guide/deployment#server-configuration "Server configuration")一節說明
+伺服器端可能必須做的變更，_無論你如何部署應用程式_。
 
 
 
 {@a dev-deploy}
 
 
-## Simplest deployment possible
+## 最簡單的部署方式
 
-The simplest way to deploy the app is to publish it to a web server
-directly out of the development environment.
+部署應用程式最簡單的方式，是直接從開發環境將它發佈到網站伺服器上。
 
-It's already running locally. You'll just copy it, almost _as is_,
-to a non-local server that others can reach.
+它已經在本機執行了。你只需把它幾乎_原封不動_地
+複製到一台他人可以連上的非本機伺服器。
 
-1. Copy _everything_ (or [_almost_ everything](guide/deployment#node-modules "Loading npm packages from the web"))
-from the local project folder to a folder on the server.
+1. 把本機專案資料夾中的_所有內容_（或[_幾乎所有內容_](guide/deployment#node-modules "Loading npm packages from the web")）
+複製到伺服器上的一個資料夾。
 
-1. If you're serving the app out of a subfolder,
-edit a version of `index.html` to set the `<base href>` appropriately.
-For example, if the URL to `index.html` is `www.mysite.com/my/app/`, set the _base href_  to
-`<base href="/my/app/">`.
-Otherwise, leave it alone.
-[More on this below](guide/deployment#base-tag).
+1. 如果你從子資料夾提供應用程式，
+請編輯一份 `index.html`，適當設定 `<base href>`。
+例如，如果 `index.html` 的 URL 是 `www.mysite.com/my/app/`，就把 _base href_ 設為
+`<base href="/my/app/">`。
+否則，就保持不動。
+[下文有更多說明](guide/deployment#base-tag)。
 
-1. Configure the server to redirect requests for missing files to `index.html`.
-[More on this below](guide/deployment#fallback).
+1. 設定伺服器，把遺失檔案的請求重新導向到 `index.html`。
+[下文有更多說明](guide/deployment#fallback)。
 
-1. Enable production mode as [described below](guide/deployment#enable-prod-mode) (optional).
+1. 依[下文所述](guide/deployment#enable-prod-mode)啟用正式模式（可選）。
 
-That's the simplest deployment you can do.
+這是你能做的最簡單的部署。
 
 
 <div class="alert is-helpful">
 
 
 
-This is _not_ a production deployment. It's not optimized and it won't be fast for users.
-It might be good enough for sharing your progress and ideas internally with managers, teammates, and other stakeholders.
-Be sure to read about [optimizing for production](guide/deployment#optimize "Optimizing for production") below.
+這_不是_正式環境部署。它未經最佳化，對使用者來說也不會快。
+它可能足以在內部與經理、團隊成員及其他利害關係人分享你的進度與想法。
+務必閱讀下方的[針對正式環境最佳化](guide/deployment#optimize "Optimizing for production")。
 
 
 
@@ -78,20 +77,20 @@ Be sure to read about [optimizing for production](guide/deployment#optimize "Opt
 {@a node-modules}
 
 
-### Load npm package files from the web (SystemJS)
+### 從網路載入 npm 套件檔案 (SystemJS)
 
-The `node_modules` folder of _npm packages_ contains much more code
-than is needed to actually run your app in the browser.
-The `node_modules` for the Quickstart installation is typically 20,500+ files and 180+ MB.
-The application itself requires a tiny fraction of that to run.
+_npm 套件_的 `node_modules` 資料夾所包含的程式碼，
+遠多於在瀏覽器中實際執行你的應用程式所需的數量。
+Quickstart 安裝的 `node_modules` 通常有 20,500 多個檔案、超過 180 MB。
+應用程式本身只需要其中極小的一部分就能執行。
 
-It takes a long time to upload all of that useless bulk and
-users will wait unnecessarily while library files download piecemeal.
+上傳所有這些無用的龐大內容需要很長時間，
+而且使用者會不必要地等待函式庫檔案逐一零碎下載。
 
-Load the few files you need from the web instead.
+改從網路載入你需要的少數檔案。
 
-(1) Make a copy of `index.html` for deployment and replace all `node_module` scripts
-with versions that load from the web. It might look like this.
+(1) 為部署製作一份 `index.html` 副本，並把所有 `node_module` 腳本
+換成從網路載入的版本。它可能看起來像這樣。
 
 
 <code-example path="deployment/src/index.html" region="node-module-scripts" linenums="false">
@@ -100,8 +99,8 @@ with versions that load from the web. It might look like this.
 
 
 
-(2) Replace the `systemjs.config.js` script with a script that
-loads `systemjs.config.server.js`.
+(2) 把 `systemjs.config.js` 腳本換成一個
+載入 `systemjs.config.server.js` 的腳本。
 
 <code-example path="deployment/src/index.html" region="systemjs-config" linenums="false">
 
@@ -109,14 +108,14 @@ loads `systemjs.config.server.js`.
 
 
 
-(3) Add `systemjs.config.server.js` (shown in the code sample below) to the `src/` folder.
-This alternative version configures _SystemJS_ to load _UMD_ versions of Angular
-(and other third-party packages) from the web.
+(3) 把 `systemjs.config.server.js`（如下方程式碼範例所示）加入 `src/` 資料夾。
+這個替代版本會設定 _SystemJS_，從網路載入 Angular
+（以及其他第三方套件）的 _UMD_ 版本。
 
-Modify `systemjs.config.server.js` as necessary to stay in sync with changes
-you make to `systemjs.config.js`.
+視需要修改 `systemjs.config.server.js`，讓它與你對
+`systemjs.config.js` 所做的變更保持同步。
 
-Notice the `paths` key:
+請注意 `paths` 鍵：
 
 
 <code-example path="deployment/src/systemjs.config.server.js" region="paths" linenums="false">
@@ -125,21 +124,20 @@ Notice the `paths` key:
 
 
 
-In the standard SystemJS config, the `npm` path points to the `node_modules/`.
-In this server config, it points to
-<a href="https://unpkg.com/" title="unpkg.com">https://unpkg.com</a>,
-a site that hosts _npm packages_,
-and loads them from the web directly.
-There are other service providers that do the same thing.
+在標準的 SystemJS 設定中，`npm` 路徑指向 `node_modules/`。
+在這份伺服器設定中，它指向
+<a href="https://unpkg.com/" title="unpkg.com">https://unpkg.com</a>，
+一個託管 _npm 套件_的網站，
+並直接從網路載入它們。
+也有其他服務提供者做同樣的事。
 
-If you are unwilling or unable to load packages from the open web,
-the inventory in `systemjs.config.server.js` identifies the files and folders that
-you would copy to a library folder on the server.
-Then change the config's  `'npm'` path to point to that folder.
+如果你不願意或無法從開放的網路載入套件，
+`systemjs.config.server.js` 中的清單指出了你會複製到伺服器上函式庫資料夾的檔案與資料夾。
+然後把設定的 `'npm'` 路徑改成指向該資料夾。
 
-### Practice with an example
+### 用範例練習
 
-The following trivial router sample app shows these changes.
+以下這個簡單的路由器範例應用程式展示了這些變更。
 
 
 <code-tabs>
@@ -176,208 +174,201 @@ The following trivial router sample app shows these changes.
 
 
 
-Practice with this sample before attempting these techniques on your application.
+在對你的應用程式嘗試這些技巧之前，先用這個範例練習。
 
-1. Follow the [setup instructions](guide/setup "Angular QuickStart setup") for creating a new project
-named <code>simple-deployment</code>.
+1. 按照[設定說明](guide/setup "Angular QuickStart setup")，建立名為 <code>simple-deployment</code> 的新專案。
 
-1. Add the "Simple deployment" sample files shown above.
+1. 加入上方所示的「Simple deployment」範例檔案。
 
-1. Run it with `npm start` as you would any project.
+1. 像執行任何專案一樣，用 `npm start` 執行它。
 
-1. Inspect the network traffic in the browser developer tools.
-Notice that it loads all packages from the web.
-You could delete the `node_modules` folder and the app would still run
-(although you wouldn't be able to recompile or launch `lite-server`
-until you restored it).
+1. 在瀏覽器開發者工具中檢查網路流量。
+注意它會從網路載入所有套件。
+你可以刪除 `node_modules` 資料夾，應用程式仍能執行
+（不過在你還原它之前，你將無法重新編譯或啟動 `lite-server`）。
 
-1. Deploy the sample to the server (minus the `node_modules` folder!).
+1. 把範例部署到伺服器（不要包含 `node_modules` 資料夾！）。
 
-When you have that working, try the same process on your application.
+當它運作正常後，對你的應用程式嘗試同樣的流程。
 
 
 {@a optimize}
 
 
 
-## Optimize for production
+## 針對正式環境最佳化
 
-Although deploying directly from the development environment works, it's far from optimal.
+雖然直接從開發環境部署也行得通，但它遠非最佳。
 
-The client makes many small requests for individual application code and template files,
-a fact you can quickly confirm by looking at the network tab in a browser's developer tools.
-Each small file download can spend more time communicating with the server than transferring data.
+用戶端會對個別的應用程式程式碼與範本檔案發出許多小型請求，
+只要看看瀏覽器開發者工具的網路分頁就能迅速確認這一點。
+每個小檔案的下載，花在與伺服器通訊的時間可能比傳輸資料還多。
 
-Development files are full of comments and whitespace for easy reading and debugging.
-The browser downloads entire libraries, instead of just the parts the app needs.
-The volume of code passed from server to client (the "payload")
-can be significantly larger than is strictly necessary to execute the application.
+開發檔案充滿註解與空白，方便閱讀與除錯。
+瀏覽器下載的是整個函式庫，而不是只下載應用程式需要的部分。
+從伺服器傳到用戶端的程式碼量（「payload」）
+可能遠大於嚴格執行應用程式所需的數量。
 
-The many requests and large payloads mean
-the app takes longer to launch than it would if you optimized it.
-Several seconds may pass (or worse) before the user can see or do anything useful.
+眾多的請求與龐大的 payload 意味著
+應用程式的啟動時間會比最佳化後更長。
+使用者可能要等上幾秒（或更久），才能看到或做任何有用的事。
 
-Does it matter? That depends upon business and technical factors you must evaluate for yourself.
+這重要嗎？這取決於你必須自行評估的業務與技術因素。
 
-If it _does_ matter, there are tools and techniques to reduce the number of requests and the size of responses.
+如果它_確實_重要，有一些工具與技巧可以減少請求的數量與回應的大小。
 
-* Ahead-of-Time (AOT) Compilation: pre-compiles Angular component templates.
-* Bundling: concatenates modules into a single file (bundle).
-* Inlining: pulls template html and css into the components.
-* Minification: removes excess whitespace, comments, and optional tokens.
-* Uglification: rewrites code to use short, cryptic variable and function names.
-* Dead code elimination: removes unreferenced modules and unused code.
-* Pruned libraries: drop unused libraries and pare others down to the features you need.
-* Performance measurement: focus on optimizations that make a measurable difference.
+* Ahead-of-Time (AOT) Compilation：預先編譯 Angular 元件範本。
+* Bundling：將模組串連成單一檔案 (bundle)。
+* Inlining：將範本 html 與 css 拉入元件中。
+* Minification：移除多餘的空白、註解與可選的標記。
+* Uglification：將程式碼改寫為使用簡短、難以理解的變數與函式名稱。
+* Dead code elimination：移除未被參考的模組與未使用的程式碼。
+* Pruned libraries：丟棄未使用的函式庫，並縮減其他函式庫，只保留你需要的功能。
+* Performance measurement：聚焦於能帶來可衡量差異的最佳化。
 
-Each tool does something different.
-They work best in combination and are mutually reinforcing.
+每個工具做的事各不相同。
+它們組合使用時效果最好，而且相輔相成。
 
-You can use any build system you like.
-Whatever system you choose, be sure to automate it so that
-building for production is a single step.
+你可以使用任何你喜歡的建置系統。
+無論你選擇什麼系統，務必將它自動化，讓
+針對正式環境的建置成為單一步驟。
 
 
 {@a aot}
 
 
-### Ahead-of-Time (AOT) compilation
+### Ahead-of-Time (AOT) 編譯
 
-The Angular _Ahead-of-Time_ compiler pre-compiles application components and their templates
-during the build process.
+Angular 的 _Ahead-of-Time_ 編譯器會在建置過程中預先編譯應用程式元件及其範本。
 
-Apps compiled with AOT launch faster for several reasons.
+以 AOT 編譯的應用程式啟動更快，原因有幾個。
 
-* Application components execute immediately, without client-side compilation.
-* Templates are embedded as code within their components so there is no client-side request for template files.
-* You don't download the Angular compiler, which is pretty big on its own.
-* The compiler discards unused Angular directives that a tree-shaking tool can then exclude.
+* 應用程式元件會立即執行，無需用戶端編譯。
+* 範本會以程式碼形式內嵌在元件中，因此不會有向用戶端請求範本檔案的情形。
+* 你不用下載 Angular 編譯器，它本身就相當龐大。
+* 編譯器會丟棄未使用的 Angular 指令，接著搖樹最佳化工具便能將它們排除。
 
-Learn more about AOT Compilation in the [AOT Cookbook](guide/aot-compiler "AOT Cookbook")
-which describes running the AOT compiler from the command line
-and using [_rollup_](guide/deployment#rollup) for bundling, minification, uglification and tree shaking.
+在 [AOT 食譜](guide/aot-compiler "AOT Cookbook")中進一步了解 AOT 編譯，
+它說明了如何從命令列執行 AOT 編譯器，
+以及如何使用 [_rollup_](guide/deployment#rollup) 進行打包、最小化、混淆化與搖樹最佳化。
 
 
 {@a webpack}
 
 
-### Webpack (and AOT)
+### Webpack (與 AOT)
 
-<a href="https://webpack.js.org/" title="Webpack 2">Webpack 2</a> is another
-great option for inlining templates and style-sheets, for bundling, minifying, and uglifying the application.
-The "[Webpack: an introduction](guide/webpack "Webpack: an introduction")" guide will get you started
-using webpack with Angular.
+<a href="https://webpack.js.org/" title="Webpack 2">Webpack 2</a> 是另一個
+將範本與樣式表行內化，並對應用程式進行打包、最小化與混淆化的絕佳選擇。
+「[Webpack: an introduction](guide/webpack "Webpack: an introduction")」指南會幫助你開始
+在 Angular 中使用 webpack。
 
-Consider configuring _Webpack_ with the official
+考慮使用官方的
 <a href="https://github.com/angular/angular-cli/tree/master/packages/%40ngtools/webpack" title="Ahead-of-Time Webpack Plugin">
-Angular Ahead-of-Time Webpack Plugin</a>.
-This plugin transpiles the TypeScript application code,
-bundles lazy loaded `NgModules` separately,
-and performs AOT compilation &mdash; without any changes to the source code.
+Angular Ahead-of-Time Webpack Plugin</a>
+來設定 _Webpack_。
+這個外掛會轉譯 TypeScript 應用程式程式碼、
+分別打包延遲載入的 `NgModules`，
+並執行 AOT 編譯&mdash;而且完全不需要變更原始碼。
 
 
 {@a rollup}
 
 
-### Dead code elimination with _rollup_
+### 使用 _rollup_ 消除死程式碼
 
-Any code that you don't call is _dead code_.
-You can reduce the total size of the application substantially by removing dead code from the application and from third-party libraries.
+任何你未曾呼叫的程式碼都是_死程式碼_。
+將死程式碼從應用程式與第三方函式庫中移除，可以大幅減少應用程式的總大小。
 
-_Tree shaking_ is a _dead code elimination_ technique that removes entire exports from JavaScript modules.
-If a library exports something that the application doesn't import, a tree shaking tool removes it from the code base.
+_搖樹最佳化_是一種_死程式碼消除_技巧，它會從 JavaScript 模組中移除整個匯出。
+如果某個函式庫匯出了應用程式未匯入的內容，搖樹最佳化工具會將它從程式碼庫中移除。
 
-Tree shaking was popularized by
-<a href="http://rollupjs.org/" title="Rollup">Rollup</a>, a popular tool with an ecosystem of
-plugins for bundling, minification, and uglification.
-Learn more about tree shaking and dead code elmination in
+搖樹最佳化由
+<a href="http://rollupjs.org/" title="Rollup">Rollup</a> 所推廣，它是一個受歡迎的工具，擁有一套由外掛組成的生態系，用於打包、最小化與混淆化。
+在 rollup 創作者 Rich Harris 的
 <a href="https://medium.com/@Rich_Harris/tree-shaking-versus-dead-code-elimination-d3765df85c80#.15ih9cyvl" title="Tree-shaking and Dead Code Elimination">
-this post</a> by rollup-creator, Rich Harris.
+這篇文章</a>中，進一步了解搖樹最佳化與死程式碼消除。
 
 
 {@a prune}
 
 
-### Pruned libraries
+### 縮減函式庫
 
-Don't count on automation to remove all dead code.
+不要指望自動化能移除所有的死程式碼。
 
-Remove libraries that you don't use, especially unnecessary scripts in `index.html`.
-Consider smaller alternatives to the libraries that you do use.
+移除你不使用的函式庫，尤其是 `index.html` 中不必要的腳本。
+考慮為你確實使用的函式庫尋找更小的替代品。
 
-Some libraries offer facilities for building a custom, skinny version with just the features you need.
-Other libraries let you import features _a la carte_.
-**RxJS** is a good example; import RxJS `Observable` operators individually instead of the entire library.
+有些函式庫提供了建置自訂精簡版的設施，只包含你需要的功能。
+其他函式庫則讓你可以 _a la carte_ 地匯入功能。
+**RxJS** 就是一個好例子：逐一匯入 RxJS 的 `Observable` 運算子，而不是匯入整個函式庫。
 
 
 {@a measure}
 
 
-### Measure performance first
+### 先衡量效能
 
-You can make better decisions about what to optimize and how when you have a clear and accurate understanding of
-what's making the application slow.
-The cause may not be what you think it is.
-You can waste a lot of time and money optimizing something that has no tangible benefit or even makes the app slower.
-You should measure the app's actual behavior when running in the environments that are important to you.
+當你清楚且準確地了解是什麼讓應用程式變慢時，你就能對要最佳化什麼、如何最佳化做出更好的決定。
+原因可能和你想的不一樣。
+你可能會浪費大量時間與金錢去最佳化某個沒有實際效益、甚至會讓應用程式更慢的東西。
+你應該在對你重要的環境中執行時，衡量應用程式的實際行為。
 
-The
 <a href="https://developers.google.com/web/tools/chrome-devtools/network-performance/understanding-resource-timing" title="Chrome DevTools Network Performance">
-Chrome DevTools Network Performance page</a> is a good place to start learning about measuring performance.
+Chrome DevTools Network Performance 頁面</a> 是開始學習衡量效能的好地方。
 
-The [WebPageTest](https://www.webpagetest.org/) tool is another good choice
-that can also help verify that your deployment was successful.
+[WebPageTest](https://www.webpagetest.org/) 工具是另一個好選擇，也可以幫助你驗證部署是否成功。
 
 
 {@a angular-configuration}
 
 
 
-## Angular configuration
+## Angular 設定
 
-Angular configuration can make the difference between whether the app launches quickly or doesn't load at all.
+Angular 設定可能決定應用程式是快速啟動，還是根本無法載入。
 
 
 {@a base-tag}
 
 
-### The `base` tag
+### `base` 標籤
 
-The HTML [_&lt;base href="..."/&gt;_](/guide/router)
-specifies a base path for resolving relative URLs to assets such as images, scripts, and style sheets.
-For example, given the `<base href="/my/app/">`, the browser resolves a URL such as `some/place/foo.jpg`
-into a server request for `my/app/some/place/foo.jpg`.
-During navigation, the Angular router uses the _base href_ as the base path to component, template, and module files.
+HTML [_&lt;base href="..."/&gt;_](/guide/router)
+會指定一個基底路徑，用來解析指向圖片、指令碼與樣式表等資產的相對 URL。
+例如，給定 `<base href="/my/app/">`，瀏覽器會把 `some/place/foo.jpg` 這樣的 URL
+解析為對 `my/app/some/place/foo.jpg` 的伺服器請求。
+在導覽期間，Angular 路由器會使用 _base href_ 作為元件、範本與模組檔案的基底路徑。
 
 
 <div class="l-sub-section">
 
 
 
-See also the [*APP_BASE_HREF*](api/common/APP_BASE_HREF "API: APP_BASE_HREF") alternative.
+另請參閱 [*APP_BASE_HREF*](api/common/APP_BASE_HREF "API: APP_BASE_HREF") 替代方案。
 
 </div>
 
 
 
-In development, you typically start the server in the folder that holds `index.html`.
-That's the root folder and you'd add `<base href="/">` near the top of `index.html` because `/` is the root of the app.
+在開發期間，你通常會在存放 `index.html` 的資料夾中啟動伺服器。
+那就是根資料夾，你會在 `index.html` 靠近頂部的地方加入 `<base href="/">`，因為 `/` 是應用程式的根。
 
-But on the shared or production server, you might serve the app from a subfolder.
-For example, when the URL to load the app is something like `http://www.mysite.com/my/app/`,
-the subfolder is `my/app/` and you should add `<base href="/my/app/">` to the server version of the `index.html`.
+但在共用或正式環境伺服器上，你可能會從子資料夾提供應用程式。
+例如，當載入應用程式的 URL 是 `http://www.mysite.com/my/app/` 這類網址時，
+子資料夾是 `my/app/`，你應該在伺服器版本的 `index.html` 中加入 `<base href="/my/app/">`。
 
-When the `base` tag is misconfigured, the app fails to load and the browser console displays `404 - Not Found` errors
-for the missing files. Look at where it _tried_ to find those files and adjust the base tag appropriately.
+當 `base` 標籤設定錯誤時，應用程式會無法載入，瀏覽器主控台會顯示遺失檔案的 `404 - Not Found` 錯誤。
+看看它_試圖_在哪裡找到那些檔案，並據以適當調整 base 標籤。
 
 
 {@a enable-prod-mode}
 
 
-### Enable production mode
+### 啟用正式模式
 
-Angular apps run in development mode by default, as you can see by the following message on the browser
-console:
+Angular 應用程式預設以開發模式執行，如瀏覽器主控台的下列訊息所示：
 
 
 <code-example format="nocode">
@@ -386,9 +377,9 @@ console:
 
 
 
-Switching to production mode can make it run faster by disabling development specific checks such as the dual change detection cycles.
+切換到正式模式可以讓它執行得更快，方法是停用開發專屬的檢查，例如雙重變更偵測週期。
 
-To enable [production mode](api/core/enableProdMode) when running remotely, add the following code to the `main.ts`.
+若要在遠端執行時啟用[正式模式](api/core/enableProdMode)，請將下列程式碼加入 `main.ts`。
 
 
 <code-example path="deployment/src/main.ts" region="enableProdMode" title="src/main.ts (enableProdMode)" linenums="false">
@@ -400,32 +391,29 @@ To enable [production mode](api/core/enableProdMode) when running remotely, add 
 {@a lazy-loading}
 
 
-### Lazy loading
+### 延遲載入
 
-You can dramatically reduce launch time by only loading the application modules that
-absolutely must be present when the app starts.
+只載入應用程式啟動時絕對必須存在的應用程式模組，可以大幅縮短啟動時間。
 
-Configure the Angular Router to defer loading of all other modules (and their associated code), either by
-[waiting until the app has launched](guide/router#preloading  "Preloading")
-or by [_lazy loading_](guide/router#asynchronous-routing "Lazy loading")
-them on demand.
+設定 Angular 路由器，延後載入所有其他模組（及其相關程式碼），方式可以是
+[等到應用程式啟動後](guide/router#preloading  "Preloading")
+或是在需要時[_延遲載入_](guide/router#asynchronous-routing "Lazy loading")
+它們。
 
-#### Don't eagerly import something from a lazy loaded module
+#### 不要急切地從延遲載入的模組匯入內容
 
-It's a common mistake.
-You've arranged to lazy load a module.
-But you unintentionally import it, with a JavaScript `import` statement,
-in a file that's eagerly loaded when the app starts, a file such as the root `AppModule`.
-If you do that, the module will be loaded immediately.
+這是常見的錯誤。
+你已安排延遲載入某個模組。
+但你不經意地在應用程式啟動時會急切載入的檔案（例如根 `AppModule`）中，用 JavaScript `import` 陳述式匯入了它。
+如果你這麼做，該模組會立即被載入。
 
-The bundling configuration must take lazy loading into consideration.
-Because lazy loaded modules aren't imported in JavaScript (as just noted), bundlers exclude them by default.
-Bundlers don't know about the router configuration and won't create separate bundles for lazy loaded modules.
-You have to create these bundles manually.
+綑綁設定必須考慮延遲載入。
+由於延遲載入的模組不會在 JavaScript 中被匯入（如剛才所述），綑綁工具預設會排除它們。
+綑綁工具不知道路由器設定，不會為延遲載入的模組建立獨立的套件。
+你必須手動建立這些套件。
 
-The
 [Angular Ahead-of-Time Webpack Plugin](https://github.com/angular/angular-cli/tree/master/packages/%40ngtools/webpack)
-automatically recognizes lazy loaded `NgModules` and creates separate bundles for them.
+會自動辨識延遲載入的 `NgModules`，並為它們建立個別的套件。
 
 
 
@@ -433,57 +421,51 @@ automatically recognizes lazy loaded `NgModules` and creates separate bundles fo
 
 
 
-## Server configuration
+## 伺服器設定
 
-This section covers changes you may have make to the server or to files deployed to the server.
+本節介紹你可能需要對伺服器或部署在伺服器上的檔案進行的變更。
 
 
 {@a fallback}
 
 
-### Routed apps must fallback to `index.html`
+### 具路由的應用程式必須退回 `index.html`
 
-Angular apps are perfect candidates for serving with a simple static HTML server.
-You don't need a server-side engine to dynamically compose application pages because
-Angular does that on the client-side.
+Angular 應用程式非常適合用簡單的靜態 HTML 伺服器來提供服務。
+你不需要伺服器端引擎來動態組合應用程式頁面，因為 Angular 會在客戶端完成這件事。
 
-If the app uses the Angular router, you must configure the server
-to return the application's host page (`index.html`) when asked for a file that it does not have.
+若應用程式使用 Angular 路由器，你必須設定伺服器：當被請求的檔案不存在時，改回傳應用程式的主頁（`index.html`）。
 
 
 {@a deep-link}
 
 
-A routed application should support "deep links".
-A _deep link_ is a URL that specifies a path to a component inside the app.
-For example, `http://www.mysite.com/heroes/42` is a _deep link_ to the hero detail page
-that displays the hero with `id: 42`.
+具路由的應用程式應支援「深層連結」。
+_深層連結_ 是指向應用程式內部某個元件路徑的 URL。
+例如，`http://www.mysite.com/heroes/42` 就是指向英雄詳細頁面的_深層連結_，該頁面顯示 `id: 42` 的英雄。
 
-There is no issue when the user navigates to that URL from within a running client.
-The Angular router interprets the URL and routes to that page and hero.
+當使用者從正在執行的客戶端內部前往該 URL 時沒有問題。
+Angular 路由器會解讀該 URL 並路由到該頁面與 hero。
 
-But clicking a link in an email, entering it in the browser address bar,
-or merely refreshing the browser while on the hero detail page &mdash;
-all of these actions are handled by the browser itself, _outside_ the running application.
-The browser makes a direct request to the server for that URL, bypassing the router.
+但點選電子郵件中的連結、在瀏覽器網址列輸入它，或只是在 hero 詳細頁面重新整理瀏覽器&mdash;所有這些動作都是由瀏覽器本身處理，_在_正在執行的應用程式之外。
+瀏覽器會直接向伺服器請求該 URL，繞過路由器。
 
-A static server routinely returns `index.html` when it receives a request for `http://www.mysite.com/`.
-But it rejects `http://www.mysite.com/heroes/42` and returns a `404 - Not Found` error *unless* it is
-configured to return `index.html` instead.
+靜態伺服器在收到 `http://www.mysite.com/` 的請求時，通常會回傳 `index.html`。
+但它會拒絕 `http://www.mysite.com/heroes/42` 並回傳 `404 - Not Found` 錯誤，*除非*它已設定為改回傳 `index.html`。
 
-#### Fallback configuration examples
+#### 退回設定範例
 
-There is no single configuration that works for every server.
-The following sections describe configurations for some of the most popular servers.
-The list is by no means exhaustive, but should provide you with a good starting point.
+沒有任何一種設定適用於所有伺服器。
+以下各節說明一些最熱門伺服器的設定。
+這份清單絕非詳盡無遺，但應能為你提供一個好的起點。
 
-#### Development servers
+#### 開發伺服器
 
-* [Lite-Server](https://github.com/johnpapa/lite-server): the default dev server installed with the
-[Quickstart repo](https://github.com/angular/quickstart) is pre-configured to fallback to `index.html`.
+* [Lite-Server](https://github.com/johnpapa/lite-server)：隨
+[Quickstart 儲存庫](https://github.com/angular/quickstart) 一起安裝的預設開發伺服器，已預先設定為退回 `index.html`。
 
-* [Webpack-Dev-Server](https://github.com/webpack/webpack-dev-server):  setup the
-`historyApiFallback` entry in the dev server options as follows:
+* [Webpack-Dev-Server](https://github.com/webpack/webpack-dev-server)：在開發伺服器選項中如下設定
+`historyApiFallback` 項目：
 
 
 <code-example>
@@ -496,12 +478,11 @@ The list is by no means exhaustive, but should provide you with a good starting 
 
 
 
-#### Production servers
+#### 正式環境伺服器
 
-* [Apache](https://httpd.apache.org/): add a
-[rewrite rule](http://httpd.apache.org/docs/current/mod/mod_rewrite.html)
-to the `.htaccess` file as show
-[here](https://ngmilk.rocks/2015/03/09/angularjs-html5-mode-or-pretty-urls-on-apache-using-htaccess/):
+* [Apache](https://httpd.apache.org/)：在 `.htaccess` 檔案中加入一條
+[重寫規則](http://httpd.apache.org/docs/current/mod/mod_rewrite.html)，
+如[這裡](https://ngmilk.rocks/2015/03/09/angularjs-html5-mode-or-pretty-urls-on-apache-using-htaccess/)所示：
 
 
 <code-example format=".">
@@ -518,9 +499,9 @@ to the `.htaccess` file as show
 
 
 
-* [NGinx](http://nginx.org/): use `try_files`, as described in
-[Front Controller Pattern Web Apps](https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/#front-controller-pattern-web-apps),
-modified to serve `index.html`:
+* [NGinx](http://nginx.org/)：使用 `try_files`，如
+[Front Controller Pattern Web Apps](https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/#front-controller-pattern-web-apps) 所述，
+並修改為提供 `index.html`：
 
 
 <code-example format=".">
@@ -530,8 +511,8 @@ modified to serve `index.html`:
 
 
 
-* [IIS](https://www.iis.net/): add a rewrite rule to `web.config`, similar to the one shown
-[here](http://stackoverflow.com/a/26152011/2116927):
+* [IIS](https://www.iis.net/)：在 `web.config` 中加入一條 rewrite 規則，類似
+[這裡](http://stackoverflow.com/a/26152011/2116927) 所示：
 
 <code-example format='.'>
   &lt;system.webServer&gt;
@@ -553,18 +534,18 @@ modified to serve `index.html`:
 
 
 
-* [GitHub Pages](https://pages.github.com/): you can't
-[directly configure](https://github.com/isaacs/github/issues/408)
-the GitHub Pages server, but you can add a 404 page.
-Copy `index.html` into `404.html`.
-It will still be served as the 404 response, but the browser will process that page and load the app properly.
-It's also a good idea to
-[serve from `docs/` on master](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/#publishing-your-github-pages-site-from-a-docs-folder-on-your-master-branch)
-and to
-[create a `.nojekyll` file](https://www.bennadel.com/blog/3181-including-node-modules-and-vendors-folders-in-your-github-pages-site.htm)
+* [GitHub Pages](https://pages.github.com/)：你無法
+[直接設定](https://github.com/isaacs/github/issues/408)
+GitHub Pages 伺服器，但你可以加入一個 404 頁面。
+把 `index.html` 複製為 `404.html`。
+它仍會作為 404 回應提供，但瀏覽器會處理該頁面並正確載入應用程式。
+同時也建議
+[從 `docs/` 於 master 提供服務](https://help.github.com/articles/configuring-a-publishing-source-for-github-pages/#publishing-your-github-pages-site-from-a-docs-folder-on-your-master-branch)
+並
+[建立 `.nojekyll` 檔案](https://www.bennadel.com/blog/3181-including-node-modules-and-vendors-folders-in-your-github-pages-site.htm)
 
-* [Firebase hosting](https://firebase.google.com/docs/hosting/): add a
-[rewrite rule](https://firebase.google.com/docs/hosting/url-redirects-rewrites#section-rewrites).
+* [Firebase hosting](https://firebase.google.com/docs/hosting/)：加入一條
+[rewrite 規則](https://firebase.google.com/docs/hosting/url-redirects-rewrites#section-rewrites)。
 
 
 <code-example format=".">
@@ -581,24 +562,24 @@ and to
 
 
 
-### Requesting services from a different server (CORS)
+### 從不同的伺服器請求服務（CORS）
 
-Angular developers may encounter a
+Angular 開發者在向應用程式自己的主機伺服器以外的伺服器發出服務請求（通常是資料服務請求）時，
+可能會遇到
 <a href="https://en.wikipedia.org/wiki/Cross-origin_resource_sharing" title="Cross-origin resource sharing">
-<i>cross-origin resource sharing</i></a> error when making a service request (typically a data service request).
-to a server other than the application's own host server.
-Browsers forbid such requests unless the server permits them explicitly.
+<i>cross-origin resource sharing</i></a> 錯誤。
+除非伺服器明確允許，否則瀏覽器禁止這類請求。
 
-There isn't anything the client application can do about these errors.
-The server must be configured to accept the application's requests.
-Read about how to enable CORS for specific servers at
-<a href="http://enable-cors.org/server.html" title="Enabling CORS server">enable-cors.org</a>.
+客戶端應用程式對這些錯誤無能為力。
+伺服器必須設定為接受應用程式的請求。
+關於如何為特定伺服器啟用 CORS，請參閱
+<a href="http://enable-cors.org/server.html" title="Enabling CORS server">enable-cors.org</a>。
 
 
 {@a next-steps}
 
 
 
-## Next steps
- If you want to go beyond the [simple _copy-deploy_](guide/deployment#dev-deploy "Simplest deployment possible") approach,
- read the [AOT Cookbook](guide/aot-compiler "AOT Cookbook") next.
+## 下一步
+ 如果你想超越[簡單的 _copy-deploy_](guide/deployment#dev-deploy "Simplest deployment possible")方式，
+ 接著請閱讀 [AOT 食譜](guide/aot-compiler "AOT Cookbook")。
