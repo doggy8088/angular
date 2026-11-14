@@ -15,6 +15,7 @@ Angular 有自己的詞彙。
 {@a A}
 {@a aot}
 
+<a id="%E9%A0%90%E5%85%88%EF%BC%88ahead-of-time%EF%BC%8Caot%EF%BC%89%E7%B7%A8%E8%AD%AF"></a>
 ## 預先（ahead-of-time，AOT）編譯
 
 你可以在建置時期編譯 Angular 應用程式。
@@ -34,6 +35,7 @@ Angular 有自己的詞彙。
 
 {@a attribute-directives}
 
+<a id="%E5%B1%AC%E6%80%A7%E6%8C%87%E4%BB%A4%EF%BC%88attribute-directives%EF%BC%89"></a>
 ## 屬性指令（attribute directives）
 
 一類[指令](guide/glossary#指令（directive）)，可以監聽並修改其他 HTML 元素、屬性、特性與元件的行為。
@@ -124,6 +126,7 @@ camelCase 也稱為 *lower camel case*，以便與 *upper camel case*（或 [Pas
 
 {@a component}
 
+<a id="%E5%85%83%E4%BB%B6%EF%BC%88component%EF%BC%89"></a>
 ## 元件（component）
 
 一個 Angular 類別，負責向[檢視](guide/glossary#檢視（view）)呈現資料，並處理該檢視的大部分顯示與使用者互動邏輯。
@@ -146,6 +149,7 @@ camelCase 也稱為 *lower camel case*，以便與 *upper camel case*（或 [Pas
 [指令](guide/glossary#指令（directive）)選擇器（如 `my-app`）以及
 檔案名稱的根部（如 `hero-list.component.ts`），通常都以 dash-case 拼寫。
 
+<a id="%E8%B3%87%E6%96%99%E7%B9%AB%E7%B5%90%EF%BC%88data-binding%EF%BC%89"></a>
 ## 資料繫結（data binding）
 
 應用程式會把資料值顯示給使用者，並回應使用者的
@@ -171,6 +175,7 @@ Angular 有豐富的資料繫結框架，具備多種資料繫結
 
 {@a decoration}
 
+<a id="%E8%A3%9D%E9%A3%BE%E5%99%A8%EF%BC%88decorator%E3%80%81decoration%EF%BC%89"></a>
 ## 裝飾器（decorator、decoration）
 
 一個*函式*，為一個類別、其成員（屬性、方法）以及函式參數加入中繼資料。
@@ -198,6 +203,7 @@ export class AppComponent {
 
 </div>
 
+<a id="%E7%9B%B8%E4%BE%9D%E6%80%A7%E6%B3%A8%E5%85%A5%EF%BC%88dependency-injection%EF%BC%89"></a>
 ## 相依性注入（dependency injection）
 
 一種設計模式與機制，用於建立應用程式的某些部分，並將其交付給應用程式中需要它們的其他部分。
@@ -243,6 +249,7 @@ Angular 會在每個注入器上註冊一些自己的提供者。
 
 {@a directives}
 
+<a id="%E6%8C%87%E4%BB%A4%EF%BC%88directive%EF%BC%89"></a>
 ## 指令（directive）
 
 一種 Angular 類別，負責建立、重塑瀏覽器 DOM 中的 HTML 元素並與之互動。指令是 Angular 最基礎的特性。
@@ -304,11 +311,13 @@ Angular 開發人員可以直接以 ES5 撰寫。
 
 {@a I}
 
+<a id="%E6%B3%A8%E5%85%A5%E5%99%A8%EF%BC%88injector%EF%BC%89"></a>
 ## 注入器（injector）
 
 Angular [相依性注入系統](guide/glossary#相依性注入（dependency-injection）) 中的一個物件，
 可以在其快取中找到指定名稱的相依性，或使用已註冊的 [provider](guide/glossary#提供者（provider）) 建立相依性。
 
+<a id="%E8%BC%B8%E5%85%A5%EF%BC%88input%EF%BC%89"></a>
 ## 輸入（input）
 
 一種指令特性，可以作為
@@ -426,6 +435,7 @@ NgModules 的結構與 import/export 語法是基於 [ES2015 模組標準](http:
 
 為了使用 observables，Angular 使用了一個名為 Reactive Extensions (RxJS) 的第三方程式庫。Observables 是 ES2016（JavaScript 的下個版本）所提議的一項功能。
 
+<a id="%E8%BC%B8%E5%87%BA%EF%BC%88output%EF%BC%89"></a>
 ## 輸出（output）
 
 一種指令特性，可以作為事件繫結的*目標*
@@ -458,6 +468,7 @@ Angular 管道是一種函式，可將輸入值轉換為輸出值，以便在[�
 你也可以撰寫自己的自訂管道。
 欲了解更多，請參閱[管道](guide/pipes)頁面。
 
+<a id="%E6%8F%90%E4%BE%9B%E8%80%85%EF%BC%88provider%EF%BC%89"></a>
 ## 提供者（provider）
 
 一個 _provider_ 會為[相依性注入](guide/glossary#相依性注入（dependency-injection）)系統建立相依性的新實例。
@@ -467,6 +478,7 @@ Angular 管道是一種函式，可將輸入值轉換為輸出值，以便在[�
 
 {@a R}
 
+<a id="%E5%8F%8D%E6%87%89%E5%BC%8F%E8%A1%A8%E5%96%AE%EF%BC%88reactive-forms%EF%BC%89"></a>
 ## 反應式表單（reactive forms）
 
 一種透過在元件中撰寫程式碼來建構 Angular 表單的技術。
@@ -481,6 +493,7 @@ Angular 管道是一種函式，可將輸入值轉換為輸出值，以便在[�
 
 反應式表單功能強大、靈活，是更複雜的資料輸入表單情境（例如動態產生表單控制項）的良好選擇。
 
+<a id="%E8%B7%AF%E7%94%B1%E5%99%A8%EF%BC%88router%EF%BC%89"></a>
 ## 路由器（router）
 
 大多數應用程式由許多畫面或[檢視](guide/glossary#檢視（view）)組成。
@@ -507,6 +520,7 @@ Angular 元件路由器是一套功能豐富的機制，用於設定和管理整
 
 如需更多資訊，請參閱 [路由與導覽](guide/router) 頁面。
 
+<a id="%E8%B7%AF%E7%94%B1%E5%85%83%E4%BB%B6%EF%BC%88routing-component%EF%BC%89"></a>
 ## 路由元件（routing component）
 
 一個 Angular [元件](guide/glossary#元件（component）)，具有一個 `RouterOutlet`，會根據路由器的導覽來顯示檢視。
@@ -515,6 +529,7 @@ Angular 元件路由器是一套功能豐富的機制，用於設定和管理整
 
 {@a S}
 
+<a id="%E9%99%90%E5%AE%9A%E7%AF%84%E5%9C%8D%E5%A5%97%E4%BB%B6%EF%BC%88scoped-package%EF%BC%89"></a>
 ## 限定範圍套件（scoped package）
 
 將相關 *npm* 套件分組的一種方式。
@@ -554,6 +569,7 @@ NgModules 會在*有限範圍的套件*中交付，例如 `@angular/core`、
 
 {@a structural-directives}
 
+<a id="%E7%B5%90%E6%A7%8B%E6%8C%87%E4%BB%A4%EF%BC%88structural-directive%EF%BC%89"></a>
 ## 結構指令（structural directive）
 
 一類[指令](guide/glossary#指令（directive）)，可以塑造或重塑 HTML 佈局，通常是透過加入與移除 DOM 中的元素。
@@ -563,10 +579,12 @@ NgModules 會在*有限範圍的套件*中交付，例如 `@angular/core`、
 
 {@a T}
 
+<a id="%E7%AF%84%E6%9C%AC%EF%BC%88template%EF%BC%89"></a>
 ## 範本（template）
 
 一小段 HTML，Angular 在 Angular [指令](guide/glossary#指令（directive）)（最顯著的是[元件](guide/glossary#元件（component）)）的支援與引導下，用來渲染[檢視](guide/glossary#檢視（view）)。
 
+<a id="%E7%AF%84%E6%9C%AC%E9%A9%85%E5%8B%95%E8%A1%A8%E5%96%AE%EF%BC%88template-driven-forms%EF%BC%89"></a>
 ## 範本驅動表單（template-driven forms）
 
 使用檢視中的 HTML 表單與輸入元素來建構 Angular 表單的一種技術。
@@ -584,6 +602,7 @@ NgModules 會在*有限範圍的套件*中交付，例如 `@angular/core`、
 如欲了解如何建構範本驅動表單，
 請參閱 [表單](guide/forms) 頁面。
 
+<a id="%E7%AF%84%E6%9C%AC%E9%81%8B%E7%AE%97%E5%BC%8F%EF%BC%88template-expression%EF%BC%89"></a>
 ## 範本運算式（template expression）
 
 一種類似 TypeScript 的語法，Angular 會在[資料繫結](guide/glossary#資料繫結（data-binding）)的範圍內對其加以評估。
@@ -592,6 +611,7 @@ NgModules 會在*有限範圍的套件*中交付，例如 `@angular/core`、
 請參閱 [範本語法](guide/template-syntax) 頁面的
 [範本運算式](guide/template-syntax#template-expressions)章節。
 
+<a id="%E8%BD%89%E8%AD%AF%EF%BC%88transpile%EF%BC%89"></a>
 ## 轉譯（transpile）
 
 將以一種 JavaScript 形式（例如 TypeScript）撰寫的程式碼，轉換為另一種 JavaScript 形式（例如 [ES5](guide/glossary#es5)）的過程。
@@ -611,6 +631,7 @@ TypeScript 是 Angular 開發的首選語言，儘管你可以使用其他 JavaS
 
 {@a V}
 
+<a id="%E6%AA%A2%E8%A6%96%EF%BC%88view%EF%BC%89"></a>
 ## 檢視（view）
 
 螢幕上的某一部分，用於顯示資訊並回應使用者的動作，例如點擊、滑鼠移動與按鍵。

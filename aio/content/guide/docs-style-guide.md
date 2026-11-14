@@ -154,6 +154,7 @@ Markdown 比 HTML 更容易閱讀與編輯。許多編輯器（包括 Visual Stu
   Try to minimize ...
 ```
 
+<a id="%E5%AD%90%E7%AB%A0%E7%AF%80"></a>
 ## 子章節
 
 子章節通常呈現額外細節與對其他頁面的參照。
@@ -182,6 +183,7 @@ You'll learn about styles for live examples in the [section below](guide/docs-st
 
 請注意，開頭 `<div>` 之後必須至少有一個空白行。在結尾 `</div>` 之前加一個空白行是慣例，但不是必須的。
 
+<a id="%E7%9B%AE%E9%8C%84"></a>
 ## 目錄
 
 大多數頁面顯示目錄 (TOC)。當視口寬時，TOC 出現在右側面板中。當視口窄時，TOC 出現在頁面頂部附近一個可展開／可摺疊的區域中。
@@ -204,6 +206,7 @@ A guide without a TOC
 </h1>
 ```
 
+<a id="%E5%B0%8E%E8%A6%BD"></a>
 ## 導覽
 
 螢幕頂部、左側與底部的導覽連結是從 JSON 設定檔 `content/navigation.json` 產生的。
@@ -656,6 +659,7 @@ export class AppComponent {
 
 * 一個 `#docregion` 註解提及了**_兩個_**區域名稱，`#enddocregion` 註解也是如此。這是在同一行程式碼上開始（或停止）多個區域的便捷方式。你可以將這些註解放在不同的行上，許多作者更喜歡這樣做。
 
+<a id="json-%E6%AA%94%E6%A1%88"></a>
 #### JSON 檔案
 
 JSON 檔案不支援程式碼片段標記，因為 JSON 檔案禁止註解。

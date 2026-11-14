@@ -302,6 +302,7 @@ URL 中。`put()` 的主體是英雄的 JSON 字串編碼，透過呼叫
 
 重新整理瀏覽器，試試新的刪除功能。
 
+<a id="%E5%8F%AF%E8%A7%80%E5%AF%9F%E7%89%A9%E4%BB%B6"></a>
 ## 可觀察物件
 
 每個 `Http` 服務方法都會回傳 HTTP `Response` 物件的 `Observable`。

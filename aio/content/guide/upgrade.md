@@ -23,6 +23,7 @@ Angular 平台的方法。
 協同進行、分散在一段時間內完成。Angular 中的 `upgrade` 模組
 正是為了讓漸進式升級無縫進行而設計的。
 
+<a id="%E6%BA%96%E5%82%99%E5%B7%A5%E4%BD%9C"></a>
 ## 準備工作
 
 AngularJS 應用程式有許多種組織方式。當你開始把這些
@@ -111,6 +112,7 @@ _遵循風格指南有助於讓你的 AngularJS 應用程式更貼近 Angular_�
 * 服務與控制器可以轉變為*類別*。這樣一來，它們就更接近
   成為 Angular 的服務與元件類別，升級後的生活也會更輕鬆。
 
+<a id="%E4%BD%BF%E7%94%A8%E5%85%83%E4%BB%B6%E6%8C%87%E4%BB%A4"></a>
 ### 使用元件指令
 
 在 Angular 中，元件是建構使用者介面的主要
@@ -169,6 +171,7 @@ API 來定義元件指令是個好主意：
 完全相同的[對應項目](guide/lifecycle-hooks)，因此圍繞它們來組織元件生命週期
 邏輯，將能讓日後的 Angular 升級流程更順利。
 
+<a id="%E4%BD%BF%E7%94%A8-ngupgrade-%E9%80%B2%E8%A1%8C%E5%8D%87%E7%B4%9A"></a>
 ## 使用 ngUpgrade 進行升級
 
 Angular 中的 ngUpgrade 函式庫是升級除了最小型應用程式以外的
@@ -357,6 +360,7 @@ AngularJS 模組。
 
 </div>
 
+<a id="%E5%95%9F%E5%8B%95%E6%B7%B7%E5%90%88%E6%87%89%E7%94%A8%E7%A8%8B%E5%BC%8F"></a>
 ### 啟動混合應用程式
 
 要啟動混合應用程式，你必須啟動應用程式的 Angular 與
@@ -710,6 +714,7 @@ AngularJS 元素指令是根據其 _名稱_ 來比對的。
 <code-example path="upgrade-module/src/app/a-to-ajs-transclusion/container.component.ts" title="container.component.ts">
 </code-example>
 
+<a id="%E8%AE%93-angularjs-%E4%BE%9D%E8%B3%B4%E5%8F%AF%E6%B3%A8%E5%85%A5%E8%87%B3-angular"></a>
 ### 讓 AngularJS 依賴可注入至 Angular
 
 執行混合應用程式時，你可能會遇到需要把一些

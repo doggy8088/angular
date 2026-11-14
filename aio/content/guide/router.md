@@ -2438,6 +2438,7 @@ _連結參數陣列_。
 {@a child-routing-component}
 
 
+<a id="%E5%AD%90%E8%B7%AF%E7%94%B1%E5%85%83%E4%BB%B6"></a>
 ### 子路由元件
 
 把下列 `crisis-center.component.ts` 加入 `crisis-center` 資料夾：
@@ -2824,6 +2825,7 @@ URL 中有趣的部分在 `...` 之後：
 {@a clear-secondary-routes}
 
 
+<a id="%E6%B8%85%E9%99%A4%E6%AC%A1%E8%A6%81%E8%B7%AF%E7%94%B1"></a>
 #### 清除次要路由
 如你所學，出口中的元件會持續存在，直到你導覽離開到新元件為止。
 次要出口在這方面也沒有不同。

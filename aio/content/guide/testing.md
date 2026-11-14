@@ -6,6 +6,7 @@
 
 {@a top}
 
+<a id="%E7%B7%9A%E4%B8%8A%E7%AF%84%E4%BE%8B"></a>
 ## 線上範例
 
 本指南呈現一個範例應用程式的測試，它很像 [_Tour of Heroes_ 教學](tutorial)。
@@ -476,6 +477,7 @@ fixture 不會自動把元件的 `title` 屬性值推入資料繫結的元素，
 
 {@a auto-detect-changes}
 
+<a id="%E8%87%AA%E5%8B%95%E8%AE%8A%E6%9B%B4%E5%81%B5%E6%B8%AC"></a>
 ### 自動變更偵測
 
 `BannerComponent` 測試經常呼叫 `detectChanges`。

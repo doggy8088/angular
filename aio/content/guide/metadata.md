@@ -157,6 +157,7 @@ export function serverFactory() {
 編譯器只支援呼叫一小組函式，且只會對少數指定的類別使用 `new`。這些函式與類別列在 [下方](#supported-functions) 的表格中。 
 
 
+<a id="%E7%A8%8B%E5%BC%8F%E7%A2%BC%E6%91%BA%E7%96%8A"></a>
 ### 程式碼摺疊
 {@a exported-symbols}
 編譯器只能解析對 **_exported_** 已匯出符號的參照。
@@ -373,6 +374,7 @@ Angular 的 [`RouterModule`](api/router/RouterModule) 匯出了兩個巨集靜�
 
 <hr>
 
+<a id="%E4%B8%8D%E6%94%AF%E6%8F%B4%E7%9A%84%E9%81%8B%E7%AE%97%E5%BC%8F%E5%BD%A2%E5%BC%8F"></a>
 <h3 class="no-toc">不支援的運算式形式</h3>
 
 編譯器在評估 Angular 中繼資料時，遇到了一個它不理解的運算式。
@@ -540,6 +542,7 @@ export class MyComponent {}
 
 <hr>
 
+<a id="%E5%8F%83%E7%85%A7%E5%88%B0%E6%9C%AA%E5%8C%AF%E5%87%BA%E7%9A%84%E9%A1%9E%E5%88%A5"></a>
 <h3 class="no-toc">參照到未匯出的類別</h3>
 
 <div class="alert is-helpful">
@@ -580,6 +583,7 @@ export abstract class MyStrategy { }
 ```
 <hr>
 
+<a id="%E5%8F%83%E7%85%A7%E5%88%B0%E6%9C%AA%E5%8C%AF%E5%87%BA%E7%9A%84%E5%87%BD%E5%BC%8F"></a>
 <h3 class="no-toc">參照到未匯出的函式</h3>
 
 中繼資料參照到一個未匯出的函式。
@@ -710,6 +714,7 @@ import { configuration } from './configuration';
 
 <hr>
 
+<a id="%E7%84%A1%E6%B3%95%E8%A7%A3%E6%9E%90%E5%9E%8B%E5%88%A5"></a>
 <h3 class="no-toc">無法解析型別</h3>
 
 編譯器遇到一個型別，無法判斷哪個模組匯出了該型別。
@@ -778,6 +783,7 @@ export class MyComponent {
 </code-example>
 <hr>
 
+<a id="%E9%A0%90%E6%9C%9F%E7%82%BA%E5%90%8D%E7%A8%B1"></a>
 <h3 class="no-toc">預期為名稱</h3>
 
 編譯器在它正在求值的運算式中預期一個名稱。
@@ -797,6 +803,7 @@ provider: [{ provide: Foo, useValue: { '0': 'test' } }]
 
 <hr>
 
+<a id="%E4%B8%8D%E6%94%AF%E6%8F%B4%E7%9A%84%E5%88%97%E8%88%89%E6%88%90%E5%93%A1%E5%90%8D%E7%A8%B1"></a>
 <h3 class="no-toc">不支援的列舉成員名稱</h3>
 
 Angular 無法判斷你在中繼資料中參照的 [列舉成員](https://www.typescriptlang.org/docs/handbook/enums.html) 
@@ -850,6 +857,7 @@ AOT 編譯器不支援標記範本運算式；請避免在中繼資料運算式�
 
 <hr>
 
+<a id="%E9%A0%90%E6%9C%9F%E7%82%BA%E7%AC%A6%E8%99%9F%E5%8F%83%E7%85%A7"></a>
 <h3 class="no-toc">預期為符號參照</h3>
 
 編譯器預期在錯誤訊息所指定的位置有一個對符號的參照。

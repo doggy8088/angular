@@ -20,6 +20,7 @@ Angular 是一個框架，用來以 HTML 以及 JavaScript 或 TypeScript 等可
 
 </div>
 
+<a id="%E6%A8%A1%E7%B5%84"></a>
 ## 模組
 
 <img src="generated/images/guide/architecture/module.png" alt="元件" class="left">
@@ -125,6 +126,7 @@ Angular 以 JavaScript 模組集合的形式提供。你可以將它們視為程
 
 <hr/>
 
+<a id="%E5%85%83%E4%BB%B6"></a>
 ## 元件
 
 <img src="generated/images/guide/architecture/hero-component.png" alt="元件" class="left">
@@ -149,6 +151,7 @@ _元件_ 控制螢幕上稱為 *檢視* 的一塊區域。
 
 <hr/>
 
+<a id="%E7%AF%84%E6%9C%AC"></a>
 ## 範本
 
 <img src="generated/images/guide/architecture/template.png" alt="範本" class="left">
@@ -171,6 +174,7 @@ _元件_ 控制螢幕上稱為 *檢視* 的一塊區域。
 
 <hr class="clear"/>
 
+<a id="%E4%B8%AD%E7%B9%BC%E8%B3%87%E6%96%99"></a>
 ## 中繼資料
 
 <img src="generated/images/guide/architecture/metadata.png" alt="中繼資料" class="left">
@@ -215,6 +219,7 @@ _元件_ 控制螢幕上稱為 *檢視* 的一塊區域。
 
 <hr/>
 
+<a id="%E8%B3%87%E6%96%99%E7%B9%AB%E7%B5%90"></a>
 ## 資料繫結
 
 如果沒有框架，你就必須自己負責把資料值推入 HTML 控制項，並把使用者的回應轉換為動作與值的更新。手寫這種推/拉邏輯既繁瑣、容易出錯，又難以閱讀，任何有經驗的 jQuery 程式設計師都能作證。
@@ -262,6 +267,7 @@ Angular 會針對每個 JavaScript 事件週期，從應用程式元件樹的根
 
 <hr/>
 
+<a id="%E6%8C%87%E4%BB%A4"></a>
 ## 指令
 
 <img src="generated/images/guide/architecture/directive.png" alt="父子" class="left">
@@ -303,6 +309,7 @@ Angular 還有更多指令，它們或是改變版面配置結構（例如 [ngSw
 
 <hr/>
 
+<a id="%E6%9C%8D%E5%8B%99"></a>
 ## 服務
 
 <img src="generated/images/guide/architecture/service.png" alt="服務" class="left">
@@ -344,6 +351,7 @@ Angular 確實能幫助你 *遵循* 這些原則，它讓你輕鬆地將應用�
 
 <hr/>
 
+<a id="%E4%BE%9D%E8%B3%B4%E6%B3%A8%E5%85%A5"></a>
 ## 依賴注入
 
 <img src="generated/images/guide/architecture/dependency-injection.png" alt="服務" class="left">
