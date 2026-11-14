@@ -1,40 +1,40 @@
-# Reusable animations
+# 可重複使用的動畫
 
-#### Prerequisites
+#### 先決條件
 
-A basic understanding of the  following concepts:
+對下列概念有基本的理解：
 
-* [Introduction to Angular animations](guide/animations)
-* [Transition and triggers](guide/transition-and-triggers)
+* [Angular 動畫簡介](guide/animations)
+* [轉場與觸發器](guide/transition-and-triggers)
 
 <hr>
 
-The [AnimationOptions](https://angular.io/api/animations/AnimationOptions) interface in Angular animations enables you to create animations that you can reuse across different components.
+Angular 動畫中的 [AnimationOptions](https://angular.io/api/animations/AnimationOptions) 介面讓你能建立可在不同元件之間重複使用的動畫。
 
-## Creating reusable animations
+## 建立可重複使用的動畫
 
-To create a reusable animation, use the [`animation()`](https://angular.io/api/animations/animation) method to define an animation in a separate `.ts` file and declare this animation definition as a `const` export variable. You can then import and reuse this animation in any of your app components using the [`useAnimation()`](https://angular.io/api/animations/useAnimation) API.
+若要建立可重複使用的動畫，請使用 [`animation()`](https://angular.io/api/animations/animation) 方法在獨立的 `.ts` 檔案中定義動畫，並將這個動畫定義宣告為 `const` 匯出變數。接著，你可以匯入這個動畫，並使用 [`useAnimation()`](https://angular.io/api/animations/useAnimation) API 在應用程式的任何元件中重複使用它。
 
 <code-example path="animations/src/app/animations.ts" title="src/app/animations.ts" region="reusable" language="typescript" linenums="false">
 </code-example>
 
-In the above code snippet, `transAnimation` is made reusable by declaring it as an export variable.
+在上面的程式碼片段中，`transAnimation` 被宣告為匯出變數，因而可以重複使用。
 
 <div class="alert is-helpful">
 
-**Note:** The `height`, `opacity`, `backgroundColor`, and `time` inputs are replaced during runtime.
+**注意：** `height`、`opacity`、`backgroundColor` 與 `time` 輸入會在執行期間被取代。
 </div>
 
-You can import the reusable `transAnimation` variable in your component class and reuse it using the `useAnimation()` method as shown below.
+你可以將可重複使用的 `transAnimation` 變數匯入元件類別，並使用 `useAnimation()` 方法重複使用它，如下所示。
 
 <code-example path="animations/src/app/open-close.component.3.ts" title="src/app/open-close.component.ts" region="reusable" language="typescript" linenums="false">
 </code-example>
 
-## More on Angular animations
+## 深入了解 Angular 動畫
 
-You may also be interested in the following:
+你可能也會對以下內容有興趣：
 
-* [Introduction to Angular animations](guide/animations)
-* [Transition and triggers](guide/transition-and-triggers)
-* [Complex animation Sequences](guide/complex-animation-sequences)
-* [Route transition animations](guide/route-animations)
+* [Angular 動畫簡介](guide/animations)
+* [轉場與觸發器](guide/transition-and-triggers)
+* [複雜動畫序列](guide/complex-animation-sequences)
+* [路由轉場動畫](guide/route-animations)

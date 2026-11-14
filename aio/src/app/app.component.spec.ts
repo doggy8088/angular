@@ -1345,7 +1345,7 @@ class TestHttpClient {
   };
 
   static docVersions: NavigationNode[] = [
-    { title: 'v2', url: 'https://v2.angular.io' }
+    { title: 'v2', url: 'https://v2.angular.tw' }
   ];
 
   // tslint:disable:quotemark

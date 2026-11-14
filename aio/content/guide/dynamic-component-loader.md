@@ -1,171 +1,115 @@
-# Dynamic Component Loader
+# 動態元件載入器
 
-Component templates are not always fixed. An application may need to load new components at runtime.
+元件範本並不總是固定的。應用程式可能需要在執行階段載入新的元件。
 
-This cookbook shows you how to use `ComponentFactoryResolver` to add components dynamically.
+本食譜會示範如何使用 `ComponentFactoryResolver` 動態加入元件。
 
-See the <live-example name="dynamic-component-loader"></live-example>
-of the code in this cookbook.
+請參閱本食譜程式碼的 <live-example name="dynamic-component-loader"></live-example>。
 
 {@a dynamic-loading}
 
-## Dynamic component loading
+## 動態元件載入
 
-The following example shows how to build a dynamic ad banner.
+下列範例示範如何建立一個動態廣告橫幅。
 
-The hero agency is planning an ad campaign with several different
-ads cycling through the banner. New ad components are added
-frequently by several different teams. This makes it impractical
-to use a template with a static component structure.
+英雄仲介機構正在規劃一檔廣告活動，有好幾個不同的廣告會在橫幅中輪播。新的廣告元件由好幾個不同的團隊頻繁加入。這讓使用靜態元件結構的範本變得不切實際。
 
-Instead, you need a way to load a new component without a fixed
-reference to the component in the ad banner's template.
+相反地，你需要一種方法，在廣告橫幅的範本中不寫死元件參照，就能載入新的元件。
 
-Angular comes with its own API for loading components dynamically.
-
+Angular 內建了用來動態載入元件的 API。
 
 {@a directive}
 
-## The anchor directive
+## 錨點指令
 
-Before you can add components you have to define an anchor point
-to tell Angular where to insert components.
+在加入元件之前，你必須定義一個錨點，告訴 Angular 要把元件插入哪裡。
 
-The ad banner uses a helper directive called `AdDirective` to
-mark valid insertion points in the template.
-
+廣告橫幅使用一個名為 `AdDirective` 的輔助指令，標記範本中有效的插入點。
 
 <code-example path="dynamic-component-loader/src/app/ad.directive.ts" title="src/app/ad.directive.ts" linenums="false">
 
 </code-example>
 
+`AdDirective` 注入 `ViewContainerRef`，取得將承載動態加入元件的元素的 view 容器。
 
-
-`AdDirective` injects `ViewContainerRef` to gain access to the view
-container of the element that will host the dynamically added component.
-
-In the `@Directive` decorator, notice the selector name, `ad-host`;
-that's what you use to apply the directive to the element.
-The next section shows you how.
+在 `@Directive` 裝飾器中，請注意 selector 名稱 `ad-host`；那就是你用來把指令套用到元素上的名稱。
+下一節會示範做法。
 
 {@a loading-components}
 
-## Loading components
+## 載入元件
 
-Most of the ad banner implementation is in `ad-banner.component.ts`.
-To keep things simple in this example, the HTML is in the `@Component`
-decorator's `template` property as a template string.
+廣告橫幅的大部分實作都在 `ad-banner.component.ts` 中。
+為了讓這個範例保持簡單，HTML 以範本字串的形式放在 `@Component` 裝飾器的 `template` 屬性中。
 
-The `<ng-template>` element is where you apply the directive you just made.
-To apply the `AdDirective`, recall the selector from `ad.directive.ts`,
-`ad-host`. Apply that to `<ng-template>` without the square brackets. Now Angular knows
-where to dynamically load components.
-
+`<ng-template>` 元素就是你要套用剛建立的指令的地方。
+要套用 `AdDirective`，請回想 `ad.directive.ts` 中的 selector `ad-host`。把它套用到 `<ng-template>` 上，但不要加方括號。現在 Angular 就知道要在哪裡動態載入元件了。
 
 <code-example path="dynamic-component-loader/src/app/ad-banner.component.ts" region="ad-host" title="src/app/ad-banner.component.ts (template)" linenums="false">
 
 </code-example>
 
-
-
-The `<ng-template>` element is a good choice for dynamic components
-because it doesn't render any additional output.
-
+`<ng-template>` 元素是動態元件的好選擇，因為它不會算繪任何額外的輸出。
 
 {@a resolving-components}
 
+## 解析元件
 
-## Resolving components
+仔細看一下 `ad-banner.component.ts` 中的方法。
 
-Take a closer look at the methods in `ad-banner.component.ts`.
+`AdBannerComponent` 接受一個 `AdItem` 物件陣列作為輸入，它最終來自 `AdService`。`AdItem` 物件指定要載入的元件類型，以及要繫結到元件的任何資料。`AdService` 會回傳組成這檔廣告活動的實際廣告。
 
-`AdBannerComponent` takes an array of `AdItem` objects as input,
-which ultimately comes from `AdService`.  `AdItem` objects specify
-the type of component to load and any data to bind to the
-component.`AdService` returns the actual ads making up the ad campaign.
+把一個元件陣列傳給 `AdBannerComponent`，就能得到一份動態的廣告清單，而範本中不需要靜態元素。
 
-Passing an array of components to `AdBannerComponent` allows for a
-dynamic list of ads without static elements in the template.
-
-With its `getAds()` method, `AdBannerComponent` cycles through the array of `AdItems`
-and loads a new component every 3 seconds by calling `loadComponent()`.
-
+透過 `getAds()` 方法，`AdBannerComponent` 會循環走訪 `AdItems` 陣列，每 3 秒載入一個新元件。
 
 <code-example path="dynamic-component-loader/src/app/ad-banner.component.ts" region="class" title="src/app/ad-banner.component.ts (excerpt)" linenums="false">
 
 </code-example>
 
-
-
-The `loadComponent()` method is doing a lot of the heavy lifting here.
-Take it step by step. First, it picks an ad.
-
+`loadComponent()` 方法在這裡做了大部分的繁重工作。
+我們一步一步來看。首先，它挑選一個廣告。
 
 <div class="alert is-helpful">
 
+**`loadComponent()` 如何選擇廣告**
 
+`loadComponent()` 方法用一些數學來選擇廣告。
 
-**How _loadComponent()_ chooses an ad**
-
-The `loadComponent()` method chooses an ad using some math.
-
-First, it sets the `currentAdIndex` by taking whatever it
-currently is plus one, dividing that by the length of the `AdItem` array, and
-using the _remainder_ as the new `currentAdIndex` value. Then, it uses that
-value to select an `adItem` from the array.
-
+首先，它把目前的 `currentAdIndex` 加一，除以 `AdItem` 陣列的長度，再把*餘數*作為新的 `currentAdIndex` 值。接著，它用這個值從陣列中選出一個 `adItem`。
 
 </div>
 
+在 `loadComponent()` 選出一個廣告之後，它會使用 `ComponentFactoryResolver`，為每個特定元件解析出一個 `ComponentFactory`。
+接著，`ComponentFactory` 會建立每個元件的執行個體。
 
+接著，你要指定這個元件特定執行個體上的 `viewContainerRef`。你怎麼知道是這個特定執行個體？因為它參照的是 `adHost`，而 `adHost` 就是你先前設定、用來告訴 Angular 在哪裡插入動態元件的指令。
 
-After `loadComponent()` selects an ad, it uses `ComponentFactoryResolver`
-to resolve a `ComponentFactory` for each specific component.
-The `ComponentFactory` then creates an instance of each component.
+你可能還記得，`AdDirective` 會把 `ViewContainerRef` 注入它的建構子。指令就是這樣存取你想用來承載動態元件的元素。
 
-Next, you're targeting the `viewContainerRef` that
-exists on this specific instance of the component. How do you know it's
-this specific instance? Because it's referring to `adHost` and `adHost` is the
-directive you set up earlier to tell Angular where to insert dynamic components.
+要把元件加入範本，請在 `ViewContainerRef` 上呼叫 `createComponent()`。
 
-As you may recall, `AdDirective` injects `ViewContainerRef` into its constructor.
-This is how the directive accesses the element that you want to use to host the dynamic component.
-
-To add the component to the template, you call `createComponent()` on `ViewContainerRef`.
-
-The `createComponent()` method returns a reference to the loaded component.
-Use that reference to interact with the component by assigning to its properties or calling its methods.
-
+`createComponent()` 方法會回傳已載入元件的參照。你可以用這個參照與元件互動：指派它的屬性或呼叫它的方法。
 
 {@a selector-references}
 
+#### Selector 參照
 
-#### Selector references
+一般而言，Angular 編譯器會為範本中參照的任何元件產生一個 `ComponentFactory`。然而，動態載入的元件在範本中沒有 selector 參照，因為它們是在執行階段載入的。
 
-Generally, the Angular compiler generates a `ComponentFactory`
-for any component referenced in a template. However, there are
-no selector references in the templates for
-dynamically loaded components since they load at runtime.
-
-To ensure that the compiler still generates a factory,
-add dynamically loaded components to the `NgModule`'s `entryComponents` array:
+為了確保編譯器仍會產生工廠，請把動態載入的元件加入 `NgModule` 的 `entryComponents` 陣列：
 
 <code-example path="dynamic-component-loader/src/app/app.module.ts" region="entry-components" title="src/app/app.module.ts (entry components)" linenums="false">
 
 </code-example>
 
-
-
 {@a common-interface}
 
+## _AdComponent_ 介面
 
-## The _AdComponent_ interface
+在廣告橫幅中，所有元件都實作一個共同的 `AdComponent` 介面，以標準化傳遞資料給元件的 API。
 
-In the ad banner, all components implement a common `AdComponent` interface to
-standardize the API for passing data to the components.
-
-Here are two sample components and the `AdComponent` interface for reference:
-
+以下是兩個範例元件與 `AdComponent` 介面，供你參考：
 
 <code-tabs>
 
@@ -183,18 +127,13 @@ Here are two sample components and the `AdComponent` interface for reference:
 
 </code-tabs>
 
-
-
 {@a final-ad-baner}
 
-
-## Final ad banner
- The final ad banner looks like this:
+## 最終的廣告橫幅
+ 最終的廣告橫幅如下所示：
 
 <figure>
-  <img src="generated/images/guide/dynamic-component-loader/ads.gif" alt="Ads">
+  <img src="generated/images/guide/dynamic-component-loader/ads.gif" alt="廣告">
 </figure>
 
-
-
-See the <live-example name="dynamic-component-loader"></live-example>.
+請參閱 <live-example name="dynamic-component-loader"></live-example>。

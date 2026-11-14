@@ -8,7 +8,7 @@ import { DocumentContents } from 'app/documents/document.service';
     <hr>
     <textarea #dt [value]="text" rows="10" cols="80"></textarea>
     <br/>
-    <button (click)="dtextSet()">Show change</button>
+    <button (click)="dtextSet()">顯示變更</button>
   </div>
   `
 })

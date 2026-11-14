@@ -37,7 +37,7 @@ const DEFAULT_LINE_NUMS_COUNT = 10;
   template: `
     <pre class="prettyprint lang-{{language}}">
       <button *ngIf="!hideCopy" class="material-icons copy-button no-print"
-        title="Copy code snippet"
+        title="複製程式碼片段"
         [attr.aria-label]="ariaLabel"
         (click)="doCopy()">
         <span aria-hidden="true">content_copy</span>
@@ -89,7 +89,7 @@ export class CodeComponent implements OnChanges {
   @Input()
   set title(title: string) {
     this._title = title;
-    this.ariaLabel = this.title ? `Copy code snippet from ${this.title}` : '';
+    this.ariaLabel = this.title ? `從 ${this.title} 複製程式碼片段` : '';
   }
   get title(): string { return this._title; }
   private _title: string;

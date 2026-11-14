@@ -1,168 +1,161 @@
-# Angular Universal: server-side rendering
+# Angular Universal：伺服器端算繪
 
-This guide describes **Angular Universal**, a technology that runs your Angular application on the server.
+本指南說明 **Angular Universal**，這是一種在伺服器上執行你的 Angular 應用程式的技術。
 
-A normal Angular application executes in the _browser_, rendering pages in the DOM in response to user actions. 
-Angular Universal generates _static_ application pages on the _server_
-through a process called _server-side rendering_ (SSR). 
-When Universal is integrated with your app, it can generate and serve those pages in response to requests from browsers.
-It can also pre-generate pages as HTML files that you serve later.
+一般的 Angular 應用程式在 _瀏覽器_ 中執行，根據使用者操作在 DOM 中算繪頁面。
+Angular Universal 透過一個稱為 _伺服器端算繪_（SSR）的過程，在 _伺服器_ 上產生 _靜態_ 應用程式頁面。
+當 Universal 與你的應用程式整合後，它可以產生這些頁面並提供給瀏覽器，以回應瀏覽器的請求。
+它也可以預先產生頁面成為 HTML 檔案，供你稍後提供。
 
-You can easily prepare an app for server-side rendering using the [Angular CLI](guide/glossary#cli). The CLI schematic `@nguniversal/express-engine` performs the required steps, as described below. 
+使用 [Angular CLI](guide/glossary#cli) 即可輕鬆讓應用程式為伺服器端算繪做好準備。CLI schematic `@nguniversal/express-engine` 會執行所需的步驟，如下所述。
 
-This guide describes a Universal sample application that launches quickly as a server-rendered page.
-Meanwhile, the browser downloads the full client version and switches to it automatically after the code loads.
+本指南說明一個 Universal 範例應用程式，它會以伺服器算繪頁面的形式快速啟動。
+同時，瀏覽器會下載完整的用戶端版本，並在程式碼載入後自動切換到該版本。
 
 <div class="alert is-helpful">
 
-  **Note:** [Download the finished sample code](generated/zips/universal/universal.zip),
-  which runs in a [Node.js® Express](https://expressjs.com/) server.
+**注意：** [下載完成的範例程式碼](generated/zips/universal/universal.zip)，
+  其執行於 [Node.js® Express](https://expressjs.com/) 伺服器中。
 
 </div>
 
 {@a why-do-it}
 
-## Why use server-side rendering?
+## 為什麼要使用伺服器端算繪？
 
-There are three main reasons to create a Universal version of your app.
+建立應用程式的 Universal 版本有三個主要原因。
 
-1. Facilitate web crawlers (SEO)
-1. Improve performance on mobile and low-powered devices
-1. Show the first page quickly
+1. 協助網路爬蟲（SEO）
+1. 改善行動裝置與低功耗裝置上的效能
+1. 快速顯示第一頁
 
 {@a seo}
 {@a web-crawlers}
-### Facilitate web crawlers
+### 協助網路爬蟲
 
-Google, Bing, Facebook, Twitter, and other social media sites rely on web crawlers to index your application content and make that content searchable on the web.
-These web crawlers may be unable to navigate and index your highly interactive Angular application as a human user could do.
+Google、Bing、Facebook、Twitter 與其他社群媒體網站依賴網路爬蟲來索引你的應用程式內容，讓這些內容能在網路上被搜尋到。
+這些網路爬蟲可能無法像真人使用者那樣，導覽並索引你高度互動的 Angular 應用程式。
 
-Angular Universal can generate a static version of your app that is easily searchable, linkable, and navigable without JavaScript.
-Universal also makes a site preview available since each URL returns a fully rendered page.
+Angular Universal 可以產生應用程式的靜態版本，不需要 JavaScript 也容易搜尋、連結與瀏覽。
+Universal 也讓網站預覽成為可能，因為每個 URL 都會回傳完整算繪的頁面。
 
-Enabling web crawlers is often referred to as
-[search engine optimization (SEO)](https://static.googleusercontent.com/media/www.google.com/en//webmasters/docs/search-engine-optimization-starter-guide.pdf).
+啟用網路爬蟲支援，通常稱為
+[搜尋引擎最佳化（SEO）](https://static.googleusercontent.com/media/www.google.com/en//webmasters/docs/search-engine-optimization-starter-guide.pdf)。
 
 {@a no-javascript}
 
-### Improve performance on mobile and low-powered devices
+### 改善行動裝置與低功耗裝置上的效能
 
-Some devices don't support JavaScript or execute JavaScript so poorly that the user experience is unacceptable.
-For these cases, you may require a server-rendered, no-JavaScript version of the app.
-This version, however limited, may be the only practical alternative for
-people who otherwise couldn't use the app at all.
+有些裝置不支援 JavaScript，或執行 JavaScript 的效能太差，導致使用者體驗無法接受。
+對於這些情況，你可能需要應用程式的伺服器算繪、無 JavaScript 版本。
+這個版本雖然有限，但可能是那些原本完全無法使用應用程式的人唯一可行的替代方案。
 
 {@a startup-performance}
 
-### Show the first page quickly
+### 快速顯示第一頁
 
-Displaying the first page quickly can be critical for user engagement.
-[53 percent of mobile site visits are abandoned](https://www.doubleclickbygoogle.com/articles/mobile-speed-matters/) if pages take longer than 3 seconds to load.
-Your app may have to launch faster to engage these users before they decide to do something else.
+快速顯示第一頁，對使用者參與至關重要。
+如果頁面載入時間超過 3 秒，[53% 的行動網站造訪會被放棄](https://www.doubleclickbygoogle.com/articles/mobile-speed-matters/)。
+你的應用程式可能必須啟動得更快，才能在這些使用者決定去做別的事情之前吸引他們。
 
-With Angular Universal, you can generate landing pages for the app that look like the complete app.
-The pages are pure HTML, and can display even if JavaScript is disabled.
-The pages don't handle browser events, but they _do_ support navigation through the site using `[routerLink](guide/router#router-link)`.
+使用 Angular Universal，你可以為應用程式產生看起來像完整應用程式的登陸頁面。
+這些頁面是純 HTML，即使 JavaScript 被停用也能顯示。
+這些頁面不處理瀏覽器事件，但它們 _確實_ 支援使用 `[routerLink](guide/router#router-link)` 在網站中導覽。
 
-In practice, you'll serve a static version of the landing page to hold the user's attention.
-At the same time, you'll load the full Angular app behind it. 
-The user perceives near-instant performance from the landing page
-and gets the full interactive experience after the full app loads.
+實際上，你會提供到達頁面的靜態版本來留住使用者的注意力。
+同時，你會在背後載入完整的 Angular 應用程式。
+使用者會感覺到達頁面的效能近乎即時，並在完整應用程式載入後獲得完整的互動體驗。
 
 {@a how-does-it-work}
 
-## Universal web servers
+## Universal Web 伺服器
 
-A Universal web server responds to application page requests with static HTML rendered by the [Universal template engine](#universal-engine). 
-The server receives and responds to HTTP requests from clients (usually browsers), and serves static assets such as scripts, CSS, and images.
-It may respond to data requests, either directly or as a proxy to a separate data server.
+Universal Web 伺服器會以 [Universal 範本引擎](#universal-engine)算繪的靜態 HTML 回應應用程式頁面請求。
+伺服器接收並回應來自用戶端（通常是瀏覽器）的 HTTP 請求，並提供指令碼、CSS 與圖片等靜態資產。
+它也可能回應資料請求，直接回應或以代理方式轉發到另一個資料伺服器。
 
-The sample web server for this guide is based on the popular [Express](https://expressjs.com/) framework.
+本指南的範例 Web 伺服器以熱門的 [Express](https://expressjs.com/) 框架為基礎。
 
 <div class="alert is-helpful">
 
-  **Note:** _Any_ web server technology can serve a Universal app as long as it can call Universal's `renderModuleFactory()` function.
-  The principles and decision points discussed here apply to any web server technology.
+**注意：** _任何_ Web 伺服器技術都可以提供 Universal 應用程式，只要它能呼叫 Universal 的 `renderModuleFactory()` 函式。
+  這裡討論的原則與決策要點適用於任何 Web 伺服器技術。
 
 </div>
 
-To make a Universal app, install the `platform-server` package, which provides server implementations 
-of the DOM, `XMLHttpRequest`, and other low-level features that don't rely on a browser.
-Compile the client application with the `platform-server` module (instead of the `platform-browser` module)
-and run the resulting Universal app on a web server.
+若要建立 Universal 應用程式，請安裝 `platform-server` 套件，它提供 DOM、`XMLHttpRequest` 的伺服器實作，以及其他不依賴瀏覽器的低階功能。
+使用 `platform-server` 模組（而非 `platform-browser` 模組）編譯用戶端應用程式，並在 Web 伺服器上執行產生的 Universal 應用程式。
 
-The server ([Node Express](https://expressjs.com/) in this guide's example)
-passes client requests for application pages to Universal's `renderModuleFactory()` function.
+伺服器（本指南範例中的 [Node Express](https://expressjs.com/)）會把用戶端對應用程式頁面的請求，傳給 Universal 的 `renderModuleFactory()` 函式。
 
-The `renderModuleFactory()` function takes as inputs a *template* HTML page (usually `index.html`),
-an Angular *module* containing components,
-and a *route* that determines which components to display.
-The route comes from the client's request to the server.
+`renderModuleFactory()` 函式接受一個 *範本* HTML 頁面（通常是 `index.html`）、
+一個包含元件的 Angular *模組*，
+以及一個決定要顯示哪些元件的 *路由* 作為輸入。
+路由來自用戶端對伺服器的請求。
 
-Each request results in the appropriate view for the requested route.
-The `renderModuleFactory()` function renders the view within the `<app>` tag of the template, 
-creating a finished HTML page for the client. 
+每個請求都會產生對應請求路由的適當檢視。
+`renderModuleFactory()` 函式會在範本的 `<app>` 標籤內算繪該檢視，為用戶端建立完成的 HTML 頁面。
 
-Finally, the server returns the rendered page to the client.
+最後，伺服器會把算繪完成的頁面回傳給用戶端。
 
 {@a summary}
-## Preparing for server-side rendering
+## 為伺服器端算繪做好準備
 
-Before your app can be rendered on a server, you must make changes in the app itself, and also set up the server.
+在你的應用程式能在伺服器上算繪之前，你必須變更應用程式本身，並且設定伺服器。
 
-1. Install dependencies.
-1. Prepare your app by modifying both the app code and its configuration.  
-1. Add a build target, and build a Universal bundle using the CLI with the `@nguniversal/express-engine` schematic.
-1. Set up a server to run Universal bundles.
-1. Pack and run the app on the server.
+1. 安裝相依套件。
+1. 修改應用程式程式碼及其設定，為應用程式做好準備。
+1. 加入建置目標，並使用 CLI 搭配 `@nguniversal/express-engine` schematic 建置 Universal 套件包。
+1. 設定伺服器來執行 Universal 套件包。
+1. 把應用程式打包並在伺服器上執行。
 
-The following sections go into each of these main steps in more detail.
+下列各節會更詳細地說明這些主要步驟。
 
 <div class="alert is-helpful">
 
-  **Note:** The [Universal tutorial](#the-example) below walks you through the steps using the Tour of Heroes sample app, and goes into more detail about what you can do and why you might want to do it. 
- 
-  To see a working version of an app with server-side rendering, clone the [Angular Universal starter](https://github.com/angular/universal-starter). 
+**注意：** 下方的 [Universal 教學](#the-example) 會使用 Tour of Heroes 範例應用程式帶你逐步完成這些步驟，並更詳細地說明你可以做什麼，以及你為什麼可能想這麼做。
+
+若要查看可運作的伺服器端算繪應用程式，請 clone [Angular Universal starter](https://github.com/angular/universal-starter)。
 
 </div>
 
 <div class="callout is-critical">
 
-<header>Security for server requests</header>
+<header>伺服器請求的安全性</header>
 
-HTTP requests issued from a browser app aren't the same as those issued by the Universal app on the server.
-Universal HTTP requests have different security requirements
+從瀏覽器應用程式發出的 HTTP 請求，與 Universal 應用程式在伺服器上發出的請求並不相同。
+Universal HTTP 請求有不同的安全性需求
 
-When a browser makes an HTTP request, the server can make assumptions about cookies, XSRF headers, and so on. 
-For example, the browser automatically sends authentication cookies for the current user.
-Angular Universal can't forward these credentials to a separate data server.
-If your server handles HTTP requests, you'll have to add your own security plumbing.
+當瀏覽器發出 HTTP 請求時，伺服器可以對 cookies、XSRF 標頭等做出假設。
+例如，瀏覽器會自動傳送目前使用者的驗證 cookies。
+Angular Universal 無法把這些憑證轉送到另一台資料伺服器。
+如果你的伺服器要處理 HTTP 請求，你就必須加入自己的安全性管道。
 
 </div>
 
-## Step 1: Install dependencies
+## 步驟 1：安裝相依套件
 
-Install `@angular/platform-server` into your project. Use the same version as the other `@angular` packages in your project. You also need `ts-loader` for your webpack build and `@nguniversal/module-map-ngfactory-loader` to handle lazy-loading in the context of a server-render.
+把 `@angular/platform-server` 安裝到你的專案中。使用的版本要與專案中其他 `@angular` 套件的版本相同。你的 webpack 建置也需要 `ts-loader`，以及 `@nguniversal/module-map-ngfactory-loader`，用於在伺服器算繪的上下文中處理延遲載入。
 
 ```
 $ npm install --save @angular/platform-server @nguniversal/module-map-ngfactory-loader ts-loader
 ```
 
-## Step 2: Prepare your app
+## 步驟 2：為應用程式做好準備
 
-To prepare your app for Universal rendering, take the following steps:
+若要讓你的應用程式為 Universal 算繪做好準備，請採取下列步驟：
 
-* Add Universal support to your app.
+* 為你的應用程式加入 Universal 支援。
 
-* Create a server root module.
+* 建立伺服器根模組。
 
-* Create a main file to export the server root module.
+* 建立一個主要檔案，匯出伺服器根模組。
 
-* Configure the server root module.
+* 設定伺服器根模組。
 
-### 2a. Add Universal support to your app
+### 2a. 為你的應用程式加入 Universal 支援
 
-Make your `AppModule` compatible with Universal by adding `.withServerTransition()` and an application ID to your `BrowserModule` import in `src/app/app.module.ts`.
+在 `src/app/app.module.ts` 中，為你的 `BrowserModule` 匯入加入 `.withServerTransition()` 與一個應用程式 ID，讓你的 `AppModule` 與 Universal 相容。
 
 <code-example format="." language="typescript" linenums="false">
 @NgModule({
@@ -179,11 +172,11 @@ Make your `AppModule` compatible with Universal by adding `.withServerTransition
 export class AppModule {}
 </code-example>
 
-### 2b. Create a server root module
+### 2b. 建立伺服器根模組
 
-Create a module named `AppServerModule` to act as the root module when running on the server. This example places it alongside `app.module.ts` in a file named `app.server.module.ts`. The new module  imports everything from the root `AppModule`, and adds `ServerModule`. It also adds `ModuleMapLoaderModule` to help make lazy-loaded routes possible during server-side renders with the Angular CLI.
+建立一個名為 `AppServerModule` 的模組，在伺服器上執行時作為根模組。本範例把它放在與 `app.module.ts` 相鄰、名為 `app.server.module.ts` 的檔案中。這個新模組匯入根 `AppModule` 的所有內容，並加入 `ServerModule`。它也加入 `ModuleMapLoaderModule`，協助讓延遲載入路由能在以 Angular CLI 進行伺服器端算繪時成為可能。
 
-Here's an example in `src/app/app.server.module.ts`.
+以下是 `src/app/app.server.module.ts` 中的一個範例。
 
 <code-example format="." language="typescript" linenums="false">
 import {NgModule} from '@angular/core';
@@ -208,20 +201,20 @@ import {AppComponent} from './app.component';
 export class AppServerModule {}
 </code-example>
 
-### 2c. Create a main file to export AppServerModule
+### 2c. 建立主要檔案以匯出 AppServerModule
 
-Create a main file for your Universal bundle in the app `src/` folder  to export your `AppServerModule` instance. This example calls the file `main.server.ts`.
+在應用程式的 `src/` 資料夾中，為你的 Universal 套件包建立一個主要檔案，以匯出你的 `AppServerModule` 執行個體。本範例把這個檔案稱為 `main.server.ts`。
 
 <code-example format="." language="typescript" linenums="false">
 export { AppServerModule } from './app/app.server.module';
 </code-example>
 
-### 2d. Create a configuration file for AppServerModule 
+### 2d. 為 AppServerModule 建立設定檔
 
-Copy `tsconfig.app.json` to `tsconfig.server.json` and modify it as follows:
+把 `tsconfig.app.json` 複製為 `tsconfig.server.json`，並修改如下：
 
-* In `"compilerOptions"`, set the  `"module"` target to `"commonjs"`.
-* Add a section for `"angularCompilerOptions"` and set `"entryModule"` to point to your `AppServerModule` instance. Use the format `importPath#symbolName`. In this example, the entry module is `app/app.server.module#AppServerModule`.
+* 在 `"compilerOptions"` 中，把 `"module"` 目標設為 `"commonjs"`。
+* 加入 `"angularCompilerOptions"` 區段，並把 `"entryModule"` 設為指向你的 `AppServerModule` 執行個體。使用 `importPath#symbolName` 格式。在本範例中，進入模組是 `app/app.server.module#AppServerModule`。
 
 <code-example format="." language="none" linenums="false">
 {
@@ -245,9 +238,9 @@ Copy `tsconfig.app.json` to `tsconfig.server.json` and modify it as follows:
 }
 </code-example>
 
-## Step 3: Create a new build target and build the bundle
+## 步驟 3：建立新的建置目標並建置套件包
 
-Open the Angular configuration file, `angular.json`, for your project, and add a new target in the `"architect"` section for the server build. The following example names the new target `"server"`.
+開啟你專案的 Angular 設定檔 `angular.json`，並在 `"architect"` 區段中為伺服器建置加入一個新目標。下列範例把新目標命名為 `"server"`。
 
 <code-example format="." language="none" linenums="false">
 "architect": {
@@ -263,7 +256,7 @@ Open the Angular configuration file, `angular.json`, for your project, and add a
 }
 </code-example>
 
-To build a server bundle for your application, use the `ng run` command, with the format `projectName#serverTarget`. In our example, there are now two targets configured, `"build"` and `"server"`.
+若要為你的應用程式建置伺服器套件包，請使用 `ng run` 指令，格式為 `projectName#serverTarget`。在本範例中，現在設定了兩個目標 `"build"` 與 `"server"`。
 
 <code-example format="." language="none" linenums="false">
 # This builds your project using the server target, and places the output
@@ -277,11 +270,11 @@ chunk {0} main.js (main) 9.49 kB [entry] [rendered]
 chunk {1} styles.css (styles) 0 bytes [entry] [rendered]
 </code-example>
 
-## Step 4: Set up a server to run Universal bundles
+## 步驟 4：設定伺服器以執行 Universal 套件包
 
-To run a Universal bundle, you need to send it to a server. 
+若要執行 Universal 套件包，你需要把它傳送到伺服器。
 
-The following example passes `AppServerModule` (compiled with AoT) to the `PlatformServer` method `renderModuleFactory()`, which serializes the app and returns the result to the browser.
+下列範例把 `AppServerModule`（以 AoT 編譯）傳給 `PlatformServer` 方法 `renderModuleFactory()`，它會序列化應用程式，並把結果回傳給瀏覽器。
 
 <code-example format="." language="typescript" linenums="false">
 app.engine('html', (_, options, callback) => {
@@ -300,7 +293,7 @@ app.engine('html', (_, options, callback) => {
 });
 </code-example>
 
-This technique gives you complete flexibility. For convenience, you can also use the `@nguniversal/express-engine` tool that has some built-in features.
+這種技巧給你完整的彈性。為了方便起見，你也可以使用帶有一些內建功能的 `@nguniversal/express-engine` 工具。
 
 <code-example format="." language="typescript" linenums="false">
 import { ngExpressEngine } from '@nguniversal/express-engine';
@@ -313,10 +306,10 @@ app.engine('html', ngExpressEngine({
 }));
 </code-example>
 
-The following simple example implements a bare-bones Node Express server to fire everything up. 
-(Note that this is for demonstration only. In a real production environment, you need to set up additional authentication and security.)
+下列簡單範例實作了一個最基本的 Node Express 伺服器，把一切啟動起來。
+（請注意，這僅供示範。在真正的生產環境中，你需要設定額外的驗證與安全性。）
 
-At the root level of your project, next to `package.json`, create a file named `server.ts` and add the following content.
+在專案的根層級、`package.json` 旁邊，建立一個名為 `server.ts` 的檔案，並加入下列內容。
 
 <code-example format="." language="typescript" linenums="false">
 // These are important and needed before anything else
@@ -378,11 +371,11 @@ app.listen(PORT, () => {
 });
 </code-example>
 
-## Step 5: Pack and run the app on the server
+## 步驟 5：把應用程式打包並在伺服器上執行
 
-Set up a webpack configuration to handle the Node Express `server.ts` file and serve your application.
+設定一個 webpack 設定，來處理 Node Express 的 `server.ts` 檔案並提供你的應用程式。
 
-In your app root directory, create a webpack configuration file (`webpack.server.config.js`) that compiles the `server.ts` file and its dependencies into `dist/server.js`.
+在你的應用程式根目錄中，建立一個 webpack 設定檔（`webpack.server.config.js`），把 `server.ts` 檔案及其相依性編譯到 `dist/server.js`。
 
 <code-example format="." language="typescript" linenums="false">
 @NgModule({
@@ -421,7 +414,7 @@ module.exports = {
 }
 </code-example>
 
-The  project's `dist/` folder now contains both browser and server folders.
+專案的 `dist/` 資料夾現在同時包含 browser 與 server 資料夾。
 
 <code-example format="." language="none" linenums="false">
 dist/
@@ -429,16 +422,16 @@ dist/
    server/
 </code-example>
 
-To run the app on the server, type the following in a command shell.
+若要在伺服器上執行應用程式，請在命令殼層中輸入下列指令。
 
 <code-example format="." language="bash" linenums="false">
 node dist/server.js
 </code-example>
 
-### Creating scripts
+### 建立腳本
 
-Now let's create a few handy scripts to help us do all of this in the future.
-You can add these in the `"server"` section of the Angular configuration file, `angular.json`.
+現在讓我們建立幾個便利的腳本，幫助我們將來完成這一切。
+你可以在 Angular 設定檔 `angular.json` 的 `"server"` 區段中加入這些腳本。
 
 <code-example format="." language="none" linenums="false">
 "architect": {
@@ -457,43 +450,44 @@ You can add these in the `"server"` section of the Angular configuration file, `
    ...
 </code-example>
 
-To run a production build of your app with Universal on your local system, use the following command.
+若要在本機系統上以 Universal 執行你應用程式的生產建置，請使用下列指令。
 
 <code-example format="." language="bash" linenums="false">
 npm run build:ssr && npm run serve:ssr
 </code-example>
 
-### Working around the browser APIs
+### 處理瀏覽器 API 的因應方式
 
-Because a Universal `platform-server` app doesn't execute in the browser, you may have to work around some of the browser APIs and capabilities that are missing on the server.
+因為 Universal `platform-server` 應用程式不在瀏覽器中執行，你可能必須因應伺服器上缺少的一些瀏覽器 API 與功能。
 
-For example, your server-side page can't reference browser-only native objects such as `window`, `document`, `navigator`, or `location`. 
-If you don't need these on the server-rendered page, you can side-step them with conditional logic.
-Alternatively, you can find an injectable Angular abstraction over the object you need such as `Location` or `Document`;
-it may substitute adequately for the specific API that you're calling.
-If Angular doesn't provide it, you can write your own abstraction that delegates to the browser API while in the browser and to a satisfactory alternative implementation while on the server.
+例如，你在伺服器端算繪的頁面無法參照 `window`、`document`、`navigator` 或 `location` 等瀏覽器專屬的原生物件。
+如果你在伺服器算繪頁面上不需要這些物件，你可以用條件邏輯避開它們。
+或者，你可以為你需要的物件找到可注入的 Angular 抽象層，例如 `Location` 或 `Document`；
+它可能足以替代你正在呼叫的特定 API。
+如果 Angular 沒有提供它，你可以撰寫自己的抽象層：在瀏覽器中委派給瀏覽器 API，在伺服器上則委派給令人滿意的替代實作。
 
-Similarly, without mouse or keyboard events, a server-side app can't rely on a user clicking a button to show a component.
-The app must determine what to render based solely on the incoming client request.
-This is a good argument for making the app [routable](guide/router).
+同樣地，沒有滑鼠或鍵盤事件時，伺服器端應用程式無法仰賴使用者點選按鈕來顯示元件。
+應用程式必須僅根據傳入的用戶端請求來決定要算繪的內容。
+這正是讓應用程式[可路由](guide/router)的有力理由。
 
-Because the user of a server-rendered page can't do much more than click links,
-you should swap in the real client app as quickly as possible for a proper interactive experience.
+因為伺服器算繪頁面的使用者除了點選連結之外做不了多少事，
+你應該盡快把真正的用戶端應用程式換上來，以提供適當的互動體驗。
 
 {@a the-example}
 
-## Universal tutorial 
+## Universal 教學
 
-The [Tour of Heroes tutorial](tutorial) is the foundation for this walkthrough. 
+[英雄之旅教學](tutorial)是本逐步解說的基礎。
 
-The core application files are mostly untouched, with a few exceptions described below.
-You'll add more files to support building and serving with Universal.
+核心應用程式檔案大多未動，只有少數例外，如下所述。
+你將加入更多檔案，以支援使用 Universal 進行建置與提供服務。
 
-In this example, the Angular CLI compiles and bundles the Universal version of the app with the
-[Ahead-of-Time (AoT) compiler](guide/aot-compiler).
-A Node Express web server turns client requests into the HTML pages rendered by Universal.
+在本範例中，Angular CLI 會使用
+[預先編譯（AoT）編譯器](guide/aot-compiler)
+編譯並打包應用程式的 Universal 版本。
+Node Express Web 伺服器會把用戶端請求轉換為 Universal 算繪的 HTML 頁面。
 
-To create server-side app module, `app.server.module.ts`, run the following CLI command.
+若要建立伺服器端應用程式模組 `app.server.module.ts`，請執行下列 CLI 指令。
 
 <code-example format="." language="bash">
 
@@ -501,165 +495,158 @@ ng add @nguniversal/express-engine --clientProject angular.io-example
 
 </code-example>
 
-The command creates the following folder structure.
+此指令會建立下列資料夾結構。
 
 <code-example format="." language="none" linenums="false">
 src/
-  index.html                 <i>app web page</i>
-  main.ts                    <i>bootstrapper for client app</i>
-  main.server.ts             <i>* bootstrapper for server app</i>
-  tsconfig.app.json          <i>TypeScript client configuration</i>
-  tsconfig.server.json       <i>* TypeScript server configuration</i>
-  tsconfig.spec.json         <i>TypeScript spec configuration</i>
-  style.css                  <i>styles for the app</i>
-  app/ ...                   <i>application code</i>
-    app.server.module.ts     <i>* server-side application module</i>
-server.ts                    <i>* express web server</i>
-tsconfig.json                <i>TypeScript client configuration</i>
-package.json                 <i>npm configuration</i>
-webpack.server.config.js     <i>* webpack server configuration</i>
+  index.html                 <i>應用程式網頁</i>
+  main.ts                    <i>用戶端應用程式的啟動器</i>
+  main.server.ts             <i>* 伺服器端應用程式的啟動器</i>
+  tsconfig.app.json          <i>TypeScript 用戶端設定</i>
+  tsconfig.server.json       <i>* TypeScript 伺服器設定</i>
+  tsconfig.spec.json         <i>TypeScript 規格設定</i>
+  style.css                  <i>應用程式的樣式</i>
+  app/ ...                   <i>應用程式程式碼</i>
+    app.server.module.ts     <i>* 伺服器端應用程式模組</i>
+server.ts                    <i>* Express Web 伺服器</i>
+tsconfig.json                <i>TypeScript 用戶端設定</i>
+package.json                 <i>npm 設定</i>
+webpack.server.config.js     <i>* webpack 伺服器設定</i>
 </code-example>
 
-The files marked with `*` are new and not in the original tutorial sample.
-This guide covers them in the sections below.
-
+標有 `*` 的檔案是新增的，不在原始教學範例中。
+本指南在下列各節中介紹它們。
 
 {@a http-urls}
 
-### Using absolute URLs for server requests
+### 對伺服器請求使用絕對 URL
 
-The tutorial's `HeroService` and `HeroSearchService` delegate to the Angular `HttpClient` module to fetch application data.
-These services send requests to _relative_ URLs such as `api/heroes`.
-In a Universal app, HTTP URLs must be _absolute_ (for example, `https://my-server.com/api/heroes`) even when the Universal web server is capable of handling relative requests.
-This means you need to change your services to make requests with absolute URLs when running on the server and with relative URLs when running in the browser.
+教學的 `HeroService` 與 `HeroSearchService` 委派給 Angular 的 `HttpClient` 模組來擷取應用程式資料。
+這些服務會把請求傳送到 _相對_ URL，例如 `api/heroes`。
+在 Universal 應用程式中，HTTP URL 必須是 _絕對的_（例如 `https://my-server.com/api/heroes`），即使 Universal Web 伺服器有能力處理相對請求。
+這表示你需要變更你的服務：在伺服器上執行時以絕對 URL 發出請求，在瀏覽器中執行時則以相對 URL 發出請求。
 
-One solution is to provide the server's runtime origin under Angular's [`APP_BASE_HREF`](api/common/APP_BASE_HREF) token,
-inject it into the service, and prepend the origin to the request URL.
+一種解決方案是在 Angular 的 [`APP_BASE_HREF`](api/common/APP_BASE_HREF) token 之下提供伺服器的執行期來源，
+把它注入服務中，並把來源前置加到請求 URL 上。
 
-Start by changing the `HeroService` constructor to take a second `origin` parameter that is optionally injected via the `APP_BASE_HREF` token.
+首先，變更 `HeroService` 建構子，讓它接受第二個 `origin` 參數，該參數透過 `APP_BASE_HREF` token 選擇性地注入。
 
 <code-example path="universal/src/app/hero.service.ts" region="ctor" title="src/app/hero.service.ts (constructor with optional origin)">
 </code-example>
 
-The constructor uses the `@Optional()` directive to prepend the origin to `heroesUrl` _if it exists_.
-You don't provide `APP_BASE_HREF` in the browser version, so `heroesUrl` remains relative.
+建構子使用 `@Optional()` 裝飾器，在來源 _存在時_ 把它前置加到 `heroesUrl` 上。
+你在瀏覽器版本中不提供 `APP_BASE_HREF`，所以 `heroesUrl` 保持相對。
 
 <div class="alert is-helpful">
 
-  **Note:** You can ignore `APP_BASE_HREF` in the browser if you've specified `<base href="/">` in the `index.html` file to satisfy the router's need for a base address (as the tutorial sample does).
+**注意：** 如果你已在 `index.html` 檔案中指定 `<base href="/">` 以滿足路由器對基底位址的需求（如教學範例所做的），你可以忽略瀏覽器中的 `APP_BASE_HREF`。
 
 </div>
 
 {@a universal-engine}
-### Universal template engine
+### Universal 範本引擎
 
-The important bit in the `server.ts` file is the `ngExpressEngine()` function.
+`server.ts` 檔案中重要的一段是 `ngExpressEngine()` 函式。
 
 <code-example path="universal/server.ts" title="server.ts" region="ngExpressEngine">
 </code-example>
 
-The `ngExpressEngine()` function is a wrapper around Universal's `renderModuleFactory()` function which turns a client's requests into server-rendered HTML pages.
-You'll call that function within a _template engine_ that's appropriate for your server stack.
+`ngExpressEngine()` 函式是 Universal 的 `renderModuleFactory()` 函式的包裝器，它把用戶端的請求轉換為伺服器算繪的 HTML 頁面。
+你會在一個適合你伺服器技術堆疊的 _範本引擎_ 中呼叫該函式。
 
-* The first parameter is `AppServerModule`.
-It's the bridge between the Universal server-side renderer and your application.
+* 第一個參數是 `AppServerModule`。
+它是 Universal 伺服器端算繪器與你的應用程式之間的橋樑。
 
-* The second parameter, `extraProviders`, is optional. It lets you specify dependency providers that apply only when running on this server.
-You can do this when your app needs information that can only be determined by the currently running server instance. 
-The required information in this case is the running server's *origin*, provided under the `APP_BASE_HREF` token, so that the app can [calculate absolute HTTP URLs](#http-urls).
+* 第二個參數 `extraProviders` 是可選的。它讓你指定只在這個伺服器上執行時才套用的相依性提供者。
+當你的應用程式需要只能由目前正在執行的伺服器執行個體判斷的資訊時，你可以這樣做。
+本例中需要的資訊是執行中伺服器的 *來源*，它在 `APP_BASE_HREF` token 之下提供，讓應用程式可以[計算絕對 HTTP URL](#http-urls)。
 
-The `ngExpressEngine()` function returns a `Promise` callback that resolves to the rendered page. 
-It's up to your engine to decide what to do with that page.
-This engine's `Promise` callback returns the rendered page to the web server,
-which then forwards it to the client in the HTTP response.
+`ngExpressEngine()` 函式回傳一個 `Promise` 回呼，它會解析為算繪好的頁面。
+要如何處理該頁面，由你的引擎決定。
+這個引擎的 `Promise` 回呼會把算繪好的頁面回傳給 Web 伺服器，
+伺服器接著在 HTTP 回應中把它轉送給用戶端。
 
 <div class="alert is-helpful">
 
-  **Note:**  These wrappers help hide the complexity of the `renderModuleFactory()` function. There are more wrappers for different backend technologies
-  at the [Universal repository](https://github.com/angular/universal).
+**注意：** 這些包裝器有助於隱藏 `renderModuleFactory()` 函式的複雜性。在 [Universal 儲存庫](https://github.com/angular/universal) 中，有更多針對不同後端技術的包裝器。
 
 </div>
 
-### Filtering request URLs
+### 篩選請求 URL
 
-The web server must distinguish _app page requests_ from other kinds of requests.
+Web 伺服器必須區分 _應用程式頁面請求_ 與其他種類的請求。
 
-It's not as simple as intercepting a request to the root address `/`.
-The browser could ask for one of the application routes such as `/dashboard`, `/heroes`, or `/detail:12`.
-In fact, if the app were only rendered by the server, _every_ app link clicked would arrive at the server
-as a navigation URL intended for the router.
+這不像攔截對根位址 `/` 的請求那麼簡單。
+瀏覽器可能會請求其中一個應用程式路由，例如 `/dashboard`、`/heroes` 或 `/detail:12`。
+事實上，如果應用程式僅由伺服器算繪，點選的 _每一個_ 應用程式連結都會以導覽 URL 的形式到達伺服器，供路由器使用。
 
-Fortunately, application routes have something in common: their URLs lack file extensions. 
-(Data requests also lack extensions but they're easy to recognize because they always begin with `/api`.)
-All static asset requests have a file extension (such as `main.js` or `/node_modules/zone.js/dist/zone.js`).
+幸好，應用程式路由有一個共同點：它們的 URL 沒有副檔名。
+（資料請求也沒有副檔名，但可以認出它們，因為它們一律以 `/api` 開頭。）
+所有靜態資產請求都有副檔名（例如 `main.js` 或 `/node_modules/zone.js/dist/zone.js`）。
 
-Because we use routing, we can easily recognize the three types of requests and handle them differently.
+由於你使用路由，你可以辨識這三種請求類型並以不同方式處理。
 
-1. Data request -  request URL that begins `/api`.
-2. App navigation - request URL with no file extension.
-3. Static asset - all other requests.
+1. 資料請求 - 以 `/api` 開頭的請求 URL。
+2. 應用程式導覽 - 沒有副檔名的請求 URL。
+3. 靜態資產 - 所有其他請求。
 
-A Node Express server is a pipeline of middleware that filters and processes URL requests one after the other. 
-You configure the Node Express server pipeline with calls to `app.get()` like this one for data requests.
+Node Express 伺服器是一條中介軟體管道，逐一篩選並處理 URL 請求。
+你以像這樣的 `app.get()` 呼叫來設定 Node Express 伺服器管道，這個呼叫是針對資料請求的。
 
 <code-example path="universal/server.ts" title="server.ts (data URL)" region="data-request" linenums="false">
 </code-example>
 
 <div class="alert is-helpful">
 
-  **Note:** This sample server doesn't handle data requests.
+**注意：** 這個範例伺服器不處理資料請求。
 
-  The tutorial's "in-memory web API" module, a demo and development tool, intercepts all HTTP calls and
-  simulates the behavior of a remote data server.
-  In practice, you would remove that module and register your web API middleware on the server here.
+教學中的「in-memory web API」模組是一個示範與開發工具，它會攔截所有 HTTP 呼叫，並模擬遠端資料伺服器的行為。
+  實際上，你會移除該模組，並在此處於伺服器上註冊你的 Web API 中介軟體。
 
 </div>
 
-The following code filters for request URLs with no extensions and treats them as navigation requests.
+下列程式碼會篩選沒有副檔名的請求 URL，並將其視為導覽請求。
 
 <code-example path="universal/server.ts" title="server.ts (navigation)" region="navigation-request" linenums="false">
 </code-example>
 
-### Serving static files safely
+### 安全地提供靜態檔案
 
-A single `app.use()` treats all other URLs as requests for static assets
-such as JavaScript, image, and style files.
+單一的 `app.use()` 會把所有其他 URL 視為對 JavaScript、圖片與樣式檔案等靜態資產的請求。
 
-To ensure that clients can only download the files that they are permitted to see, put all client-facing asset files in the `/dist` folder and only honor requests for files from the `/dist` folder.
+為了確保用戶端只能下載他們被允許查看的檔案，請把所有面向用戶端的資產檔案放在 `/dist` 資料夾中，並且只受理對 `/dist` 資料夾中檔案的請求。
 
-The following Node Express code routes all remaining requests to `/dist`, and returns a `404 - NOT FOUND` error if the file isn't found.
+下列 Node Express 程式碼會把所有剩餘請求路由到 `/dist`，如果找不到檔案，就回傳 `404 - NOT FOUND` 錯誤。
 
 <code-example path="universal/server.ts" title="server.ts (static files)" region="static" linenums="false">
 </code-example>
 
+### Universal 實戰
 
-### Universal in action
+在瀏覽器中開啟 http://localhost:4000/。
+你應該會看到熟悉的 Tour of Heroes 儀表板頁面。
 
-Open a browser to http://localhost:4000/.
-You should see the familiar Tour of Heroes dashboard page.
+透過 `routerLinks` 的導覽運作正確。
+你可以從儀表板前往 Heroes 頁面再回來。
+你可以點選儀表板頁面上的英雄，顯示其 Details 頁面。
 
-Navigation via `routerLinks` works correctly.
-You can go from the Dashboard to the Heroes page and back.
-You can click a hero on the Dashboard page to display its Details page.
+但請注意，點選、滑鼠移動與鍵盤輸入都是無反應的。
 
-Notice, however, that clicks, mouse-moves, and keyboard entries are inert.
+* 在 Heroes 頁面上點選英雄沒有任何作用。
+* 你無法加入或刪除英雄。
+* 儀表板頁面上的搜尋框被忽略。
+* Details 頁面上的 *Back* 與 *Save* 按鈕無法運作。
 
-* Clicking a hero on the Heroes page does nothing.
-* You can't add or delete a hero.
-* The search box on the Dashboard page is ignored.
-* The *Back* and *Save* buttons on the Details page don't work.
+除了 `routerLink` 點選之外的使用者事件都不支援。
+你必須等待完整的用戶端應用程式到達。
+在你編譯用戶端應用程式並把輸出移到 `dist/` 資料夾之前，它不會到達。
 
-User events other than `routerLink` clicks aren't supported.
-You must wait for the full client app to arrive.
-It won't arrive until you compile the client app
-and move the output into the `dist/` folder.
+在開發機器上，從伺服器算繪應用程式轉換到用戶端應用程式發生得很快。
+你可以模擬較慢的網路，更清楚地看到轉換過程，並
+更能體會在低功耗、連線品質差的裝置上執行的 Universal 應用程式所帶來的啟動速度優勢。
 
-The transition from the server-rendered app to the client app happens quickly on a development machine.
-You can simulate a slower network to see the transition more clearly and
-better appreciate the launch-speed advantage of a Universal app running on a low-powered, poorly connected device.
+開啟 Chrome Dev Tools 並前往 Network 分頁。
+在選單列最右邊找到 [Network Throttling](https://developers.google.com/web/tools/chrome-devtools/network-performance/reference#throttling) 下拉選單。
 
-Open the Chrome Dev Tools and go to the Network tab.
-Find the [Network Throttling](https://developers.google.com/web/tools/chrome-devtools/network-performance/reference#throttling) dropdown on the far right of the menu bar.
-
-Try one of the "3G" speeds.
-The server-rendered app still launches quickly but the full client app may take seconds to load.
+試試其中一種「3G」速度。
+伺服器算繪的應用程式仍然快速啟動，但完整的用戶端應用程式可能需要幾秒鐘才能載入。

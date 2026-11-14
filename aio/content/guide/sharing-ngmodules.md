@@ -1,23 +1,21 @@
-# Sharing Modules
+# 共享模組
 
-#### Prerequisites
-A basic understanding of the following:
-* [Feature Modules](guide/feature-modules).
-* [JavaScript Modules vs. NgModules](guide/ngmodule-vs-jsmodule).
-* [Frequently Used Modules](guide/frequent-ngmodules).
-* [Routing and Navigation](guide/router).
-* [Lazy loading modules](guide/lazy-loading-ngmodules).
+#### 必要條件
+對下列主題具備基本認識：
+* [功能模組](guide/feature-modules)。
+* [JavaScript 模組與 NgModule](guide/ngmodule-vs-jsmodule)。
+* [常用的模組](guide/frequent-ngmodules)。
+* [路由與導覽](guide/router)。
+* [延遲載入模組](guide/lazy-loading-ngmodules)。
 
 
 <!--* Components (#TBD) We don’t have a page just on the concept of components, but I think one would be helpful for beginners.-->
 
 <hr>
 
-Creating shared modules allows you to organize and streamline your code. You can put commonly
-used directives, pipes, and components into one module and then import just that module wherever
-you need it in other parts of your app.
+建立共享模組能讓你組織並精簡你的程式碼。你可以把常用的指令、管道與元件放進一個模組，然後在應用程式其他需要它的地方只需匯入這個模組。
 
-Consider the following module from an imaginary app:
+以下是一個假想應用程式中的模組：
 
 
 ```typescript
@@ -37,39 +35,29 @@ import { OrdersPipe } from './orders.pipe';
 export class SharedModule { }
 ```
 
-Note the following:
+請注意下列事項：
 
-* It imports the `CommonModule` because the module's component needs common directives.
-* It declares and exports the utility pipe, directive, and component classes.
-* It re-exports the `CommonModule` and `FormsModule`.
+* 它匯入 `CommonModule`，因為該模組的元件需要常用指令。
+* 它宣告並匯出公用程式管道、指令與元件類別。
+* 它重新匯出 `CommonModule` 與 `FormsModule`。
 
-By re-exporting `CommonModule` and `FormsModule`, any other module that imports this
-`SharedModule`, gets access to directives like `NgIf` and `NgFor` from `CommonModule`
-and can bind to component properties with `[(ngModel)]`, a directive in the `FormsModule`.
+透過重新匯出 `CommonModule` 與 `FormsModule`，任何匯入這個 `SharedModule` 的其他模組，都能取用 `CommonModule` 中的 `NgIf`、`NgFor` 等指令，並能用 `[(ngModel)]`（`FormsModule` 中的一個指令）繫結到元件屬性。
 
-Even though the components declared by `SharedModule` might not bind
-with `[(ngModel)]` and there may be no need for `SharedModule`
-to import `FormsModule`, `SharedModule` can still export
-`FormsModule` without listing it among its `imports`. This
-way, you can give other modules access to `FormsModule` without
-having to import it directly into the `@NgModule` decorator.
+即使 `SharedModule` 宣告的元件可能不會用 `[(ngModel)]` 繫結，`SharedModule` 也可能不需要匯入 `FormsModule`，`SharedModule` 仍然可以匯出 `FormsModule`，而不必把它列在自己的 `imports` 中。這樣一來，你可以讓其他模組取用 `FormsModule`，而不必直接把它匯入 `@NgModule` 裝飾器。
 
-### Using components vs services from other modules.
+### 使用來自其他模組的元件與服務。
 
-There is an important distinction between using another module's component and
-using a service from another module. Import modules when you want to use
-directives, pipes, and components. Importing a module with services means that you will have a new instance of that service, which typically is not what you need (typically one wants to reuse an existing service). Use module imports to control service instantiation.
+使用另一個模組的元件，與使用另一個模組的服務，兩者有一個重要的區別。當你想使用指令、管道與元件時，就匯入模組。匯入帶有服務的模組，意味著你會得到該服務的一個新實例，而這通常不是你想要的（通常會想重用既有的服務）。請用模組匯入來控制服務的實例化。
 
-The most common way to get a hold of shared services is through Angular
-[dependency injection](guide/dependency-injection), rather than through the module system (importing a module will result in a new service instance, which is not a typical usage).
+取得共享服務最常見的方式是透過 Angular 的 [相依性注入](guide/dependency-injection)，而不是透過模組系統（匯入模組會產生新的服務實例，這不是典型的用法）。
 
-To read about sharing services, see [Providers](guide/providers).
+若要了解如何共享服務，請參閱 [Providers](guide/providers)。
 
 
 <hr />
 
-## More on NgModules
+## 更多關於 NgModules
 
-You may also be interested in the following:
-* [Providers](guide/providers).
-* [Types of Feature Modules](guide/module-types).
+你可能也會對以下內容有興趣：
+* [Providers](guide/providers)。
+* [功能模組的類型](guide/module-types)。

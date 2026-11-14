@@ -1,29 +1,26 @@
-# Pipes
+# 管道
 
-Every application starts out with what seems like a simple task: get data, transform them, and show them to users.
-Getting data could be as simple as creating a local variable or as complex as streaming data over a WebSocket.
+每個應用程式一開始看起來都只有一個簡單的任務：取得資料、轉換資料，然後呈現給使用者。
+取得資料可以簡單到只是建立一個本機變數，也可以複雜到透過 WebSocket 串流資料。
 
-Once data arrives, you could push their raw `toString` values directly to the view,
-but that rarely makes for a good user experience.
-For example, in most use cases, users prefer to see a date in a simple format like
-<samp>April 15, 1988</samp> rather than the raw string format
-<samp>Fri Apr 15 1988 00:00:00 GMT-0700 (Pacific Daylight Time)</samp>.
+資料抵達後，你可以直接把原始的 `toString` 值推入檢視，但這很少能帶來良好的使用者體驗。
+例如，在大多數使用情境中，使用者更希望看到像
+<samp>April 15, 1988</samp> 這種簡單格式的日期，而不是原始字串格式
+<samp>Fri Apr 15 1988 00:00:00 GMT-0700 (Pacific Daylight Time)</samp>。
 
-Clearly, some values benefit from a bit of editing. You may notice that you
-desire many of the same transformations repeatedly, both within and across many applications.
-You can almost think of them as styles.
-In fact, you might like to apply them in your HTML templates as you do styles.
+顯然，有些值稍加修整會更好。你可能會注意到，在同一個應用程式內、甚至跨多個應用程式，你會一再需要許多相同的轉換。
+你幾乎可以把它們想成樣式。
+事實上，你可能會想像套用樣式那樣，把它們套用在你的 HTML 範本中。
 
-Introducing Angular pipes, a way to write display-value transformations that you can declare in your HTML.
+這就是 Angular 管道：一種撰寫顯示值轉換的方式，你可以在你的 HTML 中宣告它們。
 
-You can run the <live-example></live-example> in Stackblitz and download the code from there.
+你可以在 Stackblitz 中執行 <live-example></live-example>，並從那裡下載程式碼。
 
 
-## Using pipes
+## 使用管道
 
-A pipe takes in data as input and transforms it to a desired output.
-In this page, you'll use pipes to transform a component's birthday property into
-a human-friendly date.
+管道接受資料作為輸入，並把它轉換為所需的輸出。
+在本頁中，你將使用管道把元件的生日屬性轉換為人類易讀的日期。
 
 
 <code-example path="pipes/src/app/hero-birthday1.component.ts" title="src/app/hero-birthday1.component.ts" linenums="false">
@@ -32,7 +29,7 @@ a human-friendly date.
 
 
 
-Focus on the component's template.
+請聚焦於元件的範本。
 
 
 <code-example path="pipes/src/app/app.component.html" region="hero-birthday-template" title="src/app/app.component.html" linenums="false">
@@ -41,27 +38,26 @@ Focus on the component's template.
 
 
 
-Inside the interpolation expression, you flow the component's `birthday` value through the
-[pipe operator](guide/template-syntax#pipe) ( | ) to the [Date pipe](api/common/DatePipe)
-function on the right. All pipes work this way.
+在內嵌運算式中，你讓元件的 `birthday` 值流經
+[管道運算子](guide/template-syntax#pipe)（ | ）到右側的 [Date 管道](api/common/DatePipe)
+函式。所有管道都是這樣運作的。
 
 
 
 
-## Built-in pipes
-Angular comes with a stock of pipes such as
-`DatePipe`, `UpperCasePipe`, `LowerCasePipe`, `CurrencyPipe`, and `PercentPipe`.
-They are all available for use in any template.
+## 內建管道
+Angular 隨附了一組管道，例如
+`DatePipe`、`UpperCasePipe`、`LowerCasePipe`、`CurrencyPipe` 與 `PercentPipe`。
+它們全都可以在任何範本中使用。
 
 
 <div class="alert is-helpful">
 
 
 
-Read more about these and many other built-in pipes in the [pipes topics](api?type=pipe) of the
-[API Reference](api); filter for entries that include the word "pipe".
+在 [API 參考](api) 的[管道主題](api?type=pipe)中，可以進一步了解這些以及許多其他內建管道；請篩選包含 "pipe" 一詞的條目。
 
-Angular doesn't have a `FilterPipe` or an `OrderByPipe` for reasons explained in the [Appendix](guide/pipes#no-filter-pipe) of this page.
+基於本頁[附錄](guide/pipes#no-filter-pipe)所解釋的理由，Angular 沒有 `FilterPipe` 或 `OrderByPipe`。
 
 
 </div>
@@ -69,14 +65,14 @@ Angular doesn't have a `FilterPipe` or an `OrderByPipe` for reasons explained in
 
 
 
-## Parameterizing a pipe
+## 為管道加上參數
 
-A pipe can accept any number of optional parameters to fine-tune its output.
-To add parameters to a pipe, follow the pipe name with a colon ( : ) and then the parameter value
-(such as `currency:'EUR'`). If the pipe accepts multiple parameters, separate the values with colons (such as `slice:1:5`)
+管道可以接受任意數量的選填參數，以微調其輸出。
+若要為管道加上參數，請在管道名稱後面加上冒號（ : ）再接參數值
+（例如 `currency:'EUR'`）。如果管道接受多個參數，請以冒號分隔各值（例如 `slice:1:5`）。
 
-Modify the birthday template to give the date pipe a format parameter.
-After formatting the hero's April 15th birthday, it renders as **<samp>04/15/88</samp>**:
+修改生日範本，為日期管道提供一個格式參數。
+在格式化英雄的 4 月 15 日生日後，它會呈現為 **<samp>04/15/88</samp>**：
 
 
 <code-example path="pipes/src/app/app.component.html" region="format-birthday" title="src/app/app.component.html" linenums="false">
@@ -85,14 +81,14 @@ After formatting the hero's April 15th birthday, it renders as **<samp>04/15/88<
 
 
 
-The parameter value can be any valid template expression,
-(see the [Template expressions](guide/template-syntax#template-expressions) section of the
-[Template Syntax](guide/template-syntax) page)
-such as a string literal or a component property.
-In other words, you can control the format through a binding the same way you control the birthday value through a binding.
+參數值可以是任何有效的範本運算式，
+（請參閱[範本語法](guide/template-syntax)頁面的
+[範本運算式](guide/template-syntax#範本運算式)一節）
+例如字串字面值或元件屬性。
+換句話說，你可以透過繫結控制格式，就像你透過繫結控制生日值一樣。
 
-Write a second component that *binds* the pipe's format parameter
-to the component's `format` property. Here's the template for that component:
+再撰寫第二個元件，把管道的格式參數*繫結*
+到元件的 `format` 屬性。以下是該元件的範本：
 
 
 <code-example path="pipes/src/app/hero-birthday2.component.ts" region="template" title="src/app/hero-birthday2.component.ts (template)" linenums="false">
@@ -101,9 +97,9 @@ to the component's `format` property. Here's the template for that component:
 
 
 
-You also added a button to the template and bound its click event to the component's `toggleFormat()` method.
-That method toggles the component's `format` property between a short form
-(`'shortDate'`) and a longer form (`'fullDate'`).
+你也在範本中加入了一個按鈕，並把它的 click 事件繫結到元件的 `toggleFormat()` 方法。
+該方法會把元件的 `format` 屬性在短格式
+（`'shortDate'`）與較長的格式（`'fullDate'`）之間切換。
 
 
 <code-example path="pipes/src/app/hero-birthday2.component.ts" region="class" title="src/app/hero-birthday2.component.ts (class)" linenums="false">
@@ -112,13 +108,13 @@ That method toggles the component's `format` property between a short form
 
 
 
-As you click the button, the displayed date alternates between
-"**<samp>04/15/1988</samp>**" and
-"**<samp>Friday, April 15, 1988</samp>**".
+當你點擊按鈕時，顯示的日期會在
+"**<samp>04/15/1988</samp>**" 與
+"**<samp>Friday, April 15, 1988</samp>**" 之間交替。
 
 
 <figure>
-  <img src='generated/images/guide/pipes/date-format-toggle-anim.gif' alt="Date Format Toggle">
+  <img src='generated/images/guide/pipes/date-format-toggle-anim.gif' alt="日期格式切換">
 </figure>
 
 
@@ -127,20 +123,19 @@ As you click the button, the displayed date alternates between
 
 
 
-Read more about the `DatePipe` format options in the [Date Pipe](api/common/DatePipe)
-API Reference page.
+在 [Date 管道](api/common/DatePipe)
+API 參考頁面中，可以進一步了解 `DatePipe` 的格式選項。
 
 
 </div>
 
 
 
-## Chaining pipes
+## 串連管道
 
-You can chain pipes together in potentially useful combinations.
-In the following example, to display the birthday in uppercase,
-the birthday is chained to the `DatePipe` and on to the `UpperCasePipe`.
-The birthday displays as **<samp>APR 15, 1988</samp>**.
+你可以把管道串連在一起，形成可能很有用的組合。
+在下列範例中，若要以大寫顯示生日，生日會先串連到 `DatePipe`，再串連到 `UpperCasePipe`。
+生日會顯示為 **<samp>APR 15, 1988</samp>**。
 
 
 <code-example path="pipes/src/app/app.component.html" region="chained-birthday" title="src/app/app.component.html" linenums="false">
@@ -149,8 +144,8 @@ The birthday displays as **<samp>APR 15, 1988</samp>**.
 
 
 
-This example&mdash;which displays **<samp>FRIDAY, APRIL 15, 1988</samp>**&mdash;chains
-the same pipes as above, but passes in a parameter to `date` as well.
+這個範例&mdash;顯示 **<samp>FRIDAY, APRIL 15, 1988</samp>**&mdash;串連了
+與上面相同的管道，但也傳入一個參數給 `date`。
 
 
 <code-example path="pipes/src/app/app.component.html" region="chained-parameter-birthday" title="src/app/app.component.html" linenums="false">
@@ -160,10 +155,10 @@ the same pipes as above, but passes in a parameter to `date` as well.
 
 
 
-## Custom pipes
+## 自訂管道
 
-You can write your own custom pipes.
-Here's a custom pipe named `ExponentialStrengthPipe` that can boost a hero's powers:
+你可以撰寫自己的自訂管道。
+以下是一個名為 `ExponentialStrengthPipe` 的自訂管道，可以增強英雄的力量：
 
 
 <code-example path="pipes/src/app/exponential-strength.pipe.ts" title="src/app/exponential-strength.pipe.ts" linenums="false">
@@ -172,72 +167,72 @@ Here's a custom pipe named `ExponentialStrengthPipe` that can boost a hero's pow
 
 
 
-This pipe definition reveals the following key points:
+這個管道定義揭示了以下重點：
 
-* A pipe is a class decorated with pipe metadata.
-* The pipe class implements the `PipeTransform` interface's `transform` method that
-accepts an input value followed by optional parameters and returns the transformed value.
-* There will be one additional argument to the `transform` method for each parameter passed to the pipe.
-Your pipe has one such parameter: the `exponent`.
-* To tell Angular that this is a pipe, you apply the
-`@Pipe` decorator, which you import from the core Angular library.
-* The `@Pipe` decorator allows you to define the
-   pipe name that you'll use within template expressions. It must be a valid JavaScript identifier.
-   Your pipe's name is `exponentialStrength`.
+* 管道是一個以管道中繼資料裝飾的類別。
+* 管道類別實作了 `PipeTransform` 介面的 `transform` 方法，該方法
+接受一個輸入值以及後續的選填參數，並回傳轉換後的值。
+* 傳入管道的每個參數，都會成為 `transform` 方法的一個額外引數。
+你的管道有一個這樣的參數：`exponent`。
+* 若要告訴 Angular 這是一個管道，你需要套用
+`@Pipe` 裝飾器，它是從 Angular 核心程式庫匯入的。
+* `@Pipe` 裝飾器讓你可以定義將在範本運算式中使用的
+   管道名稱。它必須是有效的 JavaScript 識別符。
+   你的管道名稱是 `exponentialStrength`。
 
 
 <div class="alert is-helpful">
 
 
 
-## The *PipeTransform* interface
+## *PipeTransform* 介面
 
-The `transform` method is essential to a pipe.
-The `PipeTransform` *interface* defines that method and guides both tooling and the compiler.
-Technically, it's optional; Angular looks for and executes the `transform` method regardless.
+`transform` 方法是管道的關鍵。
+`PipeTransform` *介面*定義了該方法，並引導工具與編譯器。
+嚴格來說，它是選填的；Angular 無論如何都會尋找並執行 `transform` 方法。
 
 </div>
 
-Now you need a component to demonstrate the pipe.
+現在你需要一個元件來示範這個管道。
 
 <code-example path="pipes/src/app/power-booster.component.ts" title="src/app/power-booster.component.ts" linenums="false">
 </code-example>
 
 <figure>
-  <img src='generated/images/guide/pipes/power-booster.png' alt="Power Booster">
+  <img src='generated/images/guide/pipes/power-booster.png' alt="力量提升器">
 </figure>
 
 
 
-Note the following:
+請注意以下事項：
 
-* You use your custom pipe the same way you use built-in pipes.
-* You must include your pipe in the `declarations` array of the `AppModule`.
+* 你使用自訂管道的方式與使用內建管道相同。
+* 你必須把你的管道加入 `AppModule` 的 `declarations` 陣列。
 
 <div class="callout is-helpful">
 
 <header>
-  Remember the declarations array
+  記住 declarations 陣列
 </header>
 
 
-You must register custom pipes.
-If you don't, Angular reports an error.
-Angular CLI's generator registers the pipe automatically.
+你必須註冊自訂管道。
+如果你不這麼做，Angular 會回報錯誤。
+Angular CLI 的產生器會自動註冊該管道。
 
 
 </div>
 
 
 
-To probe the behavior in the <live-example></live-example>,
-change the value and optional exponent in the template.
+若要探查 <live-example></live-example> 中的行為，
+請更改範本中的值與選填的指數。
 
-## Power Boost Calculator
+## 力量提升計算器
 
-It's not much fun updating the template to test the custom pipe.
-Upgrade the example to a "Power Boost Calculator" that combines
-your pipe and two-way data binding with `ngModel`.
+只是為了測試自訂管道而不斷更新範本，並不好玩。
+把範例升級為「力量提升計算器」，結合
+你的管道與使用 `ngModel` 的雙向資料繫結。
 
 
 <code-example path="pipes/src/app/power-boost-calculator.component.ts" title="src/app/power-boost-calculator.component.ts">
@@ -247,7 +242,7 @@ your pipe and two-way data binding with `ngModel`.
 
 
 <figure>
-  <img src='generated/images/guide/pipes/power-boost-calculator-anim.gif' alt="Power Boost Calculator">
+  <img src='generated/images/guide/pipes/power-boost-calculator-anim.gif' alt="力量提升計算器">
 </figure>
 
 
@@ -256,18 +251,18 @@ your pipe and two-way data binding with `ngModel`.
 {@a change-detection}
 
 
-## Pipes and change detection
+## 管道與變更偵測
 
-Angular looks for changes to data-bound values through a *change detection* process that runs after every DOM event:
-every keystroke, mouse move, timer tick, and server response. This could be expensive.
-Angular strives to lower the cost whenever possible and appropriate.
+Angular 透過*變更偵測*程序尋找資料繫結值的變更，該程序在每個 DOM 事件之後執行：
+每一次按鍵、滑鼠移動、計時器滴答與伺服器回應。這可能很昂貴。
+Angular 會在可行且適當時，努力降低成本。
 
-Angular picks a simpler, faster change detection algorithm when you use a pipe.
+當你使用管道時，Angular 會挑選一個較簡單、較快速的變更偵測演算法。
 
-<h3 class="no-toc">No pipe</h3>
+<h3 class="no-toc">不使用管道</h3>
 
-In the next example, the component uses the default, aggressive change detection strategy to monitor and update
-its display of every hero in the `heroes` array. Here's the template:
+在下一個範例中，元件使用預設的、積極的變更偵測策略，來監看並更新
+它對 `heroes` 陣列中每位英雄的顯示。以下是範本：
 
 
 <code-example path="pipes/src/app/flying-heroes.component.html" region="template-1" title="src/app/flying-heroes.component.html (v1)" linenums="false">
@@ -276,7 +271,7 @@ its display of every hero in the `heroes` array. Here's the template:
 
 
 
-The companion component class provides heroes, adds heroes into the array, and can reset the array.
+搭配的元件類別提供英雄、把英雄加入陣列，並可以重設陣列。
 
 <code-example path="pipes/src/app/flying-heroes.component.ts" region="v1" title="src/app/flying-heroes.component.ts (v1)" linenums="false">
 
@@ -284,13 +279,13 @@ The companion component class provides heroes, adds heroes into the array, and c
 
 
 
-You can add heroes and Angular updates the display when you do.
-If you click the `reset` button, Angular replaces `heroes` with a new array of the original heroes and updates the display.
-If you added the ability to remove or change a hero, Angular would detect those changes and update the display as well.
+你可以加入英雄，Angular 會在你加入時更新顯示。
+如果你點擊 `reset` 按鈕，Angular 會以包含原始英雄的新陣列取代 `heroes`，並更新顯示。
+如果你加入了移除或更改英雄的能力，Angular 也會偵測到那些變更並隨之更新顯示。
 
 <h3 class="no-toc"><i>FlyingHeroesPipe</i></h3>
 
-Add a `FlyingHeroesPipe` to the `*ngFor` repeater that filters the list of heroes to just those heroes who can fly.
+把 `FlyingHeroesPipe` 加入 `*ngFor` 重複器，篩選英雄清單，只留下會飛的英雄。
 
 <code-example path="pipes/src/app/flying-heroes.component.html" region="template-flying-heroes" title="src/app/flying-heroes.component.html (flyers)" linenums="false">
 
@@ -298,7 +293,7 @@ Add a `FlyingHeroesPipe` to the `*ngFor` repeater that filters the list of heroe
 
 
 
-Here's the `FlyingHeroesPipe` implementation, which follows the pattern for custom pipes described earlier.
+以下是 `FlyingHeroesPipe` 的實作，它遵循前面所述的自訂管道模式。
 
 <code-example path="pipes/src/app/flying-heroes.pipe.ts" region="pure" title="src/app/flying-heroes.pipe.ts" linenums="false">
 
@@ -306,13 +301,13 @@ Here's the `FlyingHeroesPipe` implementation, which follows the pattern for cust
 
 
 
-Notice the odd behavior in the <live-example></live-example>:
-when you add flying heroes, none of them are displayed under "Heroes who fly."
+請注意 <live-example></live-example> 中奇怪的行為：
+當你加入會飛的英雄時，他們並沒有顯示在 "Heroes who fly" 之下。
 
-Although you're not getting the behavior you want, Angular isn't broken.
-It's just using a different change-detection algorithm that ignores changes to the list or any of its items.
+雖然你得不到想要的行為，但 Angular 並沒有壞掉。
+它只是使用了一種不同的變更偵測演算法，忽略對清單或其任何項目的變更。
 
-Notice how a hero is added:
+請注意英雄是如何被加入的：
 
 <code-example path="pipes/src/app/flying-heroes.component.ts" region="push" title="src/app/flying-heroes.component.ts" linenums="false">
 
@@ -320,48 +315,48 @@ Notice how a hero is added:
 
 
 
-You add the hero into the `heroes` array.  The reference to the array hasn't changed.
-It's the same array. That's all Angular cares about. From its perspective, *same array, no change, no display update*.
+你把英雄加入 `heroes` 陣列。該陣列的參照並未改變。
+它還是同一個陣列。這是 Angular 唯一在乎的事。從它的角度來看，*同一個陣列、沒有變更、不更新顯示*。
 
-To fix that, create an array with the new hero appended and assign that to `heroes`.
-This time Angular detects that the array reference has changed.
-It executes the pipe and updates the display with the new array, which includes the new flying hero.
+若要修正，請建立一個尾端加上新英雄的陣列，並把它指定給 `heroes`。
+這次 Angular 偵測到陣列參照已改變。
+它執行管道並以新陣列更新顯示，其中包含新的飛行英雄。
 
-If you *mutate* the array, no pipe is invoked and the display isn't updated;
-if you *replace* the array, the pipe executes and the display is updated.
-The Flying Heroes application extends the
-code with checkbox switches and additional displays to help you experience these effects.
+如果你*變動*陣列，就不會叫用任何管道，顯示也不會更新；
+如果你*取代*陣列，管道就會執行，顯示也會更新。
+Flying Heroes 應用程式擴充了
+程式碼，加入核取方塊開關與額外的顯示，幫助你體驗這些效果。
 
 
 <figure>
-  <img src='generated/images/guide/pipes/flying-heroes-anim.gif' alt="Flying Heroes">
+  <img src='generated/images/guide/pipes/flying-heroes-anim.gif' alt="飛行英雄">
 </figure>
 
 
 
-Replacing the array is an efficient way to signal Angular to update the display.
-When do you replace the array? When the data change.
-That's an easy rule to follow in *this* example
-where the only way to change the data is by adding a hero.
+取代陣列是向 Angular 發出更新顯示訊號的一個有效率的方法。
+你何時應該取代陣列？當資料改變時。
+在*這個*範例中，這是一條很容易遵循的規則，
+因為改變資料的唯一方式就是加入英雄。
 
-More often, you don't know when the data have changed,
-especially in applications that mutate data in many ways,
-perhaps in application locations far away.
-A component in such an application usually can't know about those changes.
-Moreover, it's unwise to distort the component design to accommodate a pipe.
-Strive to keep the component class independent of the HTML.
-The component should be unaware of pipes.
+更常見的情況是，你不知道資料何時改變了，
+尤其是在以多種方式變動資料的應用程式中，
+變動甚至可能發生在應用程式中很遠的位置。
+在這樣的應用程式中，元件通常無法知道那些變更。
+此外，為了遷就管道而扭曲元件設計是不明智的。
+請努力讓元件類別獨立於 HTML。
+元件不應該知道管道的存在。
 
-For filtering flying heroes, consider an *impure pipe*.
+若要篩選飛行英雄，請考慮使用*非純粹管道*。
 
 
 
-## Pure and impure pipes
+## 純粹與非純粹管道
 
-There are two categories of pipes: *pure* and *impure*.
-Pipes are pure by default. Every pipe you've seen so far has been pure.
-You make a pipe impure by setting its pure flag to false. You could make the `FlyingHeroesPipe`
-impure like this:
+管道有兩種類別：*純粹*與*非純粹*。
+管道預設是純粹的。你到目前為止看到的每個管道都是純粹的。
+你可以把管道的 pure 旗標設定為 false，讓它變成非純粹。你可以像這樣把 `FlyingHeroesPipe`
+改成非純粹：
 
 
 <code-example path="pipes/src/app/flying-heroes.pipe.ts" region="pipe-decorator" title="src/app/flying-heroes.pipe.ts" linenums="false">
@@ -370,55 +365,54 @@ impure like this:
 
 
 
-Before doing that, understand the difference between pure and impure, starting with a pure pipe.
+在這麼做之前，請先了解純粹與非純粹之間的差異，從純粹管道開始。
 
-<h3 class="no-toc">Pure pipes</h3>
+<h3 class="no-toc">純粹管道</h3>
 
-Angular executes a *pure pipe* only when it detects a *pure change* to the input value.
-A pure change is either a change to a primitive input value (`String`, `Number`, `Boolean`, `Symbol`)
-or a changed object reference (`Date`, `Array`, `Function`, `Object`).
+Angular 只在偵測到輸入值發生*純粹變更*時，才執行*純粹管道*。
+純粹變更是指基本型別輸入值的變更（`String`、`Number`、`Boolean`、`Symbol`），
+或是物件參照的改變（`Date`、`Array`、`Function`、`Object`）。
 
-Angular ignores changes within (composite) objects.
-It won't call a pure pipe if you change an input month, add to an input array, or update an input object property.
+Angular 會忽略（複合）物件內部的變更。
+如果你更改輸入的月份、往輸入陣列中加入元素，或更新輸入物件的屬性，它不會叫用純粹管道。
 
-This may seem restrictive but it's also fast.
-An object reference check is fast&mdash;much faster than a deep check for
-differences&mdash;so Angular can quickly determine if it can skip both the
-pipe execution and a view update.
+這看似有所限制，但也很快。
+物件參照檢查很快&mdash;比深度檢查差異要快得多&mdash;因此 Angular 可以迅速判斷
+是否可以同時跳過管道執行與檢視更新。
 
-For this reason, a pure pipe is preferable when you can live with the change detection strategy.
-When you can't, you *can* use the impure pipe.
+因此，當你能接受這種變更偵測策略時，純粹管道是較好的選擇。
+當你不能接受時，你*可以*改用非純粹管道。
 
 
 <div class="alert is-helpful">
 
 
 
-Or you might not use a pipe at all.
-It may be better to pursue the pipe's purpose with a property of the component,
-a point that's discussed later in this page.
+或者你也可能根本不使用管道。
+以元件的屬性來達成管道的目的可能更好，
+這一點將在本頁稍後討論。
 
 
 </div>
 
 
 
-<h3 class="no-toc">Impure pipes</h3>
+<h3 class="no-toc">非純粹管道</h3>
 
-Angular executes an *impure pipe*  during every component change detection cycle.
-An impure pipe is called often, as often as every keystroke or mouse-move.
+Angular 在每個元件變更偵測週期中都會執行一次*非純粹管道*。
+非純粹管道被叫用的頻率很高，可能和每一次按鍵或滑鼠移動一樣頻繁。
 
-With that concern in mind, implement an impure pipe with great care.
-An expensive, long-running pipe could destroy the user experience.
+有了這層顧慮，實作非純粹管道時要格外小心。
+一個昂貴、執行時間長的管道可能破壞使用者體驗。
 
 
 {@a impure-flying-heroes}
 
 
-<h3 class="no-toc">An impure <i>FlyingHeroesPipe</i></h3>
+<h3 class="no-toc">非純粹的 <i>FlyingHeroesPipe</i></h3>
 
-A flip of the switch turns the `FlyingHeroesPipe` into a `FlyingHeroesImpurePipe`.
-The complete implementation is as follows:
+切換一下開關，就能把 `FlyingHeroesPipe` 變成 `FlyingHeroesImpurePipe`。
+完整的實作如下：
 
 <code-tabs>
 
@@ -434,10 +428,10 @@ The complete implementation is as follows:
 
 
 
-You inherit from `FlyingHeroesPipe` to prove the point that nothing changed internally.
-The only difference is the `pure` flag in the pipe metadata.
+你繼承 `FlyingHeroesPipe`，以證明內部沒有任何改變。
+唯一的差異是管道中繼資料中的 `pure` 旗標。
 
-This is a good candidate for an impure pipe because the `transform` function is trivial and fast.
+這是非純粹管道的一個好候選，因為 `transform` 函式簡單又快速。
 
 
 <code-example path="pipes/src/app/flying-heroes.pipe.ts" linenums="false" title="src/app/flying-heroes.pipe.ts (filter)" region="filter">
@@ -446,7 +440,7 @@ This is a good candidate for an impure pipe because the `transform` function is 
 
 
 
-You can derive a `FlyingHeroesImpureComponent` from `FlyingHeroesComponent`.
+你可以從 `FlyingHeroesComponent` 衍生出 `FlyingHeroesImpureComponent`。
 
 
 <code-example path="pipes/src/app/flying-heroes-impure.component.html" linenums="false" title="src/app/flying-heroes-impure.component.html (excerpt)" region="template-flying-heroes">
@@ -455,25 +449,25 @@ You can derive a `FlyingHeroesImpureComponent` from `FlyingHeroesComponent`.
 
 
 
-The only substantive change is the pipe in the template.
-You can confirm in the <live-example></live-example> that the _flying heroes_
-display updates as you add heroes, even when you mutate the `heroes` array.
+唯一實質的改變是範本中的管道。
+你可以在 <live-example></live-example> 中確認，即使你變動 `heroes` 陣列，
+_flying heroes_ 顯示也會在你加入英雄時更新。
 
 
 {@a async-pipe}
-<h3 class="no-toc">The impure <i>AsyncPipe</i></h3>
+<h3 class="no-toc">非純粹的 <i>AsyncPipe</i></h3>
 
 
-The Angular `AsyncPipe` is an interesting example of an impure pipe.
-The `AsyncPipe` accepts a `Promise` or `Observable` as input
-and subscribes to the input automatically, eventually returning the emitted values.
+Angular 的 `AsyncPipe` 是非純粹管道的一個有趣例子。
+`AsyncPipe` 接受 `Promise` 或 `Observable` 作為輸入，
+並自動訂閱該輸入，最終回傳發出的值。
 
-The `AsyncPipe` is also stateful.
-The pipe maintains a subscription to the input `Observable` and
-keeps delivering values from that `Observable` as they arrive.
+`AsyncPipe` 也是有狀態的。
+該管道會維持對輸入 `Observable` 的訂閱，
+並在值抵達時持續從該 `Observable` 傳遞值。
 
-This next example binds an `Observable` of message strings
-(`message$`) to a view with the `async` pipe.
+下一個範例使用 `async` 管道，把訊息字串的
+`Observable`（`message$`）繫結到檢視。
 
 
 <code-example path="pipes/src/app/hero-async-message.component.ts" title="src/app/hero-async-message.component.ts">
@@ -482,21 +476,21 @@ This next example binds an `Observable` of message strings
 
 
 
-The Async pipe saves boilerplate in the component code.
-The component doesn't have to subscribe to the async data source,
-extract the resolved values and expose them for binding,
-and have to unsubscribe when it's destroyed
-(a potent source of memory leaks).
+Async 管道為元件程式碼省去了樣板程式碼。
+元件不需要訂閱非同步資料來源、
+擷取已解析的值並公開它們供繫結，
+也不需要在被銷毀時取消訂閱
+（這是記憶體外洩的一個強大來源）。
 
-<h3 class="no-toc">An impure caching pipe</h3>
+<h3 class="no-toc">非純粹的快取管道</h3>
 
-Write one more impure pipe, a pipe that makes an HTTP request.
+再寫一個非純粹管道，一個發出 HTTP 請求的管道。
 
-Remember that impure pipes are called every few milliseconds.
-If you're not careful, this pipe will punish the server with requests.
+請記住，非純粹管道每幾毫秒就會被叫用一次。
+如果你不小心，這個管道會用請求懲罰伺服器。
 
-In the following code, the pipe only calls the server when the request URL changes and it caches the server response.
-The code uses the [Angular http](guide/http) client to retrieve data:
+在下列程式碼中，管道只在請求 URL 改變時才呼叫伺服器，並快取伺服器回應。
+這段程式碼使用 [Angular http](guide/http) 用戶端來擷取資料：
 
 
 <code-example path="pipes/src/app/fetch-json.pipe.ts" title="src/app/fetch-json.pipe.ts">
@@ -505,8 +499,8 @@ The code uses the [Angular http](guide/http) client to retrieve data:
 
 
 
-Now demonstrate it in a harness component whose template defines two bindings to this pipe,
-both requesting the heroes from the `heroes.json` file.
+現在用一個展示用元件來示範它，該元件的範本定義了兩個對此管道的繫結，
+兩者都請求 `heroes.json` 檔案中的英雄。
 
 
 <code-example path="pipes/src/app/hero-list.component.ts" title="src/app/hero-list.component.ts">
@@ -515,25 +509,25 @@ both requesting the heroes from the `heroes.json` file.
 
 
 
-The component renders as the following:
+該元件的渲染結果如下：
 
 
 <figure>
-  <img src='generated/images/guide/pipes/hero-list.png' alt="Hero List">
+  <img src='generated/images/guide/pipes/hero-list.png' alt="英雄清單">
 </figure>
 
 
 
-A breakpoint on the pipe's request for data shows the following:
+在該管道的資料請求上設定中斷點，會顯示下列內容：
 
-* Each binding gets its own pipe instance.
-* Each pipe instance caches its own URL and data.
-* Each pipe instance only calls the server once.
+* 每個繫結都有自己的管道執行個體。
+* 每個管道執行個體都快取自己的 URL 與資料。
+* 每個管道執行個體只呼叫伺服器一次。
 
 <h3 class="no-toc"><i>JsonPipe</i></h3>
 
-In the previous code sample, the second `fetch` pipe binding demonstrates more pipe chaining.
-It displays the same hero data in JSON format by chaining through to the built-in `JsonPipe`.
+在前面的程式碼範例中，第二個 `fetch` 管道繫結示範了更多的管道串連。
+它透過串連到內建的 `JsonPipe`，以 JSON 格式顯示相同的英雄資料。
 
 
 <div class="callout is-helpful">
@@ -541,14 +535,14 @@ It displays the same hero data in JSON format by chaining through to the built-i
 
 
 <header>
-  Debugging with the json pipe
+  使用 json 管道除錯
 </header>
 
 
 
-The [JsonPipe](api/common/JsonPipe)
-provides an easy way to diagnosis a mysteriously failing data binding or
-inspect an object for future binding.
+[JsonPipe](api/common/JsonPipe)
+提供了一個簡單的方法，來診斷神秘失敗的資料繫結，或
+檢視物件以供未來的繫結。
 
 
 </div>
@@ -558,57 +552,56 @@ inspect an object for future binding.
 {@a pure-pipe-pure-fn}
 
 
-<h3 class="no-toc">Pure pipes and pure functions</h3>
+<h3 class="no-toc">純粹管道與純粹函式</h3>
 
-A pure pipe uses pure functions.
-Pure functions process inputs and return values without detectable side effects.
-Given the same input, they should always return the same output.
+純粹管道使用純粹函式。
+純粹函式處理輸入並回傳值，沒有可察覺的副作用。
+給定相同的輸入，它們應該永遠回傳相同的輸出。
 
-The pipes discussed earlier in this page are implemented with pure functions.
-The built-in `DatePipe` is a pure pipe with a pure function implementation.
-So are the `ExponentialStrengthPipe` and `FlyingHeroesPipe`.
-A few steps back, you reviewed the `FlyingHeroesImpurePipe`&mdash;an impure pipe with a pure function.
+本頁稍早討論的管道都是以純粹函式實作的。
+內建的 `DatePipe` 是一個以純粹函式實作的純粹管道。
+`ExponentialStrengthPipe` 與 `FlyingHeroesPipe` 也是。
+幾步之前，你檢視了 `FlyingHeroesImpurePipe`&mdash;一個以純粹函式實作的非純粹管道。
 
-But always implement a *pure pipe* with a *pure function*.
-Otherwise, you'll see many console errors regarding expressions that changed after they were checked.
+但請永遠以*純粹函式*實作*純粹管道*。
+否則，你會看到許多主控台錯誤，關於運算式在被檢查後又改變了。
 
 
 
-## Next steps
+## 後續步驟
 
-Pipes are a great way to encapsulate and share common display-value
-transformations. Use them like styles, dropping them
-into your template's expressions to enrich the appeal and usability
-of your views.
+管道是封裝與共享常見顯示值
+轉換的好方法。像使用樣式一樣使用它們，把它們
+放入範本的運算式中，豐富檢視的吸引力與可用性。
 
-Explore Angular's inventory of built-in pipes in the [API Reference](api?type=pipe).
-Try writing a custom pipe and perhaps contributing it to the community.
+在 [API 參考](api?type=pipe) 中探索 Angular 的內建管道清單。
+試著撰寫一個自訂管道，或許還可以把它貢獻給社群。
 
 
 {@a no-filter-pipe}
 
 
 
-## Appendix: No *FilterPipe* or *OrderByPipe*
+## 附錄：沒有 *FilterPipe* 或 *OrderByPipe*
 
-Angular doesn't provide pipes for filtering or sorting lists.
-Developers familiar with AngularJS know these as `filter` and `orderBy`.
-There are no equivalents in Angular.
+Angular 不提供用於篩選或排序清單的管道。
+熟悉 AngularJS 的開發者知道它們就是 `filter` 與 `orderBy`。
+在 Angular 中沒有對應的東西。
 
-This isn't an oversight. Angular doesn't offer such pipes because
-they perform poorly and prevent aggressive minification.
-Both `filter` and `orderBy` require parameters that reference object properties.
-Earlier in this page, you learned that such pipes must be [impure](guide/pipes#pure-and-impure-pipes) and that
-Angular calls impure pipes in almost every change-detection cycle.
+這不是疏忽。Angular 不提供這類管道，是因為
+它們效能不佳，且會妨礙積極的最小化。
+`filter` 與 `orderBy` 都需要參照物件屬性的參數。
+在本頁前面，你了解到這類管道必須是[非純粹的](guide/pipes#純粹與非純粹管道)，且
+Angular 在幾乎每個變更偵測週期中都會呼叫非純粹管道。
 
-Filtering and especially sorting are expensive operations.
-The user experience can degrade severely for even moderate-sized lists when Angular calls these pipe methods many times per second.
-`filter` and `orderBy` have often been abused in AngularJS apps, leading to complaints that Angular itself is slow.
-That charge is fair in the indirect sense that AngularJS prepared this performance trap
-by offering `filter` and `orderBy` in the first place.
+篩選、尤其是排序，是昂貴的操作。
+當 Angular 每秒多次呼叫這些管道方法時，即使是中等大小的清單，使用者體驗也會嚴重變差。
+`filter` 與 `orderBy` 在 AngularJS 應用程式中經常被濫用，導致人們抱怨 Angular 本身很慢。
+這個指控在間接意義上是公平的，因為 AngularJS 當初提供 `filter` 與 `orderBy`，
+等於一開始就準備了這個效能陷阱。
 
-The minification hazard is also compelling, if less obvious. Imagine a sorting pipe applied to a list of heroes.
-The list might be sorted by hero `name` and `planet` of origin properties in the following way:
+最小化的風險也很有說服力，雖然不太明顯。想像一個排序管道被套用到英雄清單。
+該清單可能會以下列方式，依英雄的 `name` 與出身 `planet` 屬性排序：
 
 <code-example language="html">
   &lt;!-- NOT REAL CODE! -->
@@ -617,21 +610,21 @@ The list might be sorted by hero `name` and `planet` of origin properties in the
 
 
 
-You identify the sort fields by text strings, expecting the pipe to reference a property value by indexing
-(such as `hero['name']`).
-Unfortunately, aggressive minification manipulates the `Hero` property names so that `Hero.name` and `Hero.planet`
-become something like `Hero.a` and `Hero.b`. Clearly `hero['name']` doesn't work.
+你用文字字串標識排序欄位，期望管道透過索引
+（例如 `hero['name']`）參照屬性值。
+不幸的是，積極的最小化會竄改 `Hero` 屬性名稱，使 `Hero.name` 與 `Hero.planet`
+變成像 `Hero.a` 與 `Hero.b` 這樣的東西。顯然 `hero['name']` 就無法運作了。
 
-While some may not care to minify this aggressively,
-the Angular product shouldn't prevent anyone from minifying aggressively.
-Therefore, the Angular team decided that everything Angular provides will minify safely.
+雖然有些人可能不在乎如此積極地最小化，
+但 Angular 產品不應阻止任何人積極最小化。
+因此，Angular 團隊決定，Angular 提供的一切都能安全地最小化。
 
-The Angular team and many experienced Angular developers strongly recommend moving
-filtering and sorting logic into the component itself.
-The component can expose a `filteredHeroes` or `sortedHeroes` property and take control
-over when and how often to execute the supporting logic.
-Any capabilities that you would have put in a pipe and shared across the app can be
-written in a filtering/sorting service and injected into the component.
+Angular 團隊與許多經驗豐富的 Angular 開發者強烈建議，把
+篩選與排序邏輯移到元件本身。
+元件可以公開一個 `filteredHeroes` 或 `sortedHeroes` 屬性，並掌控
+何時以及多頻繁地執行支援邏輯。
+任何你原本會放進管道並在整個應用程式中共享的能力，都可以
+寫成篩選/排序服務，並注入到元件中。
 
-If these performance and minification considerations don't apply to you, you can always create your own such pipes
-(similar to the [FlyingHeroesPipe](guide/pipes#impure-flying-heroes)) or find them in the community.
+如果這些效能與最小化的考量不適用於你，你永遠可以建立自己的這類管道
+（類似 [FlyingHeroesPipe](guide/pipes#impure-flying-heroes)），或在社群中尋找它們。

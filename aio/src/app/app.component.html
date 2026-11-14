@@ -12,14 +12,14 @@
       [dismissOnContentClick]="true"
       (dismissed)="notificationDismissed()">
       <a href="https://blog.angular.io/version-6-0-0-of-angular-now-available-cc56b0efa7a4">
-        <mat-icon class="icon" svgIcon="insert_comment" aria-label="Announcement"></mat-icon>
-        <span class="message">Version 6 of Angular Now Available!</span>
-        <span class="action-button">Learn More</span>
+        <mat-icon class="icon" svgIcon="insert_comment" aria-label="公告"></mat-icon>
+        <span class="message">Angular 第 6 版現已推出！</span>
+        <span class="action-button">瞭解詳情</span>
       </a>
     </aio-notification>
   </mat-toolbar-row>
   <mat-toolbar-row>
-    <button mat-button class="hamburger" [class.starting]="isStarting" (click)="sidenav.toggle()" title="Docs menu">
+    <button mat-button class="hamburger" [class.starting]="isStarting" (click)="sidenav.toggle()" title="文件選單">
       <mat-icon svgIcon="menu"></mat-icon>
     </button>
     <a class="nav-link home" href="/" [ngSwitch]="isSideBySide">

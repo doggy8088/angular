@@ -1,433 +1,358 @@
-# NgModule FAQs
+# NgModule FAQ
 
 
-#### Prerequisites:
+#### 先決條件：
 
-A basic understanding of the following concepts:
-* [NgModules](guide/ngmodules).
+對下列概念有基本的理解：
+* [NgModules](guide/ngmodules)
 
 <hr />
 
-NgModules help organize an application into cohesive blocks of functionality.
+NgModule 幫助你將應用程式組織成功能內聚的區塊。
 
-This page answers the questions many developers ask about NgModule design and implementation.
+本頁回答許多開發者對 NgModule 設計與實作的疑問。
 
+## 我應該將哪些類別加入 `declarations` 陣列？
 
-## What classes should I add to the `declarations` array?
+將[可宣告](guide/bootstrapping#declarations-陣列)類別&mdash;元件、指令與管道&mdash;加入 `declarations` 清單。
 
-Add [declarable](guide/bootstrapping#the-declarations-array) classes&mdash;components, directives, and pipes&mdash;to a `declarations` list.
-
-Declare these classes in _exactly one_ module of the application.
-Declare them in a module if they belong to that particular module.
+在應用程式中，將這些類別宣告在_恰好一個_模組中。
+如果這些類別屬於某個特定模組，就在該模組中宣告它們。
 
 <hr/>
 
 {@a q-declarable}
+## 什麼是 _declarable_？
 
-## What is a _declarable_?
-
-Declarables are the class types&mdash;components, directives, and pipes&mdash;that
-you can add to a module's `declarations` list.
-They're the only classes that you can add to `declarations`.
+可宣告類別（Declarables）是你可以加入模組 `declarations` 清單的類別型別&mdash;元件、指令與管道。
+它們是唯一可以加入 `declarations` 的類別。
 
 <hr/>
 
-## What classes should I _not_ add to `declarations`?
+## 我_不_應該將哪些類別加入 `declarations`？
 
-Add only [declarable](guide/bootstrapping#the-declarations-array) classes to an NgModule's `declarations` list.
+只將[可宣告](guide/bootstrapping#declarations-陣列)類別加入 NgModule 的 `declarations` 清單。
 
-Do *not* declare the following:
+*不要*宣告下列類別：
 
-* A class that's already declared in another module, whether an app module, @NgModule, or third-party module.
-* An array of directives imported from another module.
-For example, don't declare `FORMS_DIRECTIVES` from `@angular/forms` because the `FormsModule` already declares it.
+* 已在另一個模組中宣告的類別，無論是應用程式模組、@NgModule 或第三方模組。
+* 從另一個模組匯入的指令陣列。
+例如，不要宣告來自 `@angular/forms` 的 `FORMS_DIRECTIVES`，因為 `FormsModule` 已經宣告了它。
 
-* Module classes.
-* Service classes.
-* Non-Angular classes and objects, such as
-strings, numbers, functions, entity models, configurations, business logic, and helper classes.
-
-<hr/>
-
-
-## Why list the same component in multiple `NgModule` properties?
-
-`AppComponent` is often listed in both `declarations` and `bootstrap`.
-You might see the same component listed in `declarations`, `exports`, and `entryComponents`.
-
-While that seems redundant, these properties have different functions.
-Membership in one list doesn't imply membership in another list.
-
-* `AppComponent` could be declared in this module but not bootstrapped.
-* `AppComponent` could be bootstrapped in this module but declared in a different feature module.
-* A component could be imported from another app module (so you can't declare it) and re-exported by this module.
-* A component could be exported for inclusion in an external component's template
-as well as dynamically loaded in a pop-up dialog.
+* 模組類別。
+* 服務類別。
+* 非 Angular 的類別與物件，例如字串、數字、函式、實體模型、設定、商業邏輯與輔助類別。
 
 <hr/>
 
-## What does "Can't bind to 'x' since it isn't a known property of 'y'" mean?
+## 為什麼同一個元件會列在多個 `NgModule` 屬性中？
 
-This error often means that you haven't declared the directive "x"
-or haven't imported the NgModule to which "x" belongs.
+`AppComponent` 經常同時列在 `declarations` 與 `bootstrap` 中。
+你可能也會看到同一個元件同時列在 `declarations`、`exports` 與 `entryComponents` 中。
+
+雖然這看起來多餘，但這些屬性有不同的功能。
+列入一份清單，並不表示也列入另一份清單。
+
+* `AppComponent` 可以宣告在此模組中，但不在此模組中啟動。
+* `AppComponent` 可以在此模組中啟動，但宣告在不同的功能模組中。
+* 元件可以從另一個應用程式模組匯入（所以你無法宣告它），並由該模組重新匯出。
+* 元件可以被匯出，供外部元件的範本使用，也可以動態載入到彈出式對話框中。
+
+<hr/>
+
+## 「Can't bind to 'x' since it isn't a known property of 'y'」是什麼意思？
+
+這個錯誤通常表示你還沒有宣告指令「x」，或者還沒有匯入「x」所屬的 NgModule。
 
 <div class="alert is-helpful">
 
-Perhaps you declared "x" in an application sub-module but forgot to export it.
-The "x" class isn't visible to other modules until you add it to the `exports` list.
+也許你在應用程式的子模組中宣告了「x」，卻忘了將它匯出。
+除非你將「x」類別加入 `exports` 清單，否則其他模組看不見它。
 
 </div>
 
 <hr/>
 
-## What should I import?
+## 我應該匯入什麼？
 
-Import NgModules whose public (exported) [declarable classes](guide/bootstrapping#the-declarations-array)
-you need to reference in this module's component templates.
+匯入那些你需要在該模組的元件範本中參照其公開（匯出）[可宣告類別](guide/bootstrapping#declarations-陣列)的 NgModule。
 
-This always means importing `CommonModule` from `@angular/common` for access to
-the Angular directives such as `NgIf` and `NgFor`.
-You can import it directly or from another NgModule that [re-exports](guide/ngmodule-faq#q-reexport) it.
+這表示你永遠都要從 `@angular/common` 匯入 `CommonModule`，以便使用 `NgIf` 與 `NgFor` 等 Angular 指令。
+你可以直接匯入它，或從[重新匯出](guide/ngmodule-faq#q-reexport)它的另一個 NgModule 匯入。
 
-Import `FormsModule` from `@angular/forms`
-if your components have `[(ngModel)]` two-way binding expressions.
+如果你的元件具有 `[(ngModel)]` 雙向繫結表達式，請從 `@angular/forms` 匯入 `FormsModule`。
 
-Import _shared_ and _feature_ modules when this module's components incorporate their
-components, directives, and pipes.
+當此模組的元件使用_共享_模組與_功能_模組的元件、指令與管道時，匯入這些模組。
 
-Import only [BrowserModule](guide/ngmodule-faq#q-browser-vs-common-module) in the root `AppModule`.
+只在根 `AppModule` 中匯入 [BrowserModule](guide/ngmodule-faq#q-browser-vs-common-module)。
 
 <hr/>
 
 {@a q-browser-vs-common-module}
+## 我應該匯入 `BrowserModule` 還是 `CommonModule`？
 
-## Should I import `BrowserModule` or `CommonModule`?
+幾乎每個瀏覽器應用程式的根應用程式模組 `AppModule`，都應從 `@angular/platform-browser` 匯入 `BrowserModule`。
 
-The root application module, `AppModule`, of almost every browser application
-should import `BrowserModule` from `@angular/platform-browser`.
+`BrowserModule` 提供了啟動與執行瀏覽器應用程式不可或缺的服務。
 
-`BrowserModule` provides services that are essential to launch and run a browser app.
+`BrowserModule` 也會重新匯出 `@angular/common` 的 `CommonModule`，這表示 `AppModule` 中的元件也可以使用每個應用程式都需要的 Angular 指令，例如 `NgIf` 與 `NgFor`。
 
-`BrowserModule` also re-exports `CommonModule` from `@angular/common`,
-which means that components in the `AppModule` module also have access to
-the Angular directives every app needs, such as `NgIf` and `NgFor`.
+不要在其他任何模組中匯入 `BrowserModule`。
+*功能模組*與*延遲載入模組*應該改為匯入 `CommonModule`。
+它們需要常用指令。它們不需要重新安裝全應用程式範圍的提供者。
 
-Do not import `BrowserModule` in any other module.
-*Feature modules* and *lazy-loaded modules* should import `CommonModule` instead.
-They need the common directives. They don't need to re-install the app-wide providers.
-
-Importing `CommonModule` also frees feature modules for use on _any_ target platform, not just browsers.
+匯入 `CommonModule` 也讓功能模組可以在_任何_目標平台上使用，不只是瀏覽器。
 
 <hr/>
 
 {@a q-reimport}
+## 如果我將同一個模組匯入兩次會怎樣？
 
-## What if I import the same module twice?
+這不是問題。當三個模組都匯入模組「A」時，Angular 只會在第一次遇到時評估模組「A」一次，不會再次評估。
 
-That's not a problem. When three modules all import Module 'A',
-Angular evaluates Module 'A' once, the first time it encounters it, and doesn't do so again.
+無論 `A` 出現在匯入的 NgModule 階層中的哪一層，這都成立。
+當模組「B」匯入模組「A」、模組「C」匯入「B」、模組「D」匯入 `[C, B, A]` 時，「D」會觸發對「C」的評估，而「C」觸發對「B」的評估，「B」再評估「A」。
+當 Angular 處理到「D」中的「B」與「A」時，它們已經快取好並準備就緒了。
 
-That's true at whatever level `A` appears in a hierarchy of imported NgModules.
-When Module 'B' imports Module 'A', Module 'C' imports 'B', and Module 'D' imports `[C, B, A]`,
-then 'D' triggers the evaluation of 'C', which triggers the evaluation of 'B', which evaluates 'A'.
-When Angular gets to the 'B' and 'A' in 'D', they're already cached and ready to go.
-
-Angular doesn't like NgModules with circular references, so don't let Module 'A' import Module 'B', which imports Module 'A'.
+Angular 不喜歡具有循環參照的 NgModule，所以不要讓模組「A」匯入模組「B」，而「B」又匯入模組「A」。
 
 <hr/>
 
 {@a q-reexport}
+## 我應該匯出什麼？
 
-## What should I export?
+匯出其他 NgModule 中的元件能在其範本中參照的[可宣告](guide/bootstrapping#declarations-陣列)類別。這些是你的_公開_類別。
+如果你不匯出可宣告類別，它會保持_私有_，只有宣告在此 NgModule 中的其他元件能看見它。
 
-Export [declarable](guide/bootstrapping#the-declarations-array) classes that components in _other_ NgModules
-are able to reference in their templates. These are your _public_ classes.
-If you don't export a declarable class, it stays _private_, visible only to other components
-declared in this NgModule.
+你可以匯出任何可宣告類別&mdash;元件、指令與管道&mdash;無論它宣告在此 NgModule 中，或是在匯入的 NgModule 中。
 
-You _can_ export any declarable class&mdash;components, directives, and pipes&mdash;whether
-it's declared in this NgModule or in an imported NgModule.
-
-You _can_ re-export entire imported NgModules, which effectively re-exports all of their exported classes.
-An NgModule can even export a module that it doesn't import.
+你可以重新匯出整個匯入的 NgModule，這等同於重新匯出它們所有匯出的類別。
+NgModule 甚至可以匯出一個它沒有匯入的模組。
 
 <hr/>
 
-## What should I *not* export?
+## 我_不_應該匯出什麼？
 
-Don't export the following:
+不要匯出下列內容：
 
-* Private components, directives, and pipes that you need only within components declared in this NgModule.
-If you don't want another NgModule to see it, don't export it.
-* Non-declarable objects such as services, functions, configurations, and entity models.
-* Components that are only loaded dynamically by the router or by bootstrapping.
-Such [entry components](guide/ngmodule-faq#q-entry-component-defined) can never be selected in another component's template.
-While there's no harm in exporting them, there's also no benefit.
-* Pure service modules that don't have public (exported) declarations.
-For example, there's no point in re-exporting `HttpClientModule` because it doesn't export anything.
-Its only purpose is to add http service providers to the application as a whole.
+* 你只需要在宣告於此 NgModule 的元件內使用的私有元件、指令與管道。
+如果你不想讓另一個 NgModule 看到它，就不要匯出它。
+* 非可宣告物件，例如服務、函式、設定與實體模型。
+* 只由路由器或啟動程序動態載入的元件。
+這類[進入元件](guide/ngmodule-faq#q-entry-component-defined)永遠不會在另一個元件的範本中被選用。
+匯出它們雖然無害，但也沒有好處。
+* 沒有公開（匯出）宣告的純服務模組。
+例如，重新匯出 `HttpClientModule` 沒有意義，因為它不匯出任何東西。
+它唯一的目的是為整個應用程式加入 http 服務提供者。
 
 <hr/>
 
+## 我可以重新匯出類別與模組嗎？
 
+當然可以。
 
-## Can I re-export classes and modules?
+NgModule 是將其他 NgModule 的類別選擇性地聚合，並在一個整合的便利模組中重新匯出的好方法。
 
-Absolutely.
-
-NgModules are a great way to selectively aggregate classes from other NgModules and
-re-export them in a consolidated, convenience module.
-
-An NgModule can re-export entire NgModules, which effectively re-exports all of their exported classes.
-Angular's own `BrowserModule` exports a couple of NgModules like this:
+NgModule 可以重新匯出整個 NgModule，這等同於重新匯出它們所有匯出的類別。
+Angular 自己的 `BrowserModule` 就是這樣匯出幾個 NgModule 的：
 
 ```typescript
   exports: [CommonModule, ApplicationModule]
 ```
 
-An NgModule can export a combination of its own declarations, selected imported classes, and imported NgModules.
+NgModule 可以匯出它自己的宣告、選定的匯入類別與匯入的 NgModule 的組合。
 
-Don't bother re-exporting pure service modules.
-Pure service modules don't export [declarable](guide/bootstrapping#the-declarations-array) classes that another NgModule could use.
-For example, there's no point in re-exporting `HttpClientModule` because it doesn't export anything.
-Its only purpose is to add http service providers to the application as a whole.
-
-
-<hr/>
-
-
-## What is the `forRoot()` method?
-
-The `forRoot()` static method is a convention that makes it easy for developers to configure services and providers that are intended to be singletons. A good example of `forRoot()` is the `RouterModule.forRoot()` method.
-
-Apps pass a `Routes` object to `RouterModule.forRoot()` in order to configure the app-wide `Router` service with routes.
-`RouterModule.forRoot()` returns a [ModuleWithProviders](api/core/ModuleWithProviders).
-You add that result to the `imports` list of the root `AppModule`.
-
-Only call and import a `.forRoot()` result in the root application module, `AppModule`.
-Importing it in any other module, particularly in a lazy-loaded module,
-is contrary to the intent and will likely produce a runtime error.
-For more information, see [Singleton Services](guide/singleton-services).
-
-For a service, instead of using `forRoot()`,  specify `providedIn: 'root'` on the service's `@Injectable()` decorator, which 
-makes the service automatically available to the whole application and thus singleton by default.
-
-`RouterModule` also offers a `forChild` static method for configuring the routes of lazy-loaded modules.
-
-`forRoot()` and `forChild()` are conventional names for methods that
-configure services in root and feature modules respectively.
-
-Angular doesn't recognize these names but Angular developers do.
-Follow this convention when you write similar modules with configurable service providers.
-
+不要費心重新匯出純服務模組。
+純服務模組不匯出另一個 NgModule 可以使用的[可宣告](guide/bootstrapping#declarations-陣列)類別。
+例如，重新匯出 `HttpClientModule` 沒有意義，因為它不匯出任何東西。
+它唯一的目的是為整個應用程式加入 http 服務提供者。
 
 <hr/>
 
+## 什麼是 `forRoot()` 方法？
 
-## Why is a service provided in a feature module visible everywhere?
+`forRoot()` 靜態方法是一種慣例，讓開發者能輕鬆設定那些旨在作為單例的服務與提供者。`forRoot()` 的一個好例子是 `RouterModule.forRoot()` 方法。
 
-Providers listed in the `@NgModule.providers` of a bootstrapped module have application scope.
-Adding a service provider to `@NgModule.providers` effectively publishes the service to the entire application.
+應用程式將 `Routes` 物件傳給 `RouterModule.forRoot()`，以便使用路由設定全應用程式的 `Router` 服務。
+`RouterModule.forRoot()` 會傳回一個 [ModuleWithProviders](api/core/ModuleWithProviders)。
+請將該結果加入根 `AppModule` 的 `imports` 清單。
 
-When you import an NgModule,
-Angular adds the module's service providers (the contents of its `providers` list)
-to the application root injector.
+只在根應用程式模組 `AppModule` 中呼叫並匯入 `.forRoot()` 的結果。
+在任何其他模組中匯入它，特別是延遲載入的模組，
+違反其本意，而且很可能產生執行階段錯誤。
+更多資訊，請參閱 [Singleton Services](guide/singleton-services)。
 
-This makes the provider visible to every class in the application that knows the provider's lookup token, or name.
+對於服務，與其使用 `forRoot()`，不如在服務的 `@Injectable()` 裝飾器上指定 `providedIn: 'root'`，這會讓服務自動提供給整個應用程式，因此預設為單例。
 
-Extensibility through NgModule imports is a primary goal of the NgModule system.
-Merging NgModule providers into the application injector
-makes it easy for a module library to enrich the entire application with new services.
-By adding the `HttpClientModule` once, every application component can make HTTP requests.
+`RouterModule` 也提供了一個 `forChild` 靜態方法，用於設定延遲載入模組的路由。
 
-However, this might feel like an unwelcome surprise if you expect the module's services
-to be visible only to the components declared by that feature module.
-If the `HeroModule` provides the `HeroService` and the root `AppModule` imports `HeroModule`,
-any class that knows the `HeroService` _type_ can inject that service,
-not just the classes declared in the `HeroModule`.
+`forRoot()` 與 `forChild()` 是用於分別在根模組與功能模組中設定服務的方法的慣用名稱。
 
-To limit access to a service, consider lazy loading the NgModule that provides that service. See [How do I restrict service scope to a module?](guide/ngmodule-faq#service-scope) for more information.
+Angular 不認得這些名稱，但 Angular 開發者認得。
+當你撰寫具有可設定服務提供者的類似模組時，請遵循這個慣例。
+
+<hr/>
+
+## 為什麼在功能模組中提供的服務到處都看得到？
+
+列在已啟動模組的 `@NgModule.providers` 中的提供者，具有應用程式作用域。
+將服務提供者加入 `@NgModule.providers`，等同於將該服務發佈給整個應用程式。
+
+當你匯入一個 NgModule 時，Angular 會將該模組的服務提供者（其 `providers` 清單的內容）加入應用程式根注入器。
+
+這使提供者對應用程式中每一個知道提供者查找權杖（或名稱）的類別都可見。
+
+透過 NgModule 匯入實現可擴充性，是 NgModule 系統的主要目標。
+將 NgModule 提供者合併到應用程式注入器，讓模組函式庫能輕鬆以新服務豐富整個應用程式。
+只要加入一次 `HttpClientModule`，每個應用程式元件都能發出 HTTP 請求。
+
+然而，如果你期望模組的服務只對該功能模組宣告的元件可見，這可能會是個不受歡迎的意外。
+如果 `HeroModule` 提供了 `HeroService`，而根 `AppModule` 匯入了 `HeroModule`，任何知道 `HeroService` _型別_的類別都能注入該服務，不只是 `HeroModule` 中宣告的類別。
+
+若要限制服務的存取範圍，請考慮延遲載入提供該服務的 NgModule。更多資訊請參閱[我如何限制服務範圍至某個模組？](guide/ngmodule-faq#service-scope)。
 
 <hr/>
 
 {@a q-lazy-loaded-module-provider-visibility}
+## 為什麼在延遲載入模組中提供的服務只對該模組可見？
 
-## Why is a service provided in a lazy-loaded module visible only to that module?
+與啟動時載入的模組的提供者不同，延遲載入模組的提供者是*模組作用域*的。
 
-Unlike providers of the modules loaded at launch,
-providers of lazy-loaded modules are *module-scoped*.
+當 Angular 路由器延遲載入模組時，它會建立一個新的執行脈絡。
+該[脈絡有自己的注入器](guide/ngmodule-faq#q-why-child-injector "Why Angular creates a child injector")，它是應用程式注入器的直接子注入器。
 
-When the Angular router lazy-loads a module, it creates a new execution context.
-That [context has its own injector](guide/ngmodule-faq#q-why-child-injector "Why Angular creates a child injector"),
-which is a direct child of the application injector.
+路由器會將延遲載入模組的提供者及其匯入的 NgModule 的提供者加入這個子注入器。
 
-The router adds the lazy module's providers and the providers of its imported NgModules to this child injector.
-
-These providers are insulated from changes to application providers with the same lookup token.
-When the router creates a component within the lazy-loaded context,
-Angular prefers service instances created from these providers to the service instances of the application root injector.
+這些提供者不會受到具有相同查找權杖的應用程式提供者變更的影響。
+當路由器在延遲載入的脈絡中建立元件時，Angular 會優先使用由這些提供者建立的服務實例，而不是應用程式根注入器的服務實例。
 
 <hr/>
 
+## 如果兩個模組提供相同的服務會怎樣？
 
-## What if two modules provide the same service?
+當兩個同時載入的匯入模組列出了權杖相同的提供者時，第二個模組的提供者「勝出」。這是因為兩個提供者都被加入同一個注入器。
 
-When two imported modules, loaded at the same time, list a provider with the same token,
-the second module's provider "wins". That's because both providers are added to the same injector.
+當 Angular 要為該權杖注入服務時，它會建立並交付由第二個提供者建立的實例。
 
-When Angular looks to inject a service for that token,
-it creates and delivers the instance created by the second provider.
+_每個_注入此服務的類別，取得的都是第二個提供者建立的實例。
+即使是宣告在第一個模組內的類別，取得的也是第二個提供者建立的實例。
 
-_Every_ class that injects this service gets the instance created by the second provider.
-Even classes declared within the first module get the instance created by the second provider.
+如果 NgModule A 為權杖「X」提供服務，並匯入同樣為權杖「X」提供服務的 NgModule B，那麼 NgModule A 的服務定義「勝出」。
 
-If NgModule A provides a service for token 'X' and imports an NgModule B
-that also provides a service for token 'X', then NgModule A's service definition "wins".
-
-The service provided by the root `AppModule` takes precedence over services provided by imported NgModules.
-The `AppModule` always wins.
+根 `AppModule` 提供的服務，優先於匯入的 NgModule 提供的服務。
+`AppModule` 永遠勝出。
 
 <hr/>
 
 {@a service-scope}
+## 如何將服務作用域限制在模組內？
 
-## How do I restrict service scope to a module?
+當模組在應用程式啟動時載入，它的 `@NgModule.providers` 具有*整個應用程式的作用域*；也就是說，它們可以在整個應用程式中被注入。
 
-When a module is loaded at application launch,
-its `@NgModule.providers` have *application-wide scope*;
-that is, they are available for injection throughout the application.
+匯入的提供者很容易被另一個匯入的 NgModule 的提供者取代。
+這種取代可能是設計使然。也可能是無意的，並造成不良後果。
 
-Imported providers are easily replaced by providers from another imported NgModule.
-Such replacement might be by design. It could be unintentional and have adverse consequences.
+一般規則是，只將帶有提供者的模組匯入_恰好一次_，最好是在應用程式的_根模組_中。
+那通常也是設定、包裝與覆寫它們的最佳位置。
 
-As a general rule, import modules with providers _exactly once_, preferably in the application's _root module_.
-That's also usually the best place to configure, wrap, and override them.
+假設某個模組需要一個自訂的 `HttpBackend`，為所有 Http 請求加入一個特殊標頭。
+如果應用程式其他地方的另一個模組也自訂了 `HttpBackend`，或只是匯入了 `HttpClientModule`，它就可能覆寫此模組的 `HttpBackend` 提供者，使特殊標頭遺失。伺服器會拒絕來自此模組的 http 請求。
 
-Suppose a module requires a customized `HttpBackend` that adds a special header for all Http requests.
-If another module elsewhere in the application also customizes `HttpBackend`
-or merely imports the `HttpClientModule`, it could override this module's `HttpBackend` provider,
-losing the special header. The server will reject http requests from this module.
+若要避免這個問題，只在 `AppModule`（應用程式的_根模組_）中匯入 `HttpClientModule`。
 
-To avoid this problem, import the `HttpClientModule` only in the `AppModule`, the application _root module_.
+如果你必須防範這種「提供者損毀」，*不要依賴啟動時模組的 `providers`*。
 
-If you must guard against this kind of "provider corruption", *don't rely on a launch-time module's `providers`.*
+如果可以，請延遲載入模組。
+Angular 會給[延遲載入的模組](guide/ngmodule-faq#q-lazy-loaded-module-provider-visibility)自己的子注入器。
+模組的提供者只在以此注入器建立的元件樹內可見。
 
-Load the module lazily if you can.
-Angular gives a [lazy-loaded module](guide/ngmodule-faq#q-lazy-loaded-module-provider-visibility) its own child injector.
-The module's providers are visible only within the component tree created with this injector.
+如果你必須在應用程式啟動時積極載入模組，*請改為在元件中提供服務。*
 
-If you must load the module eagerly, when the application starts,
-*provide the service in a component instead.*
+沿用同一個例子，假設某個模組的元件確實需要一個私有的自訂 `HttpBackend`。
 
-Continuing with the same example, suppose the components of a module truly require a private, custom `HttpBackend`.
+建立一個「頂層元件」，作為該模組所有元件的根。
+將自訂的 `HttpBackend` 提供者加入頂層元件的 `providers` 清單，而不是模組的 `providers`。
+回想一下，Angular 會為每個元件實例建立一個子注入器，並以元件自己的提供者填入該注入器。
 
-Create a "top component" that acts as the root for all of the module's components.
-Add the custom `HttpBackend` provider to the top component's `providers` list rather than the module's `providers`.
-Recall that Angular creates a child injector for each component instance and populates the injector
-with the component's own providers.
+當此元件的子元件要求 `HttpBackend` 服務時，Angular 會提供本機的 `HttpBackend` 服務，而不是應用程式根注入器中提供的版本。
+無論其他模組對 `HttpBackend` 做什麼，子元件都能正常發出 HTTP 請求。
 
-When a child of this component asks for the `HttpBackend` service,
-Angular provides the local `HttpBackend` service,
-not the version provided in the application root injector.
-Child components make proper HTTP requests no matter what other modules do to `HttpBackend`.
+務必將模組的元件建立為此模組頂層元件的子元件。
 
-Be sure to create module components as children of this module's top component.
+你可以將子元件嵌入頂層元件的範本中。
+或者，給頂層元件一個 `<router-outlet>`，讓它成為路由宿主。
+定義子路由，讓路由器將模組元件載入該出口。
 
-You can embed the child components in the top component's template.
-Alternatively, make the top component a routing host by giving it a `<router-outlet>`.
-Define child routes and let the router load module components into that outlet.
-
-Though you can limit access to a service by providing it in a lazy loaded module or providing it in a component, providing services in a component can lead to multiple instances of those services. Thus, the lazy loading is preferable.
+雖然你可以透過在延遲載入模組中提供服務，或在元件中提供服務，來限制對服務的存取，但在元件中提供服務可能導致這些服務出現多個實例。因此，延遲載入是比較好的做法。
 
 <hr/>
 
 {@a q-root-component-or-module}
+## 我應該將全應用程式範圍的提供者加入根 `AppModule` 還是根 `AppComponent`？
 
+透過在 `@Injectable()` 裝飾器上指定 `providedIn: 'root'`（服務的情況），或在建構 `InjectionToken` 時指定（提供權杖的情況），來定義全應用程式範圍的提供者。以這種方式建立的提供者會自動提供給整個應用程式，且不需要列在任何模組中。
 
-## Should I add application-wide providers to the root `AppModule` or the root `AppComponent`?
+如果提供者無法以這種方式設定（可能是因為它沒有合理的預設值），那麼請在根 `AppModule` 中註冊全應用程式範圍的提供者，而不是在 `AppComponent` 中。
 
- Define application-wide providers by specifying `providedIn: 'root'` on its `@Injectable()` decorator (in the case of services) or at `InjectionToken` construction (in the case where tokens are provided). Providers that are created this way automatically are made available to the entire application and don't need to be listed in any module.
+延遲載入模組及其元件可以注入 `AppModule` 服務；它們無法注入 `AppComponent` 服務。
 
-If a provider cannot be configured in this way (perhaps because it has no sensible default value), then register application-wide providers in the root `AppModule`, not in the `AppComponent`.
+_只有_在服務必須對 `AppComponent` 樹之外的元件隱藏時，才在 `AppComponent` 提供者中註冊服務。這是很少見的使用案例。
 
-Lazy-loaded modules and their components can inject `AppModule` services;
-they can't inject `AppComponent` services.
+更一般而言，[最好在 NgModule 中註冊提供者](guide/ngmodule-faq#q-component-or-module)，而不是在元件中註冊。
 
-Register a service in `AppComponent` providers _only_ if the service must be hidden
-from components outside the `AppComponent` tree. This is a rare use case.
+<h3 class="no-toc">討論</h3>
 
-More generally, [prefer registering providers in NgModules](guide/ngmodule-faq#q-component-or-module) to registering in components.
+Angular 會將所有啟動模組的提供者註冊到應用程式根注入器。
+根注入器的提供者所建立的服務具有應用程式作用域，也就是說，它們對整個應用程式都可用。
 
-<h3 class="no-toc">Discussion</h3>
+某些服務（例如 `Router`）只有在你將它們註冊到應用程式根注入器時才能運作。
 
-Angular registers all startup module providers with the application root injector.
-The services that root injector providers create have application scope, which
-means they are available to the entire application.
+相較之下，Angular 會將 `AppComponent` 提供者註冊到 `AppComponent` 自己的注入器。
+`AppComponent` 服務只對該元件及其元件樹可用。它們具有元件作用域。
 
-Certain services, such as the `Router`, only work when you register them in the application root injector.
-
-By contrast, Angular registers `AppComponent` providers with the `AppComponent`'s own injector.
-`AppComponent` services are available only to that component and its component tree.
-They have component scope.
-
-The `AppComponent`'s injector is a child of the root injector, one down in the injector hierarchy.
-For applications that don't use the router, that's almost the entire application.
-But in routed applications, routing operates at the root level
-where `AppComponent` services don't exist.
-This means that lazy-loaded modules can't reach them.
+`AppComponent` 的注入器是根注入器的子注入器，在注入器階層中低一層。
+對於不使用路由器的應用程式，那幾乎是整個應用程式。
+但在有路由的應用程式中，路由運作在 `AppComponent` 服務不存在的根層級。
+這表示延遲載入模組無法存取它們。
 
 <hr/>
 
 {@a q-component-or-module}
+## 我應該將其他提供者加入模組還是元件？
 
-## Should I add other providers to a module or a component?
+提供者應該使用 `@Injectable` 語法來設定。如果可能，它們應該在應用程式根部提供（`providedIn: 'root'`）。以這種方式設定的服務，如果只從延遲載入的脈絡使用，會被延遲載入。
 
-Providers should be configured using `@Injectable` syntax. If possible, they should be provided in the application root (`providedIn: 'root'`). Services that are configured this way are lazily loaded if they are only used from a lazily loaded context.
+如果應該由使用者決定提供者是否在整個應用程式都可用，那麼請在模組中註冊提供者（`@NgModule.providers`），而不是在元件中註冊（`@Component.providers`）。
 
-If it's the consumer's decision whether a provider is available application-wide or not, 
-then register providers in modules (`@NgModule.providers`) instead of registering in components (`@Component.providers`).
+當你_必須_將服務實例的作用域限制在該元件及其元件樹時，才將提供者註冊到元件。
+對指令註冊提供者時，也適用同樣的推理。
 
-Register a provider with a component when you _must_ limit the scope of a service instance
-to that component and its component tree.
-Apply the same reasoning to registering a provider with a directive.
+例如，一個需要快取服務私有副本的編輯元件，應該將服務註冊到該元件。
+如此一來，元件的每個新實例都會取得它自己的快取服務實例。
+該編輯器在其服務中所做的變更，不會影響應用程式其他地方的實例。
 
-For example, an editing component that needs a private copy of a caching service should register
-the service with the component.
-Then each new instance of the component gets its own cached service instance.
-The changes that editor makes in its service don't touch the instances elsewhere in the application.
-
-[Always register _application-wide_ services with the root `AppModule`](guide/ngmodule-faq#q-root-component-or-module),
-not the root `AppComponent`.
+[一律向根 `AppModule` 註冊_全應用程式_服務](guide/ngmodule-faq#q-root-component-or-module)，而不是向根 `AppComponent` 註冊。
 
 <hr/>
 
 {@a q-why-bad}
+## 如果共享模組為延遲載入模組提供服務，為什麼不好？
 
+### 及早載入的情境
+當積極載入的模組提供服務（例如 `UserService`）時，該服務在整個應用程式都可用。如果根模組提供 `UserService`，並匯入另一個同樣提供 `UserService` 的模組，Angular 會將其中一個註冊到根應用程式注入器（請參閱[如果我將同一個模組匯入兩次會怎樣？](guide/ngmodule-faq#q-reimport)）。
 
-## Why is it bad if a shared module provides a service to a lazy-loaded module?
+接著，當某個元件注入 `UserService` 時，Angular 會在應用程式根注入器中找到它，並交付全應用程式範圍的單例服務。沒有問題。
 
-### The eagerly loaded scenario
-When an eagerly loaded module provides a service, for example a `UserService`, that service is available application-wide. If the root module provides `UserService` and
-imports another module that provides the same `UserService`, Angular registers one of
-them in the root app injector (see [What if I import the same module twice?](guide/ngmodule-faq#q-reimport)).
+### 延遲載入的情境
 
-Then, when some component injects `UserService`, Angular finds it in the app root injector,
-and delivers the app-wide singleton service. No problem.
+現在考慮一個延遲載入模組，它也提供一個名為 `UserService` 的服務。
 
-### The lazy loaded scenario
+當路由器延遲載入一個模組時，它會建立一個子注入器，並將 `UserService` 提供者註冊到該子注入器。子注入器_不是_根注入器。
 
-Now consider a lazy loaded module that also provides a service called `UserService`.
+當 Angular 為該模組建立一個延遲載入元件並注入 `UserService` 時，它會在延遲載入模組的_子注入器_中找到 `UserService` 提供者，並建立一個_新的_ `UserService` 實例。
+這與 Angular 在及早載入的元件中注入的全應用程式單例版本，是完全不同的 `UserService` 實例。
 
-When the router lazy loads a module, it creates a child injector and registers the `UserService`
-provider with that child injector. The child injector is _not_ the root injector.
-
-When Angular creates a lazy component for that module and injects `UserService`,
-it finds a `UserService` provider in the lazy module's _child injector_
-and creates a _new_ instance of the `UserService`.
-This is an entirely different `UserService` instance
-than the app-wide singleton version that Angular injected in one of the eagerly loaded components.
-
-This scenario causes your app to create a new instance every time, instead of using the singleton.
+這種情境會使你的應用程式每次都建立新實例，而不是使用單例。
 <!--KW--What does this cause? I wasn't able to get the suggestion of this to work from
 the current FAQ:
 To demonstrate, run the <live-example name="ngmodule">live example</live-example>.
@@ -439,46 +364,39 @@ I'd like to see the error so I can include it.-->
 <hr/>
 
 {@a q-why-child-injector}
+## 為什麼延遲載入會建立子注入器？
 
-## Why does lazy loading create a child injector?
+Angular 會將 `@NgModule.providers` 加入應用程式根注入器，除非該 NgModule 是延遲載入的。
+對於延遲載入的 NgModule，Angular 會建立一個_子注入器_，並將該模組的提供者加入子注入器。
 
-Angular adds `@NgModule.providers` to the application root injector, unless the NgModule is lazy-loaded.
-For a lazy-loaded NgModule, Angular creates a _child injector_ and adds the module's providers to the child injector.
+這表示 NgModule 的行為會因它是在應用程式啟動時載入、還是稍後延遲載入而有所不同。忽略這個差異可能導致[不良後果](guide/ngmodule-faq#q-why-bad)。
 
-This means that an NgModule behaves differently depending on whether it's loaded during application start
-or lazy-loaded later. Neglecting that difference can lead to [adverse consequences](guide/ngmodule-faq#q-why-bad).
+為什麼 Angular 不像對及早載入的 NgModule 那樣，將延遲載入的提供者加入應用程式根注入器？
 
-Why doesn't Angular add lazy-loaded providers to the app root injector as it does for eagerly loaded NgModules?
+答案植基於 Angular 依賴注入系統的一項基本特性。
+注入器可以加入提供者，_直到它第一次被使用為止_。
+一旦注入器開始建立並交付服務，它的提供者清單就凍結了；不允許新的提供者。
 
-The answer is grounded in a fundamental characteristic of the Angular dependency-injection system.
-An injector can add providers _until it's first used_.
-Once an injector starts creating and delivering services, its provider list is frozen; no new providers are allowed.
+當應用程式啟動時，Angular 會先以所有及早載入 NgModule 的提供者設定根注入器，_然後_才建立它的第一個元件並注入任何提供的服務。
+應用程式一旦開始執行，應用程式根注入器就不再接受新的提供者。
 
-When an applications starts, Angular first configures the root injector with the providers of all eagerly loaded NgModules
-_before_ creating its first component and injecting any of the provided services.
-Once the application begins, the app root injector is closed to new providers.
-
-Time passes and application logic triggers lazy loading of an NgModule.
-Angular must add the lazy-loaded module's providers to an injector somewhere.
-It can't add them to the app root injector because that injector is closed to new providers.
-So Angular creates a new child injector for the lazy-loaded module context.
+時間流逝，應用程式邏輯觸發了某個 NgModule 的延遲載入。
+Angular 必須將延遲載入模組的提供者加入某處的注入器。
+它無法將它們加入應用程式根注入器，因為該注入器已不再接受新的提供者。
+所以 Angular 為延遲載入模組的脈絡建立一個新的子注入器。
 
 <hr/>
 
 {@a q-is-it-loaded}
+## 如何判斷 NgModule 或服務先前是否已載入？
 
-## How can I tell if an NgModule or service was previously loaded?
+某些 NgModule 及其服務應該只由根 `AppModule` 載入一次。
+透過延遲載入模組第二次匯入該模組，可能會[產生錯誤行為](guide/ngmodule-faq#q-why-bad)，而且可能難以偵測與診斷。
 
-Some NgModules and their services should be loaded only once by the root `AppModule`.
-Importing the module a second time by lazy loading a module could [produce errant behavior](guide/ngmodule-faq#q-why-bad)
-that may be difficult to detect and diagnose.
+若要防止這個問題，請撰寫一個建構子，嘗試從根應用程式注入器注入該模組或服務。如果注入成功，表示該類別已被第二次載入。你可以拋出錯誤，或採取其他補救措施。
 
-To prevent this issue, write a constructor that attempts to inject the module or service
-from the root app injector. If the injection succeeds, the class has been loaded a second time.
-You can throw an error or take other remedial action.
-
-Certain NgModules, such as `BrowserModule`, implement such a guard.
-Here is a custom constructor for an NgModule called `CoreModule`.
+某些 NgModule（例如 `BrowserModule`）實作了這樣的防護。
+以下是一個名為 `CoreModule` 的 NgModule 的自訂建構子。
 
 <code-example path="ngmodule-faq/src/app/core/core.module.ts" region="ctor" title="src/app/core/core.module.ts (Constructor)" linenums="false">
 </code-example>
@@ -486,191 +404,145 @@ Here is a custom constructor for an NgModule called `CoreModule`.
 <hr/>
 
 {@a q-entry-component-defined}
+## 什麼是 `entry component`？
 
-## What is an `entry component`?
+進入元件是指 Angular 以型別_強制_載入的任何元件。
 
-An entry component is any component that Angular loads _imperatively_ by type.
+透過選擇器_宣告式_載入的元件，_不是_進入元件。
 
-A component loaded _declaratively_ via its selector is _not_ an entry component.
+當 Angular 使用元件的選擇器在範本中定位元素時，就是以宣告方式載入元件。
+接著，Angular 會建立該元件的 HTML 表示形式，並將其插入所選元素的 DOM 中。這些都不是進入元件。
 
-Angular loads a component declaratively when
-using the component's selector to locate the element in the template.
-Angular then creates the HTML representation of the component and inserts it into the DOM at the selected element. These aren't entry components.
+作為啟動根元件的 `AppComponent` 是_進入元件_。
+沒錯，它的選擇器確實與 `index.html` 中的元素標籤相符。
+但 `index.html` 不是元件範本，而且 `AppComponent` 的選擇器也不會與任何元件範本中的元素相符。
 
-The bootstrapped root `AppComponent` is an _entry component_.
-True, its selector matches an element tag in `index.html`.
-But `index.html` isn't a component template and the `AppComponent`
-selector doesn't match an element in any component template.
+路由定義中的元件也是_進入元件_。
+路由定義是以_型別_來參照元件。
+路由器會忽略被路由元件的選擇器（如果它有選擇器的話），並將元件動態載入 `RouterOutlet`。
 
-Components in route definitions are also _entry components_.
-A route definition refers to a component by its _type_.
-The router ignores a routed component's selector, if it even has one, and
-loads the component dynamically into a `RouterOutlet`.
-
-For more information, see [Entry Components](guide/entry-components).
+更多資訊請參閱[進入元件](guide/entry-components)。
 
 <hr/>
 
-## What's the difference between a _bootstrap_ component and an _entry component_?
+## _bootstrap_ 元件與 _entry component_ 有什麼差別？
 
-A bootstrapped component _is_ an [entry component](guide/ngmodule-faq#q-entry-component-defined)
-that Angular loads into the DOM during the bootstrap process (application launch).
-Other entry components are loaded dynamically by other means, such as with the router.
+啟動元件_就是_一個[進入元件](guide/ngmodule-faq#q-entry-component-defined)，Angular 會在啟動程序（應用程式啟動）期間將它載入 DOM。
+其他進入元件則是透過其他方式動態載入，例如透過路由器。
 
-The `@NgModule.bootstrap` property tells the compiler that this is an entry component _and_
-it should generate code to bootstrap the application with this component.
+`@NgModule.bootstrap` 屬性告訴編譯器，這是一個進入元件，_而且_它應該產生程式碼，用這個元件來啟動應用程式。
 
-There's no need to list a component in both the `bootstrap` and `entryComponents` lists,
-although doing so is harmless.
+沒有必要同時將元件列在 `bootstrap` 與 `entryComponents` 清單中，雖然這樣做也無妨。
 
-For more information, see [Entry Components](guide/entry-components).
+更多資訊請參閱[進入元件](guide/entry-components)。
 
 <hr/>
 
-## When do I add components to _entryComponents_?
+## 我什麼時候要將元件加入 _entryComponents_？
 
-Most application developers won't need to add components to the `entryComponents`.
+大多數應用程式開發者不需要將元件加入 `entryComponents`。
 
-Angular adds certain components to _entry components_ automatically.
-Components listed in `@NgModule.bootstrap` are added automatically.
-Components referenced in router configuration are added automatically.
-These two mechanisms account for almost all entry components.
+Angular 會自動將某些元件加入_進入元件_。
+列在 `@NgModule.bootstrap` 中的元件會自動加入。
+在路由設定中參照的元件也會自動加入。
+這兩種機制涵蓋了幾乎所有的進入元件。
 
-If your app happens to bootstrap or dynamically load a component _by type_ in some other manner,
-you must add it to `entryComponents` explicitly.
+如果你的應用程式以其他方式依_型別_啟動或動態載入元件，你必須明確地將它加入 `entryComponents`。
 
-Although it's harmless to add components to this list,
-it's best to add only the components that are truly _entry components_.
-Don't include components that [are referenced](guide/ngmodule-faq#q-template-reference)
-in the templates of other components.
+雖然將元件加入這份清單無妨，但最好只加入真正屬於_進入元件_的元件。
+不要加入在其他元件範本中[被參照](guide/ngmodule-faq#q-template-reference)的元件。
 
-For more information, see [Entry Components](guide/entry-components).
+更多資訊請參閱[進入元件](guide/entry-components)。
 
 <hr/>
 
+## 為什麼 Angular 需要 _entryComponents_？
 
-## Why does Angular need _entryComponents_?
+原因是_搖樹（tree shaking）_。對於正式版應用程式，你希望載入盡可能小、盡可能快的程式碼。程式碼應該只包含你實際需要的類別。它應該排除從未使用過的元件，無論該元件是否已宣告。
 
-The reason is _tree shaking_. For production apps you want to load the smallest, fastest code possible. The code should contain only the classes that you actually need.
-It should exclude a component that's never used, whether or not that component is declared.
+事實上，許多函式庫宣告並匯出了你永遠不會用到的元件。如果你不參照它們，搖樹器會將這些元件從最終的程式碼包中移除。
 
-In fact, many libraries declare and export components you'll never use.
-If you don't reference them, the tree shaker drops these components from the final code package.
+如果 [Angular 編譯器](guide/ngmodule-faq#q-angular-compiler)為每個宣告的元件都產生程式碼，就會失去搖樹器的意義。
 
-If the [Angular compiler](guide/ngmodule-faq#q-angular-compiler) generated code for every declared component, it would defeat the purpose of the tree shaker.
+相反地，編譯器採用遞迴策略，只為你使用的元件產生程式碼。
 
-Instead, the compiler adopts a recursive strategy that generates code only for the components you use.
+編譯器從進入元件開始，接著為它在進入元件範本中[找到](guide/ngmodule-faq#q-template-reference)的宣告元件產生程式碼，再為它在先前已編譯元件的範本中發現的宣告元件產生程式碼，依此類推。在程序結束時，編譯器已為每個進入元件，以及每個能從進入元件到達的元件產生程式碼。
 
-The compiler starts with the entry components,
-then it generates code for the declared components it [finds](guide/ngmodule-faq#q-template-reference) in an entry component's template,
-then for the declared components it discovers in the templates of previously compiled components,
-and so on. At the end of the process, the compiler has generated code for every entry component
-and every component reachable from an entry component.
-
-If a component isn't an _entry component_ or wasn't found in a template,
-the compiler omits it.
+如果某個元件不是_進入元件_，也沒有在範本中找到，編譯器會將它省略。
 
 <hr/>
 
-## What kinds of modules should I have and how should I use them?
+## 我應該有哪些種類的模組，又該如何使用它們？
 
-Every app is different. Developers have various levels of experience and comfort with the available choices.
-Some suggestions and guidelines appear to have wide appeal.
+每個應用程式都不同。開發者的經驗與對可用選項的熟悉程度各不相同。有些建議與準則似乎廣受歡迎。
 
 ### `SharedModule`
-`SharedModule` is a conventional name for an `NgModule` with the components, directives, and pipes that you use
-everywhere in your app. This module should consist entirely of `declarations`,
-most of them exported.
+`SharedModule` 是 `NgModule` 的慣用名稱，其中的元件、指令與管道會在你的應用程式各處使用。這個模組應該完全由 `declarations` 組成，其中大部分會匯出。
 
-The `SharedModule` may re-export other widget modules, such as `CommonModule`,
-`FormsModule`, and NgModules with the UI controls that you use most widely.
+`SharedModule` 可以重新匯出其他小工具模組，例如 `CommonModule`、`FormsModule`，以及那些包含你最廣泛使用的 UI 控制項的 NgModule。
 
-The `SharedModule` should not have `providers` for reasons [explained previously](guide/ngmodule-faq#q-why-bad).
-Nor should any of its imported or re-exported modules have `providers`.
+`SharedModule` 不應有 `providers`，原因如[先前所述](guide/ngmodule-faq#q-why-bad)。其匯入或重新匯出的任何模組也不應有 `providers`。
 
-Import the `SharedModule` in your _feature_ modules,
-both those loaded when the app starts and those you lazy load later.
+在你的_功能_模組中匯入 `SharedModule`，包括應用程式啟動時載入的模組，以及稍後延遲載入的模組。
 
 ### `CoreModule`
-`CoreModule` is a conventional name for an `NgModule` with `providers` for
-the singleton services you load when the application starts.
+`CoreModule` 是 `NgModule` 的慣用名稱，其 `providers` 包含
+你在應用程式啟動時載入的單例服務。
 
-Import `CoreModule` in the root `AppModule` only.
-Never import `CoreModule` in any other module.
+只在根 `AppModule` 中匯入 `CoreModule`。
+不要在任何其他模組中匯入 `CoreModule`。
 
-Consider making `CoreModule` a pure services module
-with no `declarations`.
+考慮將 `CoreModule` 做成純服務模組，
+不含 `declarations`。
 
-For more information, see [Sharing NgModules](guide/sharing-ngmodules)
-and [Singleton Services](guide/singleton-services).
+更多資訊，請參閱 [Sharing NgModules](guide/sharing-ngmodules)
+與 [Singleton Services](guide/singleton-services)。
 
-### Feature Modules
+### 功能模組
 
-Feature modules are modules you create around specific application business domains, user workflows, and utility collections. They support your app by containing a particular feature,
-such as routes, services, widgets, etc. To conceptualize what a feature module might be in your
-app, consider that if you would put the files related to a certain functionality, like a search,
-in one folder, that the contents of that folder would be a feature module that you might call
-your `SearchModule`. It would contain all of the components, routing, and templates that
-would make up the search functionality.
+功能模組是你圍繞特定應用程式業務領域、使用者工作流程與公用程式集合所建立的模組。它們透過包含特定功能（例如路由、服務、小工具等）來支援你的應用程式。若要想像功能模組在你的應用程式中會是什麼樣子，可以這樣想：如果你會將與某項功能（例如搜尋）相關的檔案放在同一個資料夾中，那麼該資料夾的內容就會是一個功能模組，你可能會稱它為 `SearchModule`。它會包含構成搜尋功能的所有元件、路由與範本。
 
-For more information, see [Feature Modules](guide/feature-modules) and
-[Module Types](guide/module-types)
+更多資訊請參閱[功能模組](guide/feature-modules)與[模組類型](guide/module-types)
 
+## NgModule 與 JavaScript 模組有什麼差別？
 
+在 Angular 應用程式中，NgModule 與 JavaScript 模組協同運作。
 
-## What's the difference between NgModules and JavaScript Modules?
+在現代 JavaScript 中，每個檔案都是一個模組（請見 Exploring ES6 網站的 [Modules](http://exploringjs.com/es6/ch_modules.html) 頁面）。在每個檔案中，你撰寫一個 `export` 敘述，讓模組的部分內容公開。
 
-In an Angular app, NgModules and JavaScript modules work together.
+Angular NgModule 是帶有 `@NgModule` 裝飾器的類別&mdash;JavaScript 模組不一定有 `@NgModule` 裝飾器。Angular 的 `NgModule` 有 `imports` 與 `exports`，它們的用途相似。
 
-In modern JavaScript, every file is a module
-(see the [Modules](http://exploringjs.com/es6/ch_modules.html) page of the Exploring ES6 website).
-Within each file you write an `export` statement to make parts of the module public.
+你_匯入_其他 NgModule，以便在元件範本中使用它們匯出的類別。你_匯出_此 NgModule 的類別，讓它們能被_其他_ NgModule 的元件匯入並使用。
 
-An Angular NgModule is a class with the `@NgModule` decorator&mdash;JavaScript modules
-don't have to have the `@NgModule` decorator. Angular's `NgModule` has `imports` and `exports` and they serve a similar purpose.
-
-You _import_ other NgModules so you can use their exported classes in component templates.
-You _export_ this NgModule's classes so they can be imported and used by components of _other_ NgModules.
-
-For more information, see [JavaScript Modules vs. NgModules](guide/ngmodule-vs-jsmodule).
+更多資訊，請見 [JavaScript 模組與 NgModule 的比較](guide/ngmodule-vs-jsmodule)。
 
 <hr/>
 
 {@a q-template-reference}
+## Angular 如何在範本中找到元件、指令與管道？<br>什麼是 <i><b>範本參照</b></i>？
 
-## How does Angular find components, directives, and pipes in a template?<br>What is a <i><b>template reference</b></i>?
+[Angular 編譯器](guide/ngmodule-faq#q-angular-compiler)會在元件範本內部尋找其他元件、指令與管道。當它找到一個時，那就是一個範本參照。
 
-The [Angular compiler](guide/ngmodule-faq#q-angular-compiler) looks inside component templates
-for other components, directives, and pipes. When it finds one, that's a template reference.
+當 Angular 編譯器能將該元件或指令的*選擇器*，與該範本中的某些 HTML 相比對時，它就在範本中找到了一個元件或指令。
 
-The Angular compiler finds a component or directive in a template when it can match the *selector* of that component or directive to some HTML in that template.
+當管道的*名稱*出現在範本 HTML 的管道語法中時，編譯器就找到了該管道。
 
-The compiler finds a pipe if the pipe's *name* appears within the pipe syntax of the template HTML.
-
-Angular only matches selectors and pipe names for classes that are declared by this module
-or exported by a module that this module imports.
+Angular 只比對由此模組宣告的類別、或由此模組匯入的模組所匯出的類別的選擇器與管道名稱。
 
 <hr/>
 
 {@a q-angular-compiler}
+## 什麼是 Angular 編譯器？
 
-## What is the Angular compiler?
+Angular 編譯器將你撰寫的應用程式程式碼，轉換為高效能的 JavaScript 程式碼。
+`@NgModule` 中繼資料在引導編譯過程中扮演重要角色。
 
-The Angular compiler converts the application code you write into highly performant JavaScript code.
-The `@NgModule` metadata plays an important role in guiding the compilation process.
+你撰寫的程式碼不能立即執行。例如，元件的範本包含自訂元素、屬性指令、Angular 繫結宣告，以及一些明顯不是原生 HTML 的特殊語法。
 
-The code you write isn't immediately executable. For example, components have templates that contain custom elements, attribute directives, Angular binding declarations,
-and some peculiar syntax that clearly isn't native HTML.
+Angular 編譯器讀取範本標記，將它與對應的元件類別程式碼結合，並發出_元件工廠_。
 
-The Angular compiler reads the template markup,
-combines it with the corresponding component class code, and emits _component factories_.
+元件工廠建立該元件的純粹、100% JavaScript 表示形式，納入其 `@Component` 中繼資料所描述的一切：HTML、繫結指示、附加的樣式。
 
-A component factory creates a pure, 100% JavaScript representation
-of the component that incorporates everything described in its `@Component` metadata:
-the HTML, the binding instructions, the attached styles.
+由於指令與管道出現在元件範本中，Angular 編譯器也將它們納入編譯後的元件程式碼。
 
-Because directives and pipes appear in component templates,
-the Angular compiler incorporates them into compiled component code too.
-
-`@NgModule` metadata tells the Angular compiler what components to compile for this module and
-how to link this module with other modules.
+`@NgModule` 中繼資料告訴 Angular 編譯器要為此模組編譯哪些元件，以及如何將此模組與其他模組連結。

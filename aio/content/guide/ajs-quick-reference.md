@@ -1,22 +1,17 @@
-# AngularJS to Angular Concepts: Quick Reference
-
+# 從 AngularJS 到 Angular 的概念：快速參考
 
 {@a top}
 
+_Angular_ 是今日與未來 Angular 的名稱。
+_AngularJS_ 是所有 v1.x 版本 Angular 的名稱。
 
-_Angular_ is the name for the Angular of today and tomorrow.
-_AngularJS_ is the name for all v1.x versions of Angular.
+本指南透過將 AngularJS 語法對應到等價的 Angular 語法，協助你從 AngularJS 轉換到 Angular。
 
-This guide helps you transition from AngularJS to Angular
-by mapping AngularJS syntax to the equivalent Angular syntax.
+**請在本 <live-example name="ajs-quick-reference"></live-example> 中查看 Angular 語法**。
 
-
-**See the Angular syntax in this <live-example name="ajs-quick-reference"></live-example>**.
-
-## Template basics
-Templates are the user-facing part of an Angular application and are written in HTML.
-The following table lists some of the key AngularJS template features with their equivalent Angular template syntax.
-
+## 範本基礎
+範本是 Angular 應用程式面向使用者的部分，以 HTML 撰寫。
+下表列出一些關鍵的 AngularJS 範本功能，以及它們等價的 Angular 範本語法。
 
 <table width="100%">
 
@@ -44,38 +39,32 @@ The following table lists some of the key AngularJS template features with their
 
     <td>
 
-
-      ### Bindings/interpolation
+      ### 繫結／插值
 
       <code-example hideCopy>
         Your favorite hero is: {{vm.favoriteHero}}
       </code-example>
 
+      在 AngularJS 中，大括號中的運算式表示單向繫結。
+      這會把元素的值繫結到與此範本關聯的控制器中的某個屬性。
 
-      In AngularJS, an expression in curly braces denotes one-way binding.
-      This binds the value of the element to a property in the controller
-      associated with this template.
-
-      When using the `controller as` syntax,
-      the binding is prefixed with the controller alias (`vm` or `$ctrl`) because you
-      have to be specific about the source of the binding.
+      使用 `controller as` 語法時，
+      繫結會加上控制器別名（`vm` 或 `$ctrl`）作為前綴，因為你
+      必須明確指出繫結的來源。
     </td>
 
     <td>
 
-
-      ### Bindings/interpolation
+      ### 繫結／插值
 
       <code-example hideCopy path="ajs-quick-reference/src/app/movie-list.component.html" region="interpolation" linenums="false"></code-example>
 
+      在 Angular 中，大括號中的範本運算式仍然表示單向繫結。
+      這會把元素的值繫結到元件的某個屬性。
+      繫結的上下文是隱含的，且永遠是
+      關聯的元件，因此不需要參照變數。
 
-      In Angular, a template expression in curly braces still denotes one-way binding.
-      This binds the value of the element to a property of the component.
-      The context of the binding is implied and is always the
-      associated component, so it needs no reference variable.
-
-      For more information, see the [Interpolation](guide/template-syntax#interpolation)
-      section of the [Template Syntax](guide/template-syntax) page.
+      更多資訊，請參閱[範本語法](guide/template-syntax)頁面中的[插值](guide/template-syntax#interpolation)一節。
     </td>
 
   </tr>
@@ -84,32 +73,28 @@ The following table lists some of the key AngularJS template features with their
 
     <td>
 
-
-      ### Filters
+      ### 篩選器
 
       <code-example hideCopy>
         &lt;td>{{movie.title | uppercase}}&lt;/td>
       </code-example>
 
+      若要在 AngularJS 範本中篩選輸出，請使用管道字元（|）與一個或多個篩選器。
 
-      To filter output in AngularJS templates, use the pipe character (|) and one or more filters.
-
-      This example filters the `title` property to uppercase.
+      此範例將 `title` 屬性篩選為大寫。
     </td>
 
     <td>
 
-
-      ### Pipes
+      ### 管道
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="uppercase" linenums="false"></code-example>
 
+      在 Angular 中，你使用類似的語法搭配管道（|）字元來篩選輸出，但現在它們稱為 **pipes**（管道）。
+      AngularJS 的許多（但不是全部）內建篩選器，
+      在 Angular 中是內建管道。
 
-      In Angular you use similar syntax with the pipe (|) character to filter output, but now you call them **pipes**.
-      Many (but not all) of the built-in filters from AngularJS are
-      built-in pipes in Angular.
-
-      For more information, see [Filters/pipes](guide/ajs-quick-reference#filters-pipes) below.
+      更多資訊，請參閱下方的[篩選器／管道](guide/ajs-quick-reference#filters-pipes)。
     </td>
 
   </tr>
@@ -118,8 +103,7 @@ The following table lists some of the key AngularJS template features with their
 
     <td>
 
-
-      ### Local variables
+      ### 區域變數
 
       <code-example hideCopy format="">
         &lt;tr ng-repeat="movie in vm.movies">
@@ -127,34 +111,28 @@ The following table lists some of the key AngularJS template features with their
         &lt;/tr>
       </code-example>
 
-
-      Here, `movie` is a user-defined local variable.
+      在這裡，`movie` 是一個使用者定義的區域變數。
     </td>
 
     <td>
 
-
-      ### Input variables
+      ### 輸入變數
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="local" linenums="false"></code-example>
 
+      Angular 有真正的範本輸入變數，使用 `let` 關鍵字明確定義。
 
-      Angular has true template input variables that are explicitly defined using the `let` keyword.
-
-      For more information, see the [ngFor micro-syntax](guide/template-syntax#microsyntax)
-      section of the [Template Syntax](guide/template-syntax) page.
+      更多資訊，請參閱[範本語法](guide/template-syntax)頁面中的 [ngFor micro-syntax](guide/template-syntax#microsyntax) 一節。
     </td>
 
   </tr>
 
 </table>
 
-
-## Template directives
-AngularJS provides more than seventy built-in directives for templates.
-Many of them aren't needed in Angular because of its more capable and expressive binding system.
-The following are some of the key AngularJS built-in directives and their equivalents in Angular.
-
+## 範本指令
+AngularJS 為範本提供了七十多個內建指令。
+其中許多在 Angular 中不需要，因為 Angular 的繫結系統功能更強、表現力更好。
+以下列出一些關鍵的 AngularJS 內建指令，以及它們在 Angular 中的對應物。
 
 <table width="100%">
 
@@ -182,36 +160,32 @@ The following are some of the key AngularJS built-in directives and their equiva
 
     <td>
 
-
       ### ng-app
 
       <code-example hideCopy>
         &lt;body ng-app="movieHunter">
       </code-example>
 
+      應用程式的啟動過程稱為**啟動（bootstrapping）**。
 
-      The application startup process is called **bootstrapping**.
-
-      Although you can bootstrap an AngularJS app in code,
-      many applications bootstrap declaratively with the `ng-app` directive,
-      giving it the name of the application's module (`movieHunter`).
+      雖然你可以在程式碼中啟動 AngularJS 應用程式，
+      許多應用程式以宣告方式使用 `ng-app` 指令來啟動，
+      並給它應用程式模組的名稱（`movieHunter`）。
     </td>
 
     <td>
 
-
-      ### Bootstrapping
+      ### 啟動
 
       <code-example hideCopy path="ajs-quick-reference/src/main.ts" title="main.ts" linenums="false"></code-example>
       <br>
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.module.1.ts" title="app.module.ts" linenums="false"></code-example>
 
-
-      Angular doesn't have a bootstrap directive.
-      To launch the app in code, explicitly bootstrap the application's root module (`AppModule`)
-      in `main.ts`
-      and the application's root component (`AppComponent`) in `app.module.ts`.
+      Angular 沒有啟動指令。
+      若要在程式碼中啟動應用程式，請明確啟動應用程式的根模組（`AppModule`）
+      （在 `main.ts` 中）
+      以及應用程式的根元件（`AppComponent`）（在 `app.module.ts` 中）。
     </td>
 
   </tr>
@@ -219,7 +193,6 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-class
 
@@ -229,37 +202,33 @@ The following are some of the key AngularJS built-in directives and their equiva
                            shazam: isImportant}">
       </code-example>
 
+      在 AngularJS 中，`ng-class` 指令根據運算式加入／排除 CSS 類別。
+      該運算式通常是一個鍵值控制物件，物件的每個
+      鍵定義為 CSS 類別名稱，每個值定義為範本運算式，
+      其求值為布林值。
 
-      In AngularJS, the `ng-class` directive includes/excludes CSS classes
-      based on an expression. That expression is often a key-value control object with each
-      key of the object defined as a CSS class name, and each value defined as a template expression
-      that evaluates to a Boolean value.
+      在第一個範例中，若 `isActive` 為 true，`active` 類別會套用到元素上。
 
-      In the first example, the `active` class is applied to the element if `isActive` is true.
-
-      You can specify multiple classes, as shown in the second example.
+      你可以指定多個類別，如第二個範例所示。
     </td>
 
     <td>
-
 
       ### ngClass
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="ngClass" linenums="false"></code-example>
 
+      在 Angular 中，`ngClass` 指令的運作方式類似。
+      它根據運算式加入／排除 CSS 類別。
 
-      In Angular, the `ngClass` directive works similarly.
-      It includes/excludes CSS classes based on an expression.
+      在第一個範例中，若 `isActive` 為 true，`active` 類別會套用到元素上。
 
-      In the first example, the `active` class is applied to the element if `isActive` is true.
+      你可以指定多個類別，如第二個範例所示。
 
-      You can specify multiple classes, as shown in the second example.
+      Angular 也有**類別繫結**，是加入或移除單一類別的好方法，
+      如第三個範例所示。
 
-      Angular also has **class binding**, which is a good way to add or remove a single class,
-      as shown in the third example.
-
-      For more information see the [Attribute, class, and style bindings](guide/template-syntax#other-bindings)
-      section of the [Template Syntax](guide/template-syntax) page.
+      更多資訊請參閱[範本語法](guide/template-syntax)頁面中的[屬性、類別與樣式繫結](guide/template-syntax#other-bindings)一節。
 
     </td>
 
@@ -268,7 +237,6 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-click
 
@@ -277,40 +245,34 @@ The following are some of the key AngularJS built-in directives and their equiva
         &lt;button ng-click="vm.toggleImage($event)">
       </code-example>
 
+      在 AngularJS 中，`ng-click` 指令讓你能指定元素被點選時的自訂行為。
 
-      In AngularJS, the `ng-click` directive allows you to specify custom behavior when an element is clicked.
+      在第一個範例中，當使用者點選按鈕時，會執行由 `vm` 這個 `controller as` 別名所參照的控制器中的 `toggleImage()` 方法。
 
-      In the first example, when the user clicks the button, the `toggleImage()` method in the controller referenced by the `vm` `controller as` alias is executed.
-
-      The second example demonstrates passing in the `$event` object, which provides details about the event
-      to the controller.
+      第二個範例示範傳入 `$event` 物件，它向控制器提供事件的詳細資訊。
     </td>
 
     <td>
 
-
-      ### Bind to the `click` event
+      ### 繫結到 `click` 事件
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="event-binding" linenums="false"></code-example>
 
+      AngularJS 中以事件為基礎的指令在 Angular 中不存在。
+      請改用**事件繫結**，定義從範本檢視到元件的單向繫結。
 
-      AngularJS event-based directives do not exist in Angular.
-      Rather, define one-way binding from the template view to the component using **event binding**.
+      使用事件繫結時，在括號內定義目標事件的名稱，並
+      在等號右側以引號指定範本陳述式。Angular 接著會
+      為目標事件設定事件處理常式。當事件被觸發時，處理常式
+      會執行該範本陳述式。
 
-      For event binding, define the name of the target event within parenthesis and
-      specify a template statement, in quotes, to the right of the equals. Angular then
-      sets up an event handler for the target event. When the event is raised, the handler
-      executes the template statement.
+      在第一個範例中，當使用者點選按鈕時，會執行關聯元件中的 `toggleImage()` 方法。
 
-      In the first example, when a user clicks the button, the `toggleImage()` method in the associated component is executed.
+      第二個範例示範傳入 `$event` 物件，它向元件提供事件的詳細資訊。
 
-      The second example demonstrates passing in the `$event` object, which provides details about the event
-      to the component.
+      DOM 事件清單請參閱：https://developer.mozilla.org/en-US/docs/Web/Events。
 
-      For a list of DOM events, see: https://developer.mozilla.org/en-US/docs/Web/Events.
-
-      For more information, see the [Event binding](guide/template-syntax#event-binding)
-      section of the [Template Syntax](guide/template-syntax) page.
+      更多資訊請參閱[範本語法](guide/template-syntax)頁面中的[事件繫結](guide/template-syntax#event-binding)一節。
 
     </td>
 
@@ -319,7 +281,6 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-controller
 
@@ -327,24 +288,21 @@ The following are some of the key AngularJS built-in directives and their equiva
         &lt;div ng-controller="MovieListCtrl as vm">
       </code-example>
 
-
-      In AngularJS, the `ng-controller` directive attaches a controller to the view.
-      Using the `ng-controller` (or defining the controller as part of the routing) ties the
-      view to the controller code associated with that view.
+      在 AngularJS 中，`ng-controller` 指令將控制器附加到檢視上。
+      使用 `ng-controller`（或將控制器定義為路由的一部分），會把
+      檢視與和該檢視關聯的控制器程式碼綁在一起。
     </td>
 
     <td>
 
-
-      ### Component decorator
+      ### 元件裝飾器
 
       <code-example hideCopy path="ajs-quick-reference/src/app/movie-list.component.ts" region="component" linenums="false"></code-example>
 
+      在 Angular 中，範本不再指定其關聯的控制器。
+      改由元件在其元件類別裝飾器中指定其關聯的範本。
 
-      In Angular, the template no longer specifies its associated controller.
-      Rather, the component specifies its associated template as part of the component class decorator.
-
-      For more information, see [Architecture Overview](guide/architecture#components).
+      更多資訊請參閱[架構總覽](guide/architecture#元件)。
 
     </td>
 
@@ -353,19 +311,15 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-hide
-      In AngularJS, the `ng-hide` directive shows or hides the associated HTML element based on
-      an expression. For more information, see [ng-show](guide/ajs-quick-reference#ng-show).
+      在 AngularJS 中，`ng-hide` 指令根據運算式顯示或隱藏關聯的 HTML 元素。更多資訊請參閱 [ng-show](guide/ajs-quick-reference#ng-show)。
     </td>
 
     <td>
 
-
-      ### Bind to the `hidden` property
-      In Angular, you use property binding; there is no built-in *hide* directive.
-      For more information, see [ng-show](guide/ajs-quick-reference#ng-show).
+      ### 繫結到 `hidden` 屬性
+      在 Angular 中，你使用屬性繫結；沒有內建的 *hide* 指令。更多資訊請參閱 [ng-show](guide/ajs-quick-reference#ng-show)。
     </td>
 
   </tr>
@@ -373,7 +327,6 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-href
 
@@ -381,42 +334,34 @@ The following are some of the key AngularJS built-in directives and their equiva
         &lt;a ng-href="{{ angularDocsUrl }}">Angular Docs&lt;/a>
       </code-example>
 
+      `ng-href` 指令讓 AngularJS 預先處理 `href` 屬性，以便
+      在瀏覽器向該 URL 抓取之前，把繫結運算式替換為適當的 URL。
 
-      The `ng-href` directive allows AngularJS to preprocess the `href` property so that it
-      can replace the binding expression with the appropriate URL before the browser
-      fetches from that URL.
-
-      In AngularJS, the `ng-href` is often used to activate a route as part of navigation.
+      在 AngularJS 中，`ng-href` 常用於在導覽時啟用某條路由。
 
       <code-example hideCopy format="">
         &lt;a ng-href="#{{ moviesHash }}">Movies&lt;/a>
       </code-example>
 
-
-      Routing is handled differently in Angular.
+      路由在 Angular 中的處理方式不同。
     </td>
 
     <td>
 
-
-      ### Bind to the `href` property
+      ### 繫結到 `href` 屬性
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="href" linenums="false"></code-example>
 
+      Angular 使用屬性繫結；沒有內建的 *href* 指令。
+      將元素的 `href` 屬性放在方括號中，並將其設為以引號包住的範本運算式。
 
-      Angular uses property binding; there is no built-in *href* directive.
-      Place the element's `href` property in square brackets and set it to a quoted template expression.
+      更多資訊請參閱[範本語法](guide/template-syntax)頁面中的[屬性繫結](guide/template-syntax#property-binding)一節。
 
-      For more information see the [Property binding](guide/template-syntax#property-binding)
-      section of the [Template Syntax](guide/template-syntax) page.
-
-      In Angular, `href` is no longer used for routing. Routing uses `routerLink`, as shown in the following example.
+      在 Angular 中，`href` 不再用於路由。路由使用 `routerLink`，如下列範例所示。
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="router-link" linenums="false"></code-example>
 
-
-      For more information on routing, see the [RouterLink binding](guide/router#router-link)
-      section of the [Routing & Navigation](guide/router) page.
+      更多關於路由的資訊，請參閱[路由與導覽](guide/router)頁面中的 [RouterLink 繫結](guide/router#router-link) 一節。
 
     </td>
 
@@ -425,7 +370,6 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-if
 
@@ -433,28 +377,22 @@ The following are some of the key AngularJS built-in directives and their equiva
         &lt;table ng-if="movies.length">
       </code-example>
 
+      在 AngularJS 中，`ng-if` 指令根據運算式移除或重建 DOM 的一部分。若運算式為 false，元素會從 DOM 中移除。
 
-      In AngularJS, the `ng-if` directive removes or recreates a portion of the DOM,
-      based on an expression. If the expression is false, the element is removed from the DOM.
-
-      In this example, the `<table>` element is removed from the DOM unless the `movies` array has a length greater than zero.
+      在此範例中，除非 `movies` 陣列的長度大於零，否則 `<table>` 元素會從 DOM 中移除。
     </td>
 
     <td>
-
 
       ### *ngIf
 
       <code-example hideCopy path="ajs-quick-reference/src/app/movie-list.component.html" region="ngIf" linenums="false"></code-example>
 
+      Angular 中的 `*ngIf` 指令與 AngularJS 中的 `ng-if` 指令運作方式相同。它根據運算式移除或重建 DOM 的一部分。
 
-      The `*ngIf` directive in Angular works the same as the `ng-if` directive in AngularJS. It removes
-      or recreates a portion of the DOM based on an expression.
+      在此範例中，除非 `movies` 陣列有長度，否則 `<table>` 元素會從 DOM 中移除。
 
-      In this example, the `<table>` element is removed from the DOM unless the `movies` array has a length.
-
-      The (*) before `ngIf` is required in this example.
-      For more information, see [Structural Directives](guide/structural-directives).
+      在此範例中，`ngIf` 前面的（*）是必要的。更多資訊請參閱[結構指令](guide/structural-directives)。
     </td>
 
   </tr>
@@ -462,7 +400,6 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-model
 
@@ -470,25 +407,19 @@ The following are some of the key AngularJS built-in directives and their equiva
         &lt;input ng-model="vm.favoriteHero"/>
       </code-example>
 
-
-      In AngularJS, the `ng-model` directive binds a form control to a property in the controller associated with the template.
-      This provides **two-way binding**, whereby any change made to the value in the view is synchronized with the model, and any change to the model is synchronized with the value in the view.
+      在 AngularJS 中，`ng-model` 指令將表單控制項繫結到與範本關聯的控制器中的屬性。
+      這提供**雙向繫結**：檢視中值的任何變更都會與模型同步，模型的任何變更也會與檢視中的值同步。
     </td>
 
     <td>
-
 
       ### ngModel
 
       <code-example hideCopy path="ajs-quick-reference/src/app/movie-list.component.html" region="ngModel" linenums="false"></code-example>
 
+      在 Angular 中，**雙向繫結**以 `[()]` 表示，形象地稱為「盒子裡的香蕉」。此語法是同時定義屬性繫結（從元件到檢視）與事件繫結（從檢視到元件）的捷徑，從而提供雙向繫結。
 
-      In Angular, **two-way binding** is denoted by `[()]`, descriptively referred to as a "banana in a box". This syntax is a shortcut for defining both property binding (from the component to the view)
-      and event binding (from the view to the component), thereby providing two-way binding.
-
-      For more information on two-way binding with `ngModel`, see the [NgModel&mdash;Two-way binding to
-      form elements with `[(ngModel)]`](../guide/template-syntax.html#ngModel)
-      section of the [Template Syntax](guide/template-syntax) page.
+      更多關於使用 `ngModel` 進行雙向繫結的資訊，請參閱[範本語法](guide/template-syntax)頁面中的 [NgModel&mdash;使用 `[(ngModel)]` 對表單元素進行雙向繫結](../guide/template-syntax.html#ngModel) 一節。
     </td>
 
   </tr>
@@ -496,7 +427,6 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-repeat
 
@@ -504,32 +434,26 @@ The following are some of the key AngularJS built-in directives and their equiva
         &lt;tr ng-repeat="movie in vm.movies">
       </code-example>
 
+      在 AngularJS 中，`ng-repeat` 指令會為指定集合中的每個項目重複關聯的 DOM 元素。
 
-      In AngularJS, the `ng-repeat` directive repeats the associated DOM element
-      for each item in the specified collection.
-
-      In this example, the table row (`<tr>`) element repeats for each movie object in the collection of movies.
+      在此範例中，表格列（`<tr>`）元素會為電影集合中的每個電影物件重複。
     </td>
 
     <td>
-
 
       ### *ngFor
 
       <code-example hideCopy path="ajs-quick-reference/src/app/movie-list.component.html" region="ngFor" linenums="false"></code-example>
 
+      Angular 中的 `*ngFor` 指令與 AngularJS 中的 `ng-repeat` 指令類似。它會為指定集合中的每個項目重複關聯的 DOM 元素。
+      更準確地說，它把定義的元素（此範例中的 `<tr>`）及其內容變成一個範本，並使用該範本為清單中的每個項目實例化一個檢視。
 
-      The `*ngFor` directive in Angular is similar to the `ng-repeat` directive in AngularJS. It repeats
-      the associated DOM element for each item in the specified collection.
-      More accurately, it turns the defined element (`<tr>` in this example) and its contents into a template and
-      uses that template to instantiate a view for each item in the list.
+      請注意其他語法差異：
+      `ngFor` 前面的（*）是必要的；
+      `let` 關鍵字將 `movie` 標識為輸入變數；
+      清單的介系詞是 `of`，不是 `in`。
 
-      Notice the other syntax differences:
-      The (*) before `ngFor` is required;
-      the `let` keyword identifies `movie` as an input variable;
-      the list preposition is `of`, not `in`.
-
-      For more information, see [Structural Directives](guide/structural-directives).
+      更多資訊請參閱[結構指令](guide/structural-directives)。
     </td>
 
   </tr>
@@ -537,7 +461,6 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-show
 
@@ -547,31 +470,25 @@ The following are some of the key AngularJS built-in directives and their equiva
         &lt;/h3>
       </code-example>
 
+      在 AngularJS 中，`ng-show` 指令根據運算式顯示或隱藏關聯的 DOM 元素。
 
-      In AngularJS, the `ng-show` directive shows or hides the associated DOM element, based on
-      an expression.
-
-      In this example, the `<div>` element is shown if the `favoriteHero` variable is truthy.
+      在此範例中，若 `favoriteHero` 變數為 truthy，`<div>` 元素會顯示。
     </td>
 
     <td>
 
-
-      ### Bind to the `hidden` property
+      ### 繫結到 `hidden` 屬性
 
       <code-example hideCopy path="ajs-quick-reference/src/app/movie-list.component.html" region="hidden" linenums="false"></code-example>
 
+      Angular 使用屬性繫結；沒有內建的 *show* 指令。
+      若要隱藏與顯示元素，請繫結到 HTML 的 `hidden` 屬性。
 
-      Angular uses property binding; there is no built-in *show* directive.
-      For hiding and showing elements, bind to the HTML `hidden` property.
+      若要有條件地顯示元素，請將元素的 `hidden` 屬性放在方括號中，並將其設為以引號包住、且求值為 *show* 的*相反*結果的範本運算式。
 
-      To conditionally display an element, place the element's `hidden` property in square brackets and
-      set it to a quoted template expression that evaluates to the *opposite* of *show*.
+      在此範例中，若 `favoriteHero` 變數不為 truthy，`<div>` 元素會隱藏。
 
-      In this example, the `<div>` element is hidden if the `favoriteHero` variable is not truthy.
-
-      For more information on property binding, see the [Property binding](guide/template-syntax#property-binding)
-      section of the [Template Syntax](guide/template-syntax) page.
+      更多關於屬性繫結的資訊，請參閱[範本語法](guide/template-syntax)頁面中的[屬性繫結](guide/template-syntax#property-binding)一節。
     </td>
 
   </tr>
@@ -579,7 +496,6 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-src
 
@@ -587,25 +503,19 @@ The following are some of the key AngularJS built-in directives and their equiva
         &lt;img ng-src="{{movie.imageurl}}">
       </code-example>
 
-
-      The `ng-src` directive allows AngularJS to preprocess the `src` property so that it
-      can replace the binding expression with the appropriate URL before the browser
-      fetches from that URL.
+      `ng-src` 指令讓 AngularJS 預先處理 `src` 屬性，以便在瀏覽器向該 URL 抓取之前，把繫結運算式替換為適當的 URL。
     </td>
 
     <td>
 
-
-      ### Bind to the `src` property
+      ### 繫結到 `src` 屬性
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="src" linenums="false"></code-example>
 
+      Angular 使用屬性繫結；沒有內建的 *src* 指令。
+      將 `src` 屬性放在方括號中，並將其設為以引號包住的範本運算式。
 
-      Angular uses property binding; there is no built-in *src* directive.
-      Place the `src` property in square brackets and set it to a quoted template expression.
-
-      For more information on property binding, see the [Property binding](guide/template-syntax#property-binding)
-      section of the [Template Syntax](guide/template-syntax) page.
+      更多關於屬性繫結的資訊，請參閱[範本語法](guide/template-syntax)頁面中的[屬性繫結](guide/template-syntax#property-binding)一節。
     </td>
 
   </tr>
@@ -613,7 +523,6 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-style
 
@@ -621,34 +530,26 @@ The following are some of the key AngularJS built-in directives and their equiva
         &lt;div ng-style="{color: colorPreference}">
       </code-example>
 
+      在 AngularJS 中，`ng-style` 指令根據運算式在 HTML 元素上設定 CSS 樣式。該運算式通常是一個鍵值控制物件，物件的每個鍵定義為 CSS 屬性，每個值定義為求值為適合該樣式之值的運算式。
 
-      In AngularJS, the `ng-style` directive sets a CSS style on an HTML element
-      based on an expression. That expression is often a key-value control object with each
-      key of the object defined as a CSS property, and each value defined as an expression
-      that evaluates to a value appropriate for the style.
-
-      In the example, the `color` style is set to the current value of the `colorPreference` variable.
+      在此範例中，`color` 樣式被設為 `colorPreference` 變數的目前值。
     </td>
 
     <td>
-
 
       ### ngStyle
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="ngStyle" linenums="false"></code-example>
 
+      在 Angular 中，`ngStyle` 指令的運作方式類似。它根據運算式在 HTML 元素上設定 CSS 樣式。
 
-      In Angular, the `ngStyle` directive works similarly. It sets a CSS style on an HTML element based on an expression.
+      在第一個範例中，`color` 樣式被設為 `colorPreference` 變數的目前值。
 
-      In the first example, the `color` style is set to the current value of the `colorPreference` variable.
+      Angular 也有**樣式繫結**，是設定單一樣式的好方法。如第二個範例所示。
 
-      Angular also has **style binding**, which is good way to set a single style. This is shown in the second example.
+      更多關於樣式繫結的資訊，請參閱[範本語法](guide/template-syntax)頁面中的[樣式繫結](guide/template-syntax#樣式繫結)一節。
 
-      For more information on style binding, see the [Style binding](guide/template-syntax#style-binding) section of the
-      [Template Syntax](guide/template-syntax) page.
-
-      For more information on the `ngStyle` directive, see [NgStyle](guide/template-syntax#ngStyle)
-      section of the [Template Syntax](guide/template-syntax) page.
+      更多關於 `ngStyle` 指令的資訊，請參閱[範本語法](guide/template-syntax)頁面中的 [NgStyle](guide/template-syntax#ngStyle) 一節。
     </td>
 
   </tr>
@@ -656,7 +557,6 @@ The following are some of the key AngularJS built-in directives and their equiva
   <tr style=top>
 
     <td>
-
 
       ### ng-switch
 
@@ -675,53 +575,43 @@ The following are some of the key AngularJS built-in directives and their equiva
         &lt;/div>
       </code-example>
 
+      在 AngularJS 中，`ng-switch` 指令根據運算式的目前值，從多個範本中選出一個，來置換元素的內容。
 
-      In AngularJS, the `ng-switch` directive swaps the contents of
-      an element by selecting one of the templates based on the current value of an expression.
-
-      In this example, if `favoriteHero` is not set, the template displays "Please enter ...".
-      If `favoriteHero` is set, it checks the movie hero by calling a controller method.
-      If that method returns `true`, the template displays "Excellent choice!".
-      If that methods returns `false`, the template displays "No movie, sorry!".
+      在此範例中，若未設定 `favoriteHero`，範本會顯示 "Please enter ..."。
+      若已設定 `favoriteHero`，它會呼叫控制器方法來檢查電影英雄。
+      若該方法傳回 `true`，範本會顯示 "Excellent choice!"。
+      若該方法傳回 `false`，範本會顯示 "No movie, sorry!"。
     </td>
 
     <td>
-
 
       ### ngSwitch
 
       <code-example hideCopy path="ajs-quick-reference/src/app/movie-list.component.html" region="ngSwitch" linenums="false"></code-example>
 
+      在 Angular 中，`ngSwitch` 指令的運作方式類似。
+      它會顯示其 `*ngSwitchCase` 與目前 `ngSwitch` 運算式值相符的元素。
 
-      In Angular, the `ngSwitch` directive works similarly.
-      It displays an element whose `*ngSwitchCase` matches the current `ngSwitch` expression value.
+      在此範例中，若未設定 `favoriteHero`，`ngSwitch` 的值為 `null`，`*ngSwitchDefault` 會顯示 "Please enter ..."。
+      若已設定 `favoriteHero`，應用程式會呼叫元件方法來檢查電影英雄。
+      若該方法傳回 `true`，應用程式會選取 `*ngSwitchCase="true"` 並顯示："Excellent choice!"
+      若該方法傳回 `false`，應用程式會選取 `*ngSwitchCase="false"` 並顯示："No movie, sorry!"
 
-      In this example, if `favoriteHero` is not set, the `ngSwitch` value is `null`
-      and `*ngSwitchDefault` displays, "Please enter ...".
-      If `favoriteHero` is set, the app checks the movie hero by calling a component method.
-      If that method returns `true`, the app selects `*ngSwitchCase="true"` and displays: "Excellent choice!"
-      If that methods returns `false`, the app selects `*ngSwitchCase="false"` and displays: "No movie, sorry!"
+      在此範例中，`ngSwitchCase` 與 `ngSwitchDefault` 前面的（*）是必要的。
 
-      The (*) before `ngSwitchCase` and `ngSwitchDefault` is required in this example.
-
-      For more information, see [The NgSwitch directives](guide/template-syntax#ngSwitch)
-      section of the [Template Syntax](guide/template-syntax) page.
+      更多資訊請參閱[範本語法](guide/template-syntax)頁面中的 [NgSwitch 指令](guide/template-syntax#ngSwitch) 一節。
     </td>
 
   </tr>
 
 </table>
 
-
 {@a filters-pipes}
 
-
-
-## Filters/pipes
-Angular **pipes** provide formatting and transformation for data in the template, similar to AngularJS **filters**.
-Many of the built-in filters in AngularJS have corresponding pipes in Angular.
-For more information on pipes, see [Pipes](guide/pipes).
-
+## 篩選器／管道
+Angular **pipes**（管道）為範本中的資料提供格式化與轉換，類似 AngularJS 的 **filters**（篩選器）。
+AngularJS 的許多內建篩選器在 Angular 中都有對應的管道。
+更多關於管道的資訊，請參閱[管道](guide/pipes)。
 
 <table width="100%">
 
@@ -748,7 +638,6 @@ For more information on pipes, see [Pipes](guide/pipes).
   <tr style=top>
 
     <td>
-
 
       ### currency
 
@@ -756,19 +645,16 @@ For more information on pipes, see [Pipes](guide/pipes).
         &lt;td>{{movie.price | currency}}&lt;/td>
       </code-example>
 
-
-      Formats a number as currency.
+      將數字格式化為貨幣。
     </td>
 
     <td>
-
 
       ### currency
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="currency" linenums="false"></code-example>
 
-
-      The Angular `currency` pipe is similar although some of the parameters have changed.
+      Angular 的 `currency` 管道類似，不過有些參數已經改變。
     </td>
 
   </tr>
@@ -776,7 +662,6 @@ For more information on pipes, see [Pipes](guide/pipes).
   <tr style=top>
 
     <td>
-
 
       ### date
 
@@ -784,19 +669,16 @@ For more information on pipes, see [Pipes](guide/pipes).
         &lt;td>{{movie.releaseDate | date}}&lt;/td>
       </code-example>
 
-
-      Formats a date to a string based on the requested format.
+      根據要求的格式，將日期格式化為字串。
     </td>
 
     <td>
-
 
       ### date
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="date" linenums="false"></code-example>
 
-
-      The Angular `date` pipe is similar.
+      Angular 的 `date` 管道類似。
 
     </td>
 
@@ -805,7 +687,6 @@ For more information on pipes, see [Pipes](guide/pipes).
   <tr style=top>
 
     <td>
-
 
       ### filter
 
@@ -813,15 +694,13 @@ For more information on pipes, see [Pipes](guide/pipes).
         &lt;tr ng-repeat="movie in movieList | filter: {title:listFilter}">
       </code-example>
 
-
-      Selects a subset of items from the defined collection, based on the filter criteria.
+      根據篩選條件，從定義的集合中選出項目的子集。
     </td>
 
     <td>
 
-
-      ### none
-      For performance reasons, no comparable pipe exists in Angular. Do all your filtering in the component. If you need the same filtering code in several templates, consider building a custom pipe.
+      ### 無
+      基於效能考量，Angular 中沒有可比擬的管道。請在元件中完成所有篩選。若你需要在多個範本中使用相同的篩選程式碼，可以考慮建立自訂管道。
 
     </td>
 
@@ -830,7 +709,6 @@ For more information on pipes, see [Pipes](guide/pipes).
   <tr style=top>
 
     <td>
-
 
       ### json
 
@@ -838,19 +716,16 @@ For more information on pipes, see [Pipes](guide/pipes).
         &lt;pre>{{movie | json}}&lt;/pre>
       </code-example>
 
-
-      Converts a JavaScript object into a JSON string. This is useful for debugging.
+      將 JavaScript 物件轉換為 JSON 字串。這對除錯很有用。
     </td>
 
     <td>
-
 
       ### json
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="json" linenums="false"></code-example>
 
-
-      The Angular `json` pipe does the same thing.
+      Angular 的 `json` 管道做的是同樣的事。
     </td>
 
   </tr>
@@ -858,7 +733,6 @@ For more information on pipes, see [Pipes](guide/pipes).
   <tr style=top>
 
     <td>
-
 
       ### limitTo
 
@@ -866,23 +740,20 @@ For more information on pipes, see [Pipes](guide/pipes).
         &lt;tr ng-repeat="movie in movieList | limitTo:2:0">
       </code-example>
 
-
-      Selects up to the first parameter (2) number of items from the collection
-      starting (optionally) at the beginning index (0).
+      從集合中選取最多第一個參數（2）指定的項目數量，
+      （可選擇）從起始索引（0）開始。
     </td>
 
     <td>
-
 
       ### slice
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="slice" linenums="false"></code-example>
 
-
-      The `SlicePipe` does the same thing but the *order of the parameters is reversed*, in keeping
-      with the JavaScript `Slice` method.
-      The first parameter is the starting index; the second is the limit.
-      As in AngularJS, coding this operation within the component instead could improve performance.
+      `SlicePipe` 做的是同樣的事，不過*參數的順序相反*，與
+      JavaScript 的 `Slice` 方法一致。
+      第一個參數是起始索引；第二個是上限。
+      與 AngularJS 一樣，改在元件中撰寫這個操作可能可以改善效能。
     </td>
 
   </tr>
@@ -890,7 +761,6 @@ For more information on pipes, see [Pipes](guide/pipes).
   <tr style=top>
 
     <td>
-
 
       ### lowercase
 
@@ -898,19 +768,16 @@ For more information on pipes, see [Pipes](guide/pipes).
         &lt;td>{{movie.title | lowercase}}&lt;/td>
       </code-example>
 
-
-      Converts the string to lowercase.
+      將字串轉換為小寫。
     </td>
 
     <td>
-
 
       ### lowercase
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="lowercase" linenums="false"></code-example>
 
-
-      The Angular `lowercase` pipe does the same thing.
+      Angular 的 `lowercase` 管道做的是同樣的事。
     </td>
 
   </tr>
@@ -918,7 +785,6 @@ For more information on pipes, see [Pipes](guide/pipes).
   <tr style=top>
 
     <td>
-
 
       ### number
 
@@ -926,24 +792,19 @@ For more information on pipes, see [Pipes](guide/pipes).
         &lt;td>{{movie.starRating | number}}&lt;/td>
       </code-example>
 
-
-      Formats a number as text.
+      將數字格式化為文字。
     </td>
 
     <td>
-
 
       ### number
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.component.html" region="number" linenums="false"></code-example>
 
+      Angular 的 `number` 管道類似。
+      它在定義小數位數時提供更多功能，如上面的第二個範例所示。
 
-      The Angular `number` pipe is similar.
-      It provides more functionality when defining
-      the decimal places, as shown in the second example above.
-
-      Angular also has a `percent` pipe, which formats a number as a local percentage
-      as shown in the third example.
+      Angular 也有 `percent` 管道，將數字格式化為本地化的百分比，如第三個範例所示。
     </td>
 
   </tr>
@@ -952,24 +813,21 @@ For more information on pipes, see [Pipes](guide/pipes).
 
     <td>
 
-
       ### orderBy
 
       <code-example hideCopy>
         &lt;tr ng-repeat="movie in movieList | orderBy : 'title'">
       </code-example>
 
-
-      Displays the collection in the order specified by the expression.
-      In this example, the movie title orders the `movieList`.
+      以運算式指定的順序顯示集合。
+      在此範例中，電影標題決定了 `movieList` 的順序。
     </td>
 
     <td>
 
-
-      ### none
-      For performance reasons, no comparable pipe exists in Angular.
-      Instead, use component code to order or sort results. If you need the same ordering or sorting code in several templates, consider building a custom pipe.
+      ### 無
+      基於效能考量，Angular 中沒有可比擬的管道。
+      請改用元件程式碼來排序結果。若你需要在多個範本中使用相同的排序程式碼，可以考慮建立自訂管道。
 
     </td>
 
@@ -977,21 +835,16 @@ For more information on pipes, see [Pipes](guide/pipes).
 
 </table>
 
-
-
 {@a controllers-components}
 
+## 模組／控制器／元件
+在 AngularJS 與 Angular 中，模組都能協助你把應用程式組織成功能內聚的區塊。
 
+在 AngularJS 中，你把提供檢視的模型與方法的程式碼寫在 **controller**（控制器）中。
+在 Angular 中，你建置的是一個 **component**（元件）。
 
-## Modules/controllers/components
-In both AngularJS and Angular, modules help you organize your application into cohesive blocks of functionality.
-
-In AngularJS, you write the code that provides the model and the methods for the view in a **controller**.
-In Angular, you build a **component**.
-
-Because much AngularJS code is in JavaScript, JavaScript code is shown in the AngularJS column.
-The Angular code is shown using TypeScript.
-
+由於許多 AngularJS 程式碼是 JavaScript，AngularJS 欄中顯示的是 JavaScript 程式碼。
+Angular 程式碼則使用 TypeScript 顯示。
 
 <table width="100%">
 
@@ -1018,7 +871,6 @@ The Angular code is shown using TypeScript.
   <tr style=top>
 
     <td>
-
 
       ### IIFE
 
@@ -1028,21 +880,16 @@ The Angular code is shown using TypeScript.
         }());
       </code-example>
 
-
-      In AngularJS, an immediately invoked function expression (or IIFE) around controller code
-      keeps it out of the global namespace.
+      在 AngularJS 中，包住控制器程式碼的立即呼叫函式運算式（IIFE）能讓它遠離全域命名空間。
 
     </td>
 
     <td>
 
+      ### 無
+      這在 Angular 中不是問題，因為 ES 2015 模組會替你處理命名空間。
 
-      ### none
-      This is a nonissue in Angular because ES 2015 modules
-      handle the namespacing for you.
-
-      For more information on modules, see the [Modules](guide/architecture#modules) section of the
-      [Architecture Overview](guide/architecture).
+      更多關於模組的資訊，請參閱[架構總覽](guide/architecture)中的[模組](guide/architecture#模組)一節。
     </td>
 
   </tr>
@@ -1051,32 +898,28 @@ The Angular code is shown using TypeScript.
 
     <td>
 
-
-      ### Angular modules
+      ### Angular 模組
 
       <code-example hideCopy>
         angular.module("movieHunter", ["ngRoute"]);
       </code-example>
 
-
-      In AngularJS, an Angular module keeps track of controllers, services, and other code.
-      The second argument defines the list of other modules that this module depends upon.
+      在 AngularJS 中，Angular 模組會追蹤控制器、服務與其他程式碼。
+      第二個參數定義此模組依賴的其他模組清單。
     </td>
 
     <td>
-
 
       ### NgModules
 
       <code-example hideCopy path="ajs-quick-reference/src/app/app.module.1.ts" linenums="false"></code-example>
 
+      以 `NgModule` 裝飾器定義的 NgModules 具有相同的用途：
 
-      NgModules, defined with the `NgModule` decorator, serve the same purpose:
+      * `imports`：指定此模組依賴的其他模組清單
+      * `declaration`：追蹤你的元件、管道與指令。
 
-      * `imports`: specifies the list of other modules that this module depends upon
-      * `declaration`: keeps track of your components, pipes, and directives.
-
-      For more information on modules, see [NgModules](guide/ngmodules).
+      更多關於模組的資訊，請參閱 [NgModules](guide/ngmodules)。
     </td>
 
   </tr>
@@ -1085,8 +928,7 @@ The Angular code is shown using TypeScript.
 
     <td>
 
-
-      ### Controller registration
+      ### 控制器註冊
 
       <code-example hideCopy>
         angular
@@ -1096,30 +938,23 @@ The Angular code is shown using TypeScript.
                        MovieListCtrl]);
       </code-example>
 
+      AngularJS 在每個控制器中都有程式碼，用來查找適當的 Angular 模組，並向該模組註冊控制器。
 
-      AngularJS has code in each controller that looks up an appropriate Angular module
-      and registers the controller with that module.
-
-      The first argument is the controller name. The second argument defines the string names of
-      all dependencies injected into this controller, and a reference to the controller function.
+      第一個參數是控制器名稱。第二個參數定義注入此控制器的所有依賴的字串名稱，以及對控制器函式的參照。
     </td>
 
     <td>
 
-
-      ### Component decorator
+      ### 元件裝飾器
 
       <code-example hideCopy path="ajs-quick-reference/src/app/movie-list.component.ts" region="component" linenums="false"></code-example>
 
+      Angular 在元件類別上加入裝飾器，以提供任何所需的詮釋資料。
+      `@Component` 裝飾器宣告該類別是一個元件，並提供關於該元件的詮釋資料，例如它的 selector（或標籤）及其範本。
 
-      Angular adds a decorator to the component class to provide any required metadata.
-      The `@Component` decorator declares that the class is a component and provides metadata about
-      that component such as its selector (or tag) and its template.
+      這樣你就能把範本與邏輯關聯起來，而邏輯定義在元件類別中。
 
-      This is how you associate a template with logic, which is defined in the component class.
-
-      For more information, see the [Components](guide/architecture#components)
-      section of the [Architecture Overview](guide/architecture) page.
+      更多資訊請參閱[架構總覽](guide/architecture)頁面中的 [Components](guide/architecture#元件) 一節。
     </td>
 
   </tr>
@@ -1128,32 +963,27 @@ The Angular code is shown using TypeScript.
 
     <td>
 
-
-      ### Controller function
+      ### 控制器函式
 
       <code-example hideCopy>
         function MovieListCtrl(movieService) {
         }
       </code-example>
 
-
-      In AngularJS, you write the code for the model and methods in a controller function.
+      在 AngularJS 中，你把模型與方法的程式碼寫在控制器函式中。
     </td>
 
     <td>
 
-
-      ### Component class
+      ### 元件類別
 
       <code-example hideCopy path="ajs-quick-reference/src/app/movie-list.component.ts" region="class" linenums="false"></code-example>
 
+      在 Angular 中，你建立一個元件類別。
 
-      In Angular, you create a component class.
+      注意：如果你在 AngularJS 中使用 TypeScript，你必須使用 `export` 關鍵字匯出元件類別。
 
-      NOTE: If you are using TypeScript with AngularJS, you must use the `export` keyword to export the component class.
-
-      For more information, see the [Components](guide/architecture#components)
-      section of the [Architecture Overview](guide/architecture) page.
+      更多資訊請參閱[架構總覽](guide/architecture)頁面中的 [Components](guide/architecture#元件) 一節。
     </td>
 
   </tr>
@@ -1162,8 +992,7 @@ The Angular code is shown using TypeScript.
 
     <td>
 
-
-      ### Dependency injection
+      ### 依賴注入
 
       <code-example hideCopy>
         MovieListCtrl.$inject = ['MovieService'];
@@ -1171,28 +1000,23 @@ The Angular code is shown using TypeScript.
         }
       </code-example>
 
+      在 AngularJS 中，你把任何依賴作為控制器函式的參數傳入。
+      此範例注入了一個 `MovieService`。
 
-      In AngularJS, you pass in any dependencies as controller function arguments.
-      This example injects a `MovieService`.
-
-      To guard against minification problems, tell Angular explicitly
-      that it should inject an instance of the `MovieService` in the first parameter.
+      為了防範最小化（minification）帶來的問題，請明確告訴 Angular，它應該在第一個參數中注入一個 `MovieService` 的實例。
     </td>
 
     <td>
 
-
-      ### Dependency injection
+      ### 依賴注入
 
       <code-example hideCopy path="ajs-quick-reference/src/app/movie-list.component.ts" region="di" linenums="false"></code-example>
 
+      在 Angular 中，你把依賴作為參數傳給元件類別的建構函式。
+      此範例注入了一個 `MovieService`。
+      第一個參數的 TypeScript 型別會告訴 Angular 要注入什麼，即使在最小化之後也是如此。
 
-      In Angular, you pass in dependencies as arguments to the component class constructor.
-      This example injects a `MovieService`.
-      The first parameter's TypeScript type tells Angular what to inject, even after minification.
-
-      For more information, see the [Dependency injection](guide/architecture#dependency-injection)
-      section of the [Architecture Overview](guide/architecture).
+      更多資訊請參閱[架構總覽](guide/architecture)中的[依賴注入](guide/architecture#dependency-injection)一節。
     </td>
 
   </tr>
@@ -1201,15 +1025,11 @@ The Angular code is shown using TypeScript.
 
 {@a style-sheets}
 
-
-
-## Style sheets
-Style sheets give your application a nice look.
-In AngularJS, you specify the style sheets for your entire application.
-As the application grows over time, the styles for the many parts of the application
-merge, which can cause unexpected results.
-In Angular, you can still define style sheets for your entire application. But now you can
-also encapsulate a style sheet within a specific component.
+## 樣式表
+樣式表讓你的應用程式看起來更美觀。
+在 AngularJS 中，你為整個應用程式指定樣式表。
+隨著應用程式隨時間成長，應用程式眾多部分的樣式會合併在一起，可能造成意想不到的結果。
+在 Angular 中，你仍然可以為整個應用程式定義樣式表。但現在你也可以把樣式表封裝在特定元件之內。
 
 <table width="100%">
 
@@ -1237,40 +1057,31 @@ also encapsulate a style sheet within a specific component.
 
     <td>
 
-
-      ### Link tag
+      ### Link 標籤
 
       <code-example hideCopy>
         &lt;link href="styles.css" rel="stylesheet" />
       </code-example>
 
-
-      AngularJS, uses a `link` tag in the head section of the `index.html` file
-      to define the styles for the application.
+      AngularJS 使用 `index.html` 檔案 head 區段中的 `link` 標籤來定義應用程式的樣式。
     </td>
 
     <td>
 
-
-
-      ### Styles configuration
+      ### 樣式設定
       <code-example hideCopy path="ajs-quick-reference/.angular-cli.1.json" region="styles" linenums="false"></code-example>
 
-      With the Angular CLI, you can configure your global styles in the `angular.json` file.
-      You can rename the extension to `.scss` to use sass.
+      使用 Angular CLI，你可以在 `angular.json` 檔案中設定全域樣式。
+      你可以把副檔名改名為 `.scss` 來使用 sass。
 
       ### StyleUrls
-      In Angular, you can use the `styles` or `styleUrls` property of the `@Component` metadata to define
-      a style sheet for a particular component.
+      在 Angular 中，你可以使用 `@Component` 詮釋資料的 `styles` 或 `styleUrls` 屬性，為特定元件定義樣式表。
 
       <code-example hideCopy path="ajs-quick-reference/src/app/movie-list.component.ts" region="style-url" linenums="false"></code-example>
 
-
-      This allows you to set appropriate styles for individual components that won’t leak into
-      other parts of the application.
+      這讓你可以為個別元件設定適當的樣式，而不會外洩到應用程式的其他部分。
     </td>
 
   </tr>
 
 </table>
-

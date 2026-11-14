@@ -1,13 +1,13 @@
-# Anatomy of the Setup Project
+# 設定專案的結構剖析
 
-The documentation [setup](guide/setup) procedures install a _lot_ of files.
-Most of them can be safely ignored.
+文件中的[設定](guide/setup)流程會安裝 _大量_ 檔案。
+其中大多數都可以安全地忽略。
 
-Application files _inside the_ **`src/`** and **`e2e/`** folders matter most to developers.
+位於 **`src/`** 與 **`e2e/`** 資料夾 _內_ 的應用程式檔案，對開發者來說最重要。
 
-Files _outside_ those folders condition the development environment.
-They rarely change and you may never view or modify them.
-If you do, this page can help you understand their purpose.
+那些資料夾 _外_ 的檔案，決定了開發環境的條件。
+它們很少變動，你可能永遠不會檢視或修改它們。
+如果你真的需要，這一頁可以幫助你了解它們的用途。
 
 
 <style>
@@ -29,11 +29,11 @@ If you do, this page can help you understand their purpose.
   <tr>
 
     <th>
-      File
+      檔案
     </th>
 
     <th>
-      Purpose
+      用途
     </th>
 
   </tr>
@@ -47,15 +47,15 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      Angular application files go here.
+      Angular 應用程式檔案放在這裡。
 
-      Ships with the "Hello Angular" sample's
-      `AppComponent`, `AppModule`, a component unit test (`app.component.spec.ts`), and
-      the bootstrap file, `main.ts`.
+      隨附「Hello Angular」範例的
+      `AppComponent`、`AppModule`、一個元件單元測試（`app.component.spec.ts`），以及
+      啟動檔案 `main.ts`。
 
-      Try the <live-example name="setup">sample application</live-example>
-      and the <live-example name="setup" stackblitz="quickstart-specs">unit test</live-example>
-      as _live examples_.
+      將 <live-example name="setup">範例應用程式</live-example>
+      與 <live-example name="setup" stackblitz="quickstart-specs">單元測試</live-example>
+      作為 _即時範例_ 試用看看。
     </td>
 
   </tr>
@@ -69,12 +69,12 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      _End-to-end_ (e2e) tests of the application,
-      written in Jasmine and run by the
+      應用程式的 _端到端_（e2e）測試，
+      以 Jasmine 撰寫，並由
       <a href="http://www.protractortest.org/" title="Protractor: end-to-end testing for Angular">protractor</a>
-      e2e test runner.
+      e2e 測試執行器執行。
 
-      Initialized with an e2e test for the "Hello Angular" sample.
+      初始內容是一個針對「Hello Angular」範例的 e2e 測試。
     </td>
 
   </tr>
@@ -88,7 +88,7 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      The _npm_ packages installed with the `npm install` command.
+      以 `npm install` 指令安裝的 _npm_ 套件。
     </td>
 
   </tr>
@@ -105,8 +105,8 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      Tooling configuration files and folders.
-      Ignore them until you have a compelling reason to do otherwise.
+      工具用的設定檔案與資料夾。
+      除非你有充分的理由，否則先忽略它們。
     </td>
 
   </tr>
@@ -120,8 +120,8 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      The history of changes to the _QuickStart_ repository.
-      Delete or ignore.
+      _QuickStart_ 儲存庫的變更歷史。
+      可以刪除或忽略。
     </td>
 
   </tr>
@@ -135,7 +135,7 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      The application icon that appears in the browser tab.
+      出現在瀏覽器分頁中的應用程式圖示。
     </td>
 
   </tr>
@@ -149,12 +149,12 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      The application host page.
-      It loads a few essential scripts in a prescribed order.
-      Then it boots the application, placing the root `AppComponent`
-      in the custom `<my-app>` body tag.
+      應用程式的宿主頁面。
+      它以規定的順序載入少數幾個必要指令碼。
+      然後它啟動應用程式，把根 `AppComponent`
+      放進自訂的 `<my-app>` body 標籤中。
 
-      The same `index.html` satisfies all documentation application samples.
+      同一個 `index.html` 能滿足所有文件應用程式範例。
     </td>
 
   </tr>
@@ -168,8 +168,8 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      Configuration for the <a href="https://karma-runner.github.io/1.0/index.html" title="Karma unit test runner">karma</a>
-      test runner described in the [Testing](guide/testing) guide.
+      [測試](guide/testing)指南中所述的 <a href="https://karma-runner.github.io/1.0/index.html" title="Karma unit test runner">karma</a>
+      測試執行器的設定。
     </td>
 
   </tr>
@@ -183,8 +183,8 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      Script to run <a href="https://karma-runner.github.io/1.0/index.html" title="Karma unit test runner">karma</a>
-      with SystemJS as described in the [Testing](guide/testing) guide.
+      如[測試](guide/testing)指南所述，用 SystemJS 執行 <a href="https://karma-runner.github.io/1.0/index.html" title="Karma unit test runner">karma</a>
+      的指令碼。
     </td>
 
   </tr>
@@ -198,11 +198,11 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      A list of files that you can delete if you want to purge your setup of the
-      original QuickStart Seed testing and git maintenance artifacts.
-      See instructions in the optional
-      [_Deleting non-essential files_](guide/setup#non-essential "Setup: Deleting non-essential files") section.
-      *Do this only in the beginning to avoid accidentally deleting your own tests and git setup!*
+      如果你想清除設定中原始的 QuickStart Seed 測試與 git 維護產物，
+      可以刪除的檔案清單。
+      請參閱可選的
+      [_刪除非必要檔案_](guide/setup#non-essential "Setup: Deleting non-essential files") 一節中的說明。
+      *只在最開始做這件事，以免不小心刪除你自己的測試與 git 設定！*
     </td>
 
   </tr>
@@ -216,7 +216,7 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      The open source MIT license to use this setup code in your application.
+      用於在你的應用程式中使用這份設定程式碼的 MIT 開源授權。
     </td>
 
   </tr>
@@ -230,12 +230,12 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      Identifies `npm `package dependencies for the project.
+      標明專案的 `npm` 套件依賴。
 
-      Contains command scripts for running the application,
-      running tests, and more. Enter `npm run` for a listing.
-      <a href="https://github.com/angular/quickstart/blob/master/README.md#npm-scripts"
-         title="npm scripts for Angular documentation samples">Read more</a> about them.
+      包含執行應用程式、
+      執行測試等指令碼。輸入 `npm run` 可列出清單。
+      關於這些指令碼，可<a href="https://github.com/angular/quickstart/blob/master/README.md#npm-scripts"
+         title="npm scripts for Angular documentation samples">深入閱讀</a>。
     </td>
 
   </tr>
@@ -249,9 +249,8 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      Configuration for the
       <a href="http://www.protractortest.org/" title="Protractor: end-to-end testing for Angular">protractor</a>
-      _end-to-end_ (e2e) test runner.
+      _端到端_（e2e）測試執行器的設定。
     </td>
 
   </tr>
@@ -265,8 +264,8 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      Instruction for using this git repository in your project.
-      Worth reading before deleting.
+      在你的專案中使用這個 git 儲存庫的說明。
+      刪除前值得一讀。
     </td>
 
   </tr>
@@ -280,7 +279,7 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      Global styles for the application. Initialized with an `<h1>` style for the QuickStart demo.
+      應用程式的全域樣式。初始內容包含為 QuickStart 示範準備的 `<h1>` 樣式。
 
     </td>
 
@@ -295,14 +294,14 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      Tells the **SystemJS** module loader where to find modules
-      referenced in JavaScript `import` statements. For example:
+      告訴 **SystemJS** 模組載入器，要去哪裡尋找
+      JavaScript `import` 陳述式所參照的模組。例如：
       <code-example language="ts">
         import { Component } from '@angular/core;
       </code-example>
 
 
-      Don't touch this file unless you are fully versed in SystemJS configuration.
+      除非你完全精通 SystemJS 設定，否則不要碰這個檔案。
     </td>
 
   </tr>
@@ -316,9 +315,9 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      Optional extra SystemJS configuration.
-      A way to add SystemJS mappings, such as for application _barrels_,
-      without changing the original `system.config.js`.
+      可選的額外 SystemJS 設定。
+      一種加入 SystemJS 對映（例如應用程式的 _barrels_）的方法，
+      而不更動原始的 `system.config.js`。
     </td>
 
   </tr>
@@ -332,8 +331,8 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      Tells the TypeScript compiler how to transpile TypeScript source files
-      into JavaScript files that run in all modern browsers.
+      告訴 TypeScript 編譯器，如何把 TypeScript 原始碼檔案
+      轉譯成能在所有現代瀏覽器中執行的 JavaScript 檔案。
     </td>
 
   </tr>
@@ -347,14 +346,13 @@ If you do, this page can help you understand their purpose.
     <td>
 
 
-      The `npm` installed TypeScript linter inspects your TypeScript code
-      and complains when you violate one of its rules.
+      以 `npm` 安裝的 TypeScript 程式碼檢查工具會檢查你的 TypeScript 程式碼，
+      當你違反它的某條規則時就會抱怨。
 
-      This file defines linting rules favored by the
-      [Angular style guide](guide/styleguide) and by the authors of the documentation.
+      這個檔案定義了[Angular 風格指南](guide/styleguide)與文件作者
+      所偏好的檢查規則。
     </td>
 
   </tr>
 
 </table>
-

@@ -1,24 +1,23 @@
-# User Input
+# 使用者輸入
 
-User actions such as clicking a link, pushing a button, and entering
-text raise DOM events.
-This page explains how to bind those events to component event handlers using the Angular
-event binding syntax.
+點選連結、按下按鈕、輸入
+文字等使用者動作會引發 DOM 事件。
+本頁說明如何使用 Angular
+事件繫結語法，將這些事件繫結到元件事件處理常式。
 
-Run the <live-example></live-example>.
+執行 <live-example></live-example>。
 
+## 繫結到使用者輸入事件
 
-## Binding to user input events
+你可以使用 [Angular 事件繫結](guide/template-syntax#event-binding)
+來回應任何 [DOM 事件](https://developer.mozilla.org/en-US/docs/Web/Events)。
+許多 DOM 事件是由使用者輸入觸發的。繫結到這些事件提供了一種
+取得使用者輸入的方式。
 
-You can use [Angular event bindings](guide/template-syntax#event-binding)
-to respond to any [DOM event](https://developer.mozilla.org/en-US/docs/Web/Events).
-Many DOM events are triggered by user input. Binding to these events provides a way to
-get input from the user.
+若要繫結到 DOM 事件，請把 DOM 事件名稱放在括號中，並為它指派一個加上引號的
+[範本陳述式](guide/template-syntax#template-statements)。
 
-To bind to a DOM event, surround the DOM event name in parentheses and assign a quoted
-[template statement](guide/template-syntax#template-statements) to it.
-
-The following example shows an event binding that implements a click handler:
+以下範例展示了一個實作點選處理常式的事件繫結：
 
 <code-example path="user-input/src/app/click-me.component.ts" region="click-me-button" title="src/app/click-me.component.ts" linenums="false">
 
@@ -26,276 +25,220 @@ The following example shows an event binding that implements a click handler:
 
 {@a click}
 
-The `(click)` to the left of the equals sign identifies the button's click event as the **target of the binding**.
-The text in quotes to the right of the equals sign
-is the **template statement**, which responds
-to the click event by calling the component's `onClickMe` method.
+等號左側的 `(click)` 會將按鈕的點選事件識別為**繫結的目標**。
+等號右側引號內的文字
+是**範本陳述式**，它會呼叫元件的 `onClickMe` 方法，以回應
+點選事件。
 
-When writing a binding, be aware of a template statement's **execution context**.
-The identifiers in a template statement belong to a specific context object,
-usually the Angular component controlling the template.
-The example above shows a single line of HTML, but that HTML belongs to a larger component:
-
+撰寫繫結時，請留意範本陳述式的**執行脈絡**。
+範本陳述式中的識別碼屬於特定的脈絡物件，
+通常是控制範本的 Angular 元件。
+上方的範例只顯示了一行 HTML，但該 HTML 屬於一個更大的元件：
 
 <code-example path="user-input/src/app/click-me.component.ts" region="click-me-component" title="src/app/click-me.component.ts" linenums="false">
 
 </code-example>
 
+當使用者點選按鈕時，Angular 會呼叫 `ClickMeComponent` 的 `onClickMe` 方法。
 
+## 從 $event 物件取得使用者輸入
+DOM 事件會攜帶一些對元件可能有用的資訊負載。
+本節說明如何繫結到輸入框的 `keyup` 事件，以在每次按鍵後取得使用者的輸入。
 
-When the user clicks the button, Angular calls the `onClickMe` method from `ClickMeComponent`.
-
-
-
-## Get user input from the $event object
-DOM events carry a payload of information that may be useful to the component.
-This section shows how to bind to the `keyup` event of an input box to get the user's input after each keystroke.
-
-The following code listens to the `keyup` event and passes the entire event payload (`$event`) to the component event handler.
+以下程式碼會監聽 `keyup` 事件，並把整個事件負載（`$event`）傳給元件事件處理常式。
 
 <code-example path="user-input/src/app/keyup.components.ts" region="key-up-component-1-template" title="src/app/keyup.components.ts (template v.1)" linenums="false">
 
 </code-example>
 
-
-
-When a user presses and releases a key, the `keyup` event occurs, and Angular provides a corresponding
-DOM event object in the `$event` variable which this code passes as a parameter to the component's `onKey()` method.
+當使用者按下並放開按鍵時，就會發生 `keyup` 事件，Angular 會在
+`$event` 變數中提供對應的 DOM 事件物件，這段程式碼會把它作為參數傳給元件的 `onKey()` 方法。
 
 <code-example path="user-input/src/app/keyup.components.ts" region="key-up-component-1-class-no-type" title="src/app/keyup.components.ts (class v.1)" linenums="false">
 
 </code-example>
 
+`$event` 物件的屬性會依 DOM 事件的類型而有所不同。舉例來說，
+滑鼠事件包含的資訊與輸入框編輯事件不同。
 
+所有 [標準 DOM 事件物件](https://developer.mozilla.org/en-US/docs/Web/API/Event)
+都有一個 `target` 屬性，是對引發事件的元素參照。
+在這個例子中，`target` 指的是 [`<input>` 元素](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement)，而
+`event.target.value` 會回傳該元素的目前內容。
 
-The properties of an `$event` object vary depending on the type of DOM event. For example,
-a mouse event includes different information than an input box editing event.
+每次呼叫後，`onKey()` 方法會把輸入框值的內容附加到
+元件 `values` 屬性中的清單，後面加上一個分隔字元（|）。
+[插值](guide/template-syntax#interpolation)
+會顯示 `values` 屬性中累積的輸入框變更。
 
-All [standard DOM event objects](https://developer.mozilla.org/en-US/docs/Web/API/Event)
-have a `target` property, a reference to the element that raised the event.
-In this case, `target` refers to the [`<input>` element](https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement) and
-`event.target.value` returns the current contents of that element.
-
-After each call, the `onKey()` method appends the contents of the input box value to the list
-in the component's `values` property, followed by a  separator character (|).
-The [interpolation](guide/template-syntax#interpolation)
-displays the accumulating input box changes from the `values` property.
-
-Suppose the user enters the letters "abc", and then backspaces to remove them one by one.
-Here's what the UI displays:
+假設使用者輸入字母「abc」，然後按退格鍵逐一刪除。
+以下是 UI 顯示的內容：
 
 <code-example>
   a | ab | abc | ab | a | |
 </code-example>
 
-
-
 <figure>
-  <img src='generated/images/guide/user-input/keyup1-anim.gif' alt="key up 1">
+  <img src='generated/images/guide/user-input/keyup1-anim.gif' alt="keyup 範例 1">
 </figure>
-
-
 
 <div class="alert is-helpful">
 
-
-
-Alternatively, you could accumulate the individual keys themselves by substituting `event.key`
-for `event.target.value` in which case the same user input would produce:
+或者，你也可以改用 `event.key` 取代 `event.target.value`，自行累積各個按鍵本身，在這種情況下，相同的使用者輸入會產生：
 
 <code-example>
   a | b | c | backspace | backspace | backspace |
 
 </code-example>
 
-
-
 </div>
-
-
 
 {@a keyup1}
 
+### 為 _$event_ 加上型別
 
-### Type the _$event_
+上方的範例把 `$event` 轉型為 `any` 型別。
+這簡化了程式碼，但付出了代價。
+它沒有任何型別資訊
+可以揭示事件物件的屬性，也無法防止愚蠢的錯誤。
 
-The example above casts the `$event` as an `any` type.
-That simplifies the code at a cost.
-There is no type information
-that could reveal properties of the event object and prevent silly mistakes.
-
-The following example rewrites the method with types:
+以下範例以型別改寫了該方法：
 
 <code-example path="user-input/src/app/keyup.components.ts" region="key-up-component-1-class" title="src/app/keyup.components.ts (class v.1 - typed )" linenums="false">
 
 </code-example>
 
+`$event` 現在是一個特定的 `KeyboardEvent`。
+並非所有元素都有 `value` 屬性，因此它把 `target` 轉型為輸入元素。
+`OnKey` 方法更清楚地表達了它對範本的期待，以及它如何解讀事件。
 
+### 傳遞 _$event_ 是值得懷疑的做法
+為事件物件加上型別，揭示了把整個 DOM 事件傳入方法的一個重大異議：
+元件對範本細節的了解太多了。
+它若不對 HTML 實作有超出應有的了解，就無法擷取資訊。
+這破壞了範本（_使用者看到的內容_）
+與元件（_應用程式如何處理使用者資料_）之間的關注點分離。
 
-The `$event` is now a specific `KeyboardEvent`.
-Not all elements have a `value` property so it casts `target` to an input element.
-The `OnKey` method more clearly expresses what it expects from the template and how it interprets the event.
+下一節說明如何使用範本參照變數來解決這個問題。
 
-### Passing _$event_ is a dubious practice
-Typing the event object reveals a significant objection to passing the entire DOM event into the method:
-the component has too much awareness of the template details.
-It can't extract information without knowing more than it should about the HTML implementation.
-That breaks the separation of concerns between the template (_what the user sees_)
-and the component (_how the application processes user data_).
+## 從範本參照變數取得使用者輸入
+還有另一種取得使用者資料的方法：使用 Angular
+[**範本參照變數**](guide/template-syntax#ref-vars)。
+這些變數提供從範本內部直接存取元素的途徑。
+若要宣告範本參照變數，請在識別碼前面加上井號（或英鎊）字元（#）。
 
-The next section shows how to use template reference variables to address this problem.
-
-
-
-## Get user input from a template reference variable
-There's another way to get the user data: use Angular
-[**template reference variables**](guide/template-syntax#ref-vars).
-These variables provide direct access to an element from within the template.
-To declare a template reference variable, precede an identifier with a hash (or pound) character (#).
-
-The following example uses a template reference variable
-to implement a keystroke loopback in a simple template.
+以下範例使用範本參照變數
+在一個簡單的範本中實作按鍵回送。
 
 <code-example path="user-input/src/app/loop-back.component.ts" region="loop-back-component" title="src/app/loop-back.component.ts" linenums="false">
 
 </code-example>
 
+在 `<input>` 元素上宣告的、名為 `box` 的範本參照變數，
+指的就是 `<input>` 元素本身。
+程式碼使用 `box` 變數來取得輸入元素的 `value`，並以插值的方式
+顯示在 `<p>` 標籤之間。
 
+這個範本完全自成一體。它沒有繫結到元件，
+元件也不做任何事。
 
-The template reference variable named `box`, declared on the `<input>` element,
-refers to the `<input>` element itself.
-The code uses the `box` variable to get the input element's `value` and display it
-with interpolation between `<p>` tags.
-
-The template is completely self contained. It doesn't bind to the component,
-and the component does nothing.
-
-Type something in the input box, and watch the display update with each keystroke.
-
+在輸入框中輸入一些文字，看看顯示內容如何隨著每次按鍵更新。
 
 <figure>
-  <img src='generated/images/guide/user-input/keyup-loop-back-anim.gif' alt="loop back">
+  <img src='generated/images/guide/user-input/keyup-loop-back-anim.gif' alt="迴圈回送">
 </figure>
-
-
 
 <div class="alert is-helpful">
 
+**除非繫結到事件，否則完全不會運作。**
 
-
-**This won't work at all unless you bind to an event**.
-
-Angular updates the bindings (and therefore the screen)
-only if the app does something in response to asynchronous events, such as keystrokes.
-This example code binds the `keyup` event
-to the number 0, the shortest template statement possible.
-While the statement does nothing useful,
-it satisfies Angular's requirement so that Angular will update the screen.
+Angular 只有在應用程式回應非同步事件（例如按鍵）而有所動作時，才會更新繫結（連帶更新畫面）。
+這段範例程式碼把 `keyup` 事件
+繫結到數字 0，這是最短的範本陳述式。
+雖然該陳述式沒有實際作用，
+但它滿足了 Angular 的要求，因此 Angular 會更新畫面。
 
 </div>
 
-
-
-It's easier to get to the input box with the template reference
-variable than to go through the `$event` object. Here's a rewrite of the previous
-`keyup` example that uses a template reference variable to get the user's input.
+使用範本參照變數來取得輸入框，比透過 `$event` 物件取得要容易得多。以下是前一個
+`keyup` 範例的改寫版，使用範本參照變數取得使用者輸入。
 
 <code-example path="user-input/src/app/keyup.components.ts" region="key-up-component-2" title="src/app/keyup.components.ts (v2)" linenums="false">
 
 </code-example>
 
-
-
-A nice aspect of this approach is that the component gets clean data values from the view.
-It no longer requires knowledge of the `$event` and its structure.
+這種做法的一個優點是，元件能從檢視中取得乾淨的資料值。
+它不再需要了解 `$event` 及其結構。
 {@a key-event}
 
+## 按鍵事件篩選（使用 `key.enter`）
+`(keyup)` 事件處理常式會聽到 *每一次按鍵*。
+有時只有 _Enter_ 鍵才重要，因為它表示使用者已經輸入完畢。
+減少雜訊的一種方式，是檢查每一個 `$event.keyCode`，只有在該按鍵是 _Enter_ 時才採取行動。
 
-## Key event filtering (with `key.enter`)
-The `(keyup)` event handler hears *every keystroke*.
-Sometimes only the _Enter_ key matters, because it signals that the user has finished typing.
-One way to reduce the noise would be to examine every `$event.keyCode` and take action only when the key is _Enter_.
-
-There's an easier way: bind to Angular's `keyup.enter` pseudo-event.
-Then Angular calls the event handler only when the user presses _Enter_.
+有更簡單的方法：繫結到 Angular 的 `keyup.enter` 偽事件。
+然後，只有在使用者按下 _Enter_ 時，Angular 才會呼叫事件處理常式。
 
 <code-example path="user-input/src/app/keyup.components.ts" region="key-up-component-3" title="src/app/keyup.components.ts (v3)" linenums="false">
 
 </code-example>
 
-
-
-Here's how it works.
+以下是它的運作方式。
 
 <figure>
-  <img src='generated/images/guide/user-input/keyup3-anim.gif' alt="key up 3">
+  <img src='generated/images/guide/user-input/keyup3-anim.gif' alt="keyup 範例 3">
 </figure>
 
+## 失去焦點時
 
+在前面的範例中，輸入框的目前狀態
+會在使用者把滑鼠移開並點選頁面上的別處時遺失，
+如果他們未先按下 _Enter_。
+元件的 `value` 屬性只有在使用者按下 _Enter_ 時才會更新。
 
-
-## On blur
-
-In the previous example, the current state of the input box
-is lost if the user mouses away and clicks elsewhere on the page
-without first pressing _Enter_.
-The component's `value` property is updated only when the user presses _Enter_.
-
-To fix this issue, listen to both the _Enter_ key and the _blur_ event.
-
+要修正這個問題，請同時監聽 _Enter_ 鍵與 _blur_ 事件。
 
 <code-example path="user-input/src/app/keyup.components.ts" region="key-up-component-4" title="src/app/keyup.components.ts (v4)" linenums="false">
 
 </code-example>
 
+## 全部整合起來
+前一頁說明了如何[顯示資料](guide/displaying-data)。
+本頁示範了事件繫結技巧。
 
-
-
-## Put it all together
-The previous page showed how to [display data](guide/displaying-data).
-This page demonstrated event binding techniques.
-
-Now, put it all together in a micro-app
-that can display a list of heroes and add new heroes to the list.
-The user can add a hero by typing the hero's name in the input box and
-clicking **Add**.
-
+現在，把它們全部整合到一個微型應用程式中，
+它可以顯示英雄清單，並將新的英雄加入清單。
+使用者可以在輸入框中輸入英雄名稱並
+點選「加入」，來加入英雄。
 
 <figure>
-  <img src='generated/images/guide/user-input/little-tour-anim.gif' alt="Little Tour of Heroes">
+  <img src='generated/images/guide/user-input/little-tour-anim.gif' alt="英雄小導覽">
 </figure>
 
-
-
-Below is the "Little Tour of Heroes"  component.
-
+以下是「英雄小導覽」元件。
 
 <code-example path="user-input/src/app/little-tour.component.ts" region="little-tour" title="src/app/little-tour.component.ts" linenums="false">
 
 </code-example>
 
+### 觀察重點
 
+* **使用範本變數來參照元素** &mdash;
+`newHero` 範本變數參照 `<input>` 元素。
+你可以從 `<input>` 元素的任何同層或子層參照 `newHero`。
 
-### Observations
+* **傳遞值，而非元素** &mdash;
+與其把 `newHero` 傳入元件的 `addHero` 方法，
+不如取得輸入框的值，再把*該值*傳給 `addHero`。
 
-* **Use template variables to refer to elements** &mdash;
-The `newHero` template variable refers to the `<input>` element.
-You can reference `newHero` from any sibling or child of the `<input>` element.
+* **保持範本陳述式簡單** &mdash;
+`(blur)` 事件繫結到兩個 JavaScript 陳述式。
+第一個陳述式呼叫 `addHero`。第二個陳述式 `newHero.value=''`，
+會在新的英雄加入清單後清除輸入框。
 
-* **Pass values, not elements** &mdash;
-Instead of passing the `newHero` into the component's `addHero` method,
-get the input box value and pass *that* to `addHero`.
+## 原始碼
 
-* **Keep template statements simple** &mdash;
-The `(blur)` event is bound to two JavaScript statements.
-The first statement calls `addHero`.  The second statement, `newHero.value=''`,
-clears the input box after a new hero is added to the list.
-
-
-
-## Source code
-
-Following is all the code discussed in this page.
+以下是本頁討論過的所有程式碼。
 
 <code-tabs>
 
@@ -317,16 +260,13 @@ Following is all the code discussed in this page.
 
 </code-tabs>
 
+## 小結
 
+你已經掌握了回應使用者輸入與手勢的基本原語。
 
-
-## Summary
-
-You have mastered the basic primitives for responding to user input and gestures.
-
-These techniques are useful for small-scale demonstrations, but they
-quickly become verbose and clumsy when handling large amounts of user input.
-Two-way data binding is a more elegant and compact way to move
-values between data entry fields and model properties.
-The next page, `Forms`, explains how to write
-two-way bindings with `NgModel`.
+這些技巧對小規模示範很有用，但在處理
+大量使用者輸入時，它們很快就會變得冗長而笨拙。
+雙向資料繫結是一種更優雅、更簡潔的方式，可以在
+資料輸入欄位與模型屬性之間移動值。
+下一頁 `Forms` 說明如何
+使用 `NgModel` 撰寫雙向繫結。

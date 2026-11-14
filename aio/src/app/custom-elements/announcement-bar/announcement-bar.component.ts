@@ -48,7 +48,7 @@ export interface Announcement {
     <div class="announcement-bar">
       <img [src]="announcement.imageUrl">
       <p [innerHTML]="announcement.message"></p>
-      <a class="button" [href]="announcement.linkUrl">Learn More</a>
+      <a class="button" [href]="announcement.linkUrl">瞭解詳情</a>
     </div>
   </div>`
 })

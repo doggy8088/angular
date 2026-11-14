@@ -1,50 +1,47 @@
-# Next steps: tools and techniques
+# 下一步：工具與技術
 
-After you understand the basic Angular building blocks, you can begin to learn more
-about the features and tools that are available to help you develop and deliver Angular applications.
-Here are some key features.
+瞭解 Angular 的基本建構區塊之後，你可以開始進一步認識有哪些功能與工具可協助你開發與交付 Angular 應用程式。
+以下是一些關鍵功能。
 
-## Responsive programming tools
+## 回應式程式設計工具
 
-* [Lifecycle hooks](guide/lifecycle-hooks): Tap into key moments in the lifetime of a component, from its creation to its destruction, by implementing the lifecycle hook interfaces.
+* [生命週期掛鉤](guide/lifecycle-hooks)：實作生命週期掛鉤介面，掌握元件從建立到銷毀的生命週期中的關鍵時刻。
 
-* [Observables and event processing](guide/observables): How to use observables with components and services to publish and subscribe to messages of any type, such as user-interaction events and asynchronous operation results.
+* [Observable 與事件處理](guide/observables)：如何搭配元件與服務使用 Observable，發佈與訂閱任何類型的訊息，例如使用者互動事件與非同步操作結果。
 
-## Client-server interaction tools
+## 用戶端與伺服器互動工具
 
-* [HTTP](guide/http): Communicate with a server to get data, save data, and invoke server-side actions with an HTTP client.
+* [HTTP](guide/http)：使用 HTTP 用戶端與伺服器溝通，以取得資料、儲存資料，以及呼叫伺服器端動作。
 
-* [Server-side Rendering](guide/universal): Angular Universal generates static application pages on the server through server-side rendering (SSR). This allows you to run your Angular app on the server in order to improve performance and show the first page quickly on mobile and low-powered devices, and also facilitate web crawlers.
+* [伺服器端渲染](guide/universal)：Angular Universal 透過伺服器端渲染（SSR）在伺服器上產生靜態應用程式頁面。這讓你可以在伺服器上執行 Angular 應用程式，以提升效能、在行動裝置與低效能裝置上快速顯示第一頁，並方便網路爬蟲檢索。
 
-* [Service Workers](guide/service-worker-intro): Use a service worker to reduce dependency on the network
-significantly improving the user experience.
+* [Service Worker](guide/service-worker-intro)：使用 Service Worker 降低對網路的依賴，大幅改善使用者體驗。
 
-## Domain-specific libraries
+## 特定領域程式庫
 
-* [Animations](guide/animations): Use Angular's animation library to animate component behavior
-without deep knowledge of animation techniques or CSS.
+* [動畫](guide/animations)：使用 Angular 的動畫程式庫為元件行為加上動畫效果，不需要深入瞭解動畫技術或 CSS。
 
-* [Forms](guide/forms): Support complex data entry scenarios with HTML-based validation and dirty checking.
+* [表單](guide/forms)：支援複雜的資料輸入情境，具備以 HTML 為基礎的驗證與變更（dirty）檢查。
 
-## Support for the development cycle
+## 開發週期支援
 
-* [Testing platform](guide/testing): Run unit tests on your application parts as they interact with the Angular framework.
+* [測試平台](guide/testing)：針對應用程式各部分與 Angular 框架互動的情形執行單元測試。
 
-* [Internationalization](guide/i18n):  Make your app available in multiple languages with Angular's internationalization (i18n) tools.
+* [國際化](guide/i18n)：使用 Angular 的國際化（i18n）工具，讓你的應用程式支援多種語言。
 
-* [Compilation](guide/aot-compiler): Angular provides just-in-time (JIT) compilation for the development environment, and ahead-of-time (AOT) compilation for the production environment.
+* [編譯](guide/aot-compiler)：Angular 為開發環境提供即時（JIT）編譯，為生產環境提供預先（AOT）編譯。
 
-* [Security guidelines](guide/security): Learn about Angular's built-in protections against common web-app vulnerabilities and attacks such as cross-site scripting attacks.
+* [安全性指南](guide/security)：瞭解 Angular 針對常見網頁應用程式弱點與攻擊（例如跨網站指令碼攻擊）的內建防護。
 
-## Setup and deployment tools
+## 設定與部署工具
 
-* [Setup for local development](guide/setup): Set up a new project for development with QuickStart.
+* [本機開發環境設定](guide/setup)：使用 QuickStart 為開發設定新專案。
 
-* [Installation](guide/npm-packages): The [Angular CLI](https://cli.angular.io/), Angular applications, and Angular itself depend on features and functionality provided by libraries that are available as [npm](https://docs.npmjs.com/) packages.
+* [安裝](guide/npm-packages)：[Angular CLI](https://cli.angular.io/)、Angular 應用程式與 Angular 本身，都依賴以 [npm](https://docs.npmjs.com/) 套件形式提供的程式庫所提供的特性與功能。
 
-* [TypeScript configuration](guide/typescript-configuration): TypeScript is the primary language for Angular application development.
+* [TypeScript 設定](guide/typescript-configuration)：TypeScript 是 Angular 應用程式開發的主要語言。
 
-* [Browser support](guide/browser-support): Make your apps compatible across a wide range of browsers.
+* [瀏覽器支援](guide/browser-support)：讓你的應用程式相容於各種瀏覽器。
 
-* [Deployment](guide/deployment): Learn techniques for deploying your Angular application to a remote server.
+* [部署](guide/deployment)：學習將 Angular 應用程式部署到遠端伺服器的技巧。
 
