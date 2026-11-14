@@ -5,7 +5,7 @@
 一個簡單的例子可能是一個按鈕，它會將使用者帶到你公司的網站，並且會包含在你公司建置的所有應用程式中。
 
 <div class="alert is-helpful">
-     <p>如需進一步了解程式庫專案的結構，請參閱<a href="guide/file-structure#程式庫專案檔案">程式庫專案檔案</a></p>
+     <p>如需進一步了解程式庫專案的結構，請參閱<a href="guide/file-structure#函式庫專案檔案">程式庫專案檔案</a></p>
 </div>
 
 ## 開始使用
