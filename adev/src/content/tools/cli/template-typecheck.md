@@ -201,22 +201,28 @@ For example:
 
 ## 輸入 setter 強制轉型 {#input-setter-coercion}
 
-有時候，我們會希望指令或元件的 `input()` 屬性改變繫結到它的值，通常是使用輸入的 `transform` 函式。
+有時候，我們會希望指令或元件的輸入改變繫結到它的值，通常是在輸入的 setter 中處理。
 舉例來說，請看這個自訂按鈕元件：
-
-請看下列指令：
-
 ```angular-ts
 @Component({
   selector: 'submit-button',
   template: `
     <div class="wrapper">
-      <button [disabled]="disabled()">Submit</button>
+      <button [disabled]="disabled">Submit</button>
     </div>
   `,
 })
 class SubmitButton {
-  disabled = input.required({transform: booleanAttribute});
+  private _disabled = false;
+
+  @Input()
+  get disabled(): boolean {
+    return this._disabled;
+  }
+
+  set disabled(value: boolean) {
+    this._disabled = value;
+  }
 }
 ```
 

@@ -5660,6 +5660,39 @@ fn test_invalidate_files_deleted_file_evicts_importer_after_unrelated_file_creat
     );
 }
 
+#[test]
+fn test_clear_resolution_cache_re_resolves_cached_importers() {
+    let dir = tempfile::TempDir::new().unwrap();
+    let root = dir.path().canonicalize().unwrap();
+    let root_str = root.to_string_lossy().into_owned();
+    let lib_dir = root.join("lib");
+    std::fs::create_dir(&lib_dir).unwrap();
+    std::fs::write(lib_dir.join("index.ts"), lib_source("[libIndex]")).unwrap();
+    let app_path = format!("{root_str}/app.ts");
+
+    let analyzer = consumer_analyzer(&root_str, "./lib", HashMap::new());
+    assert_eq!(
+        imported_lib_dir_selector(&analyzer, &app_path).as_deref(),
+        Some("[libIndex]")
+    );
+    let app_wire_path = analyzer
+        .get_metadata_for_file(app_path.clone())
+        .unwrap()
+        .file_path;
+
+    // Write `lib.ts` shadowing `lib/index.ts` without reporting `FileUpdateType::Created`, then
+    // explicitly flush cached resolutions via `clear_resolution_cache`.
+    std::fs::write(root.join("lib.ts"), lib_source("[libDirect]")).unwrap();
+    let invalidated = analyzer.clear_resolution_cache().unwrap();
+
+    assert!(invalidated.contains(&app_wire_path), "{invalidated:?}");
+    assert_eq!(
+        imported_lib_dir_selector(&analyzer, &app_path).as_deref(),
+        Some("[libDirect]"),
+        "clear_resolution_cache must evict cached positive resolutions so ./lib re-resolves"
+    );
+}
+
 #[cfg(unix)]
 #[test]
 fn test_canonical_paths_resolves_symlinked_host_paths() {
@@ -8954,4 +8987,190 @@ fn test_host_directives_entries_are_never_dropped() {
             );
         }
     }
+}
+
+#[test]
+fn test_prefix_strategy_dts_ngmodule_skips_barrel_export_map() {
+    let virtual_files: HashMap<String, String> = [
+        (
+            "/project/tsconfig.json",
+            r#"{"compilerOptions": {"rootDirs": ["/project"], "paths": {"@org/pkg": ["./libs/pkg/index.d.ts"]}},
+                "angularCompilerOptions": {"workspaceName": "my_ws", "_useHostForImportGeneration": true},
+                "files": ["app.ts"]}"#,
+        ),
+        (
+            "/project/libs/pkg/index.d.ts",
+            "export { SharedModule } from './shared.module';\n\
+             export * from './unrelated';\n",
+        ),
+        (
+            "/project/libs/pkg/shared.module.d.ts",
+            "import * as i0 from '@angular/core';\n\
+             import * as i1 from './b';\n\
+             export declare class SharedModule {\n\
+               static ɵmod: i0.ɵɵNgModuleDeclaration<SharedModule, [typeof i1.B], never, [typeof i1.B]>;\n\
+             }\n",
+        ),
+        (
+            "/project/libs/pkg/b.d.ts",
+            "import * as i0 from '@angular/core';\n\
+             export declare class B {\n\
+               static ɵcmp: i0.ɵɵComponentDeclaration<B, 'b-cmp', never, {}, {}, never, never, false, never>;\n\
+             }\n",
+        ),
+        (
+            "/project/libs/pkg/unrelated.d.ts",
+            "export declare class Unrelated {}\n",
+        ),
+        (
+            "/project/app.ts",
+            "import { Component } from '@angular/core';\n\
+             import { SharedModule } from '@org/pkg';\n\
+             @Component({ selector: 'app-cmp', template: '<b-cmp></b-cmp>', imports: [SharedModule] })\n\
+             export class AppCmp {}\n",
+        ),
+    ]
+    .into_iter()
+    .map(|(k, v)| (k.to_string(), v.to_string()))
+    .collect();
+
+    let analyzer = Analyzer::new(AnalyzerOptions {
+        tsconfig_path: Some("/project/tsconfig.json".to_string()),
+        optimize: Some(true),
+        virtual_files: Some(virtual_files),
+        ..Default::default()
+    })
+    .unwrap();
+
+    let meta = analyzer
+        .get_metadata_for_file("/project/app.ts".to_string())
+        .expect("app.ts metadata");
+    let decls = meta.classes[0]
+        .component
+        .as_ref()
+        .and_then(|c| c.resolved_declarations.as_ref())
+        .expect("resolved declarations");
+    let b_decl = decls.iter().find(|d| d.name == "B").expect("B in scope");
+    assert_eq!(
+        b_decl
+            .r#ref
+            .consumer_import
+            .as_ref()
+            .map(|r| (r.specifier.as_str(), r.symbol.as_str())),
+        Some(("my_ws/libs/pkg/b", "B"))
+    );
+
+    let unrelated_invalidated = analyzer
+        .invalidate_files(vec![FileInvalidation {
+            file_path: "/project/libs/pkg/unrelated.d.ts".to_string(),
+            update_type: FileUpdateType::Changed,
+        }])
+        .unwrap();
+    assert!(!unrelated_invalidated.contains(&"/project/app.ts".to_string()));
+
+    let b_invalidated = analyzer
+        .invalidate_files(vec![FileInvalidation {
+            file_path: "/project/libs/pkg/b.d.ts".to_string(),
+            update_type: FileUpdateType::Changed,
+        }])
+        .unwrap();
+    assert!(b_invalidated.contains(&"/project/app.ts".to_string()));
+}
+
+#[test]
+fn test_prefix_strategy_dts_host_directive_skips_barrel_export_map() {
+    let virtual_files: HashMap<String, String> = [
+        (
+            "/project/tsconfig.json",
+            r#"{"compilerOptions": {"rootDirs": ["/project"], "paths": {"@org/pkg": ["./libs/pkg/index.d.ts"]}},
+                "angularCompilerOptions": {"workspaceName": "my_ws", "_useHostForImportGeneration": true},
+                "files": ["app.ts"]}"#,
+        ),
+        (
+            "/project/libs/pkg/index.d.ts",
+            "export { ParentDir } from './parent';\n\
+             export * from './unrelated';\n",
+        ),
+        (
+            "/project/libs/pkg/parent.d.ts",
+            "import * as i0 from '@angular/core';\n\
+             import * as i1 from './host';\n\
+             export declare class ParentDir {\n\
+               static ɵdir: i0.ɵɵDirectiveDeclaration<ParentDir, '[parentDir]', never, {}, {}, never, never, true, [{ directive: typeof i1.HostDir; inputs: {}; outputs: {} }]>;\n\
+             }\n",
+        ),
+        (
+            "/project/libs/pkg/host.d.ts",
+            "import * as i0 from '@angular/core';\n\
+             export declare class HostDir {\n\
+               static ɵdir: i0.ɵɵDirectiveDeclaration<HostDir, '[hostDir]', never, {}, {}, never, never, true, never>;\n\
+             }\n",
+        ),
+        (
+            "/project/libs/pkg/unrelated.d.ts",
+            "export declare class Unrelated {}\n",
+        ),
+        (
+            "/project/app.ts",
+            "import { Component } from '@angular/core';\n\
+             import { ParentDir } from '@org/pkg';\n\
+             @Component({ selector: 'app-cmp', template: '<div parentDir></div>', imports: [ParentDir] })\n\
+             export class AppCmp {}\n",
+        ),
+    ]
+    .into_iter()
+    .map(|(k, v)| (k.to_string(), v.to_string()))
+    .collect();
+
+    let analyzer = Analyzer::new(AnalyzerOptions {
+        tsconfig_path: Some("/project/tsconfig.json".to_string()),
+        optimize: Some(true),
+        virtual_files: Some(virtual_files),
+        ..Default::default()
+    })
+    .unwrap();
+
+    let meta = analyzer
+        .get_metadata_for_file("/project/app.ts".to_string())
+        .expect("app.ts metadata");
+    let decls = meta.classes[0]
+        .component
+        .as_ref()
+        .and_then(|c| c.resolved_declarations.as_ref())
+        .expect("resolved declarations");
+    let parent = decls
+        .iter()
+        .find(|d| d.name == "ParentDir")
+        .expect("ParentDir in scope");
+    let host_dirs = parent
+        .resolved_host_directives
+        .as_ref()
+        .expect("resolved host directives");
+    assert_eq!(host_dirs.len(), 1);
+    assert_eq!(host_dirs[0].directive.r#ref.invalid_reason, None);
+    assert_eq!(
+        host_dirs[0]
+            .directive
+            .r#ref
+            .typecheck_import
+            .as_ref()
+            .map(|r| (r.specifier.as_str(), r.symbol.as_str())),
+        Some(("my_ws/libs/pkg/host", "HostDir"))
+    );
+
+    let unrelated_invalidated = analyzer
+        .invalidate_files(vec![FileInvalidation {
+            file_path: "/project/libs/pkg/unrelated.d.ts".to_string(),
+            update_type: FileUpdateType::Changed,
+        }])
+        .unwrap();
+    assert!(!unrelated_invalidated.contains(&"/project/app.ts".to_string()));
+
+    let host_invalidated = analyzer
+        .invalidate_files(vec![FileInvalidation {
+            file_path: "/project/libs/pkg/host.d.ts".to_string(),
+            update_type: FileUpdateType::Changed,
+        }])
+        .unwrap();
+    assert!(host_invalidated.contains(&"/project/app.ts".to_string()));
 }
