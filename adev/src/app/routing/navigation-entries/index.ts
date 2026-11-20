@@ -359,6 +359,7 @@ export const DOCS_SUB_NAVIGATION_DATA: NavigationItem[] = [
       },
       {
         label: '路由',
+        status: 'updated',
         children: [
           {
             label: 'Angular 路由',
