@@ -52,6 +52,8 @@ import {provideExperimentalWebMcpTools} from '@angular/core';
 import {bootstrapApplication} from '@angular/platform-browser';
 import {AppRoot} from './app-root';
 
+const allProducts: string[] = [/* ... */];
+
 bootstrapApplication(AppRoot, {
   providers: [
     provideExperimentalWebMcpTools([
@@ -73,6 +75,18 @@ bootstrapApplication(AppRoot, {
           required: ['query'],
           additionalProperties: false,
         },
+        outputSchema: {
+          type: 'object',
+          properties: {
+            results: {
+              type: 'array',
+              items: {type: 'string'},
+              description: 'List of matching product names.',
+            },
+          },
+          required: ['results'],
+          additionalProperties: false,
+        },
         execute: ({query, maxResults}) => {
           // Type of `query` is inferred as `string`.
           // Type of `maxResults` is inferred as `number | undefined`.
@@ -83,9 +97,11 @@ bootstrapApplication(AppRoot, {
             throw new Error(`Bad maxResults: ${maxResults}`);
 
           const limit = maxResults ?? 5;
-          return {
-            content: [{type: 'text', text: `Returning up to ${limit} results for "${query}".`}],
-          };
+          const matchingProducts = allProducts
+            .filter((product) => product.includes(query))
+            .slice(0, limit);
+
+          return {results: matchingProducts};
         },
       },
     ]),
@@ -250,6 +266,10 @@ WebMCP 要求每個工具都有唯一的名稱，若同一個工具名稱被註�
 ### 驗證工具輸入
 
 Angular 不提供任何隱含驗證，來保證代理提供的輸入確實符合所定義的 JSON 結構定義。請考慮在使用引數之前，明確驗證傳給 `execute` 函式的引數，以確保可靠性。
+
+### 明確定義輸出結構定義
+
+為了讓工具執行對 AI 代理來說盡可能可預測，請明確定義 `outputSchema`，並確保你的 `execute` 函式回傳的物件嚴格符合它。Angular 不會自動驗證回傳內容是否符合所定義的 `outputSchema`。請確保你的資料符合 `outputSchema`，或考慮在執行階段加以驗證，以免以不一致的資訊混淆代理。
 
 ### 測試
 
