@@ -3,6 +3,7 @@ pub use oxc_ast_visit::utf8_to_utf16::Utf8ToUtf16;
 /// The `@angular/core` module specifier. Angular APIs are recognized by the module they are
 /// imported from, so this is compared against import specifiers in several places.
 pub const ANGULAR_CORE: &str = "@angular/core";
+use futures::future::FutureExt;
 use oxc_resolver::{
     FileSystem, ResolveOptions, ResolverGeneric, TsconfigDiscovery, TsconfigOptions,
     TsconfigReferences,
@@ -63,6 +64,25 @@ impl<K: Eq + std::hash::Hash + Clone, V: 'static> QueryCache<K, V> {
     pub fn remove(&self, key: &K) -> Option<crate::SharedQuery<V>> {
         let mut write = self.map.write().unwrap();
         write.remove(key)
+    }
+
+    /// Remove every entry whose `SharedQuery` has not completed yet, returning the removed keys.
+    ///
+    /// `Shared::peek` is `None` until some `Shared` handle has been polled, and queries like
+    /// `analyze_file_wire` insert a ready `RemoteHandle::shared()` without polling it, so
+    /// `now_or_never()` is checked too.
+    pub fn remove_incomplete(&self) -> Vec<K> {
+        let mut write = self.map.write().unwrap();
+        let mut removed = Vec::new();
+        write.retain(|key, shared| {
+            if shared.peek().is_some() || shared.clone().now_or_never().is_some() {
+                true
+            } else {
+                removed.push(key.clone());
+                false
+            }
+        });
+        removed
     }
 }
 
@@ -131,34 +151,11 @@ pub(crate) fn is_ts_source(path: &Path) -> bool {
 }
 
 pub(crate) fn is_dts(path: &Path) -> bool {
-    let Some(ext) = path.extension() else {
-        return false;
-    };
-    if ext != "ts" {
-        return false;
-    }
-    let Some(file_name) = path.file_name() else {
-        return false;
-    };
-    if let Some(s) = file_name.to_str() {
-        s.ends_with(".d.ts")
-    } else {
-        file_name.to_string_lossy().ends_with(".d.ts")
-    }
+    crate::host::ModuleFormat::from_path(path).is_some_and(crate::host::ModuleFormat::is_dts)
 }
 
 pub(crate) fn is_ts_file(path: &Path) -> bool {
-    let Some(ext) = path.extension() else {
-        return false;
-    };
-    if let Some(s) = ext.to_str() {
-        matches!(
-            s,
-            "ts" | "tsx" | "js" | "jsx" | "mts" | "cts" | "mjs" | "cjs"
-        ) || is_dts(path)
-    } else {
-        false
-    }
+    crate::host::ModuleFormat::from_path(path).is_some()
 }
 
 /// Whether `path` is a root of the compilation: a TS/JS file that is not a declaration file.
@@ -169,7 +166,8 @@ pub(crate) fn is_ts_file(path: &Path) -> bool {
 /// (`TraitCompiler.analyzeSync` returns early for `isDeclarationFile`), so they are neither part
 /// of the compilation unit nor streamed to the host.
 pub(crate) fn is_compilation_root(path: &Path) -> bool {
-    is_ts_file(path) && !is_dts(path)
+    crate::host::ModuleFormat::from_path(path)
+        .is_some_and(crate::host::ModuleFormat::is_compilation_root)
 }
 
 #[cfg(test)]

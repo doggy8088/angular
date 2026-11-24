@@ -209,12 +209,12 @@ export class ErrorHandler {
 
 ### 啟用事件
 
-這些事件發生在啟用階段，此時路由元件正被建立實例並進行初始化。路由樹中的每個路由（包括父路由與子路由）都會觸發啟用事件。
+這些事件會針對路由樹中的每個路由觸發，包括父路由與子路由。開始事件會在守衛階段、於該路由的守衛執行前觸發；結束事件則在路由啟用後觸發。
 
 | Event                                                     | 說明                       |
 | --------------------------------------------------------- | -------------------------- |
-| [`ActivationStart`](api/router/ActivationStart)           | 發生於路由啟用開始時       |
 | [`ChildActivationStart`](api/router/ChildActivationStart) | 發生於子路由啟用開始時     |
+| [`ActivationStart`](api/router/ActivationStart)           | 發生於路由啟用開始時       |
 | [`ActivationEnd`](api/router/ActivationEnd)               | 發生於路由啟用結束時       |
 | [`ChildActivationEnd`](api/router/ChildActivationEnd)     | 發生於子路由啟用結束時     |
 

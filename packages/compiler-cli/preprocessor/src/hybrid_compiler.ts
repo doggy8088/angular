@@ -13,13 +13,13 @@ import {
   ParseTemplateOptions,
   TcbDirectiveMetadata,
 } from '@angular/compiler';
-import {makeClassKey} from './compiler-utils.js';
+import {isDeclarationFilePath, makeClassKey} from './compiler-utils.js';
 import {
   verifyCompilerOptions,
   verifyExtendedDiagnosticsOptions,
   type NgpCompilerOptions,
 } from './compiler_options.js';
-import {DependencyTemplates, ngContentSignature} from './dependency_templates.js';
+import {needsNgContentSelectors, ngContentSignature} from './dependency_templates.js';
 import {flattenNgDiagnosticMessage, withErrorGuide} from './diagnostic.js';
 import {ChunkContext, FileAnalysis, getOrCreateFileAnalysis} from './file_analysis.js';
 import {IndexedComponent} from './indexer_api.js';
@@ -86,7 +86,7 @@ export function serializeDiagnostics(
  * `getDiagnostics({includeDeclarationFiles: true})` consumers still can.
  */
 function targetsDeclarationFile(diag: nga.NgDiagnostic, analyzedPath: string): boolean {
-  return (diag.filePath ?? analyzedPath).endsWith('.d.ts');
+  return isDeclarationFilePath(diag.filePath ?? analyzedPath);
 }
 
 function isAbsolutePosixOrWindowsPath(p: string): boolean {
@@ -596,12 +596,7 @@ export class HybridCompiler {
         ...Object.values(component.resolvedDeferredDeclarationsByBlock ?? {}).flat(),
       ];
       for (const decl of declarations) {
-        if (
-          decl.declarationType !== 'component' ||
-          decl.ngContentSelectors != null ||
-          !decl.filePath ||
-          decl.filePath === filePath
-        ) {
+        if (!needsNgContentSelectors(decl) || !decl.filePath || decl.filePath === filePath) {
           continue;
         }
         let consumers = this.componentTemplateConsumers.get(decl.filePath);
@@ -794,7 +789,7 @@ export class HybridCompiler {
       // The flush also evicts declaration files that resolved their own re-exports. None of them
       // changed, and recording one would make the tracker start over and re-emit every file. The
       // source files that import them are in `invalidated` as well.
-      const changed = invalidated.filter((filePath) => !filePath.endsWith('.d.ts'));
+      const changed = invalidated.filter((filePath) => !isDeclarationFilePath(filePath));
       if (this.incrementalEnabled && changed.length > 0) {
         this.incremental.recordChanges(changed, []);
       }
@@ -1186,37 +1181,43 @@ export class HybridCompiler {
     if (reuseExisting) {
       return fileAnalysis;
     }
+    const filePath = result.filePath;
     const fileContent =
       effectiveContent !== undefined
         ? effectiveContent
-        : await this.analyzer.getFileContent(result.filePath);
-    // Binding is synchronous; read the templates of dependencies declared in other files here,
-    // where the analyzer can be awaited (the sidecar analyzer has no synchronous lookups).
-    const dependencyTemplates = this.dependencyTemplates(knownMetadata);
-    await dependencyTemplates.prefetch(result, (metadata) => this.recordMetadata(metadata));
-    const finalFingerprint =
-      boundFingerprint ??
-      this.computeBoundFingerprint(result.filePath, fileContent, result, knownMetadata);
-    return this.populateBoundData(
-      result.filePath,
-      fileAnalysis,
-      result,
+        : await this.analyzer.getFileContent(filePath);
+    const tcbTargets = await buildTcbTargets(
+      filePath,
       fileContent,
-      dependencyTemplates,
-      finalFingerprint,
-    );
-  }
-
-  private dependencyTemplates(
-    knownMetadata?: ReadonlyMap<string, nga.AnalysisResult>,
-  ): DependencyTemplates {
-    return new DependencyTemplates(
-      this.analyzer,
-      this.fileCache,
+      result.classes,
+      fileAnalysis.parsedTemplates,
       this.templateParseOptions,
-      knownMetadata,
+      this.tcbConfig,
+      {
+        analyzer: this.analyzer,
+        fileCache: this.fileCache,
+        knownMetadata,
+        onMetadata: (metadata) => this.recordMetadata(metadata),
+      },
       this.tracer,
     );
+    const finalFingerprint =
+      boundFingerprint ??
+      this.computeBoundFingerprint(filePath, fileContent, result, knownMetadata);
+    const prepared = this.tracer.slice(SpanKind.PrepareTcbTargets, () =>
+      prepareTcbTargets(
+        filePath,
+        tcbTargets,
+        fileContent,
+        this.tcbConfig,
+        result.classes,
+        this.tracer,
+      ),
+    );
+    fileAnalysis.preparedTcbData = prepared ?? null;
+    fileAnalysis.sourceContent = fileContent;
+    fileAnalysis.boundFingerprint = finalFingerprint;
+    return fileAnalysis;
   }
 
   private computeBoundFingerprint(
@@ -1245,43 +1246,6 @@ export class HybridCompiler {
       pieces.push(...depInputs);
     }
     return fingerprintOf(pieces);
-  }
-
-  /**
-   * Helper that populates template parsing options and runs template target binding.
-   */
-  private populateBoundData(
-    filePath: string,
-    fileAnalysis: FileAnalysis,
-    result: nga.AnalysisResult,
-    content: string,
-    dependencyTemplates: DependencyTemplates,
-    boundFingerprint?: string,
-  ): FileAnalysis {
-    const templatesByClass = fileAnalysis.parsedTemplates;
-
-    const tcbTargets = buildTcbTargets(
-      filePath,
-      content,
-      result.classes,
-      templatesByClass,
-      this.templateParseOptions,
-      this.tcbConfig,
-      dependencyTemplates,
-      this.tracer,
-    );
-
-    const prepared = this.tracer.slice(SpanKind.PrepareTcbTargets, () =>
-      prepareTcbTargets(filePath, tcbTargets, content, this.tcbConfig, result.classes, this.tracer),
-    );
-    if (prepared) {
-      fileAnalysis.preparedTcbData = prepared;
-    } else {
-      fileAnalysis.preparedTcbData = null;
-    }
-    fileAnalysis.sourceContent = content;
-    fileAnalysis.boundFingerprint = boundFingerprint;
-    return fileAnalysis;
   }
 
   /** Generates and caches the Type Check Block (TCB) for `filePath` on demand. */
@@ -1511,7 +1475,7 @@ export class HybridCompiler {
   }
 
   /**
-   * What `DependencyTemplates` would read off the cross-file component dependencies of
+   * What `resolveNgContentSelectors` reads off the cross-file component dependencies of
    * `component` (the `<ng-content>` tags of their templates, see `ngContentSignature`), or `null`
    * if one of them can't be read.
    */
@@ -1527,12 +1491,7 @@ export class HybridCompiler {
       ...Object.values(component.resolvedDeferredDeclarationsByBlock ?? {}).flat(),
     ];
     for (const decl of declarations) {
-      if (
-        decl.declarationType !== 'component' ||
-        decl.ngContentSelectors != null ||
-        !decl.filePath ||
-        decl.filePath === filePath
-      ) {
+      if (!needsNgContentSelectors(decl) || !decl.filePath || decl.filePath === filePath) {
         continue;
       }
       const metadata = knownMetadata?.get(decl.filePath) ?? this.metadataByFile.get(decl.filePath);

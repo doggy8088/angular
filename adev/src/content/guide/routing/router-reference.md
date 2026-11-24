@@ -19,8 +19,8 @@
 | [`GuardsCheckEnd`](api/router/GuardsCheckEnd)             | Router 成功完成路由的 Guards 階段時觸發。                                                                                                                              |
 | [`ResolveStart`](api/router/ResolveStart)                 | Router 開始路由的 Resolve 階段時觸發。                                                                                                                                 |
 | [`ResolveEnd`](api/router/ResolveEnd)                     | Router 成功完成路由的 Resolve 階段時觸發。                                                                                                                             |
-| [`ChildActivationEnd`](api/router/ChildActivationEnd)     | Router 完成啟用某條路由的子路由時觸發。                                                                                                                                |
 | [`ActivationEnd`](api/router/ActivationEnd)               | Router 完成啟用某條路由時觸發。                                                                                                                                        |
+| [`ChildActivationEnd`](api/router/ChildActivationEnd)     | Router 完成啟用某條路由的子路由時觸發。                                                                                                                                |
 | [`NavigationEnd`](api/router/NavigationEnd)               | 導覽成功結束時觸發。                                                                                                                                                   |
 | [`NavigationCancel`](api/router/NavigationCancel)         | 導覽被取消時觸發。例如路由守衛在導覽期間傳回 false，或傳回 `UrlTree` 或 `RedirectCommand` 進行重新導向時，就可能發生。                                                |
 | [`NavigationError`](api/router/NavigationError)           | 導覽因未預期的錯誤而失敗時觸發。                                                                                                                                       |

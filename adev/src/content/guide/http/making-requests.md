@@ -636,6 +636,8 @@ TIP: 你可以把 `HttpClient` 的 `Observable` 想像成真正伺服器請求�
 
 TIP: 使用 `async` 管道或 `toSignal` 操作來訂閱 `Observable`，可確保訂閱被妥善處置。
 
+IMPORTANT: 當提供 `HttpClient` 的注入器（使用預設的 fetch 後端）被銷毀時——例如 SSR 請求被中止，或子 `EnvironmentInjector` 被銷毀——Angular 會中止進行中的請求，且不會發出 `complete` 或 `error`。如果你以 `firstValueFrom` 或 `lastValueFrom` 等待請求，回傳的 `Promise` 將一直處於未定狀態，後續的 `finally` 區塊也不會執行。為避免洩漏鎖定或連線等外部資源，請在將 `Observable` 轉換為 `Promise` 之前，以 [`DestroyRef.onDestroy()`](api/core/DestroyRef#onDestroy) 註冊清理，或以 [`takeUntilDestroyed()`](ecosystem/rxjs-interop/take-until-destroyed) 進行管道處理。
+
 ## 最佳實務
 
 雖然 `HttpClient` 可以直接注入並在元件中使用，我們一般建議你建立可重複使用、可注入的服務，將資料存取邏輯隔離並封裝。例如，這個 `UserService` 封裝了依 id 請求使用者資料的邏輯：
