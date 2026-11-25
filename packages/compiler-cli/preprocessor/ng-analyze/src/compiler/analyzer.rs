@@ -1086,6 +1086,7 @@ impl Analyzer {
         let _mutation = self.pause_metadata_requests();
         self.cancel_current_analysis();
         let mut paths_to_invalidate = Vec::new();
+        let mut structural_paths = Vec::new();
         let mut files_created = false;
         let mut config_changed = false;
 
@@ -1131,7 +1132,10 @@ impl Analyzer {
                 let existed = batch_host.has_overlay(&module_id)
                     || interned_fid
                         .is_some_and(|fid| self.engine.cached_parsed_source(fid).is_some());
-                files_created |= !existed;
+                if !existed {
+                    files_created = true;
+                    structural_paths.push(crate::fs::normalize_path(&norm_path).into_owned());
+                }
                 batch_host.upsert_overlay(
                     module_id.clone(),
                     Arc::from(update.content.as_str()),
@@ -1143,7 +1147,10 @@ impl Analyzer {
             }
 
             let path = self.fs.canonicalize(&raw_path).unwrap_or(raw_path);
-            files_created |= self.fs.metadata(&path).is_err();
+            if self.fs.metadata(&path).is_err() {
+                files_created = true;
+                structural_paths.push(crate::fs::normalize_path(&path).into_owned());
+            }
             config_changed |= path
                 .extension()
                 .is_some_and(|ext| ext.eq_ignore_ascii_case("json"));
@@ -1153,7 +1160,12 @@ impl Analyzer {
             self.invalidate_changed_path(&path, &mut paths_to_invalidate);
         }
 
-        self.finalize_file_updates(paths_to_invalidate, files_created, config_changed)
+        self.finalize_file_updates(
+            paths_to_invalidate,
+            files_created,
+            config_changed,
+            &structural_paths,
+        )
     }
 
     /// Drop the virtual overlay of each changed or deleted file and return every stale TS path or
@@ -1165,14 +1177,16 @@ impl Analyzer {
         let _mutation = self.pause_metadata_requests();
         self.cancel_current_analysis();
         let mut ts_paths_to_invalidate = Vec::new();
+        let mut structural_paths = Vec::new();
         let mut files_created_or_deleted = false;
         let mut config_changed = false;
 
         for update in updates {
-            files_created_or_deleted |= matches!(
+            let is_structural = matches!(
                 update.update_type,
                 crate::FileUpdateType::Created | crate::FileUpdateType::Deleted
             );
+            files_created_or_deleted |= is_structural;
             let kind = self.resolve_update_kind(&update.file_path, update.id_kind);
             if kind == crate::host::IdKind::Virtual {
                 let path = PathBuf::from(&update.file_path);
@@ -1209,6 +1223,9 @@ impl Analyzer {
             }
 
             let raw_path = PathBuf::from(&update.file_path);
+            if is_structural {
+                structural_paths.push(crate::fs::normalize_path(&raw_path).into_owned());
+            }
             let path = if let Some(batch_host) = &self.batching_host {
                 let norm_path = crate::fs::normalize_path_structural(&raw_path).into_owned();
                 let norm_str = crate::fs::path_to_string(norm_path.clone());
@@ -1229,6 +1246,12 @@ impl Analyzer {
                     .is_some_and(|ext| ext.eq_ignore_ascii_case("json"));
                 canonical
             };
+            if is_structural {
+                let norm_canonical = crate::fs::normalize_path(&path).into_owned();
+                if structural_paths.last() != Some(&norm_canonical) {
+                    structural_paths.push(norm_canonical);
+                }
+            }
 
             if is_ts_file(&path) {
                 self.resource_registry.unregister_ts_file(&path);
@@ -1245,6 +1268,7 @@ impl Analyzer {
             ts_paths_to_invalidate,
             files_created_or_deleted,
             config_changed,
+            &structural_paths,
         )
     }
 
@@ -1253,13 +1277,19 @@ impl Analyzer {
         mut invalidated_paths: Vec<String>,
         structure_changed: bool,
         config_changed: bool,
+        structural_paths: &[PathBuf],
     ) -> Result<Vec<String>, String> {
         if structure_changed {
-            let evicted = self.engine.invalidate_module_resolution();
-            self.push_evicted_paths(evicted, &mut invalidated_paths);
+            self.fs.clear_allowed_cache();
         }
         if structure_changed || config_changed {
             self.re_resolve_entrypoints(&mut invalidated_paths);
+        }
+        if structure_changed {
+            let evicted = self.engine.refresh_tsconfig_dts_file_ids(structural_paths);
+            self.push_evicted_paths(evicted, &mut invalidated_paths);
+            let evicted = self.engine.invalidate_module_resolution();
+            self.push_evicted_paths(evicted, &mut invalidated_paths);
         }
         Ok(dedup_preserving_order(invalidated_paths))
     }
@@ -1348,9 +1378,12 @@ impl Analyzer {
     pub fn clear_resolution_cache_core(&self) -> Result<Vec<String>, String> {
         let _mutation = self.pause_metadata_requests();
         self.cancel_current_analysis();
+        self.fs.clear_allowed_cache();
         let mut invalidated_paths = Vec::new();
         let evicted = self.engine.clear_resolution_cache();
         self.push_evicted_paths(evicted, &mut invalidated_paths);
+        let dts_evicted = self.engine.invalidate_materialized_tsconfig_dts_files();
+        self.push_evicted_paths(dts_evicted, &mut invalidated_paths);
         Ok(dedup_preserving_order(invalidated_paths))
     }
 
@@ -3886,6 +3919,143 @@ mod entry_point_tests {
             extra_imports_of_cmp(&delta),
             Some(vec!["./ext/external".to_string()]),
             "cmp.ts must be re-streamed with the extra import other.ts now contributes"
+        );
+    }
+
+    #[test]
+    fn local_extra_imports_delta_tracks_in_unit_submodule_exports() {
+        let ext_kit = "import * as i0 from '@angular/core';\n\
+            export declare class ExtKitModule {\n\
+              static ɵmod: i0.ɵɵNgModuleDeclaration<ExtKitModule, never, never, never>;\n\
+            }\n";
+        let sub_module = |exports: &str| {
+            format!(
+                "import {{NgModule}} from '@angular/core';\n\
+                 import {{ExtKitModule}} from './ext/kit';\n\
+                 import {{SubA, SubB}} from './sub_comps';\n\
+                 @NgModule({{imports: [ExtKitModule], declarations: [SubA, SubB], exports: [{exports}]}})\n\
+                 export class SubModule {{}}\n"
+            )
+        };
+
+        let analyzer = Analyzer::new(AnalyzerOptions {
+            tsconfig_path: Some("/project/tsconfig.json".to_string()),
+            optimize: Some(false),
+            virtual_files: Some(
+                [
+                    (
+                        "/project/tsconfig.json",
+                        r#"{
+                            "angularCompilerOptions": {"generateExtraImportsInLocalMode": true},
+                            "files": ["app_module.ts", "main_comp.ts", "sub_comps.ts", "sub_module.ts"]
+                        }"#
+                        .to_string(),
+                    ),
+                    ("/project/ext/kit.d.ts", ext_kit.to_string()),
+                    (
+                        "/project/app_module.ts",
+                        "import {NgModule} from '@angular/core';\n\
+                         import {ExtKitModule} from './ext/kit';\n\
+                         import {MainComp} from './main_comp';\n\
+                         import {SubModule} from './sub_module';\n\
+                         @NgModule({imports: [ExtKitModule, SubModule], declarations: [MainComp]})\n\
+                         export class AppModule {}\n"
+                            .to_string(),
+                    ),
+                    (
+                        "/project/main_comp.ts",
+                        "import {Component} from '@angular/core';\n\
+                         @Component({selector: 'main-comp', template: '<sub-a></sub-a><sub-b></sub-b>', standalone: false})\n\
+                         export class MainComp {}\n"
+                            .to_string(),
+                    ),
+                    (
+                        "/project/sub_comps.ts",
+                        "import {Component} from '@angular/core';\n\
+                         @Component({selector: 'sub-a', template: '', standalone: false})\n\
+                         export class SubA {}\n\
+                         @Component({selector: 'sub-b', template: '', standalone: false})\n\
+                         export class SubB {}\n"
+                            .to_string(),
+                    ),
+                    ("/project/sub_module.ts", sub_module("SubA, ExtKitModule")),
+                ]
+                .into_iter()
+                .map(|(path, content)| (path.to_string(), content))
+                .collect(),
+            ),
+            ..Default::default()
+        })
+        .unwrap();
+
+        let collect =
+            |rx: futures::channel::mpsc::UnboundedReceiver<Result<CompilationChunk, String>>| {
+                futures::executor::block_on(rx.collect::<Vec<_>>())
+                    .into_iter()
+                    .map(|chunk| chunk.expect("chunk"))
+                    .collect::<Vec<_>>()
+            };
+        let decl_names_of_main = |chunks: &[CompilationChunk]| -> Option<Vec<String>> {
+            chunks
+                .iter()
+                .flat_map(|chunk| chunk.files.iter())
+                .find(|file| file.file_path == "/project/main_comp.ts")
+                .map(|file| {
+                    file.classes[0]
+                        .component
+                        .as_ref()
+                        .expect("MainComp is a component")
+                        .resolved_declarations
+                        .as_deref()
+                        .unwrap_or(&[])
+                        .iter()
+                        .map(|decl| decl.name.clone())
+                        .collect()
+                })
+        };
+
+        let initial = collect(analyzer.analyze_core(get_global_pool().clone()).unwrap());
+        assert_eq!(decl_names_of_main(&initial), Some(vec!["SubA".to_string()]));
+
+        // Editing an unread external `.d.ts` must not re-stream any file in local mode.
+        analyzer
+            .update_file_content_core(vec![FileUpdate {
+                file_path: "/project/ext/kit.d.ts".to_string(),
+                content: format!("{ext_kit}export declare const UNUSED: number;\n"),
+                id_kind: None,
+            }])
+            .unwrap();
+        let after_dts_edit = collect(
+            analyzer
+                .analyze_delta_core(get_global_pool().clone())
+                .unwrap(),
+        );
+        let re_streamed: Vec<&str> = after_dts_edit
+            .iter()
+            .flat_map(|chunk| chunk.files.iter())
+            .map(|file| file.file_path.as_str())
+            .collect();
+        assert!(
+            re_streamed.is_empty(),
+            "editing an unread external .d.ts must not re-stream any file: {re_streamed:?}"
+        );
+
+        // Editing in-unit `SubModule` exports must re-stream `MainComp` with `SubB` included.
+        analyzer
+            .update_file_content_core(vec![FileUpdate {
+                file_path: "/project/sub_module.ts".to_string(),
+                content: sub_module("SubA, SubB, ExtKitModule"),
+                id_kind: None,
+            }])
+            .unwrap();
+        let after_sub_edit = collect(
+            analyzer
+                .analyze_delta_core(get_global_pool().clone())
+                .unwrap(),
+        );
+        assert_eq!(
+            decl_names_of_main(&after_sub_edit),
+            Some(vec!["SubA".to_string(), "SubB".to_string()])
         );
     }
 

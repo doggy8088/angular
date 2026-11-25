@@ -713,9 +713,19 @@ fn legacy_import_reference(
     }
 }
 
+/// Whether [`contextualize_ngmodule_scope_declarations`] resolves `hostDirectives` on each scope
+/// declaration. Optimized compilation needs them for template type-checking; local extra-imports
+/// only needs template-dependency imports and skips them to avoid chasing external `.d.ts` chains.
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum HostDirectiveResolution {
+    Resolve,
+    Skip,
+}
+
 /// Project `@NgModule` scope declarations into `reference_id`'s frame, computing
-/// `ref_in_declaring_module`, `is_forward_ref`, `cycle_prone`, and `resolved_host_directives`.
-/// Shared by `optimize_component` and `populate_local_component_extra_imports`.
+/// `ref_in_declaring_module`, `is_forward_ref`, `cycle_prone`, and (when requested)
+/// `resolved_host_directives`. Shared by `optimize_component` and
+/// `populate_local_component_extra_imports`.
 #[allow(clippy::too_many_arguments)]
 async fn contextualize_ngmodule_scope_declarations(
     ctx: &QueryCtx,
@@ -726,6 +736,7 @@ async fn contextualize_ngmodule_scope_declarations(
     comp_span_start: u32,
     module_span_start: Option<u32>,
     module_ref: ReferenceId,
+    host_directives: HostDirectiveResolution,
 ) -> Vec<DeclarationData> {
     let mut resolved_declarations = Vec::new();
     let module_path = ctx.engine.lookup_path(module_ref.file);
@@ -767,8 +778,13 @@ async fn contextualize_ngmodule_scope_declarations(
         if cycle_prone {
             contextual_decl.cycle_prone = Some(true);
         }
-        contextual_decl.resolved_host_directives =
-            resolve_host_directives_for_declaration(ctx, decl, reference_id.file, file_path).await;
+        contextual_decl.resolved_host_directives = match host_directives {
+            HostDirectiveResolution::Resolve => {
+                resolve_host_directives_for_declaration(ctx, decl, reference_id.file, file_path)
+                    .await
+            }
+            HostDirectiveResolution::Skip => None,
+        };
 
         resolved_declarations.push(contextual_decl);
     }
@@ -922,6 +938,7 @@ async fn optimize_component_scope(
             comp_span_start,
             module_span_start,
             module_ref,
+            HostDirectiveResolution::Resolve,
         )
         .await;
         component.resolved_declarations = Some(resolved_declarations);
@@ -1455,14 +1472,19 @@ pub async fn populate_local_component_extra_imports(
     }
     component.local_compilation_extra_imports = Some(extra_imports);
 
-    let scope = ctx.ngmodule_imports_scope(module_ref).await;
+    let scope = ctx.local_ngmodule_imports_scope(module_ref).await;
 
     // Resolve pipe shadowing across the full unit (including same-file pipes) before filtering out
-    // same-file declarations (would self-import) and out-of-unit ones (ngtsc's
-    // `LocalModuleScopeRegistry` sees only this unit; the global set above covers them, and
-    // importing a transitive `.d.ts` directly would violate strict deps).
+    // same-file declarations (would self-import). `local_ngmodule_imports_scope` already bounds
+    // traversal to `entrypoints_ids` so transitive `.d.ts` dependencies are never read or emitted.
     let mut winning_pipes = std::collections::HashMap::new();
-    for d in &scope.declarations {
+    for d in scope.iter() {
+        debug_assert!(
+            entrypoints_ids.contains(&d.reference.file),
+            "local_ngmodule_imports_scope yielded out-of-unit declaration {} in {:?}",
+            d.reference.name,
+            d.reference.file,
+        );
         if entrypoints_ids.contains(&d.reference.file) && d.declaration_type == ClassType::Pipe {
             if let Some(ref name) = d.pipe_name {
                 winning_pipes.insert(name.as_str(), (d.reference.file, d.reference.name.as_str()));
@@ -1471,7 +1493,6 @@ pub async fn populate_local_component_extra_imports(
     }
 
     let local_decls: Vec<_> = scope
-        .declarations
         .iter()
         .filter(|d| {
             if d.reference.file == reference_id.file || !entrypoints_ids.contains(&d.reference.file)
@@ -1510,6 +1531,7 @@ pub async fn populate_local_component_extra_imports(
         comp_span_start,
         None,
         module_ref,
+        HostDirectiveResolution::Skip,
     )
     .await;
     DeclarationData::deduplicate(&mut resolved_declarations);
