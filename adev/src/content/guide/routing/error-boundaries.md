@@ -158,9 +158,8 @@ export class UserProfile {
 
 當 `RedirectCommand` 被擲出時：
 
-1. `RouterOutlet` 會攔截這個指令，並開始導覽到指定的重新導向目的地。
-2. 若存在巢狀出口或範本錯誤邊界，Angular 會對指令去重，確保導覽只觸發一次。
-3. 錯誤元件（若已設定）會在轉換期間渲染。
+- `RouterOutlet` 會攔截這個指令，並開始導覽到指定的重新導向目的地。
+- 錯誤元件（若已設定）會在轉換期間渲染。
 
 NOTE: 若 `RedirectCommand` 被擲出、且未設定 `errorComponent`，路由器會開始導覽，並刻意吞掉這個錯誤，避免它被全域 `ErrorHandler` 記錄為當機。
 
